@@ -104,7 +104,7 @@ import { LogicalTree } from './components/LogicalTree';
 import { NoteDetail } from './components/NoteDetail';
 import { StudyHub, type StudyHubView } from './components/StudyHub';
 import { ScreenLoading, ScreenUnavailable } from './components/ScreenStatus';
-import { studyEntry, isLearningScreen, safeStudyResume } from './utils/studyNavigation';
+import { studyEntry, isLearningScreen } from './utils/studyNavigation';
 import { setFormatMathContext } from './utils/textFormatter';
 import { resolveReviewTarget } from './utils/reviewTarget';
 import { Onboarding } from './components/Onboarding';
@@ -1720,7 +1720,10 @@ export default function App() {
                 <button 
                   onClick={() => {
                     if (!isLearningScreen(appState)) {
-                      navigateMain(safeStudyResume(selectedSubject, lastLearnState, selectedChapterId) as AppState);
+                      // 専用版では「学習」からモード選択を挟まず、直接リスニングの大問へ。
+                      setSelectedSubject('english_listening');
+                      setAppMode('practice');
+                      navigateMain('chapters');
                     }
                   }}
                   aria-label="学習画面へ移動"
