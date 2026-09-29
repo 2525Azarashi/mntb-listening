@@ -1,0 +1,23 @@
+{
+  "status": "approved",
+  "totalTracks": 374,
+  "replacedTracks": 374,
+  "legacyTracks": [],
+  "licenseEvidence": {
+    "dir": "license_evidence/",
+    "addedAt": "2026-09-29",
+    "receipts": [
+      "#2084-3643-1031 Creator $12.10 (2026-09-20)",
+      "#2495-9775-3869 Starter $6.00 (2026-09-28)",
+      "#2466-8389-4576 $12.10 (2026-09-29)"
+    ],
+    "remark": "providers 欄の「契約画面の証拠は未確認」は取り込み時点の記録。領収書は後日このフォルダに追加した。"
+  },
+  "providers": [
+    "ElevenLabs（利用者が直接生成） / ElevenLabs有料契約中に新規生成（利用者申告 2026-09-19。契約画面の証拠は未確認）",
+    "ElevenLabs（利用者が直接生成・eleven_v3） / ElevenLabs有料契約中に新規生成（利用者申告 2026-09-28。契約画面の証拠は未確認）",
+    "ElevenLabs（利用者が直接生成・eleven_v4） / ElevenLabs有料契約中に新規生成（利用者申告 2026-09-29。契約画面の証拠は未確認）",
+    "ElevenLabs（利用者が直接生成・eleven_v4） / ElevenLabs有料契約中に新規生成（利用者申告 2026-09-29。領収書 audio_sources/commercial/license_evidence/）"
+  ],
+  "note": "ElevenLabs 有料契約中に運営者が直接生成。領収書3件（Creator 2026-09-20／Starter 2026-09-28／2026-09-29 更新）は license_evidence/ に同梱。音源ごとの生成元・sha256 は listening_audio_ledger.json"
+}

@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <!-- アクセシビリティ確保のためユーザーによる拡大を許可（C3）。
+         ピンチによる誤リロードや遷移時の異常ズームは CSS(overscroll/touch-action) と
+         App 側のビューポート正規化で制御する。 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#F4F1EA" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#0F1620" media="(prefers-color-scheme: dark)">
+    <meta name="color-scheme" content="light dark">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="マナトビ リスニング">
+    <link rel="manifest" href="/manifest.json?v=manatobi20260915">
+    <!-- User-supplied square icon: preserve the full logo and white margins.
+         Rebuild with python3 scripts/make-icons.py. Versioned URLs refresh caches. -->
+    <link rel="icon" type="image/png" sizes="192x192" href="/icons/favicon-192.png?v=logo20260907">
+    <link rel="icon" type="image/png" sizes="96x96" href="/icons/favicon-96.png?v=logo20260907">
+    <link rel="icon" type="image/png" sizes="48x48" href="/icons/favicon-48.png?v=logo20260907">
+    <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32.png?v=logo20260907">
+    <link rel="icon" sizes="any" href="/favicon.ico?v=logo20260907">
+    <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon-180.png?v=logo20260907">
+    
+    <!-- Preconnect for fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <title>マナトビ リスニング</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+

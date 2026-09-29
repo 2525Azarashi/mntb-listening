@@ -1,0 +1,51 @@
+{
+  "name": "manatobi-listening",
+  "private": true,
+  "version": "1.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --port=3000 --host=0.0.0.0",
+    "build": "node scripts/check-release.mjs && vite build",
+    "build:demo": "vite build",
+    "preview": "vite preview",
+    "lint": "tsc --noEmit",
+    "gen:index": "tsx scripts/gen-chapter-index.mts && tsx scripts/scope-listening.mts",
+    "gen:battle-pool": "tsx scripts/gen-battle-pool.mts",
+    "gen:vocabulary": "tsx scripts/gen-listening-vocabulary.mts",
+    "test": "vitest run tests/standalone.test.ts tests/listeningExplanation.test.ts",
+    "test:rules": "firebase emulators:exec --only firestore --project demo-manatobi-listening \"vitest run tests/battle.rules.test.ts tests/friends.rules.test.ts tests/leaderboard.rules.test.ts tests/standalone-online.rules.test.ts\"",
+    "test:browser": "node tests/standalone.browser.mjs"
+  },
+  "dependencies": {
+    "@tailwindcss/vite": "^4.1.14",
+    "@vercel/analytics": "^2.0.1",
+    "@vitejs/plugin-react": "^5.0.4",
+    "clsx": "^2.1.1",
+    "firebase": "^12.10.0",
+    "katex": "^0.18.4",
+    "lucide-react": "^0.546.0",
+    "motion": "^12.23.24",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "tailwind-merge": "^3.5.0"
+  },
+  "devDependencies": {
+    "@firebase/rules-unit-testing": "^5.0.1",
+    "@types/node": "^22.14.0",
+    "autoprefixer": "^10.4.21",
+    "firebase-tools": "^15.24.0",
+    "tailwindcss": "^4.1.14",
+    "tsx": "^4.23.12",
+    "typescript": "~5.8.2",
+    "vite": "^6.4.3",
+    "vitest": "^4.1.10"
+  },
+  "overrides": {
+    "uuid": "^11.1.1",
+    "@google-cloud/pubsub": "^6.1.0",
+    "@opentelemetry/core": "^2.8.0"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}
