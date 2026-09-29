@@ -98,7 +98,7 @@ const LearningViewer = React.lazy(() =>
 );
 import { Leaderboard } from './components/Leaderboard';
 import { onAuthStateChanged } from 'firebase/auth';
-import { auth } from './firebase';
+import { auth, FIREBASE_CONFIGURED } from './firebase';
 import { Intro } from './components/Intro';
 import { LogicalTree } from './components/LogicalTree';
 import { NoteDetail } from './components/NoteDetail';
@@ -328,7 +328,7 @@ export default function App() {
 
   const [appState, setAppState] = useState<AppState>(() => {
     const saved = localStorage.getItem('savedAppState');
-    return isAppState(saved) ? saved : 'onboarding';
+    return isAppState(saved) && (saved !== 'leaderboard' || FIREBASE_CONFIGURED) ? saved : 'onboarding';
   });
   const [appMode, setAppMode] = useState<AppMode>(() => {
     const saved = localStorage.getItem('savedAppMode');
@@ -1517,7 +1517,7 @@ export default function App() {
                 onRika={FEATURES.rika ? () => { setRikaTab('practice'); setAppState('rika'); } : undefined}
               />
             )}
-            {appState === 'home' && <Home onListeningStart={(chapter,index)=>{setAppMode('practice');handleSelectChapter(chapter,index,false,{startIndex:index,endIndex:index},'practice');}} onPickSubject={value => { if (isSubjectId(value) && isSubjectEnabled(value)) setSelectedSubject(value); }} onStudyMode={handleSelectMode} onGrowth={page => { setGrowthPage(page); navigateMain('growth'); }} onStart={handleStart} onIntro={handleIntro} onNoteList={() => setAppState('study_hub')} onLogicalTree={() => setAppState('logical_tree')} onLeaderboard={() => setAppState('leaderboard')} onBattle={FEATURES.battle ? () => setAppState('battle') : undefined} onRika={FEATURES.rika ? () => { setRikaTab('practice'); setAppState('rika'); } : undefined} onChangeSubject={() => { setSubjectPickerReturnTo('home'); setSubjectPickerOrigin('change'); setAppState('subject_selection'); }} subjectLabel={getSubjectLabel(selectedSubject)} subject={selectedSubject} isGuest={isGuest} isBgmEnabled={isBgmEnabled} isBgmFadedOut={isBgmFadedOut} onToggleBgm={handleToggleBgm} />}
+            {appState === 'home' && <Home onListeningStart={(chapter,index)=>{setAppMode('practice');handleSelectChapter(chapter,index,false,{startIndex:index,endIndex:index},'practice');}} onPickSubject={value => { if (isSubjectId(value) && isSubjectEnabled(value)) setSelectedSubject(value); }} onStudyMode={handleSelectMode} onGrowth={page => { setGrowthPage(page); navigateMain('growth'); }} onStart={handleStart} onIntro={handleIntro} onNoteList={() => setAppState('study_hub')} onLogicalTree={() => setAppState('logical_tree')} onLeaderboard={FIREBASE_CONFIGURED && FEATURES.ranking ? () => setAppState('leaderboard') : undefined} onBattle={FEATURES.battle ? () => setAppState('battle') : undefined} onRika={FEATURES.rika ? () => { setRikaTab('practice'); setAppState('rika'); } : undefined} onChangeSubject={() => { setSubjectPickerReturnTo('home'); setSubjectPickerOrigin('change'); setAppState('subject_selection'); }} subjectLabel={getSubjectLabel(selectedSubject)} subject={selectedSubject} isGuest={isGuest} isBgmEnabled={isBgmEnabled} isBgmFadedOut={isBgmFadedOut} onToggleBgm={handleToggleBgm} />}
             {/* ★ルーティング側の門（4箇所のうちの3番目）★
                 ナビのボタンを隠すだけでは、Home の「ランキングを見る」など
                 別の導線からこの状態になれてしまう。
@@ -1528,7 +1528,7 @@ export default function App() {
                 onBattle={FEATURES.battle ? () => navigateMain('battle') : undefined}
                 onReview={() => { setStudyHubView({ tab: 'today', subjectTab: 'all' }); navigateMain('study_hub'); }} />
             </React.Suspense>}
-            {appState === 'leaderboard' && FEATURES.ranking && <Leaderboard onBack={() => setAppState('home')} isGuest={isGuest} initialChapterId={selectedChapterId} initialSubject={selectedSubject} onBattle={FEATURES.battle ? () => setAppState('battle') : undefined} />}
+            {appState === 'leaderboard' && FEATURES.ranking && FIREBASE_CONFIGURED && <Leaderboard onBack={() => setAppState('home')} isGuest={isGuest} initialChapterId={selectedChapterId} initialSubject={selectedSubject} onBattle={FEATURES.battle ? () => setAppState('battle') : undefined} />}
             {/* ★対戦モード（ルーティング側の門）★
                 ホームのボタンを隠すだけでは、localStorage に残った
                 appState='battle' から復元して入れてしまう。
@@ -1757,12 +1757,12 @@ export default function App() {
                 {FEATURES.battle && (
                 <button
                   onClick={() => navigateMain('battle')}
-                  aria-label="オンライン対戦へ移動"
+                  aria-label={FIREBASE_CONFIGURED ? 'オンライン対戦へ移動' : 'AI対戦へ移動'}
                   aria-current={appState === 'battle' ? 'page' : undefined}
                   className={`flex flex-col items-center justify-center min-w-0 flex-1 gap-1.5 min-h-[44px] transition-colors ${appState === 'battle' ? 'text-[#2E86C1] font-bold' : 'text-[#4B5563]/60 hover:text-[#2E86C1]/80'}`}
                 >
                   <Swords className="w-5 h-5 stroke-[2.2]" aria-hidden="true" />
-                  <span className="text-[10px] tracking-wider font-modern">対戦</span>
+                  <span className="text-[10px] tracking-wider font-modern">{FIREBASE_CONFIGURED ? '対戦' : 'AI対戦'}</span>
                 </button>
                 )}
 
@@ -1778,7 +1778,7 @@ export default function App() {
                   className={`flex min-w-0 flex-1 flex-col items-center justify-center gap-1.5 min-h-[44px] ${appState === 'growth' ? 'text-amber-800 font-bold' : 'text-slate-500'}`}>
                   <Gift className="w-5 h-5" aria-hidden="true" /><span className="text-[10px]">ガチャ</span>
                 </button>
-                {FEATURES.ranking && (
+                {FEATURES.ranking && FIREBASE_CONFIGURED && (
                 <button 
                   onClick={() => navigateMain('leaderboard')}
                   aria-label="ランキング画面へ移動"

@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite --port=3000 --host=0.0.0.0",
     "build": "node scripts/check-release.mjs && vite build",
+    "build:vercel": "node scripts/check-release.mjs --vercel && vite build",
     "build:demo": "vite build",
     "preview": "vite preview",
     "lint": "tsc --noEmit",
