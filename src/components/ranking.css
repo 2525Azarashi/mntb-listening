@@ -129,3 +129,32 @@
 .season-join small { margin: 0; }
 .season-rank li { flex-direction: column; gap: 2px; }
 .season-rank span { text-align: left; color: #6b4e00; font-weight: 700; }
+
+/* ==========================================================================
+   2026-10-11：ランキングは2種目（対戦レート／学習時間）。
+   全国・フレンド・マナクランのボタンが大きすぎて一覧が見えなかったので、低いタブにする。
+   ========================================================================== */
+.league-hall .league-metric { flex-shrink: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 4px; padding: 3px; border: 1px solid #ddd0b8; border-radius: 14px; background: #f3ecdd; }
+.league-hall .league-metric button { min-height: 44px; display: flex; align-items: center; justify-content: center; gap: 6px; border: 0; border-radius: 11px; background: transparent; color: #6e6455; font-size: 14px; font-weight: 800; padding: 0 8px; }
+.league-hall .league-metric [aria-selected=true] { background: #fffdf7; color: #293b48; box-shadow: 0 1px 3px #8a6b3a33; }
+.league-hall .league-tabs { gap: 0; border-bottom: 1.5px solid #e2d6c1; }
+.league-hall .league-tabs button { min-height: 44px; padding: 0 6px; border: 0; border-bottom: 3px solid transparent; border-radius: 0; background: transparent; font-size: 13px; font-weight: 800; color: #6e6455; white-space: nowrap; }
+.league-hall .league-tabs [aria-selected=true] { background: transparent; border-bottom-color: #b18434; color: #293b48; }
+.league-hall .league-tabs .soon-tag { padding: 0 5px; }
+.league-my-card.is-time { background: #eef6fb; border-color: #7aa7c4; }
+.league-my-card.is-time > svg { color: #3c7ca0; }
+.league-rows em.is-time { font-size: 16px; white-space: nowrap; }
+/* 自分のカードも少し低く（一覧を広く） */
+.league-hall .league-my-card { padding: 6px 12px; }
+.league-hall .league-my-card strong { font-size: 17px; }
+.league-hall .league-my-card > b { font-size: 22px; }
+/* 範囲タブとリーグ選びを1行に（一覧を1行ぶん広く） */
+.league-hall .league-scope-row { display: flex; align-items: flex-end; gap: 6px; flex-shrink: 0; border-bottom: 1.5px solid #e2d6c1; }
+.league-hall .league-scope-row .league-tabs { flex: 1; min-width: 0; border-bottom: 0; }
+.league-hall .league-filter.is-inline { flex: 0 0 auto; margin-bottom: 4px; }
+.league-hall .league-filter.is-inline select { min-height: 44px; max-width: 132px; padding: 4px 8px; font-size: 13px; }
+@media (max-width: 899px) {
+  .league-hall { gap: 6px; padding-top: 6px; }
+  .league-hall .league-header small { display: none; }
+  .league-hall .league-header h1 { font-size: 20px; }
+}

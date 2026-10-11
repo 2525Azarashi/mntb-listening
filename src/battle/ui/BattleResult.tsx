@@ -53,6 +53,7 @@ import { useEffect, useRef, useState } from 'react';
 import './battle-result-review.css';
 import { BattleText } from './BattleText';
 import { BattleReviewDetails } from './BattleReviewDetails';
+import { ReviewPictureGrid } from './ReviewPictureGrid';
 import { BattleGrowthReward, type GrowthReward } from './BattleGrowthReward';
 import { BattleGrowthCard } from './BattleGrowthCard';
 import { recordLocalBattle } from '../data/localBattleLog';
@@ -493,6 +494,7 @@ export function BattleResult({
                   <div className="mt-1 min-w-0 text-sm font-bold leading-relaxed" style={{ color: INK }}>
                     正しい答え：<BattleText text={correctText} subject={question?.subject ?? subject} />
                   </div>
+                  {question && <ReviewPictureGrid question={question} mine={q.answered ? q.submittedAnswer : undefined} />}
                   {q.correct && (
                     <p className="mt-0.5 pl-7 text-xs font-bold" style={{ color: INK_SUB }}>
                       {q.timeUsed.toFixed(1)}秒 ／ 速さ +{q.speed}

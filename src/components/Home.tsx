@@ -63,7 +63,7 @@ import {
 // 公開/非公開の判断は src/config/features.ts が唯一の出どころ
 import { isSubjectEnabled } from '../config/features';
 import { SakuraPetals } from './SakuraPetals';
-import { getDaysUntilExam, EXAM_DATE_LABEL } from '../utils/examCountdown';
+import { getDaysUntilExam, getDaysUntilSecondExam, EXAM_DATE_LABEL, SECOND_EXAM_DATE_LABEL } from '../utils/examCountdown';
 import { getDueCount } from '../utils/reviewList';
 import { TobiraBuddy } from './TobiraBuddy';
 import { SpinMascot } from './SpinMascot';
@@ -167,6 +167,22 @@ export function Home({ onPractice, onPickSubject, onStudyMode, onGrowth, onStart
   const [showPhilosophy, setShowPhilosophy] = useState(false);
   const [showNotices, setShowNotices] = useState(false);
   const progressDialog = useRef<HTMLDialogElement>(null);
+  // ★とびら君が吹き出しに隠れない（2026-10-11）★ 吹き出しの高さを測り、とびら君はその下から立たせる。
+  //   広告が入って舞台が低くなった端末（Android 360×740 など）で、顔が吹き出しの裏に入っていた。
+  const stageRef = useRef<HTMLElement>(null);
+  useEffect(() => {
+    const stage = stageRef.current; if (!stage || typeof ResizeObserver === 'undefined') return;
+    const measure = () => {
+      const say = stage.querySelector<HTMLElement>('.game-stage-say');
+      const top = say ? say.offsetTop + say.offsetHeight : 0;
+      stage.style.setProperty('--say-bottom', `${Math.round(top)}px`);
+    };
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(stage);
+    const say = stage.querySelector('.game-stage-say'); if (say) ro.observe(say);
+    return () => ro.disconnect();
+  });
   const [unreadCount, setUnreadCount] = useState(() => unreadNoticeCount());
   // 運営のお知らせ（Firestore）が届いたら未読数を更新する（取れなければ同梱分のまま）。
   useEffect(() => { let alive = true; void refreshRemoteNotices().then(() => { if (alive) setUnreadCount(unreadNoticeCount()); }); return () => { alive = false; }; }, []);
@@ -341,6 +357,7 @@ export function Home({ onPractice, onPickSubject, onStudyMode, onGrowth, onStart
 
   // 共通テストまでの残り日数
   const daysUntilExam = useMemo(() => getDaysUntilExam(), []);
+  const daysUntilSecond = useMemo(() => getDaysUntilSecondExam(), []);
 
 
   // 「次の章」を算出（学習進捗カードの状況別コピー用）
@@ -364,6 +381,11 @@ export function Home({ onPractice, onPickSubject, onStudyMode, onGrowth, onStart
       <div className="game-home-viewport">
         <header className="game-home-header">
           <div><h1><img className="game-home-logo" src="/brand/manatobi-logo.webp" width={1008} height={321} alt="マナトビ" /></h1><p title={`${greetingName}さんのホーム`}>{greetingName}さんのホーム</p></div>
+          {/* ★ロゴの横に本番までの日数（2026-10-11 ご要望）★ 共通テストと2次（前期）の2つ */}
+          <dl className="game-home-countdown" aria-label="本番までの日数" data-home-countdown>
+            <div title={`共通テスト ${EXAM_DATE_LABEL}`}><dt>共通テスト</dt><dd><b>{daysUntilExam}</b>日</dd></div>
+            <div title={`2次試験（前期） ${SECOND_EXAM_DATE_LABEL}`}><dt>2次(前期)</dt><dd><b>{daysUntilSecond}</b>日</dd></div>
+          </dl>
           <div className="game-home-tools">
             <button type="button" onClick={() => onToggleBgm?.(!isBgmEnabled || !!isBgmFadedOut)} aria-label={bgmLabel}>{bgmPlaying ? <Volume2 size={19} /> : <VolumeX size={19} />}</button>
             <button type="button" onClick={() => setShowNotices(true)} aria-label="お知らせを開く"><Bell size={19} />{unreadCount > 0 && <i />}</button>
@@ -373,7 +395,7 @@ export function Home({ onPractice, onPickSubject, onStudyMode, onGrowth, onStart
           <GrowthHomeStrip expanded homeLayout onProfile={() => onGrowth('outfit')} onShop={() => onGrowth('shop')} onGacha={() => onGrowth('gacha')}
             onBadges={() => onGrowth('badges')} onMissions={() => onGrowth('missions')} onWallet={() => onGrowth('overview')} />
         </React.Suspense>}
-        <section className="game-mascot-stage" aria-label="とびら君のホームステージ">
+        <section className="game-mascot-stage" aria-label="とびら君のホームステージ" ref={stageRef}>
           <div className="game-stage-backdrop" aria-hidden="true"><i /><i /><i /></div>
           {/* ★とびら君は「住人」（2026-10-01）★ 状態（はじめて・久しぶり・復習待ち・連続）で言うことが変わる。しっぽ付きの吹き出し */}
           <TobiraBuddy className="game-stage-say" figure={false} bubble="top" input={{ screen: 'home', streak, dueCount: reviewDueCount, solved: solvedQuestions, daysAway: Math.max(0, daysAway), firstVisit: (daysAway < 0 || (streak <= 1 && solvedQuestions === 0 && !completedIds.length)) && growth.loginDays <= 1 && growth.matches === 0 && growth.studySolved === 0 && growth.rushPlays === 0, isGuest, loginDays: growth.loginDays, seed: new Date().getDate() }} />

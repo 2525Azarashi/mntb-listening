@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { ArrowLeft, CheckCircle2, ChevronDown, PenLine, RotateCcw, Swords, XCircle } from 'lucide-react';
+import { CheckCircle2, ChevronDown, PenLine, Play, RotateCcw, Swords, XCircle } from 'lucide-react';
 import { auth } from '../firebase';
 import { STUDY_LOG_DAYS, groupStudyLogByDay, loadStudyLog, type StudyLogEntry } from '../utils/studyLog';
 import './study-record.css';
@@ -8,9 +8,11 @@ import './study-record.css';
  * 学習記録（2026-10-04 ご要望）
  *   直近3日ぶん、一人で学ぶ・対戦で「どの問題を解いて、どこを間違えたか」を時系列で見る画面。
  *   進捗や達成の数字よりも「何をやって、どこでつまずいたか」を真ん中に置く。
- *   間違いの解き直しは復習ノートの役目なので、ここからは「復習ノートを開く」で渡す。
+ *   2026-10-11：一人で学んだ大問は、ここから「解きなおす（全部）」「まちがえた問題だけ」をすぐ選べる。
  */
-export function StudyRecord({ onBack, onReview, embedded = false }: { onBack?: () => void; onReview?: () => void; embedded?: boolean }) {
+export interface StudyRetry { chapterId: string; questionId: string; wrongOnly: boolean; subQuestionIds: string[] }
+
+export function StudyRecord({ onReview, onRetry, embedded = false }: { onReview?: () => void; onRetry?: (t: StudyRetry) => void; embedded?: boolean }) {
   const uid = auth.currentUser?.uid || 'guest';
   const [filter, setFilter] = useState<'all' | 'wrong'>('all');
   const entries = useMemo(() => loadStudyLog(uid), [uid]);
@@ -20,7 +22,6 @@ export function StudyRecord({ onBack, onReview, embedded = false }: { onBack?: (
   return (
     <section className={`study-record ${embedded ? 'is-embedded' : ''}`} aria-labelledby="study-record-title" data-study-record>
       <header className="sr-head">
-        {onBack && <button type="button" className="sr-back" onClick={onBack} aria-label="もどる"><ArrowLeft size={20} aria-hidden="true" /></button>}
         <div>
           <h1 id="study-record-title">学習記録</h1>
           <p>直近{STUDY_LOG_DAYS}日に解いた問題と、まちがえた所</p>
@@ -40,14 +41,14 @@ export function StudyRecord({ onBack, onReview, embedded = false }: { onBack?: (
       ) : days.map(day => (
         <section key={day.date} className="sr-day" aria-label={day.label}>
           <h2>{day.label}<small>{day.solved}問・まちがい{day.wrong}問</small></h2>
-          <ol>{day.entries.map(e => <EntryCard key={e.key} entry={e} onlyWrong={filter === 'wrong'} />)}</ol>
+          <ol>{day.entries.map(e => <EntryCard key={e.key} entry={e} onlyWrong={filter === 'wrong'} onRetry={onRetry} />)}</ol>
         </section>
       ))}
     </section>
   );
 }
 
-function EntryCard({ entry, onlyWrong }: { entry: StudyLogEntry; onlyWrong: boolean; key?: string }) {
+function EntryCard({ entry, onlyWrong, onRetry }: { entry: StudyLogEntry; onlyWrong: boolean; onRetry?: (t: StudyRetry) => void; key?: string }) {
   const wrongItems = entry.items.filter(i => !i.correct);
   const [open, setOpen] = useState(false);
   const shown = onlyWrong ? wrongItems : entry.items;
@@ -66,6 +67,18 @@ function EntryCard({ entry, onlyWrong }: { entry: StudyLogEntry; onlyWrong: bool
         <span className="sr-entry-score">{entry.items.length - wrongItems.length}<small>/{entry.items.length}</small></span>
         <ChevronDown size={18} aria-hidden="true" className={open ? 'rotate-180' : ''} />
       </button>
+      {/* ★解きなおしの2択（2026-10-11）★ 一人で学んだ大問だけ（対戦の問題は復習ノートから） */}
+      {onRetry && entry.kind === 'study' && entry.chapterId && entry.questionId && (
+        <div className="sr-retry" role="group" aria-label={`${entry.title} ${entry.sub ?? ''}を解きなおす`}>
+          <button type="button" data-sr-retry="all" onClick={() => onRetry({ chapterId: entry.chapterId!, questionId: entry.questionId!, wrongOnly: false, subQuestionIds: [] })}>
+            <Play size={16} aria-hidden="true" />解きなおす
+          </button>
+          <button type="button" data-sr-retry="wrong" disabled={wrongItems.length === 0}
+            onClick={() => onRetry({ chapterId: entry.chapterId!, questionId: entry.questionId!, wrongOnly: true, subQuestionIds: wrongItems.map(i => i.id) })}>
+            <RotateCcw size={16} aria-hidden="true" />{wrongItems.length > 0 ? <>まちがえた問題だけ解く<small>（{wrongItems.length}問）</small></> : '全問正解'}
+          </button>
+        </div>
+      )}
       {open && (
         <ul className="sr-items">
           {shown.map(i => (

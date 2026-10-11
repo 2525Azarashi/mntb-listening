@@ -68,3 +68,22 @@
 /* 2026-10-01 夜：問題の列とは別の「覚える」枠（暗記帳） */
 .sc-section { margin: 4px 2px -2px; font: 800 13px/1.4 var(--mt-font-display); color: #8b7a5c; letter-spacing: .08em; display: flex; align-items: center; gap: 8px; }
 .sc-section::after { content: ''; flex: 1; height: 1.5px; background: var(--sc-line); }
+
+/* ==========================================================================
+   2026-10-11：アプリ版は下に広告（50px）が入るため、背の低い端末で「英単語帳」が広告の裏へ隠れていた。
+   広告ありのときは、同じ見た目のままカードの上下を少し詰め、説明は1行に。
+   ========================================================================== */
+@media (max-height: 860px) {
+  :root[data-ad-banner=true] .sc-page { gap: 6px; padding-top: 6px; }
+  :root[data-ad-banner=true] .sc-head { min-height: 48px; }
+  :root[data-ad-banner=true] .sc-list { gap: 7px; }
+  :root[data-ad-banner=true] .sc-card { min-height: 66px; padding: 7px 12px; gap: 10px; }
+  :root[data-ad-banner=true] .sc-icon { width: 40px; height: 40px; border-radius: 14px; }
+  :root[data-ad-banner=true] .sc-desc { -webkit-line-clamp: 1; }
+  :root[data-ad-banner=true] .sc-buddy { margin: 0 0 2px; }
+}
+@media (max-height: 760px) {
+  :root[data-ad-banner=true] .sc-head-title > p:last-child { display: none; }
+  :root[data-ad-banner=true] .sc-card { min-height: 58px; padding: 5px 12px; }
+  :root[data-ad-banner=true] .sc-desc { display: none; }
+}

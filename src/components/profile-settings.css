@@ -121,3 +121,5 @@
 .profile-workspace .ps-preview > p { color: var(--mt-ink-muted); }
 .profile-workspace .ps-safety .mt-list-item { padding-inline: 12px; }
 .ps-safety > .mt-card { margin-top: 8px; }
+/* 2026-10-11：保存バーはスクロールの外（下）に固定。sticky は使わない */
+.ps-savebar.is-fixed { position: static !important; margin: 0 !important; padding: 0 !important; background: none !important; }

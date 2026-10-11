@@ -1,7 +1,7 @@
 import { MOTTO_MAX, normalizeMotto, readOwnPublicStudyProfile, savePublicStudyProfile } from '../utils/publicStudyProfile';
 import React, { useEffect, useState } from 'react';
 import { auth } from '../firebase';
-import { ChevronLeft, ChevronDown, Pencil, LogOut, Flame, BookOpen, Clock, GraduationCap, Compass, Settings, Volume2, VolumeX, LogIn, Users, Save, Check, Loader2, AlertTriangle, School, ClipboardList, Swords, Shirt } from 'lucide-react';
+import { ChevronDown, Pencil, LogOut, Flame, BookOpen, Clock, GraduationCap, Compass, Settings, Volume2, VolumeX, LogIn, Users, Save, Check, Loader2, AlertTriangle, School, ClipboardList, Swords, Shirt } from 'lucide-react';
 // ★対戦の音（BGM / 効果音 / 音量）★ 通常 BGM とは別の設定（src/battle/core/audioSettings.ts の説明を参照）
 import { useBattleAudioSettings } from '../battle/hooks/useBattleAudio';
 import { battleAudio } from '../battle/audio/battleAudio';
@@ -195,14 +195,12 @@ export function ProfileModal({ onClose, initialTab, isBgmEnabled, setIsBgmEnable
   };
 
   return (
-    <div className="mtb-page mt-screen profile-journal w-full h-[calc(100dvh-env(safe-area-inset-top,0px))] overflow-hidden pb-[calc(var(--app-nav-h,120px)+24px)] sm:pb-24" data-settings>
+    <div className="mtb-page mt-screen profile-journal w-full h-full overflow-hidden pb-[calc(var(--app-nav-h,120px)+8px)] sm:pb-24" data-settings>
       <div className="max-w-4xl h-full mx-auto px-3 sm:px-5 py-3 sm:py-5 flex flex-col relative">
         <div className="absolute top-4 right-8 w-40 h-40 bg-[#A9CCE3]/15 rounded-full blur-3xl pointer-events-none" />
 
         <header className="mt-app-header mb-2 sm:mb-3 relative z-10 shrink-0">
-          <button type="button" onClick={onClose} className="mt-icon-btn" aria-label="設定を閉じる">
-            <ChevronLeft size={19} aria-hidden="true" />
-          </button>
+          {/* 上の「＜」（マイページへ戻る）は廃止（2026-10-11）。設定は下のナビから出入りする */}
           <div className="mt-app-header-title"><p className="mt-kicker">MY ACCOUNT</p><h2>設定</h2></div>
           <DoorMascot showSpeech={false} size="mini" className="w-auto ml-auto -my-2" />
         </header>
@@ -240,7 +238,8 @@ export function ProfileModal({ onClose, initialTab, isBgmEnabled, setIsBgmEnable
               )}
             </div>
           ) : (
-            <div className="profile-workspace h-full grid grid-cols-1 md:grid-cols-2 gap-2 sm:gap-3 overflow-y-auto md:overflow-hidden no-scrollbar">
+            <div className="h-full flex flex-col gap-2">
+            <div className="profile-workspace flex-1 min-h-0 grid grid-cols-1 md:grid-cols-2 gap-2 sm:gap-3 overflow-y-auto md:overflow-hidden no-scrollbar">
               <div className="space-y-2 sm:space-y-3">
                 {/* ★プロフィールカード（A14）★ アバター・レベル/称号・連続日数・学習時間・バッジを1枚に。
                     「学習状況」と「プロフィール」の2枚に分かれていたものをまとめ、縦を詰める。 */}
@@ -391,11 +390,14 @@ export function ProfileModal({ onClose, initialTab, isBgmEnabled, setIsBgmEnable
                     App.tsx の起動時・オンライン復帰時に自動で再送されるため、
                     利用者が手動で診断・復旧操作をする必要がない。 */}
 
-                {/* 保存ボタンは下に貼り付けておく（名前を変えたのに保存し忘れる、を防ぐ） */}
-                <div className="ps-savebar grid grid-cols-[1fr_2fr] gap-2 shrink-0">
-                  <button onClick={onClose} className="min-h-11 rounded-xl border border-gray-200 bg-white text-xs font-bold text-gray-500">キャンセル</button>
-                  <button onClick={handleSave} disabled={loading || !nameCheck.ok || !schoolCheck.ok || !mottoCheck.ok} className="min-h-11 rounded-xl bg-[#2C3E50] text-white text-xs font-bold disabled:opacity-40 flex items-center justify-center gap-1.5"><Save size={14} />{loading ? '保存中…' : '設定を保存'}</button>
-                </div>
+              </div>
+            </div>
+              {/* 保存ボタンは下に置いておく（名前を変えたのに保存し忘れる、を防ぐ）。
+                  2026-10-11：右の列の中で sticky にしていたため、スマホでは列の頭までスクロールしないと出てこなかった。
+                  スクロールする箱の外（すぐ下）に出し、いつでも画面の下に見えるようにする */}
+              <div className="ps-savebar is-fixed grid grid-cols-[1fr_2fr] gap-2 shrink-0">
+                <button onClick={onClose} className="min-h-11 rounded-xl border border-gray-200 bg-white text-xs font-bold text-gray-500">キャンセル</button>
+                <button onClick={handleSave} disabled={loading || !nameCheck.ok || !schoolCheck.ok || !mottoCheck.ok} className="min-h-11 rounded-xl bg-[#2C3E50] text-white text-xs font-bold disabled:opacity-40 flex items-center justify-center gap-1.5"><Save size={14} />{loading ? '保存中…' : '設定を保存'}</button>
               </div>
             </div>
           )}
