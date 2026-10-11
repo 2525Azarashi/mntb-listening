@@ -9,6 +9,8 @@ import { auth } from '../firebase';
 import { FeedbackButton } from './FeedbackButton';
 import { QuestionFigure } from './QuestionFigure';
 import { ListeningAudioPlayer, ListeningEvidenceScript } from './ListeningAudioPlayer';
+import { InlineAdSlot } from './InlineAdSlot';
+import { LISTENING_PICTURE_ASPECT } from '../data/listeningPictureAspect';
 import './listening-explanation.css';
 import { buildFigureNumberMap, getFigureNumber } from '../utils/figureNumbering';
 import { isAnswerCorrect } from '../utils/answerJudge';
@@ -177,6 +179,18 @@ export interface ReviewNav {
   retryLabel?: string;
   onNext?: () => void;
   nextLabel?: string;
+}
+
+/**
+ * 絵の問題（第1問B・第2問）：問題のイラストは ①〜④ の4コマが 2×2 に並んだ1枚の絵。
+ * 選択肢 oi のコマを背景の位置で切り出す（画像を新しく作らずに、同じ絵を使い回す）。
+ */
+function pictureCellOf(sq: any, oi: number, n: number): React.CSSProperties | null {
+  const url: string | undefined = sq?.imageUrl;
+  if (!url || n !== 4 || oi < 0 || oi > 3 || !/^\/listening_(q1b|q2)\//.test(url)) return null;
+  const col = oi % 2, row = Math.floor(oi / 2);
+  const aspect = LISTENING_PICTURE_ASPECT[url] ?? 1;
+  return { backgroundImage: `url("${url}")`, backgroundSize: '200% 200%', backgroundPosition: `${col * 100}% ${row * 100}%`, aspectRatio: String(aspect) };
 }
 
 export function Explanation({ mode: initialMode, chapter, answers, onBack, onReturnToBattle, isGuest, singleQuestionIndex, onNextQuestion, isLastQuestion, isMobileView, scoreBreakdown, scoreMeta, totalScore, runningCombo, resultTotalScore, resultTotalCorrect, resultTotalJudgeable, resultTotalTimeSec, questionRange, onRetryWrong, onNextChapter, nextChapterTitle, focusSubQuestionId, onHome, reviewNav }: ExplanationProps) {
@@ -1153,7 +1167,7 @@ export function Explanation({ mode: initialMode, chapter, answers, onBack, onRet
         ? `fixed inset-0 w-full h-full flex flex-col bg-[#FDFBF7] overflow-y-auto z-50`
         : `fixed inset-0 w-full h-full flex flex-col bg-[#FDFBF7] overflow-hidden z-50`
     }>
-      {onReturnToBattle && <button type="button" onClick={onReturnToBattle} className="sticky top-0 z-[55] min-h-11 shrink-0 border-b border-blue-200 bg-blue-50 px-3 py-2 text-sm font-bold text-blue-900">バトル結果・解説に戻る</button>}
+      {onReturnToBattle && <button type="button" onClick={onReturnToBattle} className="sticky top-0 z-[55] min-h-11 shrink-0 border-b border-blue-200 bg-blue-50 px-3 pt-[calc(0.5rem+env(safe-area-inset-top,0px))] pb-2 text-sm font-bold text-blue-900">バトル結果・解説に戻る</button>}
       {reviewNav && (
         <nav className="practice-pager is-review" aria-label="解いた問題を切り替える" data-practice-pager>
           <div className="practice-pager-row">
@@ -1231,7 +1245,7 @@ export function Explanation({ mode: initialMode, chapter, answers, onBack, onRet
           ★詳しい結果（reviewNav）では出さない：上の切り替えバーが見出しの代わり。
             「答え合わせ / Q1 / 正答率」や上の「単元選択に戻る」は不要（2026-10-04 ご指摘）。 */}
       {!reviewNav && (
-      <div className={`p-4 md:p-6 border-b-2 z-30 flex items-start justify-between gap-4 flex-none ${
+      <div className={`p-4 md:p-6 pt-[calc(0.75rem+env(safe-area-inset-top,0px))] md:pt-6 border-b-2 z-30 flex items-start justify-between gap-4 flex-none ${
         // ★スマホの1問ごとの答え合わせ（reorderMobile）では、
         //   「解答・解説 / 章名」の右横に Score・答え合わせ・Q番号・ノートに保存・正答率を
         //   横並びで置き、縦方向の占有を減らす（上部の1行に集約する）。
@@ -1707,7 +1721,7 @@ export function Explanation({ mode: initialMode, chapter, answers, onBack, onRet
                   下の解説をスクロールしても問題文が常に見える（ご要望
                   「解答と解説・問題は一緒に一画面で見える状態で出したい」）。 */}
             <div className={reorderMobile
-              ? `sticky ${reviewNav ? 'top-[57px]' : 'top-0'} z-20 min-w-0 bg-white border-b-2 border-gray-200 shadow-md flex flex-col`
+              ? `sticky ${reviewNav ? 'top-[calc(57px+env(safe-area-inset-top,0px))]' : 'top-[env(safe-area-inset-top,0px)]'} z-20 min-w-0 bg-white border-b-2 border-gray-200 shadow-md flex flex-col`
               : `space-y-6 pb-8 min-w-0 ${isResultView ? 'lg:pr-4' : 'lg:overflow-y-auto lg:h-full lg:pr-4'}`}>
               {/* スマホ：問題文ペインのヘッダー（演習画面と同じ「たたむ」付き） */}
               {reorderMobile && (
@@ -2301,6 +2315,8 @@ export function Explanation({ mode: initialMode, chapter, answers, onBack, onRet
                                           : (mode === 'mini_test' ? 'bg-white border-red-200 text-red-600 line-through opacity-80' : 'bg-[#D9A0A0]/10 border-[#D9A0A0]/30 text-[#D9A0A0] line-through opacity-80')
                                   }${mathBodyClass}`}>
                                     {formatText(answers[sq.id] || '未解答')}
+                                    {/* 2026-10-08 絵の問題：選んだ絵のコマも出す（記号だけでは復習で何の絵か分からない） */}
+                                    {(() => { const oi = Array.isArray(sq.options) ? sq.options.indexOf(String(answers[sq.id] ?? '')) : -1; const pic = pictureCellOf(sq, oi, sq.options?.length ?? 0); return pic ? <span className="lx-answer-pic" role="img" aria-label="あなたが選んだイラスト" style={pic} /> : null; })()}
                                   </div>
                                 </div>
                                 <div>
@@ -2324,6 +2340,7 @@ export function Explanation({ mode: initialMode, chapter, answers, onBack, onRet
                                   */}
                                   <div className={`font-bold text-sm md:text-base p-3 rounded-lg border break-words${mathBodyClass} ${mode === 'mini_test' ? 'text-emerald-700 bg-white border-emerald-200' : 'text-[#5BC0BE] bg-[#5BC0BE]/10 border-[#5BC0BE]/30'}`}>
                                     {formatText(sq.correctAnswer)}
+                                    {(() => { const oi = Array.isArray(sq.options) ? sq.options.indexOf(String(sq.correctAnswer ?? '')) : -1; const pic = pictureCellOf(sq, oi, sq.options?.length ?? 0); return pic ? <span className="lx-answer-pic" role="img" aria-label="正解のイラスト" style={pic} /> : null; })()}
                                   </div>
                                 </div>
                               </div>
@@ -2587,15 +2604,20 @@ export function Explanation({ mode: initialMode, chapter, answers, onBack, onRet
                                             <span className="lx-result-verdict">{status === 'none' ? '未解答' : ok ? '正解' : '不正解'}</span>
                                           </header>
                                           {options.length > 0 && !hasImages ? (
-                                            <ol className="lx-choice-list">
+                                            <ol className={`lx-choice-list${pictureCellOf(sq, 0, options.length) ? ' is-pics' : ''}`}>
                                               {options.map((opt, oi) => {
                                                 const isRight = opt.trim() === right.trim();
                                                 const isMine = attempted && opt.trim() === mine.trim();
                                                 const tone = isRight ? 'right' : isMine ? 'wrong' : 'plain';
                                                 const body = texts?.[oi];
                                                 const mark = optionCircledMark(opt, oi);
+                                                // ★2026-10-08 絵の問題（第1問B・第2問）★ 選択肢は①〜④の記号だけなので、
+                                                //   復習のときに「どんな問題だったか」が分からなかった。
+                                                //   問題のイラスト（2×2 の4コマ）から、その選択肢の1コマを切り出して並べる。
+                                                const pic = pictureCellOf(sq, oi, options.length);
                                                 return (
-                                                  <li key={opt + oi} className="lx-choice" data-tone={tone} data-mine={isMine || undefined}>
+                                                  <li key={opt + oi} className={`lx-choice${pic ? ' has-pic' : ''}`} data-tone={tone} data-mine={isMine || undefined}>
+                                                    {pic && <span className="lx-choice-pic" role="img" aria-label={`${mark || opt} のイラスト`} style={pic} />}
                                                     <span className="lx-choice-mark">{mark ? `${mark} ` : ''}{formatText(opt)}</span>
                                                     {body && <span className="lx-choice-text">{formatText(body, [], { prose: true })}</span>}
                                                     {(isRight || isMine) && (
@@ -2902,6 +2924,8 @@ export function Explanation({ mode: initialMode, chapter, answers, onBack, onRet
                 );
               })
             }
+            {/* 妙案3: 解説画面スクロール末尾のインライン広告枠 */}
+            <InlineAdSlot />
           </div>
         </div>
 
