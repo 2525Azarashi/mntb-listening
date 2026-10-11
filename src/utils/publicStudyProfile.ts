@@ -85,3 +85,37 @@ export function watchPublicStudyProfiles(uids: string[], receive: (profiles: Rec
   }
   return () => unsubscribes.forEach(stop => stop());
 }
+
+/**
+ * ★学習時間ランキング（2026-10-11）★
+ *   「設定」で公開を選んだ人（public_study_profiles）だけを、学習時間の長い順に並べる。
+ *   非公開の人は文書自体が無いので載らない（勝手に順位へ出さない）。
+ *   並べ替えの索引（firestore.indexes.json）がまだ無い環境では、上限つきで読んで端末側で並べる。
+ */
+export interface StudyTimeRow { uid: string; profile: PublicStudyProfile }
+export async function fetchStudyTimeRanking(max = 100, onlyUids?: readonly string[]): Promise<StudyTimeRow[]> {
+  const { getDocs, orderBy, limit } = await import('./firestoreMetered');
+  const col = collection(db, PUBLIC_STUDY_PROFILES);
+  const toRows = (docs: { id: string; data: () => unknown }[]) => docs
+    .map(d => ({ uid: d.id, profile: parsePublicStudyProfile(d.data()) }))
+    .filter((r): r is StudyTimeRow => !!r.profile)
+    .sort((a, b) => b.profile.studySeconds - a.profile.studySeconds);
+  if (onlyUids) {
+    const ids = [...new Set(onlyUids)];
+    const out: StudyTimeRow[] = [];
+    for (let i = 0; i < ids.length; i += 30) {
+      try {
+        const snap = await getDocs(query(col, where('public', '==', true), where(documentId(), 'in', ids.slice(i, i + 30))));
+        out.push(...toRows(snap.docs));
+      } catch { /* 読めた分だけ */ }
+    }
+    return out.sort((a, b) => b.profile.studySeconds - a.profile.studySeconds).slice(0, max);
+  }
+  try {
+    const snap = await getDocs(query(col, where('public', '==', true), orderBy('studySeconds', 'desc'), limit(max)));
+    return toRows(snap.docs);
+  } catch {
+    const snap = await getDocs(query(col, where('public', '==', true), limit(500)));
+    return toRows(snap.docs).slice(0, max);
+  }
+}

@@ -724,6 +724,31 @@ export function sharedSteps(problem: any): string[] {
  *   ★内容そのものは要約せず、重複行を除くだけ★
  *     （PDF由来の説明を勝手に言い換えると、原典と食い違ってしまう）
  */
+/**
+ * ★英文法の解説を読みやすく（2026-10-11 大改訂③）★
+ *   【着眼点】【ポイント】【選択肢】【プラス】【入試ではここ】の見出しを小さな札にし、
+ *   選択肢の行は ○（緑）／×（赤）を目立たせる。中身の文は変えない。
+ */
+const EG_HEADS: Record<string, string> = {
+  着眼点: '#2F7C74', ポイント: '#B0464F', 選択肢: '#5A6573', プラス: '#7A5B2A', 入試ではここ: '#1F5FA8',
+};
+function styleReasonLine(line: string): string {
+  const head = line.match(/^【(着眼点|ポイント|選択肢|プラス|入試ではここ)】\s*(.*)$/u);
+  if (head) {
+    const color = EG_HEADS[head[1]];
+    const tag = `<span style="display:inline-block; margin-right:6px; padding:0 8px; border-radius:6px; font-size:0.82em; font-weight:bold; color:#fff; background-color:${color};">${head[1]}</span>`;
+    const body = head[2] ? (head[1] === '入試ではここ' ? `<span style="font-weight:bold; color:#1F3F6A;">${escapeHtml(head[2])}</span>` : escapeHtml(head[2])) : '';
+    return tag + body;
+  }
+  const choice = line.match(/^([①②③④])\s*(.+?)　([○×])\s*(.*)$/u);
+  if (choice) {
+    const ok = choice[3] === '○';
+    const mark = `<span style="font-weight:bold; color:${ok ? '#1E7D46' : '#C0392B'};">${choice[3]}</span>`;
+    return `${choice[1]} <span style="font-weight:bold;">${escapeHtml(choice[2])}</span>　${mark} ${escapeHtml(choice[4])}`;
+  }
+  return line;
+}
+
 function reasonLines(problem: any, sq: any): string[] {
   const lines = commentaryFor(problem, sq).split('\n');
   const kept: string[] = [];
@@ -869,7 +894,7 @@ export function buildListeningExplanation(problem: any): string {
     // ③ 解答の道すじ（元の説明から重複行だけを除いたもの）
     const reasons = reasonLines(problem, sq);
     if (reasons.length > 0) {
-      rows.push(`${LABEL('解答の道すじ')}\n${reasons.join('\n')}`);
+      rows.push(`${LABEL('解答の道すじ')}\n${reasons.map(styleReasonLine).join('\n')}`);
     }
 
     sections.push(rows.join('\n'));

@@ -52,6 +52,10 @@ describe('英文法 改訂版（第1〜20章）', () => {
       });
       // 旧形式の見出しが残っていない
       expect(x.cm.join('\n')).not.toMatch(/【訳】|【注意】/);
+      // 2026-10-11：どの問にも【着眼点】と日本語の【ポイント】がある
+      expect(x.cm[0].startsWith('【着眼点】')).toBe(true);
+      expect(x.cm.find((l) => l.startsWith('【ポイント】'))).toMatch(/[ぁ-んァ-ン一-龥]/);
+      expect(x.km).toMatch(/[ぁ-んァ-ン一-龥]/);
     }
   });
 
@@ -86,7 +90,9 @@ describe('英文法 改訂版（第1〜20章）', () => {
           subs += 1;
           const body = (p.explanation.split(`<!--sq:${sq.id}-->`)[1] || '').split('<!--sq:')[0];
           expect(body.match(/<mark /g) || []).toHaveLength(1);
-          expect(body).toContain('【選択肢】');
+          // 2026-10-11：見出しは札（色つきの小さなラベル）で出す
+          expect(body).toMatch(/>選択肢<\/span>/);
+          expect(body).toMatch(/>入試ではここ<\/span>|>プラス<\/span>/);
         }
       }
     }

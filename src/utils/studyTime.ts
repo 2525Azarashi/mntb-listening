@@ -3,7 +3,9 @@
  *
  *   localStorage['study_time_v1_<uid>'] = { total: 秒, days: { 'YYYY-MM-DD': 秒 } }
  *
- * 数えるのは「演習・解説の画面を開いていて、タブが前面にある間」だけ（App.tsx が1分ごとに足す）。
+ * 数えるのは「演習・解説の画面を開いていて、タブが前面にある間」だけ（App.tsx が15秒ごとに足す）。
+ * 2026-10-11：さらに「1分間なにも操作がない時間」は数えない（置きっぱなしで増えない）。
+ *   操作＝タップ・キー・スクロール・ホイール。リスニングの音声が鳴っている間は操作ありとみなす。
  * 放置で増え続けないよう、1回に足せるのは最大90秒・1日の上限は12時間。
  * days は直近60日だけ残す（容量を増やし続けない）。
  */
@@ -15,6 +17,17 @@ export const studyTimeKey = (uid: string | null | undefined) => PREFIX + encodeU
 const DAY_CAP = 12 * 3600;
 const STEP_CAP = 90;
 const KEEP_DAYS = 60;
+/** これだけ操作がなければ「放置」とみなして数えない */
+export const STUDY_IDLE_MS = 60 * 1000;
+
+/**
+ * 前回 from から今回 to までのうち、「最後の操作から1分以内」だった秒数。
+ *   最後の操作 lastActive から STUDY_IDLE_MS を過ぎた分は切り捨てる。
+ */
+export function activeStudySeconds(from: number, to: number, lastActive: number, idleMs = STUDY_IDLE_MS): number {
+  const end = Math.min(to, lastActive + idleMs);
+  return Math.max(0, (end - from) / 1000);
+}
 
 export function readStudyTime(uid: string | null | undefined): StudyTimeLog {
   try {

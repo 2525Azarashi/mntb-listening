@@ -113,7 +113,7 @@ import { NoteDetail } from './components/NoteDetail';
 import { StudyHub, type StudyHubView } from './components/StudyHub';
 import { ScreenLoading, ScreenUnavailable } from './components/ScreenStatus';
 import { studyEntry, isLearningScreen } from './utils/studyNavigation';
-import { addStudySeconds } from './utils/studyTime';
+import { activeStudySeconds, addStudySeconds } from './utils/studyTime';
 import { setFormatMathContext } from './utils/textFormatter';
 import { resolveReviewTarget } from './utils/reviewTarget';
 import { Onboarding } from './components/Onboarding';
@@ -460,22 +460,35 @@ export default function App() {
   };
   /**
    * ★学習時間（設定のプロフィールカード）★ utils/studyTime.ts
-   * 演習・解説の画面を開いていて、タブが前面にある間だけ30秒ごとに足す。
+   * 演習・解説の画面を開いていて、タブが前面にある間だけ15秒ごとに足す。
+   * ★1分間なにも操作がなければ数えない（2026-10-11）★ 音声が鳴っている間（リスニング）は操作ありとみなす。
    */
   useEffect(() => {
     if (appState !== 'quiz' && appState !== 'explanation') return;
     let last = Date.now();
+    let lastActive = last;
+    const mark = () => { lastActive = Date.now(); };
+    const events: (keyof WindowEventMap)[] = ['pointerdown', 'keydown', 'wheel', 'touchstart', 'scroll'];
+    events.forEach(ev => window.addEventListener(ev, mark, { passive: true, capture: true }));
+    // BGM（loop のついた <audio>）は数えない。リスニングの音声・読み上げだけ
+    const mediaPlaying = () => [...document.querySelectorAll<HTMLMediaElement>('audio, video')].some(m => !m.loop && !m.paused && !m.ended)
+      || (typeof speechSynthesis !== 'undefined' && speechSynthesis.speaking);
     const tick = () => {
       const now = Date.now();
+      if (mediaPlaying()) lastActive = now;
       if (document.visibilityState === 'visible') {
         const d = new Date(now);
         const day = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
-        addStudySeconds(auth.currentUser?.uid || 'guest', (now - last) / 1000, day);
+        addStudySeconds(auth.currentUser?.uid || 'guest', activeStudySeconds(last, now, lastActive), day);
       }
       last = now;
     };
-    const id = window.setInterval(tick, 30000);
-    return () => { window.clearInterval(id); tick(); };
+    const id = window.setInterval(tick, 15000);
+    return () => {
+      window.clearInterval(id);
+      events.forEach(ev => window.removeEventListener(ev, mark, { capture: true }));
+      tick();
+    };
   }, [appState]);
   const reviewRequest = useRef(0);
   const reviewBusy = useRef(false);
@@ -1516,7 +1529,11 @@ export default function App() {
       // ★間違えた小問だけを解き直す（2026-10-04 ご要望）★ その大問1つだけを範囲にして、小問も間違えた分に絞る
       const subIds: string[] = Array.isArray(note.subQuestionIds) ? note.subQuestionIds.map(String)
         : note.subQuestionId && note.questionId ? [String(note.subQuestionId)] : [];
-      if (subIds.length > 0 && note.questionId) {
+      if (note.wholeQuestion && note.questionId) {
+        // ★学習記録の「解きなおす」（2026-10-11）★ その大問1つだけを、小問ぜんぶで
+        setReviewFocus(null);
+        handleSelectChapter(target.chapterId, target.questionIndex, false, { startIndex: target.questionIndex, endIndex: target.questionIndex }, 'practice');
+      } else if (subIds.length > 0 && note.questionId) {
         handleSelectChapter(target.chapterId, target.questionIndex, false, { startIndex: target.questionIndex, endIndex: target.questionIndex }, 'practice');
         setReviewFocus({ chapterId: target.chapterId, questionId: String(note.questionId), subQuestionIds: subIds });
       } else {
@@ -1744,6 +1761,8 @@ export default function App() {
                 onBattle={FEATURES.battle ? () => navigateMain('battle') : undefined}
                 onReview={() => { setStudyHubView({ tab: 'today', subjectTab: 'all' }); navigateMain('study_hub'); }}
                 onStudy={() => { setFoundationBackTo('home'); navigateMain('study'); }}
+                /* ★学習記録から「解きなおす／間違えた問題だけ解く」（2026-10-11）★ 復習ノートと同じ入口で、その大問を開く */
+                onRetry={(t) => { void handleReviewNote({ chapterId: t.chapterId, questionId: t.questionId, subQuestionIds: t.wrongOnly ? t.subQuestionIds : undefined, wholeQuestion: !t.wrongOnly }); }}
                 onFoundation={tab => { setFoundationTab(tab); setFoundationBackTo('home'); navigateMain('foundation'); }} />
             </React.Suspense>}
             {appState === 'leaderboard' && FEATURES.ranking && <Leaderboard onBack={() => setAppState('home')} isGuest={isGuest} initialChapterId={selectedChapterId} initialSubject={selectedSubject} onBattle={FEATURES.battle ? () => setAppState('battle') : undefined} />}
@@ -1975,9 +1994,9 @@ export default function App() {
       {/* バナー広告の場所（今は OFF なので何も描かない。src/ads/adConfig.ts で有効にする） */}
       <AdBannerSlot screen={appState === 'battle' && battleActive ? 'battle_live' : appState} />
 
-      {/* ミッション達成のお知らせ（どの画面でも上に出る。受け取りはミッション画面で） */}
+      {/* ミッション達成のお知らせ（どの画面でも上に出る。「報酬を受け取る」はその場で受け取る・2026-10-11） */}
       <React.Suspense fallback={null}>
-        <MissionToast onOpen={() => { setGrowthPage('missions'); navigateMain('growth'); }} />
+        <MissionToast />
       </React.Suspense>
 
     </>

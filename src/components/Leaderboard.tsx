@@ -1,6 +1,6 @@
 import './ranking.css';
 import { useEffect, useState } from 'react';
-import { ArrowLeft, Trophy, RefreshCw, Swords, Shield, Gift } from 'lucide-react';
+import { ArrowLeft, Trophy, RefreshCw, Swords, Shield, Gift, Clock } from 'lucide-react';
 import { onAuthStateChanged } from 'firebase/auth';
 import { FIREBASE_CONFIGURED, USE_EMULATORS, auth } from '../firebase';
 import { LEAGUES, leagueOf, leagueProgress, seasonAt, SEASON_REWARDS, type LeagueId } from '../battle/core/leagues';
@@ -14,12 +14,14 @@ import { ManaClan } from './ManaClan';
 import { ComingSoon } from './ComingSoon';
 import { SOCIAL_FEATURES } from '../config/features';
 import { clanCall } from '../utils/manaClan';
-import { refreshPublicStudyTime, watchPublicStudyProfiles, type PublicStudyProfile } from '../utils/publicStudyProfile';
-import { formatStudyTime } from '../utils/studyTime';
+import { fetchStudyTimeRanking, refreshPublicStudyTime, watchPublicStudyProfiles, type PublicStudyProfile, type StudyTimeRow } from '../utils/publicStudyProfile';
+import { formatStudyTime, readStudyTime } from '../utils/studyTime';
 interface LeaderboardProps { onBack: () => void; initialTab?: 'national' | 'friend' | 'clan'; onRequireLogin?: () => void; isGuest?: boolean; initialChapterId?: string | null; initialSubject?: string; onBattle?: () => void; onGacha?: () => void; }
 export function Leaderboard({ onBack, onBattle, onGacha, initialTab = 'national', onRequireLogin }: LeaderboardProps) {
   const [uid, setUid] = useState(auth.currentUser?.uid ?? '');
   const [tab, setTab] = useState<'national' | 'friend' | 'clan'>(initialTab);
+  /** ★2つのランキング（2026-10-11）★ 対戦レート／学習時間 */
+  const [metric, setMetric] = useState<'rate' | 'time'>('rate');
   const [filter, setFilter] = useState<LeagueId | 'all'>('all');
   const [rows, setRows] = useState<BattleRankingRow[]>([]); const [me, setMe] = useState<BattleRankingRow | null>(null);
   const [error, setError] = useState(''); const [loading, setLoading] = useState(false); const [retry, setRetry] = useState(0);
@@ -28,7 +30,7 @@ export function Leaderboard({ onBack, onBattle, onGacha, initialTab = 'national'
   // ★ゲスト・未設定の環境ではサーバーを呼ばない★（通信エラーをコンソールに出さない・無駄な通信をしない）
   useEffect(() => { if (!uid || (!FIREBASE_CONFIGURED && !USE_EMULATORS)) { setSeasonReady(false); return; } clanCall<{ ready: boolean }>('status').then(r => setSeasonReady(r.ready)).catch(() => setSeasonReady(false)); }, [uid]);
   useEffect(() => {
-    if (tab === 'clan') return;
+    if (tab === 'clan' || metric === 'time') return;
     let alive = true; setLoading(true); setError(''); setRows([]);
     (async () => {
       if (uid) await ensureBattleRankingEntry();
@@ -40,7 +42,7 @@ export function Leaderboard({ onBack, onBattle, onGacha, initialTab = 'national'
       if (alive) { setRows(list.filter(r => filter === 'all' || leagueOf(r.rating).id === filter)); setMe(own); }
     })().catch(() => { if (alive) setError('順位表を取得できませんでした。接続を確認して再読み込みしてください。'); }).finally(() => { if (alive) setLoading(false); });
     return () => { alive = false; };
-  }, [tab, filter, uid, retry]);
+  }, [tab, filter, uid, retry, metric]);
   const visible = useWithoutBlocked<BattleRankingRow>(rows);
   const [profiles, setProfiles] = useState<{viewer: string; data: Record<string, PublicStudyProfile>}>({viewer:'',data:{}});
   const profileIds = visible.map(r=>r.uid).sort().join(',');
@@ -50,6 +52,25 @@ export function Leaderboard({ onBack, onBattle, onGacha, initialTab = 'national'
     void refreshPublicStudyTime().catch(()=>{});
     return watchPublicStudyProfiles(profileIds.split(','), data=>setProfiles({viewer:uid,data}));
   }, [uid, tab, profileIds, retry]);
+  // 学習時間ランキング：公開した人だけ。名前は対戦ランキングの表（公開読み取り）から引く
+  const [timeRows, setTimeRows] = useState<(StudyTimeRow & { nickname: string })[]>([]);
+  useEffect(() => {
+    if (tab === 'clan' || metric !== 'time') return;
+    if (!uid) { setTimeRows([]); setLoading(false); setError(''); return; }
+    let alive = true; setLoading(true); setError(''); setTimeRows([]);
+    (async () => {
+      await refreshPublicStudyTime().catch(() => {});
+      const list = tab === 'friend' ? await fetchStudyTimeRanking(100, await fetchFriendUids(true)) : await fetchStudyTimeRanking(100);
+      const names = list.length ? await fetchFriendBattleRanking(list.map(r => r.uid)).catch(() => [] as BattleRankingRow[]) : [];
+      const nameOf = new Map(names.map(n => [n.uid, n.nickname]));
+      if (alive) setTimeRows(list.map(r => ({ ...r, nickname: nameOf.get(r.uid) || '' })));
+    })().catch(() => { if (alive) setError('順位表を取得できませんでした。接続を確認して再読み込みしてください。'); }).finally(() => { if (alive) setLoading(false); });
+    return () => { alive = false; };
+  }, [tab, uid, retry, metric]);
+  const visibleTime = useWithoutBlocked<StudyTimeRow & { nickname: string }>(timeRows);
+  const timeRankOf = (sec: number) => timeRows.filter(r => r.profile.studySeconds > sec).length + 1;
+  const mySeconds = readStudyTime(uid || 'guest').total;
+  const myTimeRow = timeRows.find(r => r.uid === uid);
   const rankOf = (row: BattleRankingRow) => rows.filter(r => r.rating > row.rating).length + 1;
   const rating = me?.rating ?? 1500; const league = leagueOf(rating); const progress = leagueProgress(rating);
   const fmtDay = (t: number) => new Intl.DateTimeFormat('ja-JP', { timeZone: 'Asia/Tokyo', month: 'numeric', day: 'numeric', weekday: 'short' }).format(t);
@@ -59,11 +80,20 @@ export function Leaderboard({ onBack, onBattle, onGacha, initialTab = 'national'
   return <section className="league-hall" data-rating-ranking>
     <header className="league-header"><button type="button" onClick={onBack} aria-label="ホームへ戻る"><ArrowLeft size={20}/></button><div><small>BATTLE LEAGUES</small><h1><Trophy size={23}/>ランキング</h1></div><button type="button" onClick={() => setRetry(n => n + 1)} disabled={loading} aria-label="ランキングを再読み込み"><RefreshCw size={19}/></button></header>
     {onGacha && <nav className="league-actions" aria-label="ガチャとランキング"><button type="button" onClick={onGacha}><Gift size={18}/>ガチャ</button><button type="button" aria-current="page"><Trophy size={18}/>ランキング</button></nav>}
-    <div className="league-tabs" role="tablist" aria-label="ランキングの種類">{([['national','全国'],['friend','フレンド'],['clan','マナクラン']] as const).map(([id,label]) => <button role="tab" aria-selected={tab === id} key={id} onClick={() => setTab(id)}>{label}{id === 'clan' && !SOCIAL_FEATURES.manaClan && <span className="soon-tag">準備中</span>}</button>)}</div>
-    {tab !== 'clan' && <><section className="league-my-card" style={{ background: league.tint, borderColor: league.color }}><Shield size={28} style={{color:league.color}}/><div><small>{uid ? 'あなたのリーグ' : 'Google連携で公式レートを記録'}</small><strong>{uid ? `${league.label}リーグ` : 'ゲスト・練習モード'}</strong><span>{me ? `${me.wins}勝 ${me.losses}敗 ${me.draws}分` : '初期レート1500・AI戦では変動なし'}</span></div><b>{uid ? rating.toLocaleString() : '—'}<small>レート</small></b></section>
+    {/* ★2026-10-11★ 上：何で競うか（対戦レート／学習時間）、下：だれと（全国／フレンド／マナクラン）。どちらも低く・一覧を広く */}
+    <div className="league-metric mt-segment" role="tablist" aria-label="ランキングの種目">
+      <button role="tab" type="button" aria-selected={metric === 'rate'} onClick={() => setMetric('rate')} data-metric="rate"><Swords size={16} aria-hidden="true"/>対戦レート</button>
+      <button role="tab" type="button" aria-selected={metric === 'time'} onClick={() => { setMetric('time'); if (tab === 'clan') setTab('national'); }} data-metric="time"><Clock size={16} aria-hidden="true"/>学習時間</button>
+    </div>
+    <div className="league-scope-row">
+    <div className="league-tabs" role="tablist" aria-label="ランキングの範囲">{([['national','全国'],['friend','フレンド'],['clan','マナクラン']] as const).filter(([id]) => metric === 'rate' || id !== 'clan').map(([id,label]) => <button role="tab" aria-selected={tab === id} key={id} onClick={() => setTab(id)}>{label}{id === 'clan' && !SOCIAL_FEATURES.manaClan && <span className="soon-tag">準備中</span>}</button>)}</div>
+    {tab !== 'clan' && metric === 'rate' && <label className="league-filter is-inline"><span className="sr-only">リーグで見る</span><select value={filter} onChange={e => setFilter(e.target.value as LeagueId | 'all')} aria-label="リーグで見る"><option value="all">全リーグ</option>{LEAGUES.map(l => <option value={l.id} key={l.id}>{l.label}（{l.min}〜）</option>)}</select></label>}
+    </div>
+    {tab !== 'clan' && metric === 'time' && <section className="league-my-card is-time"><Clock size={26} aria-hidden="true"/><div><small>{uid ? 'あなたの学習時間（演習・解説）' : 'Google連携でランキングに参加'}</small><strong>{formatStudyTime(mySeconds)}</strong><span>{!uid ? 'ゲストは端末の中だけで記録します' : myTimeRow ? `${tab === 'friend' ? 'フレンド' : '全国'}で${timeRankOf(myTimeRow.profile.studySeconds)}位` : '設定で「プロフィールを公開」にすると載ります'}</span></div></section>}
+    {tab !== 'clan' && metric === 'rate' && <><section className="league-my-card" style={{ background: league.tint, borderColor: league.color }}><Shield size={28} style={{color:league.color}}/><div><small>{uid ? 'あなたのリーグ' : 'Google連携で公式レートを記録'}</small><strong>{uid ? `${league.label}リーグ` : 'ゲスト・練習モード'}</strong><span>{me ? `${me.wins}勝 ${me.losses}敗 ${me.draws}分` : '初期レート1500・AI戦では変動なし'}</span></div><b>{uid ? rating.toLocaleString() : '—'}<small>レート</small></b></section>
     {uid && <div className="league-progress"><progress value={progress.ratio} max={1} aria-label="次のリーグへの進捗"/><span>{progress.next ? `${progress.next.label}まであと${progress.remain}` : '最高リーグに到達'}</span></div>}
-    <label className="league-filter">リーグで見る<select value={filter} onChange={e => setFilter(e.target.value as LeagueId | 'all')}><option value="all">すべてのリーグ</option>{LEAGUES.map(l => <option value={l.id} key={l.id}>{l.label}（{l.min}〜）</option>)}</select></label></>}
-    {tab !== 'clan' && <details className="season-card" data-season-card>
+    </>}
+    {tab !== 'clan' && metric === 'rate' && <details className="season-card" data-season-card>
       <summary>
         <span className="season-badge">{season.started ? `シーズン${season.number}` : 'シーズン1'}</span>
         <span className="season-when">{season.started ? `${fmtDay(season.start)}〜${end}（締切 ${end} 0:00）` : `${fmtDay(season.start)} 0:00 スタート`}</span>
@@ -80,9 +110,11 @@ export function Leaderboard({ onBack, onBattle, onGacha, initialTab = 'national'
       </div>
     </details>}
     <div className="league-scroll" tabIndex={0} aria-label="ランキング一覧">
-      {tab === 'clan' ? (SOCIAL_FEATURES.manaClan ? <ManaClan key={uid} onRequireLogin={onRequireLogin}/> : <ComingSoon title="マナクラン">仲間とクランを作って、クラン対抗で競えるようになります。もうすぐ公開します。</ComingSoon>) : <>{loading ? <p role="status">順位表を読み込み中…</p> : error ? <p role="alert" className="league-error">{error}</p> : !rows.length ? <p className="league-empty">{tab === 'friend' && !uid ? 'フレンド順位を見るにはGoogle連携が必要です。' : 'まだこの範囲に対戦記録がありません。'}</p> : <ol className="league-rows">{visible.map(r => { const mine = r.uid === uid; const l = leagueOf(r.rating); const rank = rankOf(r); const profile = profiles.viewer === uid ? profiles.data[r.uid] : undefined; return <li key={r.uid} data-me={mine} data-top={rank <= 3} style={{borderLeftColor:l.color}}><b>{rank <= 3 ? <Trophy size={16} aria-hidden="true"/> : null}{rank}</b><span><strong>{mine ? 'あなた' : displayNicknameForNational(displaySafeNickname(r.nickname), !!profile)}</strong><small style={{color:l.color}}>{l.label} · {r.wins}勝 {r.losses}敗</small>{profile && <small className="league-public-profile" data-public-profile title="公開設定済み・この端末の演習／解説の学習累計（最後に同期した値）">{displaySafePublicText(profile.targetSchool) || '志望校未設定'} · 学習 {formatStudyTime(profile.studySeconds)}{profile.stagesCleared != null ? ` · 達成 ${profile.stagesCleared}` : ''}{profile.level != null ? ` · Lv.${profile.level}` : ''}</small>}{profile?.motto && <small className="league-public-motto" data-public-motto>「{displaySafePublicText(profile.motto)}」</small>}</span>{!mine && <UserSafetyMenu target={{uid:r.uid,nickname:displaySafeNickname(r.nickname),where:'ranking'}}/>}<em>{r.rating.toLocaleString()}<small>レート</small></em></li>; })}</ol>}
+      {tab !== 'clan' && metric === 'time' ? <>{!uid ? <p className="league-empty">学習時間ランキングを見るにはGoogle連携が必要です。</p> : loading ? <p role="status">順位表を読み込み中…</p> : error ? <p role="alert" className="league-error">{error}</p> : !visibleTime.length ? <p className="league-empty">まだ公開している人がいません。設定で「プロフィールを公開」にすると、ここに載ります。</p> : <ol className="league-rows" data-time-ranking>{visibleTime.map(r => { const mine = r.uid === uid; const rank = timeRankOf(r.profile.studySeconds); return <li key={r.uid} data-me={mine} data-top={rank <= 3}><b>{rank <= 3 ? <Trophy size={16} aria-hidden="true"/> : null}{rank}</b><span><strong>{mine ? 'あなた' : displayNicknameForNational(displaySafeNickname(r.nickname || 'なまえ未設定'), true)}</strong><small className="league-public-profile">{displaySafePublicText(r.profile.targetSchool) || '志望校未設定'}{r.profile.level != null ? ` · Lv.${r.profile.level}` : ''}</small>{r.profile.motto && <small className="league-public-motto">「{displaySafePublicText(r.profile.motto)}」</small>}</span>{!mine && <UserSafetyMenu target={{uid:r.uid,nickname:displaySafeNickname(r.nickname),where:'ranking'}}/>}<em className="is-time">{formatStudyTime(r.profile.studySeconds)}</em></li>; })}</ol>}
+        <details className="league-info"><summary>学習時間ランキングについて</summary><p>演習・解説の画面を開いて学んだ時間の累計です（1分間なにも操作がない時間は数えません）。</p><p>「設定」でプロフィールを公開した人だけが載ります。公開をやめると、すぐに一覧から消えます。</p></details></>
+      : tab === 'clan' ? (SOCIAL_FEATURES.manaClan ? <ManaClan key={uid} onRequireLogin={onRequireLogin}/> : <ComingSoon title="マナクラン">仲間とクランを作って、クラン対抗で競えるようになります。もうすぐ公開します。</ComingSoon>) : <>{loading ? <p role="status">順位表を読み込み中…</p> : error ? <p role="alert" className="league-error">{error}</p> : !rows.length ? <p className="league-empty">{tab === 'friend' && !uid ? 'フレンド順位を見るにはGoogle連携が必要です。' : 'まだこの範囲に対戦記録がありません。'}</p> : <ol className="league-rows">{visible.map(r => { const mine = r.uid === uid; const l = leagueOf(r.rating); const rank = rankOf(r); const profile = profiles.viewer === uid ? profiles.data[r.uid] : undefined; return <li key={r.uid} data-me={mine} data-top={rank <= 3} style={{borderLeftColor:l.color}}><b>{rank <= 3 ? <Trophy size={16} aria-hidden="true"/> : null}{rank}</b><span><strong>{mine ? 'あなた' : displayNicknameForNational(displaySafeNickname(r.nickname), !!profile)}</strong><small style={{color:l.color}}>{l.label} · {r.wins}勝 {r.losses}敗</small>{profile && <small className="league-public-profile" data-public-profile title="公開設定済み・この端末の演習／解説の学習累計（最後に同期した値）">{displaySafePublicText(profile.targetSchool) || '志望校未設定'} · 学習 {formatStudyTime(profile.studySeconds)}{profile.stagesCleared != null ? ` · 達成 ${profile.stagesCleared}` : ''}{profile.level != null ? ` · Lv.${profile.level}` : ''}</small>}{profile?.motto && <small className="league-public-motto" data-public-motto>「{displaySafePublicText(profile.motto)}」</small>}</span>{!mine && <UserSafetyMenu target={{uid:r.uid,nickname:displaySafeNickname(r.nickname),where:'ranking'}}/>}<em>{r.rating.toLocaleString()}<small>レート</small></em></li>; })}</ol>}
       <details className="league-info"><summary>5つのリーグと隔週プレゼント</summary><ul>{LEAGUES.map((l,i) => <li key={l.id} style={{color:l.color}}><strong>{l.label}</strong> {l.min}〜{LEAGUES[i+1] ? LEAGUES[i+1].min-1 : '上限なし'}</li>)}</ul><p>志望校・学習時間は「設定」で公開を選んだ人だけ表示します。学習時間は最後に同期した端末の演習・解説の累計で、対戦レートや聞く力の測定値ではありません。</p><p>得点ではなく対戦レートで順位が決まります。同レートは同順位。表示は上位100名までです。</p><p>{`シーズンは2週間ごと（シーズン1は10月16日(金) 0:00 開始）。次の締切 ${end}。もらえるものは上の「シーズン」を開くと見られます。同順位は同じ扱いです。`}</p><p>報酬はマイページの「プレゼント」に届きます。集計方法・メンバー別貢献値は非公開です。</p></details></>}
     </div>
-    {tab !== 'clan' && <footer className="league-footer"><span>{me && rows.some(r => r.uid === uid) ? `この範囲で${rankOf(me)}位` : me ? '上位表示の圏外／別リーグ' : '公式戦でレートを記録しよう'}</span>{onBattle && <button type="button" onClick={onBattle}><Swords size={18}/>対戦へ</button>}</footer>}
+    {tab !== 'clan' && metric === 'rate' && <footer className="league-footer"><span>{me && rows.some(r => r.uid === uid) ? `この範囲で${rankOf(me)}位` : me ? '上位表示の圏外／別リーグ' : '公式戦でレートを記録しよう'}</span>{onBattle && <button type="button" onClick={onBattle}><Swords size={18}/>対戦へ</button>}</footer>}
   </section>;
 }

@@ -176,3 +176,16 @@
 .mypage-parts li[data-removable] > button[data-part] { padding-right:72px; min-height:54px; }
 .mypage-parts button.mypage-part-off { position:absolute; top:50%; right:5px; transform:translateY(-50%); width:auto; min-height:44px; min-width:60px; padding:0 8px; justify-content:center; gap:2px; border:1.5px solid #c9a85a; border-radius:11px; background:#fff; color:#7a4b12; font-size:12px; font-weight:800; }
 @media (min-width: 720px) { .mypage-parts button.mypage-part-off { min-height:40px !important; right:6px; } }
+
+/* 2026-10-11：広告ありの背の低い端末で「ほっぺ・オーラ・壁紙」が広告の裏に隠れていた → 部位を3列に、とびら君を少し小さく */
+@media (max-width: 719px) and (max-height: 860px) {
+  :root[data-ad-banner=true] .mypage-hub .mana-hub-header { min-height: 44px; padding: 4px 12px; }
+  :root[data-ad-banner=true] .mypage-stage { padding: 6px 10px; gap: 2px; margin-bottom: 6px; }
+  :root[data-ad-banner=true] .mypage-stage-avatar { transform: scale(.72); margin: -18px 0; }
+  :root[data-ad-banner=true] .mypage-parts h2 { margin-bottom: 4px; }
+  :root[data-ad-banner=true] .mypage-parts ul { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 5px; }
+  :root[data-ad-banner=true] .mypage-parts li:last-child:nth-child(odd) { grid-column: auto; }
+  :root[data-ad-banner=true] .mypage-parts button { min-height: 44px; padding: 4px 8px; flex-direction: column; align-items: flex-start; justify-content: center; gap: 0; }
+  :root[data-ad-banner=true] .mypage-parts button > svg { display: none; }
+  :root[data-ad-banner=true] .mypage-part-cur { text-align: left; width: 100%; }
+}

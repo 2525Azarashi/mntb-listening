@@ -30,3 +30,10 @@
 .mission-toast-body small { font-size: 12px; }
 .mission-toast-claim { min-height: 44px; font-size: 13px; }
 .mission-toast-close { width: 44px; height: 44px; }
+/* 2026-10-11：その場で受け取る */
+.mission-toast-claim { white-space: nowrap; }
+.mission-toast-claim:disabled { opacity: .7; }
+.mission-toast.is-claimed { background: linear-gradient(135deg,#f1fbf4,#d8f1e1); border-color: #3e9a62; color: #1f5a37; }
+.mission-toast.is-claimed .mission-toast-icon { background: #3e9a62; box-shadow: 0 0 0 4px #e3f6ea; }
+.mission-toast.is-claimed .mission-toast-body strong { color: #2f7a52; font-size: 15px; }
+.mission-toast.is-claimed .mission-toast-body small { color: #2f6a48; }

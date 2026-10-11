@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Coins, ChevronRight } from 'lucide-react';
-import { StudyRecord } from './StudyRecord';
+import { StudyRecord, type StudyRetry } from './StudyRecord';
 import { LevelRewards } from './LevelRewards';
 import { itemById, equippedTitleLabel, canUnequip, type EquipKind, type MissionDestination } from '../battle/core/growth';
 import { unequip } from '../battle/data/growthStore';
@@ -15,11 +15,13 @@ import { BattleProfile } from '../battle/ui/BattleProfile';
 import './growth-hub.css';
 const PARTS = [['pose','ポーズ'],['frame','フレーム'],['hat','帽子'],['glasses','メガネ'],['cheek','ほっぺ'],['aura','オーラ'],['wallpaper','壁紙']] as const;
 export type GrowthPage = 'overview' | 'gacha' | 'shop' | 'outfit' | 'prints' | 'rewards' | 'badges' | 'stats' | 'missions' | 'rush';
-export function GrowthHub({ page, onPage, onBack, onBattle, onReview, onRanking, defaultSubject, onStudy, onFoundation }: {
+export function GrowthHub({ page, onPage, onBack, onBattle, onReview, onRanking, defaultSubject, onStudy, onFoundation, onRetry }: {
   page: GrowthPage; onPage: (page: GrowthPage) => void; onBack: () => void;
   /** ミッションの行き先：演習する（教科選び）／英単語の4択・単語帳 */
   onStudy?: () => void; onFoundation?: (tab: 'words' | 'quiz') => void;
   onBattle?: () => void; onReview: () => void; onRanking?: () => void; defaultSubject?: string;
+  /** 学習記録から、その大問を解きなおす（間違えた小問だけにも絞れる） */
+  onRetry?: (t: StudyRetry) => void;
 }) {
   const { progress, uid } = useGrowthProgress();
   const [outfitKind, setOutfitKind] = useState('all');
@@ -57,7 +59,7 @@ export function GrowthHub({ page, onPage, onBack, onBattle, onReview, onRanking,
       </section>
       {/* 「レベルで手に入るもの」はミッションの中へ移した（マイページをスクロールなしで1画面に収める・2026-10-05） */}
     </main> : page === 'outfit' || page === 'prints' || page === 'shop' || page === 'rewards' ? <MyCollection key={`${uid}:${page}:${outfitKind}`} view={page === 'outfit' || page === 'rewards' ? 'owned' : page} initialKind={page === 'outfit' ? outfitKind : 'all'} onGacha={()=>onPage('gacha')}/>
-    : page === 'stats' ? <div className="mypage-extra-scroll"><StudyRecord embedded onBack={()=>onPage('overview')} onReview={onReview}/></div>
+    : page === 'stats' ? <div className="mypage-extra-scroll"><StudyRecord embedded onReview={onReview} onRetry={onRetry}/></div>
     : page === 'missions' ? <div className="mypage-extra-scroll"><BattleMissions key={uid} standalone onBack={()=>onPage('overview')} onBattle={onBattle} onReview={onReview} onShop={()=>onPage('shop')} onRush={()=>onPage('rush')} extra={progress ? <LevelRewards progress={progress} /> : null} onGo={goMission}/></div>
     : <div className="mypage-extra-scroll"><BattleProfile key={`${uid}:${page}`} standalone initialTab={page} onBack={()=>onPage('overview')}/></div>}
     </div>

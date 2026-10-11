@@ -78,6 +78,21 @@
           "order": "ASCENDING"
         }
       ]
+    },
+    {
+      "//": "学習時間ランキング：公開した人を学習時間の長い順に（src/utils/publicStudyProfile.ts fetchStudyTimeRanking）。無いときは上限つきで読んで端末で並べる。",
+      "collectionGroup": "public_study_profiles",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "public",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "studySeconds",
+          "order": "DESCENDING"
+        }
+      ]
     }
   ],
   "fieldOverrides": []
