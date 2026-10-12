@@ -213,6 +213,8 @@ export function Explanation({ mode: initialMode, chapter, answers, onBack, onRet
   // 要件①「この単元の思考の型」は単元につき1回だけ・採点結果の直後・折りたたみで出す。
   // 初期状態は閉じる（画面を圧迫させず、必要な人だけ開ける）。
   const [kataOpen, setKataOpen] = useState(false);
+  /** PC のリスニングでは思考の型を最初から開く。利用者が閉じたら閉じたまま */
+  const [kataClosedByUser, setKataClosedByUser] = useState(false);
   const [savingNote, setSavingNote] = useState<Record<string, boolean>>({});
   // スマホ/PC判定は共有フックに一元化（md=768px 未満をスマホとみなす）。
   // isMobileView が渡された場合（スマホプレビュー枠）はそれを優先する。
@@ -493,14 +495,26 @@ export function Explanation({ mode: initialMode, chapter, answers, onBack, onRet
    * PC は md: 指定と非スマホ分岐で従来の見た目を維持する。
    */
   const kataCompact = isMobile && singleQuestionIndex !== undefined;
+  /**
+   * ★PC版のリスニング解答・解説（2026-10-12 PC大改訂）★
+   *   「スクロールをできるだけ減らす」「スマホでは畳んでいたもの（本当は1画面に置きたかったもの）を
+   *     PCでは1画面に出す」ためのフラグ。
+   *   ・左：音源＋読み方つきスクリプト（従来どおり）
+   *   ・右：問題画面と同じ選択肢に正誤（スマホと同じ形）＋解説を最初から開いて表示
+   *         画面が広い（1280px〜）ときは右をさらに2列にし、
+   *         「大問の流れ・共通ポイント」「この単元の思考の型」「周辺知識・深掘り」を右列に開いて並べる
+   *   ・右側にあった2つ目の再生帯は、左の音源と重複するので出さない（UI原則2：同じものを2つ置かない）
+   */
+  const pcListening = !isMobile && singleQuestionIndex !== undefined && questions.length === 1 && textTracksOf(questions[0]).length > 0;
+  const kataIsOpen = kataOpen || (pcListening && !kataClosedByUser);
 
   const kataAccordion = unitKataBlock ? (
     <div className={`rounded-xl border overflow-hidden ${mode === 'mini_test' ? 'border-pink-200 bg-pink-50/40' : 'border-[#D9466E]/40 bg-[#D9466E]/10'}`}>
       <button
         type="button"
-        onClick={() => setKataOpen(prev => !prev)}
-        aria-expanded={kataOpen}
-        aria-label={`この単元の思考の型を${kataOpen ? '閉じる' : '開く'}`}
+        onClick={() => { if (kataIsOpen) { setKataOpen(false); setKataClosedByUser(true); } else { setKataOpen(true); } }}
+        aria-expanded={kataIsOpen}
+        aria-label={`この単元の思考の型を${kataIsOpen ? '閉じる' : '開く'}`}
         className={`w-full flex items-center justify-between text-left transition-colors ${kataCompact ? 'gap-2 px-2.5 py-1.5' : 'gap-3 px-3 py-2.5 md:px-4 md:py-3'} ${mode === 'mini_test' ? 'hover:bg-pink-100/70' : 'hover:bg-[#D9466E]/20'}`}
       >
         <span className={`font-bold flex items-center flex-wrap ${kataCompact ? 'gap-1.5 text-[11px]' : 'gap-2 text-xs md:text-sm'} ${mode === 'mini_test' ? 'text-[#B03A5B]' : 'text-[#F4A9C4]'}`}>
@@ -513,11 +527,11 @@ export function Explanation({ mode: initialMode, chapter, answers, onBack, onRet
           )}
         </span>
         <span className={`flex items-center gap-1 shrink-0 font-bold ${kataCompact ? 'text-[10px]' : 'text-[10px] md:text-xs'} ${mode === 'mini_test' ? 'text-[#B03A5B]' : 'text-[#F4A9C4]'}`}>
-          {!kataCompact && <span>{kataOpen ? '閉じる' : '開く'}</span>}
-          <ChevronDown size={kataCompact ? 14 : 16} className={`transition-transform duration-300 ${kataOpen ? 'rotate-180' : ''}`} />
+          {!kataCompact && <span>{kataIsOpen ? '閉じる' : '開く'}</span>}
+          <ChevronDown size={kataCompact ? 14 : 16} className={`transition-transform duration-300 ${kataIsOpen ? 'rotate-180' : ''}`} />
         </span>
       </button>
-      {kataOpen && (
+      {kataIsOpen && (
         <div className={`px-3 pb-3 md:px-4 md:pb-4 border-t ${mode === 'mini_test' ? 'border-pink-200 bg-white' : 'border-[#D9466E]/30 bg-[#0B132B]/50'}`}>
           <ExplanationBody
             text={unitKataBlock}
@@ -1710,7 +1724,9 @@ export function Explanation({ mode: initialMode, chapter, answers, onBack, onRet
             ? "grid grid-cols-1 lg:grid-cols-2 gap-6 p-4 sm:p-6 md:p-8"
             : isResultView
               ? "grid grid-cols-1 lg:grid-cols-[minmax(0,1.38fr)_minmax(0,1fr)] gap-6 p-0 items-start"
-              : "grid grid-cols-1 lg:grid-cols-[minmax(0,1.38fr)_minmax(0,1fr)] gap-6 p-0 h-full flex-1 overflow-hidden"
+              : pcListening
+                ? "grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] xl:grid-cols-[minmax(0,0.92fr)_minmax(0,1.6fr)] gap-6 p-0 h-full flex-1 overflow-hidden"
+                : "grid grid-cols-1 lg:grid-cols-[minmax(0,1.38fr)_minmax(0,1fr)] gap-6 p-0 h-full flex-1 overflow-hidden"
           }>
             
             {/* LEFT COLUMN: Problem statements and flowcharts
@@ -2052,12 +2068,12 @@ export function Explanation({ mode: initialMode, chapter, answers, onBack, onRet
               // 下部固定ナビ（問題に戻る/次の問題へ）に最後のカードが隠れない
               // よう、下余白を大きめに取る。
               ? 'order-2 px-3 pt-3 pb-[calc(6rem+env(safe-area-inset-bottom))]'
-              : 'pb-8'} ${isResultView ? '' : 'lg:overflow-y-auto lg:h-full'}`}>
+              : 'pb-8'} ${isResultView ? '' : 'lg:overflow-y-auto lg:h-full'}${pcListening ? ' lx-pc-right' : ''}`}>
               {questions.length > 0 ? (
                 questions.map((question: any, qIndex: number) => {
                 return (
-                  <div key={`right-${question.id}`} className={reorderMobile ? 'space-y-2' : 'space-y-6'}>
-                    <div className={reorderMobile ? 'space-y-2' : 'space-y-6 md:space-y-8'}>
+                  <div key={`right-${question.id}`} className={reorderMobile ? 'space-y-2' : pcListening ? 'space-y-6 lx-pc-flat' : 'space-y-6'}>
+                    <div className={reorderMobile ? 'space-y-2' : pcListening ? 'space-y-6 md:space-y-8 lx-pc-flat' : 'space-y-6 md:space-y-8'}>
                       {(() => {
                         const selfGradeSqs = question.subQuestions.filter((sq: any) => sq.type === 'descriptive');
                         // 客観問題は「元の並び順（ア→イ→ウ…）」のまま表示する。
@@ -2448,7 +2464,7 @@ export function Explanation({ mode: initialMode, chapter, answers, onBack, onRet
                             )}
 
                             {objectiveSqs.length > 0 && (
-                              <div className={`${reorderMobile ? 'space-y-2' : 'space-y-3 md:space-y-4'} ${reorderMobile && textTracksOf(question).length > 0 ? 'mt-0' : 'mt-6'}`}>
+                              <div className={`${reorderMobile ? 'space-y-2' : 'space-y-3 md:space-y-4'} ${(reorderMobile || pcListening) && textTracksOf(question).length > 0 ? 'mt-0' : 'mt-6'}${pcListening ? ' lx-pc-main' : ''}`}>
                                 {/*
                                   見出し：採点結果（正誤の内訳を小さく併記）
 
@@ -2510,7 +2526,7 @@ export function Explanation({ mode: initialMode, chapter, answers, onBack, onRet
                                 </div>
 
                                 {/* 要件①：「この単元の思考の型」を採点結果の直後に1回だけ（折りたたみ） */}
-                                {qIndex === 0 && kataAccordion}
+                                {qIndex === 0 && !pcListening && kataAccordion}
 
                                 {/* ★リスニング：採点結果のすぐ下でも音声を聞き直せるようにする
                                     （ご要望「解答等解説のところで、音声が聞けるようにボタンを用意してほしい」）。
@@ -2564,7 +2580,7 @@ export function Explanation({ mode: initialMode, chapter, answers, onBack, onRet
                                     プレーヤーに渡す設定（compact / alwaysOpenScript など）は
                                     一切変えていない。並べ替えだけで、項目は1つも消していない。
                                 */}
-                                {!reorderMobile && audioPlayerBlock}
+                                {!reorderMobile && !pcListening && audioPlayerBlock}
 
                                 {/* ★スマホの1問ごとの答え合わせ：
                                       「全ての問いのあってるか間違ってるかだけ出して、
@@ -2573,7 +2589,7 @@ export function Explanation({ mode: initialMode, chapter, answers, onBack, onRet
                                     灰＝未解答のチップを一覧で並べ、タップした問だけ
                                     詳細カード（解答・解説）を下に表示する。
                                     一覧は常に見えるので「どこを間違えたか」がひと目で分かる。 */}
-                                {reorderMobile && listeningTracks.length > 0 ? (
+                                {(reorderMobile || pcListening) && listeningTracks.length > 0 ? (
                                   /* ★リスニングの解説（スマホ）：1画面で完結させる（2026-09-30 利用者の要望）★
                                      「上に再生があるのに下にもう一度再生ボタンは要らない。
                                        この1画面に解説とスクリプトを持ってきたい。詳細解説はボタンで伸びればいい」
@@ -2581,7 +2597,7 @@ export function Explanation({ mode: initialMode, chapter, answers, onBack, onRet
                                      ・問ごとに「○×・あなたの答え→正解」を1行で出す
                                      ・その下にスクリプトと和訳を直接出す（押さなくても読める）
                                      ・解説／思考手順／押さえたい表現はタップで開く */
-                                  <div className="lx-compact" data-listening-explanation>
+                                  <div className={`lx-compact${pcListening ? ' is-pc' : ''}`} data-listening-explanation>
                                     {/* ★2026-10-02 夜（ご指摘）：問題画面と同じ選択肢の並びの上に、
                                          正解（緑）・自分が選んだ不正解（赤）を直接つける。
                                          「問題は固定で、今の選択肢のところに合ってるか間違ってるか」 */}
@@ -2636,7 +2652,8 @@ export function Explanation({ mode: initialMode, chapter, answers, onBack, onRet
                                         </section>
                                       );
                                     })}
-                                    {listeningTracks.map((track: any) => (
+                                    {/* PC はスクリプトを左の音源パネルに出しているので、ここでは出さない（同じものを2つ置かない） */}
+                                    {!pcListening && listeningTracks.map((track: any) => (
                                       <section key={`lx-script-${track.subId}`} className="lx-script" aria-label={`${track.label} のスクリプト`}>
                                         {listeningTracks.length > 1 && <h5>{track.label}</h5>}
                                         <ListeningEvidenceScript track={track} collapsiblePhrases showHint={false} />
@@ -2644,7 +2661,8 @@ export function Explanation({ mode: initialMode, chapter, answers, onBack, onRet
                                     ))}
                                     {objectiveSqs.map((sq: any) => {
                                       const slice = stripScriptBox(sliceForSq(sq));
-                                      const open = openExplanationBySq[sq.id] || false;
+                                      // PC は最初から開いておく（閉じたら閉じたまま）
+                                      const open = openExplanationBySq[sq.id] ?? pcListening;
                                       const sqIdx = ((question?.subQuestions || []) as any[]).indexOf(sq);
                                       const marker = answerCardMarker(sq, sqIdx < 0 ? 0 : sqIdx, question);
                                       const theme = sq.detailedExplanation?.theme;
@@ -2745,15 +2763,15 @@ export function Explanation({ mode: initialMode, chapter, answers, onBack, onRet
                               </div>
                             )}
 
-                            {sharedExplanation.trim() && reorderMobile && listeningTracks.length > 0 && (
-                              <details className="lx-fold lx-fold-shared">
+                            {sharedExplanation.trim() && (reorderMobile || pcListening) && listeningTracks.length > 0 && (
+                              <details className="lx-fold lx-fold-shared" open={pcListening || undefined}>
                                 <summary><Lightbulb size={16} aria-hidden="true" /><span className="lx-lbl-long">大問全体の流れ・共通ポイント</span><span className="lx-lbl-short">大問の流れ</span><ChevronDown size={18} aria-hidden="true" /></summary>
                                 <div className={`lx-fold-body ${explBodyBaseClass}`}>
                                   <ExplanationBody text={sharedExplanation} tone="light" prose={isEnglishChapter} className={`${explBodyFontClass} text-gray-700`} />
                                 </div>
                               </details>
                             )}
-                            {sharedExplanation.trim() && !(reorderMobile && listeningTracks.length > 0) && (
+                            {sharedExplanation.trim() && !((reorderMobile || pcListening) && listeningTracks.length > 0) && (
                               <div className={`mt-6 rounded-xl border p-4 md:p-5 ${explBodyBaseClass} ${mode === 'mini_test' ? 'bg-gray-50 border-gray-200' : 'bg-[#0B132B]/80 border-[#3A506B]/50'}`}>
                                 <h4 className={`text-sm md:text-base mb-3 flex items-center gap-2 border-b-2 pb-2 ${mode === 'mini_test' ? 'text-emerald-700 border-emerald-200' : 'text-[#5BC0BE] border-[#3A506B]/50'}`}>
                                   <Lightbulb className={`w-4 h-4 ${mode === 'mini_test' ? 'text-amber-500' : 'text-[#F9E79F]'}`} />
@@ -2818,7 +2836,9 @@ export function Explanation({ mode: initialMode, chapter, answers, onBack, onRet
           )}
 
           {/* Surrounding Knowledge / Deep Dive (from all questions) */}
-          <div className={reorderMobile ? 'lx-extra-wrap pb-3 space-y-2' : 'p-4 sm:p-6 md:p-8 space-y-8'}>
+          <div className={reorderMobile ? 'lx-extra-wrap pb-3 space-y-2' : pcListening ? 'lx-pc-side' : 'p-4 sm:p-6 md:p-8 space-y-8'}>
+            {/* PC のリスニング：この単元の思考の型は右列の先頭に（開いた状態で） */}
+            {pcListening && kataAccordion}
             {questions.map((question: any, qIndex: number) => {
               const hasKnowledge = question.surroundingKnowledge && question.surroundingKnowledge.length > 0;
               const hasDeepDive = question.deepDiveTopics && question.deepDiveTopics.length > 0;
@@ -2826,11 +2846,11 @@ export function Explanation({ mode: initialMode, chapter, answers, onBack, onRet
               if (!hasKnowledge && !hasDeepDive) return null;
 
               // ★スマホのリスニング解説：周辺知識・深掘りも「押したら開く」（1画面で完結させる）
-              const foldExtras = reorderMobile && textTracksOf(question).length > 0;
+              const foldExtras = (reorderMobile || pcListening) && textTracksOf(question).length > 0;
               const ExtraWrap: any = foldExtras ? 'details' : 'div';
               const ExtraInner: any = foldExtras ? 'div' : React.Fragment;
               return (
-                <ExtraWrap key={`extra-${question.id}`} className={foldExtras ? 'lx-fold lx-fold-extra' : 'space-y-6'}>
+                <ExtraWrap key={`extra-${question.id}`} className={foldExtras ? 'lx-fold lx-fold-extra' : 'space-y-6'} {...(foldExtras && pcListening ? { open: true } : {})}>
                   {foldExtras && <summary><BookOpen size={16} aria-hidden="true" /><span className="lx-lbl-long">周辺知識・深掘り</span><span className="lx-lbl-short">周辺知識</span><ChevronDown size={18} aria-hidden="true" /></summary>}
                   <ExtraInner {...(foldExtras ? { className: 'lx-fold-body space-y-6' } : {})}>
                   <div className={`flex items-center gap-3 border-b pb-2 ${mode === 'mini_test' ? 'border-gray-200' : 'border-[#3A506B]/30'}`}>

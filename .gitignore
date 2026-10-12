@@ -44,3 +44,4 @@ android/key.properties
 ios/App/App/GoogleService-Info.plist
 android/app/google-services.json
 .DS_Store
+zz_uicheck/

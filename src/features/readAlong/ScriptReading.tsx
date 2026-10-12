@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Mic, SlidersHorizontal } from 'lucide-react';
-import { loadReadAlong, type RaWord, type ReadAlong } from './readAlong';
+import { loadReadAlong, wordAt, type RaWord, type ReadAlong } from './readAlong';
 import { AnnotLegend, AnnotToggles, AnnotatedScript, useAnnotOpts } from './AnnotatedScript';
 import { DictationTip, ReadAlongStudio } from './ReadAlongStudio';
 import { locateListeningEvidence } from '../../utils/listeningExplanation';
@@ -34,6 +34,60 @@ function evidenceOf(data: ReadAlong, texts: string[], phrases: string[]): Map<nu
   return out;
 }
 
+
+/**
+ * いま読まれている単語（2026-10-12）
+ *   音読練習を開かなくても、上の［▶問N］などで音源を流すと、スクリプトの中で
+ *   いま読まれている単語（と語群）が光るようにする。
+ *   ページ内の <audio> のうち、この音源（audioUrl）を鳴らしているものを捕まえて時刻を追う。
+ *   どのプレーヤーが鳴らしているかに依存しないよう、document の play/pause を capture で拾う。
+ */
+function sameSrc(el: HTMLAudioElement, url: string) {
+  const src = el.currentSrc || el.src || el.getAttribute('src') || '';
+  if (!src) return false;
+  try { return new URL(src, location.href).pathname === new URL(url, location.href).pathname; } catch { return src.endsWith(url); }
+}
+function useLiveWord(audioUrl: string | undefined, data: ReadAlong | null | undefined): number {
+  const [cur, setCur] = useState(-1);
+  useEffect(() => {
+    if (!audioUrl || !data) return;
+    let raf = 0; let el: HTMLAudioElement | null = null; let last = -2;
+    const tick = () => {
+      if (!el || el.paused || el.ended) { raf = 0; return; }
+      const idx = wordAt(data.words, el.currentTime * 1000);
+      if (idx !== last) { last = idx; setCur(idx); }
+      raf = requestAnimationFrame(tick);
+    };
+    const start = (a: HTMLAudioElement) => { el = a; if (!raf) raf = requestAnimationFrame(tick); };
+    const onPlay = (e: Event) => {
+      const a = e.target;
+      if (!(a instanceof HTMLAudioElement)) return;
+      if (sameSrc(a, audioUrl)) start(a);
+      else if (el) { el = null; last = -2; setCur(-1); } // ほかの音源に切り替わった
+    };
+    const onStop = (e: Event) => {
+      if (e.target !== el) return;
+      // 最後まで流れた・最初に戻された → 光を消す。一時停止なら位置を残す
+      if (e.type === 'ended' || (el && el.currentTime === 0)) { last = -2; setCur(-1); }
+    };
+    const onSeek = (e: Event) => { if (e.target === el && el) { const idx = wordAt(data.words, el.currentTime * 1000); last = idx; setCur(el.currentTime === 0 ? -1 : idx); } };
+    document.addEventListener('play', onPlay, true);
+    document.addEventListener('pause', onStop, true);
+    document.addEventListener('ended', onStop, true);
+    document.addEventListener('seeked', onSeek, true);
+    // 開いた時点ですでに鳴っている場合
+    document.querySelectorAll('audio').forEach(a => { if (!a.paused && sameSrc(a, audioUrl)) start(a); });
+    return () => {
+      cancelAnimationFrame(raf);
+      document.removeEventListener('play', onPlay, true);
+      document.removeEventListener('pause', onStop, true);
+      document.removeEventListener('ended', onStop, true);
+      document.removeEventListener('seeked', onSeek, true);
+    };
+  }, [audioUrl, data]);
+  return cur;
+}
+
 interface Track { subId: string; label: string; audioUrl?: string; script: string; turns?: { who: string; text: string }[]; translation?: string; keyPhrases?: { phrase: string }[] }
 
 export function ScriptReading({ track, fallback, after, compact = false }: { track: Track; fallback: React.ReactNode; after?: React.ReactNode; compact?: boolean }) {
@@ -45,6 +99,8 @@ export function ScriptReading({ track, fallback, after, compact = false }: { tra
   const [settings, setSettings] = useState(false);
   const audio = useRef<HTMLAudioElement | null>(null);
   const stopAt = useRef<number | null>(null);
+  const cur = useLiveWord(track.audioUrl, data);
+  const curChunk = cur >= 0 && data ? data.words[cur]?.chunk ?? -1 : -1;
 
   useEffect(() => { let alive = true; loadReadAlong(track.audioUrl).then(d => { if (alive) setData(d); }); return () => { alive = false; }; }, [track.audioUrl]);
   const evidence = useMemo(() => (data ? evidenceOf(data, track.turns?.length ? track.turns.map(t => t.text) : [track.script], (track.keyPhrases ?? []).map(k => k.phrase)) : new Map()), [data, track]);
@@ -72,7 +128,7 @@ export function ScriptReading({ track, fallback, after, compact = false }: { tra
   return <div className={`ra-inline${compact ? ' is-compact' : ''}`} data-script-reading>
     {on ? <>
       <div className="ra-inline-text">
-        <AnnotatedScript data={data} opts={opts} pickedId={picked} onWord={playWord} evidence={evidence} />
+        <AnnotatedScript data={data} opts={opts} cur={cur} curChunk={curChunk} pickedId={picked} onWord={playWord} evidence={evidence} />
       </div>
       <AnnotLegend opts={opts} />
     </> : fallback}

@@ -199,3 +199,5 @@
 .ra-dtip ol { margin: 0; padding: 0 12px 10px 30px; display: grid; gap: 4px; font-size: 13px; line-height: 1.6; color: #3e4c5b; }
 .ra-dtip ol b { color: #1c2a39; }
 .ra-studio .ra-dtip { margin: 4px 10px; }
+/* 2026-10-12 PC：記号の見方は横スクロールに隠さず折り返して全部見せる（スマホは1行のまま） */
+@media (min-width: 1024px) { .ra-inline .ra-key { flex-wrap: wrap; overflow: visible; white-space: normal; } }
