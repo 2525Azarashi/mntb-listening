@@ -114,3 +114,72 @@
 .launch-emblem h1 { font: 900 clamp(22px, 6vw, 30px)/1.4 var(--mt-font-display); letter-spacing: .02em; color: var(--mt-ink, #1f2d3d); }
 .launch-emblem h1 em, .launch-copy em { font-style: normal; color: #c25a0c; }
 .launch-copy-break { display: inline; }
+
+/* ===== 2026-10-12 パソコン版タイトル画面（PC 大改訂） =====
+ * スマホは縦1列のまま。PC（横 1024px 以上）では
+ *   左：とびら君のステージ（大きく） / 右：ロゴ → コピー → 説明 → できること（カード） → はじめる
+ * の2カラムにする。スマホ向けの「細い縦長カラムを真ん中に置いただけ」を解消する。
+ * スマホでだけ要らない要素（説明文・残り日数・Enter の案内）は PC でだけ出す。 */
+.launch-lead, .launch-countdown-mini, .launch-kbd { display: none; }
+.launch-chips li > span { display: contents; }
+.launch-chips li small { display: none; }
+
+@media (min-width: 1024px) and (min-height: 560px) {
+  .launch-screen { background:
+      radial-gradient(1200px 700px at 22% 55%, #fffaf0 0%, rgba(255,250,240,0) 60%),
+      var(--mt-paper); }
+  .launch-content {
+    display: grid; width: min(1240px, 100%); height: 100dvh; min-height: 560px;
+    grid-template-columns: minmax(0, 1.05fr) minmax(420px, 1fr);
+    grid-template-rows: auto 1fr auto auto auto auto auto 1fr;
+    grid-template-areas:
+      "top    top"
+      "stage  ."
+      "stage  brand"
+      "stage  copy"
+      "stage  lead"
+      "stage  chips"
+      "stage  actions"
+      "stage  .";
+    column-gap: clamp(32px, 5vw, 80px); row-gap: 18px; align-items: start;
+    padding: 20px clamp(32px, 5vw, 72px) 28px;
+  }
+  .launch-top { grid-area: top; }
+  .launch-brand { grid-area: brand; justify-self: start; width: min(340px, 100%); margin: 0; }
+  .launch-stage { grid-area: stage; align-self: center; width: 100%; height: min(82dvh, 640px); max-height: none; min-height: 0; }
+  .launch-copy { grid-area: copy; text-align: left; font-size: clamp(34px, 3.2vw, 46px); line-height: 1.25; }
+  .launch-copy-break { display: inline; }
+  .launch-lead { grid-area: lead; display: block; margin: 0; font-size: 16px; line-height: 1.8; color: var(--mt-ink-2); }
+  .launch-chips { grid-area: chips; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; justify-content: stretch; }
+  .launch-chips li { display: grid; grid-template-columns: auto 1fr; align-items: start; column-gap: 10px; min-height: 0; padding: 14px 14px; border-radius: 16px; background: #fff; box-shadow: inset 0 0 0 1px var(--mt-line), 0 2px 0 #eadfca; }
+  .launch-chips li svg { width: 22px; height: 22px; margin-top: 1px; }
+  .launch-chips li > span { display: grid; gap: 6px; }
+  .launch-chips li b { font: 800 16px/1.2 var(--mt-font-display); color: var(--mt-ink); }
+  .launch-chips li small { display: block; font: 600 12.5px/1.5 var(--mt-font-body); color: var(--mt-ink-3); }
+  .launch-actions { grid-area: actions; display: grid; grid-template-columns: auto 1fr; grid-template-areas: "start guest" "count count" "phil kbd"; align-items: center; justify-items: start; column-gap: 18px; row-gap: 12px; padding-top: 4px; }
+  .launch-start { grid-area: start; width: 300px; min-height: 64px; }
+  .launch-start:hover { filter: brightness(1.04); }
+  .launch-guest, .launch-note { grid-area: guest; }
+  .launch-countdown-mini { grid-area: count; display: inline-flex; align-items: baseline; gap: 6px; margin: 0; font-size: 14px; font-weight: 700; color: var(--mt-ink-2); }
+  .launch-countdown-mini svg { align-self: center; color: var(--mt-brand); }
+  .launch-countdown-mini strong { font: 900 26px/1 var(--mt-font-display); color: #496d80; font-variant-numeric: tabular-nums; }
+  .launch-countdown-mini small { margin-left: 6px; font-size: 12px; color: var(--mt-ink-3); }
+  .launch-philosophy { grid-area: phil; margin-top: 0; }
+  .launch-philosophy:hover, .launch-sound:hover { filter: brightness(.98); box-shadow: 0 2px 0 #e8d3b2, 0 0 0 3px #f3e3c7; }
+  .launch-kbd { grid-area: kbd; display: block; margin: 0; justify-self: end; font-size: 12px; color: var(--mt-ink-3); }
+  .launch-kbd kbd { display: inline-block; min-width: 44px; padding: 3px 8px; margin-right: 4px; border: 1px solid var(--mt-line-strong); border-bottom-width: 3px; border-radius: 8px; background: #fff; font: 700 12px/1.2 var(--mt-font-body); color: var(--mt-ink-2); text-align: center; }
+
+  /* お知らせ（タイトルの次の画面）：PC では横長のカードにして、残り日数を左・本文を右に */
+  .launch-announcement > section { width: min(880px, 100%); display: grid; grid-template-columns: 300px 1fr; grid-template-areas: "kick kick" "title title" "count latest" "count body" "count actions"; column-gap: 32px; row-gap: 14px; padding: 36px 40px; border-radius: 28px; background: #fffdf8; box-shadow: 0 0 0 1px #eadfca, 0 18px 50px -24px rgba(73, 109, 128, .35); }
+  .launch-announcement .mt-kicker { grid-area: kick; margin: 0; }
+  .launch-announcement h1 { grid-area: title; margin: 0; font-size: 32px; }
+  .launch-announcement .launch-countdown { grid-area: count; flex-direction: column; align-items: flex-start; justify-content: center; align-self: stretch; }
+  .launch-announcement .launch-countdown strong { font-size: 64px; }
+  .launch-announcement p.launch-announcement-latest { grid-area: latest; margin: 0; font-size: 16px; }
+  .launch-announcement p:not(.launch-announcement-latest):not(.mt-kicker) { grid-area: body; margin: 0; font-size: 15px; }
+  .launch-announcement-actions { grid-area: actions; align-self: end; }
+  .launch-announcement-actions button { min-height: 52px; cursor: pointer; }
+  .launch-announcement-actions button:hover { filter: brightness(1.03); }
+  .launch-emblem-applogo { width: min(340px, 40vh); }
+  .launch-emblem h1 { font-size: 34px; }
+}

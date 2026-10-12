@@ -604,7 +604,7 @@ export function ListeningAudioPlayer({
             <h3 className={`text-sm sm:text-base font-bold leading-tight ${headingClass}`}>
               {heading}
             </h3>
-            <p className={`text-[10px] sm:text-[11px] font-bold leading-snug ${subTextClass}`}>
+            <p className={`text-xs font-bold leading-snug ${subTextClass}`}>
               {isReview
                 ? 'スクリプト・和訳を見ながら聞き直せます'
                 : `ボタンを押すと音声が流れます（本番は${readCount}回読み）`}
@@ -632,7 +632,7 @@ export function ListeningAudioPlayer({
               type="button"
               onClick={() => setRate(r)}
               aria-pressed={rate === r}
-              className={`min-h-[2rem] rounded-lg border px-2.5 py-1 text-[11px] font-bold transition-colors cursor-pointer ${
+              className={`min-h-[2rem] rounded-lg border px-2.5 py-1 text-xs font-bold transition-colors cursor-pointer ${
                 rate === r ? activeBtnClass : idleBtnClass
               }`}
             >
@@ -648,7 +648,11 @@ export function ListeningAudioPlayer({
           （縦積み3段 × 4問 → 横1段 × 4問）。 */}
       <div
         className={
-          isCompact ? 'grid grid-cols-2 gap-1.5' : 'grid grid-cols-2 gap-2 sm:grid-cols-4'
+          isCompact
+            ? 'grid grid-cols-2 gap-1.5'
+            : list.length === 1
+              ? 'grid grid-cols-1 gap-2 sm:max-w-md'
+              : 'grid grid-cols-1 gap-2 min-[420px]:grid-cols-2 lg:grid-cols-4'
         }
       >
         {list.map((track) => {
@@ -658,6 +662,8 @@ export function ListeningAudioPlayer({
               key={track.subId}
               className={isCompact ? 'flex items-stretch gap-1' : 'flex flex-col gap-1.5'}
             >
+              {/* 再生ボタンと「もう1回」は横並び（2026-10-12 ご要望） */}
+              <div className="flex min-w-0 items-stretch gap-1.5">
               <button
                 type="button"
                 onClick={() => toggle(track.subId)}
@@ -665,7 +671,7 @@ export function ListeningAudioPlayer({
                 className={`flex items-center font-bold shadow-sm transition-all cursor-pointer ${
                   isCompact
                     ? 'min-h-[2.25rem] min-w-0 flex-1 gap-1 rounded-lg border px-1.5 py-1'
-                    : 'min-h-[3rem] w-full gap-2 rounded-xl border-2 px-2.5 py-2 text-left'
+                    : 'min-h-[3rem] min-w-0 flex-1 gap-2 rounded-xl border-2 px-2.5 py-2 text-left'
                 } ${isPlaying ? activeBtnClass : idleBtnClass}`}
               >
                 <span className="shrink-0">
@@ -683,7 +689,7 @@ export function ListeningAudioPlayer({
                   <span className="min-w-0">
                     <span className="block text-[13px] leading-tight">{track.label}</span>
                     <span
-                      className={`block truncate text-[10px] font-bold leading-tight ${
+                      className={`block truncate text-xs font-bold leading-tight ${
                         isPlaying ? 'text-white/80' : subTextClass
                       }`}
                     >
@@ -700,12 +706,13 @@ export function ListeningAudioPlayer({
                   type="button"
                   onClick={() => play(track.subId, false)}
                   aria-label={`${track.label} をもう一度再生`}
-                  className={`flex min-h-[2rem] items-center justify-center gap-1 rounded-lg border px-2 py-1 text-[10px] font-bold transition-colors cursor-pointer ${idleBtnClass}`}
+                  className={`flex min-h-[3rem] shrink-0 items-center justify-center gap-1 whitespace-nowrap rounded-xl border px-2.5 py-1 text-[12px] font-bold transition-colors cursor-pointer ${idleBtnClass}`}
                 >
-                  <RotateCcw size={11} />
+                  <RotateCcw size={13} />
                   もう1回
                 </button>
               )}
+              </div>
 
               {/* 復習モードのみ：スクリプト・和訳・語句を開く
                   ★compact でも必ず残す★ ご要望は「スクリプトを載せて」なので、
@@ -781,7 +788,7 @@ export function ListeningAudioPlayer({
               type="button"
               onClick={() => play(track.subId, true)}
               aria-label={`${track.label} を本番と同じように2回続けて再生`}
-              className={`flex min-h-[2.25rem] items-center gap-1.5 rounded-lg border px-2.5 py-1 text-[11px] font-bold transition-colors cursor-pointer ${idleBtnClass}`}
+              className={`flex min-h-[2.25rem] items-center gap-1.5 rounded-lg border px-2.5 py-1 text-xs font-bold transition-colors cursor-pointer ${idleBtnClass}`}
             >
               <Repeat2 size={13} />
               {track.label} を2回続けて
@@ -802,7 +809,7 @@ export function ListeningAudioPlayer({
               key={`open-${track.subId}`}
               className={`rounded-xl border ${isCompact ? 'p-2' : 'p-3'} ${scriptBoxClass}`}
             >
-              <p className={`mb-1 text-[10px] font-bold ${headingClass}`}>
+              <p className={`mb-1 text-xs font-bold ${headingClass}`}>
                 {track.label} スクリプト
               </p>
               <ListeningEvidenceScript track={track} />
@@ -833,7 +840,7 @@ export function ListeningAudioPlayer({
                     isCompact ? 'mt-1.5 p-2' : 'mt-3 p-3'
                   } ${scriptBoxClass}`}
                 >
-                  <p className={`mb-1 text-[10px] font-bold ${headingClass}`}>
+                  <p className={`mb-1 text-xs font-bold ${headingClass}`}>
                     {track.label} スクリプト
                   </p>
                   <ListeningEvidenceScript track={track} />
