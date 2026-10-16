@@ -4,11 +4,6 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { getPartsOfSubject, type SubjectKey } from '../data/allChapters';
 import { ChevronRight, ArrowLeft, X, Headphones } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
-// 単元の「解説」ボタンで開くモーダル。収録中の教材には対応するツリーが無く「準備中」を出すだけだが、
-// 画面の挙動は変えないため残す。ツリーのデータ（化学由来・約260KB）を単元選択の読み込みに含めないよう遅延読み込みにする。
-const ChapterFlowchartModal = React.lazy(() =>
-  import('./ChapterFlowchartModal').then((m) => ({ default: m.ChapterFlowchartModal })),
-);
 import { DoorMascot } from './DoorMascot';
 import { subjectTheme } from '../data/subjectTheme';
 import { ListeningAudioPlayer } from './ListeningAudioPlayer';
@@ -223,7 +218,6 @@ export function ChapterSelection({ mode, onSelectChapter, onBack, subject = 'eng
   const [openAudioSetId, setOpenAudioSetId] = useState<string | null>(null);
   const [activeGroupTitle, setActiveGroupTitle] = useState(groups.some(g => g.title === rememberedGroup) ? rememberedGroup! : groups[0]?.title || '');
   const tabRefs = useRef<Record<string, HTMLButtonElement | null>>({});
-  const [selectedFlowchart, setSelectedFlowchart] = useState<{ id: string; title: string; questions: Problem[] } | null>(null);
 
   /**
    * すでに解いた大問（回）の一覧。
@@ -614,7 +608,6 @@ export function ChapterSelection({ mode, onSelectChapter, onBack, subject = 'eng
                       : onSelectChapter(chapter.id, savedIndex, true)}
                     onAudio={audioSets.length > 0 ? () => setOpenAudioSetId(openAudioSetId === audioSets[0].id ? null : audioSets[0].id) : undefined}
                     audioOpen={audioSets.length > 0 && openAudioSetId === audioSets[0].id}
-                    onExplain={hasQuestions ? () => setSelectedFlowchart({ id: chapter.id, title: chapter.abstractTitle, questions }) : undefined}
                   >
                     {hasQuestions && questions.length > 1 && (
                       <div className="chapter-question-list unit-card-questions">
@@ -698,20 +691,6 @@ export function ChapterSelection({ mode, onSelectChapter, onBack, subject = 'eng
 
       </div>
 
-      {/* Chapter Flowchart Viewer Modal */}
-      <AnimatePresence>
-        {selectedFlowchart && (
-          <React.Suspense fallback={null}>
-          <ChapterFlowchartModal 
-            chapterId={selectedFlowchart.id}
-            chapterTitle={selectedFlowchart.title}
-            questions={selectedFlowchart.questions}
-            onClose={() => setSelectedFlowchart(null)}
-            onSelectQuestion={(qIdx) => onSelectChapter(selectedFlowchart.id, qIdx, false)}
-          />
-          </React.Suspense>
-        )}
-      </AnimatePresence>
 
     </div>
   );

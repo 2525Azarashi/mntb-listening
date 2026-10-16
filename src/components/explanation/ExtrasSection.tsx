@@ -10,14 +10,12 @@ import type { Problem } from '../../types/curriculum';
  * 2026-10-13 のリファクタリングで Explanation.tsx から切り出した。JSX・クラス名・文言・並び順は元のまま。
  *
  *   wrapClassName … 外枠のクラス（スマホ／PCリスニング／その他で親が決める。元の三項をそのまま親に残した）
- *   leading       … 外枠の先頭に置くもの（PC のリスニングでは「この単元の思考の型」）
  *   qNumberOf     … 見出し「Q◯」の番号（元の式は親の変数を多く使うので、親で計算した関数を受け取る）
  *   foldable      … スマホ or PC のリスニング（＝周辺知識を折りたたみの details で包む条件の前半）
  *   openByDefault … PC のリスニング（details を最初から開く）
  */
-export function ExtrasSection({ wrapClassName, leading, questions, isEnglishChapter, foldable, openByDefault, qNumberOf }: {
+export function ExtrasSection({ wrapClassName, questions, isEnglishChapter, foldable, openByDefault, qNumberOf }: {
   wrapClassName: string;
-  leading: React.ReactNode;
   questions: Problem[];
   isEnglishChapter: boolean;
   foldable: boolean;
@@ -27,7 +25,6 @@ export function ExtrasSection({ wrapClassName, leading, questions, isEnglishChap
   return (
           <div className={wrapClassName}>
             {/* PC のリスニング：この単元の思考の型は右列の先頭に（開いた状態で） */}
-            {leading}
             {questions.map((question, qIndex: number) => {
               const hasKnowledge = question.surroundingKnowledge && question.surroundingKnowledge.length > 0;
               const hasDeepDive = question.deepDiveTopics && question.deepDiveTopics.length > 0;

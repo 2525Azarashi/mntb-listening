@@ -9,7 +9,6 @@ import { ExtrasSection } from './explanation/ExtrasSection';
 import { MobileAnswerNav, ReviewBottomBar } from './explanation/BottomBars';
 import { ListeningCompactAnswers } from './explanation/ListeningCompactAnswers';
 import { MobileResultChips } from './explanation/MobileResultChips';
-import { UnitKataAccordion } from './explanation/UnitKataAccordion';
 import { ResultScoreCard, ResultStage, ResultSummaryActions, WeakAreasPanel, ResultPager } from './explanation/ResultSummary';
 import { renderSubQuestionCard } from './explanation/SubQuestionCard';
 import { ExplanationHeader } from './explanation/ExplanationHeader';
@@ -25,10 +24,8 @@ import './listening-explanation.css';
 import { buildFigureNumberMap } from '../utils/figureNumbering';
 import { isAnswerCorrect } from '../utils/answerJudge';
 import {
-  buildUnitKataBlock,
 } from '../utils/explanationFormat';
 import { buildListeningOptionTexts } from '../utils/listeningOptions';
-import { getUnitTeaching } from '../data/unitTeaching';
 import { useIsMobile } from '../hooks/useMediaQuery';
 import { applyOverviewViewport } from '../utils/viewportControl';
 
@@ -50,12 +47,12 @@ interface ExplanationProps {
   resultTotalTimeSec?: number;
   /**
    * 結果画面の「次にすること」。
-   *   onRetryWrong … 間違えた最初の問題から同じ単元を解き直す（章内の通し番号を渡す）
+   *   onRetryWrong … 間違えた小問だけを解き直す（大問ごとに間違えた小問の id を渡す）
    *   onNextChapter … 同じ科目の次の単元へ進む（全問正解のときの主操作）
    * 以前は結果画面の出口が「単元選択に戻る」だけで、
    * 復習するには一覧で同じ単元を探し直す必要があった。
    */
-  onRetryWrong?: (firstWrongIndex: number) => void;
+  onRetryWrong?: (targets: ReviewTargetItem[]) => void;
   onNextChapter?: () => void;
   nextChapterTitle?: string;
   /**
@@ -100,6 +97,7 @@ import { readJsonArray } from '../utils/safeLocalStorage';
 import { useGrowthProgress } from '../hooks/useGrowthProgress';
 import { logRejection } from '../utils/reportError';
 import { notify } from '../utils/dialog';
+import type { ReviewTargetItem } from '../utils/reviewFocus';
 import type { Chapter, Problem, SubQuestion } from '../types/curriculum';
 
 
@@ -110,11 +108,6 @@ export function Explanation({ mode: initialMode, chapter, answers, onBack, onRet
 
   const [openExplanationBySq, setOpenExplanationBySq] = useState<Record<string, boolean>>({});
   const [openThinkingBySq, setOpenThinkingBySq] = useState<Record<string, boolean>>({});
-  // 要件①「この単元の思考の型」は単元につき1回だけ・採点結果の直後・折りたたみで出す。
-  // 初期状態は閉じる（画面を圧迫させず、必要な人だけ開ける）。
-  const [kataOpen, setKataOpen] = useState(false);
-  /** PC のリスニングでは思考の型を最初から開く。利用者が閉じたら閉じたまま */
-  const [kataClosedByUser, setKataClosedByUser] = useState(false);
   const [savingNote, setSavingNote] = useState<Record<string, boolean>>({});
   // スマホ/PC判定は共有フックに一元化（md=768px 未満をスマホとみなす）。
   // isMobileView が渡された場合（スマホプレビュー枠）はそれを優先する。
@@ -305,34 +298,12 @@ export function Explanation({ mode: initialMode, chapter, answers, onBack, onRet
    */
   const CARD_FONT_FAMILY = 'font-modern';
 
-  // 要件①：「この単元の思考の型」の本文。単元（章）に紐づくので問題ごとには作らない。
-  // 内容・表現・順番・解説は従来と1文字も変えていない（エンジン側の buildUnitKataBlock がそのまま組む）。
-  const unitKataBlock = useMemo(() => buildUnitKataBlock(getUnitTeaching(chapter.id)), [chapter.id]);
-
   /**
    * 要件①のアコーディオン本体。
    * ・単元につき1回だけ描画する（呼び出し側で最初の大問にのみ差し込む）
    * ・配置は「採点結果」の直後
    * ・初期状態は閉じる（画面を圧迫させず、必要な人だけ開ける）
    */
-  /**
-   * ★ご要望8「この単元の思考の型 …も無くすのではなくて、小さくコンパクトにする」★
-   *
-   * reorderMobile は下（L864）で定義されるためここでは使えないので、
-   * 同じ条件（スマホ かつ 1問表示＝結果画面ではない）をそのまま書く。
-   *   reorderMobile === isMobile && !isResultView
-   *   isResultView  === (singleQuestionIndex === undefined)
-   * つまり isMobile && singleQuestionIndex !== undefined。
-   *
-   * コンパクト化の中身（消さずに詰める）
-   *   ・「（この単元の全問に共通・必要なときだけ開く）」の副題を隠す
-   *     … 42文字ぶんが折り返して2行になり、閉じた状態でも高さを食っていた
-   *   ・「開く／閉じる」の文字を落として山型アイコンだけにする
-   *   ・上下 padding を py-2.5 → py-1.5、アイコンを 16 → 13 に縮める
-   *   見出し「この単元の思考の型」と本文は従来のまま（内容は削らない）。
-   * PC は md: 指定と非スマホ分岐で従来の見た目を維持する。
-   */
-  const kataCompact = isMobile && singleQuestionIndex !== undefined;
   /**
    * ★PC版のリスニング解答・解説（2026-10-12 PC大改訂）★
    *   「スクロールをできるだけ減らす」「スマホでは畳んでいたもの（本当は1画面に置きたかったもの）を
@@ -344,17 +315,7 @@ export function Explanation({ mode: initialMode, chapter, answers, onBack, onRet
    *   ・右側にあった2つ目の再生帯は、左の音源と重複するので出さない（UI原則2：同じものを2つ置かない）
    */
   const pcListening = !isMobile && singleQuestionIndex !== undefined && questions.length === 1 && textTracksOf(questions[0]).length > 0;
-  const kataIsOpen = kataOpen || (pcListening && !kataClosedByUser);
 
-  const kataAccordion = unitKataBlock ? (
-    <UnitKataAccordion
-      unitKataBlock={unitKataBlock}
-      isOpen={kataIsOpen}
-      onToggle={() => { if (kataIsOpen) { setKataOpen(false); setKataClosedByUser(true); } else { setKataOpen(true); } }}
-      compact={kataCompact}
-     
-    />
-  ) : null;
 
   // 章内の図版へ通し番号（図1・図2 …）を割り当てるマップ。
   // 単問表示でも通し番号が一貫するよう、章の全問題（allQuestions）を基準に採番する。
@@ -448,17 +409,19 @@ export function Explanation({ mode: initialMode, chapter, answers, onBack, onRet
   }, [baseQuestions, answers]);
 
   /**
-   * 間違えた（＝解答したが不正解の）小問を含む最初の問題の、章内の通し番号。
+   * 解き直す対象：間違えた（＝解答したが不正解の）小問を、大問ごとにまとめたもの。
    * 未解答は「間違えた」に数えない（isAttempted と同じ考え方）。
-   * 無ければ -1。
+   * 1問ずつの解説（singleQuestionIndex あり）では出さない。
    */
-  const firstWrongQuestionIndex = useMemo(() => {
-    if (singleQuestionIndex !== undefined) return -1;
-    const idx = baseQuestions.findIndex((q) =>
-      (q.subQuestions || []).some((sq) =>
-        isAttempted(answers[sq.id]) && !isAnswerCorrect(sq, answers[sq.id])));
-    return idx < 0 ? -1 : rangeOffset + idx;
-  }, [baseQuestions, answers, singleQuestionIndex, rangeOffset]);
+  const wrongTargets = useMemo<ReviewTargetItem[]>(() => {
+    if (singleQuestionIndex !== undefined) return [];
+    return baseQuestions.flatMap((q) => {
+      const ids = (q.subQuestions || [])
+        .filter((sq) => isAttempted(answers[sq.id]) && !isAnswerCorrect(sq, answers[sq.id]))
+        .map((sq) => String(sq.id));
+      return ids.length > 0 ? [{ questionId: String(q.id), subQuestionIds: ids }] : [];
+    });
+  }, [baseQuestions, answers, singleQuestionIndex]);
 
   if (questions.length === 0) {
     return (
@@ -554,7 +517,7 @@ export function Explanation({ mode: initialMode, chapter, answers, onBack, onRet
           onSummary: () => setResultStep('summary'),
           onHome,
           onChapters: onBack,
-          onRetryWrong: firstWrongQuestionIndex >= 0 && onRetryWrong ? () => onRetryWrong(firstWrongQuestionIndex) : undefined,
+          onRetryWrong: wrongTargets.length > 0 && onRetryWrong ? () => onRetryWrong(wrongTargets) : undefined,
           retryLabel: '間違えた問題だけ解き直す',
           onNext: onNextChapter,
           nextLabel: nextChapterTitle ? (/^第\d+回$/.test(nextChapterTitle) ? `次の回へ（${nextChapterTitle}）` : `次の単元へ`) : '次へ進む',
@@ -846,11 +809,6 @@ export function Explanation({ mode: initialMode, chapter, answers, onBack, onRet
 
                         return (
                           <>
-                            {/* 客観問題が無い大問（記述のみ）でも、要件①の型は必ず1回出す */}
-                            {qIndex === 0 && objectiveSqs.length === 0 && kataAccordion && (
-                              <div className="mt-6">{kataAccordion}</div>
-                            )}
-
                             {objectiveSqs.length > 0 && (
                               <div className={`${reorderMobile ? 'space-y-2' : 'space-y-3 md:space-y-4'} ${(reorderMobile || pcListening) && textTracksOf(question).length > 0 ? 'mt-0' : 'mt-6'}${pcListening ? ' lx-pc-main' : ''}`}>
                                 {/*
@@ -871,9 +829,6 @@ export function Explanation({ mode: initialMode, chapter, answers, onBack, onRet
                                   PC（!reorderMobile）は従来のクラスをそのまま使う。
                                 */}
                                 <ScoreHead reorderMobile={reorderMobile} listeningTracks={listeningTracks} objectiveSqs={objectiveSqs} correctSqs={correctSqs} incorrectSqs={incorrectSqs} unansweredSqs={unansweredSqs} />
-
-                                {/* 要件①：「この単元の思考の型」を採点結果の直後に1回だけ（折りたたみ） */}
-                                {qIndex === 0 && !pcListening && kataAccordion}
 
                                 {/* ★リスニング：採点結果のすぐ下でも音声を聞き直せるようにする
                                     （ご要望「解答等解説のところで、音声が聞けるようにボタンを用意してほしい」）。
@@ -1015,7 +970,6 @@ export function Explanation({ mode: initialMode, chapter, answers, onBack, onRet
           {/* Surrounding Knowledge / Deep Dive (from all questions) */}
           <ExtrasSection
             wrapClassName={reorderMobile ? 'lx-extra-wrap pb-3 space-y-2' : pcListening ? 'lx-pc-side' : 'p-4 sm:p-6 md:p-8 space-y-8'}
-            leading={pcListening && kataAccordion}
             questions={questions}
            
             isEnglishChapter={isEnglishChapter}

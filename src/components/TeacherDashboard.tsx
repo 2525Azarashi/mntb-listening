@@ -1,3 +1,4 @@
+import { SUBJECT_REGISTRY } from '../data/subjects';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   ArrowLeft,
@@ -83,16 +84,9 @@ interface TeacherDashboardProps {
 
 type Tab = 'students' | 'kanten' | 'classes';
 
-/** 統合版の全教科。クラス作成で選べるのは、このうち公開中（FEATURES）の教科だけ */
-const ALL_SUBJECT_OPTIONS: Array<{ value: ClassroomDoc['subject']; label: string }> = [
-  { value: 'chemistry_basic', label: '化学基礎' },
-  { value: 'chemistry', label: '化学' },
-  { value: 'english_listening', label: '英語リスニング' },
-  { value: 'math', label: '数学' },
-  { value: 'biology_basic', label: '生物基礎' },
-  { value: 'english_grammar', label: '英文法' },
-  { value: 'geography', label: '地理総合・地理探究' },
-];
+/** 登録簿の全教科。クラス作成で選べるのは、このうち公開中の教科だけ */
+const ALL_SUBJECT_OPTIONS: Array<{ value: ClassroomDoc['subject']; label: string }> =
+  SUBJECT_REGISTRY.map((s) => ({ value: s.id, label: s.label }));
 const SUBJECT_OPTIONS = filterEnabledSubjects(ALL_SUBJECT_OPTIONS, (option) => option.value);
 /** クラス作成の初期教科（リスニング版の主役） */
 const DEFAULT_CLASS_SUBJECT: ClassroomDoc['subject'] = SUBJECT_OPTIONS[0]?.value ?? 'english_listening';
