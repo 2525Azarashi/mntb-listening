@@ -62,7 +62,7 @@ export function FriendPanel() {
       setRequests(reqs);
       setSentRequests(sent);
       setFriends(list);
-    } catch (e: any) {
+    } catch (e: unknown) {
       // ここに到達するのは想定外の例外のみ。
       console.error('フレンド情報の取得に失敗しました:', e);
     } finally {
@@ -82,9 +82,9 @@ export function FriendPanel() {
       await action();
       setMessage(success);
       await load();
-    } catch (error: any) {
+    } catch (error: unknown) {
       setIsError(true);
-      setMessage(error?.message || '操作に失敗しました。通信状態を確認してください。');
+      setMessage(error instanceof Error && error.message ? error.message : '操作に失敗しました。通信状態を確認してください。');
     } finally {
       setLoading(false);
     }
@@ -98,7 +98,7 @@ export function FriendPanel() {
     if (!full) { setIsError(true); setMessage('フレンドコードは「MNTB-」のあとに英数字8文字です（例：MNTB-AB12-CD34）。'); return; }
     setMessage(''); setIsError(false); setLoading(true);
     try { setMessage(await sendFriendRequest(full)); setCode(''); await load(); }
-    catch (e: any) { setIsError(true); setMessage(e?.message || '申請に失敗しました。'); }
+    catch (e: unknown) { setIsError(true); setMessage(e instanceof Error && e.message ? e.message : '申請に失敗しました。'); }
     finally { setLoading(false); }
   };
 

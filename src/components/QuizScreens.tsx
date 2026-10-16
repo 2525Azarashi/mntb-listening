@@ -74,6 +74,7 @@ import { Explanation } from './Explanation';
 import { ErrorBoundary } from './ErrorBoundary';
 import { ScreenUnavailable } from './ScreenStatus';
 import { findChapterById, getChaptersOfSubject } from '../data/allChapters';
+import type { Chapter } from '../types/curriculum';
 import { showInterstitialAd } from '../utils/adService';
 
 /** Quiz が結果として返す採点内容（App.tsx 側の onFinish にそのまま渡す） */
@@ -112,9 +113,9 @@ interface QuizScreensProps {
   onHome?: () => void;
 }
 
-const focusCache = new WeakMap<object, { sig: string; value: any }>();
+const focusCache = new WeakMap<object, { sig: string; value: Chapter }>();
 /** 同じ章・同じ対象なら同じ写しを返す（毎回新しいオブジェクトにすると演習画面の状態が作り直される） */
-function focusedChapter(chapter: any, mode: string): any {
+function focusedChapter(chapter: Chapter | undefined, mode: string): Chapter | undefined {
   if (!chapter) return chapter;
   const focus = readReviewFocus();
   if (!focus || focus.chapterId !== chapter.id) return chapter;
@@ -177,10 +178,10 @@ export function QuizScreens({
   const nextChapter = (() => {
     if (screen !== 'explanation' || questionRange || !subject) return null;
     const list = getChaptersOfSubject(subject);
-    const at = list.findIndex((c: any) => c.id === chapter.id);
+    const at = list.findIndex((c: Chapter) => c.id === chapter.id);
     if (at < 0) return null;
     const pool = mode === 'mini_test' ? 'miniTest' : 'practiceProblems';
-    return list.slice(at + 1).find((c: any) => (c[pool] || []).length > 0) || null;
+    return list.slice(at + 1).find((c: Chapter) => (c[pool] || []).length > 0) || null;
   })();
 
   // 1回だけ解いた → 同じ単元の次の回（無ければ単元一覧へ戻る）

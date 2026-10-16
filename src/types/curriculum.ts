@@ -69,6 +69,8 @@ export interface SubQuestion {
   /** 記述式の部分点の基準 */
   partialCreditCriteria?: string;
   score?: number;
+  explanation?: string;
+  items?: string[];
 }
 
 /** 読み上げの発話1つ（対話形式の大問） */
