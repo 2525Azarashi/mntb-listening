@@ -29,6 +29,7 @@ import { GOAL_OPTIONS, TARGET_SCHOOL_MAX, normalizeTargetSchool, readGoal, write
 import './profile-settings.css';
 import { readJsonArray } from '../utils/safeLocalStorage';
 import { logRejection } from '../utils/reportError';
+import { useMediaQuery } from '../hooks/useMediaQuery';
 
 interface ProfileModalProps {
   onClose: () => void;
@@ -67,6 +68,8 @@ export function ProfileModal({ onClose, initialTab, isBgmEnabled, setIsBgmEnable
   const [studySeconds] = useState(() => readStudyTime(auth.currentUser?.uid || 'guest').total);
   const earnedBadges = BADGES.filter(b => b.id in growth.badges);
   const [tab, setTab] = useState<SettingsTab>(() => (initialTab && initialTab !== 'general' && auth.currentUser ? initialTab : 'general'));
+  /** PC の3列レイアウト（profile-settings.css の 1100px と揃える） */
+  const wideLayout = useMediaQuery('(min-width: 1100px)');
   const [battleAudioSettings, updateBattleAudio] = useBattleAudioSettings();
   const [name, setName] = useState('');
   const [grade, setGrade] = useState('');
@@ -195,6 +198,19 @@ export function ProfileModal({ onClose, initialTab, isBgmEnabled, setIsBgmEnable
     if (!outcome.ok) setAuthError(outcome.message || 'ログインに失敗しました。');
   };
 
+  /* ★対戦で相手に見えるカードのプレビュー（A16）★ 名前・称号を変えるとその場で反映される。
+     PC の3列（1100px〜）ではプロフィール列が縦に長くなるので、余白のあるサウンド列に置く。 */
+  const preview = (
+    <section className="ps-preview mt-card" aria-label="対戦で相手に見えるカード">
+      <p>対戦で相手に見えるカード</p>
+      <div className="ps-mini" aria-hidden="true">
+        <span className="ps-mini-avatar"><GrowthAvatar progress={growth} size={44} showLevel={false} /></span>
+        <div><strong>{name.trim() || 'ニックネーム'}</strong><span><TitleChip progress={growth} rating={rating} /> Lv.{levelOf(growth.xp).level}</span></div>
+        <b>VS</b>
+      </div>
+    </section>
+  );
+
   return (
     <div className="mtb-page mt-screen profile-journal w-full h-full overflow-hidden pb-[calc(var(--app-nav-h,120px)+8px)] sm:pb-24" data-settings>
       <div className="profile-frame max-w-4xl h-full mx-auto px-3 sm:px-5 py-3 sm:py-5 flex flex-col relative">
@@ -305,15 +321,7 @@ export function ProfileModal({ onClose, initialTab, isBgmEnabled, setIsBgmEnable
                   <p id="target-goal-help" className="sr-only">目標レベルを変えると、単語帳の出題範囲も変わります。志望校と学習時間は「プロフィールを公開」を保存した場合だけランキングに表示されます。</p>
                 </section>
 
-                {/* ★対戦で相手に見えるカードのプレビュー（A16）★ 名前・称号を変えるとその場で反映される */}
-                <section className="ps-preview mt-card" aria-label="対戦で相手に見えるカード">
-                  <p>対戦で相手に見えるカード</p>
-                  <div className="ps-mini" aria-hidden="true">
-                    <span className="ps-mini-avatar"><GrowthAvatar progress={growth} size={44} showLevel={false} /></span>
-                    <div><strong>{name.trim() || 'ニックネーム'}</strong><span><TitleChip progress={growth} rating={rating} /> Lv.{levelOf(growth.xp).level}</span></div>
-                    <b>VS</b>
-                  </div>
-                </section>
+                {!wideLayout && preview}
               </div>
 
               <div className="ps-col-app space-y-2 sm:space-y-3 flex flex-col">
@@ -325,6 +333,7 @@ export function ProfileModal({ onClose, initialTab, isBgmEnabled, setIsBgmEnable
                   <p className="ps-sub"><Swords size={14} aria-hidden="true" />対戦モードの音</p>
                   <Toggle label="対戦効果音" sub="正解・逆転など" checked={battleAudioSettings.sfx} onChange={() => { updateBattleAudio({ sfx: !battleAudioSettings.sfx }); if (!battleAudioSettings.sfx) window.setTimeout(() => battleAudio().play('correct'), 50); }} tone="gold" />
                 </section>
+                {wideLayout && preview}
               </div>
 
               <div className="ps-col-account space-y-2 sm:space-y-3 flex flex-col">
