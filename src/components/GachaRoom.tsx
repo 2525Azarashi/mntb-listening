@@ -14,6 +14,7 @@ import { GrowthAvatar } from '../battle/ui/GrowthParts';
 import { gachaRarityOf, printOf, type ItemDef, type GachaRarity, type GrowthProgress } from '../battle/core/growth';
 import { primeAudio } from '../battle/ui/feedback';
 import { wallpaperOf } from '../battle/core/tobiraParts';
+import { KineticText } from '../motion';
 
 /** コレクションの分類（部位ごとに見られるように） */
 const COLLECTION_KINDS = [
@@ -116,7 +117,7 @@ function GachaRoomContent({onBack,onMissions,owner,embedded=false}:GachaProps & 
   */
  return <section className={`gacha-room ${result?'has-result':''} ${busyView?'is-busy':''}`} data-best-rarity={!revealing && bestRarity ? bestRarity : undefined}>{!embedded && <button type="button" className="arena-back" onClick={onBack}><ArrowLeft size={18}/>マイページ</button>}
   <header className="gacha-head">
-   <p className="mt-kicker">TOBIRA COLLECTION</p><h1>とびらくんの装飾ガチャ</h1>
+   <p className="mt-kicker">TOBIRA COLLECTION</p><h1><KineticText text="とびらくんの装飾ガチャ" step={30} variant="pop" /></h1>
    <p className="gacha-lead">コインで<strong>ランダム抽選</strong>。選んで買うなら<wbr/>「ショップ」へ</p>
   </header>
 

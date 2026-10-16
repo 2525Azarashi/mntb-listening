@@ -6,6 +6,7 @@ import { DoorMascot } from './DoorMascot';
 import { subjectTheme } from '../data/subjectTheme';
 // 教科IDの型は data/allChapters.ts の SubjectKey が唯一の定義
 import type { SubjectKey } from '../data/allChapters';
+import { KineticText } from '../motion';
 
 interface ModeSelectionProps {
   onSelectMode: (mode: 'mini_test' | 'practice' | 'learning') => void;
@@ -60,7 +61,7 @@ export function ModeSelection({ onSelectMode, onBack, subject = DEFAULT_SUBJECT,
         </header>
         <div className="mode-heading">
           <p className="mtb-kicker">今日の学びを、明日の自信に。</p>
-          <h1>{labelOfSubject(subject)}</h1>
+          <h1><KineticText text={labelOfSubject(subject)} /></h1>
           <p>学習モードを選択</p>
         </div>
         {onChangeSubject && <div className="mb-3 flex justify-end"><button type="button" onClick={onChangeSubject} className="min-h-[44px] rounded-full border border-gray-200 bg-white px-4 text-sm font-bold text-[#2C3E50]">科目を変更</button></div>}
