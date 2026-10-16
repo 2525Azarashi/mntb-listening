@@ -20,6 +20,7 @@ import {
   detectStale,
   type CurrentProblemState,
 } from './problemVersion';
+import { logRejection } from './reportError';
 
 const STORAGE_PREFIX = 'review_list_';
 
@@ -249,7 +250,7 @@ export function markReviewedCorrect(uid: string | null | undefined, key: string)
   saveReviewList(uid, next);
   // Optional personal reward; never block review scheduling or add growth code to initial study load.
   if (uid && items.some(it => it.key === key)) {
-    void import('../battle/data/growthStore').then(({ recordReviewGrowth }) => recordReviewGrowth(uid, key)).catch(() => {});
+    void import('../battle/data/growthStore').then(({ recordReviewGrowth }) => recordReviewGrowth(uid, key)).catch(logRejection('growth.recordReview'));
   }
   return next;
 }

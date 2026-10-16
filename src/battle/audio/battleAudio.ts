@@ -24,6 +24,8 @@
  *   フックは hooks/useBattleAudio.ts。ここは単体で動くクラス。
  */
 
+// AudioContext.resume() はユーザー操作の前にブラウザが拒むのが通常。次の操作・再生で再び resume するので、
+// このファイルの `.resume().catch(() => {})` は意図して捨てている。
 import type { BattleAudioSettings, BattleBgmTrack } from '../core/audioSettings';
 import { DEFAULT_BATTLE_AUDIO } from '../core/audioSettings';
 import { playSample, preloadSamples } from './sfxSamples';

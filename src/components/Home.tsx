@@ -74,7 +74,6 @@ import { FeedbackReplyInbox } from './FeedbackReplyInbox';
 import { GoogleLinkBanner } from './GoogleLinkBanner';
 import {
   isLegacyProgressBackfilled,
-  countSolvedByChapter,
   countSolvedProblemsIn,
 } from '../utils/progress';
 // ユーザーごとの localStorage キー名は utils/userStorageKeys.ts が唯一の定義
@@ -93,26 +92,9 @@ interface HomeProps {
   onStudyMode?: (mode: 'practice' | 'learning' | 'mini_test') => void;
   onIntro: () => void;
   onNoteList: () => void;
-  onLogicalTree: () => void;
   onLeaderboard?: () => void;
   /** 対戦モードを開く。FEATURES.battle が false のときは渡されない */
   onBattle?: () => void;
-  /**
-   * 高校入試 理科（演習・まとめ・出題傾向）を開く。
-   *
-   * ★科目カードではなくホームの入口にした理由★
-   *   理科は本体の「章→大問→小問」の形を持っていない。
-   *   単元の絞り込みも問題の出し方も理科の画面が自分で持っているので、
-   *   科目選択のカードに並べると、押した先で1問も出せない状態になる。
-   *   （詳しくは src/features/rika/RikaHome.tsx）
-   *
-   * ★省略可にしてある理由★
-   *   Home はテストやプレビューからも描画される。
-   *   必須にすると呼び出し側すべてに手を入れることになる。
-   *   渡されなければカードを出さない（＝従来どおりの見た目）。
-   *   FEATURES.rika が false のときは App 側で渡さない。
-   */
-  onRika?: () => void;
   onReviewList?: () => void;
   /** 科目選択（タイトル）画面へ戻る */
   onChangeSubject?: () => void;
@@ -120,7 +102,7 @@ interface HomeProps {
   onFoundation?: () => void;
   /** 現在選択中の科目名（表示用） */
   subjectLabel?: string;
-  /** 現在選択中の科目。省略時は従来どおり化学基礎として振る舞う。 */
+  /** 現在選択中の科目。省略時は英語リスニング（SUBJECTS の先頭）。 */
   subject?: SubjectKey;
   isGuest: boolean;
   /*
@@ -144,7 +126,7 @@ interface HomeProps {
   onToggleBgm?: (enabled: boolean) => void;
 }
 
-export function Home({ onPractice, onPickSubject, onStudyMode, onGrowth, onStart, onIntro, onNoteList, onLogicalTree, onLeaderboard, onBattle, onRika, onChangeSubject, onFoundation, subjectLabel = '化学基礎', subject = 'chemistry_basic', isGuest, isBgmEnabled, isBgmFadedOut, onToggleBgm }: HomeProps) {
+export function Home({ onPractice, onPickSubject, onStudyMode, onGrowth, onStart, onIntro, onNoteList, onLeaderboard, onBattle, onChangeSubject, onFoundation, subjectLabel = '英語リスニング', subject = 'english_listening', isGuest, isBgmEnabled, isBgmFadedOut, onToggleBgm }: HomeProps) {
   const { progress: growth } = useGrowthProgress();
   const reviewDueCount = useMemo(() => {
     const uid = auth.currentUser?.uid || (isGuest ? 'guest' : null);
@@ -198,8 +180,8 @@ export function Home({ onPractice, onPickSubject, onStudyMode, onGrowth, onStart
   //   以前は miniTest の「小問」数だけを分母にしていたため、
   //   演習（practiceProblems＝大問の大多数）が丸ごと抜け落ちていた。
   // 分子：1点でも獲得した大問の数（utils/progress の台帳を参照）。
-  // 科目に応じて集計対象の章を切り替える（化学基礎の振る舞いは従来のまま）。
-  // 未知の科目IDが来た場合は化学基礎の章が返る（従来の if 連鎖の既定分岐と同じ）。
+  // 科目に応じて集計対象の章を切り替える。
+  // 未知の科目IDが来た場合は先頭の教科（英語リスニング）の章が返る。
   //
   // 中身は軽い索引（章ID・章名・大問数のみ）。教科データ本体は読まない。
   const allChaptersList = useMemo(() => getChapterIndexOfSubject(subject), [subject]);
@@ -208,8 +190,6 @@ export function Home({ onPractice, onPickSubject, onStudyMode, onGrowth, onStart
     [allChaptersList],
   );
   const [solvedQuestions, setSolvedQuestions] = useState(0);
-  /** 章ID → その章で解いた大問数（「次の章」の算出に使う） */
-  const [solvedByChapter, setSolvedByChapter] = useState<Record<string, number>>({});
 
   // ===== 科目ごとの進捗（「何問中何問」を教科別に見せる） =====
   // 従来は選択中の科目の1本だけを表示していたため、
@@ -322,7 +302,6 @@ export function Home({ onPractice, onPickSubject, onStudyMode, onGrowth, onStart
         setSolvedQuestions(
           Math.min(countSolvedProblemsIn(uid, currentChapterIds), totalQuestions),
         );
-        setSolvedByChapter(countSolvedByChapter(uid));
 
         // 科目ごとの進捗（教科別に「何問中何問」を並べて出すため）
         const perSubject: Record<string, { solved: number; total: number }> = {};
@@ -460,7 +439,6 @@ export function Home({ onPractice, onPickSubject, onStudyMode, onGrowth, onStart
         <div className="game-details-body arena-home-more"><p>連続学習 {streak}日 ／ {todayFormatted}</p><p>{EXAM_DATE_LABEL}まで {daysUntilExam}日</p>{schoolBrand && <p>{schoolBrand.schoolName}</p>}
           <div className="game-study-progress"><span>{subjectLabel} {solvedQuestions}/{totalQuestions}大問</span><div role="progressbar" aria-label="学習進捗" aria-valuemin={0} aria-valuemax={100} aria-valuenow={progressPercent}><i style={{ width: `${progressPercent}%` }} /></div></div>
           <details className="home-all-progress"><summary>リスニングの進捗を見る</summary>{subjectProgressDefs.map(def => <p key={def.id}>{def.label} {subjectProgress[def.id]?.solved ?? 0}/{subjectProgress[def.id]?.total ?? 0}大問</p>)}</details>
-          {onRika && <button type="button" onClick={onRika}>高校入試 理科を開く</button>}
           <FeedbackButton screen="title" variant="text" label="ご意見・ご要望" /><FeedbackReplyInbox />
           {isGuest && !auth.currentUser && <GoogleLinkBanner variant="inline" dismissible />}
         </div>

@@ -6,6 +6,7 @@ import { buyItem, equip, unequip, importLeagueReward, leagueRewardClaimed } from
 import { GrowthAvatar } from '../battle/ui/GrowthParts';
 import { clanCall, type LeagueReward } from '../utils/manaClan';
 import { auth } from '../firebase';
+import { confirmAction } from '../utils/dialog';
 /** プレゼント（隔週リーグ報酬）でしか手に入らないアイテム */
 const LEAGUE_GIFT_ITEM = 'frame_league_aurora';
 const LEAGUE_LABEL: Record<string, string> = { bronze: 'ブロンズ', silver: 'シルバー', gold: 'ゴールド', platinum: 'プラチナ', manatobi: 'マナトビ' };
@@ -29,7 +30,7 @@ export function MyCollection({ view = 'owned', onGacha, initialKind = 'all' }: {
   const perform = async (item: ItemDef) => {
     if (busy) return;
     const owned = progress.owned.includes(item.id);
-    if (!owned && 'coins' in item.unlock && !window.confirm(`${item.label}を${item.unlock.coins}マナコインで購入しますか？`)) return;
+    if (!owned && 'coins' in item.unlock && !confirmAction(`${item.label}を${item.unlock.coins}マナコインで購入しますか？`)) return;
     setBusy(true); setMessage('');
     try {
       if (owned) { const r = await equip(item.id); setMessage(r ? '装備しました。ホームと対戦に反映されます。' : '装備を保存できませんでした。'); }

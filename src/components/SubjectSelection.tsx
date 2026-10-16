@@ -45,7 +45,6 @@ import {
   ChevronLeft,
   Microscope,
 } from 'lucide-react';
-import { auth } from '../firebase';
 import { subjectTheme } from '../data/subjectTheme';
 import { SakuraPetals } from './SakuraPetals';
 import { NotebookScenery } from './NotebookScenery';
@@ -110,7 +109,6 @@ import type { SubjectKey } from '../data/allChapters';
 // このファイル内の判定（isSubjectId）で使うぶんを値としても取り込む。
 import { SUBJECT_LABELS as SUBJECT_LABELS_FOR_CHECK } from '../data/subjectLabels';
 // ユーザーごとの localStorage キー名は utils/userStorageKeys.ts が唯一の定義
-import { profileKey } from '../utils/userStorageKeys';
 // 公開/非公開の判断は src/config/features.ts が唯一の出どころ。
 // ★ここは「4箇所」のうちの2番目（トップのカード）★
 // 残りはナビ／ルーティング／一覧で、すべて同じ関数を見る。
@@ -234,21 +232,6 @@ export function SubjectSelection({ onSelectSubject, isGuest, onBack, onRika, cur
    * 以前は文面が「化学」固定だったため、科目が増えると誤った案内になってしまう。
    */
   const [notifySubject, setNotifySubject] = useState<SubjectDefinition | null>(null);
-
-  /** 表示名（プロフィール → Firebase 表示名 → ゲスト の順で解決） */
-  const displayName = useMemo(() => {
-    try {
-      const uid = auth.currentUser?.uid || 'guest';
-      const raw = localStorage.getItem(profileKey(uid));
-      if (raw) {
-        const parsed = JSON.parse(raw);
-        if (parsed?.name) return String(parsed.name);
-      }
-    } catch {
-      /* localStorage が使えない環境は表示名なしで続行 */
-    }
-    return auth.currentUser?.displayName || (isGuest ? 'ゲスト' : 'ユーザー');
-  }, [isGuest]);
 
   /*
    * 各教科の収録ボリューム（カードに出す数字）。

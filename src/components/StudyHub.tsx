@@ -1,4 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
+import type { StudyNote } from '../types/studyNote';
+import type { ReviewRequest } from '../utils/reviewTarget';
 import {
   ArrowLeft,
   CheckCircle2,
@@ -64,9 +66,9 @@ interface StudyHubProps {
   onBack: () => void;
   isGuest: boolean;
   /** ノート詳細を開く（既存の NoteDetail 画面へ） */
-  onSelectNote: (note: any) => void;
+  onSelectNote: (note: StudyNote) => void;
   /** 復習アイテム／ノートから、対応する演習問題へ直接遷移する（要件5） */
-  onReview?: (target: any) => void;
+  onReview?: (target: ReviewRequest) => void;
   /** 復習が空のときの「演習する」 */
   onPractice?: () => void;
 }
@@ -177,7 +179,7 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ item, now, onCorrect, onWrong, 
 //   同じ大問で間違えた小問を1枚にまとめ、「解く」は間違えた小問だけを出す
 // ============================================================
 
-const GroupCard: React.FC<Omit<ReviewCardProps, 'item' | 'onReview'> & { group: ReviewGroup; onReview?: (target: any) => void }> = ({ group, now, onCorrect, onWrong, onRemove, onReview, showSubject = false }) => {
+const GroupCard: React.FC<Omit<ReviewCardProps, 'item' | 'onReview'> & { group: ReviewGroup; onReview?: (target: ReviewRequest) => void }> = ({ group, now, onCorrect, onWrong, onRemove, onReview, showSubject = false }) => {
   const [open, setOpen] = useState(false);
   const head = group.items[0];
   if (group.items.length === 1) return <ReviewCard item={head} now={now} onCorrect={onCorrect} onWrong={onWrong} onRemove={onRemove} showSubject={showSubject}
@@ -275,7 +277,7 @@ const CollapsibleReviewList: React.FC<CollapsibleReviewListProps> = ({ items, no
 // ノート（手動で保存したまとめ）
 // ============================================================
 
-const NoteCard: React.FC<{ note: any; onSelect: (note: any) => void }> = ({ note, onSelect }) => (
+const NoteCard: React.FC<{ note: StudyNote; onSelect: (note: StudyNote) => void }> = ({ note, onSelect }) => (
   <li className="rn-item rn-note">
     <button type="button" className="rn-item-main" onClick={() => onSelect(note)} aria-label={`ノートを開く：${truncate(stripHtml(note.question) || '問題文なし', 70)}`}>
       <span className="rn-item-scope">
@@ -300,7 +302,7 @@ export function StudyHub({ onBack, isGuest, onSelectNote, onReview, onPractice, 
   const uid = auth.currentUser?.uid || (isGuest ? 'guest' : null);
 
   const [reviewItems, setReviewItems] = useState<ReviewItem[]>(() => getAllReviewItems(uid));
-  const [notes, setNotes] = useState<any[]>([]);
+  const [notes, setNotes] = useState<StudyNote[]>([]);
   const [tab, setTab] = useState<Tab>(view?.tab ?? 'today');
   const [now, setNow] = useState(() => Date.now());
 
@@ -310,7 +312,7 @@ export function StudyHub({ onBack, isGuest, onSelectNote, onReview, onPractice, 
       const list = raw ? JSON.parse(raw) : [];
       if (!Array.isArray(list)) return [];
       // 重要 → 新しい順
-      list.sort((a: any, b: any) => {
+      (list as StudyNote[]).sort((a, b) => {
         if (!!a.isImportant !== !!b.isImportant) return (b.isImportant ? 1 : 0) - (a.isImportant ? 1 : 0);
         return new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime();
       });

@@ -25,7 +25,6 @@ import { buildSubQuestionList, cleanQuestionText, findSubQuestionSentence, split
 import { getFigureNumber } from '../utils/figureNumbering';
 import { stepLabelOf } from '../utils/listeningSteps';
 import { QuestionFigure } from './QuestionFigure';
-import { IonizationEnergyChart } from './IonizationEnergyChart';
 import { ListeningAudioPlayer } from './ListeningAudioPlayer';
 import { ExplanationBody } from './ExplanationBody';
 import { ListeningMaterials } from './ListeningMaterials';
@@ -715,11 +714,6 @@ export function ProblemPane({
                 boxedSections
               />
             )
-          )}
-          {currentQuestion.text.includes('図6') && (
-            <div className="mt-4">
-              <IonizationEnergyChart showDetails={false} />
-            </div>
           )}
           {/* 問題に付随する図・イラスト（PDF由来の図版など） */}
           {currentQuestion.imageUrl && (

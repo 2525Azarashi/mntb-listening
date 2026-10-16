@@ -21,10 +21,10 @@ export async function loadReviewExplanation(question: BattleQuestion): Promise<s
     return section ? section.blocks.map(b => b.t === 'table'
       ? b.rows.map(row => row.join(' ｜ ')).join('\n') : b.text).join('\n\n') : '';
   }
-  const { getChaptersOfSubject } = await import('../../data/allChapters');
+  const { getChaptersOfSubject, miniTestProblemsOf } = await import('../../data/allChapters');
   const chapter = getChaptersOfSubject(question.subject).find((c: any) => c.id === question.chapterId);
   if (!chapter) return '';
-  const mini = Array.isArray(chapter.miniTest) ? chapter.miniTest : chapter.miniTest?.problems || [];
+  const mini = miniTestProblemsOf(chapter);
   const problem = [...chapter.practiceProblems || [], ...mini].find((p: any) => p.id === question.problemId);
   const sub = problem?.subQuestions?.find((sq: any) => sq.id === question.subQuestionId);
   if (!sub) return '';

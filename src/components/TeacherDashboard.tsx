@@ -33,6 +33,7 @@ import {
 } from '../utils/kantenReport';
 import { getChapterCatalog, SUBJECT_LABELS } from '../data/chapterCatalog';
 import { aggregateClass, type ClassroomDoc } from '../utils/classroomCore';
+import { filterEnabledSubjects } from '../config/features';
 import { buildStudentCsv, type StudentSummary } from '../utils/studySummary';
 import { subjectTheme } from '../data/subjectTheme';
 import { toDateKey } from '../utils/studySummary';
@@ -82,7 +83,8 @@ interface TeacherDashboardProps {
 
 type Tab = 'students' | 'kanten' | 'classes';
 
-const SUBJECT_OPTIONS: Array<{ value: ClassroomDoc['subject']; label: string }> = [
+/** 統合版の全教科。クラス作成で選べるのは、このうち公開中（FEATURES）の教科だけ */
+const ALL_SUBJECT_OPTIONS: Array<{ value: ClassroomDoc['subject']; label: string }> = [
   { value: 'chemistry_basic', label: '化学基礎' },
   { value: 'chemistry', label: '化学' },
   { value: 'english_listening', label: '英語リスニング' },
@@ -91,6 +93,9 @@ const SUBJECT_OPTIONS: Array<{ value: ClassroomDoc['subject']; label: string }> 
   { value: 'english_grammar', label: '英文法' },
   { value: 'geography', label: '地理総合・地理探究' },
 ];
+const SUBJECT_OPTIONS = filterEnabledSubjects(ALL_SUBJECT_OPTIONS, (option) => option.value);
+/** クラス作成の初期教科（リスニング版の主役） */
+const DEFAULT_CLASS_SUBJECT: ClassroomDoc['subject'] = SUBJECT_OPTIONS[0]?.value ?? 'english_listening';
 
 export function TeacherDashboard({ onBack }: TeacherDashboardProps) {
   const [tab, setTab] = useState<Tab>('students');
@@ -106,7 +111,7 @@ export function TeacherDashboard({ onBack }: TeacherDashboardProps) {
   const [showCreate, setShowCreate] = useState(false);
   const [newSchoolName, setNewSchoolName] = useState('');
   const [newClassName, setNewClassName] = useState('');
-  const [newSubject, setNewSubject] = useState<ClassroomDoc['subject']>('chemistry_basic');
+  const [newSubject, setNewSubject] = useState<ClassroomDoc['subject']>(DEFAULT_CLASS_SUBJECT);
   const [creating, setCreating] = useState(false);
 
   // 名簿名のインライン編集
@@ -200,7 +205,7 @@ export function TeacherDashboard({ onBack }: TeacherDashboardProps) {
       setError('');
       try {
         const chapters = getChapterCatalog(subject);
-        const subjectLabel = SUBJECT_LABELS[subject] || '化学基礎';
+        const subjectLabel = SUBJECT_LABELS[subject] || subject;
         const rows = await fetchClassRawProgress(classId);
         setKantenReports(
           rows.map((row) =>

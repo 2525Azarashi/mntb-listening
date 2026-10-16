@@ -13,6 +13,21 @@ export type ReviewLocator = {
   questionIndex?: number;
 };
 
+/**
+ * 「解き直す」ボタンから演習画面へ渡す依頼（App の handleReviewNote が受け取る）。
+ *
+ * 呼び出し元は3つある：
+ *   ・復習ノート／学習ノート（StudyHub・NoteDetail）… 保存したノートや復習アイテムそのもの
+ *   ・学習記録（StudyLog の「解きなおす」）       … wholeQuestion / subQuestionIds を明示
+ *   ・復習アイテムのまとめ（GroupCard）            … subQuestionIds に間違えた小問をまとめる
+ */
+export type ReviewRequest = ReviewLocator & {
+  /** この小問だけを解き直す（間違えた問題だけ） */
+  subQuestionIds?: readonly string[];
+  /** 大問1つを、小問ぜんぶで解き直す */
+  wholeQuestion?: boolean;
+};
+
 /** Never fall back to an unrelated first question when a saved ID is missing. */
 export function resolveReviewTarget(note: ReviewLocator, subjects: Subject[]) {
   const entries = subjects.flatMap(subject => subject.parts.flatMap(part => part.chapters.map(chapter => ({

@@ -74,6 +74,7 @@ import { egV3Chapters, egV3ChapterId } from './egV3Problems';
 // 解説の後処理は listeningPostProcess.ts に1つだけ置いている
 // （リスニングとまったく同じループだったため共通化した）。
 import { applyListeningPostProcess } from './listeningPostProcess';
+import type { Problem } from '../types/curriculum';
 
 /**
  * 1つの単元。ListeningChapter / BiologyChapter と同形。
@@ -94,8 +95,8 @@ export interface GrammarChapter {
   questionGroup: string;
   /** 扱う内容 */
   topics: string[];
-  practiceProblems: any[];
-  miniTest: any[];
+  practiceProblems: Problem[];
+  miniTest: Problem[];
 }
 
 export interface GrammarPart {

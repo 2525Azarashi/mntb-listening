@@ -3,6 +3,7 @@ import { ArrowLeft, LogIn, UserPlus } from 'lucide-react';
 import { abortRoom, joinRoomByCode } from '../data/battle';
 import { AMBER, BattleButton, BattleNotice, BattleShell, BattleTitle, INK, INK_SUB, LINE } from './BattleParts';
 import { ConnectionCheckPanel } from './ConnectionCheckPanel';
+import { logRejection } from '../../utils/reportError';
 
 /** Normalize only for validation/submission, never rewrite an active IME buffer. */
 export function normalizeJoinCode(raw: string): string {
@@ -47,7 +48,7 @@ export function BattleFriendJoin({ onJoined, onBack, onOpenFriends }: {
     try {
       const roomId = await joinRoomByCode(value);
       if (mountedRef.current) onJoined(roomId);
-      else void abortRoom(roomId).catch(() => {});
+      else void abortRoom(roomId).catch(logRejection('battle.friendJoin.abortRoom'));
     } catch (e) {
       if (mountedRef.current) {
         setError(e instanceof Error ? e.message : '部屋に入れませんでした。');

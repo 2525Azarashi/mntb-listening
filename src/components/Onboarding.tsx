@@ -31,6 +31,7 @@ import { syncRankingNickname } from '../utils/leaderboard';
 import { profileKey } from '../utils/userStorageKeys';
 import { GoogleMark } from './GoogleLinkBanner';
 import { AppleSignInButton } from '../features/auth/AppleSignInButton';
+import { logRejection } from '../utils/reportError';
 
 interface OnboardingProps {
   onComplete: () => void;
@@ -98,7 +99,7 @@ export function Onboarding({ onComplete, onGuest }: OnboardingProps) {
         iconUrl: auth.currentUser.photoURL || '',
       }));
       // 初回に決めた名前もランキング側へ即反映（失敗しても進行は止めない）
-      void syncRankingNickname().catch(() => {});
+      void syncRankingNickname().catch(logRejection('ranking.syncNickname'));
       onComplete();
     } catch (saveError: any) {
       setError('プロフィールの保存に失敗しました。' + String(saveError?.message || ''));

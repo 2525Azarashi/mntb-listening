@@ -219,8 +219,6 @@ export function useBattleRoom(roomId: string | null): BattleRoomState & BattleRo
 
   /** 二重実行を防ぐための記録（進行・申告・レート反映） */
   const advancedRef = useRef<number>(-1);
-  /** 最後に「進める」を撃った問題番号と時刻（撃ち直しの見張り用） */
-  const advanceFiredRef = useRef<{ index: number; at: number } | null>(null);
   const revealStartedRef = useRef<{ index: number; at: number } | null>(null);
   const attestedRef = useRef(false);
   const ratedRef = useRef(false);

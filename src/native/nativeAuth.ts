@@ -5,7 +5,7 @@ import {
   signInWithCredential,
 } from 'firebase/auth';
 import { auth } from '../firebase';
-import type { GoogleSignInOutcome, SignInMethod } from '../utils/googleAuth';
+import type { GoogleSignInOutcome, SignInMethod } from '../utils/authTypes';
 
 /**
  * アプリ版（Capacitor）用のログイン処理。

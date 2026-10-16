@@ -39,6 +39,7 @@ export function resumeSharedAudio(): void {
   if (!ctx) return;
   const state = ctx.state as AudioContextState | 'interrupted';
   if (state === 'running' || state === 'closed') return;
+  // ユーザー操作の前はブラウザが resume を拒む。次の操作で再び resume するので捨ててよい
   void ctx.resume().catch(() => {});
 }
 
