@@ -13,7 +13,6 @@
 import { Explanation } from './Explanation';
 import { FloatingScoreAnimation } from './FloatingScoreAnimation';
 import { CorrectBurst } from './fx/CorrectBurst';
-import { stepScoreKey } from '../utils/listeningSteps';
 import type { ChapterRunState } from '../utils/quizRunState';
 import type { ScoreBreakdown } from '../utils/scoring';
 
@@ -63,17 +62,6 @@ export function ExplanationScreen({
   // Quiz.tsx にあったときの呼び名をそのまま残す（下の JSX を書き換えないため）。
   const setShowingExplanation = (_v: boolean) => onBackFromExplanation();
   const onExplanationChange: ((v: boolean) => void) | undefined = undefined;
-  /*
-    解説に渡すスコア。
-    ─────────────────────────────────────────────
-    1問ずつモード（リスニング）では、採点も「問ごと」に
-    run.perStep へ記録している（run.perQuestion は大問単位の台帳のまま）。
-    解説画面のスコア表示もその問の記録を出さないと、
-    「問2を解いたのに問1の点数が出る」ことになる。
-  */
-  const stored = perStep && activeStepSub
-    ? run.perStep?.[stepScoreKey(currentQuestion.id, activeStepSub.id)]
-    : run.perQuestion[currentQuestion?.id];
   return (
     <>
       <Explanation
@@ -90,10 +78,7 @@ export function ExplanationScreen({
         /* ご要望「だから解説も修正な」：1問ずつ解いたのだから、
            解説もその問だけに絞る（問2以降の正解が先に見えないようにする）。 */
         focusSubQuestionId={perStep && activeStepSub ? activeStepSub.id : null}
-        scoreBreakdown={stored || null}
-        scoreMeta={stored ? { timeLimit: stored.timeLimit, timeUsed: stored.timeUsed } : null}
         totalScore={run.totalScore}
-        runningCombo={run.runningCombo}
       />
       {/* ★正解したら全画面の演出（2026-10-01）★ 解説の表示は隠さない（触れない・1.2秒で抜ける） */}
       {scoreAnimationData && showScoreAnimation && scoreAnimationData.breakdown.basePoints > 0 && (

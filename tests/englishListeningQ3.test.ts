@@ -195,9 +195,10 @@ describe('F3 単元選択：横スクロールではなく一覧で並べる', (
     //   「単元ボタンを縦に置いたら選びづらいから横に並べて横スクロールに」
     //   （feat(navigation): make mobile chapter tabs horizontally scrollable）で
     //   スマホは横スクロール・PC（sm以上）は grid 一覧、が現行仕様になった。
-    const m = CHAPTER.match(/aria-label="章を選択"\s*\n\s*className="([^"]+)"/u);
+    // className は文字列リテラルでもテンプレートリテラル（{`...`}）でもよい
+    const m = CHAPTER.match(/aria-label="章を選択"\s*\n\s*className=(?:"([^"]+)"|\{`([^`]+)`\})/u);
     expect(m).toBeTruthy();
-    const cls = m![1];
+    const cls = m![1] ?? m![2];
     // スマホ：横スクロール（スナップ付き）
     expect(cls).toContain('overflow-x-auto');
     expect(cls).toContain('snap-x');

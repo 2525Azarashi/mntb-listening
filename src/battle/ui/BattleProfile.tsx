@@ -56,6 +56,7 @@ import { auth } from '../../firebase';
 import { STAGE_CLEAR_PERFECTS, readStageHistory, stageSummary } from '../../utils/stageRecords';
 import { useGrowthProgress } from '../../hooks/useGrowthProgress';
 import { BadgeChip, GrowthAvatar, LevelBar, NextGoals, StatCard, TitleChip } from './GrowthParts';
+import { logRejection } from '../../utils/reportError';
 
 export type ProfileTab = 'outfit' | 'shop' | 'badges' | 'stats' | 'gacha';
 
@@ -78,7 +79,7 @@ export function BattleProfile({ onBack, initialTab = 'outfit', standalone = fals
   useEffect(() => {
     let alive = true;
     setRating(1500);
-    void fetchMyRankingRow().then((r) => alive && r && setRating(r.rating)).catch(() => {});
+    void fetchMyRankingRow().then((r) => alive && r && setRating(r.rating)).catch(logRejection('battle.profile.fetchRanking'));
     return () => {
       alive = false;
     };

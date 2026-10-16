@@ -5,6 +5,7 @@ import { Headphones, Play, Pause, RotateCcw, Repeat2, FileText, ChevronDown } fr
 import { locateListeningEvidence } from '../utils/listeningExplanation';
 import type { ListeningAudioTrack } from '../data/englishListeningQ1AProblems';
 import { ScriptReading } from '../features/readAlong/ScriptReading';
+import { pauseAllAudio } from '../utils/audioElements';
 import {
   hasRealAudio,
   isSpeechSupported,
@@ -169,14 +170,6 @@ export interface ListeningAudioPlayerProps {
   className?: string;
 }
 
-/** 同一ページ上の他の音声を止める（BGM・他プレーヤーとの二重再生防止）。 */
-function pauseOtherAudio(current: HTMLAudioElement | null) {
-  if (typeof document === 'undefined') return;
-  document.querySelectorAll('audio').forEach((el) => {
-    if (el !== current && !el.paused) el.pause();
-  });
-}
-
 export function ListeningAudioPlayer({
   tracks,
   mode = 'practice',
@@ -264,7 +257,7 @@ export function ListeningAudioPlayer({
 
       // ---- MP3 が無い問題：ブラウザの音声合成で読み上げる ----
       if (!hasRealAudio(track)) {
-        pauseOtherAudio(null);
+        pauseAllAudio(null);
         repeatLeft.current = 0;
         // 対話（第3問）は話者ごとに声を替える。1つの声で通して読むと
         // どこで話者が替わったか分からず、「男性は何をするか」型の設問が解けない。
@@ -291,7 +284,7 @@ export function ListeningAudioPlayer({
       const el = audioRefs.current[subId];
       if (!el) return;
       stopSpeech();
-      pauseOtherAudio(el);
+      pauseAllAudio(el);
       repeatLeft.current = repeat ? 1 : 0;
       el.currentTime = 0;
       el.playbackRate = rate;

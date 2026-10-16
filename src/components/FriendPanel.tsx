@@ -23,6 +23,7 @@ import { safeAvatarUrl } from '../features/safety/avatarUrl';
 import { displaySafeNickname, displaySafePublicText } from '../features/safety/nicknameFilter';
 import { watchPublicStudyProfiles, type PublicStudyProfile } from '../utils/publicStudyProfile';
 import { formatStudyTime } from '../utils/studyTime';
+import { confirmAction } from '../utils/dialog';
 
 export function FriendPanel() {
   const [profile, setProfile] = useState<FriendProfile | null>(null);
@@ -222,7 +223,7 @@ export function FriendPanel() {
                 </>; })()}
               </span>
               <UserSafetyMenu target={{ uid: f.uid, nickname: f.nickname, where: 'friend' }} />
-              <button disabled={loading} onClick={() => { if (window.confirm(`${f.nickname} さんとのフレンド関係を解除しますか？`)) runAction(() => removeFriend(f.uid), 'フレンドを解除しました。'); }} className="text-xs font-bold text-red-500 hover:underline disabled:opacity-40">解除</button>
+              <button disabled={loading} onClick={() => { if (confirmAction(`${f.nickname} さんとのフレンド関係を解除しますか？`)) runAction(() => removeFriend(f.uid), 'フレンドを解除しました。'); }} className="text-xs font-bold text-red-500 hover:underline disabled:opacity-40">解除</button>
             </div>
           ))
         )}

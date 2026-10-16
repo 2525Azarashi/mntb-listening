@@ -101,7 +101,6 @@ export function ManaRush({ onBack, defaultSubject }: { onBack: () => void; defau
   const [lives, setLives] = useState(RUSH_LIVES);
   const [score, setScore] = useState(0);
   const [combo, setCombo] = useState(0);
-  const [maxCombo, setMaxCombo] = useState(0);
   const [correct, setCorrect] = useState(0);
   const [answered, setAnswered] = useState(0);
   const [remain, setRemain] = useState(RUSH_DURATION_MS);
@@ -141,7 +140,7 @@ export function ManaRush({ onBack, defaultSubject }: { onBack: () => void; defau
       const pool = (await loadPool(subject)).filter(isRushQuestion);
       if (pool.length < 5) { setError('この科目は出せる問題が足りません。別の科目を選んでください。'); setPhase('menu'); return; }
       setQueue(shuffle(pool).slice(0, 120));
-      setQi(0); setLives(RUSH_LIVES); setScore(0); setCombo(0); setMaxCombo(0); setCorrect(0); setAnswered(0);
+      setQi(0); setLives(RUSH_LIVES); setScore(0); setCombo(0); setCorrect(0); setAnswered(0);
       setMisses([]); setSummary(null); setFlash(null); setRemain(RUSH_DURATION_MS);
       stats.current = { score: 0, correct: 0, answered: 0, maxCombo: 0 };
       ended.current = false; busy.current = false;
@@ -188,7 +187,7 @@ export function ManaRush({ onBack, defaultSubject }: { onBack: () => void; defau
         bonus = true;
         deadline.current = Math.min(deadline.current + RUSH_TIME_BONUS_MS, Date.now() + RUSH_MAX_MS);
       }
-      setCombo(nextCombo); setMaxCombo(s.maxCombo); setCorrect(s.correct);
+      setCombo(nextCombo); setCorrect(s.correct);
       play('correct');
     } else {
       nextLives = lives - 1;

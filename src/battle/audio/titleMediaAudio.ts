@@ -2,6 +2,8 @@
  * Web Audio like battle music, without changing the licensed source file.
  * Retain one media source per element (also across StrictMode effects).
  */
+// AudioContext.resume() はユーザー操作の前にブラウザが拒むのが通常。次の操作・再生で再び resume するので、
+// このファイルの `.resume().catch(() => {})` は意図して捨てている。
 import { sharedAudioContext } from './sharedAudioContext';
 
 type Route = { context: AudioContext; gain: GainNode; source: MediaElementAudioSourceNode };

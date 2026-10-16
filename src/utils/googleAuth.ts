@@ -41,18 +41,11 @@ import { auth, provider, FIREBASE_CONFIGURED, USE_EMULATORS } from '../firebase'
 import { profileKey } from './userStorageKeys';
 import { isNativeApp } from '../native/platform';
 import { nativeSignIn, nativeSignOut } from '../native/nativeAuth';
+import type { GoogleSignInOutcome, SignInMethod } from './authTypes';
+import { logRejection } from './reportError';
+// 既存の呼び出し側（import { SignInMethod } from './googleAuth'）のため再公開する
+export type { GoogleSignInOutcome, SignInMethod } from './authTypes';
 
-/** サインイン結果 */
-export interface GoogleSignInOutcome {
-  /** 連携できたか */
-  ok: boolean;
-  /** 連携できたユーザー（redirect に切り替えた場合は undefined のままページが遷移する） */
-  user?: User;
-  /** ページ遷移（リダイレクト）を開始したので、この後の処理は不要 */
-  redirecting?: boolean;
-  /** 失敗理由（利用者向けの日本語） */
-  message?: string;
-}
 
 /**
  * LINE / Instagram などのアプリ内ブラウザ（WebView）かどうか。
@@ -97,8 +90,6 @@ export function describeAuthError(error: any): string {
   return String(error?.message || 'ログインに失敗しました。時間をおいてお試しください。');
 }
 
-/** ログイン方法（2026-10-02：App Store 申請に向けて Apple を戻した） */
-export type SignInMethod = 'google' | 'apple';
 
 /**
  * Apple でサインイン（App Store Review Guideline 4.8）。
@@ -188,7 +179,7 @@ export async function consumeGoogleRedirectResult(): Promise<User | null> {
 /** ログアウト（プロフィールのローカルキャッシュも掃除する） */
 export async function signOutGoogle(): Promise<void> {
   if (isNativeApp()) {
-    nativeSignOut().catch(() => {});
+    nativeSignOut().catch(logRejection('auth.nativeSignOut'));
   }
   const uid = auth.currentUser?.uid;
   await signOut(auth);

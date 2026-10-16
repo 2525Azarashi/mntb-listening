@@ -28,6 +28,7 @@ import { readStudyTime, formatStudyTime } from '../utils/studyTime';
 import { GOAL_OPTIONS, TARGET_SCHOOL_MAX, normalizeTargetSchool, readGoal, writeGoal, type GoalId } from '../utils/vocabGoal';
 import './profile-settings.css';
 import { readJsonArray } from '../utils/safeLocalStorage';
+import { logRejection } from '../utils/reportError';
 
 interface ProfileModalProps {
   onClose: () => void;
@@ -62,7 +63,7 @@ type SettingsTab = 'general' | 'friends' | 'class';
 export function ProfileModal({ onClose, initialTab, isBgmEnabled, setIsBgmEnabled, onToggleBgm, bgmVolume, setBgmVolume, onOpenTeacherDashboard, onOpenFeedbackAdmin, onOpenOutfit }: ProfileModalProps) {
   const { progress: growth } = useGrowthProgress();
   const [rating, setRating] = useState(1500);
-  useEffect(() => { let alive = true; if (auth.currentUser) void fetchMyRankingRow().then(r => { if (alive && r) setRating(r.rating); }).catch(() => {}); return () => { alive = false; }; }, []);
+  useEffect(() => { let alive = true; if (auth.currentUser) void fetchMyRankingRow().then(r => { if (alive && r) setRating(r.rating); }).catch(logRejection('profile.fetchRanking')); return () => { alive = false; }; }, []);
   const [studySeconds] = useState(() => readStudyTime(auth.currentUser?.uid || 'guest').total);
   const earnedBadges = BADGES.filter(b => b.id in growth.badges);
   const [tab, setTab] = useState<SettingsTab>(() => (initialTab && initialTab !== 'general' && auth.currentUser ? initialTab : 'general'));
@@ -151,8 +152,8 @@ export function ProfileModal({ onClose, initialTab, isBgmEnabled, setIsBgmEnable
       // 「プロフィールを変えたのにランキングが変わらない」と混乱させていた。
       // 通信失敗しても保存自体は成功として扱う（次回ログイン時に再同期される）。
       if (auth.currentUser) {
-        void syncRankingNickname().catch(() => {});
-        void ensureFriendProfile().catch(() => {});
+        void syncRankingNickname().catch(logRejection('ranking.syncNickname'));
+        void ensureFriendProfile().catch(logRejection('friends.ensureProfile'));
       }
       if (publishFailed) { setPublicationError(publishFailed); setProfilePublic(wasPublic); return; }
       onClose();

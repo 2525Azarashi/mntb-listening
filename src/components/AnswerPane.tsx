@@ -25,8 +25,6 @@ import React, { useEffect, useRef } from 'react';
 import { ChevronLeft, ChevronRight, Edit3 } from 'lucide-react';
 import { formatText } from '../utils/textFormatter';
 import { answerCardMarker } from '../utils/questionDisplay';
-import { ChemistryPalette, MathPalette } from './SymbolPalette';
-import { requiresChemicalSymbols, requiresMathSymbols } from '../utils/quizPaletteRules';
 import { handleInputFocusScroll } from '../utils/quizInputScroll';
 
 export interface AnswerPaneProps {
@@ -66,8 +64,6 @@ export interface AnswerPaneProps {
   renderedAnswerGroups: any;
   /** 選択式の解答UI（実体は MultipleChoiceControl.tsx）。 */
   renderMultipleChoiceControl: (sq: any) => React.ReactNode;
-  /** スマホの数学で、入力の設問を 4択にしたもの（作れなければ null → 入力のまま） */
-  mobileChoiceSub?: (sq: any) => any | null;
   /** 並べ替えの解答UI（実体は SortingControl.tsx）。 */
   renderSortingControl: (sq: any) => React.ReactNode;
   /** この大問が数式パレットを要るかどうか。 */
@@ -100,7 +96,6 @@ export function AnswerPane({
   isLastNavSub,
   renderedAnswerGroups,
   renderMultipleChoiceControl,
-  mobileChoiceSub,
   renderSortingControl,
   questionNeedsMathPalette,
   isProblemExpanded,
@@ -490,12 +485,7 @@ export function AnswerPane({
                   </span>
                 )}
 
-                {!isDesktop && sq.type === 'short_answer' && mobileChoiceSub?.(sq) ? (
-                  // ★スマホの数学は4択★（選んだ文字列をそのまま答えとして採点する。PC は入力のまま）
-                  <div className="w-full" data-math-mobile-choice>
-                    {renderMultipleChoiceControl(mobileChoiceSub(sq))}
-                  </div>
-                ) : sq.type === 'multiple_choice' ? (
+                {sq.type === 'multiple_choice' ? (
                   // ★全教科・全端末で選択肢をカード内に直接表示する。
                   //   以前のスマホは「カード＝表示専用チップ → タップで下部
                   //   固定パネルにもう1つ選択UIが出る」2段構えで、同じ設問の
@@ -525,22 +515,6 @@ export function AnswerPane({
                             className="w-full pl-9 pr-4 py-2 md:py-2.5 text-[16px] md:text-sm rounded-xl border border-gray-300 focus:ring-2 focus:ring-[#A9CCE3] focus:border-[#A9CCE3] outline-none transition-all font-modern resize-none bg-gray-50 focus:bg-white leading-relaxed"
                           />
                         </div>
-                        {/* 化学記号パレット（反応式・化学式の記述が必要な問題のみ表示） */}
-                        {requiresChemicalSymbols(sq) && (
-                          <ChemistryPalette
-                            value={answers[sq.id] || ''}
-                            onChange={(next) => handleTextChange(sq.id, next)}
-                            inputRef={getInputRef(sq.id)}
-                          />
-                        )}
-                        {/* 数学記号パレット（数III積分など requiresMathPalette の問題のみ） */}
-                        {requiresMathSymbols(sq) && (
-                          <MathPalette
-                            value={answers[sq.id] || ''}
-                            onChange={(next) => handleTextChange(sq.id, next)}
-                            inputRef={getInputRef(sq.id)}
-                          />
-                        )}
                       </>
                     ) : (
                       // スマホ：この欄に直接入力する（ご指摘：「タップしたらなんで
@@ -562,22 +536,6 @@ export function AnswerPane({
                             className="w-full pl-9 pr-4 py-3 text-[16px] rounded-xl border border-gray-300 focus:ring-2 focus:ring-[#A9CCE3] focus:border-[#A9CCE3] outline-none transition-all font-modern resize-none bg-gray-50 focus:bg-white leading-relaxed"
                           />
                         </div>
-                        {/* 化学・数学記号パレット：フォーカス中の設問にだけ出す
-                            （常時表示だとカードが縦に伸びて他の設問が埋もれる）。 */}
-                        {focusedSubId === sq.id && requiresChemicalSymbols(sq) && (
-                          <ChemistryPalette
-                            value={answers[sq.id] || ''}
-                            onChange={(next) => handleTextChange(sq.id, next)}
-                            inputRef={getInputRef(sq.id)}
-                          />
-                        )}
-                        {focusedSubId === sq.id && requiresMathSymbols(sq) && (
-                          <MathPalette
-                            value={answers[sq.id] || ''}
-                            onChange={(next) => handleTextChange(sq.id, next)}
-                            inputRef={getInputRef(sq.id)}
-                          />
-                        )}
                       </>
                     )}
                   </div>
@@ -597,22 +555,6 @@ export function AnswerPane({
                             className="w-full pl-9 pr-4 py-2.5 md:py-2.5 text-[16px] md:text-sm rounded-xl border border-gray-300 focus:ring-2 focus:ring-[#A9CCE3] focus:border-[#A9CCE3] outline-none transition-all font-modern bg-gray-50 focus:bg-white shadow-sm leading-relaxed"
                           />
                         </div>
-                        {/* 化学記号パレット（必要な問題のみ表示・カーソル位置に挿入） */}
-                        {requiresChemicalSymbols(sq) && (
-                          <ChemistryPalette
-                            value={answers[sq.id] || ''}
-                            onChange={(next) => handleTextChange(sq.id, next)}
-                            inputRef={getInputRef(sq.id)}
-                          />
-                        )}
-                        {/* 数学記号パレット（requiresMathPalette の問題のみ・カーソル位置に挿入） */}
-                        {requiresMathSymbols(sq) && (
-                          <MathPalette
-                            value={answers[sq.id] || ''}
-                            onChange={(next) => handleTextChange(sq.id, next)}
-                            inputRef={getInputRef(sq.id)}
-                          />
-                        )}
                       </>
                     ) : (
                       // スマホ：この欄に直接入力する（重複解答欄の解消）。
@@ -633,21 +575,6 @@ export function AnswerPane({
                             className="w-full pl-9 pr-4 py-3 min-h-[3.25rem] text-[16px] rounded-xl border border-gray-300 focus:ring-2 focus:ring-[#A9CCE3] focus:border-[#A9CCE3] outline-none transition-all font-modern bg-gray-50 focus:bg-white shadow-sm leading-relaxed"
                           />
                         </div>
-                        {/* 記号パレットはフォーカス中の設問にだけ出す。 */}
-                        {focusedSubId === sq.id && requiresChemicalSymbols(sq) && (
-                          <ChemistryPalette
-                            value={answers[sq.id] || ''}
-                            onChange={(next) => handleTextChange(sq.id, next)}
-                            inputRef={getInputRef(sq.id)}
-                          />
-                        )}
-                        {focusedSubId === sq.id && requiresMathSymbols(sq) && (
-                          <MathPalette
-                            value={answers[sq.id] || ''}
-                            onChange={(next) => handleTextChange(sq.id, next)}
-                            inputRef={getInputRef(sq.id)}
-                          />
-                        )}
                       </>
                     )}
                   </div>

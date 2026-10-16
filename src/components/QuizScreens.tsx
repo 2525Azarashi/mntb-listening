@@ -67,7 +67,7 @@
  * つまり「読み込み中は何も出ない」は元からの挙動と同じであり、
  * 新しい待ち時間の見え方を持ち込んでいない。
  */
-import React, { useEffect } from 'react';
+import React from 'react';
 import { applyReviewFocus, readReviewFocus } from '../utils/reviewFocus';
 import { Quiz } from './Quiz';
 import { Explanation } from './Explanation';
@@ -207,6 +207,7 @@ export function QuizScreens({
   }
 
   // 結果・解説画面からの画面遷移（区切り）時に頻度制限付きインタースティシャル広告を試行
+  // 広告の失敗（在庫なし・頻度制限・Web）で画面遷移を止めない
   const triggerAdAndAction = (action?: () => void) => {
     showInterstitialAd().catch(() => {});
     action?.();

@@ -84,7 +84,11 @@ export function readStageHistory(uid: string | null | undefined): StageHistoryEn
   } catch { return []; }
 }
 
-/** 1回の挑戦（ステージを最後まで解いた）を記録する。満点なら満点回数を1つ増やす。 */
+/**
+ * 1回の挑戦（ステージを最後まで解いた）をこの端末に記録する。満点なら満点回数を1つ増やす。
+ * 端末共通の集計への送信は呼び出し側（utils/stagePlay.ts の recordStagePlayAndSync）が行う。
+ * ここは保存だけを受け持ち、通信の層（achievementsSync）を知らない（循環参照を作らない）。
+ */
 export function recordStagePlay(uid: string | null | undefined, key: string, title: string, correct: number, judgeable: number, now = Date.now()): StageRecord | null {
   if (!key || !Number.isFinite(correct) || !Number.isFinite(judgeable) || judgeable <= 0) return null;
   const store = safeLocalStorage();
@@ -100,8 +104,6 @@ export function recordStagePlay(uid: string | null | undefined, key: string, tit
     store.setItem(keyOf(RECORDS, uid), JSON.stringify(records));
     store.setItem(keyOf(HISTORY, uid), JSON.stringify(history));
   } catch { /* 容量不足などは無視（学習は止めない） */ }
-  // 端末共通の集計へ（ログイン中のみ・失敗しても学習は止めない）
-  if (uid && uid !== 'guest') void import('./achievementsSync').then(m => m.scheduleAchievementsSync()).catch(() => {});
   return next;
 }
 

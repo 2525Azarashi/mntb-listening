@@ -45,3 +45,7 @@ ios/App/App/GoogleService-Info.plist
 android/app/google-services.json
 .DS_Store
 zz_uicheck/
+
+# クラッシュダンプ（ルート直下のみ。src/battle/core/ を巻き込まない）
+/core
+/core.[0-9]*

@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>マナトビ 事業概要（コンテスト審査用）</title>
+<meta name="viewport" content="width=1280">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@800&family=Inter:wght@500;600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/*
+ * 書体と色の決まり（宛先＝コンテスト審査員に合わせて落ち着かせる）
+ *   文字サイズは 3 段だけ：見出し 32px／本文 18px／補足 16px（16px 未満は使わない）
+ *   例外：表紙の見出し（丸ゴ太字・表紙だけ）と、スライド6の数字
+ *   色：アプリの tokens.css から。地は紙色、文字は墨、ブランドの青。オレンジは一語ハイライト（全体で2回）だけ
+ */
+:root{
+  --brand:#2458a6; --brand-soft:#e7eef8;
+  --accent-ink:#8a4b00; --accent-soft:#fdf0db;
+  --paper:#fcf5e9; --white:#fff;
+  --ink:#1c2a39; --ink-2:#3e4c5b; --ink-3:#5a6573;
+  --line:#e3d9c8; --line-strong:#cbbda6;
+  --h:32px; --b:18px; --s:16px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{background:#efe8da}
+body{font-family:'Inter','Noto Sans JP',sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased;font-feature-settings:"palt" 1}
+.slide{width:1280px;height:720px;margin:24px auto;position:relative;overflow:hidden;background:var(--paper);
+  padding:60px 80px 64px;display:flex;flex-direction:column}
+@media print{html{background:none}.slide{margin:0;break-after:page}@page{size:1280px 720px;margin:0}}
+h2{font-family:'Noto Sans JP',sans-serif;font-weight:700;font-size:var(--h);line-height:1.45;color:var(--ink);letter-spacing:.01em}
+p,li,dd,td{font-size:var(--b);line-height:1.75;color:var(--ink-2)}
+.s{font-size:var(--s);line-height:1.65;color:var(--ink-3)}
+.body{flex:1;display:flex;align-items:center;min-height:0}
+.mark{background:linear-gradient(transparent 62%,var(--accent-soft) 62%);color:var(--accent-ink)}
+.folio{position:absolute;right:80px;bottom:26px;font-size:var(--s);color:var(--ink-3)}
+.phone{border-radius:28px;border:7px solid #1c2a39;overflow:hidden;background:#fff;flex:none;
+  box-shadow:0 3px 0 #cbbda6,0 16px 30px rgba(40,30,15,.14)}
+.phone img{display:block;width:100%;height:auto}
+b,strong{color:var(--ink);font-weight:700}
+</style>
+</head>
+<body>
+
+<!-- 1. 表紙 ------------------------------------------------------------ -->
+<section class="slide" id="s1" style="padding:0">
+  <style>
+    #s1{display:grid;grid-template-columns:1fr 420px;align-items:center}
+    #s1 .l{padding:0 0 0 80px}
+    #s1 .logo{width:230px;display:block;margin-bottom:40px}
+    #s1 h1{font-family:'M PLUS Rounded 1c',sans-serif;font-weight:800;font-size:42px;line-height:1.5;color:var(--ink)}
+    #s1 .sub{margin-top:28px}
+    #s1 .meta{margin-top:44px;padding-top:20px;border-top:1px solid var(--line)}
+    #s1 .r{height:100%;background:var(--brand-soft);display:flex;align-items:center;justify-content:center}
+    #s1 .phone{width:292px}
+  </style>
+  <div class="l">
+    <img class="logo" src="img/logo.webp" alt="マナトビ">
+    <h1>共通テスト英語リスニングの演習は、聞く・解く・確かめる・競うまで、このアプリ1本で完結します。</h1>
+    <p class="sub">作ったのは、受験を終えた大学生2人です。</p>
+    <p class="s meta">マナトビ　事業概要｜App Store・Google Play で公開中</p>
+  </div>
+  <div class="r"><div class="phone"><img src="img/f_home.jpg" alt="マナトビのホーム画面"></div></div>
+</section>
+
+<!-- 2. なぜ作ったか ---------------------------------------------------- -->
+<section class="slide" id="s2">
+  <style>
+    #s2 .body{display:grid;grid-template-columns:1fr 330px;gap:64px;align-items:center}
+    #s2 ol{list-style:none;position:relative}
+    #s2 ol:before{content:"";position:absolute;left:9px;top:12px;bottom:12px;width:2px;background:var(--line-strong)}
+    #s2 li{position:relative;padding-left:44px}
+    #s2 li+li{margin-top:30px}
+    #s2 li:before{content:"";position:absolute;left:0;top:7px;width:20px;height:20px;border-radius:50%;background:var(--paper);border:3px solid var(--brand)}
+    #s2 .when{font-size:var(--s);color:var(--brand);font-weight:700}
+    #s2 blockquote{font-family:'Noto Sans JP',sans-serif;font-weight:500;font-size:24px;line-height:1.6;color:var(--ink);margin-top:4px}
+    #s2 .team{background:var(--white);border:1px solid var(--line);border-radius:14px;padding:26px 28px}
+    #s2 .team dt{font-size:var(--b);font-weight:700;color:var(--ink);margin-top:16px}
+    #s2 .team dt:first-of-type{margin-top:10px}
+    #s2 .team dd{font-size:var(--s);color:var(--ink-3)}
+  </style>
+  <h2>受験でインプットに逃げて伸び悩んだ経験から、<br>大学生2人がアウトプットの場として作りました。</h2>
+  <div class="body">
+    <ol>
+      <li><div class="when">受験生のころ</div><blockquote>「私はインプットに逃げたためになかなか成績が伸びずに上手くいきませんでした。」</blockquote></li>
+      <li><div class="when">そこから得た答え</div><blockquote>「ひたすらに実践すること。それだけです。」</blockquote></li>
+      <li><div class="when">大学生になって</div><p>演習と解答解説を全大問にそろえたリスニングアプリを作り、公開しました。</p></li>
+    </ol>
+    <div class="team">
+      <p class="s">つくった人</p>
+      <dl>
+        <dt>庄司 悠人</dt><dd>関西学院大学 工学部 2年</dd>
+        <dt>磯和 宏樹</dt><dd>三重大学 教育学部 2年</dd>
+      </dl>
+    </div>
+  </div>
+  <p class="s">引用はアプリ内の開発者の手紙「学びの扉 ～私達に出来ることを～」から</p>
+  <div class="folio">2 / 7</div>
+</section>
+
+<!-- 3. 課題→解決 ------------------------------------------------------ -->
+<section class="slide" id="s3">
+  <style>
+    #s3 .body{position:relative}
+    #s3 .grid{display:grid;grid-template-columns:440px 1fr;column-gap:120px;row-gap:26px;width:100%}
+    #s3 .head{font-size:var(--s);font-weight:700;color:var(--ink-3)}
+    #s3 .c{border-radius:14px;padding:18px 22px;min-height:112px;display:flex;flex-direction:column;justify-content:center}
+    #s3 .p{background:var(--white);border:1px solid var(--line)}
+    #s3 .f{background:var(--brand-soft);border:1px solid #c9d7ee}
+    #s3 .c strong{font-size:var(--b);line-height:1.5}
+    #s3 .c span{font-size:var(--s);line-height:1.6;color:var(--ink-3);margin-top:4px}
+    #s3 svg{position:absolute;left:440px;top:0;width:120px;height:100%;overflow:visible}
+  </style>
+  <h2>受験生がつまずく3つの場面に、機能を1つずつ対応させています。</h2>
+  <div class="body">
+    <div class="grid">
+      <div class="head">つまずく場面（開発者の受験経験から立てた仮説）</div><div class="head">マナトビの機能</div>
+      <div class="c p"><strong>答え合わせをしても、どの一語を聞き落としたかが分からない</strong></div>
+      <div class="c f"><strong>聞き取りの決め手つきスクリプト</strong><span>正解の根拠になった英文に番号と色が付きます</span></div>
+      <div class="c p"><strong>本番と同じ1回読みで練習する機会が少ない</strong></div>
+      <div class="c f"><strong>本番と同じ形式の演習を、第1問Aから第6問Bまで</strong><span>第4問から第6問は、本番どおり音声が1回しか流れません</span></div>
+      <div class="c p"><strong>一人の演習は続きにくい</strong></div>
+      <div class="c f"><strong>同じ問題で競う対戦</strong><span>AI・フレンド・全国の3種類</span></div>
+    </div>
+    <svg id="links" aria-hidden="true"></svg>
+  </div>
+  <div class="folio">3 / 7</div>
+</section>
+
+<!-- 4. 核心の1枚 ------------------------------------------------------- -->
+<section class="slide" id="s4">
+  <style>
+    #s4{padding-top:40px;padding-bottom:30px}
+    #s4 h2{font-size:30px}
+    #s4 .body{display:grid;grid-template-columns:270px 1fr;gap:80px;align-items:center;margin-top:16px}
+    #s4 .phone{width:270px}
+    #s4 .wrap{position:relative}
+    #s4 .ann{list-style:none;counter-reset:a}
+    #s4 .ann li{counter-increment:a;position:relative;padding-left:46px}
+    #s4 .ann li+li{margin-top:24px}
+    #s4 .ann li:before{content:counter(a);position:absolute;left:0;top:2px;width:30px;height:30px;border-radius:50%;background:var(--brand);color:#fff;
+      font-weight:700;font-size:var(--s);display:flex;align-items:center;justify-content:center}
+    #s4 .pin{position:absolute;width:30px;height:30px;border-radius:50%;background:var(--brand);color:#fff;font-weight:700;font-size:var(--s);
+      display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 3px #fff}
+    #s4 .claim{margin-top:34px;padding-top:24px;border-top:1px solid var(--line);font-size:var(--b);color:var(--ink)}
+  </style>
+  <h2>解き終えた直後に、正解の根拠になった英文をスクリプトの中で確かめられます。</h2>
+  <div class="body">
+    <div class="wrap">
+      <div class="phone"><img src="img/f_evidence.jpg" alt="第4問Bの解説画面。スクリプトの根拠部分に番号つきの色が付いている"></div>
+      <span class="pin" style="left:-16px;top:250px">1</span>
+      <span class="pin" style="right:-16px;top:18px">2</span>
+      <span class="pin" style="right:-16px;top:82px">3</span>
+    </div>
+    <div>
+      <ol class="ann">
+        <li><p><strong>番号つきの黄色の部分が「<span class="mark">聞き取りの決め手</span>」です。</strong>正解を選ぶ根拠になった英文を示します。</p></li>
+        <li><p><strong>設問の番号を押すと、その設問の解説に移ります。</strong></p></li>
+        <li><p><strong>スクリプトを見ながら、音声をもう一度聞けます。</strong>0.75倍のゆっくり再生もできます。</p></li>
+      </ol>
+      <p class="claim">解いた直後に根拠の英文まで戻れるので、1回のアウトプットごとに「どこを聞き落としたか」まで分かります。</p>
+      <p class="s" style="margin-top:14px">画面は第4問Bの解説。決め手は第4問A〜第6問Bの全大問（120音源）に付いています。</p>
+    </div>
+  </div>
+  <div class="folio">4 / 7</div>
+</section>
+
+<!-- 5. 対戦と続ける仕組み --------------------------------------------- -->
+<section class="slide" id="s5">
+  <style>
+    #s5{padding-top:44px;padding-bottom:30px}
+    #s5 .body{display:grid;grid-template-columns:1fr 268px;gap:80px;align-items:center;margin-top:12px}
+    #s5 .phone{width:268px}
+    #s5 .folio{right:auto;left:80px}
+    #s5 table{width:100%;border-collapse:collapse}
+    #s5 th,#s5 td{text-align:left;padding:14px 0;border-bottom:1px solid var(--line);vertical-align:top}
+    #s5 th{width:150px;font-size:var(--b);font-weight:700;color:var(--ink)}
+    #s5 .after{display:flex;gap:20px;align-items:center;margin-top:30px}
+    #s5 .after img{width:84px;flex:none}
+  </style>
+  <h2>同じ問題で相手と競えるので、<br>一人では続きにくい演習にも続ける理由が生まれます。</h2>
+  <div class="body">
+    <div>
+      <table>
+        <tr><th>AIと対戦</th><td>ログインせずに、すぐ始められます。</td></tr>
+        <tr><th>フレンド</th><td>4文字の合言葉で友だちを呼び、1対1で戦います。</td></tr>
+        <tr><th>全国対戦</th><td>ログインした受験生どうしで戦い、勝敗でランクが動きます。</td></tr>
+      </table>
+      <p style="margin-top:24px">正解で60点、速く答えるほどボーナスが付きます。</p>
+      <div class="after">
+        <img src="img/good.webp" alt="">
+        <p>対戦で間違えた問題は復習ノートに入り、あとで解説と一緒に聞き直せます。</p>
+      </div>
+    </div>
+    <div class="phone"><img src="img/f_battle.jpg" alt="対戦の入口画面"></div>
+  </div>
+  <div class="folio">5 / 7</div>
+</section>
+
+<!-- 6. いまの到達点 ---------------------------------------------------- -->
+<section class="slide" id="s6">
+  <style>
+    #s6 .body{display:grid;grid-template-columns:repeat(3,1fr);gap:0;align-items:center}
+    #s6 .k{padding:8px 40px;border-left:1px solid var(--line);display:flex;flex-direction:column}
+    #s6 .k:first-child{border-left:0;padding-left:0}
+    #s6 .k:last-child{padding-right:0}
+    #s6 .n{font-family:'Inter',sans-serif;font-weight:700;font-size:60px;line-height:1.1;color:var(--ink);letter-spacing:-.02em}
+    #s6 .n small{font-family:'Noto Sans JP',sans-serif;font-size:var(--b);font-weight:700;margin-left:6px;letter-spacing:0}
+    #s6 .what{font-size:var(--b);color:var(--ink-2);margin-top:6px}
+    #s6 .so{margin-top:36px;padding-top:22px;border-top:2px solid var(--brand);font-size:var(--b);line-height:1.7;color:var(--ink)}
+    #s6 .so:before{content:"だから";display:block;font-size:var(--s);font-weight:700;color:var(--brand);margin-bottom:4px}
+  </style>
+  <h2>教材は全大問がそろっていて、<br>問題を増やす費用も小さいことが分かっています。</h2>
+  <div class="body">
+    <div class="k">
+      <div class="n">135<small>大問</small></div>
+      <p class="what">第1問Aから第6問Bまで、9単元・554小問。すべてに解答解説があります。</p>
+      <p class="so">共通テスト英語リスニングの出題形式は、すべてこのアプリだけで練習できます。</p>
+    </div>
+    <div class="k">
+      <div class="n">US$30<small>.20</small></div>
+      <p class="what">音源374本の制作費の合計です（音声生成サービスの領収書3件）。</p>
+      <p class="so">1本あたり<span class="mark">約8セント</span>なので、問題を増やす費用はほとんどかかりません。</p>
+    </div>
+    <div class="k">
+      <div class="n">453,425<small>人</small></div>
+      <p class="what">2026年1月の共通テストで、英語リスニングを受けた人数です。</p>
+      <p class="so">本試験の受験者の約98%にあたり、受験生のほぼ全員が対象になります。</p>
+    </div>
+  </div>
+  <p class="s">出典：大学入試センター「令和8年度大学入学共通テスト 実施結果の概要」（2026年2月5日）。大問数と音源数はアプリの問題データと音源台帳から集計。</p>
+  <div class="folio">6 / 7</div>
+</section>
+
+<!-- 7. お願い ---------------------------------------------------------- -->
+<section class="slide" id="s7">
+  <style>
+    #s7 .body{display:grid;grid-template-columns:1fr 440px;gap:64px;align-items:center}
+    #s7 ol{list-style:none;counter-reset:st}
+    #s7 ol li{counter-increment:st;position:relative;padding:14px 0 14px 46px;border-bottom:1px solid var(--line)}
+    #s7 ol li:before{content:counter(st);position:absolute;left:0;top:16px;width:28px;height:28px;border-radius:50%;border:2px solid var(--brand);
+      color:var(--brand);font-weight:700;font-size:var(--s);display:flex;align-items:center;justify-content:center}
+    #s7 .qr{display:grid;grid-template-columns:1fr 1fr;gap:28px;text-align:center}
+    #s7 .qr img{width:100%;display:block;background:#fff;border:1px solid var(--line);border-radius:14px;padding:10px}
+    #s7 .qr p{font-size:var(--s);margin-top:10px;color:var(--ink-2)}
+    #s7 .mail{margin-top:30px;font-size:var(--b)}
+  </style>
+  <h2>審査の前に、ゲストで1大問を解いて、<br>解説の「聞き取りの決め手」まで見てください。</h2>
+  <div class="body">
+    <div>
+      <ol>
+        <li><p>右のQRコードからアプリを入れて、「登録せずにゲストで試す」を押します。</p></li>
+        <li><p>「演習する」→「英語リスニング」→「第4問 B」と進み、1大問を解きます。</p></li>
+        <li><p>解き終えたら「詳しい結果を確認する」を押し、スクリプトの黄色の部分を見てください。</p></li>
+      </ol>
+      <p class="mail"><strong>連絡先</strong>　mntobira@gmail.com</p>
+    </div>
+    <div class="qr">
+      <div><img src="img/qr_appstore.png" alt="App Store のQRコード"><p>App Store（iPhone）</p></div>
+      <div><img src="img/qr_googleplay.png" alt="Google Play のQRコード"><p>Google Play（Android）</p></div>
+    </div>
+  </div>
+  <div class="folio">7 / 7</div>
+</section>
+
+<script>
+/* スライド3：課題（左）と機能（右）を線でつなぐ。カードの実寸から座標を取るので、文言が変わってもずれない */
+(function(){
+  const s=document.getElementById('s3'), svg=document.getElementById('links');
+  const box=svg.getBoundingClientRect();
+  const P=[...s.querySelectorAll('.c.p')], F=[...s.querySelectorAll('.c.f')];
+  let d='';
+  P.forEach((p,i)=>{const a=p.getBoundingClientRect(), b=F[i].getBoundingClientRect();
+    const y1=a.top+a.height/2-box.top, y2=b.top+b.height/2-box.top;
+    d+=`<line x1="0" y1="${y1}" x2="${box.width}" y2="${y2}" stroke="#2458a6" stroke-width="2"/>`+
+       `<circle cx="0" cy="${y1}" r="5" fill="#2458a6"/><circle cx="${box.width}" cy="${y2}" r="5" fill="#2458a6"/>`;});
+  svg.innerHTML=d;
+})();
+</script>
+</body>
+</html>

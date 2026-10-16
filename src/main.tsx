@@ -23,9 +23,10 @@ if (typeof document !== 'undefined') {
 // PWA Service Worker 登録（アプリの中では使わない）
 if ('serviceWorker' in navigator && import.meta.env.PROD) {
   if (isNativeApp()) {
+    // アプリ版では旧 Service Worker を外すだけ。外せなくても起動は続ける
     navigator.serviceWorker.getRegistrations().then((regs) => {
       regs.forEach((r) => r.unregister());
-    }).catch(() => {});
+    }).catch(() => {}); // 外せなくても起動は続ける
   } else {
     window.addEventListener('load', () => {
       navigator.serviceWorker
@@ -33,6 +34,7 @@ if ('serviceWorker' in navigator && import.meta.env.PROD) {
         .then((reg) => {
           // 画面を開いたまま新しい版が出たときも、戻ってきたときに更新を確認する
           document.addEventListener('visibilitychange', () => {
+            // 更新確認の失敗（オフライン）は次に戻ってきたときに再確認する
             if (document.visibilityState === 'visible') reg.update().catch(() => undefined);
           });
         })

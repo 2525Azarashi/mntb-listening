@@ -311,8 +311,8 @@ describe('解答画面：音源は左（問題文）ペインに横帯で置く'
     見出し行の下に独立した段落として置かれ、1行ぶん図を押し下げていた。
   */
   it('短い設問文は「問N（全N問中N問目）」と同じ行に置く（図を上げる）', () => {
-    // 全角20文字相当までを見出し行へ寄せる。
-    expect(PROBLEM).toContain('const inlineBody = body && body.length <= 20 ? body : \'\'');
+    // 全角20文字相当（表示幅。ASCII は 0.5 文字）までを見出し行へ寄せる。
+    expect(PROBLEM).toContain('const inlineBody = body && displayWidthOf(body) <= 20 ? body : \'\'');
     expect(PROBLEM).toContain('const blockBody = inlineBody ? \'\' : body');
     // 見出し行は折り返せるようにし、問Nバッジと問数表示は縮ませない。
     expect(PROBLEM).toContain('flex items-center gap-2 flex-wrap');
@@ -374,7 +374,8 @@ describe('解答画面：消去法（選択肢を直接タップして斜線を�
     // 実際に使っているキー生成と、読み書き両方の存在で確認する。
     // 引数名はフック側では chapterId（Quiz.tsx から chapter.id を渡す）。
     expect(ELIM).toContain('quizElimKey(chapterId, mode)');
-    expect(ELIM).toContain('localStorage.setItem(quizElimKey(chapterId, mode)');
+    // 書き込みは保存失敗を記録する safeSetItem（utils/storageGuard.ts）経由
+    expect(ELIM).toContain('safeSetItem(quizElimKey(chapterId, mode)');
     expect(ELIM).toContain('localStorage.getItem(quizElimKey(chapterId, mode))');
 
     const { quizElimKey } = await import('../src/utils/quizStorageKeys');

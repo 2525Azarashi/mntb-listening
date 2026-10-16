@@ -20,7 +20,9 @@ function isAdDisabled(): boolean {
     const params = new URLSearchParams(window.location.search);
     if (params.get('no_ads') === '1' || params.get('screenshot') === '1') return true;
     if (localStorage.getItem('no_ads') === '1' || localStorage.getItem('screenshot_mode') === 'true') return true;
-  } catch {}
+  } catch {
+    // URL・localStorage を読めない環境では広告の無効化指定なしとして扱う
+  }
   return false;
 }
 
