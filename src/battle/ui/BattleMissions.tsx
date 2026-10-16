@@ -24,6 +24,8 @@ import { play, primeAudio } from './feedback';
 import { AMBER, BattleButton, BattleLoading, BattleNotice, BattleShell, BattleTitle, GOLD, INK, INK_SUB, LINE } from './BattleParts';
 import type { MissionDestination } from '../core/growth';
 import { GrowthAvatar, LevelBar, MissionRow } from './GrowthParts';
+import { useMasonrySpans } from '../../hooks/useMasonrySpans';
+import { useIsDesktop } from '../../hooks/useMediaQuery';
 
 function remainLabel(ms: number): string {
   const h = Math.floor(ms / 3_600_000);
@@ -91,6 +93,10 @@ export function BattleMissions({ onBack, onBattle, onReview, onShop, onRush, sta
       setToast('端末に保存できませんでした。ブラウザの保存設定・空き容量を確認してください。');
     }
   };
+
+  // PC のマイページでは3列に詰めて並べる（各カードの高さを測って、列ごとに上から積む）
+  const desktop = useIsDesktop();
+  useMasonrySpans('.missions-shell > main > .notebook-paper', standalone && desktop && !!progress, [progress, toast, chestReward, justClaimed]);
 
   if (!progress) {
     return (
@@ -304,6 +310,10 @@ export function BattleMissions({ onBack, onBattle, onReview, onShop, onRush, sta
         <Sparkles size={12} className="mt-0.5 shrink-0" style={{ color: AMBER }} />
         ミッションは毎日0時に入れかわり、全員おなじ内容です。ボーナスミッションは演習（大問に得点）・英単語（4択・単語帳）・マナラッシュ・ガチャや着がえで進みます。達成すると、どの画面でも上にお知らせが出ます。コインは「プロフィール」でとびら君の装備と交換できます。
         復習リストの「できた」で進みます。同じ問題は1日1回までです。全部うけとると宝箱が開き、7日連続で大当たりです。
+      </p>
+      {/* PC は1画面に収めるため、上の説明を短い1行にする（中身は同じ：毎日0時に入れかわる・全部うけとると宝箱） */}
+      <p className="missions-note-short" style={{ color: INK_SUB }}>
+        <Sparkles size={12} aria-hidden style={{ color: AMBER }} /> 毎日0時に入れかわり、全員おなじ内容。全部うけとると宝箱が開き、7日連続で大当たり。
       </p>
       {extra && <div className="missions-extra">{extra}</div>}
     </BattleShell>
