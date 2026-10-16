@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ArrowRight, BookOpen, ChevronLeft, Headphones, PenLine, Swords } from 'lucide-react';
-import type { SubjectId } from './SubjectSelection';
+import type { SubjectId } from '../data/subjectLabels';
 import { getSubjectStats } from '../data/chapterIndex.generated';
 import { VOCABULARY_COUNT } from '../data/listeningVocabularyMeta.generated';
 import { auth } from '../firebase';

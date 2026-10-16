@@ -21,8 +21,7 @@ import {
   getAllListeningChapters,
   getListeningStats,
 } from '../src/data/englishListeningData';
-import { chemistryData } from '../src/data/chemistryData';
-import { getAllAdvancedChapters } from '../src/data/chemistryAdvancedData';
+import { SUBJECT_REGISTRY, subjectOfChapterId } from '../src/data/subjects';
 
 describe('英語リスニングの単元構成', () => {
   it('ご要望どおりの並び（第1問A/B → 第2問 → 第3問 → 第4問A/B → 第5問 → 第6問A/B）', () => {
@@ -94,18 +93,14 @@ describe('他科目と同じ形（画面を流用するための約束）', () =
     }
   });
 
-  it('単元ID に重複がなく、化学基礎・化学の単元ID とも衝突しない', () => {
+  it('単元ID に重複がなく、どの単元IDも英語リスニングの形として判定される', () => {
     const ids = getAllListeningChapters().map((c) => c.id);
     expect(new Set(ids).size).toBe(ids.length);
-
-    const chemIds = new Set<string>([
-      ...chemistryData.parts.flatMap((p: any) => p.chapters.map((c: any) => c.id)),
-      ...getAllAdvancedChapters().map((c) => c.id),
-    ]);
     for (const id of ids) {
-      expect(chemIds.has(id)).toBe(false);
-      // 接頭辞 el… で識別できる
+      // 接頭辞 el… で識別でき、登録簿の他の教科の形には当てはまらない
       expect(id.startsWith('el')).toBe(true);
+      expect(subjectOfChapterId(id)).toBe('english_listening');
+      expect(SUBJECT_REGISTRY.filter((s) => s.chapterIdPattern.test(id)).map((s) => s.id)).toEqual(['english_listening']);
     }
   });
 

@@ -9,7 +9,6 @@ import { ExtrasSection } from './explanation/ExtrasSection';
 import { MobileAnswerNav, ReviewBottomBar } from './explanation/BottomBars';
 import { ListeningCompactAnswers } from './explanation/ListeningCompactAnswers';
 import { MobileResultChips } from './explanation/MobileResultChips';
-import { UnitKataAccordion } from './explanation/UnitKataAccordion';
 import { ResultScoreCard, ResultStage, ResultSummaryActions, WeakAreasPanel, ResultPager } from './explanation/ResultSummary';
 import { renderSubQuestionCard } from './explanation/SubQuestionCard';
 import { ExplanationHeader } from './explanation/ExplanationHeader';
@@ -25,10 +24,8 @@ import './listening-explanation.css';
 import { buildFigureNumberMap } from '../utils/figureNumbering';
 import { isAnswerCorrect } from '../utils/answerJudge';
 import {
-  buildUnitKataBlock,
 } from '../utils/explanationFormat';
 import { buildListeningOptionTexts } from '../utils/listeningOptions';
-import { getUnitTeaching } from '../data/unitTeaching';
 import { useIsMobile } from '../hooks/useMediaQuery';
 import { applyOverviewViewport } from '../utils/viewportControl';
 
@@ -111,11 +108,6 @@ export function Explanation({ mode: initialMode, chapter, answers, onBack, onRet
 
   const [openExplanationBySq, setOpenExplanationBySq] = useState<Record<string, boolean>>({});
   const [openThinkingBySq, setOpenThinkingBySq] = useState<Record<string, boolean>>({});
-  // 要件①「この単元の思考の型」は単元につき1回だけ・採点結果の直後・折りたたみで出す。
-  // 初期状態は閉じる（画面を圧迫させず、必要な人だけ開ける）。
-  const [kataOpen, setKataOpen] = useState(false);
-  /** PC のリスニングでは思考の型を最初から開く。利用者が閉じたら閉じたまま */
-  const [kataClosedByUser, setKataClosedByUser] = useState(false);
   const [savingNote, setSavingNote] = useState<Record<string, boolean>>({});
   // スマホ/PC判定は共有フックに一元化（md=768px 未満をスマホとみなす）。
   // isMobileView が渡された場合（スマホプレビュー枠）はそれを優先する。
@@ -306,34 +298,12 @@ export function Explanation({ mode: initialMode, chapter, answers, onBack, onRet
    */
   const CARD_FONT_FAMILY = 'font-modern';
 
-  // 要件①：「この単元の思考の型」の本文。単元（章）に紐づくので問題ごとには作らない。
-  // 内容・表現・順番・解説は従来と1文字も変えていない（エンジン側の buildUnitKataBlock がそのまま組む）。
-  const unitKataBlock = useMemo(() => buildUnitKataBlock(getUnitTeaching(chapter.id)), [chapter.id]);
-
   /**
    * 要件①のアコーディオン本体。
    * ・単元につき1回だけ描画する（呼び出し側で最初の大問にのみ差し込む）
    * ・配置は「採点結果」の直後
    * ・初期状態は閉じる（画面を圧迫させず、必要な人だけ開ける）
    */
-  /**
-   * ★ご要望8「この単元の思考の型 …も無くすのではなくて、小さくコンパクトにする」★
-   *
-   * reorderMobile は下（L864）で定義されるためここでは使えないので、
-   * 同じ条件（スマホ かつ 1問表示＝結果画面ではない）をそのまま書く。
-   *   reorderMobile === isMobile && !isResultView
-   *   isResultView  === (singleQuestionIndex === undefined)
-   * つまり isMobile && singleQuestionIndex !== undefined。
-   *
-   * コンパクト化の中身（消さずに詰める）
-   *   ・「（この単元の全問に共通・必要なときだけ開く）」の副題を隠す
-   *     … 42文字ぶんが折り返して2行になり、閉じた状態でも高さを食っていた
-   *   ・「開く／閉じる」の文字を落として山型アイコンだけにする
-   *   ・上下 padding を py-2.5 → py-1.5、アイコンを 16 → 13 に縮める
-   *   見出し「この単元の思考の型」と本文は従来のまま（内容は削らない）。
-   * PC は md: 指定と非スマホ分岐で従来の見た目を維持する。
-   */
-  const kataCompact = isMobile && singleQuestionIndex !== undefined;
   /**
    * ★PC版のリスニング解答・解説（2026-10-12 PC大改訂）★
    *   「スクロールをできるだけ減らす」「スマホでは畳んでいたもの（本当は1画面に置きたかったもの）を
@@ -345,17 +315,7 @@ export function Explanation({ mode: initialMode, chapter, answers, onBack, onRet
    *   ・右側にあった2つ目の再生帯は、左の音源と重複するので出さない（UI原則2：同じものを2つ置かない）
    */
   const pcListening = !isMobile && singleQuestionIndex !== undefined && questions.length === 1 && textTracksOf(questions[0]).length > 0;
-  const kataIsOpen = kataOpen || (pcListening && !kataClosedByUser);
 
-  const kataAccordion = unitKataBlock ? (
-    <UnitKataAccordion
-      unitKataBlock={unitKataBlock}
-      isOpen={kataIsOpen}
-      onToggle={() => { if (kataIsOpen) { setKataOpen(false); setKataClosedByUser(true); } else { setKataOpen(true); } }}
-      compact={kataCompact}
-     
-    />
-  ) : null;
 
   // 章内の図版へ通し番号（図1・図2 …）を割り当てるマップ。
   // 単問表示でも通し番号が一貫するよう、章の全問題（allQuestions）を基準に採番する。
@@ -849,11 +809,6 @@ export function Explanation({ mode: initialMode, chapter, answers, onBack, onRet
 
                         return (
                           <>
-                            {/* 客観問題が無い大問（記述のみ）でも、要件①の型は必ず1回出す */}
-                            {qIndex === 0 && objectiveSqs.length === 0 && kataAccordion && (
-                              <div className="mt-6">{kataAccordion}</div>
-                            )}
-
                             {objectiveSqs.length > 0 && (
                               <div className={`${reorderMobile ? 'space-y-2' : 'space-y-3 md:space-y-4'} ${(reorderMobile || pcListening) && textTracksOf(question).length > 0 ? 'mt-0' : 'mt-6'}${pcListening ? ' lx-pc-main' : ''}`}>
                                 {/*
@@ -874,9 +829,6 @@ export function Explanation({ mode: initialMode, chapter, answers, onBack, onRet
                                   PC（!reorderMobile）は従来のクラスをそのまま使う。
                                 */}
                                 <ScoreHead reorderMobile={reorderMobile} listeningTracks={listeningTracks} objectiveSqs={objectiveSqs} correctSqs={correctSqs} incorrectSqs={incorrectSqs} unansweredSqs={unansweredSqs} />
-
-                                {/* 要件①：「この単元の思考の型」を採点結果の直後に1回だけ（折りたたみ） */}
-                                {qIndex === 0 && !pcListening && kataAccordion}
 
                                 {/* ★リスニング：採点結果のすぐ下でも音声を聞き直せるようにする
                                     （ご要望「解答等解説のところで、音声が聞けるようにボタンを用意してほしい」）。
@@ -1018,7 +970,6 @@ export function Explanation({ mode: initialMode, chapter, answers, onBack, onRet
           {/* Surrounding Knowledge / Deep Dive (from all questions) */}
           <ExtrasSection
             wrapClassName={reorderMobile ? 'lx-extra-wrap pb-3 space-y-2' : pcListening ? 'lx-pc-side' : 'p-4 sm:p-6 md:p-8 space-y-8'}
-            leading={pcListening && kataAccordion}
             questions={questions}
            
             isEnglishChapter={isEnglishChapter}

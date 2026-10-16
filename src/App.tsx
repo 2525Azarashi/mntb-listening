@@ -73,13 +73,13 @@ import { NoteDetail } from './components/NoteDetail';
 import { StudyHub, type StudyHubView } from './components/StudyHub';
 import { ScreenLoading, ScreenUnavailable } from './components/ScreenStatus';
 import { studyEntry, isLearningScreen } from './utils/studyNavigation';
+import { DEFAULT_SUBJECT, SUBJECT_IDS } from './data/subjects';
 import { useStudyTimeTracker } from './hooks/useStudyTimeTracker';
-import { setFormatMathContext } from './utils/textFormatter';
 import { resolveReviewTarget, type ReviewRequest } from './utils/reviewTarget';
 import type { ChapterRunState } from './utils/quizRunState';
 import type { StudyNote } from './types/studyNote';
 import { Onboarding } from './components/Onboarding';
-import { getSubjectLabel, isSubjectId, type SubjectId } from './components/SubjectSelection';
+import { getSubjectLabel, isSubjectId, type SubjectId } from './data/subjectLabels';
 /*
  * 本体に教科データを持たない教科（高校入試 理科など）の登録簿。
  * ★何も import しない葉ファイルなので、ここから読んでも問題データは付いてこない★
@@ -329,7 +329,7 @@ export default function App() {
     return () => cancelAnimationFrame(frame);
   }, [appState]);
   useEffect(() => {
-    if (!['battle', 'quiz', 'explanation', 'rika'].includes(appState)) setBattleReturnActive(false);
+    if (!['battle', 'quiz', 'explanation'].includes(appState)) setBattleReturnActive(false);
   }, [appState]);
   useEffect(() => {
     let owner = auth.currentUser?.uid || 'guest';
@@ -388,15 +388,13 @@ export default function App() {
       戻す先は fallbackSubjectId が公開中のものから選ぶ。
       「必ず化学基礎」と書かないのは、将来化学基礎を非公開にした日に
       非公開の科目へ倒す処理になってしまうからである。
-      公開中の科目が1つも無い場合だけ 'chemistry_basic' を使う
+      公開中の科目が1つも無い場合だけ登録簿の先頭（DEFAULT_SUBJECT）を使う
       （その状態はアプリとして成立していないので、
         画面が真っ白になるのを避けるための最後の受け皿）。
     */
     if (isSubjectId(saved) && isSubjectEnabled(saved)) return saved;
-    const fallback = fallbackSubjectId(
-      ['chemistry_basic', 'chemistry', 'english_listening', 'english_grammar', 'biology_basic', 'geography'],
-    );
-    return (fallback as SubjectId) ?? 'english_listening';
+    const fallback = fallbackSubjectId(SUBJECT_IDS);
+    return (fallback as SubjectId) ?? DEFAULT_SUBJECT;
   });
   const [isExplanationView, setIsExplanationView] = useState(false);
   const [prevAppState, setPrevAppState] = useState<AppState>('home');
@@ -622,7 +620,6 @@ export default function App() {
   // PC版では「学習モードを選択」(mode_selection) 以外の全画面で外側余白をなくし、
   // ノート風背景を全幅に広げる。mode_selection だけは従来通り中央寄せ＋余白を維持。
   // 数学の演習・解説・まとめを開いている間だけ、数式を数学の規則で組む（書体の混在を防ぐ）。
-  setFormatMathContext(selectedSubject === 'math' && ['quiz', 'explanation'].includes(appState));
   const isFullBleed = appState !== 'mode_selection';
 
   /**
@@ -1228,10 +1225,7 @@ export default function App() {
         // 英単語・英熟語は対戦専用（本体に演習画面が無い）。
         // リザルトは onPractice を渡されても vocab では出さない（BattleResult 側で判定）が、
         // 履歴など別経路から来たときのためにここでも止める。
-        // 高校入試 理科は演習画面ごと非公開（FEATURES.rika = false）なので、その旨を伝える。
-        throw new Error(subject === 'rika'
-          ? 'この科目の演習は現在公開されていません。'
-          : 'この科目は対戦専用です。答えはリザルトの解答欄で確認できます。');
+        throw new Error('この科目は対戦専用です。答えはリザルトの解答欄で確認できます。');
       }
       const { getPartsOfSubject, miniTestProblemsOf } = await import('./data/allChapters');
       if (request !== reviewRequest.current) return;
