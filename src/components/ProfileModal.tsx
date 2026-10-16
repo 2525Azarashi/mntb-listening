@@ -197,7 +197,7 @@ export function ProfileModal({ onClose, initialTab, isBgmEnabled, setIsBgmEnable
 
   return (
     <div className="mtb-page mt-screen profile-journal w-full h-full overflow-hidden pb-[calc(var(--app-nav-h,120px)+8px)] sm:pb-24" data-settings>
-      <div className="max-w-4xl h-full mx-auto px-3 sm:px-5 py-3 sm:py-5 flex flex-col relative">
+      <div className="profile-frame max-w-4xl h-full mx-auto px-3 sm:px-5 py-3 sm:py-5 flex flex-col relative">
         <div className="absolute top-4 right-8 w-40 h-40 bg-[#A9CCE3]/15 rounded-full blur-3xl pointer-events-none" />
 
         <header className="mt-app-header mb-2 sm:mb-3 relative z-10 shrink-0">
@@ -241,7 +241,7 @@ export function ProfileModal({ onClose, initialTab, isBgmEnabled, setIsBgmEnable
           ) : (
             <div className="h-full flex flex-col gap-2">
             <div className="profile-workspace flex-1 min-h-0 grid grid-cols-1 md:grid-cols-2 gap-2 sm:gap-3 overflow-y-auto md:overflow-hidden no-scrollbar">
-              <div className="space-y-2 sm:space-y-3">
+              <div className="ps-col-profile space-y-2 sm:space-y-3">
                 {/* ★プロフィールカード（A14）★ アバター・レベル/称号・連続日数・学習時間・バッジを1枚に。
                     「学習状況」と「プロフィール」の2枚に分かれていたものをまとめ、縦を詰める。 */}
                 <h3 className="ps-group-title">アカウント・プロフィール</h3>
@@ -316,7 +316,7 @@ export function ProfileModal({ onClose, initialTab, isBgmEnabled, setIsBgmEnable
                 </section>
               </div>
 
-              <div className="space-y-2 sm:space-y-3 flex flex-col">
+              <div className="ps-col-app space-y-2 sm:space-y-3 flex flex-col">
                 <h3 className="ps-group-title">アプリ（サウンド）</h3>
                 <section className="ps-sound mt-card" aria-label="サウンド">
                   <Toggle label="BGM" sub="学習中・待ち時間・対戦の音楽（ひとつでON/OFF）" checked={isBgmEnabled} onChange={toggleBgm} icon={isBgmEnabled ? <Volume2 size={16} /> : <VolumeX size={16} />} />
@@ -325,7 +325,9 @@ export function ProfileModal({ onClose, initialTab, isBgmEnabled, setIsBgmEnable
                   <p className="ps-sub"><Swords size={14} aria-hidden="true" />対戦モードの音</p>
                   <Toggle label="対戦効果音" sub="正解・逆転など" checked={battleAudioSettings.sfx} onChange={() => { updateBattleAudio({ sfx: !battleAudioSettings.sfx }); if (!battleAudioSettings.sfx) window.setTimeout(() => battleAudio().play('correct'), 50); }} tone="gold" />
                 </section>
+              </div>
 
+              <div className="ps-col-account space-y-2 sm:space-y-3 flex flex-col">
                 <h3 className="ps-group-title">アカウント連携</h3>
                 <section className="ps-account mt-card space-y-2" aria-label="アカウント連携">
                   {!auth.currentUser ? (

@@ -189,3 +189,48 @@
   :root[data-ad-banner=true] .mypage-parts button > svg { display: none; }
   :root[data-ad-banner=true] .mypage-part-cur { text-align: left; width: 100%; }
 }
+
+/* ===== 2026-10-16 PC：マイページの一覧をスクロールさせない（入るぶんだけ並べてページでめくる）===== */
+@media (min-width: 1024px) {
+  .mypage-body > .mypage-extra-scroll:has(> .profile-standalone[data-profile-standalone=badges]) { overflow: hidden; display: flex; flex-direction: column; }
+  .profile-standalone[data-profile-standalone=badges] { flex: 1; min-height: 0; display: flex; flex-direction: column; }
+  .profile-standalone[data-profile-standalone=badges] .badges-tab { flex: 1; min-height: 0; grid-template-rows: auto minmax(0, 1fr); }
+  .badges-locked { min-height: 0; display: flex; flex-direction: column; }
+  .badge-locked-frame { flex: 1; min-height: 0; overflow: hidden; }
+  .badge-locked-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); list-style: none; margin: 0; padding: 0; }
+}
+
+/* ミッション（PC）：縦1列で 1410px はみ出していたので、横に並べて1画面に収める
+   左＝今日の状態＋宝箱／中＝対戦ミッション＋ボーナス／右＝レベルで手に入るもの。ボタンは下に横並び。 */
+@media (min-width: 1024px) {
+  .mypage-body > .mypage-extra-scroll:has(> .missions-shell) { overflow: hidden; display: flex; }
+  .missions-shell { min-height: 0 !important; flex: 1; background: transparent !important; }
+  .missions-shell > main { max-width: none !important; padding: 0 !important; min-height: 0; }
+  .missions-shell > main > .notebook-paper {
+    display: grid !important; gap: 10px 18px; padding: 12px 16px !important; min-height: 0; overflow: hidden;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr) minmax(0, 1.05fr) minmax(0, .9fr);
+    grid-template-rows: auto auto minmax(0, 1fr) auto;
+    grid-template-areas:
+      "title title title title"
+      "lead lead lead lead"
+      "summary battle bonus extra"
+      "note note note note";
+  }
+  .missions-shell h1 { grid-area: title; margin-bottom: 0 !important; }
+  .missions-shell .missions-lead { grid-area: lead; margin: 0 !important; text-align: center; }
+  .missions-shell #battle-missions-summary { grid-area: summary; margin: 0 !important; align-self: start; }
+  .missions-shell #battle-missions-chest { grid-area: summary; margin: 0 !important; align-self: end; }
+  .missions-shell .missions-col-battle { grid-area: battle; min-height: 0; }
+  .missions-shell .missions-col-bonus { grid-area: bonus; min-height: 0; }
+  .missions-shell .missions-col-bonus > h2 { margin-top: 0 !important; }
+  .missions-shell .missions-extra { grid-area: extra; min-height: 0; overflow: hidden; }
+  .missions-shell .missions-extra .level-road { margin: 0; height: 100%; }
+  .missions-shell .missions-extra .level-road-note { display: none; }
+  .missions-shell .missions-note { grid-area: note; margin: 0 !important; }
+  .missions-shell > footer { max-width: none !important; padding: 0 16px 4px !important; }
+  .missions-shell .missions-actions { grid-template-columns: repeat(auto-fit, minmax(0, 1fr)); }
+}
+@media (min-width: 1024px) {
+  .missions-shell > main > .notebook-paper { position: relative; }
+  .missions-shell .missions-toast { position: absolute; top: 12px; left: 50%; transform: translateX(-50%); z-index: 5; margin: 0 !important; min-width: 360px; }
+}

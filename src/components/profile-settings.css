@@ -123,3 +123,17 @@
 .ps-safety > .mt-card { margin-top: 8px; }
 /* 2026-10-11：保存バーはスクロールの外（下）に固定。sticky は使わない */
 .ps-savebar.is-fixed { position: static !important; margin: 0 !important; padding: 0 !important; background: none !important; }
+
+/* ===== 2026-10-16 PC：設定を画面いっぱい・スクロールなしにする =====
+   以前は最大幅 896px の2列で、右列（サウンド・連携・データ）と左列の下が画面の外に出ていた（448px）。
+   PC では幅いっぱいの3列にする：プロフィール／アプリ（サウンド）／アカウント連携・データ。
+   スマホは従来どおり1列（md の2列も変えない）。 */
+@media (min-width: 1100px) {
+  .profile-frame { max-width: 1400px !important; }
+  .profile-workspace { grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr) minmax(0, 1fr) !important; overflow: hidden !important; align-content: start; }
+}
+@media (min-width: 768px) and (max-width: 1099.98px) {
+  /* 2列のときは、サウンドと連携を右列に縦に積む（従来どおりの並び） */
+  .profile-workspace { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important; }
+  .profile-workspace > .ps-col-account { grid-column: 2; }
+}
