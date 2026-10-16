@@ -68,7 +68,7 @@
  * 新しい待ち時間の見え方を持ち込んでいない。
  */
 import React from 'react';
-import { applyReviewFocus, readReviewFocus } from '../utils/reviewFocus';
+import { applyReviewFocus, readReviewFocus, type ReviewTargetItem } from '../utils/reviewFocus';
 import { Quiz } from './Quiz';
 import { Explanation } from './Explanation';
 import { ErrorBoundary } from './ErrorBoundary';
@@ -100,11 +100,11 @@ interface QuizScreensProps {
   /**
    * 結果画面の「次にすること」用。
    *   subject … 「次の単元」を同じ科目の中から探すために使う
-   *   onRetryWrong … 間違えた最初の問題から同じ単元を解き直す
+   *   onRetryWrong … 間違えた小問だけを解き直す（大問ごとに間違えた小問の id を渡す）
    *   onNextChapter … 次の単元（章ID）を新しく始める
    */
   subject?: string;
-  onRetryWrong?: (chapterId: string, firstWrongIndex: number) => void;
+  onRetryWrong?: (chapterId: string, targets: ReviewTargetItem[]) => void;
   onNextChapter?: (chapterId: string) => void;
   /** 1回だけ解いたとき、同じ単元の次の回を始める（英文法・リスニング） */
   onNextRound?: (chapterId: string, index: number) => void;
@@ -115,13 +115,15 @@ interface QuizScreensProps {
 const focusCache = new WeakMap<object, { sig: string; value: any }>();
 /** 同じ章・同じ対象なら同じ写しを返す（毎回新しいオブジェクトにすると演習画面の状態が作り直される） */
 function focusedChapter(chapter: any, mode: string): any {
-  if (!chapter || mode === 'mini_test') return chapter;
+  if (!chapter) return chapter;
   const focus = readReviewFocus();
   if (!focus || focus.chapterId !== chapter.id) return chapter;
-  const sig = JSON.stringify(focus);
+  const sig = `${mode}:${JSON.stringify(focus)}`;
   const hit = focusCache.get(chapter);
   if (hit && hit.sig === sig) return hit.value;
-  const value = { ...chapter, practiceProblems: applyReviewFocus(chapter.practiceProblems || [], chapter.id, focus) };
+  // 演習でもミニテストでも、いま解く側の並びだけを絞る
+  const pool = mode === 'mini_test' ? 'miniTest' : 'practiceProblems';
+  const value = { ...chapter, [pool]: applyReviewFocus(chapter[pool] || [], chapter.id, focus) };
   focusCache.set(chapter, { sig, value });
   return value;
 }
@@ -235,7 +237,7 @@ export function QuizScreens({
         // 1回分（例：第3回演習）だけを解いたときは、その回だけを振り返る。
         // 解いていない回まで答え合わせに並ぶと、どこまでやったか分からなくなる。
         questionRange={questionRange}
-        onRetryWrong={onRetryWrong ? (index) => { triggerAdAndAction(); onRetryWrong(chapter.id, index); } : undefined}
+        onRetryWrong={onRetryWrong ? (targets) => { triggerAdAndAction(); onRetryWrong(chapter.id, targets); } : undefined}
         onNextChapter={nextRoundIndex >= 0 && onNextRound ? () => { triggerAdAndAction(); onNextRound(chapter.id, nextRoundIndex); }
           : nextChapter && onNextChapter ? () => { triggerAdAndAction(); onNextChapter(nextChapter.id); } : undefined}
         onHome={onHome ? () => triggerAdAndAction(onHome) : undefined}

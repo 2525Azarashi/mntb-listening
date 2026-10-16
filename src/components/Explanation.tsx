@@ -50,12 +50,12 @@ interface ExplanationProps {
   resultTotalTimeSec?: number;
   /**
    * 結果画面の「次にすること」。
-   *   onRetryWrong … 間違えた最初の問題から同じ単元を解き直す（章内の通し番号を渡す）
+   *   onRetryWrong … 間違えた小問だけを解き直す（大問ごとに間違えた小問の id を渡す）
    *   onNextChapter … 同じ科目の次の単元へ進む（全問正解のときの主操作）
    * 以前は結果画面の出口が「単元選択に戻る」だけで、
    * 復習するには一覧で同じ単元を探し直す必要があった。
    */
-  onRetryWrong?: (firstWrongIndex: number) => void;
+  onRetryWrong?: (targets: ReviewTargetItem[]) => void;
   onNextChapter?: () => void;
   nextChapterTitle?: string;
   /**
@@ -100,6 +100,7 @@ import { readJsonArray } from '../utils/safeLocalStorage';
 import { useGrowthProgress } from '../hooks/useGrowthProgress';
 import { logRejection } from '../utils/reportError';
 import { notify } from '../utils/dialog';
+import type { ReviewTargetItem } from '../utils/reviewFocus';
 import type { Chapter, Problem, SubQuestion } from '../types/curriculum';
 
 
@@ -448,17 +449,19 @@ export function Explanation({ mode: initialMode, chapter, answers, onBack, onRet
   }, [baseQuestions, answers]);
 
   /**
-   * 間違えた（＝解答したが不正解の）小問を含む最初の問題の、章内の通し番号。
+   * 解き直す対象：間違えた（＝解答したが不正解の）小問を、大問ごとにまとめたもの。
    * 未解答は「間違えた」に数えない（isAttempted と同じ考え方）。
-   * 無ければ -1。
+   * 1問ずつの解説（singleQuestionIndex あり）では出さない。
    */
-  const firstWrongQuestionIndex = useMemo(() => {
-    if (singleQuestionIndex !== undefined) return -1;
-    const idx = baseQuestions.findIndex((q) =>
-      (q.subQuestions || []).some((sq) =>
-        isAttempted(answers[sq.id]) && !isAnswerCorrect(sq, answers[sq.id])));
-    return idx < 0 ? -1 : rangeOffset + idx;
-  }, [baseQuestions, answers, singleQuestionIndex, rangeOffset]);
+  const wrongTargets = useMemo<ReviewTargetItem[]>(() => {
+    if (singleQuestionIndex !== undefined) return [];
+    return baseQuestions.flatMap((q) => {
+      const ids = (q.subQuestions || [])
+        .filter((sq) => isAttempted(answers[sq.id]) && !isAnswerCorrect(sq, answers[sq.id]))
+        .map((sq) => String(sq.id));
+      return ids.length > 0 ? [{ questionId: String(q.id), subQuestionIds: ids }] : [];
+    });
+  }, [baseQuestions, answers, singleQuestionIndex]);
 
   if (questions.length === 0) {
     return (
@@ -554,7 +557,7 @@ export function Explanation({ mode: initialMode, chapter, answers, onBack, onRet
           onSummary: () => setResultStep('summary'),
           onHome,
           onChapters: onBack,
-          onRetryWrong: firstWrongQuestionIndex >= 0 && onRetryWrong ? () => onRetryWrong(firstWrongQuestionIndex) : undefined,
+          onRetryWrong: wrongTargets.length > 0 && onRetryWrong ? () => onRetryWrong(wrongTargets) : undefined,
           retryLabel: '間違えた問題だけ解き直す',
           onNext: onNextChapter,
           nextLabel: nextChapterTitle ? (/^第\d+回$/.test(nextChapterTitle) ? `次の回へ（${nextChapterTitle}）` : `次の単元へ`) : '次へ進む',

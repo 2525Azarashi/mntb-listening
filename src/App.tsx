@@ -6,7 +6,7 @@
 import { AdBannerSlot } from './ads/AdBannerSlot';
 import React, { useState, useEffect, useRef } from 'react';
 import { Capacitor } from '@capacitor/core';
-import { setReviewFocus } from './utils/reviewFocus';
+import { setReviewFocus, type ReviewTargetItem } from './utils/reviewFocus';
 import { BottomNavigation } from './components/ui/BottomNavigation';
 import { ListeningHome as Home } from './components/ListeningHome';
 import { ListeningSubjectSelection } from './components/ListeningSubjectSelection';
@@ -1290,6 +1290,17 @@ export default function App() {
   };
 
   /**
+   * 「間違えた問題だけ解き直す」を始める。
+   * 演習画面には、間違いを含む大問（それぞれ間違えた小問だけ）の並びが渡るので、
+   * 位置は先頭・範囲指定なしで開始する（範囲は絞り込み前の通し番号なので使えない）。
+   */
+  const startFocusedRetry = (chapterId: string, targets: ReviewTargetItem[], targetMode: AppMode) => {
+    if (targets.length === 0) return;
+    handleSelectChapter(chapterId, 0, false, null, targetMode);
+    setReviewFocus({ chapterId, targets });
+  };
+
+  /**
    * 学習ノートの問題項目から、対応する演習問題へ遷移する（要件5）。
    * ノートに保存された chapterId / questionId を優先して問題位置を特定し、
    * 見つからなければ questionIndex（1始まり表示番号）でフォールバックする。
@@ -1321,8 +1332,8 @@ export default function App() {
         setReviewFocus(null);
         handleSelectChapter(target.chapterId, target.questionIndex, false, { startIndex: target.questionIndex, endIndex: target.questionIndex }, 'practice');
       } else if (subIds.length > 0 && note.questionId) {
-        handleSelectChapter(target.chapterId, target.questionIndex, false, { startIndex: target.questionIndex, endIndex: target.questionIndex }, 'practice');
-        setReviewFocus({ chapterId: target.chapterId, questionId: String(note.questionId), subQuestionIds: subIds });
+        // 絞り込み後の並びはその大問だけになるので、先頭から・範囲なしで始める
+        startFocusedRetry(target.chapterId, [{ questionId: String(note.questionId), subQuestionIds: subIds }], 'practice');
       } else {
         handleSelectChapter(target.chapterId, target.questionIndex, false, null, 'practice');
       }
@@ -1619,7 +1630,7 @@ export default function App() {
                   questionRange={quizRange}
                   subject={selectedSubject}
                   /* 結果画面の「次にすること」。どちらも通常の演習開始と同じ経路を通す。 */
-                  onRetryWrong={(chapterId, firstWrongIndex) => handleSelectChapter(chapterId, firstWrongIndex, false, quizRange, appMode)}
+                  onRetryWrong={(chapterId, targets) => startFocusedRetry(chapterId, targets, appMode)}
                   onNextChapter={(chapterId) => handleSelectChapter(chapterId, 0, false, null, appMode)}
                   onNextRound={(chapterId, index) => handleSelectChapter(chapterId, index, false, { startIndex: index, endIndex: index }, appMode)}
                   onHome={() => navigateMain('home')}
