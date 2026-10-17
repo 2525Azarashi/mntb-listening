@@ -26,7 +26,7 @@ export interface StageHistoryEntry { k: string; title: string; c: number; j: num
 
 const OTHERS = 'stage_records_others_v1_';
 const keyOf = (prefix: string, uid: string | null | undefined) => prefix + encodeURIComponent(uid || 'guest');
-const num = (v: unknown) => typeof v === 'number' && Number.isFinite(v) && v >= 0;
+const num = (v: unknown): v is number => typeof v === 'number' && Number.isFinite(v) && v >= 0;
 
 export function stageKey(chapterId: string, questionId?: string): string {
   return questionId ? `${chapterId}::${questionId}` : chapterId;
@@ -68,7 +68,8 @@ function parseRecords(prefix: string, uid: string | null | undefined): Record<st
     const parsed = JSON.parse(safeLocalStorage()?.getItem(keyOf(prefix, uid)) || '{}');
     if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) return {};
     const out: Record<string, StageRecord> = {};
-    for (const [k, v] of Object.entries(parsed as Record<string, any>)) {
+    for (const [k, raw] of Object.entries(parsed as Record<string, unknown>)) {
+      const v = raw as Partial<StageRecord> | null;
       if (v && num(v.p) && num(v.n) && num(v.b) && num(v.t) && v.p <= v.n) out[k] = { p: v.p, n: v.n, b: Math.min(100, v.b), t: v.t };
     }
     return out;
@@ -79,8 +80,10 @@ export function readStageHistory(uid: string | null | undefined): StageHistoryEn
   try {
     const parsed = JSON.parse(safeLocalStorage()?.getItem(keyOf(HISTORY, uid)) || '[]');
     if (!Array.isArray(parsed)) return [];
-    return parsed.filter((e: any) => e && typeof e.k === 'string' && typeof e.title === 'string' && num(e.c) && num(e.j) && num(e.t) && e.c <= e.j)
-      .slice(0, HISTORY_MAX);
+    return parsed.filter((e: unknown): e is StageHistoryEntry => {
+      const item = e as Partial<StageHistoryEntry> | null;
+      return Boolean(item && typeof item.k === 'string' && typeof item.title === 'string' && num(item.c) && num(item.j) && num(item.t) && item.c <= item.j);
+    }).slice(0, HISTORY_MAX);
   } catch { return []; }
 }
 

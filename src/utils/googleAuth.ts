@@ -43,6 +43,7 @@ import { isNativeApp } from '../native/platform';
 import { nativeSignIn, nativeSignOut } from '../native/nativeAuth';
 import type { GoogleSignInOutcome, SignInMethod } from './authTypes';
 import { logRejection } from './reportError';
+import { asErrorLike } from './errorLike';
 // 既存の呼び出し側（import { SignInMethod } from './googleAuth'）のため再公開する
 export type { GoogleSignInOutcome, SignInMethod } from './authTypes';
 
@@ -73,7 +74,8 @@ function isPopupUnavailable(code: string): boolean {
 }
 
 /** Firebase のエラーを、原因と次の行動が分かる日本語にする */
-export function describeAuthError(error: any): string {
+export function describeAuthError(rawError: unknown): string {
+  const error = asErrorLike(rawError);
   const code = String(error?.code || '');
   if (code.includes('network-request-failed')) {
     return 'ネットワークに接続できませんでした。通信状況をご確認ください。';
@@ -132,15 +134,15 @@ export async function signInWith(method: SignInMethod): Promise<GoogleSignInOutc
   try {
     const credential: UserCredential = await signInWithPopup(auth, p);
     return { ok: true, user: credential.user };
-  } catch (error: any) {
-    const code = String(error?.code || '');
+  } catch (error) {
+    const code = String(asErrorLike(error)?.code || '');
     if (isPopupUnavailable(code)) {
       // 同じタブでログイン画面へ遷移する。戻ってきたときは
       // consumeGoogleRedirectResult() が結果を受け取る。
       try {
         await signInWithRedirect(auth, p);
         return { ok: false, redirecting: true };
-      } catch (redirectError: any) {
+      } catch (redirectError) {
         return { ok: false, message: describeAuthError(redirectError) };
       }
     }

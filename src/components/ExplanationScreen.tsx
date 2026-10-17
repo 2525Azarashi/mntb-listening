@@ -13,6 +13,7 @@
 import { Explanation } from './Explanation';
 import { FloatingScoreAnimation } from './FloatingScoreAnimation';
 import { CorrectBurst } from './fx/CorrectBurst';
+import type { Chapter, Problem, SubQuestion } from '../types/curriculum';
 import type { ChapterRunState } from '../utils/quizRunState';
 import type { ScoreBreakdown } from '../utils/scoring';
 
@@ -20,15 +21,15 @@ export interface ExplanationScreenProps {
   /** ★実測で判明した型★ Explanation 側が 'mini_test' | 'practice' の
    *  リテラル型で受け取るので、ここを string にすると型が通らない。 */
   mode: 'mini_test' | 'practice';
-  chapter: any;
+  chapter: Chapter;
   answers: Record<string, string>;
   isGuest?: boolean;
-  currentQuestion: any;
+  currentQuestion: Problem;
   currentQuestionIndex: number;
   /** リスニングの「1画面＝1問」モードか */
   perStep: boolean;
   /** 1問ずつモードで、いま表示している小問 */
-  activeStepSub: any;
+  activeStepSub: SubQuestion | null | undefined;
   run: ChapterRunState;
   isLastQuestion: boolean;
   isMobileForExplanation?: boolean;

@@ -11,6 +11,10 @@
  * ■ 動きは 1 バイトも変えていない
  *   関数名・引数・戻り値・判定順序・正規表現は Quiz.tsx にあったものと同一。
  */
+import type { SubQuestionLike } from '../types/curriculum';
+
+/** パレット判定が読む項目（小問のほか、問題単位の明示フラグも読む） */
+type PaletteTarget = (NonNullable<SubQuestionLike> & { requiresChemicalPalette?: boolean; requiresMathPalette?: boolean }) | null | undefined;
 
 /**
  * 解答文字列そのものが化学記号パレットの記号を必要とするか判定する。
@@ -54,7 +58,7 @@ export function answerNeedsPalette(ansRaw: string): boolean {
  *  - それ以外は correctAnswer / acceptedAnswers のいずれかが
  *    化学式・イオン式・反応式・上下付き文字を含む場合のみ表示する。
  */
-export function requiresChemicalSymbols(question: any): boolean {
+export function requiresChemicalSymbols(question: PaletteTarget): boolean {
   if (question?.requiresChemicalPalette) return true;
   // 数学パレットを明示した問題は、化学パレットの推定ヒューリスティックに
   // 誤検知されないよう先に除外する（両方のパレットが並ぶのを防ぐ）。
@@ -73,7 +77,7 @@ export function requiresChemicalSymbols(question: any): boolean {
   const answers: string[] = [
     question?.correctAnswer,
     ...(Array.isArray(question?.acceptedAnswers) ? question.acceptedAnswers : []),
-  ].filter((a: any): a is string => typeof a === 'string' && a.trim() !== '');
+  ].filter((a: unknown): a is string => typeof a === 'string' && a.trim() !== '');
 
   if (answers.length === 0) return false;
   return answers.some((a) => answerNeedsPalette(a));
@@ -86,7 +90,7 @@ export function requiresChemicalSymbols(question: any): boolean {
  * データ側の明示 opt-in（requiresMathPalette）を必須とする。
  * 数III積分の問題データ（mathIntegralProblems.ts）は全設問でこのフラグを立てている。
  */
-export function requiresMathSymbols(question: any): boolean {
+export function requiresMathSymbols(question: PaletteTarget): boolean {
   if (!question?.requiresMathPalette) return false;
   const type = String(question?.type || '');
   if (
