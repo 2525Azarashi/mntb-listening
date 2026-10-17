@@ -1,7 +1,7 @@
 """コード地図：ファイルを開く前に「どこに何があるか」を1枚の絵と1行の索引で掴むための資料を作る。
   maps/00-overview.png  … 全体：しくみの箱ごとのファイル数・行数、箱どうしの import の本数、各箱の中心ファイル
   maps/<番号>-<箱>.png   … 箱ごと（40枚を超える箱はフォルダ単位で分ける）。1ファイル＝1マス
-  codemap.md             … 1ファイル1行の索引（パス・ひとことで・行数・使われる数）。AI に渡すならこちらが正確で軽い
+  codemap.md             … 1ファイル1行の索引（パス・ひとことで・行数・使われる数）。AI に渡すならこちら（量は画像の約半分、パスの写し間違いなし。research.md 7.4）
 PNG は render.mjs が .work/maps/*.html から撮る。中身はすべて cards.json（＝ファイルから取り出した事実と手書きのカード）だけ。"""
 import json, os, sys, re, html, shutil
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))

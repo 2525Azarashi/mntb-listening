@@ -120,7 +120,7 @@ scripts/verify_q2_tts_speakers.py|テスト|高|まとめ録りの音声が、�
 store-assets/_tools/edit_instagram.py|音声・画像|高|録画した操作画面に見出しや音をつけ、Instagram用に書き出す係|冒頭の説明：「Instagram 用動画の編集（録画した本物の操作画面 → 見出し・スマホ枠・効果音・BGM をつけて書き出す）」。画面は record_scenes.py の録画だけを使い、色はブランドの3色に限るとある。
 store-assets/_tools/grammar_answers.json|データ|高|宣伝動画の録画で使う、英文法1,163問の答えの一覧の係|1,163件の配列を持つJSON。同じフォルダの record_scenes.py が読み込み、録画中の操作で正しい答えを選ぶために使う（instagram/README.md にも記載）。
 store-assets/_tools/peek.py|テスト|高|宣伝素材の下見用に、主な画面をスマホの大きさで撮る係|27行。Playwright でアプリを開き、指定した主要画面をスマホの実寸（430×932）で撮影する。
-store-assets/_tools/record_scenes.py|音声・画像|高|Instagram用に、本物のアプリの操作を場面ごとに録画する係|201行。Playwright で本物のアプリ（vite preview のビルド）を操作し、場面ごとに録画する。動画生成AIは使わないと明記されている。
+store-assets/_tools/record_scenes.py|音声・画像|高|宣伝動画用に、本物のアプリの操作を場面ごとに録画する係|Playwright で本物のアプリ（vite preview のビルド）を操作し、場面ごとに録画する（スマホ実寸／REC_DEVICE=pc でパソコン版）。動画生成AIは使わないと明記されている。2026年10月に場面が増えた（201→340行）。
 store-assets/instagram/ELEVENLABS_PROMPTS.md|文書|高|Instagram動画のナレーションを作るときの指示文を集めた係
 store-assets/instagram/README.md|文書|高|Instagram用の動画が、何でどう作られたかを説明する係
 tsconfig.json|設定|高|アプリ本体のTypeScriptの型チェックのやり方を決める係|compilerOptions・include・exclude を持つ36行。型チェックの対象は src/。
@@ -129,5 +129,11 @@ vercel.json|設定|高|Vercelで公開するときのビルド・行き先・ヘ
 vite.config.ts|設定|高|アプリを組み立てる道具の設定と、安全の決まりの埋め込みを持つ係
 vitest.config.ts|設定|高|自動テストの対象ファイルと待ち時間の上限を決める係|tests/**/*.test.ts を対象にし、テスト20秒・準備30秒の上限、ファイルは1つずつ順に実行する設定の2行。
 リスニングの部屋へ_これ1つで全部.md|文書|高|リスニング版の全部入りZIPに、何が入っているかを説明する係
-store-assets/instagram/CAPTIONS.md|文書|高|Instagramに投稿するときの説明文を、まとめて置く係
+store-assets/instagram/CAPTIONS.md|文書|高|InstagramとYouTubeに投稿するときの説明文を置く係
 tsconfig.tests.json|設定|高|テストのコードも型の検査にかけるための、型検査の設定係
+store-assets/_tools/promo_cut.py|音声・画像|高|宣伝動画の台本として、場面の並びと尺を決める係|Instagram リール・フィードと YouTube 16:9 の台本。起動→第2問→解説→全国対戦→決着→しめの順に、場面と曲（誕生・夕凪・カナリアスキップ）を並べる（冒頭の説明より）。
+store-assets/_tools/promo_engine.py|音声・画像|高|録画した画面を1コマずつ合成し、宣伝動画に仕上げる係|素材は record_scenes.py／record_duo.py で録った実際のアプリ画面だけ（動画生成AIは使わない）。ズーム・切り替え・字幕を重ね、問題の音声が鳴る間だけBGMを下げて ffmpeg で書き出す。
+store-assets/_tools/promo_sfx.py|音声・画像|高|宣伝動画の冒頭で鳴らす効果音を、数式だけで作る係|numpy の数式だけで、エンブレムのきらきら・タイトルへの盛り上がり・タイトルが出た瞬間の音を作る（素材・AIは使わない）。
+store-assets/_tools/record_duo.py|音声・画像|高|スマホとパソコンの2台で対戦しているところを録画する係|本番の Firebase にはつながず、demo- プロジェクトとローカルのエミュレータで本物のアプリを2つ動かし、全国対戦で実際にマッチングさせて録画する。2本の録画を同じ時刻にそろえる。
+store-assets/youtube/CHAPTERS.txt|文書|高|YouTube 動画の見出し（チャプター）の時刻を並べた係|0:00 オープニングから 1:53 エンディングまで、7つの見出しと時刻。
+store-assets/youtube/youtube_16x9.mp4|音声・画像|高|YouTube に載せる横長（16:9）の宣伝動画の係|promo_cut.py の youtube 版として書き出した完成動画（約30MB）。

@@ -342,7 +342,7 @@
 "path": "src/components/FoundationPage.tsx"
 }
 ],
-"lines": 8,
+"lines": 10,
 "tag": "文書",
 "conf": "高",
 "kind": "file",
@@ -712,7 +712,7 @@
 },
 {
 "dir": "ref",
-"path": "store-assets/instagram/README.md"
+"path": "vite.config.ts"
 }
 ],
 "lines": 190,
@@ -2093,10 +2093,6 @@
 {
 "dir": "ref",
 "path": "src/battle/audio/sfxSamples.ts"
-},
-{
-"dir": "ref",
-"path": "store-assets/instagram/README.md"
 }
 ],
 "lines": 20,
@@ -3521,11 +3517,11 @@
 "links": [
 {
 "dir": "ref",
-"path": "store-assets/_tools/record_scenes.py"
+"path": "store-assets/_tools/record_duo.py"
 },
 {
 "dir": "ref",
-"path": "store-assets/instagram/README.md"
+"path": "store-assets/_tools/record_scenes.py"
 }
 ],
 "lines": 0,
@@ -3563,8 +3559,8 @@
 "path": "store-assets/_tools/record_scenes.py",
 "name": "record_scenes.py",
 "folder": "store-assets",
-"one": "Instagram用に、本物のアプリの操作を場面ごとに録画する係",
-"detail": "201行。Playwright で本物のアプリ（vite preview のビルド）を操作し、場面ごとに録画する。動画生成AIは使わないと明記されている。",
+"one": "宣伝動画用に、本物のアプリの操作を場面ごとに録画する係",
+"detail": "Playwright で本物のアプリ（vite preview のビルド）を操作し、場面ごとに録画する（スマホ実寸／REC_DEVICE=pc でパソコン版）。動画生成AIは使わないと明記されている。2026年10月に場面が増えた（201→340行）。",
 "links": [
 {
 "dir": "ref",
@@ -3572,10 +3568,14 @@
 },
 {
 "dir": "ref",
-"path": "store-assets/instagram/README.md"
+"path": "store-assets/_tools/promo_cut.py"
+},
+{
+"dir": "ref",
+"path": "store-assets/_tools/promo_engine.py"
 }
 ],
-"lines": 201,
+"lines": 340,
 "tag": "音声・画像",
 "conf": "高",
 "kind": "file",
@@ -3593,12 +3593,7 @@
 "folder": "store-assets",
 "one": "Instagram動画のナレーションを作るときの指示文を集めた係",
 "detail": "主な見出し：ElevenLabs 用プロンプト（任意）／1. ナレーション（Text to Speech / Eleven v3）／2. BGM（Eleven Music）。",
-"links": [
-{
-"dir": "ref",
-"path": "store-assets/instagram/README.md"
-}
-],
+"links": [],
 "lines": 55,
 "tag": "文書",
 "conf": "高",
@@ -3616,7 +3611,7 @@
 "name": "README.md",
 "folder": "store-assets",
 "one": "Instagram用の動画が、何でどう作られたかを説明する係",
-"detail": "主な見出し：Instagram 用動画（実際のアプリ操作の画面録画）／できあがり／構成。",
+"detail": "主な見出し：宣伝動画（実際のアプリ操作の画面録画）／できあがり／構成（投稿・YouTube）。",
 "links": [
 {
 "dir": "ref",
@@ -3631,7 +3626,7 @@
 "path": "README.md"
 }
 ],
-"lines": 70,
+"lines": 68,
 "tag": "文書",
 "conf": "高",
 "kind": "file",
@@ -3809,10 +3804,15 @@
 "path": "store-assets/instagram/CAPTIONS.md",
 "name": "CAPTIONS.md",
 "folder": "store-assets",
-"one": "Instagramに投稿するときの説明文を、まとめて置く係",
-"detail": "主な見出し：Instagram 投稿文／投稿（リール／フィード）／ストーリー。",
-"links": [],
-"lines": 50,
+"one": "InstagramとYouTubeに投稿するときの説明文を置く係",
+"detail": "主な見出し：投稿文（Instagram・YouTube）／Instagram 投稿（リール／フィード）／YouTube。",
+"links": [
+{
+"dir": "ref",
+"path": "store-assets/instagram/README.md"
+}
+],
+"lines": 104,
 "tag": "文書",
 "conf": "高",
 "kind": "file",
@@ -3845,6 +3845,174 @@
 "nBy": 0,
 "draft": false,
 "sys": "docs",
+"flow": []
+},
+{
+"id": "store-assets/_tools/promo_cut.py",
+"path": "store-assets/_tools/promo_cut.py",
+"name": "promo_cut.py",
+"folder": "store-assets",
+"one": "宣伝動画の台本として、場面の並びと尺を決める係",
+"detail": "Instagram リール・フィードと YouTube 16:9 の台本。起動→第2問→解説→全国対戦→決着→しめの順に、場面と曲（誕生・夕凪・カナリアスキップ）を並べる（冒頭の説明より）。",
+"links": [
+{
+"dir": "ref",
+"path": "store-assets/instagram/CAPTIONS.md"
+},
+{
+"dir": "ref",
+"path": "store-assets/instagram/README.md"
+}
+],
+"lines": 495,
+"tag": "音声・画像",
+"conf": "高",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": false,
+"sys": "tools",
+"flow": []
+},
+{
+"id": "store-assets/_tools/promo_engine.py",
+"path": "store-assets/_tools/promo_engine.py",
+"name": "promo_engine.py",
+"folder": "store-assets",
+"one": "録画した画面を1コマずつ合成し、宣伝動画に仕上げる係",
+"detail": "素材は record_scenes.py／record_duo.py で録った実際のアプリ画面だけ（動画生成AIは使わない）。ズーム・切り替え・字幕を重ね、問題の音声が鳴る間だけBGMを下げて ffmpeg で書き出す。",
+"links": [
+{
+"dir": "ref",
+"path": "store-assets/_tools/promo_cut.py"
+},
+{
+"dir": "ref",
+"path": "store-assets/instagram/README.md"
+}
+],
+"lines": 443,
+"tag": "音声・画像",
+"conf": "高",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": false,
+"sys": "tools",
+"flow": []
+},
+{
+"id": "store-assets/_tools/promo_sfx.py",
+"path": "store-assets/_tools/promo_sfx.py",
+"name": "promo_sfx.py",
+"folder": "store-assets",
+"one": "宣伝動画の冒頭で鳴らす効果音を、数式だけで作る係",
+"detail": "numpy の数式だけで、エンブレムのきらきら・タイトルへの盛り上がり・タイトルが出た瞬間の音を作る（素材・AIは使わない）。",
+"links": [
+{
+"dir": "ref",
+"path": "store-assets/_tools/promo_cut.py"
+},
+{
+"dir": "ref",
+"path": "store-assets/instagram/README.md"
+}
+],
+"lines": 81,
+"tag": "音声・画像",
+"conf": "高",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": false,
+"sys": "tools",
+"flow": []
+},
+{
+"id": "store-assets/_tools/record_duo.py",
+"path": "store-assets/_tools/record_duo.py",
+"name": "record_duo.py",
+"folder": "store-assets",
+"one": "スマホとパソコンの2台で対戦しているところを録画する係",
+"detail": "本番の Firebase にはつながず、demo- プロジェクトとローカルのエミュレータで本物のアプリを2つ動かし、全国対戦で実際にマッチングさせて録画する。2本の録画を同じ時刻にそろえる。",
+"links": [
+{
+"dir": "ref",
+"path": "store-assets/_tools/promo_cut.py"
+},
+{
+"dir": "ref",
+"path": "store-assets/_tools/promo_engine.py"
+},
+{
+"dir": "ref",
+"path": "store-assets/instagram/README.md"
+}
+],
+"lines": 227,
+"tag": "音声・画像",
+"conf": "高",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": false,
+"sys": "tools",
+"flow": []
+},
+{
+"id": "store-assets/youtube/CHAPTERS.txt",
+"path": "store-assets/youtube/CHAPTERS.txt",
+"name": "CHAPTERS.txt",
+"folder": "store-assets",
+"one": "YouTube 動画の見出し（チャプター）の時刻を並べた係",
+"detail": "0:00 オープニングから 1:53 エンディングまで、7つの見出しと時刻。",
+"links": [
+{
+"dir": "ref",
+"path": "store-assets/_tools/promo_cut.py"
+},
+{
+"dir": "ref",
+"path": "store-assets/instagram/CAPTIONS.md"
+}
+],
+"lines": 7,
+"tag": "文書",
+"conf": "高",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": false,
+"sys": "tools",
+"flow": []
+},
+{
+"id": "store-assets/youtube/youtube_16x9.mp4",
+"path": "store-assets/youtube/youtube_16x9.mp4",
+"name": "youtube_16x9.mp4",
+"folder": "store-assets",
+"one": "YouTube に載せる横長（16:9）の宣伝動画の係",
+"detail": "promo_cut.py の youtube 版として書き出した完成動画（約30MB）。",
+"links": [
+{
+"dir": "ref",
+"path": "store-assets/instagram/README.md"
+}
+],
+"lines": 236072,
+"tag": "音声・画像",
+"conf": "高",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": false,
+"sys": "tools",
 "flow": []
 },
 {
@@ -20316,7 +20484,7 @@
 "conf": "高",
 "kind": "bundle",
 "count": 3,
-"bytes": 11232598,
+"bytes": 43115831,
 "exts": {
 ".mp4": 3
 },

@@ -2055,13 +2055,29 @@
 "h": "f4e1d87816f1",
 "lines": 27
 },
+"store-assets/_tools/promo_cut.py": {
+"h": "3f05878eb82e",
+"lines": 495
+},
+"store-assets/_tools/promo_engine.py": {
+"h": "c872a35116f9",
+"lines": 443
+},
+"store-assets/_tools/promo_sfx.py": {
+"h": "9d01662086e3",
+"lines": 81
+},
+"store-assets/_tools/record_duo.py": {
+"h": "924c8a44fb8c",
+"lines": 227
+},
 "store-assets/_tools/record_scenes.py": {
-"h": "f9984b37d972",
-"lines": 201
+"h": "581e0957d4df",
+"lines": 340
 },
 "store-assets/instagram/CAPTIONS.md": {
 "h": "3eb416223e9e",
-"lines": 50
+"lines": 104
 },
 "store-assets/instagram/ELEVENLABS_PROMPTS.md": {
 "h": "3eb416223e9e",
@@ -2070,6 +2086,14 @@
 "store-assets/instagram/README.md": {
 "h": "3eb416223e9e",
 "lines": 70
+},
+"store-assets/youtube/CHAPTERS.txt": {
+"h": "3eb416223e9e",
+"lines": 7
+},
+"store-assets/youtube/youtube_16x9.mp4": {
+"h": "3eb416223e9e",
+"lines": 236072
 },
 "tests/__snapshots__/sharedHash.test.ts.snap": {
 "h": "3eb416223e9e",

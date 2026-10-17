@@ -1,4 +1,4 @@
-# コード地図（文字版）— 2026年10月時点・refactor/audit-v2 @ec0490b（2026-10-17）
+# コード地図（文字版）— 2026年10月時点・genspark_ai_developer @1bbb6c5（2026-10-17）
 
 tools/update.sh が cards.json から作る。1ファイル1行：`パス` — ひとことで（タグ・行数・使われる数）。
 【新】はカード未記入の新しいファイル、【変】は書いたあとに冒頭の説明か export が変わったファイル、【要確認】は役割を確かめきれていないファイル。
@@ -441,7 +441,7 @@ tools/update.sh が cards.json から作る。1ファイル1行：`パス` — �
 - `public/化学基礎_フローチャート集.html` — 【要確認】化学基礎のフローチャート集を見せる単体ページだが、使い道が未確認の係（文書・2,561行・使われる0）
 - `public/化学基礎_フローチャート集_v2.html` — 【要確認】化学基礎のフローチャート集の第2版の単体ページだが、使い道が未確認の係（文書・2,561行・使われる0）
 
-## 作る道具（54ファイル）
+## 作る道具（60ファイル）
 
 - `scripts/apply-android-assets.py` — Android版のアイコンと起動画面の画像を差し替える係（音声・画像・79行・使われる0）
 - `scripts/apply-new-icon.py` — 新しいアプリアイコンを、iOS・Web・Androidに配る係（音声・画像・100行・使われる0）
@@ -493,10 +493,16 @@ tools/update.sh が cards.json から作る。1ファイル1行：`パス` — �
 - `scripts/strip_genspark_logo.py` — 第1問Bのイラストから、右下に入ったロゴを取り除く係（音声・画像・113行・使われる0）
 - `store-assets/_tools/edit_instagram.py` — 録画した操作画面に見出しや音をつけ、Instagram用に書き出す係（音声・画像・231行・使われる0）
 - `store-assets/_tools/grammar_answers.json` — 宣伝動画の録画で使う、英文法1,163問の答えの一覧の係（データ・0行・使われる0）
-- `store-assets/_tools/record_scenes.py` — Instagram用に、本物のアプリの操作を場面ごとに録画する係（音声・画像・201行・使われる0）
-- `store-assets/instagram/CAPTIONS.md` — Instagramに投稿するときの説明文を、まとめて置く係（文書・50行・使われる0）
+- `store-assets/_tools/promo_cut.py` — 宣伝動画の台本として、場面の並びと尺を決める係（音声・画像・495行・使われる0）
+- `store-assets/_tools/promo_engine.py` — 録画した画面を1コマずつ合成し、宣伝動画に仕上げる係（音声・画像・443行・使われる0）
+- `store-assets/_tools/promo_sfx.py` — 宣伝動画の冒頭で鳴らす効果音を、数式だけで作る係（音声・画像・81行・使われる0）
+- `store-assets/_tools/record_duo.py` — スマホとパソコンの2台で対戦しているところを録画する係（音声・画像・227行・使われる0）
+- `store-assets/_tools/record_scenes.py` — 宣伝動画用に、本物のアプリの操作を場面ごとに録画する係（音声・画像・340行・使われる0）
+- `store-assets/instagram/CAPTIONS.md` — InstagramとYouTubeに投稿するときの説明文を置く係（文書・104行・使われる0）
 - `store-assets/instagram/ELEVENLABS_PROMPTS.md` — Instagram動画のナレーションを作るときの指示文を集めた係（文書・55行・使われる0）
-- `store-assets/instagram/README.md` — Instagram用の動画が、何でどう作られたかを説明する係（文書・70行・使われる0）
+- `store-assets/instagram/README.md` — Instagram用の動画が、何でどう作られたかを説明する係（文書・68行・使われる0）
+- `store-assets/youtube/CHAPTERS.txt` — YouTube 動画の見出し（チャプター）の時刻を並べた係（文書・7行・使われる0）
+- `store-assets/youtube/youtube_16x9.mp4` — YouTube に載せる横長（16:9）の宣伝動画の係（音声・画像・236,072行・使われる0）
 
 ## 自動テスト（86ファイル）
 
@@ -591,7 +597,7 @@ tools/update.sh が cards.json から作る。1ファイル1行：`パス` — �
 
 - `.env.example` — 接続先の設定値を入れる欄の見本を示す、中身が空の雛形の係（設定・12行・使われる0）
 - `.gitignore` — Gitに入れないファイル（依存部品・ビルド結果・秘密）を決める係（設定・54行・使われる0）
-- `CLAUDE.md` — 画面を作るときに守るUIの決まりを、AIの作業者向けに書いた係（文書・8行・使われる0）
+- `CLAUDE.md` — 画面を作るときに守るUIの決まりを、AIの作業者向けに書いた係（文書・10行・使われる0）
 - `COMMERCIAL_AUDIO_MIGRATION.md` — リスニング音源を商用で使える音声へ移した経緯を記録する係（文書・123行・使われる0）
 - `COMMERCIAL_AUDIO_STATUS.json` — 商用音源への置き換えが何曲済んだかの状況を持つ係（データ・22行・使われる0）
 - `DERIVATIVE_HANDOFF.md` — 統合版からリスニング版を分けたときの引き継ぎを記録する係（文書・106行・使われる0）
