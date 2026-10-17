@@ -1,15 +1,16 @@
 import { useEffect, useState } from 'react';
 import type { BattleQuestion } from '../core/types';
+import type { Chapter, Problem, SubQuestion } from '../../types/curriculum';
 import { BattleText } from './BattleText';
 
 /** Only called after a result's explanation is opened. Never loads study data during a match. */
 export async function loadReviewExplanation(question: BattleQuestion): Promise<string> {
   const { getChaptersOfSubject, miniTestProblemsOf } = await import('../../data/allChapters');
-  const chapter = getChaptersOfSubject(question.subject).find((c: any) => c.id === question.chapterId);
+  const chapter = getChaptersOfSubject(question.subject).find((c: Chapter) => c.id === question.chapterId);
   if (!chapter) return '';
   const mini = miniTestProblemsOf(chapter);
-  const problem = [...chapter.practiceProblems || [], ...mini].find((p: any) => p.id === question.problemId);
-  const sub = problem?.subQuestions?.find((sq: any) => sq.id === question.subQuestionId);
+  const problem = [...chapter.practiceProblems || [], ...mini].find((p: Problem) => p.id === question.problemId);
+  const sub = problem?.subQuestions?.find((sq: SubQuestion) => sq.id === question.subQuestionId);
   if (!sub) return '';
   // ★この1問の解説だけを出す（2026-10-04）★ 大問の解説（problem.explanation）は「問1〜問5の解答一覧」なので、
   //   対戦で出た1問と対応しない。小問ごとの解説（detailedExplanation / explanation）だけを使う。
@@ -17,7 +18,7 @@ export async function loadReviewExplanation(question: BattleQuestion): Promise<s
 }
 
 /** 小問1つぶんの解説テキスト（ポイント・考え方の手順）。無ければ空文字 */
-export function subQuestionExplanation(sub: any): string {
+export function subQuestionExplanation(sub: SubQuestion | null | undefined): string {
   const d = sub?.detailedExplanation;
   const parts: string[] = [];
   if (d && typeof d === 'object') {

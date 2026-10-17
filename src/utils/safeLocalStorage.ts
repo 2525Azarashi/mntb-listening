@@ -59,7 +59,7 @@
  */
 export function safeLocalStorage(): Storage | null {
   try {
-    const ls = (globalThis as any)?.localStorage;
+    const ls = (globalThis as { localStorage?: Storage } | undefined)?.localStorage;
     if (ls && typeof ls.getItem === 'function') return ls as Storage;
   } catch {
     /* プライベートブラウズ等では保存できないが、動作は続ける */

@@ -9,8 +9,13 @@ import { useEffect, useRef } from 'react';
  */
 export interface AutomationHooks {
   enterApp: () => void;
-  setAppState: (state: any) => void;
-  setGrowthPage: (page: any) => void;
+  /**
+   * 画面名（App の AppState）。ここで App を import すると循環参照になるため、
+   * 型は呼び出し側（App.tsx）の引数で絞る。
+   */
+  setAppState: (state: never) => void;
+  /** 成長ハブのページ名（GrowthHub の GrowthPage） */
+  setGrowthPage: (page: never) => void;
   selectChapter: (chapterId: string, index?: number) => void;
   navigateQuiz: (chapterId?: string) => void;
   navigateExplanation: (chapterId?: string) => void;

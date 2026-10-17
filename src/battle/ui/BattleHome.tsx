@@ -92,6 +92,7 @@ import {
 import { fetchMyRankingRow, ratingProgress, ratingTitle } from '../data/battleRanking';
 import type { BattleRankingRow } from '../data/battleRanking';
 import { logRejection } from '../../utils/reportError';
+import { KineticText } from '../../motion';
 
 export type BattleHomeChoice =
   | 'friend-create'
@@ -135,7 +136,7 @@ export function BattleHome({onChoose,onExit,onRequireLogin,notice}: {
  const [row,setRow]=useState<BattleRankingRow|null>(null);
  useEffect(()=>{let active=true;if(user)void fetchMyRankingRow().then(r=>{if(active)setRow(r);}).catch(logRejection('battle.home.fetchRanking'));return()=>{active=false;};},[user]);
  return <BattleShell className="arena-menu">
-   <header className="arena-menu-header"><button type="button" onClick={onExit}>ホームへ</button><h1><Swords size={21}/>とびらバトル</h1><BgmButton /></header>
+   <header className="arena-menu-header"><button type="button" onClick={onExit}>ホームへ</button><h1><Swords size={21}/><KineticText text="とびらバトル" step={45} variant="pop" /></h1><BgmButton /></header>
    {/* ★E（2026-10-01）対戦前の舞台★ 夜のアリーナに「あなた VS ？？？」。とびら君がひとこと（少し挑発）。
        機能は同じ。下の3択・その他・ルールの中身も同じ */}
    <section className={`arena-vs${row ? ' has-rank' : ''}`} aria-label="あなたの情報" data-arena-vs>

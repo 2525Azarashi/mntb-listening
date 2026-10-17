@@ -6,6 +6,7 @@ import {
 } from 'firebase/auth';
 import { auth } from '../firebase';
 import type { GoogleSignInOutcome, SignInMethod } from '../utils/authTypes';
+import { asErrorLike } from '../utils/errorLike';
 
 /**
  * アプリ版（Capacitor）用のログイン処理。
@@ -41,7 +42,8 @@ export async function nativeSignIn(method: SignInMethod): Promise<GoogleSignInOu
 
     const userCred = await signInWithCredential(auth, credential);
     return { ok: true, user: userCred.user };
-  } catch (error: any) {
+  } catch (rawError) {
+    const error = asErrorLike(rawError);
     const code = String(error?.code || error?.message || '');
 
     // ユーザーによるキャンセル
@@ -57,7 +59,7 @@ export async function nativeSignIn(method: SignInMethod): Promise<GoogleSignInOu
       };
     }
 
-    return { ok: false, message: `${label} ログインに失敗しました: ${error?.message || error}` };
+    return { ok: false, message: `${label} ログインに失敗しました: ${error?.message || rawError}` };
   }
 }
 

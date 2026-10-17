@@ -26,7 +26,8 @@ import { getAllListeningChapters } from '../src/data/englishListeningData';
 const ROOT = path.resolve(__dirname, '..');
 const read = (p: string) => fs.readFileSync(path.join(ROOT, p), 'utf-8');
 
-const PLAYER = read('src/components/ListeningAudioPlayer.tsx');
+// 復習用のスクリプト表示（ListeningEvidenceScript）は ListeningEvidenceScript.tsx へ分離したため合わせて読む
+const PLAYER = read('src/components/ListeningAudioPlayer.tsx') + '\n' + read('src/components/ListeningEvidenceScript.tsx');
 const SPEECH = read('src/utils/listeningSpeech.ts');
 const CHAPTER = read('src/components/ChapterSelection.tsx');
 

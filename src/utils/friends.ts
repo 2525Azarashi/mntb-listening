@@ -45,7 +45,8 @@ import {
   type Timestamp,
 } from './firestoreMetered';
 import { auth, db } from '../firebase';
-import { resolveNickname } from './leaderboard';
+import { resolveNickname, type LeaderboardEventDoc } from './leaderboard';
+import { asErrorLike } from './errorLike';
 
 export interface FriendProfile {
   uid: string;
@@ -79,7 +80,8 @@ function requestId(fromUid: string, toUid: string) {
  * Firestore の権限エラーを、ユーザーに意味が伝わる日本語へ変換する。
  * 「Missing or insufficient permissions.」をそのまま出さないための共通処理。
  */
-function toFriendlyError(error: any, fallback: string): Error {
+function toFriendlyError(rawError: unknown, fallback: string): Error {
+  const error = asErrorLike(rawError);
   const code = error?.code as string | undefined;
   switch (code) {
     case 'permission-denied':
@@ -108,8 +110,8 @@ function toFriendlyError(error: any, fallback: string): Error {
 }
 
 /** Firestore の permission-denied かどうか（フォールバック判定用）。 */
-function isPermissionDenied(error: any): boolean {
-  return error?.code === 'permission-denied';
+function isPermissionDenied(error: unknown): boolean {
+  return asErrorLike(error)?.code === 'permission-denied';
 }
 
 function makeFriendCode(uid: string, salt = 0) {
@@ -288,7 +290,7 @@ export async function sendFriendRequest(friendCode: string): Promise<string> {
   try {
     const friendship = await getDoc(doc(db, 'friends', me.uid, 'items', target.uid));
     if (friendship.exists()) throw new Error(`${target.nickname} さんとはすでにフレンドです。`);
-  } catch (e: any) {
+  } catch (e) {
     if (e instanceof Error && e.message.includes('すでにフレンド')) throw e;
     throw toFriendlyError(e, 'フレンド状態の確認に失敗しました。');
   }
@@ -315,7 +317,7 @@ export async function sendFriendRequest(friendCode: string): Promise<string> {
     ));
     const pendingOutgoing = outgoing.docs.find((d) => (d.data().status ?? 'pending') === 'pending');
     if (pendingOutgoing) return `${target.nickname} さんへ申請済みです。`;
-  } catch (e: any) {
+  } catch (e) {
     if (e instanceof Error && e.message.includes('申請が届いています')) throw e;
     throw toFriendlyError(e, '申請状況の確認に失敗しました。');
   }
@@ -462,7 +464,7 @@ export async function acceptFriendRequest(req: FriendRequest) {
         addedAt: serverTimestamp(),
       });
     });
-  } catch (e: any) {
+  } catch (e) {
     // 業務ロジック由来のメッセージはそのまま見せる
     if (e instanceof Error && !('code' in e)) throw e;
     if (isPermissionDenied(e)) {
@@ -566,6 +568,17 @@ export interface FriendCompetitionEntry {
   sub: string;
 }
 
+/** leaderboard_total / leaderboard_chapter の1件（読む項目だけ。古い記録は欠けていることがある）。 */
+interface LeaderboardScoreDoc {
+  nickname?: string;
+  photoURL?: string;
+  totalScore?: number;
+  bestScore?: number;
+  chapterScores?: Record<string, unknown>;
+  correctRate?: number;
+  timeUsedSec?: number;
+}
+
 /** フレンド全員（自分を含む）の合計・章別・期間別スコアを漏れなく集計する。 */
 export async function fetchFriendCompetition(
   mode: 'total' | 'chapter' | 'period',
@@ -581,7 +594,7 @@ export async function fetchFriendCompetition(
         : doc(db, 'leaderboard_chapter', `${options.chapterId}_${uid}`);
       const snap = await getDoc(ref);
       if (!snap.exists()) return null;
-      const data = snap.data() as any;
+      const data = snap.data() as LeaderboardScoreDoc;
       return {
         uid,
         nickname: data.nickname || '名無しの化学者',
@@ -601,7 +614,7 @@ export async function fetchFriendCompetition(
   //   期間別ランキングは直近の記録で十分なので、1人 200 件までにする。
   const entries = await Promise.all(uids.map(async (uid) => {
     const snaps = await getDocs(query(collection(db, 'leaderboard_events'), where('uid', '==', uid), limit(200)));
-    const events = snaps.docs.map((item) => item.data() as any).filter((event) => {
+    const events = snaps.docs.map((item) => item.data() as LeaderboardEventDoc).filter((event) => {
       if (!options.since) return true;
       const playedAt = event.playedAt?.toDate?.();
       return playedAt instanceof Date && playedAt >= options.since;

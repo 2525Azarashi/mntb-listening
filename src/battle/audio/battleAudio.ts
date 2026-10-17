@@ -88,7 +88,7 @@ export class BattleAudioEngine {
 
   /** AudioContext を作れる環境か */
   static supported(): boolean {
-    return typeof window !== 'undefined' && Boolean(window.AudioContext || (window as any).webkitAudioContext);
+    return typeof window !== 'undefined' && Boolean(window.AudioContext || (window as Window & { webkitAudioContext?: typeof AudioContext }).webkitAudioContext);
   }
 
   /** ユーザー操作の中で呼ぶ（自動再生制限を解く） */
@@ -224,7 +224,7 @@ export class BattleAudioEngine {
             const copy = b.slice(0);
             let settled = false;
             const ok = (ab: AudioBuffer) => { if (!settled) { settled = true; resolve(ab); } };
-            const fail = (err: any) => { if (!settled) { settled = true; reject(err); } };
+            const fail = (err: unknown) => { if (!settled) { settled = true; reject(err); } };
             try {
               const res = ctx.decodeAudioData(copy, ok, fail);
               if (res && typeof res.then === 'function') {

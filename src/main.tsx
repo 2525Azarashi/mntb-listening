@@ -7,6 +7,8 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import App from './App.tsx';
 import './index.css';
+// モーション層（キネティック・タイポ／UIの動き／インフォグラフィック）。index.css の後に読む
+import { installRipple } from './motion';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { AppWallpaper } from './components/AppWallpaper';
 import { installChunkRecovery } from './utils/chunkRecovery';
@@ -15,6 +17,7 @@ import { initializeAdMob } from './utils/adService';
 import { isNativeApp, getAppPlatform } from './native/platform';
 
 installChunkRecovery();
+installRipple();
 initializeAdMob();
 if (typeof document !== 'undefined') {
   document.documentElement.dataset.platform = getAppPlatform();
