@@ -224,12 +224,57 @@ def pc_big(L, path, t0, t1, src, roi=None, speed=1.0, ev=(), voice=None, layers=
   v = V(path, t0, d, src, roi=rk, speed=speed, ev=ev, voice=voice, radius=28 if card_mode else 0)
   return Shot((t1 - t0) / speed, [v, *layers], bg_navy(L) if card_mode else bg_cream(L), xin=xin, kind=kind, punch=punch, name=name)
 
+
+PROMO_SFX = os.path.join(TMP, 'sfx')  # promo_sfx.py で作る冒頭の効果音（無ければここで作る）
+if not os.path.exists(os.path.join(PROMO_SFX, 'title_bloom.wav')):
+  import subprocess as _sp
+  _sp.run([sys.executable, os.path.join(os.path.dirname(os.path.abspath(__file__)), 'promo_sfx.py'), PROMO_SFX], check=True)
+def psfx(n): return os.path.join(PROMO_SFX, n + '.wav')
+
+def philo(L, path, t0, src, dur, speed, freeze, lines, hl=None, kicker=None, sub=None, xin=0.4, kind='fade', name=''):
+  """対戦をつくった理由：対戦メニューの本物の画面をゆっくり見せ、暗くした上に短い言葉"""
+  W, H = L['W'], L['H']; wide = W > H
+  full = (0, 0, src[0], src[1])
+  tight = (src[0] * 0.06, src[1] * 0.04, src[0] * 0.94, src[1] * 0.92)
+  v = V(path, t0, (0, 0, W, H), src, roi=[(0, full), (dur, tight)], speed=speed, freeze=freeze)
+  def blur(cv, t):  # 本物の画面はぼかして奥に（文字を読みやすく）
+    k = 1 + 2 * int(round(10 * smooth(t / 0.6)))
+    if k > 1: cv[:] = cv2.GaussianBlur(cv, (k * 2 + 1, k * 2 + 1), 0)
+  layers = [v, Func(blur), Fill(NAVY, lambda t: 0.80 * smooth(t / 0.6))]
+  size = round(L['card'] * (0.72 if not wide else 0.78))
+  imgs = [text_img(ln, size, WHITE, hl=hl, hl_mode='color', shadow=(0, 4, (8, 16, 30, 140))) for ln in lines]
+  kimg = pill_img(kicker, round(size * 0.52), fg=NAVY, bg=ORANGE) if kicker else None
+  simg = text_img(sub, round(size * 0.50), (255, 230, 190), fnt=FONT_BOLD) if sub else None
+  hsum = sum(i.shape[0] * 0.92 for i in imgs) + (kimg.shape[0] + 24 if kimg is not None else 0) + (simg.shape[0] + 20 if simg is not None else 0)
+  y = H * 0.46 - hsum / 2 + 12
+  if kimg is not None:
+    layers.append(Sprite(kimg, W / 2, y, at=0.15, anim='fade', dur=0.4, anchor='top')); y += kimg.shape[0] + 24
+  for i, im in enumerate(imgs):
+    layers.append(Sprite(im, W / 2, y, at=0.35 + i * 0.6, anim='up', dur=0.6, anchor='top', drift=(0, -3, 0))); y += im.shape[0] * 0.92
+  if simg is not None:
+    layers.append(Sprite(simg, W / 2, y + 20, at=0.35 + len(imgs) * 0.6, anim='fade', dur=0.6, anchor='top'))
+  # 文字の下に横長の帯（はっきり読ませる）
+  pw = round(max(i.shape[1] for i in imgs + ([simg] if simg is not None else [])) + 80); ph = round(hsum + 90)
+  band = panel_img(min(pw, W - 20), ph, 36, (12, 22, 38, 150))
+  layers.insert(3, Sprite(band, W / 2, H * 0.46, at=0.1, anim='fade', dur=0.5))
+  return Shot(dur, layers, bg_navy(L), xin=xin, kind=kind, name=name)
+
+PHILO1 = dict(kicker='対戦をつくった理由', lines=['一人で落ち着いて解く力と、', '相手がいる中で聞き取る力は、', '別の力。'], hl='別の力')
+PHILO2 = dict(lines=['紙の問題集では作れない', '「本番の緊張感」を、', 'スマホの中に。'], hl='本番の緊張感',
+              sub='AI・友だち・全国と、リスニング・英文法・英単語で')
+
+def opening_sfx(shot, title_src, start_src):
+  """起動画面の音：エンブレムのきらきら → タイトルへ「すーっ」→ タイトルで「ふわっ」"""
+  t_title = title_src - start_src
+  shot.sfx = [(0.05, psfx('open_shimmer'), 0.9), (t_title - 1.30, psfx('title_swell'), 0.55), (t_title - 0.03, psfx('title_bloom'), 0.85)]
+  shot.title_src, shot.start_src = title_src, start_src
+
 # ---------------- 台本：Instagram（リール・フィード） ----------------
 def insta(L):
   W, H = L['W'], L['H']; tall = H > 1500; S = []
   # 1. 起動：エンブレムが出て消える → タイトル（とびら君・「聞いて、解いて、競って、これ1本で。」）
   LR = [(0, (0, 60, 860, 1800)), (6.6, (40, 200, 820, 1500))] if tall else [(0, (0, 380, 860, 1480)), (3.6, (0, 380, 860, 1480)), (4.2, (0, 0, 860, 1180)), (6.6, (40, 20, 820, 1060))]
-  S.append(phone_full(L, mp4(P3, 'launch'), 0.55, 6.9, roi=LR, xin=0, name='launch'))
+  S.append(phone_full(L, mp4(P3, 'launch'), 0.55, 6.9, roi=LR, xin=0, name='launch')); opening_sfx(S[-1], 4.45, 0.55)
   # 2. ひとこと
   S.append(card(L, ['イヤホンをつけて、', '1問だけ、聞いてみよう。'], 3.6, A('public/mascots/listening.webp'), hl='1問だけ', name='invite'))
   # 3. 第2問
@@ -256,10 +301,11 @@ def insta(L):
                                                           y=f[1] - 260 if tall else 40)],
                 bg_cream(L), xin=0.3, name='readalong'))
   # 5. 全国対戦（2台）
-  S.append(card(L, ['英文法の早押しで、', '全国のだれかと対戦。'], 2.4, None, hl='全国', bg=bg_navy(L), xin=0.35, kind='zoom', name='battle_card',
-                sub='スマホ vs パソコン、本当に2台で対戦した画面です'))
-  S.append(duo_split(L, 1.9, 8.95, speed=2.0, text='相手さがし', name='match'))
-  S.append(duo_split(L, 8.75, D_START, speed=2.0, text='カウントダウン', xin=0.2, name='countdown'))
+  BF = mp4(P3, 'battle_full')
+  S.append(philo(L, BF, 0.75, PHONE_SRC, 4.3, 0.30, 2.0, xin=0.6, name='philo1', **PHILO1))
+  S.append(philo(L, BF, 2.55, PHONE_SRC, 4.6, 0.25, 3.6, xin=0.45, name='philo2', **PHILO2))
+  S.append(duo_split(L, 1.9, 8.95, speed=1.4, text='2台で、本当に対戦', hl='2台', name='match'))
+  S.append(duo_split(L, 8.75, D_START, speed=1.6, text='カウントダウン', xin=0.2, name='countdown'))
   S.append(duo_split(L, D_START, 23.6, speed=1.15, text='早押し4択・全10問', hl='早押し', xin=0.12, kind='flash',
                      punch=[0.0, to_out(22.6, D_START, 1.15)], flash=[0.0], name='q1'))
   # 盛り上がり：交互に大きく（どちらの端末も本物）
@@ -289,6 +335,7 @@ def insta(L):
 def youtube(L):
   W, H = L['W'], L['H']; S = []
   S.append(pc_big(L, mp4(PCD, 'launch'), 0.55, 6.9, PC_SRC, roi=[(0, (0, 0, 1920, 1080)), (6.6, (160, 90, 1760, 990))], xin=0, device=False, name='launch'))
+  opening_sfx(S[-1], 4.27, 0.55)
   S.append(card(L, ['イヤホンをつけて、', '1問だけ、聞いてみよう。'], 3.8, A('public/mascots/listening.webp'), hl='1問だけ', name='invite'))
   S.append(card(L, ['第2問', 'イラストを選ぶ問題'], 2.2, None, hl='第2問', bg=bg_navy(L), xin=0.4, name='ch_q2',
                 sub='パソコンでも、スマホでも、同じ問題'))
@@ -307,9 +354,10 @@ def youtube(L):
                   roi=[(0, (0, 90, 1300, 820)), (2.0, (0, 200, 900, 720)), (9.5, (0, 220, 860, 720))],
                   layers=[caption(L, '音声に合わせて、英文が光る', hl='英文が光る', at=0.3, until=4.5)], name='readalong'))
   # 全国対戦
-  S.append(card(L, ['英文法の早押しで、', '全国のだれかと対戦。'], 2.8, None, hl='全国', bg=bg_navy(L), xin=0.4, kind='zoom', name='ch_battle',
-                sub='スマホ（ハル）vs パソコン（ソラ）、本当に2台で対戦した画面です'))
-  S.append(duo_split(L, 0.2, 8.95, speed=1.6, text='相手さがし', name='match'))
+  BFP = mp4(PCD, 'battle_full')
+  S.append(philo(L, BFP, 0.75, PC_SRC, 4.6, 0.28, 2.0, xin=0.6, name='philo1', **PHILO1))
+  S.append(philo(L, BFP, 2.55, PC_SRC, 4.8, 0.22, 3.55, xin=0.45, name='philo2', **PHILO2))
+  S.append(duo_split(L, 0.2, 8.95, speed=1.4, text='スマホ（ハル）vs パソコン（ソラ）、2台で本当に対戦', hl='2台', name='match'))
   S.append(duo_split(L, 11.9, D_START, text=None, xin=0.2, name='countdown'))
   S.append(duo_split(L, D_START, 39.0, text='早押し4択・全10問', hl='早押し', xin=0.12, kind='flash',
                      punch=[0.0, to_out(22.6, D_START, 1), to_out(29.3, D_START, 1), to_out(37.8, D_START, 1)], flash=[0.0], name='q1'))
@@ -348,6 +396,7 @@ CREDITS_LINE = ('BGM：「誕生」（マナトビ）／「夕凪」作曲 や�
 def collect(shots):
   sfx, voice = [], []
   for s in shots:
+    for (lt, f, g) in getattr(s, 'sfx', []): sfx.append((s.start + lt, f, g))
     for Lr in s.layers:
       if not isinstance(Lr, Video): continue
       end_local = Lr.until if Lr.until is not None else s.dur
@@ -365,17 +414,20 @@ def by(shots, name): return next(s for s in shots if s.name == name)
 
 def music_plan(shots, total):
   launch, match, cd, finish, victory, message, out = (by(shots, n) for n in ('launch', 'match', 'countdown', 'finish', 'victory', 'message', 'outro'))
-  first_battle = next(s for s in shots if s.name in ('battle_card', 'ch_battle'))
-  title_at = launch.start + (4.45 - 0.55)       # タイトルが出る瞬間 = 「誕生」が広がる 22.95 秒
+  first_battle = by(shots, 'philo1')
+  title_at = launch.start + (launch.title_src - launch.start_src)   # タイトルが出る瞬間 = 「誕生」が広がる 22.95 秒
   m = []
-  t1_end = first_battle.start + 0.6
-  m.append(dict(f=TANJOU, src=22.95 - title_at, at=0.0, dur=t1_end, gain=0.62, fi=1.2, fo=1.4))
-  # 夕凪：対戦の案内 → 相手さがし → カウントダウン（START! で切れる）
-  w_at = first_battle.start + 0.2; start_at = cd.start + cd.dur
-  m.append(dict(f=WAITING, src=0.0, at=w_at, dur=start_at - w_at + 0.25, gain=1.35, fi=0.5, fo=0.35))
-  # カナリアスキップ：曲頭7秒のサビ = START!
-  b_at = start_at - 4.0; fin = finish.start + to_out(D_FINISH, 87.75, 1)
-  m.append(dict(f=BATTLE2, src=7.0 - 4.0, at=b_at, dur=fin - b_at + 1.2, gain=1.9, fi=1.2, fo=1.4))
+  t1_end = first_battle.start + 0.9
+  # 冒頭は効果音だけ（きらきら → すーっ → タイトルでふわっ）。ふわっの響きが引いていく所で、
+  # 「誕生」を曲の頭から始めて（途中から割り込まない・無音の間も作らない）、そのまま次の画面へ
+  enter = title_at + 0.95
+  m.append(dict(f=TANJOU, src=0.0, at=enter, dur=t1_end - enter, gain=0.80, fi=0.05, fo=1.8))
+  # 夕凪：理念 → 相手さがし → カウントダウン。START! の直前で引く（対戦の曲とは重ねない）
+  w_at = first_battle.start - 0.5; start_at = cd.start + cd.dur
+  m.append(dict(f=WAITING, src=0.0, at=w_at, dur=start_at - w_at - 0.05, gain=1.45, fi=1.4, fo=0.7))
+  # カナリアスキップ：START! の瞬間にサビ（曲頭7秒）から
+  b_at = start_at - 0.03; fin = finish.start + to_out(D_FINISH, 87.75, 1)
+  m.append(dict(f=BATTLE2, src=7.0 - 0.03, at=b_at, dur=fin - b_at + 1.2, gain=1.9, fi=0.03, fo=1.4))
   # 誕生（後半）：静かな間（117.8〜123.1）＝ひとこと、もう一度広がる 123.1 ＝ ロゴ
   s2_at = finish.start + finish.dur - 0.4
   src2 = 117.8 - (message.start + 0.3 - s2_at)
@@ -404,13 +456,14 @@ def build(name, L, shots):
   sfx, voice = collect(shots)
   music = music_plan(shots, total)
   vid = os.path.join(TMP, name + '_v.mp4'); aud = os.path.join(TMP, name + '_a.m4a')
-  render_video(shots, L['W'], L['H'], vid, crf=20 if DRAFT else 17, preset='veryfast' if DRAFT else 'medium')
+  if '--audio-only' in sys.argv and os.path.exists(vid): print('  映像はそのまま（音だけ作り直し）', flush=True)
+  else: render_video(shots, L['W'], L['H'], vid, crf=20 if DRAFT else 17, preset='veryfast' if DRAFT else 'medium')
   js = mix_audio(total, music, voice, sfx, aud, TMP)
   final = os.path.join(OUT, name + '.mp4'); mux(vid, aud, final)
   chapters = [(s.start, s.name) for s in shots]
   if name.startswith('youtube'):  # YouTube のチャプター（0:00 から・各10秒以上）
     titles = {'launch': 'オープニング', 'ch_q2': '第2問を解いてみる（パソコン・スマホ）', 'q2_answer': '採点と解説',
-              'ch_battle': '全国対戦（スマホ vs パソコン）', 'q1': '早押し4択・全10問', 'finalq': 'ラスト1問・決着',
+              'philo1': '全国対戦（スマホ vs パソコン）', 'q1': '早押し4択・全10問', 'finalq': 'ラスト1問・決着',
               'ch_more': 'ガチャ・復習ノート・ミッション', 'message': 'エンディング'}
     rows = [(s.start, titles[s.name]) for s in shots if s.name in titles]; rows[0] = (0.0, rows[0][1])
     keep = [rows[0]]
