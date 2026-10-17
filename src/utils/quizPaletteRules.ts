@@ -49,39 +49,6 @@ export function answerNeedsPalette(ansRaw: string): boolean {
   return false;
 }
 
-/**
- * 設問が下付き・上付き文字パレットの表示を必要とするかどうかを判定する。
- *
- * 判定方針（要件4）：
- *  - データ側で `requiresChemicalPalette` が明示された設問は常に表示（opt-in）。
- *  - 選択式（multiple_choice / true_false / select / sorting）はタップで選ぶだけなので不要。
- *  - それ以外は correctAnswer / acceptedAnswers のいずれかが
- *    化学式・イオン式・反応式・上下付き文字を含む場合のみ表示する。
- */
-export function requiresChemicalSymbols(question: PaletteTarget): boolean {
-  if (question?.requiresChemicalPalette) return true;
-  // 数学パレットを明示した問題は、化学パレットの推定ヒューリスティックに
-  // 誤検知されないよう先に除外する（両方のパレットが並ぶのを防ぐ）。
-  if (question?.requiresMathPalette) return false;
-
-  const type = String(question?.type || '');
-  if (
-    type === 'multiple_choice' ||
-    type === 'true_false' ||
-    type === 'select' ||
-    type === 'sorting'
-  ) {
-    return false;
-  }
-
-  const answers: string[] = [
-    question?.correctAnswer,
-    ...(Array.isArray(question?.acceptedAnswers) ? question.acceptedAnswers : []),
-  ].filter((a: unknown): a is string => typeof a === 'string' && a.trim() !== '');
-
-  if (answers.length === 0) return false;
-  return answers.some((a) => answerNeedsPalette(a));
-}
 
 /**
  * この設問に「数学記号パレット」を出すか。

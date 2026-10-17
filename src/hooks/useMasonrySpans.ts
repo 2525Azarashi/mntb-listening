@@ -45,6 +45,7 @@ export function useMasonrySpans(selector: string, active: boolean, deps: readonl
     const ro = new ResizeObserver(apply);
     items.forEach((el) => ro.observe(el));
     return () => { ro.disconnect(); reset(); };
+    // 呼び出し側が渡す deps を展開して使うため、静的な依存の検査ができない
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selector, active, ...deps]);
 }

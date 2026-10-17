@@ -232,24 +232,15 @@ export function ChapterSelection({ mode, onSelectChapter, onBack, subject = 'eng
    *   単元選択を開くたびに通信すると表示が遅くなるので、
    *   すでに手元にある記録だけで描画する。
    */
-  const solvedMap = useMemo(
-    () => readSolvedMap(auth.currentUser?.uid || 'guest'),
-    // 画面に入ったときの一度だけで十分（回を解いたら演習画面を経由して戻ってくる）
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [],
-  );
+  // 画面に入ったときの一度だけで十分（回を解いたら演習画面を経由して戻ってくる）
+  // 画面に入ったときに1回だけ読む（useState の初期化関数は最初の描画でだけ呼ばれる）
+  const [solvedMap] = useState(() => readSolvedMap(auth.currentUser?.uid || 'guest'));
   /** ステージ（単元・回）ごとの満点回数（utils/stageRecords.ts。満点3回で達成） */
-  const stageRecords = useMemo(
-    () => readStageRecords(auth.currentUser?.uid || 'guest'),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [],
-  );
+  // 画面に入ったときに1回だけ読む（useState の初期化関数は最初の描画でだけ呼ばれる）
+  const [stageRecords] = useState(() => readStageRecords(auth.currentUser?.uid || 'guest'));
   /** 単元ごとの正答率（utils/unitStats.ts。採点のたびに quizScoring が記録している） */
-  const unitStats = useMemo(
-    () => readUnitStats(auth.currentUser?.uid || 'guest'),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [],
-  );
+  // 画面に入ったときに1回だけ読む（useState の初期化関数は最初の描画でだけ呼ばれる）
+  const [unitStats] = useState(() => readUnitStats(auth.currentUser?.uid || 'guest'));
 
   // 分野を切り替えたときは、その分野の先頭の章を開き直す
   useEffect(() => {

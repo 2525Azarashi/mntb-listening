@@ -42,7 +42,9 @@
  *   分割すると進捗台帳のキー（章ID::大問ID）が総入れ替えになり、
  *   これまでの学習記録が全部リセットされる。ここもテストで固定する。
  */
+import { fixture } from './helpers/fixture';
 import { describe, it, expect } from 'vitest';
+import type { Problem, SubQuestion } from '../src/types/curriculum';
 import fs from 'node:fs';
 import path from 'node:path';
 import {
@@ -107,24 +109,24 @@ describe('D1: 1画面＝1問（問1で1つの進捗、問2で1つの進捗）', 
   it('音源も stepwise も持たない大問は対象外（(1)の結果を(2)で使う構成を壊さない）', () => {
     // 1問ずつに切ると前の設問を見返せず解けなくなる。
     // （以前は統合版の化学データで確かめていた。リスニング版の収録データには該当がないので最小の例で固定する）
-    expect(isPerSubQuestionListening({ subQuestions: [{ id: 'a' }, { id: 'b' }] })).toBe(false);
-    expect(isPerSubQuestionListening({ audioTracks: [], subQuestions: [{ id: 'a' }, { id: 'b' }] })).toBe(false);
+    expect(isPerSubQuestionListening(fixture<Problem>({ subQuestions: [{ id: 'a' }, { id: 'b' }] }))).toBe(false);
+    expect(isPerSubQuestionListening(fixture<Problem>({ audioTracks: [], subQuestions: [{ id: 'a' }, { id: 'b' }] }))).toBe(false);
   });
 
   it('英文法は音源が無くても stepwise で1問ずつにする', () => {
     const grammar = getAllGrammarChapters()
-      .flatMap((c: any) => [...(c.miniTest || []), ...(c.practiceProblems || [])])
-      .filter((p: any) => p.stepwise === true && (p.subQuestions || []).length > 1);
+      .flatMap((c) => [...(c.miniTest || []), ...(c.practiceProblems || [])])
+      .filter((p) => p.stepwise === true && (p.subQuestions || []).length > 1);
     expect(grammar.length).toBeGreaterThan(0);
     for (const p of grammar) expect(isPerSubQuestionListening(p)).toBe(true);
   });
 
   it('音源はあっても小問が1つだけなら分割しない（分ける意味がない）', () => {
     expect(
-      isPerSubQuestionListening({
+      isPerSubQuestionListening(fixture<Problem>({
         audioTracks: [{ subId: 'a' }],
         subQuestions: [{ id: 'a' }],
-      }),
+      })),
     ).toBe(false);
   });
 
@@ -134,7 +136,7 @@ describe('D1: 1画面＝1問（問1で1つの進捗、問2で1つの進捗）', 
     expect(steps.map((s) => s.index)).toEqual([0, 1, 2, 3]);
     // 各ステップのIDは、その回の小問IDと1対1で対応する
     expect(steps.map((s) => s.subQuestionId)).toEqual(
-      EL1_A_EXTRA_PROBLEMS[0].subQuestions.map((sq: any) => sq.id),
+      EL1_A_EXTRA_PROBLEMS[0].subQuestions.map((sq) => sq.id),
     );
   });
 
@@ -147,7 +149,7 @@ describe('D1: 1画面＝1問（問1で1つの進捗、問2で1つの進捗）', 
   it('ラベルが「問N」で無いときも並び順から番号を作る（空表示にしない）', () => {
     expect(stepLabelOf({ label: '問 3 発話に合うイラスト' }, 0)).toBe('問3');
     expect(stepLabelOf({ label: '発話に合うイラスト' }, 1)).toBe('問2');
-    expect(stepLabelOf({}, 2)).toBe('問3');
+    expect(stepLabelOf(fixture<SubQuestion>({}), 2)).toBe('問3');
   });
 
   it('採点キーは「大問ID::小問ID」で、問ごとに別レコードになる', () => {
@@ -237,7 +239,7 @@ describe('D1 回帰防止：進捗台帳のキーを壊さない', () => {
 // =====================================================================
 describe('D1b: 解説も問ごと（先の問の正解が見えないようにする）', () => {
   // ソースの文字列ではなく、絞り込みの純関数（scopeQuestionsToFocus）の入出力で確かめる。
-  const q1a = () => chapter('el1_A').practiceProblems[0] as any;
+  const q1a = () => chapter('el1_A').practiceProblems[0];
 
   it('Explanation が「いま解いた1問」を受け取れる', () => {
     expect(EXPL).toContain('focusSubQuestionId?: string | null');
@@ -249,7 +251,7 @@ describe('D1b: 解説も問ごと（先の問の正解が見えないように�
     expect(q.subQuestions.length).toBeGreaterThan(1);
     const target = q.subQuestions[1];
     const [scoped] = scopeQuestionsToFocus([q], String(target.id));
-    expect(scoped.subQuestions.map((sq: any) => sq.id)).toEqual([target.id]);
+    expect(scoped.subQuestions.map((sq) => sq.id)).toEqual([target.id]);
     // 指定が無いときは大問まるごと（同じ参照のまま）
     expect(scopeQuestionsToFocus([q], null)[0]).toBe(q);
     // 存在しない ID のときも大問まるごと（画面を空にしない）

@@ -21,14 +21,14 @@ export type { SubjectTheme } from './subjects';
  * 配色を引くときに渡す教科ID。
  * 登録簿の教科に加えて、外部教科（英単語など）の ID も受け付ける。
  */
-export type TipSubject = SubjectKey | (string & {});
+export type ThemeSubject = SubjectKey | (string & {});
 
 const THEMES = Object.fromEntries(SUBJECT_REGISTRY.map((s) => [s.id, s.theme])) as Record<SubjectKey, SubjectTheme>;
 
 /**
  * 教科の配色を返す。登録簿 → 外部教科の順に探し、どちらにも無ければ既定の教科の配色。
  */
-export function subjectTheme(subject: TipSubject | undefined): SubjectTheme {
+export function subjectTheme(subject: ThemeSubject | undefined): SubjectTheme {
   if (subject) {
     const known = THEMES[subject as SubjectKey];
     if (known) return known;
