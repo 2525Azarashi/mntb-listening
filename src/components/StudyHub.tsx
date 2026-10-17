@@ -29,6 +29,7 @@ import {
 import { ForgettingCurveChart } from './ForgettingCurveChart';
 import './review-note.css';
 import { stripHtmlToText } from '../utils/sanitizeHtml';
+import { KineticText } from '../motion';
 import {
   ALL_SUBJECTS,
   filterBySubjectTab,
@@ -379,7 +380,7 @@ export function StudyHub({ onBack, isGuest, onSelectNote, onReview, onPractice, 
         {/* ヘッダー：1行。説明文は置かない（画面を見れば分かる） */}
         <header className="rn-header">
           <button type="button" onClick={onBack} aria-label="ホームに戻る" className="rn-back"><ArrowLeft size={20} aria-hidden="true" /></button>
-          <h1>復習ノート</h1>
+          <h1><KineticText text="復習ノート" /></h1>
           <span className="rn-header-stat" aria-label={`習得済み ${masteredCount}問`}><CheckCircle2 size={16} aria-hidden="true" />習得 {masteredCount}</span>
         </header>
 

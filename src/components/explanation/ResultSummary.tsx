@@ -6,6 +6,8 @@ import { formatResultTime } from './helpers';
 import type { Chapter, SubQuestion } from '../../types/curriculum';
 import type { GrowthProgress } from '../../battle/core/growth';
 import type { ResultPage } from './explanationLogic';
+import { KineticText, ScoreRing } from '../../motion';
+import { CountUp } from '../ui/CountUp';
 
 /**
  * 結果画面（全問を解き終えたあと）の部品。
@@ -18,6 +20,9 @@ import type { ResultPage } from './explanationLogic';
  *   WeakAreasPanel       … 大きな「分析結果：復習推奨エリア」（スマホ以外）
  *   ResultPager          … 詳しい結果の「1問ずつの答え合わせ」ページ送り
  */
+
+/** 正答率（0〜1）。判定できる問が0なら0 */
+const rateOf = (correct?: number, judgeable?: number) => (judgeable ? (correct ?? 0) / judgeable : 0);
 
 export function ResultScoreCard({ compactResult, resultTotalCorrect, resultTotalJudgeable, resultTotalTimeSec, growth, compactWeakAreas, chapter, displayTotalScore }: {
   compactResult: boolean;
@@ -39,11 +44,11 @@ export function ResultScoreCard({ compactResult, resultTotalCorrect, resultTotal
             {/* 2026-10-02：演習ではポイントを出さない（対戦と分ける）。正解数・正答率・時間だけ */}
             <div className="practice-result-summary" data-practice-result>
               <div className="practice-result-main">
-                <span className="practice-result-badge">演習の結果</span>
-                <p><strong>{resultTotalCorrect ?? 0}</strong><span>/ {resultTotalJudgeable ?? 0} 問 正解</span></p>
+                <span className="practice-result-badge"><KineticText text="演習の結果" step={45} variant="pop" /></span>
+                <p><strong><CountUp value={resultTotalCorrect ?? 0} fromZero duration={900} delay={250} /></strong><span>/ {resultTotalJudgeable ?? 0} 問 正解</span></p>
               </div>
               <dl className="practice-result-stats">
-                <div><dt>正答率</dt><dd>{resultTotalJudgeable ? Math.round(((resultTotalCorrect ?? 0) / resultTotalJudgeable) * 100) : 0}%</dd></div>
+                <div><dt>正答率</dt><dd className="mo-rate"><ScoreRing rate={rateOf(resultTotalCorrect, resultTotalJudgeable)} size={22} stroke={4} tone={rateOf(resultTotalCorrect, resultTotalJudgeable) >= 1 ? 'done' : 'brand'} /><span><CountUp value={resultTotalJudgeable ? Math.round(((resultTotalCorrect ?? 0) / resultTotalJudgeable) * 100) : 0} fromZero duration={1100} delay={350} />%</span></dd></div>
                 <div><dt>時間</dt><dd>{formatResultTime(resultTotalTimeSec ?? 0)}</dd></div>
               </dl>
             </div>
@@ -108,14 +113,14 @@ export function ResultStage({ resultTotalJudgeable, resultTotalCorrect, studyRew
         const coins = studyReward?.coins ?? 0;
         return (
           <section className="practice-stage" aria-label="とびらくんと今回のごほうび" data-practice-stage data-pose={pose}>
-            <div className="practice-stage-bubble" role="status">{line}</div>
+            <div className="practice-stage-bubble" role="status"><KineticText text={line} delay={500} step={28} max={40} /></div>
             <img className="practice-stage-tobira" src={`/mascots/${pose}.webp`} alt="" width={160} height={160} draggable={false} />
             <div className="practice-stage-reward" data-practice-reward>
               <Coins size={22} aria-hidden="true" />
               {isGuest
                 ? <span>ログインすると、正解した問題ごとにマナコインがもらえます</span>
                 : coins > 0
-                  ? <><span>今回のごほうび</span><b>＋{coins}</b><span>マナコイン</span>{studyReward?.xp ? <small>＋{studyReward.xp}XP</small> : null}</>
+                  ? <><span>今回のごほうび</span><b>＋<CountUp value={coins} fromZero duration={900} delay={1100} /></b><span>マナコイン</span>{studyReward?.xp ? <small>＋{studyReward.xp}XP</small> : null}</>
                   : <span>正解した問題ごとに<b className="is-inline">＋3</b>マナコイン<small>（同じ問題は1日1回）</small></span>}
             </div>
           </section>

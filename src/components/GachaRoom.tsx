@@ -29,6 +29,7 @@ import {
 } from '../battle/data/growthStore';
 import { gachaRarityOf, type ItemDef, type GachaRarity } from '../battle/core/growth';
 import { primeAudio } from '../battle/ui/feedback';
+import { KineticText } from '../motion';
 import {
   COLLECTION_KINDS,
   FEATURED_UR_IDS,
@@ -234,7 +235,7 @@ function GachaRoomContent({
       )}
       <header className="gacha-head">
         <p className="mt-kicker">TOBIRA COLLECTION</p>
-        <h1>とびらくんの装飾ガチャ</h1>
+        <h1><KineticText text="とびらくんの装飾ガチャ" step={30} variant="pop" /></h1>
         <p className="gacha-lead">
           コインで<strong>ランダム抽選</strong>。選んで買うなら
           <wbr />
