@@ -56,6 +56,7 @@ import { safeLocalStorage } from './safeLocalStorage';
 import { completedKey } from './userStorageKeys';
 // 章 × モードごとの旧キー名も utils/quizStorageKeys.ts が唯一の定義
 import { quizAnswersKey, quizRunKey } from './quizStorageKeys';
+import type { ProblemLike } from '../types/curriculum';
 
 export const SOLVED_KEY_PREFIX = 'solved_problems_v1_';
 
@@ -315,7 +316,7 @@ export function isLegacyProgressBackfilled(uid: string | null | undefined): bool
  */
 export function backfillLegacyProgress(
   uid: string | null | undefined,
-  chapters: Array<{ id: string; miniTest?: any[]; practiceProblems?: any[] }>,
+  chapters: Array<{ id: string; miniTest?: ProblemLike[]; practiceProblems?: ProblemLike[] }>,
 ): number {
   const ls = storage();
   if (!ls) return 0;
@@ -355,9 +356,9 @@ export function backfillLegacyProgress(
 
     // 小問ID → その小問が属する大問ID
     const subToProblem = new Map<string, string>();
-    problems.forEach((q: any) => {
-      (q?.subQuestions || []).forEach((sq: any) => {
-        if (sq?.id) subToProblem.set(String(sq.id), String(q.id));
+    problems.forEach((q) => {
+      (q?.subQuestions || []).forEach((sq) => {
+        if (sq?.id) subToProblem.set(String(sq.id), String(q?.id));
       });
     });
 
@@ -399,7 +400,7 @@ export function backfillLegacyProgress(
     // ③ 章を修了していれば、その章の大問はすべて解いたものとして扱う
     //    （run も answers も消えているため、他に復元手段がない）
     if (completedChapters.includes(chapter.id)) {
-      problems.forEach((q: any) => {
+      problems.forEach((q) => {
         if (q?.id) add(chapter.id, String(q.id));
       });
     }

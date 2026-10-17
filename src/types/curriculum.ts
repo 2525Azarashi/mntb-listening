@@ -177,3 +177,13 @@ export interface Part {
   section?: string;
   chapters: Chapter[];
 }
+
+/**
+ * 表示・採点の小さなヘルパーが「読むかもしれない項目」だけを持つ緩い形。
+ *
+ * ヘルパーは本物の小問のほか、テストの部分的なオブジェクトや
+ * 他教科由来の形（type が無い等）でも呼ばれ、どの項目も欠けていてよい前提で書かれている。
+ * そのため SubQuestion / Problem を Partial にしたものを受け口にする（null / undefined も許す）。
+ */
+export type SubQuestionLike = Partial<SubQuestion> | null | undefined;
+export type ProblemLike = (Partial<Omit<Problem, 'subQuestions'>> & { subQuestions?: SubQuestionLike[] }) | null | undefined;

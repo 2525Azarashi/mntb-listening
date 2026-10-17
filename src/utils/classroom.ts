@@ -72,6 +72,7 @@ import { fromSyncedReviewItems, type SolvedMap } from './studySyncCore';
 import { REVIEW_INTERVALS_DAYS, type ReviewItem } from './reviewList';
 import { buildStudentSummary, type StudentSummary } from './studySummary';
 import { sanitizeNickname } from '../features/safety/nicknameFilter';
+import { asErrorLike, type ErrorLike } from './errorLike';
 
 export const CLASSROOMS_COLLECTION = 'classrooms';
 export const CLASS_CODES_COLLECTION = 'class_codes';
@@ -123,7 +124,8 @@ export function memberDocId(classId: string, uid: string): string {
  * Firestore のエラーを、現場の人に意味が伝わる日本語へ変換する。
  * friends.ts と同じ方針（「Missing or insufficient permissions」を出さない）。
  */
-function toFriendlyError(error: any, fallback: string): Error {
+function toFriendlyError(rawError: unknown, fallback: string): Error {
+  const error = asErrorLike(rawError);
   const code = error?.code as string | undefined;
   switch (code) {
     case 'permission-denied':
@@ -292,7 +294,7 @@ export async function joinClassroomByCode(rawCode: string, displayName: string):
     if (!codeSnapshot.exists()) {
       throw new Error('そのコードのクラスは見つかりませんでした。先生に確認してください。');
     }
-    const classId = String((codeSnapshot.data() as any)?.classId || '');
+    const classId = String((codeSnapshot.data() as { classId?: unknown } | undefined)?.classId || '');
     if (!classId) {
       throw new Error('クラス情報が壊れています。先生に連絡してください。');
     }
@@ -337,7 +339,7 @@ export async function joinClassroomByCode(rawCode: string, displayName: string):
     return { classroom, alreadyJoined: false };
   } catch (error) {
     // 自分で投げた日本語エラーはそのまま通す
-    if (error instanceof Error && !(error as any).code) throw error;
+    if (error instanceof Error && !(error as ErrorLike).code) throw error;
     throw toFriendlyError(error, 'クラスへの参加に失敗しました。');
   }
 }
@@ -372,7 +374,7 @@ export async function leaveClassroom(classId: string, teacherUid?: string): Prom
       // 呼び出し側が知らない場合はクラスから引く（失敗しても退出は成立させる）
       try {
         const snapshot = await getDoc(doc(db, CLASSROOMS_COLLECTION, classId));
-        teacher = snapshot.exists() ? String((snapshot.data() as any)?.teacherUid || '') : '';
+        teacher = snapshot.exists() ? String((snapshot.data() as { teacherUid?: unknown } | undefined)?.teacherUid || '') : '';
       } catch {
         teacher = '';
       }

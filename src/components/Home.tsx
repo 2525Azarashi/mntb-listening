@@ -132,7 +132,7 @@ export function Home({ onPractice, onPickSubject, onStudyMode, onGrowth, onStart
     const uid = auth.currentUser?.uid || (isGuest ? 'guest' : null);
     return getDueCount(uid);
   }, [isGuest]);
-  const [profile, setProfile] = useState<any>(null);
+  const [profile, setProfile] = useState<{ name?: string } | null>(null);
 
   /**
    * ホワイトレーベル：クラスに参加している生徒には学校名を掲げる。

@@ -32,6 +32,8 @@ import { profileKey } from '../utils/userStorageKeys';
 import { GoogleMark } from './GoogleLinkBanner';
 import { AppleSignInButton } from '../features/auth/AppleSignInButton';
 import { logRejection } from '../utils/reportError';
+import { asErrorLike } from '../utils/errorLike';
+import type { User } from 'firebase/auth';
 
 interface OnboardingProps {
   onComplete: () => void;
@@ -59,7 +61,7 @@ export function Onboarding({ onComplete, onGuest }: OnboardingProps) {
     return () => { cancelled = true; };
   }, []);
 
-  const checkProfile = (user: any) => {
+  const checkProfile = (user: Pick<User, 'uid' | 'displayName'>) => {
     try {
       const localProfile = localStorage.getItem(profileKey(user.uid));
       if (localProfile) {
@@ -101,8 +103,8 @@ export function Onboarding({ onComplete, onGuest }: OnboardingProps) {
       // 初回に決めた名前もランキング側へ即反映（失敗しても進行は止めない）
       void syncRankingNickname().catch(logRejection('ranking.syncNickname'));
       onComplete();
-    } catch (saveError: any) {
-      setError('プロフィールの保存に失敗しました。' + String(saveError?.message || ''));
+    } catch (saveError) {
+      setError('プロフィールの保存に失敗しました。' + String(asErrorLike(saveError)?.message || ''));
     } finally {
       setLoading(false);
     }
