@@ -5,6 +5,7 @@
 import type { BattleOutcome, BattlePlayerScore } from './types';
 import { GACHA_PRINTS, type GachaPrintDef } from '../../data/gachaPrints.generated';
 import { ACCESSORY_SLOTS, type AccessorySlot } from './tobiraParts';
+import { hashString } from './battleCore';
 
 // ============================================================
 // 経験値（XP）
@@ -504,15 +505,8 @@ export const MISSION_DESTINATION_LABEL: Record<MissionDestination, string> = {
 
 export const MISSIONS_PER_DAY = 3;
 
-/** 決定論的ハッシュ（日付から同じ組を選ぶため） */
-function hashOf(s: string): number {
-  let h = 2166136261;
-  for (let i = 0; i < s.length; i += 1) {
-    h ^= s.charCodeAt(i);
-    h = Math.imul(h, 16777619);
-  }
-  return h >>> 0;
-}
+/** 決定論的ハッシュ（日付から同じ組を選ぶため）。FNV-1a 32bit。実体は battleCore.hashString（結果は完全に同じ）。 */
+const hashOf = hashString;
 
 /**
  * その日のミッション3つ。

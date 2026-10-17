@@ -1476,7 +1476,6 @@ export default function App() {
             src="/tanjou.mp3" 
             loop 
             preload="auto" 
-            // @ts-ignore - playsInline は audio でも iOS 挙動安定のため付与
             playsInline
             onError={handleAudioError}
           />

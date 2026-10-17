@@ -46,7 +46,7 @@ import {
 } from './firestoreMetered';
 import { auth, db } from '../firebase';
 import { resolveNickname, type LeaderboardEventDoc } from './leaderboard';
-import { asErrorLike } from './errorLike';
+import { isPermissionDenied, toFriendlyFirestoreError, type FirestoreErrorMessages } from './firestoreErrors';
 
 export interface FriendProfile {
   uid: string;
@@ -76,42 +76,26 @@ function requestId(fromUid: string, toUid: string) {
   return `${toUid}_${fromUid}`;
 }
 
+/** friends.ts 用の Firestore エラー文言（コード → 表示文）。 */
+const FRIEND_ERROR_MESSAGES: FirestoreErrorMessages = {
+  'permission-denied':
+    'この操作は許可されていません。本番の Firestore セキュリティルールが古いままです。管理者は Firebase Console（console.firebase.google.com → Firestore → ルール）でリポジトリの firestore.rules を貼り付けて「公開」するか、firebase deploy --only firestore:rules を実行してください。詳細は docs/DEPLOY_FIRESTORE_RULES.md を参照。',
+  unauthenticated: 'ログインの有効期限が切れています。もう一度Googleログインしてください。',
+  unavailable: 'Firestore に接続できません。通信状態を確認してもう一度お試しください。',
+  'failed-precondition': 'オフラインのため実行できません。オンラインに戻ってからお試しください。',
+  'not-found': '対象のデータが見つかりませんでした。画面を更新してお試しください。',
+  'already-exists': 'すでに登録済みです。画面を更新してご確認ください。',
+  aborted: '同時に別の操作が行われました。もう一度お試しください。',
+  'deadline-exceeded': '処理がタイムアウトしました。もう一度お試しください。',
+  'resource-exhausted': 'アクセスが集中しています。しばらく待ってからお試しください。',
+};
+
 /**
  * Firestore の権限エラーを、ユーザーに意味が伝わる日本語へ変換する。
- * 「Missing or insufficient permissions.」をそのまま出さないための共通処理。
+ * 「Missing or insufficient permissions.」をそのまま出さないための共通処理（実体は firestoreErrors.ts）。
  */
 function toFriendlyError(rawError: unknown, fallback: string): Error {
-  const error = asErrorLike(rawError);
-  const code = error?.code as string | undefined;
-  switch (code) {
-    case 'permission-denied':
-      return new Error(
-        'この操作は許可されていません。本番の Firestore セキュリティルールが古いままです。管理者は Firebase Console（console.firebase.google.com → Firestore → ルール）でリポジトリの firestore.rules を貼り付けて「公開」するか、firebase deploy --only firestore:rules を実行してください。詳細は docs/DEPLOY_FIRESTORE_RULES.md を参照。'
-      );
-    case 'unauthenticated':
-      return new Error('ログインの有効期限が切れています。もう一度Googleログインしてください。');
-    case 'unavailable':
-      return new Error('Firestore に接続できません。通信状態を確認してもう一度お試しください。');
-    case 'failed-precondition':
-      return new Error('オフラインのため実行できません。オンラインに戻ってからお試しください。');
-    case 'not-found':
-      return new Error('対象のデータが見つかりませんでした。画面を更新してお試しください。');
-    case 'already-exists':
-      return new Error('すでに登録済みです。画面を更新してご確認ください。');
-    case 'aborted':
-      return new Error('同時に別の操作が行われました。もう一度お試しください。');
-    case 'deadline-exceeded':
-      return new Error('処理がタイムアウトしました。もう一度お試しください。');
-    case 'resource-exhausted':
-      return new Error('アクセスが集中しています。しばらく待ってからお試しください。');
-    default:
-      return new Error(error?.message ? `${fallback}（${error.message}）` : fallback);
-  }
-}
-
-/** Firestore の permission-denied かどうか（フォールバック判定用）。 */
-function isPermissionDenied(error: unknown): boolean {
-  return asErrorLike(error)?.code === 'permission-denied';
+  return toFriendlyFirestoreError(rawError, fallback, FRIEND_ERROR_MESSAGES);
 }
 
 function makeFriendCode(uid: string, salt = 0) {

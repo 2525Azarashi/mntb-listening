@@ -77,14 +77,12 @@ export function reviewSubjectStyle(subject: ReviewSubjectKey): ReviewSubjectStyl
 // chapterId → 科目
 // ============================================================
 
-/** 章IDから科目を判定する。判定できなければ null（形は登録簿の chapterIdPattern） */
-export function subjectOfChapterId(chapterId: string | null | undefined): ReviewSubjectId | null {
-  return registrySubjectOf(chapterId);
-}
+/** 章IDから科目を判定する。判定できなければ null（形は登録簿の chapterIdPattern）。実体は data/subjects.ts。 */
+export { subjectOfChapterId } from '../data/subjects';
 
 /** 復習アイテムの科目キー（判定できないものは 'other'） */
 export function subjectOfReviewItem(item: ReviewItem): ReviewSubjectKey {
-  return subjectOfChapterId(item.chapterId) ?? UNKNOWN_SUBJECT;
+  return registrySubjectOf(item.chapterId) ?? UNKNOWN_SUBJECT;
 }
 
 // ============================================================

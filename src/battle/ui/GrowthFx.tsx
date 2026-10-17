@@ -2,7 +2,7 @@
  * GrowthFx — 成長システムの「祝い」と「手触り」の部品
  *
  *   Confetti        … 紙吹雪（勝ち・レベルアップ・段位アップで 1 回だけ）
- *   CountUp         … 数字が前の値から今の値へ刻んで進む（レート）
+ *   BattleCountUp   … 数字が前の値から今の値へ刻んで進む（レート。共通UIの components/ui/CountUp とは別物）
  *   RatingTierBar   … 段位（入門→初級→…→達人）の中での位置と、つぎの段位まで
  *   LoginBonusSheet … ログインボーナスの受け取りシート
  *   ShareButton     … 結果を共有（Web Share API → 無ければクリップボード）
@@ -74,7 +74,7 @@ export function Confetti({ count = 18, hues = [45, 38, 205, 150] }: { count?: nu
  * from → to へ 0.9 秒で刻む。刻みごとに小さな音（tick）を最大 8 回。
  * 差が 0 ならそのまま出す。reduced-motion なら即 to。
  */
-export function CountUp({
+export function BattleCountUp({
   from,
   to,
   duration = 900,

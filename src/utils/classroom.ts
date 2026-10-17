@@ -72,7 +72,8 @@ import { fromSyncedReviewItems, type SolvedMap } from './studySyncCore';
 import { REVIEW_INTERVALS_DAYS, type ReviewItem } from './reviewList';
 import { buildStudentSummary, type StudentSummary } from './studySummary';
 import { sanitizeNickname } from '../features/safety/nicknameFilter';
-import { asErrorLike, type ErrorLike } from './errorLike';
+import { type ErrorLike } from './errorLike';
+import { toFriendlyFirestoreError, type FirestoreErrorMessages } from './firestoreErrors';
 
 export const CLASSROOMS_COLLECTION = 'classrooms';
 export const CLASS_CODES_COLLECTION = 'class_codes';
@@ -120,30 +121,23 @@ export function memberDocId(classId: string, uid: string): string {
   return `${classId}_${uid}`;
 }
 
+/** classroom.ts 用の Firestore エラー文言（コード → 表示文）。 */
+const CLASSROOM_ERROR_MESSAGES: FirestoreErrorMessages = {
+  'permission-denied':
+    'この操作は許可されていません。Firestore のセキュリティルールが古い可能性があります。管理者は firestore.rules をデプロイしてください（docs/DEPLOY_FIRESTORE_RULES.md 参照）。',
+  unauthenticated: 'ログインの有効期限が切れています。もう一度ログインしてください。',
+  unavailable: '通信できませんでした。オンラインに戻ってからお試しください。',
+  'failed-precondition': '通信できませんでした。オンラインに戻ってからお試しください。',
+  'not-found': '対象が見つかりませんでした。画面を更新してお試しください。',
+  'already-exists': 'すでに登録されています。画面を更新してご確認ください。',
+};
+
 /**
  * Firestore のエラーを、現場の人に意味が伝わる日本語へ変換する。
- * friends.ts と同じ方針（「Missing or insufficient permissions」を出さない）。
+ * friends.ts と同じ方針（「Missing or insufficient permissions」を出さない）。実体は firestoreErrors.ts。
  */
 function toFriendlyError(rawError: unknown, fallback: string): Error {
-  const error = asErrorLike(rawError);
-  const code = error?.code as string | undefined;
-  switch (code) {
-    case 'permission-denied':
-      return new Error(
-        'この操作は許可されていません。Firestore のセキュリティルールが古い可能性があります。管理者は firestore.rules をデプロイしてください（docs/DEPLOY_FIRESTORE_RULES.md 参照）。',
-      );
-    case 'unauthenticated':
-      return new Error('ログインの有効期限が切れています。もう一度ログインしてください。');
-    case 'unavailable':
-    case 'failed-precondition':
-      return new Error('通信できませんでした。オンラインに戻ってからお試しください。');
-    case 'not-found':
-      return new Error('対象が見つかりませんでした。画面を更新してお試しください。');
-    case 'already-exists':
-      return new Error('すでに登録されています。画面を更新してご確認ください。');
-    default:
-      return new Error(error?.message ? `${fallback}（${error.message}）` : fallback);
-  }
+  return toFriendlyFirestoreError(rawError, fallback, CLASSROOM_ERROR_MESSAGES);
 }
 
 function requireUid(): string {
