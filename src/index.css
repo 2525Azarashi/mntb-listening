@@ -692,16 +692,25 @@ input:focus-visible, textarea:focus-visible, select:focus-visible, button:focus-
 }
 .animate-fade-in-up { animation: fadeInUp 0.4s ease-out both; }
 
+/* ★L-05★ background-position の無限アニメはやめ、光の帯（::after）を translate で流す */
 @keyframes shimmer {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
+  0% { translate: -100% 0; }
+  100% { translate: 100% 0; }
 }
 .shimmer {
   background: linear-gradient(90deg,
     color-mix(in srgb, var(--color-line) 50%, transparent) 0%,
     color-mix(in srgb, var(--color-line) 30%, transparent) 50%,
     color-mix(in srgb, var(--color-line) 50%, transparent) 100%);
-  background-size: 200% 100%;
+  position: relative;
+  overflow: hidden;
+}
+.shimmer::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, color-mix(in srgb, #fff 45%, transparent), transparent);
+  pointer-events: none;
   animation: shimmer 1.6s linear infinite;
 }
 
@@ -790,23 +799,28 @@ input:focus-visible, textarea:focus-visible, select:focus-visible, button:focus-
   animation-timing-function: linear, ease-in-out;
   animation-iteration-count: infinite, infinite;
   animation-direction: normal, alternate;
-  will-change: transform, top;
+  /* ★L-05★ 以前は top と margin-left を毎フレーム動かしていた（花びら14枚ぶんのレイアウト再計算が無限に続く）。
+   *   落下は transform、横揺れは translate（どちらも GPU のコンポジタだけで動く）。軌跡・速さは従来と同じ */
+  will-change: transform, translate;
 }
 
+/* 落ちる距離は「入れ物の高さの 110% + 開始位置の 24px」。入れ物の高さは cqh で取る（使えない古い端末は 100vh で代用） */
 @keyframes sakura-fall {
-  0% {
-    top: -24px;
-    transform: rotate(0deg);
-  }
-  100% {
-    top: 110%;
-    transform: rotate(540deg);
+  0% { transform: translate3d(0, 0, 0) rotate(0deg); }
+  100% { transform: translate3d(0, calc(110vh + 24px), 0) rotate(540deg); }
+}
+@supports (height: 1cqh) {
+  .sakura-container { container-type: size; }
+  .sakura-petal { animation-name: sakura-fall-cq, sakura-sway; }
+  @keyframes sakura-fall-cq {
+    0% { transform: translate3d(0, 0, 0) rotate(0deg); }
+    100% { transform: translate3d(0, calc(110cqh + 24px), 0) rotate(540deg); }
   }
 }
 
 @keyframes sakura-sway {
-  0% { margin-left: 0; }
-  100% { margin-left: var(--sway, 30px); }
+  0% { translate: 0 0; }
+  100% { translate: var(--sway, 30px) 0; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1054,11 +1068,14 @@ input:focus-visible, textarea:focus-visible, select:focus-visible, button:focus-
 .battle-live-count { animation: battleLiveCount 0.8s ease-out both; }
 
 /* --- ⑬ FINAL QUESTION の帯（ゆっくり呼吸する） ---------------------- */
+/* ★L-05★ 以前は box-shadow そのものを無限に動かしていた（毎フレーム描き直し）。
+ *   金の輪は ::after に1回だけ描き、その opacity と scale だけを動かす（コンポジタだけで動く） */
 @keyframes battleLiveFinal {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(244, 208, 63, 0); }
-  50%      { box-shadow: 0 0 0 4px rgba(244, 208, 63, 0.35); }
+  0%, 100% { opacity: 0; scale: .98; }
+  50%      { opacity: 1; scale: 1; }
 }
-.battle-live-final { animation: battleLiveFinal 1.6s ease-in-out infinite; }
+.battle-live-final { position: relative; }
+.battle-live-final::after { content: ''; position: absolute; inset: -4px; border-radius: calc(0.75rem + 4px); box-shadow: inset 0 0 0 4px rgba(244, 208, 63, 0.35); pointer-events: none; opacity: 0; will-change: opacity, scale; animation: battleLiveFinal 1.6s ease-in-out infinite; }
 /* 最終問題は問題の枠だけを金の細い縁で囲む（中身の配置は変えない） */
 .battle-live-final-frame { box-shadow: 0 0 0 2px rgba(244, 208, 63, 0.75); }
 
@@ -1096,6 +1113,7 @@ input:focus-visible, textarea:focus-visible, select:focus-visible, button:focus-
     animation: none !important;
   }
   .battle-sheen::after { display: none; }
+  .battle-live-final::after, .shimmer::after { animation: none !important; display: none; }
   /* トーストは動かさず、そのまま一定時間見せる。得点の「+120」も動かさず見せる */
   .battle-live-toast { opacity: 1; }
   .battle-live-delta { opacity: 1; }
@@ -2196,10 +2214,12 @@ input:focus-visible, textarea:focus-visible, select:focus-visible, button:focus-
 .arena-reward{margin:12px 0 16px;padding:18px 14px;border:2px solid #dfbd59;border-radius:22px;text-align:center;background:radial-gradient(ellipse at 50% 0,#ffedaf,#fff8e4 75%);box-shadow:0 4px 0 #e5c56744;animation:arena-reward-in .6s ease-out}.arena-reward>span{font-size:10px;letter-spacing:.16em;font-weight:900;color:#836322}.arena-reward h2{font-size:27px;font-weight:900;color:#8c5f13;margin:7px 0}.arena-reward p{font-size:12px;margin:6px 0}.arena-reward strong{font-size:19px;color:#3e7d9b}.arena-reward small{font-size:10px;color:#776340}
 .gacha-room{width:min(580px,100%);margin:auto;padding:18px;text-align:center;color:#2d4051}.gacha-room h1{font-size:24px;font-weight:900;margin:10px 0}.gacha-room>p{font-size:12px}.arena-back{display:flex;align-items:center;justify-content:center;gap:6px;min-height:44px;font-size:12px;padding:8px}.gacha-machine{height:205px;display:flex;align-items:center;justify-content:center;gap:22px;margin:14px auto;border:2px solid #debd63;border-radius:30px;background:radial-gradient(ellipse,#fff8d8,#e9e6f7);position:relative}.gacha-machine>svg{color:#ae8640}.gacha-balance{display:flex;align-items:center;justify-content:center;gap:8px;font-size:17px!important;font-weight:800;margin:16px 0}.gacha-pull,.gacha-confirm button,.gacha-result button{min-height:46px;padding:12px 20px;border-radius:14px;background:#edcf7e;border:1px solid #c3a151;color:#674818;font-weight:800;margin:4px;box-shadow:0 3px 0 #cfaa5144}.gacha-pull{width:100%}.gacha-pull:disabled{opacity:.5;box-shadow:none}.gacha-result{padding:18px;background:#fff8e4;border:2px solid #e1bd52;border-radius:20px;animation:arena-reward-in .5s ease-out}.gacha-result h2{font-size:20px;font-weight:900}.gacha-result>img{height:100px;margin:8px auto}.gacha-frame{height:90px;width:90px;border:8px solid;border-radius:22px;margin:12px auto}.gacha-confirm{padding:14px;background:#fff;border:2px solid #b6a171;border-radius:16px}.gacha-odds{text-align:left;background:#fffdf8;padding:14px;border:1px solid #ddd5c3;border-radius:15px;font-size:12px;line-height:1.9;margin-top:18px}.gacha-odds summary{min-height:30px;cursor:pointer}.gacha-odds ul{display:grid;grid-template-columns:1fr 1fr;gap:3px}
 .arena-fighters{position:relative;display:flex;align-items:center;justify-content:space-around;min-height:100px;padding:4px 18px;border-radius:22px;background:linear-gradient(125deg,#d8eff677,#fff8e844,#f2dce488);margin-bottom:8px;overflow:hidden}.arena-fighter{display:flex;align-items:center;flex-direction:column;gap:6px}.arena-fighter small{font-size:9px;color:#567184}.arena-fighter.opponent>img{width:72px;height:72px;object-fit:contain;transform:scaleX(-1)}.arena-fighter.is-ready{filter:drop-shadow(0 0 7px #e9c45b88)}.arena-clash{display:flex;flex-direction:column;align-items:center;gap:0;color:#987529;font-weight:900;font-size:22px}.arena-clash svg{width:30px;height:30px}.is-hit .mine{animation:arena-attack .45s ease-out}.is-miss .mine{animation:arena-dodge .45s ease-out}.is-searching .arena-clash{animation:arena-breathe 1.2s ease-in-out infinite}
-.arena-live-stage{position:relative;isolation:isolate;min-width:0}.arena-background-fx{position:absolute;inset:0;pointer-events:none;z-index:-1;overflow:hidden;border-radius:20px;background:radial-gradient(ellipse at 15% 15%,#bfddea55,transparent 70%)}.arena-background-fx i{position:absolute;width:160px;height:160px;left:-100px;top:20%;background:linear-gradient(90deg,transparent,#b2dfe544,transparent);transform:rotate(-30deg);animation:arena-streak 8s linear infinite}.arena-background-fx i:nth-child(2){top:60%;animation-delay:3s}.arena-background-fx i:nth-child(3){top:90%;animation-delay:5s}.arena-final .arena-background-fx{background:radial-gradient(ellipse at top,#f8d78044,transparent 70%)}.arena-opponent-answer{display:flex;align-items:baseline;gap:8px;font-size:12px;background:#faeff2;border:1px solid #e3bac7;border-radius:10px;padding:7px 10px;margin-bottom:8px;overflow-wrap:anywhere}.arena-opponent-answer>span:first-child{flex-shrink:0;font-weight:800;color:#935575}
+.arena-live-stage{position:relative;isolation:isolate;min-width:0}.arena-background-fx{position:absolute;inset:0;pointer-events:none;z-index:-1;overflow:hidden;border-radius:20px;background:radial-gradient(ellipse at 15% 15%,#bfddea55,transparent 70%)}.arena-background-fx i{position:absolute;width:160px;height:160px;left:-100px;top:20%;background:linear-gradient(90deg,transparent,#b2dfe544,transparent);transform:rotate(-30deg);will-change:translate;animation:arena-streak 8s linear infinite}.arena-background-fx i:nth-child(2){top:60%;animation-delay:3s}.arena-background-fx i:nth-child(3){top:90%;animation-delay:5s}.arena-final .arena-background-fx{background:radial-gradient(ellipse at top,#f8d78044,transparent 70%)}.arena-opponent-answer{display:flex;align-items:baseline;gap:8px;font-size:12px;background:#faeff2;border:1px solid #e3bac7;border-radius:10px;padding:7px 10px;margin-bottom:8px;overflow-wrap:anywhere}.arena-opponent-answer>span:first-child{flex-shrink:0;font-weight:800;color:#935575}
 .arena-matching{min-height:calc(100dvh - var(--app-nav-h,80px))!important}.arena-matching .notebook-paper{background:radial-gradient(ellipse at top,#e4eff9,#fffaf0);border:1px solid #b4cad7}.arena-matching .arena-fighters{min-height:130px}.arena-matching .arena-search-content{gap:12px;padding:12px 0}.arena-matching .arena-search-content>div:first-child{width:105px;height:105px}.arena-matching .arena-search-content>div:first-child::after{content:'';position:absolute;inset:-10px;border:1px solid #7aa4be;border-radius:50%;animation:arena-breathe 1.2s infinite}.arena-matching #battle-title{margin-bottom:10px}
 .arena-review-start{display:flex;align-items:center;justify-content:center;gap:8px;min-height:44px;border-radius:12px;padding:8px 14px;background:#315e7a;color:#fff;font-weight:800;font-size:13px}.arena-review-answer{font-size:12px;color:#80536b;background:#f9eff3;padding:8px 10px;border-radius:10px;margin:8px 0}.arena-review-card{box-shadow:0 3px 0 #d8e2e766;border-color:#c6d5db!important;background:#fffefa!important}.arena-review-card>button:first-of-type{padding-top:13px;padding-bottom:10px}.arena-review-card>button:first-of-type>div:last-child{margin-top:6px}
 @keyframes arena-reward-in{from{opacity:0;transform:translateY(10px) scale(.97)}to{opacity:1;transform:none}}@keyframes arena-attack{50%{transform:translateX(35px) rotate(8deg)}}@keyframes arena-dodge{35%{transform:translateX(-12px) rotate(-8deg)}70%{transform:translateX(5px)}}@keyframes arena-breathe{50%{opacity:.55;transform:scale(1.06)}}@keyframes arena-streak{to{left:120%}}
+/* ★L-05★ 光の筋は left ではなく translate で流す（入れ物の幅は cqw で取る。未対応の古い端末だけ従来の left） */
+@supports (width: 1cqw){.arena-background-fx{container-type:size}.arena-background-fx i{animation-name:arena-streak-cq}@keyframes arena-streak-cq{to{translate:calc(120cqw + 100px) 0}}}
 @media(max-width:480px){.arena-home-content{padding:8px 12px 5px;gap:7px}.arena-home-header h1{font-size:14px}.arena-home-play{grid-template-columns:90px 1fr;padding:3px 7px}.arena-home-play .home-battle-emblem{width:90px;height:100px;transform:scale(.6)}.arena-home-play h2{font-size:15px}.arena-study-actions button{font-size:11px;gap:4px}.arena-menu .notebook-paper{padding:10px;gap:7px}.arena-menu-header h1{font-size:18px}.arena-mode-card{padding:9px}.arena-mode-card h2{font-size:16px}.arena-mode-card p{font-size:10px}.arena-fighters{min-height:78px}.arena-fighter .relative,.arena-fighter.opponent>img{width:52px!important;height:52px!important}}
 @media(max-height:720px) and (max-width:600px){.arena-home-content{gap:5px;padding:4px 10px}.arena-home .home-date,.arena-exam,.arena-home .mana-avatar-button,.arena-home .mana-player-info,.arena-home .mana-login small{display:none}.arena-home .mana-dashboard{display:grid;grid-template-columns:1fr 1.4fr;gap:5px;padding:6px 8px}.arena-home .mana-player-row{grid-column:1;grid-row:1}.arena-home .mana-wallet{width:100%;min-height:44px;flex-direction:row;justify-content:center;gap:6px}.arena-home .mana-wallet>span{font-size:8px}.arena-home .mana-wallet>strong{font-size:19px}.arena-home .mana-login{grid-column:2;grid-row:1;margin:0;min-height:44px;padding:4px 7px}.arena-home .mana-login>svg{width:15px}.arena-home .mana-login strong{font-size:10px}.arena-home .mana-shortcuts{grid-column:1/-1;grid-row:2;margin:0}.arena-home .mana-shortcuts button{min-height:44px;font-size:9px}.arena-home-play{grid-template-columns:78px 1fr}.arena-home-play .home-battle-emblem{width:76px;height:76px;transform:scale(.48)}.arena-home-play .home-eyebrow,.arena-reward-hint{display:none}.arena-home-play h2{font-size:14px}.arena-study-heading select{min-height:36px}.arena-study-actions{margin:4px 0}.arena-study-actions button{min-height:44px}.arena-study{padding:5px 8px}.arena-home-bottom button{font-size:10px}.arena-home .arena-friends{font-size:9px}.arena-home-more{font-size:10px}.arena-menu .notebook-paper{gap:6px;padding:8px}.arena-menu-player{display:none}.arena-menu-header h1{font-size:17px}.arena-mode-card{padding:7px 9px}.arena-mode-card header{margin-bottom:5px}.arena-mode-card h2{font-size:15px}.arena-mode-card header>svg{width:18px;height:18px}.arena-login-note,.arena-rules-help,.arena-menu .arena-friends{font-size:9px}.arena-matching .arena-fighters{min-height:88px}.arena-matching .arena-search-content{padding:0;gap:8px}}
 @media(prefers-reduced-motion:reduce){.arena-reward,.gacha-result,.arena-fighters *,.arena-background-fx i,.arena-matching *{animation:none!important;transition:none!important}}
@@ -2850,10 +2870,14 @@ input:focus-visible, textarea:focus-visible, select:focus-visible, button:focus-
 .gacha-multi-grid li[data-rarity=SR] { border: 2px solid transparent; background: linear-gradient(#fff,#fff6fd) padding-box, conic-gradient(#ff6b9d,#ffd93d,#6bcb77,#4d96ff,#c77dff,#ff6b9d) border-box; box-shadow: 0 0 14px #c77dff88; }
 [data-frame-pattern=prism] { border-color: transparent !important; background: linear-gradient(#fff,#fff) padding-box, conic-gradient(from 45deg,#ff6b9d,#ffd93d,#6bcbff,#c77dff,#ff6b9d) border-box !important; box-shadow: 0 0 12px #c77dffaa, 0 0 24px #6bcbff66 !important; }
 [data-frame-pattern=galaxy] { border-color: #1e1b4b !important; background-image: radial-gradient(circle at 20% 30%,#fff 0 1px,transparent 2px),radial-gradient(circle at 70% 60%,#c7d2fe 0 1.5px,transparent 2.5px),radial-gradient(circle at 40% 80%,#f0abfc 0 1px,transparent 2px),linear-gradient(135deg,#312e8155,#7c3aed33) !important; background-size: 18px 18px,24px 24px,20px 20px,100% 100% !important; box-shadow: 0 0 0 2px #7c3aed, 0 0 18px #4338ca99 !important; }
-@keyframes gacha-sr-glow { 0%,100% { filter: drop-shadow(0 0 4px #c77dff88); } 50% { filter: drop-shadow(0 0 14px #6bcbffcc); } }
+/* ★L-05★ 以前は filter: drop-shadow() を無限に動かしていた（毎フレーム、要素全体のぼかしを描き直す）。
+ *   光は静止した drop-shadow を1枚だけ置き、その「強さ」は scale と opacity の脈動で見せる（コンポジタだけで動く）。
+ *   ★元の要素の opacity は1未満にしない★（ガチャの結果は読めることが最優先）ので、.9〜1 の幅にとどめる */
+@keyframes gacha-sr-glow { 0%,100% { scale: 1; opacity: 1; } 50% { scale: 1.012; opacity: .94; } }
+.gacha-cinema[data-rarity=SR], .gacha-cinema[data-rarity=UR], .gacha-result[data-rarity=SR], .gacha-result[data-rarity=UR], .gacha-multi-grid li[data-rarity=UR] { filter: drop-shadow(0 0 8px #c77dff88); will-change: scale, opacity; }
 @keyframes gacha-sr-pop { 0% { opacity: 0; transform: scale(.4) rotate(-6deg); } 100% { opacity: 1; transform: none; } }
 @keyframes gacha-card-in { 0% { opacity: 0; transform: translateY(10px) scale(.9); } 100% { opacity: 1; transform: none; } }
-@media (prefers-reduced-motion: reduce) { .gacha-cinema[data-rarity], .gacha-result[data-rarity=SR], .gacha-sr-banner, .gacha-multi-grid li { animation: none !important; } }
+@media (prefers-reduced-motion: reduce) { .gacha-cinema[data-rarity], .gacha-result[data-rarity=SR], .gacha-sr-banner, .gacha-multi-grid li { animation: none !important; } .gacha-cinema[data-rarity], .gacha-result[data-rarity], .gacha-multi-grid li[data-rarity] { filter: none; } }
 
 /* ===== ミッション達成トースト ===== */
 .mission-toast { position: fixed; top: max(12px, env(safe-area-inset-top)); left: 50%; transform: translateX(-50%); z-index: 10000; width: min(420px, calc(100vw - 24px)); display: flex; align-items: center; gap: 10px; padding: 12px 12px 14px; border-radius: 18px; background: linear-gradient(135deg,#fffbe8,#ffeeb8); border: 2px solid #e0a800; box-shadow: 0 10px 30px #7a520033, 0 0 0 4px #fff8; color: #5b3d00; overflow: hidden; animation: mission-toast-in .5s cubic-bezier(.2,1.4,.4,1) both; }
@@ -2893,13 +2917,15 @@ input:focus-visible, textarea:focus-visible, select:focus-visible, button:focus-
 .battle-figure-button { position: relative; display: block; width: 100%; padding: 0; border: 0; background: transparent; cursor: zoom-in; }
 .battle-figure img { display: block; width: 100%; max-height: min(36vh, 300px); object-fit: contain; border-radius: 12px; background: #fff; transition: opacity .2s; }
 .battle-figure[data-picture] img { aspect-ratio: 1 / 1; }
-.battle-figure-skeleton { position: relative; min-height: 160px; border-radius: 12px; background: linear-gradient(90deg,#f1f5f9,#e2e8f0,#f1f5f9); background-size: 200% 100%; animation: battle-figure-shine 1.2s linear infinite; }
+.battle-figure-skeleton { position: relative; min-height: 160px; border-radius: 12px; overflow: hidden; background: #f1f5f9; }
+/* ★L-05★ 読み込み中の光は background-position ではなく ::after の translate で流す（見た目は同じ帯が左から右へ） */
+.battle-figure-skeleton::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, #f1f5f9, #e2e8f0, #f1f5f9); translate: 100% 0; will-change: translate; animation: battle-figure-shine 1.2s linear infinite; }
 .battle-figure[data-picture] .battle-figure-skeleton { aspect-ratio: 1 / 1; max-height: min(36vh, 300px); margin: 0 auto; }
 .battle-figure.is-zoom { position: fixed; inset: 0; z-index: 10001; margin: 0; display: flex; align-items: center; justify-content: center; background: rgba(15,23,42,.85); padding: 12px; }
 .battle-figure.is-zoom .battle-figure-button { cursor: zoom-out; }
 .battle-figure.is-zoom img { max-height: 92vh; max-width: 96vw; width: auto; }
-@keyframes battle-figure-shine { to { background-position: -200% 0; } }
-@media (prefers-reduced-motion: reduce) { .battle-figure-skeleton { animation: none; } }
+@keyframes battle-figure-shine { from { translate: 100% 0; } to { translate: -100% 0; } }
+@media (prefers-reduced-motion: reduce) { .battle-figure-skeleton, .battle-figure-skeleton::after { animation: none; } .battle-figure-skeleton::after { display: none; } }
 
 /* ===== 演習：この単元のポイント ===== */
 .unit-points-backdrop { position: fixed; inset: 0; z-index: 60; display: flex; align-items: flex-end; justify-content: center; background: rgba(27,38,49,.4); padding: 12px; }
@@ -3070,7 +3096,7 @@ html[data-wallpaper] .home-lobby-lines { display: none; }
 .gacha-reveal[data-stage=gold] { --c1: #ffc53d; --c2: #fff1b8; }
 .gacha-reveal[data-stage=rainbow] { --c1: #c77dff; --c2: #ffffff; }
 .gacha-reveal[data-stage=ur] { --c1: #f59e0b; --c2: #fde68a; background: radial-gradient(circle at 50% 45%, #3b1d5e 0%, #07040f 72%); }
-.gacha-reveal-rays { position: absolute; inset: -40%; z-index: -1; background: repeating-conic-gradient(from 0deg, color-mix(in srgb, var(--c1) 55%, transparent) 0deg 8deg, transparent 8deg 22deg); mask: radial-gradient(circle, #000 0%, #0008 38%, transparent 62%); animation: gacha-rays-spin 6s linear infinite; transition: background .3s; }
+.gacha-reveal-rays { position: absolute; inset: -40%; z-index: -1; will-change: transform; contain: strict; pointer-events: none; background: repeating-conic-gradient(from 0deg, color-mix(in srgb, var(--c1) 55%, transparent) 0deg 8deg, transparent 8deg 22deg); mask: radial-gradient(circle, #000 0%, #0008 38%, transparent 62%); animation: gacha-rays-spin 6s linear infinite; transition: background .3s; }
 .gacha-reveal[data-stage=rainbow] .gacha-reveal-rays { background: repeating-conic-gradient(from 0deg, #ff6b9d99 0deg 8deg, transparent 8deg 15deg, #ffd93d99 15deg 23deg, transparent 23deg 30deg, #4d96ff99 30deg 38deg, transparent 38deg 45deg); animation-duration: 3.2s; }
 .gacha-reveal[data-stage=ur] .gacha-reveal-rays { background: repeating-conic-gradient(from 0deg, #fde68acc 0deg 6deg, transparent 6deg 14deg, #a855f7aa 14deg 20deg, transparent 20deg 30deg); animation-duration: 1.8s; mask: radial-gradient(circle, #000 0%, #000a 45%, transparent 70%); }
 .gacha-reveal-orb { position: relative; width: min(58vw, 210px); aspect-ratio: 1; border-radius: 50%; overflow: hidden; background: #fbf5e8; box-shadow: 0 0 0 4px var(--c2), 0 0 30px 6px var(--c1), 0 0 80px 18px color-mix(in srgb, var(--c1) 60%, transparent); animation: gacha-orb-pulse .8s ease-in-out infinite; transition: box-shadow .3s; }
@@ -3099,7 +3125,7 @@ html[data-wallpaper] .home-lobby-lines { display: none; }
 .gacha-result[data-rarity=UR] .gacha-stars, .gacha-multi-grid li[data-rarity=UR] .gacha-stars { color: #fde68a; text-shadow: 0 0 6px #f59e0b, 0 0 12px #a855f7, 0 1px 0 #7c2d12; }
 .gacha-result[data-rarity=SR] .gacha-stars, .gacha-multi-grid li[data-rarity=SR] .gacha-stars { color: #fff; text-shadow: 0 0 5px #ff6b9d, 0 0 10px #4d96ff, 0 1px 0 #7c3aed; }
 .gacha-result { position: relative; overflow: hidden; isolation: isolate; }
-.gacha-result-halo { position: absolute; inset: -60%; z-index: -1; pointer-events: none; background: repeating-conic-gradient(from 0deg, #ffd93d33 0deg 10deg, transparent 10deg 24deg); animation: gacha-rays-spin 10s linear infinite; }
+.gacha-result-halo { position: absolute; inset: -60%; z-index: -1; pointer-events: none; will-change: transform; contain: strict; background: repeating-conic-gradient(from 0deg, #ffd93d33 0deg 10deg, transparent 10deg 24deg); animation: gacha-rays-spin 10s linear infinite; }
 .gacha-result[data-rarity=UR] .gacha-result-halo { background: repeating-conic-gradient(from 0deg, #f59e0b40 0deg 8deg, transparent 8deg 18deg, #a855f733 18deg 26deg, transparent 26deg 36deg); animation-duration: 6s; }
 .gacha-result[data-rarity=UR] .gacha-result-art, .gacha-result[data-rarity=SR] .gacha-result-art { animation: gacha-art-in .6s cubic-bezier(.2,1.6,.4,1) both; }
 .gacha-multi-grid li[data-rarity=UR] { animation: gacha-card-in .45s ease-out both, gacha-sr-glow 1.2s ease-in-out infinite; }
