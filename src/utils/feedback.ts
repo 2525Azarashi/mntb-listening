@@ -31,132 +31,20 @@
 
 import { addDoc, collection, serverTimestamp } from './firestoreMetered';
 import { auth, db } from '../firebase';
-import { safeLocalStorage } from './safeLocalStorage';
 // タイムアウト付き fetch と 15秒のタイムアウト値は、ユーザー記録
 // （userRegistry.ts）と同じ GAS へ同じ作法で送るため共通のものを使う
 // （以前はこの2ファイルに同じ実装と同じ値が別々に書かれていた）。
 import { fetchWithTimeout, WEBHOOK_TIMEOUT_MS } from './httpTimeout';
 import { asErrorLike } from './errorLike';
+import { browserGlobals, FEEDBACK_EMAIL, FEEDBACK_COLLECTION, FEEDBACK_MESSAGE_MAX, FEEDBACK_CATEGORY_LABELS, FEEDBACK_SCREEN_LABELS } from './feedbackTypes';
+import type { MaybeBrowserGlobals, FeedbackInput, FeedbackPayload, FeedbackSink, FeedbackResult, FeedbackValidation } from './feedbackTypes';
+import { readFeedbackQueue, writeFeedbackQueue, enqueueFeedback } from './feedbackQueue';
+export { readFeedbackQueue, enqueueFeedback, pendingFeedbackCount } from './feedbackQueue';
+export type { QueuedFeedback } from './feedbackQueue';
 
-/**
- * テスト（Node）でも落ちないよう、ブラウザの機能は globalThis から「あるかもしれない」として読む。
- * 実行時は `globalThis` そのもの（型を付けるだけ）。
- */
-type MaybeBrowserGlobals = {
-  process?: { env?: Record<string, string | undefined> };
-  localStorage?: Storage;
-  crypto?: { randomUUID?: () => string };
-  window?: { innerWidth?: number; innerHeight?: number };
-  navigator?: { userAgent?: unknown };
-  document?: Document;
-} & Record<string, unknown>;
-const browserGlobals = (): MaybeBrowserGlobals | undefined => globalThis as unknown as MaybeBrowserGlobals | undefined;
+export { FEEDBACK_EMAIL, FEEDBACK_COLLECTION, FEEDBACK_QUEUE_KEY, FEEDBACK_QUEUE_LIMIT, FEEDBACK_MESSAGE_MAX, FEEDBACK_CATEGORY_LABELS, FEEDBACK_SCREEN_LABELS } from './feedbackTypes';
+export type { FeedbackCategory, FeedbackScreen, FeedbackInput, FeedbackPayload, FeedbackSink, FeedbackResult, FeedbackValidation } from './feedbackTypes';
 
-/** フィードバックの送付先メールアドレス（mailto フォールバック／GAS 通知先の既定値） */
-export const FEEDBACK_EMAIL = 'mntobira@gmail.com';
-
-/** Firestore のコレクション名 */
-export const FEEDBACK_COLLECTION = 'feedback';
-
-/** 再送キューを保存する localStorage キー */
-export const FEEDBACK_QUEUE_KEY = 'feedback_outbox_v1';
-
-/** 再送キューに保持する最大件数（localStorage 肥大化の防止） */
-export const FEEDBACK_QUEUE_LIMIT = 20;
-
-/** 自由記述の最大文字数（Firestore ルール側の上限と揃える） */
-export const FEEDBACK_MESSAGE_MAX = 2000;
-
-/** フィードバックの種類 */
-export type FeedbackCategory =
-  | 'praise'      // よかった点
-  | 'problem'     // 問題・解説の内容について
-  | 'bug'         // 不具合・表示崩れ
-  | 'request'     // 新機能・改善の要望
-  | 'other';      // その他
-
-export const FEEDBACK_CATEGORY_LABELS: Record<FeedbackCategory, string> = {
-  praise: 'よかった点',
-  problem: '問題・解説の内容',
-  bug: '不具合・表示崩れ',
-  request: '要望・改善案',
-  other: 'その他',
-};
-
-/** どの画面から送られたか */
-export type FeedbackScreen =
-  | 'title'            // タイトル（ホーム）画面
-  | 'chapter_result'   // 単元の結果・解説画面
-  | 'mock_exam_result' // 模擬試験の結果画面
-  | 'other';
-
-export const FEEDBACK_SCREEN_LABELS: Record<FeedbackScreen, string> = {
-  title: 'タイトル画面',
-  chapter_result: '単元の結果画面',
-  mock_exam_result: '模擬試験の結果画面',
-  other: 'その他の画面',
-};
-
-/** 画面から渡す入力値 */
-export interface FeedbackInput {
-  /** 送信元画面 */
-  screen: FeedbackScreen;
-  /** 種類 */
-  category: FeedbackCategory;
-  /** 5段階評価（0 = 未選択） */
-  rating: number;
-  /** 自由記述（必須） */
-  message: string;
-  /** 返信を希望する場合の連絡先メール（任意） */
-  contactEmail?: string;
-  /** 画面ごとの付帯情報（単元ID・スコアなど） */
-  context?: Record<string, unknown>;
-}
-
-/** 実際に送信されるペイロード（メタ情報付き） */
-export interface FeedbackPayload extends FeedbackInput {
-  /** クライアント側で採番する一意ID（重複送信の検出用） */
-  id: string;
-  /** ログイン中なら uid、ゲストなら null */
-  uid: string | null;
-  /** ログイン中の表示名 */
-  displayName: string | null;
-  /** ログイン中のメールアドレス（本人特定用・任意） */
-  authEmail: string | null;
-  /** 送信時刻（ISO8601・端末ローカル時刻由来） */
-  createdAtIso: string;
-  /** UserAgent */
-  userAgent: string;
-  /** 画面サイズ（不具合報告の再現用） */
-  viewport: string;
-  /** アプリのバージョン（package.json 由来ではなくビルド時定数を想定） */
-  appVersion: string;
-}
-
-/** 送信先の種別 */
-export type FeedbackSink = 'firestore' | 'webhook';
-
-/** 送信結果 */
-export interface FeedbackResult {
-  /** 1つ以上の送信口に届いたか */
-  ok: boolean;
-  /** 成功した送信口 */
-  delivered: FeedbackSink[];
-  /** 失敗した送信口とエラーメッセージ */
-  failed: Array<{ sink: FeedbackSink; reason: string }>;
-  /** 未達の送信先があり、再送キューに退避したか */
-  queued: boolean;
-  /** 手動送信用の mailto: URL（常に生成しておく） */
-  mailtoUrl: string;
-  /** 実際に送信したペイロード */
-  payload: FeedbackPayload;
-}
-
-/** 入力検証の結果 */
-export interface FeedbackValidation {
-  valid: boolean;
-  errors: string[];
-}
 
 // -------------------------------------------------------------------
 // 環境変数アクセス（テスト環境では import.meta.env が無いこともある）
@@ -563,99 +451,6 @@ async function sendToWebhook(payload: FeedbackPayload, url: string): Promise<voi
       );
     }
   }
-}
-
-// -------------------------------------------------------------------
-// 再送キュー（localStorage）
-// -------------------------------------------------------------------
-
-/**
- * 使える localStorage を返す（使えなければ null）。
- * 実装は utils/safeLocalStorage.ts が唯一の定義。
- * 呼び出し側の書き方は今までどおり `readStorage()` のままにしている。
- */
-const readStorage = safeLocalStorage;
-
-/**
- * キューに積まれた1件。
- * `pending` に「まだ届いていない送信先」だけを持たせることで、
- * 「Firestore は成功したがスプレッドシートだけ失敗した」場合に
- * スプレッドシートのみを再送でき、Firestore の二重登録を防げる。
- */
-export interface QueuedFeedback {
-  payload: FeedbackPayload;
-  /** 未達の送信先 */
-  pending: FeedbackSink[];
-}
-
-/** 再送キューを読み出す（旧フォーマットも読めるようにする） */
-/** 端末に保存されていたキューの1件（新旧どちらの形式かは読んでみるまで分からない） */
-type QueuedFeedbackRaw = null | undefined | {
-  payload?: unknown;
-  pending?: unknown;
-  id?: unknown;
-  message?: unknown;
-};
-
-export function readFeedbackQueue(): QueuedFeedback[] {
-  const ls = readStorage();
-  if (!ls) return [];
-  try {
-    const raw = ls.getItem(FEEDBACK_QUEUE_KEY);
-    if (!raw) return [];
-    const parsed = JSON.parse(raw);
-    if (!Array.isArray(parsed)) return [];
-    return parsed
-      .map((item: QueuedFeedbackRaw): QueuedFeedback | null => {
-        if (!item || typeof item !== 'object') return null;
-        // 新フォーマット { payload, pending }
-        if (item.payload && Array.isArray(item.pending)) {
-          return { payload: item.payload as FeedbackPayload, pending: item.pending as FeedbackSink[] };
-        }
-        // 旧フォーマット（ペイロードが直接入っている）→ 全送信先を未達として扱う
-        if (typeof item.id === 'string' && typeof item.message === 'string') {
-          return { payload: item as FeedbackPayload, pending: ['firestore', 'webhook'] };
-        }
-        return null;
-      })
-      .filter((item): item is QueuedFeedback => item !== null);
-  } catch {
-    return [];
-  }
-}
-
-function writeFeedbackQueue(items: QueuedFeedback[]): void {
-  const ls = readStorage();
-  if (!ls) return;
-  try {
-    // 古いものから捨てて上限を守る
-    const trimmed = items.slice(-FEEDBACK_QUEUE_LIMIT);
-    if (trimmed.length === 0) ls.removeItem(FEEDBACK_QUEUE_KEY);
-    else ls.setItem(FEEDBACK_QUEUE_KEY, JSON.stringify(trimmed));
-  } catch {
-    // 容量超過などは黙って諦める（ユーザー操作を妨げない）
-  }
-}
-
-/**
- * 未達の送信先があるフィードバックをキューへ退避する。
- * すでに同じIDが入っている場合は pending を統合する。
- */
-export function enqueueFeedback(payload: FeedbackPayload, pending: FeedbackSink[]): void {
-  if (pending.length === 0) return;
-  const queue = readFeedbackQueue();
-  const existing = queue.find((item) => item.payload.id === payload.id);
-  if (existing) {
-    existing.pending = Array.from(new Set([...existing.pending, ...pending]));
-  } else {
-    queue.push({ payload, pending: [...pending] });
-  }
-  writeFeedbackQueue(queue);
-}
-
-/** キューの件数（UI 表示用） */
-export function pendingFeedbackCount(): number {
-  return readFeedbackQueue().length;
 }
 
 // -------------------------------------------------------------------
