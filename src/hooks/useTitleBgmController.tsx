@@ -14,6 +14,29 @@ import { setTitleBgmVolume, unlockTitleBgm } from '../battle/audio/titleMediaAud
 import { battleAudio } from '../battle/audio/battleAudio';
 import { BGM_ENABLED_KEY, BGM_SILENT_STATES } from './titleBgmConstants';
 
+/** audio.play() 失敗時のログ文言（どの場面で失敗したかで少しずつ違う。文言は以前のまま） */
+interface BgmPlayErrorMessages { decode: string; decodeHint?: string; blocked: string; unexpected: string }
+const DECODE_HINT = '音源ファイルが読み込めないか、サポートされていない形式です。無音でアプリを続行します。';
+const BGM_PLAY_ERROR_MESSAGES = {
+  INTERACTION: {
+    decode: '[BGM Error] Decode failed on interaction. Switching to silent mode.',
+    decodeHint: DECODE_HINT,
+    blocked: '[BGM Info] Autoplay blocked by browser. Waiting for user interaction.',
+    unexpected: '[BGM Error] Unexpected playback error on interaction:',
+  },
+  AUTOPLAY: {
+    decode: '[BGM Error] Decode failed (NotSupportedError). Switching to silent mode.',
+    decodeHint: DECODE_HINT,
+    blocked: '[BGM Info] Autoplay blocked by browser. Waiting for user interaction.',
+    unexpected: '[BGM Error] Unexpected playback error:',
+  },
+  TOGGLE: {
+    decode: '[BGM Error] Decode failed on toggle. Switching to silent mode.',
+    blocked: '[BGM Info] Playback blocked by browser on toggle.',
+    unexpected: '[BGM Error] Unexpected playback error on toggle:',
+  },
+} as const satisfies Record<string, BgmPlayErrorMessages>;
+
 /** appState は App の AppState（画面名の文字列）。App を import すると循環するので string で受ける。 */
 export function useTitleBgmController({ appState, hasEntered }: { appState: string; hasEntered: boolean }) {
   // BGM state
@@ -71,6 +94,25 @@ export function useTitleBgmController({ appState, hasEntered }: { appState: stri
   */
   const [isBgmFadedOut, setIsBgmFadedOut] = useState(false);
   const hasLoggedAudioError = useRef(false);
+
+  /**
+   * audio.play() が失敗したときの共通処理（もとは同じ分岐が3か所にコピーされていた）。
+   * 出す文言・出し分け・無音モードへの切り替えは以前と完全に同じ。
+   */
+  const handlePlayError = (e: { name?: string; message?: string }, messages: BgmPlayErrorMessages) => {
+    if (e.name === 'NotSupportedError' || e.message?.includes('no supported sources')) {
+      if (!hasLoggedAudioError.current) {
+        hasLoggedAudioError.current = true;
+        console.error(messages.decode, e);
+        if (messages.decodeHint) console.warn(messages.decodeHint);
+      }
+      setIsAudioValid(false);
+    } else if (e.name === 'NotAllowedError') {
+      console.warn(messages.blocked, e);
+    } else {
+      console.error(messages.unexpected, e);
+    }
+  };
 
   /**
    * ★設定のスライダーの値を、再生開始・フェードの計算にも使う（A13）★
@@ -205,18 +247,7 @@ export function useTitleBgmController({ appState, hasEntered }: { appState: stri
         const playPromise = audio.play();
         if (playPromise !== undefined) {
           playPromise.catch(e => {
-            if (e.name === 'NotSupportedError' || e.message?.includes('no supported sources')) {
-              if (!hasLoggedAudioError.current) {
-                hasLoggedAudioError.current = true;
-                console.error('[BGM Error] Decode failed on interaction. Switching to silent mode.', e);
-                console.warn('音源ファイルが読み込めないか、サポートされていない形式です。無音でアプリを続行します。');
-              }
-              setIsAudioValid(false);
-            } else if (e.name === 'NotAllowedError') {
-              console.warn('[BGM Info] Autoplay blocked by browser. Waiting for user interaction.', e);
-            } else {
-              console.error('[BGM Error] Unexpected playback error on interaction:', e);
-            }
+            handlePlayError(e, BGM_PLAY_ERROR_MESSAGES.INTERACTION);
           });
         }
       }
@@ -297,18 +328,7 @@ export function useTitleBgmController({ appState, hasEntered }: { appState: stri
       const playPromise = audio.play();
       if (playPromise !== undefined) {
         playPromise.catch(e => {
-          if (e.name === 'NotSupportedError' || e.message?.includes('no supported sources')) {
-            if (!hasLoggedAudioError.current) {
-              hasLoggedAudioError.current = true;
-              console.error('[BGM Error] Decode failed (NotSupportedError). Switching to silent mode.', e);
-              console.warn('音源ファイルが読み込めないか、サポートされていない形式です。無音でアプリを続行します。');
-            }
-            setIsAudioValid(false);
-          } else if (e.name === 'NotAllowedError') {
-            console.warn('[BGM Info] Autoplay blocked by browser. Waiting for user interaction.', e);
-          } else {
-            console.error('[BGM Error] Unexpected playback error:', e);
-          }
+          handlePlayError(e, BGM_PLAY_ERROR_MESSAGES.AUTOPLAY);
         });
       }
     } else {
@@ -390,17 +410,7 @@ export function useTitleBgmController({ appState, hasEntered }: { appState: stri
       const playPromise = audio.play();
       if (playPromise !== undefined) {
         playPromise.catch(e => {
-          if (e.name === 'NotSupportedError' || e.message?.includes('no supported sources')) {
-            if (!hasLoggedAudioError.current) {
-              hasLoggedAudioError.current = true;
-              console.error('[BGM Error] Decode failed on toggle. Switching to silent mode.', e);
-            }
-            setIsAudioValid(false);
-          } else if (e.name === 'NotAllowedError') {
-            console.warn('[BGM Info] Playback blocked by browser on toggle.', e);
-          } else {
-            console.error('[BGM Error] Unexpected playback error on toggle:', e);
-          }
+          handlePlayError(e, BGM_PLAY_ERROR_MESSAGES.TOGGLE);
         });
       }
     } else {
