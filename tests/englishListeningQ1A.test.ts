@@ -59,7 +59,7 @@ describe('第1問A に「第1回」が差し込まれている', () => {
   it('4問（第1問Aのマーク数）ぶんの小問がある', () => {
     const set1 = EL1_A_PROBLEMS[0];
     expect(set1.subQuestions.length).toBe(4);
-    expect(set1.subQuestions.map((sq: any) => sq.label.slice(0, 2))).toEqual([
+    expect(set1.subQuestions.map((sq) => sq.label.slice(0, 2))).toEqual([
       '問1',
       '問2',
       '問3',
@@ -73,7 +73,7 @@ describe('第1問A に「第1回」が差し込まれている', () => {
       expect(sq.type).toBe('multiple_choice');
       expect(sq.options).toEqual(['①', '②', '③', '④']);
     }
-    expect(set1.subQuestions.map((sq: any) => sq.correctAnswer)).toEqual([
+    expect(set1.subQuestions.map((sq) => sq.correctAnswer)).toEqual([
       '②',
       '②',
       '③',
@@ -161,7 +161,7 @@ describe('音源（スクリプトから生成した音声）', () => {
   });
 
   it('音源トラックの subId は小問の id と一致している', () => {
-    const subIds = set1.subQuestions.map((sq: any) => sq.id);
+    const subIds = set1.subQuestions.map((sq) => sq.id);
     expect(set1.audioTracks.map((t) => t.subId)).toEqual(subIds);
   });
 

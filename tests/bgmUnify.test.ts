@@ -79,7 +79,7 @@ describe('canonical audio preference and mobile-safe title gain', () => {
     writeAudioPreferences({volume:0.23,bgm:false}); expect(readAudioPreferences().volume).toBe(0.23);
   });
   it('changes native gain even when the platform ignores media volume; creates one route', () => {
-    const nodes:any[]=[]; let contexts=0; let sources=0; let resumes=0;
+    const nodes:Array<{ gain?: { value: number } }>=[]; let contexts=0; let sources=0; let resumes=0;
     class Context {
       state='suspended'; destination={};
       constructor(){contexts++;}
