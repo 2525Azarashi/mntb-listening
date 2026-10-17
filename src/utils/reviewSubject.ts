@@ -77,14 +77,12 @@ export function reviewSubjectStyle(subject: ReviewSubjectKey): ReviewSubjectStyl
 // chapterId → 科目
 // ============================================================
 
-/** 章IDから科目を判定する。判定できなければ null（形は登録簿の chapterIdPattern） */
-export function subjectOfChapterId(chapterId: string | null | undefined): ReviewSubjectId | null {
-  return registrySubjectOf(chapterId);
-}
+/** 章IDから科目を判定する。判定できなければ null（形は登録簿の chapterIdPattern）。実体は data/subjects.ts。 */
+export { subjectOfChapterId } from '../data/subjects';
 
 /** 復習アイテムの科目キー（判定できないものは 'other'） */
 export function subjectOfReviewItem(item: ReviewItem): ReviewSubjectKey {
-  return subjectOfChapterId(item.chapterId) ?? UNKNOWN_SUBJECT;
+  return registrySubjectOf(item.chapterId) ?? UNKNOWN_SUBJECT;
 }
 
 // ============================================================
@@ -277,18 +275,3 @@ export interface ReviewBadge {
   label: string;
 }
 
-export function badgesForItem(item: ReviewItem): ReviewBadge[] {
-  const badges: ReviewBadge[] = [];
-  const retention = Math.round(retentionOf(item) * 100);
-
-  if (item.box >= REVIEW_INTERVALS_DAYS.length - 1) {
-    badges.push({ kind: 'mastered', label: '習得済み' });
-  } else if (item.wrongCount >= 2) {
-    badges.push({ kind: 'weak', label: `苦手 ${item.wrongCount}回` });
-  }
-
-  badges.push({ kind: 'retention', label: `定着 ${retention}%` });
-
-  // 最大2つ（要件: バッジ2つまで）
-  return badges.slice(0, 2);
-}

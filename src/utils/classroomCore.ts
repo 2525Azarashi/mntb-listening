@@ -378,14 +378,3 @@ export function parseSchoolBrand(raw: string | null | undefined): SchoolBrand | 
   }
 }
 
-/**
- * 画面に出す組織名を決める。
- *
- * 学校名が設定されていればそれを主役にし、無ければ既定名に戻す。
- * 「〇〇高校 × マナトビ」のような併記にしないのは、
- * 学校に配るときに「うちの教材」として見えるほうが導入されやすいため。
- */
-export function resolveBrandLabel(brand: SchoolBrand | null, fallback = 'マナトビ'): string {
-  const name = brand?.schoolName?.trim();
-  return name ? name : fallback;
-}

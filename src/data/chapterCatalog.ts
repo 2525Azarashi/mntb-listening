@@ -156,7 +156,3 @@ export function getChapterCatalog(subject: CatalogSubject): ChapterDefinition[] 
   return rows;
 }
 
-/** カタログ全体の大問総数（到達率の分母） */
-export function countCatalogProblems(subject: CatalogSubject): number {
-  return getChapterCatalog(subject).reduce((sum, row) => sum + row.totalProblems, 0);
-}

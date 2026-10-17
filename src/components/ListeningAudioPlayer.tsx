@@ -502,7 +502,6 @@ export function ListeningAudioPlayer({
                   onPause={() => {
                     if (playingId === track.subId) setPlayingId(null);
                   }}
-                  // @ts-ignore - iOS のインライン再生を許可する
                   playsInline
                 />
               )}
@@ -720,7 +719,6 @@ export function ListeningAudioPlayer({
                   onPause={() => {
                     if (playingId === track.subId) setPlayingId(null);
                   }}
-                  // @ts-ignore - iOS のインライン再生を許可する
                   playsInline
                 />
               )}

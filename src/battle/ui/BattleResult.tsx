@@ -311,6 +311,7 @@ export function BattleResult({
           answer: !pq.correct && q && q.answerIndex >= 0 ? String(q.options[q.answerIndex] ?? '') : undefined };
       }),
     });
+    // 学習記録は1試合につき1回だけ書く（結果の表示が更新されても書き直さない）
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [matchKey]);
   const [answerLoadFailed, setAnswerLoadFailed] = useState(false);

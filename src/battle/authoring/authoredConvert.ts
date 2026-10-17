@@ -39,6 +39,7 @@
  */
 
 import { kanaKeysOf, KANA_MAX_INPUT } from '../core/kanaKeyboard';
+import { hashString } from '../core/battleCore';
 import { normalizeAnswer } from '../../utils/answerJudge';
 import type { AuthoredQuestion } from './authoredTypes';
 
@@ -159,14 +160,6 @@ export type AuthoredConvertResult =
  * 「本当の変更」なのか「乱数のゆらぎ」なのか区別できなくなる。
  * ここでは問題IDを種にするので、同じ JSON からは必ず同じ並びが出る。
  */
-function hashString(input: string): number {
-  let h = 0x811c9dc5;
-  for (let i = 0; i < input.length; i += 1) {
-    h ^= input.charCodeAt(i);
-    h = Math.imul(h, 0x01000193) >>> 0;
-  }
-  return h >>> 0;
-}
 
 function createRandom(seed: number): () => number {
   let a = seed >>> 0;

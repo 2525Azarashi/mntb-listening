@@ -292,21 +292,6 @@ function formatTeachingSteps(teaching: UnitTeaching): string {
     .join('\n');
 }
 
-/**
- * 「この単元の思考の型」ブロックを組み立てる。
- *
- * ■ なぜ独立した関数にするのか
- * 従来はこのブロックを *問題ごとに* 解説文へ埋め込んでいたため、
- * 同じ単元の中で何度も同じ内容が繰り返し表示され、画面を圧迫していた。
- * 単元につき1回だけ「採点結果の直後」にアコーディオンで見せる方式に変えるため、
- * 画面側（Explanation.tsx）から直接呼べる形に切り出す。
- *
- * ★内容・表現・順番・解説は従来の出力と1文字も変えていない★
- */
-export function buildUnitKataBlock(teaching?: UnitTeaching): string {
-  if (!teaching?.steps?.length) return '';
-  return `${LABEL(UNIT_KATA_TITLE)}\n${formatTeachingSteps(teaching)}`;
-}
 
 export function buildStepsBlock(
   question: QuestionLike,

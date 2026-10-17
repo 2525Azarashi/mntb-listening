@@ -1,3 +1,4 @@
+import { useMountEffect } from '../hooks/useMountEffect';
 import React, { useEffect, useMemo, useState } from 'react';
 import type { StudyNote } from '../types/studyNote';
 import type { ReviewRequest } from '../utils/reviewTarget';
@@ -329,10 +330,9 @@ export function StudyHub({ onBack, isGuest, onSelectNote, onReview, onPractice, 
     setNotes(loadNotes());
   };
 
-  useEffect(() => {
+  useMountEffect(() => {
     refresh();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  });
 
   // 科目の一覧は「実際に復習アイテムがある科目」だけから作る（空の科目タブを出さない）。
   const subjectSummaries = useMemo(() => summarizeBySubject(reviewItems, now), [reviewItems, now]);

@@ -4,7 +4,7 @@ import { groupReviewItems, captureWrongAnswers, loadReviewList, applyReviewRetry
 const store: Record<string, string> = {};
 beforeEach(() => {
   for (const k of Object.keys(store)) delete store[k];
-  (globalThis as any).localStorage = { getItem: (k: string) => store[k] ?? null, setItem: (k: string, v: string) => { store[k] = v; }, removeItem: (k: string) => { delete store[k]; } };
+  (globalThis as { localStorage?: unknown }).localStorage = { getItem: (k: string) => store[k] ?? null, setItem: (k: string, v: string) => { store[k] = v; }, removeItem: (k: string) => { delete store[k]; } };
 });
 
 describe('review note groups wrong sub-questions per problem (2026-10-04)', () => {

@@ -136,8 +136,8 @@ describe('集計ヘルパー', () => {
 
   it('getListeningPart は未知の区分に対して null を返す', () => {
     expect(getListeningPart('first_half')).not.toBeNull();
-    expect(getListeningPart('unknown' as any)).toBeNull();
-    expect(getListeningChapters('unknown' as any)).toEqual([]);
+    expect(getListeningPart('unknown' as unknown as Parameters<typeof getListeningPart>[0])).toBeNull();
+    expect(getListeningChapters('unknown' as unknown as Parameters<typeof getListeningChapters>[0])).toEqual([]);
   });
 });
 
@@ -147,9 +147,13 @@ describe('提供MP3全206本の対応・整合性', () => {
     const { readFileSync } = await import('node:fs');
     const { createHash } = await import('node:crypto');
     const manifest = JSON.parse(readFileSync('scripts/data/listening_premium_manifest.json', 'utf8'));
+    const ledger = new Map<string, { sha256: string }>(
+      (JSON.parse(readFileSync('listening_audio_ledger.json', 'utf8')) as { audioUrl: string; sha256: string }[])
+        .map((e) => [e.audioUrl, e]),
+    );
     const targets = getAllListeningChapters().filter(c => ['el1_A', 'el1_B', 'el3'].includes(c.id));
-    const tracks = targets.flatMap(c => c.practiceProblems.flatMap((p: any) =>
-      p.audioTracks.map((track: any) => ({ ...track, readCount: p.readCount }))));
+    const tracks = targets.flatMap(c => c.practiceProblems.flatMap((p) =>
+      p.audioTracks.map((track) => ({ ...track, readCount: p.readCount }))));
     expect(tracks).toHaveLength(206);
     expect(manifest).toHaveLength(206);
     expect(new Set(tracks.map(t => t.audioUrl)).size).toBe(206);
@@ -161,8 +165,12 @@ describe('提供MP3全206本の対応・整合性', () => {
       expect(track.script, reference.subId).toBe(reference.script);
       expect(track.readCount).toBe(reference.app_read_count);
       expect(reference.repetitions_in_file).toBe(1);
+      // チェックサムは現行の音源台帳（listening_audio_ledger.json）が正。
+      // 旧マニフェストの sha256 は商用音源へ差し替える前の値（来歴として残す）なので照合に使わない。
+      const ledgerEntry = ledger.get(track.audioUrl);
+      expect(ledgerEntry, reference.subId).toBeDefined();
       const bytes = readFileSync(`public${track.audioUrl}`);
-      expect(createHash('sha256').update(bytes).digest('hex'), reference.subId).toBe(reference.sha256);
+      expect(createHash('sha256').update(bytes).digest('hex'), reference.subId).toBe(ledgerEntry!.sha256);
     }
   });
 });

@@ -1,3 +1,5 @@
+import { useLatest } from '../hooks/useLatest';
+import { useMountEffect } from '../hooks/useMountEffect';
 import React, { useState, useEffect, useLayoutEffect, useMemo, useRef } from 'react';
 import { ArrowLeft } from 'lucide-react';
 // 記号パレット（解答入力の補助キーボード）は components/SymbolPalette.tsx にある。
@@ -331,6 +333,7 @@ export function Quiz({ mode, chapter, onFinish, onBack, onReturnToBattle, isGues
       clearAnswersForQuestionIfUnscored(leftIndex);
       prevQuestionIndexRef.current = currentQuestionIndex;
     }
+    // 問題が替わったときだけ表示状態をリセットする（ほかの値の更新ではリセットしない）
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentQuestionIndex]);
 
@@ -342,10 +345,12 @@ export function Quiz({ mode, chapter, onFinish, onBack, onReturnToBattle, isGues
   // localStorage から showingExplanation=true で復元された場合（リロード/再開時）
   // に App 側と状態がズレ、初回表示だけレイアウトと viewport の組み合わせが
   // 不整合になる問題があった。effect で常に同期させて確実に一致させる。
+  // 親の onExplanationChange は描画ごとに作り直されるので、最新のものを ref から読む
+  // （関数が変わっただけでは通知し直さない＝以前と同じ）。
+  const onExplanationChangeRef = useLatest(onExplanationChange);
   useEffect(() => {
-    if (onExplanationChange) onExplanationChange(showingExplanation);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [showingExplanation]);
+    if (onExplanationChangeRef.current) onExplanationChangeRef.current(showingExplanation);
+  }, [showingExplanation, onExplanationChangeRef]);
 
   // 問題解答画面ではズーム（ピンチ／ダブルタップ）を一切禁止する。
   //
@@ -436,6 +441,7 @@ export function Quiz({ mode, chapter, onFinish, onBack, onReturnToBattle, isGues
         }
       } catch { /* 保存不可の環境ではそのまま */ }
     }
+    // 問題が替わったときだけ表示状態をリセットする（ほかの値の更新ではリセットしない）
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentQuestionIndex]);
 
@@ -798,11 +804,10 @@ export function Quiz({ mode, chapter, onFinish, onBack, onReturnToBattle, isGues
   //              →問1のページに行く→問1の解説のページに行く」
   // Quiz は回（演習）を選ぶたびにマウントされるので、マウント時に
   // リスニングの回であれば説明ページから始める。化学などは従来どおり。
-  useEffect(() => {
+  useMountEffect(() => {
     if (listeningTracks.length > 0) setShowingBriefing(true);
     // 回のマウント時のみ（問の移動では再表示しない）
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  });
 
   // 現在フォーカス中の設問オブジェクト（全形式対象）。
   const focusedSub = useMemo(() => {

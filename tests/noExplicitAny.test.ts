@@ -29,13 +29,13 @@ function walk(dir: string): string[] {
 /** `: any` / `as any` / `<any>` / `any[]` / `, any>` の形 */
 const EXPLICIT_ANY = /(:\s*any\b|\bas\s+any\b|<any>|\bany\[\]|,\s*any>)/;
 
-function explicitAnys(): string[] {
+function explicitAnys(root: string = ROOT): string[] {
   const hits: string[] = [];
-  for (const file of walk(ROOT)) {
+  for (const file of walk(root)) {
     readFileSync(file, 'utf8').split('\n').forEach((line, i) => {
       const t = line.trim();
       if (t.startsWith('*') || t.startsWith('//')) return; // 説明文の中の例
-      if (EXPLICIT_ANY.test(line)) hits.push(`${file.slice(ROOT.length + 1)}:${i + 1}  ${t.slice(0, 100)}`);
+      if (EXPLICIT_ANY.test(line)) hits.push(`${file.slice(root.length + 1)}:${i + 1}  ${t.slice(0, 100)}`);
     });
   }
   return hits;
@@ -44,5 +44,13 @@ function explicitAnys(): string[] {
 describe('手書きコードに any が無い', () => {
   it('src/ の .ts / .tsx（生成ファイル以外）に明示的な any が無い', () => {
     expect(explicitAnys()).toEqual([]);
+  });
+});
+
+describe('テストコードにも any が無い（R-24）', () => {
+  it('tests/ の .ts に明示的な any が無い（部分的な見本は helpers/fixture.ts の fixture<T>() を使う）', () => {
+    const TESTS = join(__dirname);
+    const hits = explicitAnys(TESTS).filter((h) => !h.startsWith('noExplicitAny.test.ts'));
+    expect(hits).toEqual([]);
   });
 });
