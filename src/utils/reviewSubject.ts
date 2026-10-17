@@ -275,18 +275,3 @@ export interface ReviewBadge {
   label: string;
 }
 
-export function badgesForItem(item: ReviewItem): ReviewBadge[] {
-  const badges: ReviewBadge[] = [];
-  const retention = Math.round(retentionOf(item) * 100);
-
-  if (item.box >= REVIEW_INTERVALS_DAYS.length - 1) {
-    badges.push({ kind: 'mastered', label: '習得済み' });
-  } else if (item.wrongCount >= 2) {
-    badges.push({ kind: 'weak', label: `苦手 ${item.wrongCount}回` });
-  }
-
-  badges.push({ kind: 'retention', label: `定着 ${retention}%` });
-
-  // 最大2つ（要件: バッジ2つまで）
-  return badges.slice(0, 2);
-}

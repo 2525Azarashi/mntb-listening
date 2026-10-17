@@ -86,14 +86,3 @@ export function readJsonArray<T = unknown>(key: string): T[] {
   }
 }
 
-/** 保存されている JSON の「オブジェクト」を読む。読めない・オブジェクトでないときは {} */
-export function readJsonObject<T extends Record<string, unknown> = Record<string, unknown>>(key: string): T {
-  try {
-    const raw = safeLocalStorage()?.getItem(key);
-    if (!raw) return {} as T;
-    const parsed: unknown = JSON.parse(raw);
-    return parsed && typeof parsed === 'object' && !Array.isArray(parsed) ? (parsed as T) : ({} as T);
-  } catch {
-    return {} as T;
-  }
-}

@@ -398,14 +398,6 @@ export function applyMatchToProgress(
   };
 }
 
-/**
- * ログイン日数を数える（対戦モードを開いたとき）。
- * 同じ日に2回開いても1日としか数えない。連続日数も更新する。
- * 変化が無ければ同じ参照を返す（呼び出し側が「書かなくてよい」と判断できる）。
- */
-export function applyLogin(progress: GrowthProgress, today: string, now: number = Date.now()): GrowthProgress {
-  return applyLoginWithBonus(progress, today, now).next;
-}
 
 /** ログインボーナスの内容 */
 export interface LoginBonus {
@@ -741,14 +733,6 @@ export function ratingTierOf(rating: number): { label: string; min: number; next
   return { label: last.label, min: last.min, next: RATING_TIERS[RATING_TIERS.length - 2].min };
 }
 
-/** 段位が変わったか（'up' | 'down' | null） */
-export function ratingTierChange(before: number, after: number): 'up' | 'down' | null {
-  const a = ratingTierOf(before).min;
-  const b = ratingTierOf(after).min;
-  if (b > a) return 'up';
-  if (b < a) return 'down';
-  return null;
-}
 
 /** 結果画面の「共有」用の短い文（URL は呼び出し側が足す） */
 export function shareTextForMatch(input: {

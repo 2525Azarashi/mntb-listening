@@ -45,7 +45,7 @@ import {
   type Timestamp,
 } from './firestoreMetered';
 import { auth, db } from '../firebase';
-import { resolveNickname, type LeaderboardEventDoc } from './leaderboard';
+import { resolveNickname } from './leaderboard';
 import { isPermissionDenied, toFriendlyFirestoreError, type FirestoreErrorMessages } from './firestoreErrors';
 
 export interface FriendProfile {
@@ -552,66 +552,4 @@ export interface FriendCompetitionEntry {
   sub: string;
 }
 
-/** leaderboard_total / leaderboard_chapter の1件（読む項目だけ。古い記録は欠けていることがある）。 */
-interface LeaderboardScoreDoc {
-  nickname?: string;
-  photoURL?: string;
-  totalScore?: number;
-  bestScore?: number;
-  chapterScores?: Record<string, unknown>;
-  correctRate?: number;
-  timeUsedSec?: number;
-}
 
-/** フレンド全員（自分を含む）の合計・章別・期間別スコアを漏れなく集計する。 */
-export async function fetchFriendCompetition(
-  mode: 'total' | 'chapter' | 'period',
-  options: { chapterId?: string; since?: Date | null } = {}
-): Promise<FriendCompetitionEntry[]> {
-  const uids = await fetchFriendUids(true);
-  if (uids.length === 0) return [];
-
-  if (mode === 'total' || mode === 'chapter') {
-    const entries = await Promise.all(uids.map(async (uid) => {
-      const ref = mode === 'total'
-        ? doc(db, 'leaderboard_total', uid)
-        : doc(db, 'leaderboard_chapter', `${options.chapterId}_${uid}`);
-      const snap = await getDoc(ref);
-      if (!snap.exists()) return null;
-      const data = snap.data() as LeaderboardScoreDoc;
-      return {
-        uid,
-        nickname: data.nickname || '名無しの化学者',
-        photoURL: data.photoURL || '',
-        score: mode === 'total' ? (data.totalScore || 0) : (data.bestScore || 0),
-        sub: mode === 'total'
-          ? `${Object.keys(data.chapterScores || {}).length} 章クリア`
-          : `正答率 ${Math.round((data.correctRate || 0) * 100)}% / ${data.timeUsedSec || 0}秒`,
-      } satisfies FriendCompetitionEntry;
-    }));
-    return entries.filter((entry): entry is FriendCompetitionEntry => entry !== null).sort((a, b) => b.score - a.score);
-  }
-
-  // ★1人あたり読む件数に上限をかける★
-  //   プレイ履歴（leaderboard_events）は遊ぶたびに増えるので、上限が無いと
-  //   「フレンド20人 × 1人数千件」を開くたびに読むことになる。
-  //   期間別ランキングは直近の記録で十分なので、1人 200 件までにする。
-  const entries = await Promise.all(uids.map(async (uid) => {
-    const snaps = await getDocs(query(collection(db, 'leaderboard_events'), where('uid', '==', uid), limit(200)));
-    const events = snaps.docs.map((item) => item.data() as LeaderboardEventDoc).filter((event) => {
-      if (!options.since) return true;
-      const playedAt = event.playedAt?.toDate?.();
-      return playedAt instanceof Date && playedAt >= options.since;
-    });
-    if (events.length === 0) return null;
-    const best = events.reduce((current, event) => (event.score || 0) > (current.score || 0) ? event : current, events[0]);
-    return {
-      uid,
-      nickname: best.nickname || '名無しの化学者',
-      photoURL: best.photoURL || '',
-      score: best.score || 0,
-      sub: `${events.length} 回プレイ`,
-    } satisfies FriendCompetitionEntry;
-  }));
-  return entries.filter((entry): entry is FriendCompetitionEntry => entry !== null).sort((a, b) => b.score - a.score);
-}

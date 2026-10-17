@@ -178,7 +178,3 @@ export function tipsForSubject(subject?: TipSubject): MascotTip[] {
   });
 }
 
-/** 科目ごとの件数（吹き出しの「◯／◯個」表示に使う） */
-export function tipTotalForSubject(subject?: TipSubject): number {
-  return tipsForSubject(subject).length;
-}

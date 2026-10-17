@@ -193,19 +193,7 @@ export function markProblemSolved(
   return true;
 }
 
-/** その大問を既に解いているか */
-export function isProblemSolved(
-  uid: string | null | undefined,
-  chapterId: string,
-  questionId: string,
-): boolean {
-  return Boolean(readSolvedMap(uid)[problemKey(chapterId, questionId)]);
-}
 
-/** 解いた大問の総数 */
-export function countSolvedProblems(uid: string | null | undefined): number {
-  return Object.keys(readSolvedMap(uid)).length;
-}
 
 /**
  * 指定した章の集合に限って、解いた大問数を数える。
@@ -229,19 +217,6 @@ export function countSolvedProblemsIn(
   return count;
 }
 
-/**
- * 章ごとに解いた大問数を数える。
- * 章の進捗表示や「次の章」の判定に使える。
- */
-export function countSolvedByChapter(uid: string | null | undefined): Record<string, number> {
-  const result: Record<string, number> = {};
-  Object.keys(readSolvedMap(uid)).forEach((key) => {
-    const chapterId = key.split('::')[0];
-    if (!chapterId) return;
-    result[chapterId] = (result[chapterId] || 0) + 1;
-  });
-  return result;
-}
 
 /**
  * -------------------------------------------------------------------
