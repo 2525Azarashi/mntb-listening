@@ -75,7 +75,7 @@ import { ScreenLoading, ScreenUnavailable } from './components/ScreenStatus';
 import { studyEntry, isLearningScreen } from './utils/studyNavigation';
 import { DEFAULT_SUBJECT, SUBJECT_IDS } from './data/subjects';
 import { useStudyTimeTracker } from './hooks/useStudyTimeTracker';
-import { resolveReviewTarget, type ReviewRequest } from './utils/reviewTarget';
+import { resolveReviewTarget, reviewLaunchOf, type ReviewRequest } from './utils/reviewTarget';
 import type { ChapterRunState } from './utils/quizRunState';
 import type { StudyNote } from './types/studyNote';
 import { Onboarding } from './components/Onboarding';
@@ -927,18 +927,15 @@ export default function App() {
       }
       setSelectedSubject(target.subject);
       setAppMode('practice');
-      // ★間違えた小問だけを解き直す（2026-10-04 ご要望）★ その大問1つだけを範囲にして、小問も間違えた分に絞る
-      const subIds: string[] = Array.isArray(note.subQuestionIds) ? note.subQuestionIds.map(String)
-        : note.subQuestionId && note.questionId ? [String(note.subQuestionId)] : [];
-      if (note.wholeQuestion && note.questionId) {
-        // ★学習記録の「解きなおす」（2026-10-11）★ その大問1つだけを、小問ぜんぶで
+      // どう解き直すか（大問まるごと／間違えた小問だけ／その問題から）は utils/reviewTarget.ts の reviewLaunchOf が決める
+      const launch = reviewLaunchOf(note, target);
+      if (launch.kind === 'whole') {
         setReviewFocus(null);
-        handleSelectChapter(target.chapterId, target.questionIndex, false, { startIndex: target.questionIndex, endIndex: target.questionIndex }, 'practice');
-      } else if (subIds.length > 0 && note.questionId) {
-        // 絞り込み後の並びはその大問だけになるので、先頭から・範囲なしで始める
-        startFocusedRetry(target.chapterId, [{ questionId: String(note.questionId), subQuestionIds: subIds }], 'practice');
+        handleSelectChapter(launch.chapterId, launch.questionIndex, false, { startIndex: launch.questionIndex, endIndex: launch.questionIndex }, 'practice');
+      } else if (launch.kind === 'focused') {
+        startFocusedRetry(launch.chapterId, launch.targets, 'practice');
       } else {
-        handleSelectChapter(target.chapterId, target.questionIndex, false, null, 'practice');
+        handleSelectChapter(launch.chapterId, launch.questionIndex, false, null, 'practice');
       }
     } catch {
       if (request === reviewRequest.current) {
