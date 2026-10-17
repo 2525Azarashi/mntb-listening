@@ -6,7 +6,7 @@
 import { AdBannerSlot } from './ads/AdBannerSlot';
 import React, { useState, useEffect, useRef } from 'react';
 import { Capacitor } from '@capacitor/core';
-import { setReviewFocus } from './utils/reviewFocus';
+import { setReviewFocus, type ReviewTargetItem } from './utils/reviewFocus';
 import { BottomNavigation } from './components/ui/BottomNavigation';
 import { ListeningHome as Home } from './components/ListeningHome';
 import { ListeningSubjectSelection } from './components/ListeningSubjectSelection';
@@ -73,13 +73,13 @@ import { NoteDetail } from './components/NoteDetail';
 import { StudyHub, type StudyHubView } from './components/StudyHub';
 import { ScreenLoading, ScreenUnavailable } from './components/ScreenStatus';
 import { studyEntry, isLearningScreen } from './utils/studyNavigation';
+import { DEFAULT_SUBJECT, SUBJECT_IDS } from './data/subjects';
 import { useStudyTimeTracker } from './hooks/useStudyTimeTracker';
-import { setFormatMathContext } from './utils/textFormatter';
 import { resolveReviewTarget, type ReviewRequest } from './utils/reviewTarget';
 import type { ChapterRunState } from './utils/quizRunState';
 import type { StudyNote } from './types/studyNote';
 import { Onboarding } from './components/Onboarding';
-import { getSubjectLabel, isSubjectId, type SubjectId } from './components/SubjectSelection';
+import { getSubjectLabel, isSubjectId, type SubjectId } from './data/subjectLabels';
 /*
  * 本体に教科データを持たない教科（高校入試 理科など）の登録簿。
  * ★何も import しない葉ファイルなので、ここから読んでも問題データは付いてこない★
@@ -329,7 +329,7 @@ export default function App() {
     return () => cancelAnimationFrame(frame);
   }, [appState]);
   useEffect(() => {
-    if (!['battle', 'quiz', 'explanation', 'rika'].includes(appState)) setBattleReturnActive(false);
+    if (!['battle', 'quiz', 'explanation'].includes(appState)) setBattleReturnActive(false);
   }, [appState]);
   useEffect(() => {
     let owner = auth.currentUser?.uid || 'guest';
@@ -388,15 +388,13 @@ export default function App() {
       戻す先は fallbackSubjectId が公開中のものから選ぶ。
       「必ず化学基礎」と書かないのは、将来化学基礎を非公開にした日に
       非公開の科目へ倒す処理になってしまうからである。
-      公開中の科目が1つも無い場合だけ 'chemistry_basic' を使う
+      公開中の科目が1つも無い場合だけ登録簿の先頭（DEFAULT_SUBJECT）を使う
       （その状態はアプリとして成立していないので、
         画面が真っ白になるのを避けるための最後の受け皿）。
     */
     if (isSubjectId(saved) && isSubjectEnabled(saved)) return saved;
-    const fallback = fallbackSubjectId(
-      ['chemistry_basic', 'chemistry', 'english_listening', 'english_grammar', 'biology_basic', 'geography'],
-    );
-    return (fallback as SubjectId) ?? 'english_listening';
+    const fallback = fallbackSubjectId(SUBJECT_IDS);
+    return (fallback as SubjectId) ?? DEFAULT_SUBJECT;
   });
   const [isExplanationView, setIsExplanationView] = useState(false);
   const [prevAppState, setPrevAppState] = useState<AppState>('home');
@@ -622,7 +620,6 @@ export default function App() {
   // PC版では「学習モードを選択」(mode_selection) 以外の全画面で外側余白をなくし、
   // ノート風背景を全幅に広げる。mode_selection だけは従来通り中央寄せ＋余白を維持。
   // 数学の演習・解説・まとめを開いている間だけ、数式を数学の規則で組む（書体の混在を防ぐ）。
-  setFormatMathContext(selectedSubject === 'math' && ['quiz', 'explanation'].includes(appState));
   const isFullBleed = appState !== 'mode_selection';
 
   /**
@@ -1228,10 +1225,7 @@ export default function App() {
         // 英単語・英熟語は対戦専用（本体に演習画面が無い）。
         // リザルトは onPractice を渡されても vocab では出さない（BattleResult 側で判定）が、
         // 履歴など別経路から来たときのためにここでも止める。
-        // 高校入試 理科は演習画面ごと非公開（FEATURES.rika = false）なので、その旨を伝える。
-        throw new Error(subject === 'rika'
-          ? 'この科目の演習は現在公開されていません。'
-          : 'この科目は対戦専用です。答えはリザルトの解答欄で確認できます。');
+        throw new Error('この科目は対戦専用です。答えはリザルトの解答欄で確認できます。');
       }
       const { getPartsOfSubject, miniTestProblemsOf } = await import('./data/allChapters');
       if (request !== reviewRequest.current) return;
@@ -1290,6 +1284,17 @@ export default function App() {
   };
 
   /**
+   * 「間違えた問題だけ解き直す」を始める。
+   * 演習画面には、間違いを含む大問（それぞれ間違えた小問だけ）の並びが渡るので、
+   * 位置は先頭・範囲指定なしで開始する（範囲は絞り込み前の通し番号なので使えない）。
+   */
+  const startFocusedRetry = (chapterId: string, targets: ReviewTargetItem[], targetMode: AppMode) => {
+    if (targets.length === 0) return;
+    handleSelectChapter(chapterId, 0, false, null, targetMode);
+    setReviewFocus({ chapterId, targets });
+  };
+
+  /**
    * 学習ノートの問題項目から、対応する演習問題へ遷移する（要件5）。
    * ノートに保存された chapterId / questionId を優先して問題位置を特定し、
    * 見つからなければ questionIndex（1始まり表示番号）でフォールバックする。
@@ -1321,8 +1326,8 @@ export default function App() {
         setReviewFocus(null);
         handleSelectChapter(target.chapterId, target.questionIndex, false, { startIndex: target.questionIndex, endIndex: target.questionIndex }, 'practice');
       } else if (subIds.length > 0 && note.questionId) {
-        handleSelectChapter(target.chapterId, target.questionIndex, false, { startIndex: target.questionIndex, endIndex: target.questionIndex }, 'practice');
-        setReviewFocus({ chapterId: target.chapterId, questionId: String(note.questionId), subQuestionIds: subIds });
+        // 絞り込み後の並びはその大問だけになるので、先頭から・範囲なしで始める
+        startFocusedRetry(target.chapterId, [{ questionId: String(note.questionId), subQuestionIds: subIds }], 'practice');
       } else {
         handleSelectChapter(target.chapterId, target.questionIndex, false, null, 'practice');
       }
@@ -1619,7 +1624,7 @@ export default function App() {
                   questionRange={quizRange}
                   subject={selectedSubject}
                   /* 結果画面の「次にすること」。どちらも通常の演習開始と同じ経路を通す。 */
-                  onRetryWrong={(chapterId, firstWrongIndex) => handleSelectChapter(chapterId, firstWrongIndex, false, quizRange, appMode)}
+                  onRetryWrong={(chapterId, targets) => startFocusedRetry(chapterId, targets, appMode)}
                   onNextChapter={(chapterId) => handleSelectChapter(chapterId, 0, false, null, appMode)}
                   onNextRound={(chapterId, index) => handleSelectChapter(chapterId, index, false, { startIndex: index, endIndex: index }, appMode)}
                   onHome={() => navigateMain('home')}

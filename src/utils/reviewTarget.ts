@@ -1,9 +1,8 @@
 import type { SubjectKey } from '../data/allChapters';
-import type { AdvancedFieldId } from '../data/advancedFields';
 
 type Problem = { id: string; subQuestions?: { id: string }[] };
 type Chapter = { id: string; abstractTitle?: string; realTitle?: string; practiceProblems?: Problem[] };
-type Subject = { id: SubjectKey; parts: { field?: AdvancedFieldId; chapters: Chapter[] }[] };
+type Subject = { id: SubjectKey; parts: { chapters: Chapter[] }[] };
 export type ReviewLocator = {
   chapterId?: string;
   chapterTitle?: string;
@@ -31,7 +30,7 @@ export type ReviewRequest = ReviewLocator & {
 /** Never fall back to an unrelated first question when a saved ID is missing. */
 export function resolveReviewTarget(note: ReviewLocator, subjects: Subject[]) {
   const entries = subjects.flatMap(subject => subject.parts.flatMap(part => part.chapters.map(chapter => ({
-    subject: subject.id, field: part.field, chapter,
+    subject: subject.id, chapter,
   }))));
   const hasSub = (q: Problem) => !!note.subQuestionId && !!q.subQuestions?.some(sq => sq.id === note.subQuestionId);
   const candidates = entries.filter(({ chapter }) => {
@@ -49,5 +48,5 @@ export function resolveReviewTarget(note: ReviewLocator, subjects: Subject[]) {
       ? questions.findIndex(hasSub)
       : Number.isSafeInteger(note.questionIndex) ? note.questionIndex! - 1 : -1;
   if (questionIndex < 0 || questionIndex >= questions.length) return null;
-  return { subject: entry.subject, field: entry.field, chapterId: entry.chapter.id, questionIndex };
+  return { subject: entry.subject, chapterId: entry.chapter.id, questionIndex };
 }

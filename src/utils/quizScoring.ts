@@ -32,7 +32,7 @@ import {
 } from './scoring';
 import { captureWrongAnswers, applyReviewRetry, type WrongAnswerInput } from './reviewList';
 import { recordStudyLog } from './studyLog';
-import { readReviewFocus } from './reviewFocus';
+import { focusedSubIds, readReviewFocus } from './reviewFocus';
 import { markProblemSolved } from './progress';
 import { recordUnitResult } from './unitStats';
 import { schedulePush } from './studySync';
@@ -258,10 +258,10 @@ export function createScoreCurrentQuestion({
           }),
         });
         // 復習ノートから「間違えた問題だけ」を解き直しているとき：正解した小問はノートで1段階進める
-        const focus = readReviewFocus();
-        if (focus && focus.chapterId === chapter.id && focus.questionId === currentQuestion.id) {
+        const focusIds = focusedSubIds(readReviewFocus(), chapter.id, currentQuestion.id);
+        if (focusIds) {
           applyReviewRetry(uid, chapter.id, currentQuestion.id,
-            judged.filter((sq) => focus.subQuestionIds.includes(String(sq.id)))
+            judged.filter((sq) => focusIds.includes(String(sq.id)))
               .map((sq) => ({ subQuestionId: String(sq.id), correct: isAnswerCorrect(sq, answers[sq.id]) })));
         }
       }
