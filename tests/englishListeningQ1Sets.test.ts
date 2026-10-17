@@ -243,7 +243,7 @@ describe('解答画面：音源は左（問題文）ペインに横帯で置く'
     expect(PLAYER).toContain("const isRow = isInline && orientation === 'horizontal'");
   });
 
-  it('横帯モードではボタンが 44px 級のタップ領域を持つ（押しやすさ）', () => {
+  it('横帯モードではボタンが 44px 級のタップ領域を持つ（押しやすさ・::after の拡張込み）', () => {
     /*
      * 再生ボタン・2回ボタン・速度ボタンのいずれも高さ 44px 以上。
      *
@@ -259,12 +259,26 @@ describe('解答画面：音源は左（問題文）ペインに横帯で置く'
      *   なお isCompact（panel を畳んだ表示）の 36px ボタンは
      *   音源ボタンではないので、条件名 isRow で絞って除外する。
      */
+    /*
+     * ★見た目の高さ ≠ 押せる範囲★
+     *   ご指摘11 の1段折り返し対策で、見た目の高さは 36px（min-h-[2.25rem]）に下げた
+     *   （理由は ListeningAudioPlayer.tsx の「36px で止める理由」）。
+     *   押せる範囲は quiz-compact.css の `.lap-row button::after { inset: -4px 0 }` で
+     *   上下 4px ずつ広げてあるので、実際のタップ領域は 36 + 8 = 44px。
+     *   ここでは「見た目の高さ＋上下の拡張」が 44px 以上であることを確かめる。
+     */
+    const CSS = read('src/components/quiz-compact.css');
+    expect(PLAYER).toContain("'lap-row w-full flex-row");
+    const ext = CSS.match(/\.lap-row button::after\s*\{[^}]*inset:\s*-([0-9.]+)px\s+0/);
+    expect(ext).not.toBeNull();
+    const extendPx = parseFloat(ext![1]) * 2;
     const rowMinHeights = [...PLAYER.matchAll(/isRow\s*\n?\s*\?\s*'min-h-\[([0-9.]+)rem\]/g)].map(
       (m) => parseFloat(m[1]),
     );
     expect(rowMinHeights.length).toBeGreaterThanOrEqual(3);
     for (const rem of rowMinHeights) {
-      expect(rem * 16).toBeGreaterThanOrEqual(44);
+      expect(rem * 16).toBeGreaterThanOrEqual(36); // 見た目の下限（指の腹）
+      expect(rem * 16 + extendPx).toBeGreaterThanOrEqual(44); // 押せる範囲
     }
   });
 
