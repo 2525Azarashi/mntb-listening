@@ -88,6 +88,11 @@ import type { BattleRoomActions, BattleRoomState } from './battleRoomTypes';
 
 export type { BattleRoomActions, BattleRoomState } from './battleRoomTypes';
 
+/** 解答の再送を続けてよい時間（締切まで＋1.5秒、最低1.5秒） */
+function sendBudgetFor(remainMs: number): number {
+  return Math.max(1_500, remainMs + 1_500);
+}
+
 /** 締切をまたいだ判定に使う猶予（ms）。表示と受付のズレを吸収する */
 const DEADLINE_GRACE_MS = 250;
 
@@ -711,17 +716,15 @@ export function useBattleRoom(roomId: string | null): BattleRoomState & BattleRo
    */
   const [pending, setPending] = useState<{ index: number; choice: number } | null>(null);
   useEffect(() => { if (pending && (answered || pending.index !== currentIndex)) setPending(null); }, [answered, currentIndex, pending]);
-  const sendBudget = () => Math.max(1_500, remainMs + 1_500);
 
   const choose = useCallback(
     (index: number) => {
       if (!roomId || !current || !submittable || pending) return;
       setPending({ index: currentIndex, choice: index });
-      void submitAnswer(roomId, currentIndex, { choice: index, panel: [] }, answered, { budgetMs: sendBudget() }).catch(
+      void submitAnswer(roomId, currentIndex, { choice: index, panel: [] }, answered, { budgetMs: sendBudgetFor(remainMs) }).catch(
         (e: Error) => { setPending(null); setError(e.message); },
       );
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [roomId, current, submittable, answered, currentIndex, pending, remainMs],
   );
 
@@ -738,11 +741,10 @@ export function useBattleRoom(roomId: string | null): BattleRoomState & BattleRo
       if (!roomId || !current || !submittable) return;
       if (order.length !== current.panelOrder.length || pending) return;
       setPending({ index: currentIndex, choice: NO_ANSWER });
-      void submitAnswer(roomId, currentIndex, { choice: NO_ANSWER, panel: order }, answered, { budgetMs: sendBudget() }).catch(
+      void submitAnswer(roomId, currentIndex, { choice: NO_ANSWER, panel: order }, answered, { budgetMs: sendBudgetFor(remainMs) }).catch(
         (e: Error) => { setPending(null); setError(e.message); },
       );
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [roomId, current, submittable, answered, currentIndex, pending, remainMs],
   );
 
