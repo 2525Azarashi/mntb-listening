@@ -121,6 +121,8 @@ export default defineConfig(({mode}) => {
             if (id.includes('/firebase/') || id.includes('/@firebase/') || id.includes('/@capacitor-firebase/')) return 'vendor-firebase';
             if (id.includes('/@capacitor/') || id.includes('/@capacitor-community/')) return 'vendor-firebase';
             if (id.includes('/katex/')) return 'vendor-katex';
+            // pdf.js は PDF を開いた時だけ読む（起動時の vendor に混ぜると、全員の最初の読み込みが重くなる）
+            if (id.includes('/pdfjs-dist/')) return 'vendor-pdf';
             if (id.includes('/motion') || id.includes('/framer-motion')) return 'vendor-motion';
             if (id.includes('/lucide-react/')) return 'vendor-icons';
             if (id.includes('/react-dom/') || id.includes('/react/') || id.includes('/scheduler/'))
