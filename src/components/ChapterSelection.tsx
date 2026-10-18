@@ -24,6 +24,7 @@ import { UnitCard } from './UnitCard';
 import './unit-select.css';
 import { accuracyOf, readUnitStats } from '../utils/unitStats';
 import { STAGE_CLEAR_PERFECTS, isStageCleared, readStageRecords, stageKey } from '../utils/stageRecords';
+import { safeGetItem, safeParseJson } from '../utils/safeLocalStorage';
 
 interface ChapterSelectionProps {
   mode: 'mini_test' | 'practice';
@@ -536,16 +537,14 @@ export function ChapterSelection({ mode, onSelectChapter, onBack, subject = 'eng
                 const hasQuestions = questions.length > 0;
                 const savedIndex = Math.max(0, Math.min(
                   questions.length - 1,
-                  parseInt(localStorage.getItem(quizIndexKey(chapter.id, mode)) || '0', 10) || 0
+                  parseInt(safeGetItem(quizIndexKey(chapter.id, mode)) || '0', 10) || 0
                 ));
                 const hasSavedProgress = hasQuestions && (
                   savedIndex > 0 ||
-                  localStorage.getItem(quizExplKey(chapter.id, mode)) === 'true' ||
-                  !!localStorage.getItem(quizRunKey(chapter.id, mode)) ||
-                  (() => {
-                    try { return Object.keys(JSON.parse(localStorage.getItem(quizAnswersKey(chapter.id, mode)) || '{}')).length > 0; }
-                    catch { return false; }
-                  })()
+                  safeGetItem(quizExplKey(chapter.id, mode)) === 'true' ||
+                  !!safeGetItem(quizRunKey(chapter.id, mode)) ||
+                  // 壊れた JSON は「保存なし」。null（JSON の null）は元の Object.keys(null) と同じく「保存なし」に倒す
+                  Object.keys(safeParseJson<object>(safeGetItem(quizAnswersKey(chapter.id, mode)), {}) ?? {}).length > 0
                 );
                 // 英文法の各問も「空所を埋めた完成文」の音源を持っている（単元画面から聞き直せる入口）。
                 const audioSets = isListening || isGrammar ? collectAudioSets(chapter) : [];

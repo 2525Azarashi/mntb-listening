@@ -44,6 +44,7 @@ import { nativeSignIn, nativeSignOut } from '../native/nativeAuth';
 import type { GoogleSignInOutcome, SignInMethod } from './authTypes';
 import { logRejection } from './reportError';
 import { asErrorLike } from './errorLike';
+import { requireLocalStorage } from './safeLocalStorage';
 // 既存の呼び出し側（import { SignInMethod } from './googleAuth'）のため再公開する
 export type { GoogleSignInOutcome, SignInMethod } from './authTypes';
 
@@ -187,7 +188,7 @@ export async function signOutGoogle(): Promise<void> {
   await signOut(auth);
   if (uid) {
     try {
-      localStorage.removeItem(profileKey(uid));
+      requireLocalStorage().removeItem(profileKey(uid));
     } catch {
       /* localStorage が使えない環境は何もしない */
     }

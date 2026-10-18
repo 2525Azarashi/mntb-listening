@@ -44,6 +44,7 @@ import {
   REVIEW_SUBJECT_LABELS,
   type SubjectTabId,
 } from '../utils/reviewSubject';
+import { requireLocalStorage } from '../utils/safeLocalStorage';
 
 /**
  * StudyHub — 「ノート」と「復習リスト」を1画面に統合した学習ハブ。
@@ -310,7 +311,7 @@ export function StudyHub({ onBack, isGuest, onSelectNote, onReview, onPractice, 
 
   const loadNotes = () => {
     try {
-      const raw = localStorage.getItem(`notes_${uid || 'guest'}`);
+      const raw = requireLocalStorage().getItem(`notes_${uid || 'guest'}`);
       const list = raw ? JSON.parse(raw) : [];
       if (!Array.isArray(list)) return [];
       // 重要 → 新しい順

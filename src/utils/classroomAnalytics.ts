@@ -11,6 +11,7 @@ import { fromSyncedReviewItems, type SolvedMap } from './studySyncCore';
 import { type ReviewItem } from './reviewList';
 import { buildStudentSummary, type StudentSummary } from './studySummary';
 import { CLASSROOMS_COLLECTION, MASTERED_BOX, fetchMyMemberships, fetchClassMembers } from './classroomShared';
+import { requireLocalStorage, setItemOrThrow } from './safeLocalStorage';
 
 /**
  * クラス全員の学習サマリーを取る。
@@ -177,7 +178,7 @@ export function saveSchoolBrand(schoolName: string, classId: string): void {
   try {
     const trimmed = (schoolName || '').trim();
     if (!trimmed) return;
-    localStorage.setItem(SCHOOL_BRAND_KEY, JSON.stringify({ schoolName: trimmed, classId }));
+    setItemOrThrow(SCHOOL_BRAND_KEY, JSON.stringify({ schoolName: trimmed, classId }));
   } catch {
     // localStorage が使えない環境でも学習自体は続けられるので黙って諦める
   }
@@ -186,7 +187,7 @@ export function saveSchoolBrand(schoolName: string, classId: string): void {
 /** 保存された学校名を読む（無ければ null） */
 export function loadSchoolBrand(): SchoolBrand | null {
   try {
-    return parseSchoolBrand(localStorage.getItem(SCHOOL_BRAND_KEY));
+    return parseSchoolBrand(requireLocalStorage().getItem(SCHOOL_BRAND_KEY));
   } catch {
     return null;
   }
@@ -198,7 +199,7 @@ export function clearSchoolBrandFor(classId: string): void {
     const current = loadSchoolBrand();
     if (!current) return;
     if (current.classId && current.classId !== classId) return;
-    localStorage.removeItem(SCHOOL_BRAND_KEY);
+    requireLocalStorage().removeItem(SCHOOL_BRAND_KEY);
   } catch {
     // 同上
   }

@@ -115,6 +115,33 @@ export function safeRemoveItem(key: string): boolean {
 }
 
 /**
+ * 使える localStorage を返す。使えなければ **例外を投げる**（C-17）。
+ *
+ * ★safeGetItem と使い分ける理由★
+ *   「読めなかったとき」と「保存されていなかったとき」で、別の動きをしている箇所がある
+ *   （例：読めなければ何も変えない／保存が無ければ既定値を入れる）。
+ *   そこを safeGetItem（読めなければ null）に替えると、読めない端末での動きが変わってしまう。
+ *   try の中でこれを使えば、`localStorage` を参照した瞬間の SecurityError も
+ *   今までどおり同じ catch に入るので、動きは1つも変わらない。
+ */
+export function requireLocalStorage(): Storage {
+  const ls = safeLocalStorage();
+  if (!ls) throw new Error('localStorage is unavailable');
+  return ls;
+}
+
+/**
+ * 失敗を **例外で** 呼び出し側へ伝える setItem（C-17）。
+ *
+ * ★safeSetItem（storageGuard.ts）と使い分ける理由★
+ *   ノートやプロフィールの保存は「保存できませんでした」と画面で知らせるために
+ *   例外を受け取っている。ここで握りつぶすと、保存できていないのに「保存しました」と出てしまう。
+ */
+export function setItemOrThrow(key: string, value: string): void {
+  requireLocalStorage().setItem(key, value);
+}
+
+/**
  * 保存されていた JSON 文字列を、型の確認つきで読む（C-18）。
  *
  *   safeParseJson(raw, fallback)            … 壊れている・空なら fallback

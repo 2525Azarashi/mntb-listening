@@ -34,6 +34,7 @@ import { AppleSignInButton } from '../features/auth/AppleSignInButton';
 import { logRejection } from '../utils/reportError';
 import { asErrorLike } from '../utils/errorLike';
 import type { User } from 'firebase/auth';
+import { requireLocalStorage, setItemOrThrow } from '../utils/safeLocalStorage';
 
 interface OnboardingProps {
   onComplete: () => void;
@@ -63,7 +64,7 @@ export function Onboarding({ onComplete, onGuest }: OnboardingProps) {
 
   const checkProfile = (user: Pick<User, 'uid' | 'displayName'>) => {
     try {
-      const localProfile = localStorage.getItem(profileKey(user.uid));
+      const localProfile = requireLocalStorage().getItem(profileKey(user.uid));
       if (localProfile) {
         onComplete();
       } else {
@@ -94,7 +95,7 @@ export function Onboarding({ onComplete, onGuest }: OnboardingProps) {
     if (!auth.currentUser) return;
     setLoading(true);
     try {
-      localStorage.setItem(profileKey(auth.currentUser.uid), JSON.stringify({
+      setItemOrThrow(profileKey(auth.currentUser.uid), JSON.stringify({
         name,
         grade,
         stream,

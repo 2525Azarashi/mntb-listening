@@ -9,7 +9,7 @@ import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { SortingControl } from './SortingControl';
 import { MultipleChoiceControl } from './MultipleChoiceControl';
 // 消去法（斜線）のしくみ一式は hooks/useElimination.ts に集約
-import { useElimination } from '../hooks/useElimination';
+import { ELIM_HINT_SEEN_KEY, useElimination } from '../hooks/useElimination';
 // 設問から作る表示用の派生値（useMemo 17個）は hooks/useQuestionDerived.ts へ
 import { useQuestionDerived } from '../hooks/useQuestionDerived';
 import { useQuizInputFocus } from '../hooks/useQuizInputFocus';
@@ -397,8 +397,8 @@ export function Quiz({ mode, chapter, onFinish, onBack, onReturnToBattle, isGues
     // 自動で閉じる（閉じるボタンを押し忘れても2問目からは出ない）。
     if (currentQuestionIndex > 0 && elimHintOpen) {
       try {
-        if (localStorage.getItem('quiz_elim_hint_seen') !== 'true') {
-          safeSetItem('quiz_elim_hint_seen', 'true');
+        if (safeGetItem(ELIM_HINT_SEEN_KEY) !== 'true') {
+          safeSetItem(ELIM_HINT_SEEN_KEY, 'true');
           setElimHintOpen(false);
         }
       } catch { /* 保存不可の環境ではそのまま */ }
