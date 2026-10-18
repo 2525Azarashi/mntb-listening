@@ -7,6 +7,7 @@
 import { auth } from '../firebase';
 import { browserGlobals, FEEDBACK_EMAIL, FEEDBACK_MESSAGE_MAX, FEEDBACK_CATEGORY_LABELS, FEEDBACK_SCREEN_LABELS } from './feedbackTypes';
 import type { FeedbackInput, FeedbackPayload, FeedbackValidation } from './feedbackTypes';
+import { safeLocalStorage } from './safeLocalStorage';
 
 // -------------------------------------------------------------------
 // 環境変数アクセス（テスト環境では import.meta.env が無いこともある）
@@ -99,7 +100,7 @@ export function isAllowedFeedbackWebhookUrl(url: string): boolean {
  */
 export function getFeedbackWebhookUrl(): string {
   try {
-    const override = browserGlobals()?.localStorage?.getItem(FEEDBACK_WEBHOOK_OVERRIDE_KEY);
+    const override = safeLocalStorage()?.getItem(FEEDBACK_WEBHOOK_OVERRIDE_KEY);
     if (typeof override === 'string') {
       const trimmed = override.trim();
       // 意図的に空文字を保存した場合は「既定URLも使わない」という指示として扱う
@@ -122,7 +123,7 @@ export function getFeedbackWebhookUrl(): string {
 export function setFeedbackWebhookUrl(url: string): boolean {
   const trimmed = (url || '').trim();
   try {
-    const ls = browserGlobals()?.localStorage;
+    const ls = safeLocalStorage();
     if (!ls) return false;
     if (trimmed === '') {
       ls.removeItem(FEEDBACK_WEBHOOK_OVERRIDE_KEY);

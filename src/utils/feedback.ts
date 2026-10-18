@@ -32,11 +32,11 @@
 // タイムアウト付き fetch と 15秒のタイムアウト値は、ユーザー記録
 // （userRegistry.ts）と同じ GAS へ同じ作法で送るため共通のものを使う
 // （以前はこの2ファイルに同じ実装と同じ値が別々に書かれていた）。
-import { browserGlobals } from './feedbackTypes';
 import type { FeedbackInput, FeedbackResult } from './feedbackTypes';
 import { readFeedbackQueue, writeFeedbackQueue, enqueueFeedback } from './feedbackQueue';
 import { getFeedbackWebhookUrl, validateFeedback, buildFeedbackPayload } from './feedbackPayload';
 import { activeSinks, deliver } from './feedbackTransports';
+import { safeLocalStorage } from './safeLocalStorage';
 export { diagnoseFeedbackRoutes } from './feedbackTransports';
 export type { SinkDiagnosis } from './feedbackTransports';
 export { FEEDBACK_WEBHOOK_OVERRIDE_KEY, DEFAULT_FEEDBACK_WEBHOOK_URL, isAllowedFeedbackWebhookUrl, getFeedbackWebhookUrl, setFeedbackWebhookUrl, getFeedbackEmail, describeFeedbackSinks, validateFeedback, buildFeedbackPayload, buildFeedbackMailto } from './feedbackPayload';
@@ -64,8 +64,9 @@ const FEEDBACK_PER_DAY = 20;
  */
 export function takeFeedbackSlot(now: number = Date.now()): boolean {
   try {
-    const ls = browserGlobals()?.localStorage;
+    const ls = safeLocalStorage();
     if (!ls) return true;
+    // ★safeParseJson にしない（C-18）★ 壊れた記録は catch で「送ってよい」とし、記録を上書きしない（元のまま）
     const raw = JSON.parse(ls.getItem(FEEDBACK_RATE_KEY) || '[]');
     const recent = (Array.isArray(raw) ? raw : []).filter((t: unknown) => typeof t === 'number' && now - t < 86400000 && t <= now);
     if (recent.length >= FEEDBACK_PER_DAY) return false;
