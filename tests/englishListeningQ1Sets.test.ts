@@ -47,7 +47,9 @@ const ELIM = read('src/hooks/useElimination.ts');
 const DERIVED = read('src/hooks/useQuestionDerived.ts');
 // リスニングの「問題の説明ページ」は components/ListeningBriefing.tsx へ
 const BRIEFING = read('src/components/ListeningBriefing.tsx');
-const PLAYER = read('src/components/ListeningAudioPlayer.tsx');
+const PLAYER = read('src/components/ListeningAudioPlayer.tsx')
+  // C-10：再生の中身（状態・再生・2回読み・読み上げ代替）は useListeningPlayback.ts へ移した
+  + '\n' + read('src/components/useListeningPlayback.ts');
 const SPEECH = read('src/utils/listeningSpeech.ts');
 const FIGURE = read('src/components/QuestionFigure.tsx');
 

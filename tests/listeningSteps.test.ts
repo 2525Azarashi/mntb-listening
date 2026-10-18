@@ -86,7 +86,9 @@ const DERIVED = read('src/hooks/useQuestionDerived.ts');
 const EXPL = read('src/components/Explanation.tsx') + read('src/components/explanation/ProblemStatement.tsx')
   // C-03：右カラム（大問1つぶんの採点結果・音源）は explanation/ExplanationAnswerItem.tsx へ移した
   + read('src/components/explanation/ExplanationAnswerItem.tsx');
-const PLAYER = read('src/components/ListeningAudioPlayer.tsx');
+const PLAYER = read('src/components/ListeningAudioPlayer.tsx')
+  // C-10：再生の中身（状態・再生・2回読み・読み上げ代替）は useListeningPlayback.ts へ移した
+  + '\n' + read('src/components/useListeningPlayback.ts');
 const FIGURE = read('src/components/QuestionFigure.tsx');
 // 選択肢ボタンの並べ方（①②③④ のグリッド／本文つき選択肢の縦積み）は
 // components/MultipleChoiceControl.tsx が持つ。
