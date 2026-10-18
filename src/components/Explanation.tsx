@@ -776,7 +776,7 @@ export function Explanation({ mode: initialMode, chapter, answers, onBack, onRet
                                   すでにこの1行に入っている。スマホではさらに
                                     ・flex-wrap を外して必ず1行に収める（min-w-0＋truncate）
                                     ・見出し 16px→13px、アイコン 18→15
-                                    ・内訳 text-xs→text-[10px]
+                                    ・内訳 text-xs→text-xs
                                   として高さを詰める。項目は1つも消さない。
                                   PC（!reorderMobile）は従来のクラスをそのまま使う。
                                 */}

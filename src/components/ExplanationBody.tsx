@@ -193,7 +193,7 @@ function ExplanationTable({ block, tone }: ExplanationTableProps) {
         1か所（土台）だけになり、将来書体を変えるときもここを触らずに済む。
         数式の単元では土台が font-math になるので、表も自動で数式書体に揃う。
       */}
-      <table className="w-full min-w-full border-collapse text-[11px] sm:text-xs">
+      <table className="w-full min-w-full border-collapse text-xs sm:text-xs">
         <thead>
           <tr>
             {block.header.map((cell, i) => (

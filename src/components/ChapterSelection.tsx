@@ -356,7 +356,7 @@ export function ChapterSelection({ mode, onSelectChapter, onBack, subject = 'eng
                   }`}
                 >
                   <span
-                    className="block text-[10px] font-bold leading-none"
+                    className="block text-xs font-bold leading-none"
                     style={{ color: isActive ? theme.accentSoft : theme.accent }}
                   >
                     {chapterNumber}
@@ -391,7 +391,7 @@ export function ChapterSelection({ mode, onSelectChapter, onBack, subject = 'eng
           >
             <div className="mb-3 flex flex-wrap items-center justify-between gap-2 border-b border-slate-200/70 pb-3">
               <div>
-                <p className="text-[10px] font-bold" style={{ color: theme.accent }}>{activeGroup.partTitle}</p>
+                <p className="text-xs font-bold" style={{ color: theme.accent }}>{activeGroup.partTitle}</p>
                 {/* タブと同じ名前をもう一度出さない（UIの決まり：同じものを2つ置かない）。
                     タブにない情報（部の名前・流れ）だけを1行で添える。 */}
               </div>
@@ -521,7 +521,7 @@ export function ChapterSelection({ mode, onSelectChapter, onBack, subject = 'eng
                           })}
                         </div>
                       ) : (
-                        <div className="rounded-xl border border-slate-200 bg-white/70 p-4 text-center text-[11px] font-bold text-slate-400">
+                        <div className="rounded-xl border border-slate-200 bg-white/70 p-4 text-center text-xs font-bold text-slate-400">
                           準備中（問題は順次追加しています）
                         </div>
                       )}
@@ -649,8 +649,8 @@ export function ChapterSelection({ mode, onSelectChapter, onBack, subject = 'eng
                           <p
                             className={
                               isGrammar
-                                ? 'text-[11px] font-bold text-[#9D5C24]'
-                                : 'text-[11px] font-bold text-[#2F7C74]'
+                                ? 'text-xs font-bold text-[#9D5C24]'
+                                : 'text-xs font-bold text-[#2F7C74]'
                             }
                           >
                             復習用音源 ／ {target.title}
@@ -658,7 +658,7 @@ export function ChapterSelection({ mode, onSelectChapter, onBack, subject = 'eng
                           <button
                             type="button"
                             onClick={() => setOpenAudioSetId(null)}
-                            className="inline-flex items-center gap-1 rounded-lg border border-slate-200 bg-white px-2 py-1 text-[10px] font-bold text-slate-500 transition-colors hover:bg-slate-50 cursor-pointer"
+                            className="inline-flex items-center gap-1 rounded-lg border border-slate-200 bg-white px-2 py-1 text-xs font-bold text-slate-500 transition-colors hover:bg-slate-50 cursor-pointer"
                           >
                             <X size={11} />
                             閉じる
