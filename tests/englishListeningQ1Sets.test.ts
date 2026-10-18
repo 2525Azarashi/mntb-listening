@@ -35,7 +35,9 @@ const read = (p: string) => fs.readFileSync(path.join(ROOT, p), 'utf-8');
 
 const QUIZ = read('src/components/Quiz.tsx');
 // 選択肢ボタン群は components/MultipleChoiceControl.tsx へ切り出した。
-const MC = read('src/components/MultipleChoiceControl.tsx');
+const MC = read('src/components/MultipleChoiceControl.tsx')
+  // C-19：消去法の操作説明は quiz/EliminationHintBanner.tsx へ移した
+  + '\n' + read('src/components/quiz/EliminationHintBanner.tsx');
 // 問題文ペイン（左58%／スマホ上）の JSX は components/ProblemPane.tsx へ切り出した。
 const PROBLEM = read('src/components/ProblemPane.tsx');
 // 解答ペイン（右42%／スマホ下）の JSX は components/AnswerPane.tsx へ切り出した。

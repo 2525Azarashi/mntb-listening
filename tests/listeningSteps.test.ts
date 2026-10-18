@@ -92,7 +92,9 @@ const PLAYER = read('src/components/ListeningAudioPlayer.tsx')
 const FIGURE = read('src/components/QuestionFigure.tsx');
 // 選択肢ボタンの並べ方（①②③④ のグリッド／本文つき選択肢の縦積み）は
 // components/MultipleChoiceControl.tsx が持つ。
-const CHOICE = read('src/components/MultipleChoiceControl.tsx');
+const CHOICE = read('src/components/MultipleChoiceControl.tsx')
+  // C-19：消去法の操作説明は quiz/EliminationHintBanner.tsx へ移した
+  + '\n' + read('src/components/quiz/EliminationHintBanner.tsx');
 
 const chapter = (id: string) => {
   const c = getAllListeningChapters().find((x) => x.id === id);
