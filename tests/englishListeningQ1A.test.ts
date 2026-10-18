@@ -29,7 +29,9 @@ const QUIZ = read('src/components/Quiz.tsx');
 const PROBLEM = read('src/components/ProblemPane.tsx');
 // 解答・解説の JSX は 2026-10-14 のリファクタリングで一部を components/explanation/ へ切り出した。
 // 左カラムの問題文ブロック（復習用の音源を含む）は explanation/ProblemStatement.tsx にある。
-const EXPLANATION = read('src/components/Explanation.tsx') + read('src/components/explanation/ProblemStatement.tsx');
+const EXPLANATION = read('src/components/Explanation.tsx') + read('src/components/explanation/ProblemStatement.tsx')
+  // C-03：右カラム（大問1つぶんの採点結果・音源）は explanation/ExplanationAnswerItem.tsx へ移した
+  + read('src/components/explanation/ExplanationAnswerItem.tsx');
 // 設問から作る「表示用の派生値」（useMemo 17個）は
 // hooks/useQuestionDerived.ts へ切り出した。
 const DERIVED = read('src/hooks/useQuestionDerived.ts');

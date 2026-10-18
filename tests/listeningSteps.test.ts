@@ -83,7 +83,9 @@ const BRIEFING = read('src/components/ListeningBriefing.tsx');
 // hooks/useQuestionDerived.ts へ切り出した。
 const DERIVED = read('src/hooks/useQuestionDerived.ts');
 // 左カラムの問題文ブロック（図・キャプションを含む）は 2026-10-14 に explanation/ProblemStatement.tsx へ切り出した
-const EXPL = read('src/components/Explanation.tsx') + read('src/components/explanation/ProblemStatement.tsx');
+const EXPL = read('src/components/Explanation.tsx') + read('src/components/explanation/ProblemStatement.tsx')
+  // C-03：右カラム（大問1つぶんの採点結果・音源）は explanation/ExplanationAnswerItem.tsx へ移した
+  + read('src/components/explanation/ExplanationAnswerItem.tsx');
 const PLAYER = read('src/components/ListeningAudioPlayer.tsx');
 const FIGURE = read('src/components/QuestionFigure.tsx');
 // 選択肢ボタンの並べ方（①②③④ のグリッド／本文つき選択肢の縦積み）は
