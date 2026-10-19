@@ -27,7 +27,8 @@ export const AD_CONFIG = {
     unitId: getEffectiveBannerId(isIos ? 'ios' : 'android'),
     height: 50,
     /** バナーを出さない画面（問題を解いている最中・対戦中・解説など）。学習の邪魔をしない */
-    hiddenOn: ['quiz', 'explanation', 'battle_live', 'onboarding', 'launch'] as string[],
+    // 'pdf' … アプリ内の PDF ビューを開いている間（PDF の上に広告を重ねない・2026-10-17）
+    hiddenOn: ['quiz', 'explanation', 'battle_live', 'onboarding', 'launch', 'pdf'] as string[],
   },
 } as const;
 
