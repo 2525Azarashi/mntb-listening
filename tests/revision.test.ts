@@ -48,7 +48,8 @@ describe('battle range and league revision',()=>{
     expect((await loadPool('english_listening')).every(q=>!!q.audioUrl)).toBe(true);
   });
   it('server aggregation is never imported by the frontend and nav has an independent My Page',()=>{
-    expect(readFileSync('src/components/Leaderboard.tsx','utf8')).not.toContain('clanPower');expect(readFileSync('src/App.tsx','utf8')).toContain("id: 'mypage'");expect(readFileSync('src/components/GrowthHub.tsx','utf8')).not.toContain('ガチャとランキング');expect(readFileSync('src/components/Home.tsx','utf8')).toContain('ランキングを見る');
+    expect(readFileSync('src/components/Leaderboard.tsx','utf8')).not.toContain('clanPower');expect(readFileSync('src/App.tsx','utf8')).toContain("id: 'mypage'");expect(readFileSync('src/components/GrowthHub.tsx','utf8')).not.toContain('ガチャとランキング');// ホームのランキング入口は PC 右列（home/HomeSideColumn.tsx）に移した。スマホは対戦の中（2026-10-19）
+    expect(readFileSync('src/components/Home.tsx','utf8')+readFileSync('src/components/home/HomeSideColumn.tsx','utf8')).toContain('ランキングを見る');expect(readFileSync('src/battle/ui/BattleHome.tsx','utf8')).toContain("onChoose('ranking')");
   });
 });
 
