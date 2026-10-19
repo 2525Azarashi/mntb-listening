@@ -411,6 +411,8 @@ export function Home({ onPractice, onPickSubject, onStudyMode, onGrowth, onStart
           <button type="button" className="home-review-wide game-review" aria-label={`復習・学習記録${reviewDueCount > 0 ? `・今日の復習 ${reviewDueCount}問` : ''}`} onClick={onNoteList} data-home-review data-home-record>
             <span className="home-pillar-icon" aria-hidden="true"><Repeat2 /></span>
             <span className="home-review-text"><strong>復習・記録</strong></span>
+            {/* 復習待ちがあるときだけ、小さなカードがボタンへ吸い込まれる（最初の1回だけ・最大3枚） */}
+            {reviewDueCount > 0 && <span className="home-review-suck" aria-hidden="true">{Array.from({ length: Math.min(3, reviewDueCount) }, (_, i) => <i key={i} style={{ ['--k' as string]: i } as React.CSSProperties} />)}</span>}
             {reviewDueCount > 0 ? <b>{reviewDueCount}問</b> : <ChevronRight aria-hidden="true" />}
           </button>
           {onGrowth && <button type="button" className="home-mini-card home-mission-card" onClick={() => onGrowth('missions')} aria-label="ミッションを開く" data-home-missions><Target size={20} aria-hidden="true" /><strong>ミッション</strong></button>}

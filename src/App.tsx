@@ -11,6 +11,7 @@ import { Capacitor } from '@capacitor/core';
 import { setReviewFocus, type ReviewTargetItem } from './utils/reviewFocus';
 import { BottomNavigation } from './components/ui/BottomNavigation';
 import { SidebarBuddy } from './components/ui/SidebarBuddy';
+import { DoorTransition } from './components/ui/DoorTransition';
 import { ListeningHome as Home } from './components/ListeningHome';
 import { ListeningSubjectSelection } from './components/ListeningSubjectSelection';
 import { LaunchScreen } from './components/LaunchScreen';
@@ -1369,6 +1370,7 @@ export default function App() {
       {/* ミッション達成のお知らせ（どの画面でも上に出る。「報酬を受け取る」はその場で受け取る・2026-10-11） */}
       <React.Suspense fallback={null}>
         <MissionToast />
+        <DoorTransition screen={appState} />
       </React.Suspense>
 
     </>
