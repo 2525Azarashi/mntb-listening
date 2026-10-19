@@ -6,7 +6,7 @@ import {
 } from 'firebase/auth';
 import { auth } from '../firebase';
 import type { GoogleSignInOutcome, SignInMethod } from '../utils/authTypes';
-import { asErrorLike } from '../utils/errorLike';
+import { describeNativeAuthError } from './nativeAuthError';
 
 /**
  * アプリ版（Capacitor）用のログイン処理。
@@ -22,14 +22,10 @@ export async function nativeSignIn(method: SignInMethod): Promise<GoogleSignInOu
     let rawNonce: string | undefined;
 
     if (method === 'google') {
-      const res = await FirebaseAuthentication.signInWithGoogle({
-        skipNativeAuth: true,
-      });
+      const res = await FirebaseAuthentication.signInWithGoogle();
       idToken = res.credential?.idToken;
     } else if (method === 'apple') {
-      const res = await FirebaseAuthentication.signInWithApple({
-        skipNativeAuth: true,
-      });
+      const res = await FirebaseAuthentication.signInWithApple();
       idToken = res.credential?.idToken;
       rawNonce = res.credential?.nonce;
     }
@@ -47,28 +43,12 @@ export async function nativeSignIn(method: SignInMethod): Promise<GoogleSignInOu
     const userCred = await signInWithCredential(auth, credential);
     return { ok: true, user: userCred.user };
   } catch (rawError) {
-    const error = asErrorLike(rawError);
-    const code = String(error?.code || error?.message || '');
-
-    // ユーザーによるキャンセル（Google: 12501, Apple: 1001）
-    if (
-      code.includes('canceled') ||
-      code.includes('cancelled') ||
-      code.includes('12501') ||
-      code.includes('1001')
-    ) {
-      return { ok: false, message: `${label} ログインがキャンセルされました。` };
+    const info = describeNativeAuthError(rawError, label);
+    if (info.kind !== 'cancelled') {
+      // 開発者が端末ログ（adb logcat / Xcode）で原因を追えるよう、生のエラーも残す
+      console.warn(`[nativeSignIn] ${info.code}`, rawError);
     }
-
-    // プラグイン未実装・未設定（GoogleService-Info.plist等がない場合）
-    if (code.includes('not implemented') || code.includes('UNAVAILABLE') || code.includes('configuration')) {
-      return {
-        ok: false,
-        message: `端末のログイン設定（GoogleService-Info.plist / google-services.json）が未構成です。詳細は APP_CAPACITOR_README.md を確認してください。`,
-      };
-    }
-
-    return { ok: false, message: `${label} ログインに失敗しました: ${error?.message || rawError}` };
+    return { ok: false, message: info.message, errorCode: info.code };
   }
 }
 

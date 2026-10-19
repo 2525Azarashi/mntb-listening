@@ -27,6 +27,7 @@ import { fetchMyRankingRow } from '../battle/data/battleRanking';
 import { readStudyTime, formatStudyTime } from '../utils/studyTime';
 import { GOAL_OPTIONS, TARGET_SCHOOL_MAX, normalizeTargetSchool, readGoal, writeGoal, type GoalId } from '../utils/vocabGoal';
 import './profile-settings.css';
+import { ReminderSettings, AnalyticsSetting } from './ReminderSettings';
 import { readJsonArray } from '../utils/safeLocalStorage';
 import { logRejection } from '../utils/reportError';
 import { useMediaQuery } from '../hooks/useMediaQuery';
@@ -333,6 +334,10 @@ export function ProfileModal({ onClose, initialTab, isBgmEnabled, setIsBgmEnable
                   <p className="ps-sub"><Swords size={14} aria-hidden="true" />対戦モードの音</p>
                   <Toggle label="対戦効果音" sub="正解・逆転など" checked={battleAudioSettings.sfx} onChange={() => { updateBattleAudio({ sfx: !battleAudioSettings.sfx }); if (!battleAudioSettings.sfx) window.setTimeout(() => battleAudio().play('correct'), 50); }} tone="gold" />
                 </section>
+                <h3 className="ps-group-title">通知</h3>
+                <section className="ps-sound mt-card" aria-label="通知">
+                  <ReminderSettings />
+                </section>
                 {wideLayout && preview}
               </div>
 
@@ -395,6 +400,9 @@ export function ProfileModal({ onClose, initialTab, isBgmEnabled, setIsBgmEnable
                 </section>
 
                 <h3 className="ps-group-title">その他・データ</h3>
+                <section className="ps-sound mt-card" aria-label="使われ方の記録">
+                  <AnalyticsSetting />
+                </section>
                 <AccountSafetySection onDeleted={onClose} />
 
                 {/* ※「お問い合わせの送信状態」の欄は廃止した。

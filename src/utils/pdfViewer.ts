@@ -1,3 +1,4 @@
+import { trackEvent } from './analytics';
 /**
  * アプリ内の PDF ビューの開け閉め（どの画面からでも openPdf() で開く）。PdfViewer.tsx を参照。
  *
@@ -37,6 +38,7 @@ export function openPdf(url: string, title: string, fileName?: string): void {
   let safe: URL;
   try { safe = new URL(url, window.location.href); } catch { return; }
   if (safe.origin !== window.location.origin || !/\.pdf$/i.test(safe.pathname)) return;
+  trackEvent('pdf_open');
   installPop();
   const name = fileName ?? `${title.replace(/[\\/:*?"<>|\s]+/g, '_')}.pdf`;
   const wasOpen = !!current;

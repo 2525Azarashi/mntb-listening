@@ -93,6 +93,7 @@ import { fetchMyRankingRow, ratingProgress, ratingTitle } from '../data/battleRa
 import type { BattleRankingRow } from '../data/battleRanking';
 import { logRejection } from '../../utils/reportError';
 import { KineticText } from '../../motion';
+import { trackEvent } from '../../utils/analytics';
 
 export type BattleHomeChoice =
   | 'friend-create'
@@ -163,7 +164,7 @@ export function BattleHome({onChoose,onExit,onRequireLogin,notice}: {
    {/* 3つのモードは同じ高さ・同じ幅。主役は「AIと対戦」（ゲストでも遊べる）を色とサイズで最強調 */}
    <p className="arena-lobby-label" aria-hidden="true">今すぐ対戦</p>
    <section className="arena-lobby-deck arena-lobby-grid" aria-label="今すぐ対戦：AI・フレンド・全国">
-    <button type="button" className="arena-lobby-card arena-lobby-main" data-battle-mode="ai" data-tone="ai" onClick={()=>onChoose('ai')} aria-label="AIと対戦する">
+    <button type="button" className="arena-lobby-card arena-lobby-main" data-battle-mode="ai" data-tone="ai" onClick={()=>{ trackEvent('battle_ai'); onChoose('ai'); }} aria-label="AIと対戦する">
      <span className="arena-lobby-icon"><Bot aria-hidden="true"/></span><strong>AIと対戦</strong><small>すぐ始まる・ゲストOK</small>
      <span className="arena-lobby-cta">はじめる<Swords size={16} aria-hidden="true"/></span>
     </button>
