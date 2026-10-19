@@ -75,6 +75,5 @@ export function MyCollection({ view = 'owned', onGacha, initialKind = 'all' }: {
       </li>; })}</ul>{!list.length && <p className="collection-empty">{view === 'prints' ? '獲得したPDFはここに並びます。ガチャのURで学習プリントを手に入れよう。' : 'この条件のアイテムはありません。絞り込みを変えてみてください。'}</p>}
     </div>
     <FitPagerBar pager={pager} label="一覧" />
-    <p className="collection-storage">所有アイテム・コインはこの端末のアカウント別に保存。リーグの配布記録はサーバーに保存され、受け取り直せます。</p>
   </section>;
 }

@@ -64,8 +64,6 @@ import { useEffect, useState } from 'react';
 import {
   Activity,
   BookOpen,
-  Coins,
-  Target,
   Bot,
   History,
   LogIn,
@@ -92,6 +90,7 @@ import {
 import { fetchMyRankingRow, ratingProgress, ratingTitle } from '../data/battleRanking';
 import type { BattleRankingRow } from '../data/battleRanking';
 import { logRejection } from '../../utils/reportError';
+import { resolveNickname } from '../../utils/leaderboard';
 import { KineticText } from '../../motion';
 import { trackEvent } from '../../utils/analytics';
 
@@ -130,53 +129,47 @@ function RankStrip({ rating }: { rating: number }) {
   );
 }
 
-export function BattleHome({onChoose,onExit,onRequireLogin,notice}: {
- onChoose:(choice:BattleHomeChoice)=>void;onExit:()=>void;onRequireLogin?:()=>void;notice?:string|null;
+export function BattleHome({onChoose,onRequireLogin,notice}: {
+ onChoose:(choice:BattleHomeChoice)=>void;/** 互換のため受け取る（「ホームへ」ボタンは廃止。下のナビでホームへ） */onExit?:()=>void;onRequireLogin?:()=>void;notice?:string|null;
 }) {
  const user=auth.currentUser;const {progress}=useGrowthProgress();
  const [row,setRow]=useState<BattleRankingRow|null>(null);
  useEffect(()=>{let active=true;if(user)void fetchMyRankingRow().then(r=>{if(active)setRow(r);}).catch(logRejection('battle.home.fetchRanking'));return()=>{active=false;};},[user]);
  return <BattleShell className="arena-menu">
-   <header className="arena-menu-header"><button type="button" onClick={onExit}>ホームへ</button><h1><Swords size={21}/><KineticText text="とびらバトル" step={45} variant="pop" /></h1><BgmButton /></header>
+   <header className="arena-menu-header"><h1><Swords size={21}/><KineticText text="とびらバトル" step={45} variant="pop" /></h1><BgmButton /></header>
    {/* ★E（2026-10-01）対戦前の舞台★ 夜のアリーナに「あなた VS ？？？」。とびら君がひとこと（少し挑発）。
        機能は同じ。下の3択・その他・ルールの中身も同じ */}
    <section className={`arena-vs${row ? ' has-rank' : ''}`} aria-label="あなたの情報" data-arena-vs>
     <div className="arena-vs-me">
      <span className="arena-vs-avatar">{progress ? <GrowthAvatar progress={progress} size={56}/> : <UserRound aria-hidden="true"/>}</span>
-     <strong>{user ? (user.displayName || 'あなた') : 'ゲスト'}</strong>
+     <strong>{user ? resolveNickname() : 'ゲスト'}</strong>
      <small>{row ? <><b className="arena-rank-chip" style={{background:ratingTitle(row.rating).color}}>{ratingTitle(row.rating).label}</b>{row.rating} RP</> : user ? 'ランク確認中' : 'まずはAIで腕だめし'}</small>
     </div>
     <span className="arena-vs-mark" aria-hidden="true">VS</span>
     <div className="arena-vs-foe" aria-hidden="true">
      <span className="arena-vs-avatar arena-vs-unknown">?</span>
      <strong>対戦相手</strong>
-     <small>だれが来る？</small>
     </div>
     {row ? <RankStrip rating={row.rating}/> : <TobiraBuddy className="arena-vs-buddy" size="sm" input={{ screen: 'battle', isGuest: !user, seed: new Date().getDate() }} />}
    </section>
    {notice && <BattleNotice message={notice} tone="info"/>}
-   {/* ルールは仕様書の文ではなく、アイコン＋ひとことに（詳しい式は下の「配点と対戦ルール」） */}
-   <ul className="arena-rule-chips" aria-label="点数とごほうび">
-    <li><Target aria-hidden="true"/>正解で60点</li>
-    <li><Zap aria-hidden="true"/>速いほどボーナス</li>
-    <li><Coins aria-hidden="true"/>勝てば+10枚</li>
-   </ul>
+   {/* 「正解で60点・速いほどボーナス・勝てば+10枚」は、試合前のカウントダウン画面に移した（2026-10-19） */}
    {/* 3つのモードは同じ高さ・同じ幅。主役は「AIと対戦」（ゲストでも遊べる）を色とサイズで最強調 */}
    <p className="arena-lobby-label" aria-hidden="true">今すぐ対戦</p>
    <section className="arena-lobby-deck arena-lobby-grid" aria-label="今すぐ対戦：AI・フレンド・全国">
     <button type="button" className="arena-lobby-card arena-lobby-main" data-battle-mode="ai" data-tone="ai" onClick={()=>{ trackEvent('battle_ai'); onChoose('ai'); }} aria-label="AIと対戦する">
-     <span className="arena-lobby-icon"><Bot aria-hidden="true"/></span><strong>AIと対戦</strong><small>すぐ始まる・ゲストOK</small>
+     <span className="arena-lobby-icon"><Bot aria-hidden="true"/></span><strong>AIと対戦</strong><small className="arena-lobby-sub-label">すぐ始まる・ゲストOK</small>
      <span className="arena-lobby-cta">はじめる<Swords size={16} aria-hidden="true"/></span>
     </button>
     <div className="arena-lobby-card arena-lobby-side arena-lobby-friend" data-battle-mode="friend" data-tone="friend">
-     <span className="arena-lobby-icon"><Users aria-hidden="true"/></span><strong>フレンド</strong><small>フレンドどうし・1対1</small>
+     <span className="arena-lobby-icon"><Users aria-hidden="true"/></span><strong>フレンド</strong><small className="arena-lobby-sub-label">フレンドどうし・1対1</small>
      <div className="arena-lobby-actions">
       <button type="button" onClick={()=>user?onChoose('friend-create'):onRequireLogin?.()}>部屋をつくる</button>
       <button type="button" onClick={()=>user?onChoose('friend-join'):onRequireLogin?.()}>合言葉で入る</button>
      </div>
     </div>
     <div className="arena-lobby-card arena-lobby-side arena-lobby-national" data-battle-mode="national" data-tone="national">
-     <span className="arena-lobby-icon"><Wifi aria-hidden="true"/></span><strong>全国対戦</strong><small>RANKED・ランクが動く</small>
+     <span className="arena-lobby-icon"><Wifi aria-hidden="true"/></span><strong>全国対戦</strong><small className="arena-lobby-sub-label">RANKED・ランクが動く</small>
      <div className="arena-lobby-actions">
       <button type="button" onClick={()=>user?onChoose('national'):onRequireLogin?.()}>相手を見つける<Zap size={15} aria-hidden="true"/></button>
      </div>
@@ -186,7 +179,7 @@ export function BattleHome({onChoose,onExit,onRequireLogin,notice}: {
    {/* B13 サブ機能はメインの3択の下に「その他」としてまとめる（機能は削らない） */}
    <nav className="arena-lobby-sub" aria-label="その他の機能">
    <p className="arena-lobby-label" aria-hidden="true">その他</p>
-   <div className="arena-menu-links"><button type="button" onClick={()=>onChoose('history')}><History size={16}/>対戦履歴</button><button type="button" onClick={()=>onChoose('clan')}><Shield size={16}/>マナクラン{!SOCIAL_FEATURES.manaClan && <span className="soon-tag">準備中</span>}</button></div>
+   <div className="arena-menu-links"><button type="button" onClick={()=>onChoose('ranking')} data-battle-ranking><Trophy size={16}/>ランキング</button><button type="button" onClick={()=>onChoose('history')}><History size={16}/>対戦履歴</button><button type="button" onClick={()=>onChoose('clan')}><Shield size={16}/>マナクラン{!SOCIAL_FEATURES.manaClan && <span className="soon-tag">準備中</span>}</button></div>
    <div className="arena-lobby-help">
    <details className="arena-rules-help arena-connection-help"><summary><Activity size={14} aria-hidden="true"/>つながらないとき</summary><ConnectionCheckPanel compact/></details>
    <details className="arena-rules-help"><summary><BookOpen size={14} aria-hidden="true"/>配点と対戦ルール</summary><p>正解のみ加点。速さ点は残り時間の割合rに対して240×(0.7r²+0.3r³)。500ms単位に丸めます。3連続以上に小さな連続点。旧ルームでは作成時の配点を使用します。フレンドもお互い更新してから遊んでください。</p></details>

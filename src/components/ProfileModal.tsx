@@ -1,5 +1,7 @@
 import { MOTTO_MAX, normalizeMotto, readOwnPublicStudyProfile, savePublicStudyProfile } from '../utils/publicStudyProfile';
 import React, { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
+const PhilosophyPage = React.lazy(() => import('./PhilosophyPage').then(m => ({ default: m.PhilosophyPage })));
 import { auth } from '../firebase';
 import { ChevronDown, Pencil, LogOut, Flame, BookOpen, Clock, GraduationCap, Compass, Settings, Volume2, VolumeX, LogIn, Users, Save, Check, Loader2, AlertTriangle, School, ClipboardList, Swords, Shirt } from 'lucide-react';
 // ★対戦の音（BGM / 効果音 / 音量）★ 通常 BGM とは別の設定（src/battle/core/audioSettings.ts の説明を参照）
@@ -58,11 +60,17 @@ interface ProfileModalProps {
   onOpenFeedbackAdmin?: () => void;
   /** アバター（とびら君）を着せかえる画面を開く */
   onOpenOutfit?: () => void;
+  /** マイページを開く（対戦で相手に見えるカードを押したとき） */
+  onOpenMyPage?: () => void;
+  /** アプリの使い方（紹介）を開く */
+  onOpenIntro?: () => void;
+  /** 学びの扉（開発者の想い）を開く */
+  onOpenPhilosophy?: () => void;
 }
 
 type SettingsTab = 'general' | 'friends' | 'class';
 
-export function ProfileModal({ onClose, initialTab, isBgmEnabled, setIsBgmEnabled, onToggleBgm, bgmVolume, setBgmVolume, onOpenTeacherDashboard, onOpenFeedbackAdmin, onOpenOutfit }: ProfileModalProps) {
+export function ProfileModal({ onClose, initialTab, isBgmEnabled, setIsBgmEnabled, onToggleBgm, bgmVolume, setBgmVolume, onOpenTeacherDashboard, onOpenFeedbackAdmin, onOpenOutfit, onOpenMyPage, onOpenIntro, onOpenPhilosophy }: ProfileModalProps) {
   const { progress: growth } = useGrowthProgress();
   const [rating, setRating] = useState(1500);
   useEffect(() => { let alive = true; if (auth.currentUser) void fetchMyRankingRow().then(r => { if (alive && r) setRating(r.rating); }).catch(logRejection('profile.fetchRanking')); return () => { alive = false; }; }, []);
@@ -91,6 +99,7 @@ export function ProfileModal({ onClose, initialTab, isBgmEnabled, setIsBgmEnable
     return () => { alive = false; };
   }, []);
   const [goal, setGoal] = useState<GoalId>(readGoal);
+  const [showPhilosophy, setShowPhilosophy] = useState(false);
   const [loading, setLoading] = useState(false);
   const [streak, setStreak] = useState(0);
   const [completedCount, setCompletedCount] = useState(0);
@@ -204,11 +213,12 @@ export function ProfileModal({ onClose, initialTab, isBgmEnabled, setIsBgmEnable
   const preview = (
     <section className="ps-preview mt-card" aria-label="対戦で相手に見えるカード">
       <p>対戦で相手に見えるカード</p>
-      <div className="ps-mini" aria-hidden="true">
+      {/* ★押すとマイページへ（2026-10-19）★ とびら君・称号を変えるのはマイページ */}
+      <button type="button" className="ps-mini ps-mini-link" onClick={onOpenMyPage} disabled={!onOpenMyPage} aria-label="マイページを開いて、とびら君・称号を変える">
         <span className="ps-mini-avatar"><GrowthAvatar progress={growth} size={44} showLevel={false} /></span>
-        <div><strong>{name.trim() || 'ニックネーム'}</strong><span><TitleChip progress={growth} rating={rating} /> Lv.{levelOf(growth.xp).level}</span></div>
+        <span className="ps-mini-body"><strong>{name.trim() || 'ニックネーム'}</strong><span><TitleChip progress={growth} rating={rating} /> Lv.{levelOf(growth.xp).level}</span></span>
         <b>VS</b>
-      </div>
+      </button>
     </section>
   );
 
@@ -219,7 +229,7 @@ export function ProfileModal({ onClose, initialTab, isBgmEnabled, setIsBgmEnable
 
         <header className="mt-app-header mb-2 sm:mb-3 relative z-10 shrink-0">
           {/* 上の「＜」（マイページへ戻る）は廃止（2026-10-11）。設定は下のナビから出入りする */}
-          <div className="mt-app-header-title"><p className="mt-kicker">MY ACCOUNT</p><h2>設定</h2></div>
+          <div className="mt-app-header-title"><h2>設定</h2></div>
           <DoorMascot showSpeech={false} size="mini" className="w-auto ml-auto -my-2" />
         </header>
 
@@ -278,8 +288,8 @@ export function ProfileModal({ onClose, initialTab, isBgmEnabled, setIsBgmEnable
                     </div>
                   </div>
                   {/* 注意書きは名前に問題があるときだけ出す（普段は入力欄の説明＝aria で伝える） */}
-                  <p id="nickname-help" role={name.trim() && !nameCheck.ok ? 'alert' : undefined} className="ps-help" data-error={(name.trim() && !nameCheck.ok) || undefined}>
-                    {name.trim() && !nameCheck.ok ? nameCheck.message : '名前は対戦・ランキングで表示されます（本名・連絡先は不可）'}
+                  <p id="nickname-help" role={name.trim() && !nameCheck.ok ? 'alert' : undefined} hidden={!(name.trim() && !nameCheck.ok)} className="ps-help" data-error={(name.trim() && !nameCheck.ok) || undefined}>
+                    {name.trim() && !nameCheck.ok ? nameCheck.message : ''}
                   </p>
                   <dl className="ps-stats">
                     <div><dt><Flame size={15} aria-hidden="true" />連続</dt><dd>{streak}<small>日</small></dd></div>
@@ -316,8 +326,7 @@ export function ProfileModal({ onClose, initialTab, isBgmEnabled, setIsBgmEnable
                       </select><ChevronDown size={16} aria-hidden="true" />
                     </label>
                   </div>
-                  <Toggle label="プロフィールを公開" sub="志望校・志・学習時間・達成ステージを他の人に表示（初期は非公開）" checked={profilePublic} onChange={()=>{ if (auth.currentUser && publicationReady) setProfilePublic(p=>!p); else setPublicationError('Googleログインと公開設定の確認が必要です。新版ルールの反映後に開き直してください。'); }}/>
-                  <p className="ps-help">公開をやめて保存すると公開データを削除します。学習時間はこの端末での演習・解説の累計で、順位には使いません。</p>
+                  <Toggle label="プロフィールを公開" checked={profilePublic} onChange={()=>{ if (auth.currentUser && publicationReady) setProfilePublic(p=>!p); else setPublicationError('Googleログインと公開設定の確認が必要です。新版ルールの反映後に開き直してください。'); }}/>
                   {publicationError && <p className="ps-help" role="alert" data-error>{publicationError}</p>}
                   <p id="target-goal-help" className="sr-only">目標レベルを変えると、単語帳の出題範囲も変わります。志望校と学習時間は「プロフィールを公開」を保存した場合だけランキングに表示されます。</p>
                 </section>
@@ -328,7 +337,7 @@ export function ProfileModal({ onClose, initialTab, isBgmEnabled, setIsBgmEnable
               <div className="ps-col-app space-y-2 sm:space-y-3 flex flex-col">
                 <h3 className="ps-group-title">アプリ（サウンド）</h3>
                 <section className="ps-sound mt-card" aria-label="サウンド">
-                  <Toggle label="BGM" sub="学習中・待ち時間・対戦の音楽（ひとつでON/OFF）" checked={isBgmEnabled} onChange={toggleBgm} icon={isBgmEnabled ? <Volume2 size={16} /> : <VolumeX size={16} />} />
+                  <Toggle label="BGM" checked={isBgmEnabled} onChange={toggleBgm} icon={isBgmEnabled ? <Volume2 size={16} /> : <VolumeX size={16} />} />
                   <Volume label="BGM音量" value={bgmVolume} onChange={setBgmVolume} />
                   <p className="ps-help">タイトル・待機・対戦で共通。効果音もこの音量に合わせます。</p>
                   <p className="ps-sub"><Swords size={14} aria-hidden="true" />対戦モードの音</p>
@@ -403,7 +412,7 @@ export function ProfileModal({ onClose, initialTab, isBgmEnabled, setIsBgmEnable
                 <section className="ps-sound mt-card" aria-label="使われ方の記録">
                   <AnalyticsSetting />
                 </section>
-                <AccountSafetySection onDeleted={onClose} />
+                <AccountSafetySection onDeleted={onClose} onOpenIntro={onOpenIntro} onOpenPhilosophy={onOpenPhilosophy ?? (() => setShowPhilosophy(true))} />
 
                 {/* ※「お問い合わせの送信状態」の欄は廃止した。
                     送信に失敗した分は localStorage のキューに残り、
@@ -423,6 +432,7 @@ export function ProfileModal({ onClose, initialTab, isBgmEnabled, setIsBgmEnable
           )}
         </main>
       </div>
+      {showPhilosophy && createPortal(<React.Suspense fallback={null}><PhilosophyPage onBack={() => setShowPhilosophy(false)} backLabel="設定へ" /></React.Suspense>, document.body)}
     </div>
   );
 }
