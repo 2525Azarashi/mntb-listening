@@ -160,7 +160,7 @@ export function Onboarding({ onComplete, onGuest }: OnboardingProps) {
             {/* 連携で得られること（抽象論にせず具体的に示す） */}
             <ul className="mt-4 space-y-1.5 rounded-2xl border border-[#F4A9C4]/45 bg-[#FFF7FA] px-4 py-3">
               {GOOGLE_LINK_BENEFITS.map((benefit) => (
-                <li key={benefit} className="flex items-start gap-2 text-[11.5px] font-modern leading-snug text-[#5D6D7E]">
+                <li key={benefit} className="flex items-start gap-2 text-xs font-modern leading-snug text-[#5D6D7E]">
                   <Check size={14} className="mt-[1px] shrink-0 text-[#E8688E]" aria-hidden="true" />
                   <span>{benefit}</span>
                 </li>
@@ -171,7 +171,7 @@ export function Onboarding({ onComplete, onGuest }: OnboardingProps) {
             {inAppBrowser && (
               <div className="mt-4 flex items-start gap-2 rounded-2xl border border-[#FF9F43]/60 bg-[#FFF4E5] px-3.5 py-3">
                 <AlertTriangle size={16} className="mt-0.5 shrink-0 text-[#E67E22]" aria-hidden="true" />
-                <p className="text-[11px] font-modern leading-relaxed text-[#7E5109]">
+                <p className="text-xs font-modern leading-relaxed text-[#7E5109]">
                   LINE や Instagram などの<b>アプリ内ブラウザ</b>では Google ログインが利用できません。
                   右上のメニューから「ブラウザで開く」を選び、Safari や Chrome で開き直してください。
                 </p>
@@ -193,14 +193,14 @@ export function Onboarding({ onComplete, onGuest }: OnboardingProps) {
               label="Appleで続ける"
               onResult={(o) => { if (o.ok && o.user) checkProfile(o.user); else setError(o.message || 'ログインに失敗しました。'); }}
             />
-            <p className="mt-2 text-center text-[10.5px] font-modern leading-snug text-[#8895A0]">
+            <p className="mt-2 text-center text-xs font-modern leading-snug text-[#8895A0]">
               メールアドレスとお名前のみを利用します。パスワードは受け取りません。
             </p>
 
             {error && (
               <div className="mt-4 flex items-start gap-2 rounded-2xl border border-[#E74C3C]/40 bg-[#FDEDEC] px-3.5 py-3" role="alert">
                 <AlertTriangle size={15} className="mt-0.5 shrink-0 text-[#C0392B]" aria-hidden="true" />
-                <p className="text-[11px] font-modern leading-relaxed text-[#C0392B]">{error}</p>
+                <p className="text-xs font-modern leading-relaxed text-[#C0392B]">{error}</p>
               </div>
             )}
 
@@ -209,7 +209,7 @@ export function Onboarding({ onComplete, onGuest }: OnboardingProps) {
               {!guestConfirm ? (
                 <button
                   onClick={() => setGuestConfirm(true)}
-                  className="w-full rounded-xl py-2 text-[11.5px] font-bold text-[#8895A0] underline decoration-dotted underline-offset-4 transition-colors hover:text-[#5D6D7E]"
+                  className="w-full rounded-xl py-2 text-xs font-bold text-[#8895A0] underline decoration-dotted underline-offset-4 transition-colors hover:text-[#5D6D7E]"
                 >
                   連携せずにゲストとして試す
                 </button>
@@ -221,7 +221,7 @@ export function Onboarding({ onComplete, onGuest }: OnboardingProps) {
                       ゲストで始めた人はホームの一番上に対戦のボタンを
                       見つけて押し、そこで初めて弾かれることになる。
                       ★押す前に分かるようにするのが正しい★ */}
-                  <p className="text-[11px] font-modern leading-relaxed text-[#5D6D7E]">
+                  <p className="text-xs font-modern leading-relaxed text-[#5D6D7E]">
                     ゲスト利用では<b className="text-[#1B2631]">オンライン対戦・ランキング・フレンドが使えません</b>。
                     学習記録も<b className="text-[#1B2631]">この端末の中だけ</b>に保存され、ブラウザのデータを消すと消えます。
                     <br />
@@ -230,13 +230,13 @@ export function Onboarding({ onComplete, onGuest }: OnboardingProps) {
                   <div className="mt-2.5 grid grid-cols-2 gap-2">
                     <button
                       onClick={() => setGuestConfirm(false)}
-                      className="rounded-xl border border-[#F4A9C4]/60 bg-white py-2 text-[11.5px] font-bold text-[#D9466E] transition-colors hover:bg-[#FFF3F7]"
+                      className="rounded-xl border border-[#F4A9C4]/60 bg-white py-2 text-xs font-bold text-[#D9466E] transition-colors hover:bg-[#FFF3F7]"
                     >
                       連携に戻る
                     </button>
                     <button
                       onClick={onGuest}
-                      className="flex items-center justify-center gap-1 rounded-xl border border-[#E4E8EC] bg-white py-2 text-[11.5px] font-bold text-[#8895A0] transition-colors hover:bg-[#F2F4F5]"
+                      className="flex items-center justify-center gap-1 rounded-xl border border-[#E4E8EC] bg-white py-2 text-xs font-bold text-[#8895A0] transition-colors hover:bg-[#F2F4F5]"
                     >
                       ゲストで始める<ArrowRight size={13} aria-hidden="true" />
                     </button>
@@ -248,7 +248,7 @@ export function Onboarding({ onComplete, onGuest }: OnboardingProps) {
         ) : (
           <>
             <h2 className="text-center text-2xl font-bold text-[#1B2631] sm:text-[26px]">プロフィール設定</h2>
-            <p className="mt-2 text-center text-[11.5px] font-modern leading-relaxed text-[#5D6D7E]">
+            <p className="mt-2 text-center text-xs font-modern leading-relaxed text-[#5D6D7E]">
               連携が完了しました。表示名と学年を設定して始めましょう。
             </p>
 
@@ -281,7 +281,7 @@ export function Onboarding({ onComplete, onGuest }: OnboardingProps) {
             {error && (
               <div className="mt-4 flex items-start gap-2 rounded-2xl border border-[#E74C3C]/40 bg-[#FDEDEC] px-3.5 py-3" role="alert">
                 <AlertTriangle size={15} className="mt-0.5 shrink-0 text-[#C0392B]" aria-hidden="true" />
-                <p className="text-[11px] font-modern leading-relaxed text-[#C0392B]">{error}</p>
+                <p className="text-xs font-modern leading-relaxed text-[#C0392B]">{error}</p>
               </div>
             )}
 

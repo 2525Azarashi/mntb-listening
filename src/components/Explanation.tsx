@@ -1,7 +1,7 @@
 import './step-explanation.css';
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { createPortal } from 'react-dom';
-import { CheckCircle2, BookOpen, AlertCircle, TrendingUp, AlertTriangle, ChevronDown, ChevronUp } from 'lucide-react';
+import { CheckCircle2, BookOpen, AlertCircle, ChevronDown, ChevronUp } from 'lucide-react';
 import { auth } from '../firebase';
 import { ListeningAudioPlayer } from './ListeningAudioPlayer';
 import type { ReviewNav } from './explanation/types';
@@ -17,6 +17,7 @@ import { ScoreHead } from './explanation/ScoreHead';
 import { SharedExplanation } from './explanation/SharedExplanation';
 import { ReviewTopNav } from './explanation/ReviewTopNav';
 import { buildExplanationSlices } from './explanation/explanationSlices';
+import { CompactWeakAreas } from './explanation/CompactWeakAreas';
 import { computeQuestionScore, computeWeakAreas, buildResultPages, scopeQuestionsToFocus } from './explanation/explanationLogic';
 // 画面に依存しない小さな関数（isAttempted / textTracksOf / formatResultTime / pictureCellOf）
 import { isAttempted, textTracksOf } from './explanation/helpers';
@@ -93,7 +94,7 @@ interface ExplanationProps {
   reviewNav?: ReviewNav;
 }
 
-import { readJsonArray } from '../utils/safeLocalStorage';
+import { saveQuestionNote } from '../utils/questionNote';
 import { useGrowthProgress } from '../hooks/useGrowthProgress';
 import { logRejection } from '../utils/reportError';
 import { notify } from '../utils/dialog';
@@ -367,32 +368,14 @@ export function Explanation({ mode: initialMode, chapter, answers, onBack, onRet
       案内どおりに押しても「使用できません」と言われる行き止まりになっていた。
       復習リスト（review_list_guest）と同じく端末内に保存する。
     */
-    const notesKey = `notes_${auth.currentUser?.uid || 'guest'}`;
     setSavingNote(prev => ({ ...prev, [question.id]: true }));
     try {
-      const newNote = {
-        id: Date.now().toString() + Math.random().toString(36).substring(2, 9),
+      saveQuestionNote({
         uid: auth.currentUser?.uid || 'guest',
-        question: question.text,
-        answer: question.subQuestions.map((sq) => sq.correctAnswer).join(', '),
-        explanation: question.explanation,
-        chapterTitle: chapter.abstractTitle || chapter.realTitle || '',
+        question,
+        chapter,
         questionIndex: displayIndex + 1,
-        // 復習用リンク（要件5）：ノートから該当の演習問題へ戻れるよう
-        // 章IDと問題IDを保持する。
-        chapterId: chapter.id,
-        questionId: question.id,
-        memo: '',
-        createdAt: new Date().toISOString(),
-        isImportant: false,
-        reviewCount: 0,
-        tags: [],
-        lastReviewedAt: null
-      };
-      
-      const existingNotes = readJsonArray<typeof newNote>(notesKey);
-      existingNotes.push(newNote);
-      localStorage.setItem(notesKey, JSON.stringify(existingNotes));
+      });
       
       notify(isGuest
         ? 'ノートに保存しました！（ゲスト利用のため、この端末にだけ保存されます）'
@@ -462,39 +445,7 @@ export function Explanation({ mode: initialMode, chapter, answers, onBack, onRet
   const compactResult = isResultView;
 
   // スマホ結果画面用：復習推奨エリアのコンパクト表示（1行＝カテゴリ名＋％＋細いバー）
-  const compactWeakAreas = compactResult && weakAreas.length > 0 ? (
-    <div className="mt-3 pt-3 border-t border-[#F4D03F]/40">
-      <div className="flex items-center gap-1.5 mb-2">
-        <TrendingUp className="w-4 h-4 text-[#D9A0A0]" />
-        <span className="text-xs font-bold text-[#1B2631]">分析結果：復習推奨エリア</span>
-      </div>
-      {/* 件数が多い単元でも下の解説を押し出さないよう、必要なときだけ内部スクロールする */}
-      <div className="space-y-1.5 max-h-[38vh] overflow-y-auto overscroll-contain pr-0.5">
-        {weakAreas.map((area) => (
-          <div key={area.category} className="bg-white/80 border border-white rounded-xl px-2.5 py-1.5 shadow-xs">
-            <div className="flex items-center justify-between gap-2">
-              <div className="flex items-center gap-1 min-w-0">
-                <AlertTriangle className="w-3 h-3 shrink-0 text-[#D9A0A0]" />
-                <span className="text-[11px] font-bold text-[#1B2631] truncate">{area.category}</span>
-              </div>
-              <span className="font-mono font-bold text-xs text-[#D9A0A0] tabular-nums shrink-0">
-                {area.percentage}<span className="text-[9px] ml-0.5">%</span>
-              </span>
-            </div>
-            <div className="relative h-1.5 mt-1 rounded-full overflow-hidden bg-gray-200/70">
-              <div
-                className="absolute top-0 left-0 h-full rounded-full bg-gradient-to-r from-[#D9A0A0] to-[#FFB7B2] transition-all duration-1000 ease-out"
-                style={{ width: `${area.percentage}%` }}
-              />
-            </div>
-          </div>
-        ))}
-      </div>
-      <p className="text-[9px] text-[#4B5563]/70 mt-1.5 text-right">
-        ※ 記述問題は自己採点チェックを入れるとスコアに反映されます
-      </p>
-    </div>
-  ) : null;
+  const compactWeakAreas = compactResult && weakAreas.length > 0 ? <CompactWeakAreas weakAreas={weakAreas} /> : null;
 
   // ★詳しい結果（2026-10-04 ご指摘）★ 1問ずつの答え合わせと「同じ画面」を使う（問題・スクリプト・解説が1画面に揃う）。
   //   独自のレイアウトを作らず、解いた直後の解答・解説画面をそのまま再利用して UI を一貫させる。
@@ -825,7 +776,7 @@ export function Explanation({ mode: initialMode, chapter, answers, onBack, onRet
                                   すでにこの1行に入っている。スマホではさらに
                                     ・flex-wrap を外して必ず1行に収める（min-w-0＋truncate）
                                     ・見出し 16px→13px、アイコン 18→15
-                                    ・内訳 text-xs→text-[10px]
+                                    ・内訳 text-xs→text-xs
                                   として高さを詰める。項目は1つも消さない。
                                   PC（!reorderMobile）は従来のクラスをそのまま使う。
                                 */}

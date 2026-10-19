@@ -1,3 +1,4 @@
+import { useVirtualKeyboard } from '../hooks/useVirtualKeyboard';
 import { useLatest } from '../hooks/useLatest';
 import { useMountEffect } from '../hooks/useMountEffect';
 import React, { useState, useEffect, useLayoutEffect, useMemo, useRef } from 'react';
@@ -250,14 +251,6 @@ export function Quiz({ mode, chapter, onFinish, onBack, onReturnToBattle, isGues
   // 解答中の画面からはリード文（毎回同じ説明）を撤去し、
   // その分のスペースを選択肢・図の表示に当てる。
   const [showingBriefing, setShowingBriefing] = useState(false);
-  // ソフトキーボードが表示されているか（visualViewport で推定）。
-  // 表示中のみ、短答穴埋め用のフローティング入力バーを画面下部に出す。
-  const [keyboardVisible, setKeyboardVisible] = useState(false);
-  // フローティング入力バーをキーボード上端に追従させるためのオフセット（px）。
-  // visualViewport から算出した「画面下端からキーボード上端までの距離」。
-  // iOS Safari では position:fixed + bottom:0 がキーボードに隠れるため、
-  // ここで動的に bottom 値を与えてキーボードに貼り付くようにする。
-  const [keyboardOffset, setKeyboardOffset] = useState(0);
   const [draggingIndex, setDraggingIndex] = useState<number | null>(null);
   const [dragOverIndex, setDragOverIndex] = useState<number | null>(null);
   // スマホ（タッチ）並べ替え用：タップで選択中の要素インデックス。
@@ -376,51 +369,21 @@ export function Quiz({ mode, chapter, onFinish, onBack, onReturnToBattle, isGues
     }
   }, [currentQuestionIndex, showingExplanation]);
 
-  // ソフトキーボードの表示/非表示を visualViewport の高さ変化で推定する。
-  // キーボードが閉じたら、フローティング入力欄も閉じて「問題文全体＋入力欄」を
-  // 同時に見られる通常表示に戻す（要件1）。
-  useEffect(() => {
-    const vv: VisualViewport | null | undefined = window.visualViewport;
-    if (!vv) return;
-    // 初期のフル高さ。キーボード表示で vv.height はこれより小さくなる。
-    const baseline = () => Math.max(vv.height, window.innerHeight || 0);
-    let base = baseline();
-    const onResize = () => {
-      const full = Math.max(base, window.innerHeight || 0);
-      // 可視領域が 15% 以上縮んだらキーボード表示とみなす。
-      const shrink = full - vv.height;
-      const visible = shrink > full * 0.15;
-      setKeyboardVisible(visible);
-      if (visible) {
-        // キーボード上端の位置（レイアウトビューポート下端からの距離）。
-        // layout viewport の高さ - (visualViewport の可視下端) がキーボード高さに相当。
-        // offsetTop はページスクロール分、height は可視高さ。
-        const layoutH = window.innerHeight || full;
-        const kbTopFromBottom = Math.max(0, layoutH - (vv.height + vv.offsetTop));
-        setKeyboardOffset(kbTopFromBottom);
-      } else {
-        setKeyboardOffset(0);
-        // キーボードが閉じたらフォーカス状態も解除（通常表示へ）。
-        // ただし選択式・並べ替え等のテキスト非入力設問は元々キーボードを
-        // 開かないため、この resize 起因の解除対象から除外する
-        // （除外しないと固定パネルが即座に閉じてしまう）。
-        setFocusedSubId((prev) => {
-          if (!prev) return prev;
-          const cur = (currentQuestionRef.current?.subQuestions || []).find(
-            (sq) => sq.id === prev
-          );
-          const isText = cur && (isShortAnswerType(cur) || cur.type === 'descriptive');
-          return isText ? null : prev;
-        });
-      }
-    };
-    vv.addEventListener('resize', onResize);
-    vv.addEventListener('scroll', onResize);
-    return () => {
-      vv.removeEventListener('resize', onResize);
-      vv.removeEventListener('scroll', onResize);
-    };
-  }, []);
+  // ソフトキーボードの表示/非表示と、入力バーを貼り付ける位置（hooks/useVirtualKeyboard.ts）。
+  // キーボードが閉じたら、テキスト入力の設問だけフォーカスを外して通常表示に戻す（要件1）。
+  // ただし選択式・並べ替え等のテキスト非入力設問は元々キーボードを
+  // 開かないため、この resize 起因の解除対象から除外する
+  // （除外しないと固定パネルが即座に閉じてしまう）。
+  const { keyboardVisible, keyboardOffset } = useVirtualKeyboard(() => {
+    setFocusedSubId((prev) => {
+      if (!prev) return prev;
+      const cur = (currentQuestionRef.current?.subQuestions || []).find(
+        (sq) => sq.id === prev
+      );
+      const isText = cur && (isShortAnswerType(cur) || cur.type === 'descriptive');
+      return isText ? null : prev;
+    });
+  });
 
   // 問題が切り替わったらフォーカス・キーボード状態・並べ替えの選択をリセット
   useEffect(() => {
