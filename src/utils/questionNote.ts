@@ -1,5 +1,5 @@
 import type { Chapter, Problem } from '../types/curriculum';
-import { readJsonArray } from './safeLocalStorage';
+import { readJsonArray, setItemOrThrow } from './safeLocalStorage';
 
 /**
  * 解説ページの「ノートに保存」：1問ぶんのノートを端末（localStorage の notes_<uid>）に足す。
@@ -36,5 +36,5 @@ export function saveQuestionNote({ uid, question, chapter, questionIndex }: {
 
   const existingNotes = readJsonArray<typeof newNote>(notesKey);
   existingNotes.push(newNote);
-  localStorage.setItem(notesKey, JSON.stringify(existingNotes));
+  setItemOrThrow(notesKey, JSON.stringify(existingNotes)); // 失敗は呼び出し側へ投げる（元のまま）
 }
