@@ -6,7 +6,8 @@ import { applyQuizResult, buildQuiz, buildRangeQuiz, clampRange, COUNT_OPTIONS, 
 import { play, primeAudio } from '../battle/ui/feedback';
 import { recordVocabActivity } from '../battle/data/growthStore';
 import { isSpeechSupported, stopSpeech } from '../utils/listeningSpeech';
-import { sayWord } from './foundationShared';
+import { sayWord, prefetchVocabAudioIndex } from './foundationShared';
+import { hasVocabAudio, stopVocabAudio } from '../utils/vocabAudio';
 import { TobiraBuddy } from './TobiraBuddy';
 import { trackEvent } from '../utils/analytics';
 
@@ -48,7 +49,7 @@ export function VocabQuiz({ uid, known, onMark, onWordbook }: { uid: string; kno
       .then(v => { cache = v; setData(v); }).catch(() => setErr('単語を読み込めませんでした。接続を確認してください。'));
     return () => c.abort();
   }, [data]);
-  useEffect(() => () => stopSpeech(), []);
+  useEffect(() => { prefetchVocabAudioIndex(); return () => { stopSpeech(); stopVocabAudio(); }; }, []);
   useEffect(() => { writeQuizPrefs(uid, prefs); }, [uid, prefs]);
 
   const levels = useMemo(() => Object.keys(VOCAB_LEVELS).filter(l => data?.words.some(w => w.level === l)), [data]);
@@ -132,7 +133,7 @@ export function VocabQuiz({ uid, known, onMark, onWordbook }: { uid: string; kno
       <article className="vq-card" key={it.q.id}>
         <p className="vq-prompt">{it.no !== undefined && <span className="vq-no" data-vocab-no={it.no}>No.{it.no}</span>}{it.q.prompt}</p>
         <p className="vq-label" lang={it.dir === 'e2j' ? 'en' : 'ja'}>{it.q.label}
-          {it.dir === 'e2j' && <button type="button" className="fd-icon" aria-label={`${it.word} を読み上げる`} disabled={!isSpeechSupported()} onClick={() => sayWord(it.wordId, it.word)}><Volume2 size={18} aria-hidden="true" /></button>}
+          {it.dir === 'e2j' && <button type="button" className="fd-icon" aria-label={`${it.word} を読み上げる`} disabled={!isSpeechSupported() && !hasVocabAudio(it.wordId)} onClick={() => sayWord(it.wordId, it.word)}><Volume2 size={18} aria-hidden="true" /></button>}
         </p>
       </article>
       <div className="vq-options" role="group" aria-label="選択肢">{it.q.options.map((o, k) => <button key={k} type="button" disabled={answered} onClick={() => choose(k)}
