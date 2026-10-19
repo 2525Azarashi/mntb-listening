@@ -246,8 +246,8 @@
 
 /* ★マイページの3つの入口（2026-10-19）★ きせかえ・称号・ショップ。ホームのサイドボタンをここへ統合 */
 .mypage-entries { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin: 2px 4px 12px 0; }
-.mypage-entries button { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; min-height: 92px; padding: 10px 4px; border: 2.5px solid #1f3354; border-radius: 18px; color: #1f3354; box-shadow: 4px 4px 0 #1f3354; transition: transform .14s cubic-bezier(.3,1.6,.5,1), box-shadow .14s; }
-.mypage-entries button:active { transform: translate(4px, 4px); box-shadow: 0 0 0 #1f3354; }
+.mypage-entries button { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; min-height: 92px; padding: 10px 4px; border: 1.5px solid #e2d3b6; border-radius: 18px; color: #1f3354; box-shadow: 0 4px 0 #d9c8a3; transition: transform .14s cubic-bezier(.3,1.6,.5,1), box-shadow .14s; }
+.mypage-entries button:active { transform: translateY(4px); box-shadow: 0 0 0 #d9c8a3; }
 .mypage-entries button strong { font: 900 16px/1.2 var(--mt-font-display); white-space: nowrap; }
 .mypage-entries button > svg:last-child { display: none; }
 .mypage-entries [data-mypage-entry=outfit] { background: #ffc6da; }
@@ -265,11 +265,17 @@
     #fdf8ee; }
 .my-collection[data-my-collection=shop]::before { content: ''; position: absolute; z-index: -1; left: 0; right: 0; top: 0; height: 26px;
   background: repeating-linear-gradient(90deg, #ff9db8 0 26px, #fffaf0 26px 52px);
-  border-bottom: 2.5px solid #1f3354;
+  border-bottom: 1.5px solid #e2b7c6;
   -webkit-mask: radial-gradient(13px at 13px 100%, #0000 98%, #000) 0 0 / 26px 100%; mask: radial-gradient(13px at 13px 100%, #0000 98%, #000) 0 0 / 26px 100%; }
 .my-collection[data-my-collection=shop]::after { content: ''; position: absolute; z-index: -1; right: 14px; top: 40px; width: 64px; height: 64px; border-radius: 50%; background: #ffd257; opacity: .35; }
 .my-collection[data-my-collection=shop] > header h2 { font-family: var(--mt-font-display); }
-.my-collection[data-my-collection=shop] > header b { padding: 4px 12px; border: 2px solid #1f3354; border-radius: 999px; background: #ffd257; box-shadow: 2px 2px 0 #1f3354; }
-.my-collection[data-my-collection=shop] .collection-grid > li { border: 2px solid #1f3354 !important; box-shadow: 3px 3px 0 #1f3354 !important; background: #fff !important; }
-.my-collection[data-my-collection=shop] .store-guide { border: 2px dashed #1f335466; background: #fffaf0cc; }
+.my-collection[data-my-collection=shop] > header b { padding: 4px 12px; border: 1.5px solid #e2d3b6; border-radius: 999px; background: #ffd257; box-shadow: 0 2px 0 #d9c8a3; }
+.my-collection[data-my-collection=shop] .collection-grid > li { border: 1.5px solid #e2d3b6 !important; box-shadow: 0 3px 0 #d9c8a3 !important; background: #fff !important; }
+.my-collection[data-my-collection=shop] .store-guide { border: 1.5px dashed #d9c8a3; background: #fffaf0cc; }
 
+/* 2026-10-19 見直し：黒い縁取り・斜めの影はやめ、ホームと同じ「各色の濃い色で真下に影」 */
+.mypage-entries [data-mypage-entry=outfit] { border-color: #ecb7cb; box-shadow: 0 4px 0 #c98aa6; }
+.mypage-entries [data-mypage-entry=badges] { border-color: #ead48a; box-shadow: 0 4px 0 #c9a640; }
+.mypage-entries [data-mypage-entry=shop] { border-color: #9ad9c1; box-shadow: 0 4px 0 #5fae8f; }
+.my-collection[data-my-collection=shop]::before { background: repeating-linear-gradient(90deg, #f7b9c9 0 26px, #fffaf0 26px 52px); opacity: .9; }
+.my-collection[data-my-collection=shop] .collection-grid > li { border-color: #e6d7b8 !important; box-shadow: 0 3px 0 #e6d7b8 !important; }

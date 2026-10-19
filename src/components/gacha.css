@@ -281,7 +281,7 @@
 .gacha-odds-summary { display: grid; gap: 10px; margin-bottom: 12px; font-size: 14px; line-height: 1.6; color: var(--mt-ink); }
 .gacha-odds-lead { margin: 0; font-weight: 700; }
 .gacha-odds-rates { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; margin: 0; padding: 0; list-style: none; }
-.gacha-odds-rates li { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 6px 2px; border: 2px solid #1f3354; border-radius: 12px; background: #fff; box-shadow: 2px 2px 0 #1f3354; }
+.gacha-odds-rates li { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 6px 2px; border: 1.5px solid #e2d3b6; border-radius: 12px; background: #fff; box-shadow: 0 2px 0 #d9c8a3; }
 .gacha-odds-rates b { font: 900 13px/1 var(--mt-font-display); }
 .gacha-odds-rates span { font: 900 18px/1.1 var(--mt-font-display); font-variant-numeric: tabular-nums; }
 .gacha-odds-rates [data-rarity=UR] { background: var(--mt-rare-ur-grad, #fff3c4); }

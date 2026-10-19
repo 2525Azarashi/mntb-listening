@@ -179,9 +179,9 @@
 .league-hall .league-metric button, .league-hall .league-tabs.is-scope button { min-height: 44px; }
 .league-hall .league-my-card { padding: 6px 10px; gap: 8px; }
 .league-hall .league-my-card > svg { width: 24px; height: 24px; flex-shrink: 0; }
-.league-progress-rich { display: grid; grid-template-columns: auto 1fr auto auto; align-items: center; gap: 6px; padding: 8px 10px; border: 2px solid #1f3354; border-radius: 16px; background: #fffdf7; box-shadow: 3px 3px 0 #1f3354; flex-shrink: 0; }
-.league-progress-rich .lp-chip { padding: 3px 9px; border: 2px solid #1f3354; border-radius: 999px; color: #fff; font: 900 12px/1.2 var(--mt-font-display); white-space: nowrap; }
-.league-progress-rich .lp-track { position: relative; height: 14px; border: 2px solid #1f3354; border-radius: 999px; background: #fff; overflow: hidden; }
+.league-progress-rich { display: grid; grid-template-columns: auto 1fr auto auto; align-items: center; gap: 6px; padding: 8px 10px; border: 1.5px solid #e2d3b6; border-radius: 16px; background: #fffdf7; box-shadow: 0 3px 0 #d9c8a3; flex-shrink: 0; }
+.league-progress-rich .lp-chip { padding: 3px 9px; border: 1.5px solid #e2d3b6; border-radius: 999px; color: #fff; font: 900 12px/1.2 var(--mt-font-display); white-space: nowrap; }
+.league-progress-rich .lp-track { position: relative; height: 14px; border: 1.5px solid #e2d3b6; border-radius: 999px; background: #fff; overflow: hidden; }
 .league-progress-rich .lp-track i { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, var(--from), var(--to)); background-size: 200% 100%; animation: lp-shine 2.4s linear infinite; transition: width .9s cubic-bezier(.34, 1.56, .64, 1); }
 .league-progress-rich .lp-remain { font-size: 12px; font-weight: 800; color: #3c4f6b; white-space: nowrap; }
 .league-progress-rich .lp-remain strong { margin-left: 2px; font: 900 20px/1 var(--mt-font-display); color: #1f3354; font-variant-numeric: tabular-nums; }
