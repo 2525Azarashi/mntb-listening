@@ -32,7 +32,7 @@ describe('文字の大きさ（12px 以上）', () => {
   });
 
   it('学習モード選択（.mode-*）に 12px 未満の font-size が無い', () => {
-    const bad = read('src/index.css').split('\n')
+    const bad = ['src/index.css', ...walk('src/styles').filter((f) => f.endsWith('.css'))].map(read).join('\n').split('\n')
       .filter((l) => /^\s*\.(mode-|mode-desk)/.test(l) || l.includes('.mode-desk '))
       .flatMap((l) => [...l.matchAll(/font-size:\s*(\d+(?:\.\d+)?)px/g)].filter((m) => Number(m[1]) < 12).map(() => l.trim().slice(0, 60)));
     expect(bad).toEqual([]);
@@ -61,6 +61,10 @@ describe('2026-10-18 のご要望（リスニングの資料・フレンド）',
     expect(friend).toMatch(/data-friend-list className="min-h-\[160px\] flex-1/);
   });
   it('通報・ブロック（…）ボタンは 44px 以上', () => {
-    expect(read('src/index.css')).toMatch(/\.user-safety-trigger \{[^}]*min-width:44px; min-height:44px;/);
+    // index.css は C-16 で src/styles/*.css に分割された。どこにあっても 44px であること
+    const css = ['src/index.css', ...walk('src/styles').filter((f) => f.endsWith('.css'))].map(read).join('\n');
+    const rules = [...css.matchAll(/\.user-safety-trigger \{[^}]*\}/g)].map((m) => m[0]);
+    expect(rules.length).toBeGreaterThan(0);
+    rules.forEach((r) => expect(r).toMatch(/min-width:\s*44px;\s*min-height:\s*44px;/));
   });
 });
