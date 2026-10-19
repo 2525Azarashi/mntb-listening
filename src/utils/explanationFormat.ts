@@ -347,7 +347,7 @@ function subQuestionCard(sub: SubQuestionLike, index: number): string {
   const rows: string[] = [];
   rows.push(
     '<div style="background-color:#FFF1F5; border-left:6px solid #D9466E; border-radius:8px; padding:8px 12px; margin-top:6px;">' +
-      `<span style="display:inline-block; background-color:#D9466E; color:#FFFFFF; font-weight:bold; font-size:0.86em; padding:1px 12px; border-radius:999px;">${label}</span>` +
+      `<span style="display:inline-block; background-color:#D9466E; color:#FFFFFF; font-weight:bold; font-size:max(12px, 0.86em); padding:1px 12px; border-radius:999px;">${label}</span>` +
       (theme
         ? `<span style="color:#8A2E4A; font-weight:bold; margin-left:8px;">${theme}</span>`
         : '') +
@@ -505,7 +505,7 @@ function buildSubQuestionSections(
   const hasSubSteps = subs.some((sub) => (sub.detailedExplanation?.steps || []).length > 0);
   if (!hasSubSteps && fallbackSteps) {
     sharedRows.push(
-      `${LABEL(STEPS_TITLE)}<span style="font-size:0.8em; color:#B03A5B; margin-left:6px;">（この大問のすべての問に共通）</span>\n${fallbackSteps}`,
+      `${LABEL(STEPS_TITLE)}<span style="font-size:max(12px, 0.8em); color:#B03A5B; margin-left:6px;">（この大問のすべての問に共通）</span>\n${fallbackSteps}`,
     );
   }
   if (segmented.lead.trim()) {
@@ -514,7 +514,7 @@ function buildSubQuestionSections(
     // ★文言を変えているだけで、本文は1文字も削っていない★
     sharedRows.push(
       hasAnswerBlock
-        ? `${LABEL('この大問全体の解説')}<span style="font-size:0.8em; color:#B03A5B; margin-left:6px;">（すべての問に共通）</span>\n${segmented.lead}`
+        ? `${LABEL('この大問全体の解説')}<span style="font-size:max(12px, 0.8em); color:#B03A5B; margin-left:6px;">（すべての問に共通）</span>\n${segmented.lead}`
         : segmented.lead,
     );
   }
@@ -532,7 +532,7 @@ function buildSubQuestionSections(
     // これは「他の小問の思考手順」なので、自分の問の手順と取り違えないよう
     // 見出しで明示する。手順そのものは1つも省いていない。
     sharedRows.push(
-      `${LABEL('関連する問の思考手順')}<span style="font-size:0.8em; color:#B03A5B; margin-left:6px;">（この大問のほかの問）</span>\n${orphanSteps.join('\n\n')}`,
+      `${LABEL('関連する問の思考手順')}<span style="font-size:max(12px, 0.8em); color:#B03A5B; margin-left:6px;">（この大問のほかの問）</span>\n${orphanSteps.join('\n\n')}`,
     );
   }
 
@@ -710,7 +710,7 @@ function buildInterleavedSections(
   const hasGroupSteps = groups.some((group) => Boolean(group.steps));
   if (!hasGroupSteps && fallbackSteps) {
     sections.push(
-      `${LABEL(STEPS_TITLE)}<span style="font-size:0.8em; color:#B03A5B; margin-left:6px;">（この大問のすべての問に共通）</span>\n${fallbackSteps}`,
+      `${LABEL(STEPS_TITLE)}<span style="font-size:max(12px, 0.8em); color:#B03A5B; margin-left:6px;">（この大問のすべての問に共通）</span>\n${fallbackSteps}`,
     );
   }
 
@@ -917,7 +917,7 @@ export function buildSupplement(
       sections.push(
         `${SQ_SHARED_MARK}${flowBlock.replace(
           `${LABEL(STEPS_TITLE)}\n`,
-          `${LABEL('この大問全体の流れ')}<span style="font-size:0.8em; color:#B03A5B; margin-left:6px;">（フローチャートの読み方）</span>\n`,
+          `${LABEL('この大問全体の流れ')}<span style="font-size:max(12px, 0.8em); color:#B03A5B; margin-left:6px;">（フローチャートの読み方）</span>\n`,
         )}`,
       );
     }
