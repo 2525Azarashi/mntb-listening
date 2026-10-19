@@ -40,6 +40,7 @@ import {
   pct,
   type CollectionKind,
 } from './GachaParts';
+import { trackEvent } from '../utils/analytics';
 
 type GachaProps = {
   onBack: () => void;
@@ -159,6 +160,7 @@ function GachaRoomContent({
     primeAudio();
     try {
       const r = await drawGachaMulti(crypto.randomUUID(), owner);
+      if (r) trackEvent('gacha_draw11');
       if (!r?.results) {
         setError('抽選できませんでした。残高や保存設定を確認してください。');
         return;
@@ -185,6 +187,7 @@ function GachaRoomContent({
     primeAudio();
     try {
       const r = await drawGacha(crypto.randomUUID(), owner);
+      if (r) trackEvent('gacha_draw');
       if (!r?.result) {
         setError('抽選できませんでした。残高や保存設定を確認してください。');
         return;

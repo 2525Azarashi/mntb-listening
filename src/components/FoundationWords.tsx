@@ -5,7 +5,7 @@ import { Dialog } from './ui';
 import { VOCAB_LEVELS, type ListeningWord, type VocabularyData } from '../data/listeningSupport';
 import { safeLocalStorage } from '../utils/safeLocalStorage';
 import { stopSpeech, isSpeechSupported } from '../utils/listeningSpeech';
-import { say } from './foundationShared';
+import { sayWord } from './foundationShared';
 import { VOCAB_PREF_KEY } from '../utils/vocabGoal';
 import { wordNumbers } from '../data/vocabQuiz';
 import { pauseAllAudio } from '../utils/audioElements';
@@ -247,7 +247,7 @@ export function FoundationWords({ known, onMark, onPractice }: FoundationWordsPr
                 <span className="fd-word-ja" data-hidden={(hide === 'ja' && !open && !peek.has(w.id)) || undefined}>{w.meaning}</span>
                 {(searching || w.examples.length > 0) && <span className="fd-word-tags">{searching && <i>{VOCAB_LEVELS[w.level]}</i>}{w.examples.length > 0 && <i className="fd-tag-listen">リスニング</i>}</span>}
               </button>
-              <button type="button" className="fd-icon" aria-label={`${w.word} を読み上げる`} disabled={!isSpeechSupported()} onClick={() => say(w.word)}><Volume2 size={18} aria-hidden="true" /></button>
+              <button type="button" className="fd-icon" aria-label={`${w.word} を読み上げる`} disabled={!isSpeechSupported()} onClick={() => sayWord(w.id, w.word)}><Volume2 size={18} aria-hidden="true" /></button>
               <button type="button" className="fd-icon fd-mark" aria-pressed={isKnown} aria-label={isKnown ? `${w.word} の覚えた印を外す` : `${w.word} を覚えた語にする`} onClick={() => onMark(w.id, !isKnown)}><Check size={18} aria-hidden="true" /></button>
             </div>
             {open && <WordDetail word={w} onPractice={onPractice} />}

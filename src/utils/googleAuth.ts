@@ -44,6 +44,7 @@ import { nativeSignIn, nativeSignOut } from '../native/nativeAuth';
 import type { GoogleSignInOutcome, SignInMethod } from './authTypes';
 import { logRejection } from './reportError';
 import { asErrorLike } from './errorLike';
+import { trackError, trackEvent } from './analytics';
 // 既存の呼び出し側（import { SignInMethod } from './googleAuth'）のため再公開する
 export type { GoogleSignInOutcome, SignInMethod } from './authTypes';
 
@@ -116,12 +117,20 @@ function providerFor(method: SignInMethod): AuthProvider {
  * popup が使えない環境では自動で redirect に切り替える。
  */
 export async function signInWith(method: SignInMethod): Promise<GoogleSignInOutcome> {
+  const outcome = await signInWithInner(method);
+  // 使われ方の記録：ログインの成否と失敗の種類（キャンセルは数えない）
+  if (outcome.ok) trackEvent(`login_ok_${method}`);
+  else if (!outcome.redirecting && !/キャンセル/.test(outcome.message || '')) trackError(outcome.errorCode || `login_${method}_failed`);
+  return outcome;
+}
+
+async function signInWithInner(method: SignInMethod): Promise<GoogleSignInOutcome> {
   // アプリ（Capacitor ネイティブ環境）のときは端末のログイン画面を使用する
   if (isNativeApp()) {
     return nativeSignIn(method);
   }
 
-  if (!FIREBASE_CONFIGURED && !USE_EMULATORS) return { ok: false, message: 'オンライン機能は初期設定が必要です。運営者はREADMEに従って専用Firebaseを設定してください。ゲストで演習・AI対戦を試せます。' };
+  if (!FIREBASE_CONFIGURED && !USE_EMULATORS) return { ok: false, message: 'オンライン機能は初期設定が必要です。運営者はREADMEに従って専用Firebaseを設定してください。' };
   const label = method === 'apple' ? 'Apple' : 'Google';
   if (isInAppBrowser()) {
     return {

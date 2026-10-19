@@ -6,8 +6,9 @@ import { applyQuizResult, buildQuiz, buildRangeQuiz, clampRange, COUNT_OPTIONS, 
 import { play, primeAudio } from '../battle/ui/feedback';
 import { recordVocabActivity } from '../battle/data/growthStore';
 import { isSpeechSupported, stopSpeech } from '../utils/listeningSpeech';
-import { say } from './foundationShared';
+import { sayWord } from './foundationShared';
 import { TobiraBuddy } from './TobiraBuddy';
+import { trackEvent } from '../utils/analytics';
 
 /**
  * 英単語の4択（2026-10-01 D／2026-10-17 市販の単語アプリと同じ「出題の設定」）
@@ -77,6 +78,7 @@ export function VocabQuiz({ uid, known, onMark, onWordbook }: { uid: string; kno
   const startRange = () => {
     primeAudio();
     const { items } = buildRangeQuiz(list, prefs, { mastered, missed: rec.missed, dir, seed: Date.now(), numbers });
+    trackEvent('vocab_quiz_start');
     begin(items, { kind: 'range', level, from, to });
   };
   const startMissed = () => {
@@ -130,7 +132,7 @@ export function VocabQuiz({ uid, known, onMark, onWordbook }: { uid: string; kno
       <article className="vq-card" key={it.q.id}>
         <p className="vq-prompt">{it.no !== undefined && <span className="vq-no" data-vocab-no={it.no}>No.{it.no}</span>}{it.q.prompt}</p>
         <p className="vq-label" lang={it.dir === 'e2j' ? 'en' : 'ja'}>{it.q.label}
-          {it.dir === 'e2j' && <button type="button" className="fd-icon" aria-label={`${it.word} を読み上げる`} disabled={!isSpeechSupported()} onClick={() => say(it.word)}><Volume2 size={18} aria-hidden="true" /></button>}
+          {it.dir === 'e2j' && <button type="button" className="fd-icon" aria-label={`${it.word} を読み上げる`} disabled={!isSpeechSupported()} onClick={() => sayWord(it.wordId, it.word)}><Volume2 size={18} aria-hidden="true" /></button>}
         </p>
       </article>
       <div className="vq-options" role="group" aria-label="選択肢">{it.q.options.map((o, k) => <button key={k} type="button" disabled={answered} onClick={() => choose(k)}
