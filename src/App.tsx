@@ -152,6 +152,9 @@ import {
   quizStepKey,
 } from './utils/quizStorageKeys';
 import { pullStudyData, installStudySyncFlush, resetStudySyncState } from './utils/studySync';
+import { startUserDataSync, stopUserDataSync, installUserDataSyncFlush, USER_DATA_SYNCED_EVENT } from './utils/userDataSync';
+import { installUsageFlush, trackScreen } from './utils/analytics';
+import { rescheduleReminders } from './utils/studyRemindersRuntime';
 import { TeacherDashboard } from './components/TeacherDashboard';
 import { useTitleBgmController } from './hooks/useTitleBgmController';
 import { FeedbackAdminPanel } from './components/FeedbackAdminPanel';
@@ -223,6 +226,13 @@ const SELECTED_SUBJECT_KEY = 'savedSelectedSubject';
  * かつ放置された端末が学習画面のまま残らない長さにしている。
  */
 const IDLE_RESET_MS = 30 * 60 * 1000;
+/** ログインできずに「この端末だけで続ける」を選んだ印（ゲスト入口の廃止後の逃げ道） */
+const LOGIN_FALLBACK_KEY = 'login_fallback_local_v1';
+function isScreenshotMode(): boolean {
+  try {
+    return new URLSearchParams(window.location.search).get('screenshot') === '1' || localStorage.getItem('screenshot_mode') === 'true';
+  } catch { return false; }
+}
 
 export default function App() {
   const [hasEntered, setHasEntered] = useState(() => {
@@ -367,7 +377,16 @@ export default function App() {
   const isNarrowViewport = useIsMobile();
   // 「モバイル端末」= UA がモバイル or 画面幅が md 未満。
   const isMobileDevice = isMobileUserAgent || isNarrowViewport;
-  const [isGuest, setIsGuest] = useState(() => localStorage.getItem('savedIsGuest') === 'true');
+  /*
+   * isGuest ＝「ログインせずに、この端末だけで使っている」状態。
+   * 2026-10-19 ゲストで始める入口は廃止した（ログイン必須）。
+   * ただし「ログインがどうしても通らない／オンライン機能が設定前」のときに
+   * アプリへ入れなくなるのが一番まずいので、ログイン画面で失敗したときだけ
+   * 「この端末だけで続ける」を出す（Onboarding の onOffline）。その印が LOGIN_FALLBACK_KEY。
+   * 以前のゲスト（savedIsGuest）は引き継がない＝次の起動でログイン画面が出る。
+   * ログインすると、この端末の記録は userDataSync.migrateGuestData でアカウントへ移る。
+   */
+  const [isGuest, setIsGuest] = useState(() => localStorage.getItem(LOGIN_FALLBACK_KEY) === 'true');
   // 選択中の科目。ログイン直後の科目選択画面（＝タイトル画面）で決まる。
   // 保存値が今の科目一覧に無い（＝古い/壊れた値）場合は化学基礎に戻す。
   const [selectedSubject, setSelectedSubject] = useState<SubjectId>(() => {
@@ -484,8 +503,12 @@ export default function App() {
       if (!user) {
         // ログアウトしたら同期状態を捨てる（別アカウントと混ざらないように）
         resetStudySyncState();
+        stopUserDataSync();
         return;
       }
+      // レベル・コイン・ガチャ・単語の✓・学習時間・メモなど、端末だけにあった記録も
+      // アカウントへ保存する（ゲストで使っていた分はここでアカウントへ移る）
+      startUserDataSync(user.uid);
       // ログイン直後は他の初期化処理と競合しやすいので少し待つ
       window.setTimeout(() => {
         void pullStudyData().then((result) => {
@@ -504,6 +527,16 @@ export default function App() {
   // 未送信の学習データを送る。iOS Safari は beforeunload が
   // 発火しないことがあるため pagehide / visibilitychange を使う。
   useEffect(() => installStudySyncFlush(), []);
+  useEffect(() => installUserDataSyncFlush(), []);
+  useEffect(() => installUsageFlush(), []);
+  // 学習のお知らせ（通知）：開いたとき・裏から戻ったときに予約し直す（復習日・連続日数が変わるため）
+  useEffect(() => {
+    const again = () => { if (document.visibilityState !== 'hidden') void rescheduleReminders(); };
+    const t = window.setTimeout(again, 3000);
+    document.addEventListener('visibilitychange', again);
+    window.addEventListener(USER_DATA_SYNCED_EVENT, again);
+    return () => { window.clearTimeout(t); document.removeEventListener('visibilitychange', again); window.removeEventListener(USER_DATA_SYNCED_EVENT, again); };
+  }, []);
 
   // iOS のピンチ・ダブルタップズームを抑止する（解答・解説画面と入力欄・ボタン・リンクは除く）
   usePreventZoom({
@@ -514,6 +547,8 @@ export default function App() {
 
 
   useEffect(() => { safeSetItem('savedAppState', appState); }, [appState]);
+  // 使われ方の記録：どの画面を開いたか（設定でオフにできる。utils/analytics.ts）
+  useEffect(() => { trackScreen(hasEntered ? appState : 'launch'); }, [appState, hasEntered]);
   useEffect(() => { safeSetItem('savedAppMode', appMode); }, [appMode]);
   useEffect(() => {
     if (selectedChapterId) {
@@ -530,7 +565,10 @@ export default function App() {
     }
   }, [quizRange]);
   useEffect(() => { safeSetItem('savedQuizAnswers', JSON.stringify(quizAnswers)); }, [quizAnswers]);
-  useEffect(() => { safeSetItem('savedIsGuest', isGuest.toString()); }, [isGuest]);
+  useEffect(() => {
+    safeSetItem(LOGIN_FALLBACK_KEY, isGuest.toString());
+    try { localStorage.removeItem('savedIsGuest'); } catch { /* 古い印の掃除。消せなくても読まないので害はない */ }
+  }, [isGuest]);
   useEffect(() => { safeSetItem(SELECTED_SUBJECT_KEY, selectedSubject); }, [selectedSubject]);
   
   useEffect(() => {
@@ -701,7 +739,9 @@ export default function App() {
       isFirstLoad.current = false;
 
       if (!user) {
-        if (!isGuest && !wasFirstLoad) {
+        // ログイン必須（2026-10-19）。起動時に未ログインならログイン画面へ。
+        // 例外：ログインできずに「この端末だけで続ける」を選んだ人・スクリーンショット撮影
+        if (!isGuest && !(wasFirstLoad && isScreenshotMode())) {
           setAppState('onboarding');
         }
       } else {
@@ -1009,10 +1049,8 @@ export default function App() {
 
   if (!hasEntered) {
     const enter = () => { battleAudio().unlock(); setHasInteracted(true); setHasEntered(true); };
-    // 副CTA「ゲストで試す」は、まだゲストでもログイン済みでもない人（＝次にログイン画面が出る人）にだけ出す
-    const firstVisit = !isGuest && !auth.currentUser;
-    return <LaunchScreen soundEnabled={isBgmEnabled} onToggleSound={() => handleToggleBgm(!isBgmEnabled)} onStart={enter}
-      onGuest={firstVisit ? () => { setIsGuest(true); setAppState('home'); enter(); } : undefined} />;
+    // 2026-10-19 タイトルの「ゲストで試す」は廃止（ログイン必須）。未ログインならこの次にログイン画面が出る
+    return <LaunchScreen soundEnabled={isBgmEnabled} onToggleSound={() => handleToggleBgm(!isBgmEnabled)} onStart={enter} />;
   }
 
   return (
@@ -1119,12 +1157,12 @@ export default function App() {
             {appState === 'feedback_admin' && <FeedbackAdminPanel onBack={() => setAppState('settings')} />}
 
             {/* ログイン／ゲスト開始の直後は、必ず科目選択（＝タイトル）画面を経由する */}
-            {/* ログイン／ゲスト開始の直後は、そのままホームへ入る。
+            {/* ログイン（またはログインできないときの「この端末だけで続ける」）の直後は、そのままホームへ入る。
                 以前はここで科目選択を挟んでいたため、
                 «ログイン → 科目選択 → ホーム → 学習を始める → 科目選択»
                 と科目選択が2回出てしまっていた。
                 科目はホームの「学習を始める」で選ぶ（初期値は化学基礎）。 */}
-            {appState === 'onboarding' && <Onboarding onComplete={() => setAppState('home')} onGuest={() => { setIsGuest(true); setAppState('home'); }} />}
+            {appState === 'onboarding' && <Onboarding onComplete={() => { setIsGuest(false); setAppState('home'); }} onOffline={() => { setIsGuest(true); setAppState('home'); }} />}
             {appState === 'subject_selection' && (
               <ListeningSubjectSelection
                 onSelectSubject={handleSelectSubject}

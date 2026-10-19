@@ -18,4 +18,6 @@ export interface GoogleSignInOutcome {
   redirecting?: boolean;
   /** 失敗理由（利用者向けの日本語） */
   message?: string;
+  /** 失敗の種類（解析用の短いコード。例：NA-SHA1） */
+  errorCode?: string;
 }
