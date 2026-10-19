@@ -28,7 +28,7 @@ import { readStudyTime, formatStudyTime } from '../utils/studyTime';
 import { GOAL_OPTIONS, TARGET_SCHOOL_MAX, normalizeTargetSchool, readGoal, writeGoal, type GoalId } from '../utils/vocabGoal';
 import './profile-settings.css';
 import { ReminderSettings, AnalyticsSetting } from './ReminderSettings';
-import { readJsonArray } from '../utils/safeLocalStorage';
+import { readJsonArray, requireLocalStorage, setItemOrThrow } from '../utils/safeLocalStorage';
 import { logRejection } from '../utils/reportError';
 import { useMediaQuery } from '../hooks/useMediaQuery';
 
@@ -101,7 +101,8 @@ export function ProfileModal({ onClose, initialTab, isBgmEnabled, setIsBgmEnable
   useEffect(() => {
     try {
       const uid = auth.currentUser?.uid || 'guest';
-      const localProfile = localStorage.getItem(profileKey(uid));
+      const ls = requireLocalStorage();
+      const localProfile = ls.getItem(profileKey(uid));
       if (localProfile) {
         const data = JSON.parse(localProfile);
         setName(data.name || '');
@@ -113,7 +114,7 @@ export function ProfileModal({ onClose, initialTab, isBgmEnabled, setIsBgmEnable
         setName(auth.currentUser?.displayName || (auth.currentUser ? 'ユーザー' : 'ゲスト'));
         setGrade('高校生');
       }
-      setStreak(parseInt(localStorage.getItem(streakKey(uid)) || '0', 10));
+      setStreak(parseInt(ls.getItem(streakKey(uid)) || '0', 10));
       setCompletedCount(readJsonArray(completedKey(uid)).length);
     } catch (error) {
       console.error('プロフィール取得エラー:', error);
@@ -147,7 +148,7 @@ export function ProfileModal({ onClose, initialTab, isBgmEnabled, setIsBgmEnable
               : 'プロフィールの公開だけ保存できませんでした。ほかの設定は保存しました。少し時間をおいてもう一度保存してください。';
         }
       }
-      localStorage.setItem(profileKey(uid), JSON.stringify({
+      setItemOrThrow(profileKey(uid), JSON.stringify({
         name: name.trim(), grade: grade.trim(), stream, profilePublic: publishFailed ? wasPublic : profilePublic, targetSchool: normalizeTargetSchool(targetSchool), motto: normalizeMotto(motto), iconUrl: auth.currentUser?.photoURL || '',
       }));
       writeGoal(goal);
