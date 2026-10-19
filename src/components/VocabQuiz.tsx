@@ -139,7 +139,7 @@ export function VocabQuiz({ uid, known, onMark, onWordbook }: { uid: string; kno
       <div className="vq-options" role="group" aria-label="選択肢">{it.q.options.map((o, k) => <button key={k} type="button" disabled={answered} onClick={() => choose(k)}
         lang={it.dir === 'j2e' ? 'en' : 'ja'}
         data-correct={answered && k === it.q.answerIndex ? true : undefined} data-wrong={answered && pick === k && k !== it.q.answerIndex ? true : undefined}>
-        <i aria-hidden="true">{'①②③④'[k]}</i><span>{o}</span>{answered && k === it.q.answerIndex && <Check size={18} aria-hidden="true" />}
+        <i aria-hidden="true">{'①②③④'[k]}</i><span>{o.split(/([0-9]+)/g).map((part, index) => /[0-9]+/.test(part) ? <span className="vq-number-glyph" key={index}>{part}</span> : part)}</span>{answered && k === it.q.answerIndex && <Check size={18} aria-hidden="true" />}
       </button>)}</div>
       {answered && pick === it.q.answerIndex && <CorrectBurst burstKey={it.q.id} combo={streakAt(phase.items, phase.picks, phase.i)} />}
       <div className="vq-foot" aria-live="polite">
