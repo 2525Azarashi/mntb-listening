@@ -132,7 +132,7 @@ function QuestionTimeline({ result }: { result: BattleResultSummary }) {
   return (
     <div className="grid gap-1" role="table" aria-label="1問ごとの両者の正誤">
       <div className="flex items-center gap-1" role="row">
-        <span className="w-4 text-xs" aria-hidden>🔵</span>
+        <span className="w-4 text-xs" aria-hidden><span className="inline-block h-2.5 w-2.5 rounded-full" style={{ background: ME_BLUE }} /></span>
         {cols.map((i) => {
           const m = mine.get(i)?.correct;
           const t = theirs.get(i)?.correct;
@@ -140,7 +140,7 @@ function QuestionTimeline({ result }: { result: BattleResultSummary }) {
         })}
       </div>
       <div className="flex items-center gap-1" role="row">
-        <span className="w-4 text-xs" aria-hidden>🔴</span>
+        <span className="w-4 text-xs" aria-hidden><span className="inline-block h-2.5 w-2.5 rounded-full" style={{ background: OPP_RED }} /></span>
         {cols.map((i) => (
           <span key={`o${i}`} className="flex flex-1" role="cell">{cell(theirs.get(i)?.correct, OPP_RED, false)}</span>
         ))}
@@ -243,7 +243,7 @@ export function ReviewPicks({
             <p className="flex items-center gap-1.5 text-xs font-black" style={{ color: INK_SUB }}>
               <span className="tabular-nums">第{p.index + 1}問</span>
               {p.reason === 'opponent-right' && (
-                <span style={{ color: OPP_RED }}>🔴 相手は正解していた</span>
+                <span style={{ color: OPP_RED }}>● 相手は正解していた</span>
               )}
             </p>
             <p className="mt-2 text-sm font-bold leading-relaxed" style={{ color: INK }}>

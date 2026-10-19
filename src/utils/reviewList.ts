@@ -19,6 +19,7 @@ import {
   fingerprintProblem,
   } from './problemVersion';
 import { logRejection } from './reportError';
+import { requireLocalStorage, safeParseJson, setItemOrThrow } from './safeLocalStorage';
 
 const STORAGE_PREFIX = 'review_list_';
 
@@ -104,11 +105,7 @@ function boxToDue(box: number, from: number = Date.now()): number {
 
 export function loadReviewList(uid: string | null | undefined): ReviewItem[] {
   try {
-    const raw = localStorage.getItem(storageKey(uid));
-    if (!raw) return [];
-    const parsed = JSON.parse(raw);
-    if (!Array.isArray(parsed)) return [];
-    return parsed as ReviewItem[];
+    return safeParseJson<ReviewItem[]>(requireLocalStorage().getItem(storageKey(uid)), [], Array.isArray);
   } catch {
     return [];
   }
@@ -116,7 +113,7 @@ export function loadReviewList(uid: string | null | undefined): ReviewItem[] {
 
 export function saveReviewList(uid: string | null | undefined, items: ReviewItem[]): void {
   try {
-    localStorage.setItem(storageKey(uid), JSON.stringify(items));
+    setItemOrThrow(storageKey(uid), JSON.stringify(items));
   } catch {
     /* noop: ストレージ枯渇時などは黙って無視 */
   }
