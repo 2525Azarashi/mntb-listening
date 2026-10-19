@@ -46,6 +46,7 @@ import { LEADERBOARD_PAGE_SIZE } from './scoring';
 // ユーザーごとの localStorage キー名は utils/userStorageKeys.ts が唯一の定義
 import { profileKey } from './userStorageKeys';
 import { sanitizeNickname } from '../features/safety/nicknameFilter';
+import { requireLocalStorage } from './safeLocalStorage';
 
 /**
  * leaderboard_events の1件（Firestore から読んだままの形）。
@@ -103,7 +104,7 @@ export function resolveNickname(): string {
   // ★他人の画面に出る名前なので、送る直前に必ず安全チェックを通す★
   //   （App Store 1.2。保存時にも弾くが、古い端末に残った名前もここで止める）
   try {
-    const local = localStorage.getItem(profileKey(user.uid));
+    const local = requireLocalStorage().getItem(profileKey(user.uid));
     if (local) {
       const p = JSON.parse(local);
       if (p && typeof p.name === 'string' && p.name.trim().length > 0) {

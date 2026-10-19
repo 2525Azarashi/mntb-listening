@@ -81,7 +81,7 @@ import { profileKey, streakKey, lastActiveKey, completedKey } from '../utils/use
 import { loadSchoolBrand } from '../utils/classroom';
 import { UpdateNoticeModal } from './UpdateNoticeModal';
 import { unreadNoticeCount, refreshRemoteNotices } from '../utils/updateNotices';
-import { readJsonArray } from '../utils/safeLocalStorage';
+import { readJsonArray, requireLocalStorage, setItemOrThrow } from '../utils/safeLocalStorage';
 import { KineticText } from '../motion';
 
 interface HomeProps {
@@ -224,7 +224,8 @@ export function Home({ onPractice, onPickSubject, onStudyMode, onGrowth, onStart
         const uid = auth.currentUser ? auth.currentUser.uid : 'guest';
 
         // Load Profile Name/Details
-        const localProfile = localStorage.getItem(profileKey(uid));
+        const ls = requireLocalStorage();
+        const localProfile = ls.getItem(profileKey(uid));
         if (localProfile) {
           setProfile(JSON.parse(localProfile));
         } else {
@@ -232,8 +233,8 @@ export function Home({ onPractice, onPickSubject, onStudyMode, onGrowth, onStart
         }
 
         // Calculate streak
-        const lastActive = localStorage.getItem(lastActiveKey(uid));
-        const storedStreak = parseInt(localStorage.getItem(streakKey(uid)) || '0', 10);
+        const lastActive = ls.getItem(lastActiveKey(uid));
+        const storedStreak = parseInt(ls.getItem(streakKey(uid)) || '0', 10);
 
         const today = new Date().toDateString();
         setDaysAway(lastActive ? Math.max(0, Math.round((new Date(today).getTime() - new Date(lastActive).getTime()) / 86_400_000)) : -1);
@@ -245,12 +246,12 @@ export function Home({ onPractice, onPickSubject, onStudyMode, onGrowth, onStart
           if (lastActive === yesterday.toDateString()) {
             const newStreak = storedStreak + 1;
             setStreak(newStreak);
-            localStorage.setItem(streakKey(uid), newStreak.toString());
-            localStorage.setItem(lastActiveKey(uid), today);
+            setItemOrThrow(streakKey(uid), newStreak.toString());
+            setItemOrThrow(lastActiveKey(uid), today);
           } else {
             setStreak(1);
-            localStorage.setItem(streakKey(uid), '1');
-            localStorage.setItem(lastActiveKey(uid), today);
+            setItemOrThrow(streakKey(uid), '1');
+            setItemOrThrow(lastActiveKey(uid), today);
           }
         }
 
