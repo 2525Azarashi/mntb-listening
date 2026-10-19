@@ -279,3 +279,9 @@
 .mypage-entries [data-mypage-entry=shop] { border-color: #9ad9c1; box-shadow: 0 4px 0 #5fae8f; }
 .my-collection[data-my-collection=shop]::before { background: repeating-linear-gradient(90deg, #f7b9c9 0 26px, #fffaf0 26px 52px); opacity: .9; }
 .my-collection[data-my-collection=shop] .collection-grid > li { border-color: #e6d7b8 !important; box-shadow: 0 3px 0 #e6d7b8 !important; }
+/* ショップ上の「ショップとガチャの違い」は1行に */
+.store-guide.is-compact { display: flex !important; align-items: center; gap: 10px; padding: 8px 10px !important; }
+.store-guide.is-compact p { flex: 1; margin: 0; font-size: 13px; line-height: 1.45; color: #3c4f6b; }
+.store-guide.is-compact p b { color: #1f3354; }
+.store-guide.is-compact p strong { color: #b8641a; }
+.store-guide.is-compact button { flex-shrink: 0; width: auto !important; min-height: 44px; padding: 0 14px !important; margin: 0 !important; white-space: nowrap; }

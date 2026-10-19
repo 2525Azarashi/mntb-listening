@@ -102,7 +102,7 @@ export function Leaderboard({ onBack, onGacha, initialTab = 'national', onRequir
       <summary>
         <span className="season-badge">{season.started ? `シーズン${season.number}` : 'シーズン1'}</span>
         <span className="season-when">{season.started ? `${fmtDay(season.start)}〜${end}（締切 ${end} 0:00）` : `${fmtDay(season.start)} 0:00 スタート`}</span>
-        <span className="season-mine">{uid ? `いまの参加賞：${myJoin}マナコイン` : 'もらえるもの'}</span>
+        {uid && <span className="season-mine">{`いまの参加賞：${myJoin}マナコイン`}</span>}
       </summary>
       <div className="season-body">
         <p className="season-cond">条件：シーズン中に<b>全国対戦（対人）を{SEASON_REWARDS.minMatches}試合以上</b>。締切のときのリーグで決まります。プレゼントはマイページの「プレゼント」に届きます。</p>

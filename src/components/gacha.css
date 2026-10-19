@@ -273,8 +273,9 @@
  .compact-gacha .gacha-lead { display:none; }
 }
 @media(max-height:610px) {
- .compact-gacha .gacha-room > .gacha-machine { display:none; }
- .compact-gacha .gacha-featured { margin-block:auto; }
+ /* 2026-10-19：消すと注目カードの上下に大きな空白ができたので、小さく残して余白を埋める */
+ .compact-gacha .gacha-room > .gacha-machine { display:block; flex:1 1 auto; min-height:80px; max-height:140px; }
+ .compact-gacha .gacha-featured { margin-block:0; }
 }
 
 /* ===== 2026-10-19 提供割合の説明を要点ごとに（両端末） ===== */
@@ -302,3 +303,5 @@
   .mana-hub-gacha .gacha-room .gacha-wallet { align-self: center; width: 100%; padding: 8px 14px; }
   .mana-hub-gacha .gacha-room .gacha-balance { font-size: 15px !important; align-self: auto !important; }
 }
+/* コレクション一覧の「未所持・確率」が10pxで読めなかった（12px以上の決まり） */
+.gacha-collection-grid li > span { font-size: 12px !important; color: #4f5d4c !important; line-height: 1.35; }

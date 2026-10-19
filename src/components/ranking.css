@@ -198,3 +198,10 @@
   .season-card > summary .season-when { display: none; }
 }
 @media (prefers-reduced-motion: reduce) { .league-progress-rich .lp-track i { animation: none; transition: none; } }
+/* 2026-10-19：summary に「もらえるもの」が2回出ていたので、右端の札だけにする */
+.season-card > summary::after { content: 'もらえるもの ▼'; }
+.season-card[open] > summary::after { content: '閉じる ▲'; }
+/* details の中は flex が効かないブラウザがあるので、中身側に高さ上限とスクロールを持たせる */
+.season-card[open] { max-height: none; display: block; overflow: hidden; }
+.season-card[open] > .season-body { max-height: calc(46dvh - 44px); overflow-y: auto; overscroll-behavior: contain; padding-bottom: 10px; }
+@media (min-width: 900px) { .season-card[open] > .season-body { max-height: calc(52dvh - 44px); } }
