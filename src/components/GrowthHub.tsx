@@ -42,7 +42,7 @@ export function GrowthHub({ page, onPage, onBack, onBattle, onReview, onRanking,
   // ★マナラッシュはマイページの中ではなく、それだけの画面にする（2026-10-04 ご要望）★
   if (page === 'rush') return <section className="mana-hub mana-hub-rush" data-rush-page><div className="mypage-extra-scroll"><ManaRush onBack={onBack} defaultSubject={defaultSubject}/></div></section>;
   // ★ガチャ・マイページは下のナビから入るので「← ホーム」は置かない（2026-10-05）★
-  if (page === 'gacha') return <section className="mana-hub mana-hub-gacha compact-gacha"><GachaRoom embedded onBack={onBack} onMissions={()=>onPage('missions')}/></section>;
+  if (page === 'gacha') return <section className="mana-hub mana-hub-gacha compact-gacha"><GachaRoom embedded onBack={onBack} onMissions={()=>onPage('missions')} onShop={()=>onPage('shop')}/></section>;
   return <section className="mana-hub mypage-hub" data-mypage>
     <header className="mana-hub-header"><h1><KineticText text="マイページ" /></h1></header>
     {/* ショップはホームのボタンから入れるので、ここは学習記録（2026-10-05）。ミッション・学習記録の下ボタンは廃止 */}

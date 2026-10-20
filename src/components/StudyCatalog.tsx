@@ -78,7 +78,7 @@ export function StudyCatalog({ subjectId, onSubject, onContent, onBack, progress
   return (
     <main className="sc-page" data-study-catalog={showSubjects ? 'subjects' : 'contents'}>
       <header className="sc-head">
-        <button type="button" className="sc-back" onClick={back} aria-label={`${backLabel}に戻る`}><ChevronLeft size={18} aria-hidden="true" /><span>{backLabel}</span></button>
+        {!single && <button type="button" className="sc-back" onClick={back} aria-label={`${backLabel}に戻る`}><ChevronLeft size={18} aria-hidden="true" /><span>{backLabel}</span></button>}
         <div className="sc-head-title">
           <p className="sc-crumb" aria-label="現在地">{single ? <>演習する › <b>{single.label}</b></> : <>演習する{!showSubjects && <> › <b>{subject.label}</b></>}</>}</p>
           <h1><KineticText text={title} /></h1>

@@ -39,6 +39,7 @@ import { GachaCollectionModal } from './gacha/GachaCollectionModal';
 type GachaProps = {
   onBack: () => void;
   onMissions: () => void;
+  onShop?: () => void;
   embedded?: boolean;
 };
 
@@ -52,6 +53,7 @@ export function GachaRoom(props: GachaProps) {
 function GachaRoomContent({
   onBack,
   onMissions,
+  onShop,
   owner,
   embedded = false,
 }: GachaProps & { owner: string; key?: string }) {
@@ -225,6 +227,7 @@ function GachaRoomContent({
       <header className="gacha-head">
         <p className="mt-kicker">TOBIRA COLLECTION</p>
         <h1><KineticText text="とびらくんの装飾ガチャ" step={30} variant="pop" /></h1>
+        {onShop && <nav className="collection-mode-switch" aria-label="装飾ガチャとショップの切替"><button type="button" aria-current="page"><Gift size={17}/>装飾ガチャ</button><button type="button" onClick={onShop}>ショップ</button></nav>}
         <p className="gacha-lead">
           コインで<strong>ランダム抽選</strong>。選んで買うなら
           <wbr />

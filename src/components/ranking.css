@@ -44,6 +44,9 @@
 .league-tabs,.league-actions { display:flex; gap:5px; flex-shrink:0; }
 .league-tabs button,.league-actions button { flex:1; display:flex; align-items:center; justify-content:center; gap:6px; font-weight:800; }
 .league-tabs [aria-selected=true],.league-actions [aria-current=page] { background:#f6e4b6; border-color:#b18434; }
+.league-top-switch { display:flex; gap:5px; flex-shrink:0; }
+.league-top-switch button { flex:1; display:flex; align-items:center; justify-content:center; gap:6px; min-height:44px; border:1px solid #d8c7a5; border-radius:12px; background:#fffdf7; color:#5d503f; font-weight:900; }
+.league-top-switch button[aria-current=page] { background:#f6e4b6; border-color:#b18434; color:#3d3222; }
 .league-my-card { display:flex; align-items:center; gap:10px; padding:10px 12px; border:1.5px solid; border-radius:18px; flex-shrink:0; }
 .league-my-card div { flex:1; min-width:0; }
 .league-my-card strong { display:block; font-size:19px; font-weight:900; }

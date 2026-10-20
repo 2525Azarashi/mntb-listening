@@ -611,6 +611,7 @@ export default function App() {
                 className={appState === 'battle' ? `h-full min-h-0 overflow-y-auto overscroll-contain ${battleActive ? 'battle-no-nav' : 'pb-app-nav'}` : 'hidden'}>
               <BattleMode
                 onExit={() => setAppState('home')}
+                onRanking={() => setAppState('leaderboard')}
                 /* ★フレンド対戦はフレンドどうしだけ★ 対戦画面の「フレンドを追加」から設定のフレンドを開く */
                 onOpenFriends={() => { setSettingsTab('friends'); navigateMain('settings'); }}
                 onRequireLogin={() => setAppState('onboarding')}

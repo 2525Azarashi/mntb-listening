@@ -75,6 +75,9 @@
 .my-collection>header { display:flex; justify-content:space-between; align-items:center; gap:8px; }
 .my-collection h2 { font-size:18px; font-weight:900; display:flex; align-items:center; gap:5px; }
 .my-collection header b { display:flex; align-items:center; gap:3px; font-size:18px; }
+.my-collection .collection-mode-switch { display:flex; gap:5px; }
+.my-collection .collection-mode-switch button { flex:1; font-weight:900; }
+.my-collection .collection-mode-switch button[aria-current="page"] { background:#f6e4b6; border-color:#b18434; color:#3d3222; }
 .collection-controls { display:flex; gap:6px; }
 .collection-controls input { flex:1; min-width:0; }
 .my-collection input,.my-collection select,.my-collection button,.my-collection a { font-size:13px; min-height:44px; border:1px solid #d6cbbb; border-radius:10px; background:#fffdf8; padding:8px; }
