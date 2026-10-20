@@ -52,8 +52,8 @@ export function FriendPanel() {
     // 取得系（fetchFriendRequests / fetchFriends）は内部でエラーを握りつぶし
     // 空配列を返すため、ここで権限エラーのメッセージが常時表示されることはない。
     try {
-      const p = await ensureFriendProfile();
-      setProfile(p);
+      // 自分のコードの用意と、一覧の読み込みは並べて走らせる（片方が遅くても、もう片方は先に出す）
+      void ensureFriendProfile().then(setProfile).catch((e) => console.error('フレンドコードの用意に失敗しました:', e));
       const [reqs, sent, list] = await Promise.all([
         fetchFriendRequests(),
         fetchSentFriendRequests(),
