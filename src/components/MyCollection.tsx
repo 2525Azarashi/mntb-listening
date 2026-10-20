@@ -54,7 +54,6 @@ export function MyCollection({ view = 'owned', onGacha, initialKind = 'all', gac
   };
   return <section className="my-collection" data-my-collection={view}>
     <header><h2>{view === 'prints' ? <FileText size={22}/> : <Shirt size={22}/>} {titles[view]}</h2><b><Coins size={18}/>{progress.coins.toLocaleString()}</b></header>
-    {view === 'shop' && onGacha && <nav className="collection-mode-switch" aria-label="ショップと装飾ガチャの切替"><button type="button" onClick={onGacha}>装飾ガチャ</button><button type="button" aria-current="page">ショップ</button></nav>}
     {message && <p role="status" className="collection-message">{message}</p>}
     {<><div className="collection-controls"><label className="sr-only" htmlFor="collection-search">アイテム名で探す</label><input id="collection-search" placeholder="名前で探す" value={search} onChange={e => setSearch(e.target.value)}/>{view !== 'prints' && <select aria-label="所有状況" value={state} onChange={e => setState(e.target.value as typeof state)}><option value="owned">所持済み</option><option value="available">未所持</option><option value="all">すべて</option></select>}</div>{view !== 'prints' && <label className="collection-kind">種類<select value={kind} onChange={e => setKind(e.target.value)}>{[['all','すべて'],['pose','ポーズ'],['frame','フレーム'],['hat','帽子'],['glasses','メガネ'],['cheek','ほっぺ'],['aura','オーラ'],['wallpaper','壁紙']].map(([id,label]) => <option key={id} value={id}>{label}</option>)}</select></label>}</>}
     <div className="collection-scroll" tabIndex={0} aria-label="所有アイテム一覧" ref={pager.frameRef} data-fit-paged={pager.enabled || undefined}>
