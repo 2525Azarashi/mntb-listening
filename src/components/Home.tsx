@@ -1,7 +1,7 @@
 import './home-legibility.css';
 import './home-pillars.css';
 import React, { useState, useEffect, useMemo, useRef } from 'react';
-import { ChevronRight, Edit3, BarChart3, ShieldCheck, Repeat2, Bell, Volume2, VolumeX, Swords, Trophy, Store, Shirt, Award, Target, Zap, BookHeart } from 'lucide-react';
+import { ChevronRight, Edit3, ShieldCheck, Repeat2, Bell, Volume2, VolumeX, Swords, Trophy, Store, Target, Zap, BookHeart } from 'lucide-react';
 import { createPortal } from 'react-dom';
 const PhilosophyPage = React.lazy(() => import('./PhilosophyPage').then(m => ({ default: m.PhilosophyPage })));
 import { auth } from '../firebase';
@@ -393,8 +393,6 @@ export function Home({ onPractice, onPickSubject, onStudyMode, onGrowth, onStart
             {/* ガチャは下のナビにあるので、ここはランキング（2026-10-04） */}
             <button className="stage-gacha" type="button" onClick={onLeaderboard} aria-label="ランキングを見る"><Trophy /><span>ランキング</span></button>
             <button className="stage-shop" type="button" onClick={() => onGrowth('shop')}><Store /><span>ショップ</span></button>
-            <button className="stage-outfit" type="button" onClick={() => onGrowth('outfit')}><Shirt /><span>きせかえ</span></button>
-            <button className="stage-badges" type="button" onClick={() => onGrowth('badges')}><Award /><span>称号</span></button>
           </div>}
         </section>
         {/* ★ホームの3本柱（2026-10-01）★
@@ -416,11 +414,9 @@ export function Home({ onPractice, onPickSubject, onStudyMode, onGrowth, onStart
         </button>
           {onGrowth && <button type="button" className="home-rush-card" onClick={() => onGrowth('rush')} aria-label="マナラッシュ（60秒チャレンジ）を開く" data-home-rush><Zap size={20} /><span><strong>マナラッシュ</strong><small>60秒チャレンジ</small></span></button>}
         </section>
-        <div className="game-home-utility arena-home-bottom has-four">
-          {onGrowth && <button type="button" onClick={() => onGrowth('missions')}><Target size={17} />ミッション</button>}
-          {/* 「学習状況」はやめ、直近3日の「学習記録」（どの問題をやって、どこを間違えたか）へ。マイページの学習記録と同じ画面 */}
-          <button type="button" onClick={onNoteList} data-home-record><BarChart3 size={17} />学習記録</button>
+        <div className="game-home-utility arena-home-bottom has-three">
           <button type="button" aria-label="アプリ紹介を開く" onClick={onIntro}><ShieldCheck size={17} />使い方</button>
+          {onGrowth && <button type="button" onClick={() => onGrowth('missions')}><Target size={17} />ミッション</button>}
           {/* ★開発者の想い「学びの扉」をホームからも（2026-10-05 ご要望「もう少し見やすいところに」）★ タイトル画面だけだと一度しか目に入らない */}
           <button type="button" className="home-philosophy-entry" onClick={() => setShowPhilosophy(true)} aria-label="学びの扉（開発者の想い）を読む" data-open-philosophy><BookHeart size={17} />学びの扉</button>
         </div>
@@ -433,7 +429,6 @@ export function Home({ onPractice, onPickSubject, onStudyMode, onGrowth, onStart
           <div className="mt-progress" role="progressbar" aria-label={`${subjectLabel}の学習進捗`} aria-valuemin={0} aria-valuemax={100} aria-valuenow={progressPercent}><i style={{ width: `${progressPercent}%` }} /></div>
           {/* ゼロには次の一手を */}
           {reviewDueCount === 0 && <p className="study-next">{solvedQuestions === 0 ? '最初の1問で、扉がひとつ開くよ' : '復習はゼロ。新しい大問に進もう'}</p>}
-          <button type="button" onClick={onNoteList}>学習記録を見る <ChevronRight size={16} /></button>
         </section>
       </div>
       <dialog ref={progressDialog} className="game-details-dialog" aria-labelledby="home-progress-title">
