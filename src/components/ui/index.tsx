@@ -125,6 +125,19 @@ export const Modal = Dialog;
 export function Loading({ label = '読み込み中…' }: { label?: string }) {
   return <div className="mt-loading" role="status"><i aria-hidden="true" />{label}</div>;
 }
+/**
+ * 一覧の読み込み中に出す骨組み（スケルトン）。
+ * 「読み込み中…」の1行だと、読み込み後に行が一気に増えて画面が跳ね、何が出るのかも分からない。
+ * 実際の行と同じ高さの灰色の行を並べておき、届いたら差し替える（ランキング・フレンド一覧）。
+ * 動きを減らす設定では明滅を止める。読み上げは label を1回だけ読む。
+ */
+export function ListSkeleton({ rows = 5, rowHeight = 64, label = '読み込み中…' }: { rows?: number; rowHeight?: number; label?: string }) {
+  return <div className="mt-skeleton-list" role="status" aria-label={label} data-skeleton>
+    {Array.from({ length: rows }, (_, i) => <div key={i} className="mt-skeleton-row" style={{ minHeight: rowHeight }} aria-hidden="true">
+      <i className="mt-skeleton-dot" /><span><i style={{ width: `${62 - (i % 3) * 12}%` }} /><i style={{ width: `${38 + (i % 2) * 14}%` }} /></span>
+    </div>)}
+  </div>;
+}
 export function Toast({ message }: { message: string | null }) {
   return message ? <div className="mt-toast" role="status">{message}</div> : null;
 }

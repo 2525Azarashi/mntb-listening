@@ -15,6 +15,7 @@ import {
 } from '../utils/friends';
 import { auth } from '../firebase';
 import { DoorMascot } from './DoorMascot';
+import { ListSkeleton } from './ui';
 import { FriendCodeInput, friendCodeFromRaw } from './FriendCodeInput';
 import { UserSafetyMenu } from '../features/safety/UserSafetyMenu';
 import { isBlocked } from '../features/safety/userSafety';
@@ -44,6 +45,8 @@ export function FriendPanel() {
   const [message, setMessage] = useState('');
   const [isError, setIsError] = useState(false);
   const [loading, setLoading] = useState(false);
+  /** 一覧を一度でも読み終えたか（初回だけスケルトンを出す。更新ボタンのときは今の一覧を残す） */
+  const [loaded, setLoaded] = useState(false);
   const [copied, setCopied] = useState(false);
 
   const load = async () => {
@@ -66,6 +69,7 @@ export function FriendPanel() {
       // ここに到達するのは想定外の例外のみ。
       console.error('フレンド情報の取得に失敗しました:', e);
     } finally {
+      setLoaded(true); // 失敗しても骨組みを出し続けない（空の案内に切り替える）
       setLoading(false);
     }
   };
@@ -202,7 +206,7 @@ export function FriendPanel() {
 
       <div data-friend-list className="min-h-[160px] flex-1 space-y-1.5 overflow-y-auto overscroll-contain pr-1" tabIndex={0} aria-label="フレンド一覧">
         <div className="sticky top-0 z-10 flex items-center justify-between gap-2 bg-white pb-0.5">
-          <p className="flex items-center gap-1.5 text-xs font-bold text-gray-600"><UserPlus size={14} aria-hidden="true" />フレンド一覧（{friends.length}人）</p>
+          <p className="flex items-center gap-1.5 text-xs font-bold text-gray-600"><UserPlus size={14} aria-hidden="true" />フレンド一覧（{loaded ? `${friends.length}人` : '…'}）</p>
           <button
             onClick={load}
             disabled={loading}
@@ -212,7 +216,9 @@ export function FriendPanel() {
             <RefreshCw size={14} className={loading ? 'animate-spin' : ''} />
           </button>
         </div>
-        {friends.length === 0 ? (
+        {!loaded ? (
+          <ListSkeleton rows={4} rowHeight={52} label="フレンド一覧を読み込み中…" />
+        ) : friends.length === 0 ? (
           <div className="text-xs text-gray-600 bg-gray-50 rounded-2xl p-3 flex items-center gap-2"><DoorMascot showSpeech={false} size="mini" className="w-auto" /><span>まだフレンドはいません。上の「あなたのコード」を友だちに伝えるか、友だちのコードを入れて「申請」しましょう（小文字や「MNTB-」なしでも送れます）。</span></div>
         ) : (
           friends.map((f) => (
