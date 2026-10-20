@@ -8,7 +8,7 @@
  *   SectionHeader / Tabs / ListItem・ListGroup / Dialog / Badge / RarityBadge / ItemCard / Loading / Toast
  */
 import React, { useEffect, useRef } from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Crown } from 'lucide-react';
 import { KineticText } from '../../motion/KineticText';
 export { BottomNavigation, type BottomNavItem, type BottomNavId } from './BottomNavigation';
 
@@ -93,9 +93,9 @@ export function Badge({ tone, children }: { tone?: 'new' | 'gold' | 'muted'; chi
   return <span className="mt-badge" data-tone={tone}>{children}</span>;
 }
 const RARITY_NAME: Record<Rarity, string> = { UR: 'ウルトラレア', SR: 'スーパーレア', R: 'レア', N: 'ノーマル' };
-/** レア度の札。N→R→SR→UR で色・枠の太さ・装飾（✦・王冠）が段階的に増える */
+/** レア度の札。N→R→SR→UR で色・枠の太さ・装飾（✦・王冠アイコン）が段階的に増える */
 export function RarityBadge({ rarity, size, label }: { rarity: Rarity; size?: 'lg' | 'xl'; label?: string }) {
-  return <span className="mt-rarity" data-rarity={rarity} data-size={size} aria-label={label ?? RARITY_NAME[rarity]}>{rarity}</span>;
+  return <span className="mt-rarity" data-rarity={rarity} data-size={size} aria-label={label ?? RARITY_NAME[rarity]}>{rarity === 'UR' && <Crown className="mt-rarity-crown" size={11} strokeWidth={2.5} aria-hidden="true" />}{rarity}</span>;
 }
 
 /** アイテムの札（画像＋名前＋補足）。ガチャの注目・結果・コレクションで共通 */
