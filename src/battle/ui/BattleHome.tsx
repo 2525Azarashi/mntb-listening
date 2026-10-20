@@ -150,7 +150,6 @@ export function BattleHome({onChoose,onExit,onRanking,onRequireLogin,notice}: {
     <div className="arena-vs-foe" aria-hidden="true">
      <span className="arena-vs-avatar arena-vs-unknown">?</span>
      <strong>対戦相手</strong>
-     <small>だれが来る？</small>
     </div>
     {row ? <RankStrip rating={row.rating}/> : <TobiraBuddy className="arena-vs-buddy" size="sm" input={{ screen: 'battle', isGuest: !user, seed: new Date().getDate() }} />}
    </section>
