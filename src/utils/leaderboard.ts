@@ -96,7 +96,8 @@ export interface RankingResult<T> {
 
 /**
  * プロフィール（localStorage）からニックネームを取得。
- * なければ displayName、それもなければ「名無しの化学者」を返す。
+ * ★2026-10-20：アカウント名（Google の displayName＝本名のことが多い）には落とさない★
+ *   ニックネームが未設定なら「名無しの化学者」。他の人の画面に本名が出ないようにするため（プライバシー）。
  */
 export function resolveNickname(): string {
   const user = auth.currentUser;
@@ -114,7 +115,7 @@ export function resolveNickname(): string {
   } catch {
     // noop
   }
-  return sanitizeNickname(user.displayName || '', '名無しの化学者');
+  return '名無しの化学者';
 }
 
 // ============================================================
