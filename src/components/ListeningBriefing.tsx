@@ -74,7 +74,7 @@ export function ListeningBriefing({
           <h2 className="text-sm md:text-xl font-handwriting text-[#2C3E50] font-bold truncate">
             {chapter.abstractTitle}
           </h2>
-          <div className="text-[10px] md:text-xs text-gray-500 font-bold mt-0.5">
+          <div className="text-xs md:text-xs text-gray-500 font-bold mt-0.5">
             {mode === 'mini_test' ? '小テスト' : '演習問題'}
           </div>
         </div>
@@ -89,7 +89,7 @@ export function ListeningBriefing({
                 この回の説明
               </span>
               {difficulty && (
-                <span className="text-[11px] font-bold text-gray-400">
+                <span className="text-xs font-bold text-gray-400">
                   難易度：{difficulty}
                 </span>
               )}

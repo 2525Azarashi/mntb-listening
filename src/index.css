@@ -218,10 +218,14 @@ html[data-wallpaper] .home-lobby-lines { display: none; }
 .game-home .game-home-utility.has-four { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 5px; }
 .game-home .game-home-utility.has-four button { flex-direction: column; gap: 2px; padding: 4px 2px; white-space: nowrap; }
 .game-home .game-home-utility .home-philosophy-entry { background: linear-gradient(135deg, #fff3e0, #e9f1fb); border-color: #e3c49a; color: #7a4a1c; font-weight: 800; }
+.game-home .game-home-utility.has-three { grid-template-columns: 1fr 1.8fr 1fr; gap: 5px; }
+.game-home .game-home-utility.has-three button { flex-direction: column; gap: 2px; padding: 4px 2px; white-space: nowrap; }
 /* 2026-10-05 修正：PC・iPad 横でも1行4つ。以前は縦1列にしていたため、高さ48pxの行からはみ出して上の復習ノートに重なっていた */
 @media (min-width: 1024px) {
   .game-home .game-home-utility.has-four { grid-template-columns: repeat(4, minmax(0, 1fr)); align-self: stretch; }
   .game-home .game-home-utility.has-four button { flex-direction: row; justify-content: center; gap: 6px; padding-inline: 6px; min-height: 44px; }
+  .game-home .game-home-utility.has-three { grid-template-columns: 1fr 1.8fr 1fr; align-self: stretch; }
+  .game-home .game-home-utility.has-three button { flex-direction: row; justify-content: center; gap: 6px; padding-inline: 6px; min-height: 44px; }
 }
 
 /* フレンドコード入力（合言葉と同じ見た目・2026-10-05） */
@@ -235,3 +239,9 @@ html[data-wallpaper] .home-lobby-lines { display: none; }
 .friend-code-send:disabled { background: #b8c0c6; box-shadow: none; }
 @media (max-width: 374px) { .friend-code-field { font-size: 16px; padding: 0 10px; letter-spacing: .03em; } .friend-code-paste span { display: none; } }
 .friend-code-hint { margin: 4px 2px 0; font-size: 12px; color: #5a6573; }
+/* 申請ボタンを入力欄と同じ行に（FriendPanel・2026-10-18） */
+.friend-code-row-inline { flex-direction: row; align-items: stretch; }
+.friend-code-row-inline .friend-code-input { flex: 1; min-width: 0; }
+.friend-code-row-inline .friend-code-send { width: auto; min-height: 52px; flex-shrink: 0; padding: 0 12px; }
+@media (max-width: 374px) { .friend-code-row-inline .friend-code-send { padding: 0 9px; } .friend-own-code { padding-inline: 6px; letter-spacing: 0; } .friend-own-copy-text { display: none; } }
+@media (max-width: 340px) { .friend-own-label { display: none; } }

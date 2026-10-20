@@ -24,7 +24,7 @@ export function TobiraBuddy({ input, size = 'md', bubble = 'right', pose, classN
   /** false なら吹き出しだけ（絵は別の場所に大きく出ているとき） */
   figure?: boolean;
 }) {
-  const m = useMemo(() => tobiraMood(input), [input.screen, input.streak, input.dueCount, input.solved, input.daysAway, input.firstVisit, input.outcome, input.margin, input.isGuest, input.seed, input.examDays]);
+  const m = useMemo(() => tobiraMood(input), [input.screen, input.streak, input.dueCount, input.solved, input.daysAway, input.firstVisit, input.outcome, input.margin, input.isGuest, input.seed]);
   const src = pose ?? m.pose;
   const a = anchorOf(src);
   const [blink, setBlink] = useState(false);
