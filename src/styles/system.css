@@ -75,10 +75,13 @@
 .mt-rarity[data-rarity=R] { background: var(--mt-rare-r-bg); border-color: var(--mt-rare-r-line); color: var(--mt-rare-r-ink); }
 /* SR：はっきり特別（太い紫の縁＋星） */
 .mt-rarity[data-rarity=SR] { background: var(--mt-rare-sr-bg); border: 2px solid var(--mt-rare-sr-line); color: var(--mt-rare-sr-ink); }
-.mt-rarity[data-rarity=SR]::before { content: '✦'; font-size: 10px; }
+/* 記号は端末の絵文字フォントに頼らず SVG で描く（Apple の絵文字にならない・2026-10-19） */
+.mt-rarity[data-rarity=SR]::before { content: ''; width: 10px; height: 10px; background: currentColor; -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2l2.6 7.4L22 12l-7.4 2.6L12 22l-2.6-7.4L2 12l7.4-2.6z'/%3E%3C/svg%3E") center / contain no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2l2.6 7.4L22 12l-7.4 2.6L12 22l-2.6-7.4L2 12l7.4-2.6z'/%3E%3C/svg%3E") center / contain no-repeat; }
 /* UR：目玉（虹のパステル地・金の二重縁・王冠） */
 .mt-rarity[data-rarity=UR] { background: var(--mt-rare-ur-grad); border: 2px solid var(--mt-rare-ur-line); color: var(--mt-rare-ur-ink); box-shadow: 0 0 0 2px #fff, 0 0 0 3px #f1d189; }
-.mt-rarity[data-rarity=UR]::before { content: '👑'; font-size: 11px; }
+.mt-rarity[data-rarity=UR]::before { content: ''; width: 13px; height: 13px; background: #c98512; -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M3 8l4.5 4L12 4l4.5 8L21 8l-2 11H5z'/%3E%3C/svg%3E") center / contain no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M3 8l4.5 4L12 4l4.5 8L21 8l-2 11H5z'/%3E%3C/svg%3E") center / contain no-repeat; }
+.mt-rarity[data-size=lg]::before { width: 18px; height: 18px; }
+.mt-rarity[data-size=xl]::before { width: 30px; height: 30px; }
 .mt-rarity[data-size=lg] { min-height: 32px; padding: 2px 14px; font-size: 18px; }
 .mt-rarity[data-size=xl] { min-height: 48px; padding: 4px 22px; font-size: 32px; letter-spacing: .08em; }
 

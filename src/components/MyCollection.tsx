@@ -13,7 +13,7 @@ import { openPdf } from '../utils/pdfViewer';
 /** プレゼント（隔週リーグ報酬）でしか手に入らないアイテム */
 const LEAGUE_GIFT_ITEM = 'frame_league_aurora';
 const LEAGUE_LABEL: Record<string, string> = { bronze: 'ブロンズ', silver: 'シルバー', gold: 'ゴールド', platinum: 'プラチナ', manatobi: 'マナトビ' };
-export function MyCollection({ view = 'owned', onGacha, initialKind = 'all' }: { view?: 'owned' | 'prints' | 'shop'; key?: string; onGacha?: () => void; initialKind?: string }) {
+export function MyCollection({ view = 'owned', onGacha, initialKind = 'all', gachaMode = false }: { view?: 'owned' | 'prints' | 'shop'; key?: string; onGacha?: () => void; initialKind?: string; gachaMode?: boolean }) {
   const { progress, uid } = useGrowthProgress();
   const [kind, setKind] = useState(initialKind); const [search, setSearch] = useState('');
   const [state, setState] = useState<'owned' | 'available' | 'all'>(view === 'shop' ? 'available' : 'owned');
@@ -32,7 +32,7 @@ export function MyCollection({ view = 'owned', onGacha, initialKind = 'all' }: {
   const list = base.filter(i => (kind === 'all' || i.kind === kind) && (!search || i.label.includes(search)) && (view === 'prints' || state === 'all' || (state === 'owned') === owned.includes(i.id)));
   const pager = useFitPager(list.length, `${view}:${kind}:${search}:${state}`);
   if (!progress) return <p role="alert">所有記録を読み込めません。ブラウザの保存設定を確認してください。</p>;
-  const titles = { owned: 'もっているもの', prints: 'マイPDF', shop: 'ショップ（選んで交換）' };
+  const titles = { owned: 'もっているもの', prints: 'マイPDF', shop: gachaMode ? 'ガチャショップ（選んで交換）' : 'ショップ（選んで交換）' };
   const perform = async (item: ItemDef) => {
     if (busy) return;
     const owned = progress.owned.includes(item.id);
@@ -57,11 +57,10 @@ export function MyCollection({ view = 'owned', onGacha, initialKind = 'all' }: {
     {message && <p role="status" className="collection-message">{message}</p>}
     {<><div className="collection-controls"><label className="sr-only" htmlFor="collection-search">アイテム名で探す</label><input id="collection-search" placeholder="名前で探す" value={search} onChange={e => setSearch(e.target.value)}/>{view !== 'prints' && <select aria-label="所有状況" value={state} onChange={e => setState(e.target.value as typeof state)}><option value="owned">所持済み</option><option value="available">未所持</option><option value="all">すべて</option></select>}</div>{view !== 'prints' && <label className="collection-kind">種類<select value={kind} onChange={e => setKind(e.target.value)}>{[['all','すべて'],['pose','ポーズ'],['frame','フレーム'],['hat','帽子'],['glasses','メガネ'],['cheek','ほっぺ'],['aura','オーラ'],['wallpaper','壁紙']].map(([id,label]) => <option key={id} value={id}>{label}</option>)}</select></label>}</>}
     <div className="collection-scroll" tabIndex={0} aria-label="所有アイテム一覧" ref={pager.frameRef} data-fit-paged={pager.enabled || undefined}>
-      {view === 'shop' && <section className="store-guide" aria-label="ショップとガチャの違い" data-store-guide>
-        <div><b>ショップ</b><span>欲しい物を<strong>選んで</strong>コイン交換</span></div>
-        <div><b>ガチャ</b><span>何が出るか<strong>ランダム</strong>（UR・SRはガチャ限定）</span></div>
-        <p>どちらで手に入れても「持ちもの」に入り、PDFは「マイPDF」で開けます。装飾で対戦の強さは変わりません。</p>
-        {onGacha && <button type="button" onClick={onGacha}>ガチャを見てみる</button>}
+      {/* 2026-10-19：説明の箱が一覧を押し下げていたので1行に */}
+      {view === 'shop' && <section className="store-guide is-compact" aria-label="ショップとガチャの違い" data-store-guide>
+        <p><b>ショップ</b>は<strong>選んで</strong>交換・<b>ガチャ</b>は<strong>ランダム</strong>（UR・SRはガチャだけ）</p>
+        {onGacha && <button type="button" onClick={onGacha}>ガチャへ</button>}
       </section>}
       {/* 届いたプレゼント（未受け取りだけ）。受け取ると下の一覧に「プレゼントで獲得」と出る */}
       {view === 'owned' && rewards.some(r => !progress.owned.includes(r.itemId)) && <section className="store-guide is-gift" aria-label="届いたプレゼント" data-gift-guide>
@@ -75,6 +74,5 @@ export function MyCollection({ view = 'owned', onGacha, initialKind = 'all' }: {
       </li>; })}</ul>{!list.length && <p className="collection-empty">{view === 'prints' ? '獲得したPDFはここに並びます。ガチャのURで学習プリントを手に入れよう。' : 'この条件のアイテムはありません。絞り込みを変えてみてください。'}</p>}
     </div>
     <FitPagerBar pager={pager} label="一覧" />
-    <p className="collection-storage">所有アイテム・コインはこの端末のアカウント別に保存。リーグの配布記録はサーバーに保存され、受け取り直せます。</p>
   </section>;
 }
