@@ -7,6 +7,9 @@
 .gacha-head { text-align: center; }
 .gacha-head > .mt-kicker { margin: 0; }
 .gacha-head > h1 { margin: 2px 0 0 !important; font: var(--mt-text-xl) !important; color: var(--mt-ink-warm); }
+.collection-mode-switch { display:flex; gap:5px; max-width:420px; margin:8px auto 0; }
+.collection-mode-switch button { flex:1; display:flex; align-items:center; justify-content:center; gap:5px; min-height:44px; border:1px solid #d8c7a5; border-radius:12px; background:#fffdf7; color:#5d503f; font-weight:900; }
+.collection-mode-switch button[aria-current="page"] { background:#f6e4b6; border-color:#b18434; color:#3d3222; }
 .gacha-lead { margin: 2px 0 0; font: var(--mt-text-xs); font-weight: 500; color: var(--mt-ink-2); }
 .gacha-lead b { font-weight: 700; color: var(--mt-ink); }
 .gacha-lead .gacha-ur-lead { color: #7a3e00; }

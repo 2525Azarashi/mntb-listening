@@ -80,6 +80,7 @@ export function Leaderboard({ onBack, onBattle, onGacha, initialTab = 'national'
   const myJoin = SEASON_REWARDS.participation[league.id as LeagueId];
   return <section className="league-hall" data-rating-ranking>
     <header className="league-header"><button type="button" onClick={onBack} aria-label="ホームへ戻る"><ArrowLeft size={20}/></button><div><small>BATTLE LEAGUES</small><h1><Trophy size={23}/>ランキング</h1></div><button type="button" onClick={() => setRetry(n => n + 1)} disabled={loading} aria-label="ランキングを再読み込み"><RefreshCw size={19}/></button></header>
+    {onBattle && <nav className="league-top-switch" aria-label="ランキングと対戦の切替"><button type="button" aria-current="page"><Trophy size={18}/>ランキング</button><button type="button" onClick={onBattle}><Swords size={18}/>とびらバトル</button></nav>}
     {onGacha && <nav className="league-actions" aria-label="ガチャとランキング"><button type="button" onClick={onGacha}><Gift size={18}/>ガチャ</button><button type="button" aria-current="page"><Trophy size={18}/>ランキング</button></nav>}
     {/* ★2026-10-11★ 上：何で競うか（対戦レート／学習時間）、下：だれと（全国／フレンド／マナクラン）。どちらも低く・一覧を広く */}
     <div className="league-metric mt-segment" role="tablist" aria-label="ランキングの種目">
