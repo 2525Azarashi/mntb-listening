@@ -1,7 +1,7 @@
 import './home-legibility.css';
 import './home-pillars.css';
 import React, { useState, useEffect, useMemo, useRef } from 'react';
-import { ChevronRight, Edit3, ShieldCheck, Repeat2, Bell, Volume2, VolumeX, Swords, Trophy, Store, Target, Zap, BookHeart } from 'lucide-react';
+import { ChevronRight, Edit3, ShieldCheck, Repeat2, Bell, Volume2, VolumeX, Swords, Target, Zap, BookHeart } from 'lucide-react';
 import { createPortal } from 'react-dom';
 const PhilosophyPage = React.lazy(() => import('./PhilosophyPage').then(m => ({ default: m.PhilosophyPage })));
 import { auth } from '../firebase';
@@ -388,11 +388,6 @@ export function Home({ onPractice, onPickSubject, onStudyMode, onGrowth, onStart
               <img className="home-mascot-art" src={equippedPoseSrc(growth)} alt="あなたのとびら君" draggable={false} /><TobiraAccessories progress={growth} />
             </SpinMascot>
             <span>MY TOBIRA <b>Lv.{levelOf(growth.xp).level}</b></span>
-          </div>}
-          {onGrowth && <div className="game-stage-shortcuts" aria-label="ゲームメニュー">
-            {/* ガチャは下のナビにあるので、ここはランキング（2026-10-04） */}
-            <button className="stage-gacha" type="button" onClick={onLeaderboard} aria-label="ランキングを見る"><Trophy /><span>ランキング</span></button>
-            <button className="stage-shop" type="button" onClick={() => onGrowth('shop')}><Store /><span>ショップ</span></button>
           </div>}
         </section>
         {/* ★ホームの3本柱（2026-10-01）★
