@@ -1,5 +1,6 @@
 import './home-legibility.css';
 import './home-pillars.css';
+import './my-tobira-tag.css';
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { ChevronRight, Edit3, ShieldCheck, Repeat2, Bell, Volume2, VolumeX, Swords, Target, Zap, BookHeart } from 'lucide-react';
 import { createPortal } from 'react-dom';
@@ -387,7 +388,8 @@ export function Home({ onPractice, onPickSubject, onStudyMode, onGrowth, onStart
             <SpinMascot className="home-mascot-wrap" label="とびら君（左右にドラッグで回す・押すと着せ替え）" onTap={onGrowth ? () => onGrowth('outfit') : undefined}>
               <img className="home-mascot-art" src={equippedPoseSrc(growth)} alt="あなたのとびら君" draggable={false} /><TobiraAccessories progress={growth} />
             </SpinMascot>
-            <span>MY TOBIRA <b>Lv.{levelOf(growth.xp).level}</b></span>
+            {/* 「マイとびら」の札（2026-10-20）：名前とレベルを別の色にし、レベルは金のメダル風に */}
+            <span className="my-tobira-tag"><i className="my-tobira-name">マイとびら</i><b className="my-tobira-lv">Lv.{levelOf(growth.xp).level}</b></span>
           </div>}
         </section>
         {/* ★ホームの3本柱（2026-10-01）★
