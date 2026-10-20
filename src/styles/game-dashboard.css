@@ -289,10 +289,10 @@
 
 
 .growth-shared-label { font-size: 12px; color: #8c7a63; font-weight: 700; }
-.growth-shared-switch { display: grid; grid-template-columns: 1fr 1fr; max-width: 560px; margin: 12px auto 8px; padding: 4px; gap: 5px; border: 1px solid #ded5c4; border-radius: 16px; background: #f0eade; width: calc(100% - 32px); }
-.growth-shared-switch button { display: flex; align-items: center; justify-content: center; gap: 7px; min-height: 46px; border-radius: 12px; color: #8e8170; font-size: 13px; font-weight: 700; }
-.growth-shared-switch button[aria-current=page] { background: #fffaf0; color: #8c6b2d; box-shadow: 0 2px 4px #b4a0802b; }
-.growth-shared-switch button:focus-visible { outline: 3px solid #287dad; outline-offset: 2px; }
+.gacha-page-switch { display: grid; grid-template-columns: 1fr 1fr; max-width: 560px; margin: 12px auto 8px; padding: 4px; gap: 5px; border: 1px solid #ded5c4; border-radius: 16px; background: #f0eade; width: calc(100% - 32px); }
+.gacha-page-switch button { display: flex; align-items: center; justify-content: center; gap: 7px; min-height: 46px; border-radius: 12px; color: #8e8170; font-size: 13px; font-weight: 700; }
+.gacha-page-switch button[aria-current=page] { background: #fffaf0; color: #8c6b2d; box-shadow: 0 2px 4px #b4a0802b; }
+.gacha-page-switch button:focus-visible { outline: 3px solid #287dad; outline-offset: 2px; }
 .game-home .stage-gacha { color: #846326; }
 .game-home .stage-shop { color: #426e83; }
 .game-home .stage-outfit { color: #88566f; }
@@ -362,7 +362,7 @@
 /* Gacha's stage gives space to the controls; the collection opens separately. */
 .mana-hub-gacha { height: calc(100% - var(--app-nav-h)); padding-bottom: 0; display: flex; flex-direction: column; }
 .mana-hub-gacha > .mana-hub-header { width: min(640px,100%); margin: 0 auto; padding-top: 4px; flex-shrink: 0; }
-.mana-hub-gacha > .growth-shared-switch { margin-block: 4px; flex-shrink: 0; }
+.mana-hub-gacha > .gacha-page-switch { margin-block: 4px; flex-shrink: 0; }
 .mana-hub-gacha .gacha-room { flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 6px; padding: 6px 16px 8px; margin-block: 0; }
 .mana-hub-gacha .gacha-room > :not(.gacha-machine) { flex-shrink: 0; }
 .mana-hub-gacha .gacha-room h1 { font-size: 22px; margin: 0; }
@@ -565,7 +565,7 @@
   .arena-menu .arena-mode-card header > span { width: 100%; margin: 8px 0; }
   .arena-menu .arena-friends { grid-column: 1/3; justify-content: flex-start; }
   .mana-hub-gacha > .mana-hub-header { max-width: 1120px; padding-top: 22px; }
-  .mana-hub-gacha > .growth-shared-switch { width: 520px; margin: 10px auto; }
+  .mana-hub-gacha > .gacha-page-switch { width: 520px; margin: 10px auto; }
   .mana-hub-gacha .gacha-room { width: 100%; max-width: 1100px; padding: 20px 36px 32px; display: grid; grid-template-columns: minmax(280px,1.2fr) minmax(280px,1fr); grid-template-rows: auto auto auto minmax(100px,1fr) auto auto auto; gap: 14px 36px; }
   .mana-hub-gacha .gacha-room > .home-eyebrow, .mana-hub-gacha .gacha-room > h1, .mana-hub-gacha .gacha-room > h1+p { grid-column: 1/-1; }
   .mana-hub-gacha .gacha-room h1 { font-size: 30px; }

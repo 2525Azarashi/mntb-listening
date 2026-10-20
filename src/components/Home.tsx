@@ -374,7 +374,7 @@ export function Home({ onPractice, onPickSubject, onStudyMode, onGrowth, onStart
           </div>
         </header>
         {onGrowth && <React.Suspense fallback={<div className="game-hud-placeholder">成長記録を読み込んでいます…</div>}>
-          <GrowthHomeStrip expanded homeLayout onProfile={() => onGrowth('outfit')} onShop={() => onGrowth('shop')} onGacha={() => onGrowth('gacha')}
+          <GrowthHomeStrip expanded homeLayout onProfile={() => onGrowth('outfit')} onShop={() => onGrowth('gacha-shop')} onGacha={() => onGrowth('gacha')}
             onBadges={() => onGrowth('badges')} onMissions={() => onGrowth('missions')} onWallet={() => onGrowth('overview')} />
         </React.Suspense>}
         <section className="game-mascot-stage" aria-label="とびら君のホームステージ" ref={stageRef}>

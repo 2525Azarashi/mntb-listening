@@ -236,7 +236,7 @@ export function ProfileModal({ onClose, initialTab, isBgmEnabled, setIsBgmEnable
           </button>
         </div>
 
-        <main className="relative z-10 flex-1 min-h-0">
+        <main className="relative z-10 flex flex-1 min-h-0 flex-col overflow-hidden">
           {tab === 'friends' && auth.currentUser ? (
             <FriendPanel />
           ) : tab === 'class' && !SOCIAL_FEATURES.classroom ? (
@@ -450,4 +450,3 @@ function Volume({ label, value, onChange, onCommit, tone = 'blue' }: { label: st
     <output>{pct}%</output>
   </div>;
 }
-
