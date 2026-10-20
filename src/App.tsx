@@ -760,8 +760,8 @@ export default function App() {
                   } },
                   // 対戦はランキングより前（結果を見る画面より先）。FEATURES.battle が false なら席ごと消す
                   { id: 'battle', label: '対戦', ariaLabel: 'オンライン対戦へ移動', current: appState === 'battle', hidden: !FEATURES.battle, onClick: () => navigateMain('battle') },
-                  { id: 'gacha', label: 'ガチャ', ariaLabel: 'ガチャ画面へ移動', current: appState === 'growth' && (growthPage === 'gacha' || growthPage === 'gacha-shop' || growthPage === 'shop'), onClick: () => { setGrowthPage('gacha'); navigateMain('growth'); } },
-                  { id: 'mypage', label: 'マイページ', ariaLabel: 'マイページへ移動', current: appState === 'growth' && growthPage !== 'gacha' && growthPage !== 'gacha-shop' && growthPage !== 'shop' && growthPage !== 'rush', onClick: () => { setGrowthPage('overview'); navigateMain('growth'); } },
+                  { id: 'gacha', label: 'ガチャ', ariaLabel: 'ガチャ画面へ移動', current: appState === 'growth' && (growthPage === 'gacha' || growthPage === 'gacha-shop'), onClick: () => { setGrowthPage('gacha'); navigateMain('growth'); } },
+                  { id: 'mypage', label: 'マイページ', ariaLabel: 'マイページへ移動', current: appState === 'growth' && growthPage !== 'gacha' && growthPage !== 'gacha-shop' && growthPage !== 'rush', onClick: () => { setGrowthPage('overview'); navigateMain('growth'); } },
                   { id: 'settings', label: '設定', ariaLabel: pendingFriendRequests > 0 ? `設定画面へ移動（フレンド申請が${pendingFriendRequests}件届いています）` : '設定画面へ移動',
                     current: appState === 'settings', badge: pendingFriendRequests, onClick: () => navigateMain('settings') },
                 ]}

@@ -12,7 +12,7 @@ import { BattleMissions } from '../battle/ui/BattleMissions';
 import { BattleProfile } from '../battle/ui/BattleProfile';
 import './growth-hub.css';
 import { KineticText } from '../motion';
-export type GrowthPage = 'overview' | 'gacha' | 'gacha-shop' | 'shop' | 'outfit' | 'prints' | 'rewards' | 'badges' | 'stats' | 'missions' | 'rush';
+export type GrowthPage = 'overview' | 'gacha' | 'gacha-shop' | 'outfit' | 'prints' | 'rewards' | 'badges' | 'stats' | 'missions' | 'rush';
 export function GrowthHub({ page, onPage, onBack, onBattle, onReview, onRanking, defaultSubject, onStudy, onFoundation, onRetry }: {
   page: GrowthPage; onPage: (page: GrowthPage) => void; onBack: () => void;
   /** ミッションの行き先：演習する（教科選び）／英単語の4択・単語帳 */
@@ -23,8 +23,7 @@ export function GrowthHub({ page, onPage, onBack, onBattle, onReview, onRanking,
 }) {
   const { progress, uid } = useGrowthProgress();
   const [outfitKind, setOutfitKind] = useState('all');
-  // 旧導線から shop が渡ってきても、必ずガチャ欄内の独立ショップへ寄せる。
-  const activePage = page === 'shop' ? 'gacha-shop' : page;
+  const activePage = page;
   // ★ミッションの「○○へ」★ マイページの中で済むものはここで、ほかの画面は App に任せる
   const goMission = (to: MissionDestination) => {
     if (to === 'rush') onPage('rush');
