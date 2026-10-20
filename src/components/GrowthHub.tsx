@@ -40,8 +40,8 @@ export function GrowthHub({ page, onPage, onBack, onBattle, onReview, onRanking,
   // ★マナラッシュはマイページの中ではなく、それだけの画面にする（2026-10-04 ご要望）★
   if (activePage === 'rush') return <section className="mana-hub mana-hub-rush" data-rush-page><div className="mypage-extra-scroll"><ManaRush onBack={onBack} defaultSubject={defaultSubject}/></div></section>;
   // ★ガチャ・マイページは下のナビから入るので「← ホーム」は置かない（2026-10-05）★
-  if (activePage === 'gacha' || activePage === 'gacha-shop') return <section className={`mana-hub mana-hub-gacha compact-gacha ${activePage === 'gacha-shop' ? 'gacha-shop-page' : ''}`}>
-    <nav className="growth-shared-switch" aria-label="ガチャ内メニュー">
+  if (activePage === 'gacha' || activePage === 'gacha-shop') return <section className={`mana-hub mana-hub-gacha compact-gacha ${activePage === 'gacha-shop' ? 'gacha-shop-page' : ''}`} data-gacha-page={activePage}>
+    <nav className="gacha-page-switch" aria-label="ガチャ内メニュー">
       <button type="button" onClick={() => onPage('gacha')} aria-current={activePage === 'gacha' ? 'page' : undefined}><Sparkles size={18} />装飾ガチャ</button>
       <button type="button" onClick={() => onPage('gacha-shop')} aria-current={activePage === 'gacha-shop' ? 'page' : undefined}><Store size={18} />ショップ</button>
     </nav>
