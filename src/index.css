@@ -218,10 +218,14 @@ html[data-wallpaper] .home-lobby-lines { display: none; }
 .game-home .game-home-utility.has-four { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 5px; }
 .game-home .game-home-utility.has-four button { flex-direction: column; gap: 2px; padding: 4px 2px; white-space: nowrap; }
 .game-home .game-home-utility .home-philosophy-entry { background: linear-gradient(135deg, #fff3e0, #e9f1fb); border-color: #e3c49a; color: #7a4a1c; font-weight: 800; }
+.game-home .game-home-utility.has-three { grid-template-columns: 1fr 1.8fr 1fr; gap: 5px; }
+.game-home .game-home-utility.has-three button { flex-direction: column; gap: 2px; padding: 4px 2px; white-space: nowrap; }
 /* 2026-10-05 修正：PC・iPad 横でも1行4つ。以前は縦1列にしていたため、高さ48pxの行からはみ出して上の復習ノートに重なっていた */
 @media (min-width: 1024px) {
   .game-home .game-home-utility.has-four { grid-template-columns: repeat(4, minmax(0, 1fr)); align-self: stretch; }
   .game-home .game-home-utility.has-four button { flex-direction: row; justify-content: center; gap: 6px; padding-inline: 6px; min-height: 44px; }
+  .game-home .game-home-utility.has-three { grid-template-columns: 1fr 1.8fr 1fr; align-self: stretch; }
+  .game-home .game-home-utility.has-three button { flex-direction: row; justify-content: center; gap: 6px; padding-inline: 6px; min-height: 44px; }
 }
 
 /* フレンドコード入力（合言葉と同じ見た目・2026-10-05） */

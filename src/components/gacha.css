@@ -7,6 +7,9 @@
 .gacha-head { text-align: center; }
 .gacha-head > .mt-kicker { margin: 0; }
 .gacha-head > h1 { margin: 2px 0 0 !important; font: var(--mt-text-xl) !important; color: var(--mt-ink-warm); }
+.collection-mode-switch { display:flex; gap:5px; max-width:420px; margin:8px auto 0; }
+.collection-mode-switch button { flex:1; display:flex; align-items:center; justify-content:center; gap:5px; min-height:44px; border:1px solid #d8c7a5; border-radius:12px; background:#fffdf7; color:#5d503f; font-weight:900; }
+.collection-mode-switch button[aria-current="page"] { background:#f6e4b6; border-color:#b18434; color:#3d3222; }
 .gacha-lead { margin: 2px 0 0; font: var(--mt-text-xs); font-weight: 500; color: var(--mt-ink-2); }
 .gacha-lead b { font-weight: 700; color: var(--mt-ink); }
 .gacha-lead .gacha-ur-lead { color: #7a3e00; }
@@ -273,35 +276,6 @@
  .compact-gacha .gacha-lead { display:none; }
 }
 @media(max-height:610px) {
- /* 2026-10-19：消すと注目カードの上下に大きな空白ができたので、小さく残して余白を埋める */
- .compact-gacha .gacha-room > .gacha-machine { display:block; flex:1 1 auto; min-height:80px; max-height:140px; }
- .compact-gacha .gacha-featured { margin-block:0; }
+ .compact-gacha .gacha-room > .gacha-machine { display:none; }
+ .compact-gacha .gacha-featured { margin-block:auto; }
 }
-
-/* ===== 2026-10-19 提供割合の説明を要点ごとに（両端末） ===== */
-.gacha-odds-summary { display: grid; gap: 10px; margin-bottom: 12px; font-size: 14px; line-height: 1.6; color: var(--mt-ink); }
-.gacha-odds-lead { margin: 0; font-weight: 700; }
-.gacha-odds-rates { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; margin: 0; padding: 0; list-style: none; }
-.gacha-odds-rates li { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 6px 2px; border: 1.5px solid #e2d3b6; border-radius: 12px; background: #fff; box-shadow: 0 2px 0 #d9c8a3; }
-.gacha-odds-rates b { font: 900 13px/1 var(--mt-font-display); }
-.gacha-odds-rates span { font: 900 18px/1.1 var(--mt-font-display); font-variant-numeric: tabular-nums; }
-.gacha-odds-rates [data-rarity=UR] { background: var(--mt-rare-ur-grad, #fff3c4); }
-.gacha-odds-rates [data-rarity=SR] { background: #efe6ff; }
-.gacha-odds-rates [data-rarity=R] { background: #fff6dc; }
-.gacha-odds-points { margin: 0; padding: 0; list-style: none; display: grid; gap: 6px; }
-.gacha-odds-points li { position: relative; padding: 6px 10px 6px 26px; border-radius: 10px; background: var(--mt-surface-2, #f6f1e7); }
-.gacha-odds-points li::before { content: ''; position: absolute; left: 10px; top: 14px; width: 8px; height: 8px; border-radius: 50%; background: #1f3354; }
-.gacha-odds-points small { font-size: 12px; color: var(--mt-ink-3, #5d6d7e); }
-.gacha-odds-more summary { min-height: 44px; display: flex; align-items: center; font-weight: 800; cursor: pointer; }
-.gacha-odds-more p { margin: 4px 0; font-size: 13px; color: var(--mt-ink-2, #3c4f6b); }
-/* PC：所持マナコインの枠からのずれ（数字の行の高さとアイコンの縦位置をそろえる） */
-.gacha-room .gacha-wallet { justify-content: space-between; box-sizing: border-box; }
-.gacha-room .gacha-balance { align-items: center !important; line-height: 1 !important; min-width: 0; }
-.gacha-room .gacha-balance > svg { flex-shrink: 0; }
-.gacha-room .gacha-balance > b { line-height: 1 !important; }
-@media (min-width: 1100px) {
-  .mana-hub-gacha .gacha-room .gacha-wallet { align-self: center; width: 100%; padding: 8px 14px; }
-  .mana-hub-gacha .gacha-room .gacha-balance { font-size: 15px !important; align-self: auto !important; }
-}
-/* コレクション一覧の「未所持・確率」が10pxで読めなかった（12px以上の決まり） */
-.gacha-collection-grid li > span { font-size: 12px !important; color: #4f5d4c !important; line-height: 1.35; }

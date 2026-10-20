@@ -40,8 +40,6 @@ export interface MoodInput {
   loginDays?: number;
   /** 同じ状態で言い方を少し変えるための種（日付など）。省略時は0 */
   seed?: number;
-  /** 共通テストまでの残り日数（30日以下で口調が変わる。省略時は使わない） */
-  examDays?: number;
 }
 
 export interface MoodOut {
@@ -112,10 +110,7 @@ export function tobiraMood(i: MoodInput): MoodOut {
       if (i.firstVisit) return out('first', 'はじめまして！ ぼくと最初の1問、やってみよう', 'warm');
       if (i.loginDays && LOGIN_MILESTONES[i.loginDays]) return out('milestone', LOGIN_MILESTONES[i.loginDays], 'cheer');
       if ((i.daysAway ?? 0) >= 3) return out('away', `${i.daysAway}日ぶり！ 待ってたよ。軽く1問からいこう`, 'warm');
-      // ★受験カウントダウンで口調が変わる（2026-10-19）★ 残り7日は落ち着かせ、30日以下は背中を押す
-      if (i.examDays !== undefined && i.examDays > 0 && i.examDays <= 7) return out('streak', `本番まであと${i.examDays}日。いつも通りの1問を`, 'calm');
       if (due > 0) return out('review', `${due}問、ぼくと片づけよう`, 'calm');
-      if (i.examDays !== undefined && i.examDays > 0 && i.examDays <= 30) return out('streak', `共テまで${i.examDays}日！ 今日の1問が本番の1点`, 'fire');
       if (streak >= 3) return out('streak', `${streak}日連続！ 扉がまたひとつ開いたよ`, 'cheer');
       if ((i.solved ?? 0) === 0) return out('fresh', 'まずは第1問Aから。3分で終わるよ', 'warm');
       return out('fresh', pick(['復習はゼロ。新しい大問に進もう', '今日も、ひとつ先の扉へ', '対戦でウデだめしもできるよ'], s), 'warm');

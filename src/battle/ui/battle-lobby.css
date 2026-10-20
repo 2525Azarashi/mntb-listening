@@ -104,6 +104,9 @@
 #battle-shell .font-handwriting, .arena-menu .font-handwriting { font-family: var(--mt-font-display) !important; }
 .arena-menu-header h1 { font: var(--mt-text-lg) !important; color: var(--mt-ink-warm); }
 .arena-menu-header > button { border: var(--mt-border); border-radius: var(--mt-r-pill); background: var(--mt-bg-card); box-shadow: var(--mt-shadow-press); padding: 0 12px; min-height: 44px; font: 700 13px/1 var(--mt-font-body); }
+.arena-top-switch { display: flex; flex: 1; gap: 5px; min-width: 0; }
+.arena-top-switch button { flex: 1; display: flex; align-items: center; justify-content: center; gap: 5px; min-height: 44px; padding: 4px 7px; border: 1px solid #d8c7a5; border-radius: 12px; background: #fffdf7; color: #5d503f; font: 800 13px/1 var(--mt-font-body); }
+.arena-top-switch button[aria-selected="true"] { background: #f6e4b6; border-color: #b18434; color: #3d3222; }
 .arena-menu-player { border-radius: var(--mt-radius-lg) !important; }
 .arena-menu-player strong { font-family: var(--mt-font-display); }
 .arena-lobby-side { border-radius: var(--mt-radius-lg) !important; }
@@ -159,74 +162,3 @@
 .arena-menu .arena-vs.has-rank > .arena-vs-me, .arena-menu .arena-vs.has-rank > .arena-vs-foe { position: relative; z-index: 2; min-width: 0; }
 .arena-menu .arena-vs.has-rank .arena-vs-avatar { position: relative; }
 @media (max-width: 380px) { .arena-menu .arena-vs.has-rank > .arena-vs-progress small { font-size: 12px !important; } .arena-menu .arena-vs.has-rank > .arena-vs-progress .arena-rank-badge { font-size: 12px; } }
-
-/* ===== 2026-10-19 対戦の入口（ご要望：スマホのサブタイトル削除・3つのボタンの形） =====
-   スマホ：AI を横いっぱいの主役カード（アイコン・名前・「はじめる」を1行）、
-           その下にフレンド／全国を2列。各カードは「アイコン＋名前」を横に並べ、操作ボタンを下に。
-   縁取り＋ずらし影（ホームと同じ「押せる」形）。PC は3列のまま、サブタイトルも残す。 */
-.arena-menu .arena-lobby-card { border: 1.5px solid #e2d3b6; box-shadow: 0 4px 0 #d9c8a3 !important; transform: none !important; }
-.arena-menu .arena-lobby-card[data-tone=ai]:active { transform: translate(4px, 4px) !important; box-shadow: 0 0 0 #1f3354 !important; }
-.arena-menu .arena-lobby-card .arena-lobby-actions button { border: 1.5px solid #e2d3b6; box-shadow: 0 2px 0 #d9c8a3 !important; }
-.arena-menu .arena-lobby-card .arena-lobby-actions button:active { transform: translateY(2px); box-shadow: 0 0 0 #d9c8a3 !important; }
-.arena-lobby-cta { border: 1.5px solid #e2d3b6; box-shadow: 0 2px 0 #d9c8a3 !important; }
-@media (max-width: 899px) {
-  .arena-menu .arena-lobby-sub-label { display: none !important; }
-  .arena-menu .arena-lobby-grid { grid-template-columns: 1fr 1fr !important; gap: 12px 12px !important; padding-right: 4px; }
-  .arena-menu .arena-lobby-card { min-height: 0 !important; padding: 10px !important; }
-  .arena-menu .arena-lobby-card[data-tone=ai] { grid-column: 1 / -1; flex-direction: row !important; align-items: center; gap: 10px; min-height: 76px !important; }
-  .arena-menu .arena-lobby-card[data-tone=ai] strong { font-size: 22px !important; flex: 1; text-align: left; }
-  .arena-menu .arena-lobby-card[data-tone=ai] .arena-lobby-cta { width: auto; min-width: 116px; margin: 0; padding: 0 14px; }
-  .arena-menu .arena-lobby-side { display: grid !important; grid-template-columns: auto 1fr; grid-template-rows: auto auto; align-items: center; column-gap: 8px; row-gap: 8px; }
-  .arena-menu .arena-lobby-side .arena-lobby-icon { width: 36px; height: 36px; }
-  .arena-menu .arena-lobby-side strong { text-align: left; font-size: 17px !important; }
-  .arena-menu .arena-lobby-side .arena-lobby-actions { grid-column: 1 / -1; margin: 0; }
-  .arena-menu .arena-lobby-national .arena-lobby-actions { margin-top: auto; height: 100%; justify-content: flex-end; }
-}
-@media (prefers-reduced-motion: reduce) { .arena-menu .arena-lobby-card:active, .arena-menu .arena-lobby-card .arena-lobby-actions button:active { transform: none !important; } }
-
-/* ===== 2026-10-19 スマホの3モード（ご要望「サブタイトルを消してPC版のように・無理矢理感をなくす」） =====
-   3列に押し込むと、文字が折れて背の高い縦長カードになっていた。
-   スマホは「AIと対戦」を横長の主役カード1枚、その下に「フレンド」「全国対戦」を同じ大きさで2枚。
-   サブタイトル（すぐ始まる・RANKED など）はスマホでは出さない（PC は横幅があるので残す）。 */
-@media (max-width: 899px) {
-  .arena-menu .arena-lobby-deck.arena-lobby-grid { grid-template-columns: 1fr 1fr !important; grid-template-areas: "ai ai" "friend national" !important; gap: 10px !important; }
-  .arena-menu .arena-lobby-card[data-tone=ai] { grid-area: ai; transform: none; display: grid !important; grid-template-columns: auto 1fr auto; align-items: center; gap: 12px; min-height: 84px; padding: 12px 14px !important; text-align: left; }
-  .arena-menu .arena-lobby-card[data-tone=ai] strong { font-size: 22px !important; }
-  .arena-menu .arena-lobby-card[data-tone=ai] .arena-lobby-icon { width: 48px; height: 48px; }
-  .arena-menu .arena-lobby-card[data-tone=ai] .arena-lobby-cta { width: auto; margin: 0; padding: 0 16px; min-height: 48px; font-size: 16px; }
-  .arena-menu .arena-lobby-card[data-tone=friend] { grid-area: friend; }
-  .arena-menu .arena-lobby-card[data-tone=national] { grid-area: national; }
-  .arena-menu .arena-lobby-card:not([data-tone=ai]) { min-height: 0; padding: 12px 10px 10px !important; gap: 6px; border-radius: 20px !important; }
-  .arena-menu .arena-lobby-card:not([data-tone=ai]) > .arena-lobby-icon { width: 40px; height: 40px; }
-  .arena-menu .arena-lobby-card:not([data-tone=ai]) strong { font-size: 18px !important; }
-  .arena-menu .arena-lobby-card .arena-lobby-sub-label { display: none !important; }
-  .arena-menu .arena-lobby-card .arena-lobby-actions { margin-top: 4px; }
-  .arena-menu .arena-lobby-card .arena-lobby-actions button { white-space: nowrap; font-size: 14px; }
-}
-@media (max-width: 899px) and (max-height: 700px) {
-  .arena-menu .arena-lobby-card[data-tone=ai] { min-height: 68px; padding-block: 8px !important; }
-  .arena-menu .arena-lobby-card:not([data-tone=ai]) > .arena-lobby-icon { display: none; }
-}
-/* その他：ランキング・対戦履歴・マナクランを1行に */
-.arena-lobby-sub .arena-menu-links { flex-wrap: wrap !important; }
-.arena-lobby-sub .arena-menu-links button { min-width: 0 !important; flex: 1 1 0; }
-/* 「ホームへ」をなくしたのでタイトルは左寄せ・BGM は右 */
-.arena-menu-header { justify-content: space-between; }
-/* カウントダウン画面のルール札 */
-.battle-ready-rules { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; margin: 4px 0 0; padding: 0; list-style: none; }
-.battle-ready-rules li { padding: 4px 12px; border-radius: 999px; background: #fff; box-shadow: inset 0 0 0 1.5px #e6d7b8; font-size: 13px; font-weight: 800; color: #3d3222; white-space: nowrap; }
-/* カウントダウン画面の「点数とごほうび」（入口から移した） */
-.battle-ready-rules { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; margin: 4px 0 0; padding: 0; list-style: none; }
-.battle-ready-rules li { padding: 4px 12px; border: 1.5px solid #e2d3b6; border-radius: 999px; background: #fff; color: #1f3354; font: 800 13px/1.3 var(--mt-font-body); white-space: nowrap; }
-/* 低い画面（320×568 など）：フレンドの2ボタンを横並びにして高さを詰め、1画面に収める */
-@media (max-width: 899px) and (max-height: 700px) {
-  .arena-menu .arena-lobby-card:not([data-tone=ai]) { padding: 8px 8px !important; gap: 4px !important; }
-  .arena-menu .arena-lobby-card:not([data-tone=ai]) strong { font-size: 16px !important; }
-  .arena-menu .arena-lobby-card[data-tone=friend] .arena-lobby-actions { display: grid !important; grid-template-columns: 1fr 1fr; gap: 6px; }
-  .arena-menu .arena-lobby-card .arena-lobby-actions button { min-height: 44px; padding-inline: 4px !important; font-size: 13px; white-space: normal; line-height: 1.2; }
-  .arena-menu .arena-vs { padding-block: 6px !important; }
-}
-/* 「準備中」は文字を折らずに小さな札で */
-.arena-lobby-sub .arena-menu-links button { white-space: nowrap; }
-.arena-lobby-sub .arena-menu-links .soon-tag { flex-shrink: 0; padding: 1px 6px; font-size: 12px; line-height: 1.4; white-space: nowrap; }
-@media (max-width: 420px) { .arena-lobby-sub .arena-menu-links .soon-tag { display: none; } .arena-lobby-sub .arena-menu-links button:has(.soon-tag) { opacity: .7; } }

@@ -5,7 +5,7 @@
  *   - アカウントの削除（App Store 5.1.1(v)：アプリ内で削除できること）
  */
 import { useEffect, useState } from 'react';
-import { Trash2, Loader2, Ban, AlertTriangle, FileText, Shield, Mail, Bug, ShieldCheck, BookHeart } from 'lucide-react';
+import { Trash2, Loader2, Ban, AlertTriangle, FileText, Shield, Mail, Bug } from 'lucide-react';
 import { auth } from '../../firebase';
 import { listBlockedUsers, subscribeBlocked, unblockUser, type BlockedUser } from '../safety/userSafety';
 import { deleteAccount } from './accountDeletion';
@@ -13,7 +13,7 @@ import { LegalDialog, type LegalDoc } from '../legal/LegalDialog';
 import { SUPPORT_EMAIL, BUG_REPORT_FORM_URL } from '../legal/legalText';
 import { ListItem } from '../../components/ui';
 
-export function AccountSafetySection({ onDeleted, onOpenIntro, onOpenPhilosophy }: { onDeleted?: () => void; onOpenIntro?: () => void; onOpenPhilosophy?: () => void }) {
+export function AccountSafetySection({ onDeleted }: { onDeleted?: () => void }) {
   const [blocked, setBlocked] = useState<BlockedUser[]>(() => listBlockedUsers());
   const [confirming, setConfirming] = useState(false);
   const [typed, setTyped] = useState('');
@@ -45,10 +45,7 @@ export function AccountSafetySection({ onDeleted, onOpenIntro, onOpenPhilosophy 
       <h3 id="account-safety-title" className="sr-only">安全とアカウント</h3>
 
       {/* C15 その他：共通の一覧（ListItem）。中身・行き先は以前と同じ */}
-      {/* ★使い方・学びの扉はホームから設定へ（2026-10-19）★ ヘルプとして規約などと同じ一覧に並べる */}
-      <div className="mt-list ps-help-list">
-        {onOpenIntro && <ListItem icon={<ShieldCheck size={16} />} title="アプリの使い方" onClick={onOpenIntro} />}
-        {onOpenPhilosophy && <ListItem icon={<BookHeart size={16} />} title="学びの扉（開発者の想い）" onClick={onOpenPhilosophy} />}
+      <div className="mt-list">
         <ListItem icon={<FileText size={16} />} title="利用規約" onClick={() => setLegal('terms')} />
         <ListItem icon={<Shield size={16} />} title="プライバシー" onClick={() => setLegal('privacy')} />
         <ListItem icon={<Mail size={16} />} title="お問い合わせ" sub={SUPPORT_EMAIL} href={`mailto:${SUPPORT_EMAIL}`} />

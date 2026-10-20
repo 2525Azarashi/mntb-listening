@@ -9,7 +9,6 @@ import { usePdfOpen } from './hooks/usePdfOpen';
 import React, { useState, useEffect, useRef } from 'react';
 import { Capacitor } from '@capacitor/core';
 import { BottomNavigation } from './components/ui/BottomNavigation';
-import { SidebarBuddy } from './components/ui/SidebarBuddy';
 import { DoorTransition } from './components/ui/DoorTransition';
 import { ListeningHome as Home } from './components/ListeningHome';
 import { ListeningSubjectSelection } from './components/ListeningSubjectSelection';
@@ -566,7 +565,7 @@ export default function App() {
                 ? 'max-w-none h-full'
                 : 'max-w-5xl max-h-full flex flex-col'
           }`}>
-            {appState === 'settings' && <ProfileModal initialTab={settingsTab} onClose={() => { setSettingsTab('general'); setAppState(prevAppState); }} isBgmEnabled={isBgmEnabled} setIsBgmEnabled={setIsBgmEnabled} onToggleBgm={handleToggleBgm} bgmVolume={bgmVolume} setBgmVolume={setBgmVolume} onOpenTeacherDashboard={() => setAppState('teacher_dashboard')} onOpenFeedbackAdmin={() => setAppState('feedback_admin')} onOpenOutfit={() => { setGrowthPage('outfit'); navigateMain('growth'); }} onOpenMyPage={() => { setGrowthPage('overview'); navigateMain('growth'); }} onOpenIntro={handleIntro} />}
+            {appState === 'settings' && <ProfileModal initialTab={settingsTab} onClose={() => { setSettingsTab('general'); setAppState(prevAppState); }} isBgmEnabled={isBgmEnabled} setIsBgmEnabled={setIsBgmEnabled} onToggleBgm={handleToggleBgm} bgmVolume={bgmVolume} setBgmVolume={setBgmVolume} onOpenTeacherDashboard={() => setAppState('teacher_dashboard')} onOpenFeedbackAdmin={() => setAppState('feedback_admin')} onOpenOutfit={() => { setGrowthPage('outfit'); navigateMain('growth'); }} />}
             {/* 先生ダッシュボード。戻る先を設定にしているのは、入ってきた経路と揃えるため。 */}
             {appState === 'teacher_dashboard' && <TeacherDashboard onBack={() => setAppState('settings')} />}
             {/* フィードバック管理（運営専用）。入口は設定内の運営専用ボタン。 */}
@@ -590,7 +589,7 @@ export default function App() {
                 onBattle={FEATURES.battle ? () => setAppState('battle') : undefined}
               />
             )}
-            {appState === 'home' && <Home onPractice={() => { setFoundationBackTo('home'); setAppState('study'); }} onListeningStart={(chapter,index)=>{setAppMode('practice');handleSelectChapter(chapter,index,false,{startIndex:index,endIndex:index},'practice');}} onPickSubject={value => { if (isSubjectId(value) && isSubjectEnabled(value)) setSelectedSubject(value); }} onStudyMode={handleSelectMode} onGrowth={page => { setGrowthPage(page); navigateMain('growth'); }} onStart={handleStart} onIntro={handleIntro} onNoteList={() => { setStudyHubView({ tab: 'today', subjectTab: 'all' }); setAppState('study_hub'); }} onStudyRecord={() => { setStudyHubView({ tab: 'record', subjectTab: 'all' }); setAppState('study_hub'); }} onLeaderboard={() => setAppState('leaderboard')} onBattle={FEATURES.battle ? () => setAppState('battle') : undefined} onChangeSubject={() => { setSubjectPickerReturnTo('home'); setSubjectPickerOrigin('start'); setAppState('subject_selection'); }} onFoundation={() => { setFoundationBackTo('home'); setAppState('foundation'); }} subjectLabel={getSubjectLabel(selectedSubject)} subject={selectedSubject} isGuest={isGuest} isBgmEnabled={isBgmEnabled} isBgmFadedOut={isBgmFadedOut} onToggleBgm={handleToggleBgm} />}
+            {appState === 'home' && <Home onPractice={() => { setFoundationBackTo('home'); setAppState('study'); }} onListeningStart={(chapter,index)=>{setAppMode('practice');handleSelectChapter(chapter,index,false,{startIndex:index,endIndex:index},'practice');}} onPickSubject={value => { if (isSubjectId(value) && isSubjectEnabled(value)) setSelectedSubject(value); }} onStudyMode={handleSelectMode} onGrowth={page => { setGrowthPage(page); navigateMain('growth'); }} onStart={handleStart} onIntro={handleIntro} onNoteList={() => setAppState('study_hub')} onLeaderboard={() => setAppState('leaderboard')} onBattle={FEATURES.battle ? () => setAppState('battle') : undefined} onChangeSubject={() => { setSubjectPickerReturnTo('home'); setSubjectPickerOrigin('start'); setAppState('subject_selection'); }} onFoundation={() => { setFoundationBackTo('home'); setAppState('foundation'); }} subjectLabel={getSubjectLabel(selectedSubject)} subject={selectedSubject} isGuest={isGuest} isBgmEnabled={isBgmEnabled} isBgmFadedOut={isBgmFadedOut} onToggleBgm={handleToggleBgm} />}
             {/* ★ルーティング側の門（4箇所のうちの3番目）★
                 ナビのボタンを隠すだけでは、Home の「ランキングを見る」など
                 別の導線からこの状態になれてしまう。
@@ -605,7 +604,7 @@ export default function App() {
                 onRetry={(t) => { void handleReviewNote({ chapterId: t.chapterId, questionId: t.questionId, subQuestionIds: t.wrongOnly ? t.subQuestionIds : undefined, wholeQuestion: !t.wrongOnly }); }}
                 onFoundation={tab => { setFoundationTab(tab); setFoundationBackTo('home'); navigateMain('foundation'); }} />
             </React.Suspense>}
-            {appState === 'leaderboard' && FEATURES.ranking && <Leaderboard onBack={() => setAppState(FEATURES.battle ? 'battle' : 'home')} isGuest={isGuest} initialChapterId={selectedChapterId} initialSubject={selectedSubject} onBattle={FEATURES.battle ? () => setAppState('battle') : undefined} />}
+            {appState === 'leaderboard' && FEATURES.ranking && <Leaderboard onBack={() => setAppState('home')} isGuest={isGuest} initialChapterId={selectedChapterId} initialSubject={selectedSubject} onBattle={FEATURES.battle ? () => setAppState('battle') : undefined} />}
             {/* ★対戦モード（ルーティング側の門）★
                 ホームのボタンを隠すだけでは、localStorage に残った
                 appState='battle' から復元して入れてしまう。
@@ -615,6 +614,7 @@ export default function App() {
                 className={appState === 'battle' ? `h-full min-h-0 overflow-y-auto overscroll-contain ${battleActive ? 'battle-no-nav' : 'pb-app-nav'}` : 'hidden'}>
               <BattleMode
                 onExit={() => setAppState('home')}
+                onRanking={() => setAppState('leaderboard')}
                 /* ★フレンド対戦はフレンドどうしだけ★ 対戦画面の「フレンドを追加」から設定のフレンドを開く */
                 onOpenFriends={() => { setSettingsTab('friends'); navigateMain('settings'); }}
                 onRequireLogin={() => setAppState('onboarding')}
@@ -630,7 +630,7 @@ export default function App() {
               />
               </div>
             )}
-            {appState === 'intro' && <Intro onBack={() => setAppState('settings')} onBattle={FEATURES.battle ? () => setAppState('battle') : undefined} />}
+            {appState === 'intro' && <Intro onBack={() => setAppState('home')} onBattle={FEATURES.battle ? () => setAppState('battle') : undefined} />}
             {appState === 'mode_selection' && <ModeSelection onSelectMode={handleSelectMode} onBack={() => setAppState('home')} onChangeSubject={handleChangeStudySubject} subject={selectedSubject} onBattle={FEATURES.battle ? () => setAppState('battle') : undefined} />}
             {appState === 'chapters' && (
               /*
@@ -697,7 +697,7 @@ export default function App() {
                 />
               </React.Suspense>
             )}
-            {appState === 'study_hub' && <StudyHub view={studyHubView} onViewChange={setStudyHubView} onBack={() => setAppState('home')} onPractice={() => handleSelectMode('practice')} onRetry={(t) => { void handleReviewNote({ chapterId: t.chapterId, questionId: t.questionId, subQuestionIds: t.wrongOnly ? t.subQuestionIds : undefined, wholeQuestion: !t.wrongOnly }); }} isGuest={isGuest} onSelectNote={(note) => { setSelectedNote(note); setAppState('note_detail'); }} onReview={handleReviewNote} />}
+            {appState === 'study_hub' && <StudyHub view={studyHubView} onViewChange={setStudyHubView} onBack={() => setAppState('home')} onPractice={() => handleSelectMode('practice')} isGuest={isGuest} onSelectNote={(note) => { setSelectedNote(note); setAppState('note_detail'); }} onReview={handleReviewNote} onRetry={(t) => { void handleReviewNote({ chapterId: t.chapterId, questionId: t.questionId, subQuestionIds: t.wrongOnly ? t.subQuestionIds : undefined, wholeQuestion: !t.wrongOnly }); }} />}
             {/* ★英文法・英単語を固める（A1/A17/A18）★
                 リスニング（主役・学習タブ）とは別のページ。下のナビを残したまま1画面で完結させる。
                 英文法の4択演習・単語の例から解くリスニングは、どちらも通常の演習と同じ経路を通す。 */}
@@ -751,7 +751,6 @@ export default function App() {
                   observer.observe(node);
                   return () => observer.disconnect();
                 }}
-                footer={<SidebarBuddy screen={appState} onOpen={() => { setGrowthPage('overview'); navigateMain('growth'); }} />}
                 items={[
                   { id: 'home', label: 'ホーム', ariaLabel: 'ホーム画面へ移動', current: appState === 'home', onClick: () => navigateMain('home') },
                   // ★「学習」は必ず教科の選択画面（演習する）へ（2026-10-04）★

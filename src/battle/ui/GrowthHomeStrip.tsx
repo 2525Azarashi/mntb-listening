@@ -34,7 +34,7 @@ export function GrowthHomeStrip({ onProfile, onMissions, onShop, onBadges, onWal
   const claimable = allMissionsForDate(today).filter(m => canClaimMission(progress, m.id, today)).length;
   if (homeLayout) return <section className="mana-dashboard game-home-hud" aria-label="マナコインととびら君の成長" data-mana-dashboard>
     <div className="game-hud-top">
-      <button type="button" className="game-hud-wallet" onClick={onWallet || onShop || onProfile} aria-label="マナコインの使い道を開く" data-mana-coins><Coins /><span><strong><CountUp value={progress.coins} fromZero duration={1000} delay={300} /></strong><i className="game-hud-label">マナコイン</i></span><ChevronRight size={14} /></button>
+      <button type="button" className="game-hud-wallet" onClick={onWallet || onShop || onProfile} aria-label="マナコインの使い道を開く" data-mana-coins><Coins /><span><i className="game-hud-label">マナコイン</i><strong><CountUp value={progress.coins} fromZero duration={1000} delay={300} /><small>枚</small></strong></span><ChevronRight size={14} /></button>
       <button type="button" className="game-hud-bonus" aria-label={received ? '今日のボーナス受取済み' : 'デイリーボーナスを受け取る'} disabled={busy || received} onClick={() => void claim()}><Gift /><span><i className="game-hud-label">{received ? '受取済み' : '今日のボーナス'}</i><strong>{received ? 'また明日' : `+${nextBonus?.coins ?? 0}枚`}</strong></span></button>
     </div>
     <div className="game-hud-xp"><LevelBar xp={progress.xp} compact /></div>
@@ -45,7 +45,7 @@ export function GrowthHomeStrip({ onProfile, onMissions, onShop, onBadges, onWal
     <div className="mana-player-row">
       {!homeLayout && <><button type="button" onClick={onProfile} className="mana-avatar-button" aria-label="とびら君をきせかえる"><GrowthAvatar progress={progress} size={76} /></button>
       <div className="mana-player-info">
-        <p className="mana-eyebrow">マイとびら</p>
+        <p className="mana-eyebrow">MY TOBIRA</p>
         <p className="mana-title">{equippedTitleLabel(progress) || 'とびら君と、ひとつ先へ。'}</p>
         <LevelBar xp={progress.xp} compact />
         <p className="mana-player-meta"><Flame size={12} /> ボーナス連続 {progress.loginStreak}日 <span>累計 {progress.xp.toLocaleString()} XP</span></p>

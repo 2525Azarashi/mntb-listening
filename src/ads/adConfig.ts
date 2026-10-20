@@ -28,9 +28,7 @@ export const AD_CONFIG = {
     height: 50,
     /** バナーを出さない画面（問題を解いている最中・対戦中・解説など）。学習の邪魔をしない */
     // 'pdf' … アプリ内の PDF ビューを開いている間（PDF の上に広告を重ねない・2026-10-17）
-    // 'settings' … 設定（規約・プライバシー・通報・アカウント削除の操作がある画面。2026-10-19 ご要望）。
-    //   AdMob の規約は広告を出す画面を義務づけていないので、出さない画面を増やすのは問題ない（収益が少し減るだけ）。
-    hiddenOn: ['quiz', 'explanation', 'battle_live', 'onboarding', 'launch', 'pdf', 'settings'] as string[],
+    hiddenOn: ['quiz', 'explanation', 'battle_live', 'onboarding', 'launch', 'pdf'] as string[],
   },
 } as const;
 
