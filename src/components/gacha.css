@@ -152,8 +152,8 @@
 @media (max-height: 600px) {
   .mana-hub-gacha > .mana-hub-header { padding-top: 0 !important; }
   .mana-hub-gacha > .mana-hub-header button { min-height: 44px; padding-block: 0; }
-  .mana-hub-gacha > .growth-shared-switch { margin-block: 2px !important; padding: 3px; }
-  .mana-hub-gacha > .growth-shared-switch button { min-height: 44px; }
+  .mana-hub-gacha > .gacha-page-switch { margin-block: 2px !important; padding: 3px; }
+  .mana-hub-gacha > .gacha-page-switch button { min-height: 44px; }
   .gacha-head { display: none; }
   .gacha-hero { min-height: 64px; }
   .gacha-hero-art .gacha-print-thumb em { display: none; }
@@ -231,7 +231,7 @@
 /* D: a single task screen. Long odds and result collections scroll internally. */
 .compact-gacha { height:100%; min-height:0; display:flex; flex-direction:column; overflow:hidden; padding-bottom:calc(var(--app-nav-h,72px) + 6px); }
 .compact-gacha > .mana-hub-header { padding:4px 12px !important; min-height:48px; flex-shrink:0; }
-.compact-gacha > .growth-shared-switch { margin:2px auto 6px !important; width:calc(100% - 24px); max-width:680px; flex-shrink:0; }
+.compact-gacha > .gacha-page-switch { margin:2px auto 6px !important; width:calc(100% - 24px); max-width:680px; flex-shrink:0; }
 .compact-gacha .gacha-room { display:flex !important; flex-direction:column; width:100%; max-width:680px; min-height:0; flex:1; margin:auto; gap:6px; padding:2px 12px 6px !important; }
 .compact-gacha .gacha-head { display:block; flex-shrink:0; }
 .compact-gacha .gacha-head h1 { font-size:20px !important; }
