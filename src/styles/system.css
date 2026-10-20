@@ -130,9 +130,10 @@
 .mt-skeleton-list { display: grid; gap: 6px; }
 .mt-skeleton-row { display: flex; align-items: center; gap: 10px; padding: 10px; border: 1px solid #ece4d6; border-radius: 15px; background: #fff; }
 .mt-skeleton-row span { flex: 1; display: grid; gap: 7px; }
-.mt-skeleton-row i { display: block; height: 11px; border-radius: 6px; background: linear-gradient(90deg, #efe9df 0%, #f8f4ee 50%, #efe9df 100%); background-size: 200% 100%; animation: mt-skeleton 1.3s ease-in-out infinite; }
+.mt-skeleton-row i { display: block; height: 11px; border-radius: 6px; background: #ece5d9; animation: mt-skeleton 1.3s ease-in-out infinite alternate; }
 .mt-skeleton-row .mt-skeleton-dot { width: 36px; height: 36px; border-radius: 50%; flex-shrink: 0; }
-@keyframes mt-skeleton { from { background-position: 100% 0; } to { background-position: -100% 0; } }
+/* 低スペック端末でも 60fps：明滅は opacity だけ（L-05） */
+@keyframes mt-skeleton { from { opacity: 1; } to { opacity: .45; } }
 @media (prefers-reduced-motion: reduce) { .mt-skeleton-row i { animation: none; } }
 /* アプリ内トースト（AppToast）：タップで消せる・中央寄せの文・ノッチや下ナビに重ならない */
 .app-toast { z-index: 400; width: max-content; text-align: center; font-size: 14px; line-height: 1.5; cursor: pointer; min-height: 44px; display: flex; align-items: center; justify-content: center; bottom: calc(var(--app-nav-h, 72px) + 12px + env(safe-area-inset-bottom, 0px)); }
