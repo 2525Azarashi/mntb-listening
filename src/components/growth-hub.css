@@ -9,9 +9,10 @@
 .mana-hub-header button { border: var(--mt-border); border-radius: var(--mt-r-pill) !important; background: var(--mt-bg-card); box-shadow: var(--mt-shadow-press); color: var(--mt-ink); font: 700 14px/1 var(--mt-font-body) !important; padding: 0 14px 0 10px !important; }
 .growth-shared-label { font: var(--mt-text-xs); color: var(--mt-ink-muted); }
 /* ガチャ欄専用の切替（マイページのタブとは別UI） */
-.gacha-page-switch { border: 0 !important; border-radius: var(--mt-radius-lg) !important; background: var(--mt-bg-sunken) !important; box-shadow: inset 0 0 0 1px var(--mt-line); }
-.gacha-page-switch button { border-radius: calc(var(--mt-radius-lg) - 4px) !important; color: var(--mt-ink-2) !important; font: 700 14px/1 var(--mt-font-body) !important; }
+.gacha-page-switch { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; width: calc(100% - 24px); max-width: 680px; margin: 4px auto 8px; padding: 4px; border: 1px solid var(--mt-line) !important; border-radius: var(--mt-radius-lg) !important; background: var(--mt-bg-sunken) !important; box-shadow: inset 0 0 0 1px rgba(255,255,255,.55); }
+.gacha-page-switch button { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 52px; width: 100%; padding: 8px 12px; border: 1px solid transparent !important; border-radius: calc(var(--mt-radius-lg) - 4px) !important; background: transparent !important; color: var(--mt-ink-2) !important; font: 800 15px/1.2 var(--mt-font-body) !important; cursor: pointer; transition: background .15s ease, border-color .15s ease, box-shadow .15s ease, transform .15s ease; }
 .gacha-page-switch button[aria-current=page] { background: var(--mt-bg-card) !important; color: var(--mt-ink-warm) !important; font-weight: 800 !important; box-shadow: 0 2px 0 #e6dccb, 0 1px 4px rgba(80, 60, 30, .08) !important; }
+.gacha-page-switch button:active { transform: translateY(1px); }
 /* ガチャ画面の親レイアウトに旧マイページUIが残っても、階層に関係なく表示しない */
 .mana-hub-gacha[data-gacha-page] .mana-hub-header,
 .mana-hub-gacha[data-gacha-page] .mypage-tabs,
