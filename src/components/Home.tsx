@@ -1,7 +1,9 @@
 import './home-legibility.css';
 import './home-pillars.css';
 import React, { useState, useEffect, useMemo, useRef } from 'react';
-import { ChevronRight, Edit3, Repeat2, Bell, Volume2, VolumeX, Swords, Target, Zap } from 'lucide-react';
+import { ChevronRight, Edit3, BarChart3, ShieldCheck, Repeat2, Bell, Volume2, VolumeX, Swords, Trophy, Store, Shirt, Award, Target, Zap, BookHeart } from 'lucide-react';
+import { createPortal } from 'react-dom';
+const PhilosophyPage = React.lazy(() => import('./PhilosophyPage').then(m => ({ default: m.PhilosophyPage })));
 import { auth } from '../firebase';
 import { useGrowthProgress } from '../hooks/useGrowthProgress';
 import { equippedPoseSrc, equippedFrameColor, equippedFramePattern, levelOf, equippedTitleLabel } from '../battle/core/growth';
@@ -61,11 +63,7 @@ import {
 // 公開/非公開の判断は src/config/features.ts が唯一の出どころ
 import { isSubjectEnabled } from '../config/features';
 import { SakuraPetals } from './SakuraPetals';
-import { getDaysUntilExam, EXAM_DATE_LABEL } from '../utils/examCountdown';
-import { ExamCountdown } from './home/ExamCountdown';
-import { HomeSideColumn } from './home/HomeSideColumn';
-import { skyOf, examHeatOf } from './home/homeTheme';
-import './home/home-v2.css';
+import { getDaysUntilExam, getDaysUntilSecondExam, EXAM_DATE_LABEL, SECOND_EXAM_DATE_LABEL } from '../utils/examCountdown';
 import { getDueCount } from '../utils/reviewList';
 import { TobiraBuddy } from './TobiraBuddy';
 import { SpinMascot } from './SpinMascot';
@@ -99,8 +97,6 @@ interface HomeProps {
   /** 対戦モードを開く。FEATURES.battle が false のときは渡されない */
   onBattle?: () => void;
   onReviewList?: () => void;
-  /** 学習記録（復習ノートの「記録」）を開く */
-  onStudyRecord?: () => void;
   /** 科目選択（タイトル）画面へ戻る */
   onChangeSubject?: () => void;
   /** 英文法・英単語を固めるページを開く（無ければ onChangeSubject＝科目選択へ） */
@@ -131,7 +127,7 @@ interface HomeProps {
   onToggleBgm?: (enabled: boolean) => void;
 }
 
-export function Home({ onPractice, onPickSubject, onStudyMode, onGrowth, onStart, onIntro, onNoteList, onLeaderboard, onBattle, onStudyRecord, onChangeSubject, onFoundation, subjectLabel = '英語リスニング', subject = 'english_listening', isGuest, isBgmEnabled, isBgmFadedOut, onToggleBgm }: HomeProps) {
+export function Home({ onPractice, onPickSubject, onStudyMode, onGrowth, onStart, onIntro, onNoteList, onLeaderboard, onBattle, onChangeSubject, onFoundation, subjectLabel = '英語リスニング', subject = 'english_listening', isGuest, isBgmEnabled, isBgmFadedOut, onToggleBgm }: HomeProps) {
   const { progress: growth } = useGrowthProgress();
   const reviewDueCount = useMemo(() => {
     const uid = auth.currentUser?.uid || (isGuest ? 'guest' : null);
@@ -151,6 +147,7 @@ export function Home({ onPractice, onPickSubject, onStudyMode, onGrowth, onStart
   // ===== お知らせ（更新履歴）=====
   // 未読件数は localStorage を見るだけなので同期的に初期化できる。
   // モーダルを閉じたときに 0 件へ更新してバッジを消す。
+  const [showPhilosophy, setShowPhilosophy] = useState(false);
   const [showNotices, setShowNotices] = useState(false);
   const progressDialog = useRef<HTMLDialogElement>(null);
   // ★とびら君が吹き出しに隠れない（2026-10-11）★ 吹き出しの高さを測り、とびら君はその下から立たせる。
@@ -341,6 +338,7 @@ export function Home({ onPractice, onPickSubject, onStudyMode, onGrowth, onStart
 
   // 共通テストまでの残り日数
   const daysUntilExam = useMemo(() => getDaysUntilExam(), []);
+  const daysUntilSecond = useMemo(() => getDaysUntilSecondExam(), []);
 
 
   // 「次の章」を算出（学習進捗カードの状況別コピー用）
@@ -356,23 +354,19 @@ export function Home({ onPractice, onPickSubject, onStudyMode, onGrowth, onStart
   const bgmPlaying = !!isBgmEnabled && !isBgmFadedOut;
   const bgmLabel = !isBgmEnabled ? 'BGMを鳴らす' : isBgmFadedOut ? 'BGMをもう一度鳴らす' : 'BGMを止める';
 
-  const examDays = daysUntilExam;
-  const sky = skyOf();
-  const heat = examHeatOf(examDays);
-  const level = levelOf(growth?.xp ?? 0).level;
-  const openRecord = onStudyRecord ?? (() => (onGrowth ? onGrowth('stats') : progressDialog.current?.showModal()));
-
   return (
-    <div className="home-lobby arena-home game-home home-v2 h-full min-h-0 relative" data-sky={sky} data-heat={heat}>
+    <div className="home-lobby arena-home game-home h-full min-h-0 relative">
       <div className="home-lobby-lines" aria-hidden="true" />
       {/* 背景に桜を降らせる（2026-10-04 復活。操作の邪魔をしないよう最背面・pointer-events なし） */}
       <SakuraPetals count={14} className="home-sakura" />
       <div className="game-home-viewport">
-        {/* ★ヘッダー（2026-10-19）★ ロゴはスマホだけ（PC は左のサイドバーのロゴ1つ）。
-            共通テストの日数はスマホでは小さな札、PC は右の列で主役級に出す */}
         <header className="game-home-header">
-          <div className="game-home-brand"><h1><img className="game-home-logo" src="/brand/manatobi-logo.webp" width={1008} height={321} alt="マナトビ" /></h1><p className="game-home-greeting" title={`${greetingName}さんのホーム`}><KineticText text={`${greetingName}さんのホーム`} delay={350} step={30} /></p></div>
-          <ExamCountdown variant="chip" />
+          <div><h1><img className="game-home-logo" src="/brand/manatobi-logo.webp" width={1008} height={321} alt="マナトビ" /></h1><p title={`${greetingName}さんのホーム`}><KineticText text={`${greetingName}さんのホーム`} delay={350} step={30} /></p></div>
+          {/* ★ロゴの横に本番までの日数（2026-10-11 ご要望）★ 共通テストと2次（前期）の2つ */}
+          <dl className="game-home-countdown" aria-label="本番までの日数" data-home-countdown>
+            <div title={`共通テスト ${EXAM_DATE_LABEL}`}><dt>共通テスト</dt><dd><b><CountUp value={daysUntilExam} fromZero duration={1100} delay={300} /></b>日</dd></div>
+            <div title={`2次試験（前期） ${SECOND_EXAM_DATE_LABEL}`}><dt>2次(前期)</dt><dd><b><CountUp value={daysUntilSecond} fromZero duration={1100} delay={420} /></b>日</dd></div>
+          </dl>
           <div className="game-home-tools">
             <button type="button" onClick={() => onToggleBgm?.(!isBgmEnabled || !!isBgmFadedOut)} aria-label={bgmLabel}>{bgmPlaying ? <Volume2 size={19} /> : <VolumeX size={19} />}</button>
             <button type="button" onClick={() => setShowNotices(true)} aria-label="お知らせを開く"><Bell size={19} />{unreadCount > 0 && <i />}</button>
@@ -384,52 +378,63 @@ export function Home({ onPractice, onPickSubject, onStudyMode, onGrowth, onStart
         </React.Suspense>}
         <section className="game-mascot-stage" aria-label="とびら君のホームステージ" ref={stageRef}>
           <div className="game-stage-backdrop" aria-hidden="true"><i /><i /><i /></div>
-          {/* ステッカー（扉・鍵・ヘッドホン・音符・鉛筆）を空に散らす。飾りなので読み上げない */}
-          <div className="home-stickers" aria-hidden="true"><span data-s="door" /><span data-s="key" /><span data-s="phones" /><span data-s="note" /><span data-s="pencil" /></div>
-          {/* ★とびら君は「住人」★ 状態（はじめて・久しぶり・復習待ち・連続・本番まで）で言うことが変わる */}
-          <TobiraBuddy className="game-stage-say" figure={false} bubble="top" input={{ screen: 'home', streak, dueCount: reviewDueCount, solved: solvedQuestions, daysAway: Math.max(0, daysAway), firstVisit: (daysAway < 0 || (streak <= 1 && solvedQuestions === 0 && !completedIds.length)) && growth.loginDays <= 1 && growth.matches === 0 && growth.studySolved === 0 && growth.rushPlays === 0, isGuest, loginDays: growth.loginDays, seed: new Date().getDate(), examDays }} />
+          {/* ★とびら君は「住人」（2026-10-01）★ 状態（はじめて・久しぶり・復習待ち・連続）で言うことが変わる。しっぽ付きの吹き出し */}
+          <TobiraBuddy className="game-stage-say" figure={false} bubble="top" input={{ screen: 'home', streak, dueCount: reviewDueCount, solved: solvedQuestions, daysAway: Math.max(0, daysAway), firstVisit: (daysAway < 0 || (streak <= 1 && solvedQuestions === 0 && !completedIds.length)) && growth.loginDays <= 1 && growth.matches === 0 && growth.studySolved === 0 && growth.rushPlays === 0, isGuest, loginDays: growth.loginDays, seed: new Date().getDate() }} />
           {growth && equippedTitleLabel(growth) && <p className="game-stage-caption">{equippedTitleLabel(growth)}</p>}
           <div className="game-stage-floor" aria-hidden="true"><div className="game-equipped-ring" data-frame-pattern={growth ? equippedFramePattern(growth) : 'plain'} style={{borderColor: growth ? equippedFrameColor(growth) : undefined}} /><Swords /></div>
-          {/* とびら君はドラッグで回せる。ちょんと押すと着せ替え（マイページの持ちもの） */}
+          {/* ★2026-10-01 D：とびら君をドラッグで回せる（モンスト風）★ ちょんと押すと今までどおり着せ替え */}
           {growth && <div className="game-mascot-button" data-home-mascot>
             <SpinMascot className="home-mascot-wrap" label="とびら君（左右にドラッグで回す・押すと着せ替え）" onTap={onGrowth ? () => onGrowth('outfit') : undefined}>
               <img className="home-mascot-art" src={equippedPoseSrc(growth)} alt="あなたのとびら君" draggable={false} /><TobiraAccessories progress={growth} />
             </SpinMascot>
-            <span className="home-level-tag">マイとびら <b>Lv.{level}</b></span>
+            <span>MY TOBIRA <b>Lv.{levelOf(growth.xp).level}</b></span>
+          </div>}
+          {onGrowth && <div className="game-stage-shortcuts" aria-label="ゲームメニュー">
+            {/* ガチャは下のナビにあるので、ここはランキング（2026-10-04） */}
+            <button className="stage-gacha" type="button" onClick={onLeaderboard} aria-label="ランキングを見る"><Trophy /><span>ランキング</span></button>
+            <button className="stage-shop" type="button" onClick={() => onGrowth('shop')}><Store /><span>ショップ</span></button>
+            <button className="stage-outfit" type="button" onClick={() => onGrowth('outfit')}><Shirt /><span>きせかえ</span></button>
+            <button className="stage-badges" type="button" onClick={() => onGrowth('badges')}><Award /><span>称号</span></button>
           </div>}
         </section>
-        {/* ★主役は2つだけ（2026-10-19）★ 演習する（黄）／対戦する（青）。説明の小さな文字はやめた */}
+        {/* ★ホームの3本柱（2026-10-01）★
+            演習する（ひとりで学ぶ）／対戦する（ひとりで・みんなで）を同じ大きさで左右に、
+            その下に復習・記録（苦手をなくす）を横長で。科目の帯は「演習する」の中（科目選択）へ移した。 */}
         <section className={`game-action-deck home-pillars ${!onBattle ? 'without-battle' : ''}`} aria-label="学習の入口" data-home-arena={onBattle ? '' : undefined}>
-          <button type="button" className="home-pillar home-pillar-solo game-solo" aria-label="演習する（ひとりで学ぶ）" data-home-practice onClick={onPractice ?? (() => (onStudyMode ? onStudyMode('practice') : onStart()))}>
-            <span className="home-pillar-icon" aria-hidden="true"><Edit3 /></span><strong>演習する</strong>
+          <button type="button" className="home-pillar home-pillar-solo game-solo" data-home-practice onClick={onPractice ?? (() => (onStudyMode ? onStudyMode('practice') : onStart()))}>
+            <span className="home-pillar-icon" aria-hidden="true"><Edit3 /></span><strong>演習する</strong><small>ひとりで学ぶ</small>
           </button>
           {onBattle && <button type="button" onClick={onBattle} className="home-pillar home-pillar-battle home-battle-button" aria-label="対戦する（ひとりで・みんなで）" data-home-battle>
-            <span className="home-pillar-icon" aria-hidden="true"><Swords /></span><strong>対戦する</strong>
+            <span className="home-pillar-icon" aria-hidden="true"><Swords /></span><strong>対戦する</strong><small>ひとりで・みんなで</small>
           </button>}
         </section>
-        {/* ★2段目（2026-10-19）★ 復習と学習記録は1つの入口に。ミッション・マナラッシュは小さめに並べる */}
-        <section className="home-review-rush home-second-row" aria-label="復習と短時間チャレンジ">
-          <button type="button" className="home-review-wide game-review" aria-label={`復習・学習記録${reviewDueCount > 0 ? `・今日の復習 ${reviewDueCount}問` : ''}`} onClick={onNoteList} data-home-review data-home-record>
-            <span className="home-pillar-icon" aria-hidden="true"><Repeat2 /></span>
-            <span className="home-review-text"><strong>復習・記録</strong></span>
-            {/* 復習待ちがあるときだけ、小さなカードがボタンへ吸い込まれる（最初の1回だけ・最大3枚） */}
-            {reviewDueCount > 0 && <span className="home-review-suck" aria-hidden="true">{Array.from({ length: Math.min(3, reviewDueCount) }, (_, i) => <i key={i} style={{ ['--k' as string]: i } as React.CSSProperties} />)}</span>}
-            {reviewDueCount > 0 ? <b>{reviewDueCount}問</b> : <ChevronRight aria-hidden="true" />}
-          </button>
-          {onGrowth && <button type="button" className="home-mini-card home-mission-card" onClick={() => onGrowth('missions')} aria-label="ミッションを開く" data-home-missions><Target size={20} aria-hidden="true" /><strong>ミッション</strong></button>}
-          {onGrowth && <button type="button" className="home-mini-card home-rush-card" onClick={() => onGrowth('rush')} aria-label="マナラッシュ（60秒チャレンジ）を開く" data-home-rush><Zap size={20} aria-hidden="true" /><strong>ラッシュ</strong></button>}
+        <section className="home-review-rush" aria-label="復習と短時間チャレンジ">
+        <button type="button" className="home-review-wide game-review" aria-label={`復習・記録（苦手をなくす）${reviewDueCount > 0 ? `・今日の復習 ${reviewDueCount}問` : ''}`} onClick={onNoteList} data-home-review>
+          <span className="home-pillar-icon" aria-hidden="true"><Repeat2 /></span>
+          <span className="home-review-text"><strong>復習・記録</strong><small>苦手をなくす</small></span>
+          {reviewDueCount > 0 ? <b>今日 {reviewDueCount}問</b> : <ChevronRight aria-hidden="true" />}
+        </button>
+          {onGrowth && <button type="button" className="home-rush-card" onClick={() => onGrowth('rush')} aria-label="マナラッシュ（60秒チャレンジ）を開く" data-home-rush><Zap size={20} /><span><strong>マナラッシュ</strong><small>60秒チャレンジ</small></span></button>}
         </section>
+        <div className="game-home-utility arena-home-bottom has-four">
+          {onGrowth && <button type="button" onClick={() => onGrowth('missions')}><Target size={17} />ミッション</button>}
+          {/* 「学習状況」はやめ、直近3日の「学習記録」（どの問題をやって、どこを間違えたか）へ。マイページの学習記録と同じ画面 */}
+          <button type="button" onClick={onNoteList} data-home-record><BarChart3 size={17} />学習記録</button>
+          <button type="button" aria-label="アプリ紹介を開く" onClick={onIntro}><ShieldCheck size={17} />使い方</button>
+          {/* ★開発者の想い「学びの扉」をホームからも（2026-10-05 ご要望「もう少し見やすいところに」）★ タイトル画面だけだと一度しか目に入らない */}
+          <button type="button" className="home-philosophy-entry" onClick={() => setShowPhilosophy(true)} aria-label="学びの扉（開発者の想い）を読む" data-open-philosophy><BookHeart size={17} />学びの扉</button>
+        </div>
         <section className="desktop-study-summary" aria-label="今日の学習状況">
-          <h2><KineticText text="今日の積み重ね" delay={200} /></h2>
+          <p>STUDY DESK</p><h2><KineticText text="今日の積み重ね" delay={200} /></h2>
           <div><span>連続学習<strong><CountUp value={streak} fromZero duration={900} delay={400} /><small>日</small></strong></span><span>復習待ち<strong><CountUp value={reviewDueCount} fromZero duration={900} delay={500} /><small>問</small></strong></span></div>
-          {/* ★連続日数は「開いた扉」で★ 1日＝扉1枚。開いた扉は1枚ずつ順に開く。7枚より先は数字で */}
-          <p className="study-doors" aria-label={`連続学習 ${streak}日`}>{Array.from({ length: 7 }, (_, i) => <i key={i} data-open={i < streakDoors(streak).doors || undefined} style={{ ['--door-i' as string]: i } as React.CSSProperties} />)}{streakDoors(streak).extra > 0 && <b>+{streakDoors(streak).extra}</b>}</p>
+          {/* ★連続日数は炎ではなく「開いた扉」で★ 1日＝扉1枚。7枚より先は数字で */}
+          <p className="study-doors" aria-label={`連続学習 ${streak}日`}>{Array.from({ length: 7 }, (_, i) => <i key={i} data-open={i < streakDoors(streak).doors || undefined} />)}{streakDoors(streak).extra > 0 && <b>+{streakDoors(streak).extra}</b>}</p>
           <label>{subjectLabel}の進捗 <b><CountUp value={solvedQuestions} fromZero duration={1000} delay={450} /> / {totalQuestions} 大問</b></label>
           <div className="mt-progress" role="progressbar" aria-label={`${subjectLabel}の学習進捗`} aria-valuemin={0} aria-valuemax={100} aria-valuenow={progressPercent}><i style={{ width: `${progressPercent}%` }} /></div>
+          {/* ゼロには次の一手を */}
           {reviewDueCount === 0 && <p className="study-next">{solvedQuestions === 0 ? '最初の1問で、扉がひとつ開くよ' : '復習はゼロ。新しい大問に進もう'}</p>}
-          <button type="button" onClick={openRecord}>学習記録を見る <ChevronRight size={16} /></button>
+          <button type="button" onClick={onNoteList}>学習記録を見る <ChevronRight size={16} /></button>
         </section>
-        <HomeSideColumn onMissions={onGrowth ? () => onGrowth('missions') : undefined} onLeaderboard={onLeaderboard} />
       </div>
       <dialog ref={progressDialog} className="game-details-dialog" aria-labelledby="home-progress-title">
         <header><h2 id="home-progress-title">学習状況・その他</h2><button type="button" onClick={() => progressDialog.current?.close()} autoFocus>閉じる</button></header>
@@ -440,6 +445,7 @@ export function Home({ onPractice, onPickSubject, onStudyMode, onGrowth, onStart
           {isGuest && !auth.currentUser && <GoogleLinkBanner variant="inline" dismissible />}
         </div>
       </dialog>
+      {showPhilosophy && createPortal(<React.Suspense fallback={null}><PhilosophyPage onBack={() => setShowPhilosophy(false)} backLabel="ホームへ" /></React.Suspense>, document.body)}
       {showNotices && <UpdateNoticeModal onClose={() => { setShowNotices(false); setUnreadCount(unreadNoticeCount()); }} />}
     </div>
   );

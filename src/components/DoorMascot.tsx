@@ -114,7 +114,7 @@ export function DoorMascot({
             <span
               className={`hidden sm:inline-flex items-center gap-1 mb-1.5 px-2 py-0.5 rounded-full text-[10px] font-bold ${theme.chipBgClass} ${theme.chipTextClass}`}
             >
-              {/* 分野の絵文字は出さない（端末の絵文字に頼らない・2026-10-19） */}
+              <span aria-hidden>{category.emoji}</span>
               <span>{category.label}</span>
             </span>
           )}

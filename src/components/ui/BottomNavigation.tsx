@@ -21,8 +21,7 @@ const ICONS: Record<BottomNavId, React.ComponentType<{ className?: string; 'aria
   home: HomeIcon, study: BookOpen, battle: Swords, gacha: Gift, ranking: Trophy, mypage: UserRound, settings: Settings,
 };
 
-/** PC のサイドバー下半分（スマホでは CSS で隠す）。とびら君の小窓と連続日数など */
-export const BottomNavigation = React.forwardRef<HTMLElement, { items: BottomNavItem[]; footer?: React.ReactNode }>(function BottomNavigation({ items, footer }, ref) {
+export const BottomNavigation = React.forwardRef<HTMLElement, { items: BottomNavItem[] }>(function BottomNavigation({ items }, ref) {
   return (
     <nav ref={ref} aria-label="メインナビゲーション"
       className="app-bottom-nav fixed bottom-0 left-0 right-0 flex justify-around items-center px-2 md:px-10 pt-3 pb-[calc(0.9rem+env(safe-area-inset-bottom))] z-[60] backdrop-blur-md border-t shadow-sm">
@@ -40,7 +39,6 @@ export const BottomNavigation = React.forwardRef<HTMLElement, { items: BottomNav
           </button>
         );
       })}
-      {footer && <div className="app-nav-footer">{footer}</div>}
     </nav>
   );
 });

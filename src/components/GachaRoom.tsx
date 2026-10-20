@@ -225,6 +225,11 @@ function GachaRoomContent({
       <header className="gacha-head">
         <p className="mt-kicker">TOBIRA COLLECTION</p>
         <h1><KineticText text="とびらくんの装飾ガチャ" step={30} variant="pop" /></h1>
+        <p className="gacha-lead">
+          コインで<strong>ランダム抽選</strong>。選んで買うなら
+          <wbr />
+          「ショップ」へ
+        </p>
       </header>
 
       {!busyView && featured.hero && (
