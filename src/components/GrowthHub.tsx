@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Coins, ChevronRight, Shirt, Award, Store } from 'lucide-react';
+import { Coins, ChevronRight, Shirt, Award, Store, Sparkles } from 'lucide-react';
 import { StudyRecord, type StudyRetry } from './StudyRecord';
 import { LevelRewards } from './LevelRewards';
 import { equippedTitleLabel, type MissionDestination } from '../battle/core/growth';
@@ -12,7 +12,7 @@ import { BattleMissions } from '../battle/ui/BattleMissions';
 import { BattleProfile } from '../battle/ui/BattleProfile';
 import './growth-hub.css';
 import { KineticText } from '../motion';
-export type GrowthPage = 'overview' | 'gacha' | 'shop' | 'outfit' | 'prints' | 'rewards' | 'badges' | 'stats' | 'missions' | 'rush';
+export type GrowthPage = 'overview' | 'gacha' | 'gacha-shop' | 'shop' | 'outfit' | 'prints' | 'rewards' | 'badges' | 'stats' | 'missions' | 'rush';
 export function GrowthHub({ page, onPage, onBack, onBattle, onReview, onRanking, defaultSubject, onStudy, onFoundation, onRetry }: {
   page: GrowthPage; onPage: (page: GrowthPage) => void; onBack: () => void;
   /** ミッションの行き先：演習する（教科選び）／英単語の4択・単語帳 */
@@ -38,7 +38,13 @@ export function GrowthHub({ page, onPage, onBack, onBattle, onReview, onRanking,
   // ★マナラッシュはマイページの中ではなく、それだけの画面にする（2026-10-04 ご要望）★
   if (page === 'rush') return <section className="mana-hub mana-hub-rush" data-rush-page><div className="mypage-extra-scroll"><ManaRush onBack={onBack} defaultSubject={defaultSubject}/></div></section>;
   // ★ガチャ・マイページは下のナビから入るので「← ホーム」は置かない（2026-10-05）★
-  if (page === 'gacha') return <section className="mana-hub mana-hub-gacha compact-gacha"><GachaRoom embedded onBack={onBack} onMissions={()=>onPage('missions')}/></section>;
+  if (page === 'gacha' || page === 'gacha-shop') return <section className={`mana-hub mana-hub-gacha compact-gacha ${page === 'gacha-shop' ? 'gacha-shop-page' : ''}`}>
+    <nav className="growth-shared-switch" aria-label="ガチャ内メニュー">
+      <button type="button" onClick={() => onPage('gacha')} aria-current={page === 'gacha' ? 'page' : undefined}><Sparkles size={18} />装飾ガチャ</button>
+      <button type="button" onClick={() => onPage('gacha-shop')} aria-current={page === 'gacha-shop' ? 'page' : undefined}><Store size={18} />ショップ</button>
+    </nav>
+    {page === 'gacha' ? <GachaRoom embedded onBack={onBack} onMissions={()=>onPage('missions')}/> : <MyCollection key={`${uid}:gacha-shop`} view="shop" gachaMode onGacha={() => onPage('gacha')} />}
+  </section>;
   return <section className="mana-hub mypage-hub" data-mypage>
     <header className="mana-hub-header"><h1><KineticText text="マイページ" /></h1></header>
     {/* ショップはホームのボタンから入れるので、ここは学習記録（2026-10-05）。ミッション・学習記録の下ボタンは廃止 */}
