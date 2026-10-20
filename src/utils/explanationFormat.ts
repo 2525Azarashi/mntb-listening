@@ -741,7 +741,7 @@ function buildInterleavedSections(
  */
 export function buildTrendBox(trend: TrendInsight): string {
   const rows: string[] = [];
-  rows.push('<b>【ココが狙われる！共通テスト・センター試験のリアル】</b>');
+  rows.push('<b>💡 【ココが狙われる！共通テスト・センター試験のリアル】</b>');
 
   if (trend.sources.length > 0) {
     rows.push('');
@@ -755,7 +755,7 @@ export function buildTrendBox(trend: TrendInsight): string {
   if (trend.traps.length > 0) {
     rows.push('');
     rows.push('<b>■ このパターンのひっかけが多い！</b>');
-    trend.traps.forEach((item) => rows.push(`　▲ ${item}`));
+    trend.traps.forEach((item) => rows.push(`　⚠️ ${item}`));
   }
   if (trend.advice) {
     rows.push('');

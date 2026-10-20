@@ -259,7 +259,7 @@ export function BattleLiveStage(p: BattleLiveStageProps) {
           onPopPanel={p.onPopPanel}
           onCyclePanel={p.onCyclePanel}
           notice={!counting && p.opponentAnswered && !p.answered && !p.reveal
-            ? <p className="battle-live-pop truncate text-xs font-black" style={{ color: '#C0392B' }} role="status">● 相手は回答ずみ！<span className="bq-notice-long"> 落ち着いて選ぼう</span></p>
+            ? <p className="battle-live-pop truncate text-xs font-black" style={{ color: '#C0392B' }} role="status">🔴 相手は回答ずみ！<span className="bq-notice-long"> 落ち着いて選ぼう</span></p>
             : undefined}
           onCommitKana={() => {
             unlock();

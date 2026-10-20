@@ -23,7 +23,6 @@
 
 import { useEffect, useRef, useState } from 'react';
 import type { CSSProperties } from 'react';
-import './battle-lobby.css';
 import { Check, Flame, Hourglass, Pencil, FileText, X } from 'lucide-react';
 
 import { maskNickname } from '../../utils/nicknamePrivacy';
@@ -133,7 +132,7 @@ export function LiveScoreboard({
         {/* 自分 */}
         <div className="min-w-0">
           <p className="flex items-center gap-1 text-xs font-black" style={{ color: ME_BLUE }}>
-            <span aria-hidden className="inline-block h-2.5 w-2.5 shrink-0 rounded-full" style={{ background: ME_BLUE }} />
+            <span aria-hidden>🔵</span>
             <span className="truncate">あなた</span>
             {lead === 'me' && <LeadTag color={ME_BLUE} />}
           </p>
@@ -181,7 +180,7 @@ export function LiveScoreboard({
           <p className="flex items-center justify-end gap-1 text-xs font-black" style={{ color: OPP_RED }}>
             {lead === 'opponent' && <LeadTag color={OPP_RED} />}
             <span className="truncate">{oppName}</span>
-            <span aria-hidden className="inline-block h-2.5 w-2.5 shrink-0 rounded-full" style={{ background: OPP_RED }} />
+            <span aria-hidden>🔴</span>
           </p>
           <p className="relative flex items-baseline justify-end gap-1">
             {op.delta != null && op.delta !== 0 && (
@@ -294,11 +293,11 @@ export function LiveFeed({ entries }: { entries: FeedEntry[] }) {
 }
 
 function feedIcon(e: FeedEntry): string {
-  // ★端末の絵文字（Apple の絵文字など）は使わない（2026-10-19）★ どの端末でも同じ形になる記号だけ
-  if (e.who === 'me' || e.who === 'opponent') return '●';
-  if (e.kind === 'overtake' || e.kind === 'overtaken') return '⇄';
-  if (e.kind === 'final') return '★';
-  if (e.kind === 'closing') return '…';
+  if (e.who === 'me') return '🔵';
+  if (e.who === 'opponent') return '🔴';
+  if (e.kind === 'overtake' || e.kind === 'overtaken') return '🔄';
+  if (e.kind === 'final') return '⚡';
+  if (e.kind === 'closing') return '⏳';
   return '▶';
 }
 
@@ -331,21 +330,21 @@ export function LiveToast({ toast }: { toast: LiveToastData | null }) {
         {toast.sub && (
           <span className="text-xs font-black tracking-widest opacity-80">{toast.sub}</span>
         )}
-        <span className="text-2xl font-black tracking-wide">{conf.icon ? `${conf.icon} ` : ''}{toast.text}</span>
+        <span className="text-2xl font-black tracking-wide">{conf.icon} {toast.text}</span>
       </div>
     </div>
   );
 }
 
 const TOAST_STYLE: Record<LiveToastData['kind'], { bg: string; fg: string; border: string; icon: string }> = {
-  correct: { bg: '#FFFFFF', fg: GREEN, border: `${GREEN}66`, icon: '' },
+  correct: { bg: '#FFFFFF', fg: GREEN, border: `${GREEN}66`, icon: '⚡' },
   wrong: { bg: '#FFFFFF', fg: INK_SUB, border: LINE, icon: '' },
-  combo: { bg: '#FFF7E6', fg: '#E67E22', border: '#E67E2266', icon: '' },
-  overtake: { bg: '#2C3E50', fg: '#F4D03F', border: '#F4D03F', icon: '' },
-  overtaken: { bg: '#FFFFFF', fg: OPP_RED, border: `${OPP_RED}55`, icon: '⇄' },
-  'caught-up': { bg: '#FFFFFF', fg: ME_BLUE, border: `${ME_BLUE}66`, icon: '' },
-  caught: { bg: '#FFFFFF', fg: OPP_RED, border: `${OPP_RED}55`, icon: '' },
-  'opponent-correct': { bg: '#FFFFFF', fg: OPP_RED, border: `${OPP_RED}44`, icon: '' },
+  combo: { bg: '#FFF7E6', fg: '#E67E22', border: '#E67E2266', icon: '🔥' },
+  overtake: { bg: '#2C3E50', fg: '#F4D03F', border: '#F4D03F', icon: '🔥' },
+  overtaken: { bg: '#FFFFFF', fg: OPP_RED, border: `${OPP_RED}55`, icon: '🔄' },
+  'caught-up': { bg: '#FFFFFF', fg: ME_BLUE, border: `${ME_BLUE}66`, icon: '🔵' },
+  caught: { bg: '#FFFFFF', fg: OPP_RED, border: `${OPP_RED}55`, icon: '🔴' },
+  'opponent-correct': { bg: '#FFFFFF', fg: OPP_RED, border: `${OPP_RED}44`, icon: '🔴' },
 };
 
 // ============================================================
@@ -362,8 +361,6 @@ export function CountdownOverlay({ label }: { label: string | null }) {
     <p>計算やメモの準備をして、スタートを待とう。</p>
     <div key={label} className={`battle-live-count battle-ready-count ${isStart ? 'is-start' : ''}`} role="timer" aria-live="polite" aria-atomic="true" aria-label={isStart ? '対戦開始' : `開始まで${label}秒`}><span>{label}</span></div>
     <div className="battle-ready-dots" aria-hidden="true">{Array.from({length:7},(_,i)=><i key={i} className={isStart || i >= Number(label) ? 'elapsed' : ''}/>)}</div>
-    {/* ★点数とごほうび（2026-10-19 対戦の入口から移した）★ 待っている間に読める場所に */}
-    <ul className="battle-ready-rules" aria-label="点数とごほうび"><li>正解で60点</li><li>速いほどボーナス</li><li>勝てば+10枚</li></ul>
     <small>問題はカウントダウンが終わってから表示されます。</small>
   </section>;
 }
@@ -381,7 +378,7 @@ export function FinalBanner() {
       role="status"
     >
       <span className="h-px flex-1" style={{ background: '#F4D03F66' }} aria-hidden />
-      <span className="text-xs font-black tracking-[0.2em]">FINAL QUESTION</span>
+      <span className="text-xs font-black tracking-[0.2em]">⚡ FINAL QUESTION</span>
       <span className="h-px flex-1" style={{ background: '#F4D03F66' }} aria-hidden />
     </div>
   );
@@ -395,7 +392,7 @@ export function ClosingBanner({ remain }: { remain: number }) {
       style={{ color: '#E67E22' }}
       role="status"
     >
-      のこり {remain} 問
+      ⏳ のこり {remain} 問
     </p>
   );
 }
@@ -405,7 +402,7 @@ export function GapHint({ message }: { message: string | null }) {
   if (!message) return null;
   return (
     <p className="mb-1 text-center text-xs font-black" style={{ color: ME_BLUE }} role="status">
-      {message}
+      💪 {message}
     </p>
   );
 }
