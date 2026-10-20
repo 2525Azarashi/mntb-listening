@@ -20,7 +20,7 @@
 
 import { useEffect, useState } from 'react';
 import type { ReactNode } from 'react';
-import { ArrowLeft, Award, BarChart3, Coins, Shirt, Sparkles, Store, Volume2, VolumeX } from 'lucide-react';
+import { ArrowLeft, Award, BarChart3, Coins, Shirt, Sparkles, Volume2, VolumeX } from 'lucide-react';
 import {
   levelOf,
   type GrowthProgress,
@@ -46,7 +46,7 @@ import { OutfitTab, BadgesTab, StatsTab } from './BattleProfileTabs';
 import type { Runner } from './BattleProfileTabs';
 
 
-export type ProfileTab = 'outfit' | 'shop' | 'badges' | 'stats' | 'gacha';
+export type ProfileTab = 'outfit' | 'badges' | 'stats' | 'gacha';
 
 export function BattleProfile({ onBack, initialTab = 'outfit', standalone = false, onMissions }: { onBack: () => void; initialTab?: ProfileTab; standalone?: boolean; onMissions?: () => void; key?: string }) {
   const { progress, uid } = useGrowthProgress();
@@ -111,7 +111,6 @@ export function BattleProfile({ onBack, initialTab = 'outfit', standalone = fals
 
   const tabs: [ProfileTab, ReactNode, string][] = [
     ['gacha', <Sparkles size={14} />, 'ガチャ'],
-    ['shop', <Store size={14} />, 'ショップ'],
     ['outfit', <Shirt size={14} />, 'きせかえ'],
     ['badges', <Award size={14} />, '称号'],
     ['stats', <BarChart3 size={14} />, '教科別'],
@@ -126,7 +125,7 @@ export function BattleProfile({ onBack, initialTab = 'outfit', standalone = fals
           <div><h2>{heading[0]}</h2>{heading[1] && <p>{heading[1]}</p>}</div>
         </header>
         {notice && <div className="mb-3"><BattleNotice message={notice} tone="info" /></div>}
-        {(tab === 'outfit' || tab === 'shop') && <OutfitTab key={tab} shop={tab === 'shop'} progress={progress} busy={busy} run={run} setNotice={setNotice} />}
+        {tab === 'outfit' && <OutfitTab progress={progress} busy={busy} run={run} setNotice={setNotice} />}
         {tab === 'badges' && <BadgesTab progress={progress} busy={busy} run={run} />}
         {tab === 'stats' && <StatsTab progress={progress} />}
       </section>
@@ -150,11 +149,9 @@ export function BattleProfile({ onBack, initialTab = 'outfit', standalone = fals
       )}
 
       {!standalone && <p className="mb-3 text-xs leading-relaxed text-gray-600">成長記録はこのブラウザ・アカウント専用です。端末間同期や他の人への公開はありません。サイトデータを削除すると消えます。</p>}
-      {tab === 'shop' ? <section className="mb-4 flex items-center gap-4 rounded-2xl border border-amber-200 bg-amber-50 p-4" aria-label="現在の装備と残高">
-        <GrowthAvatar progress={progress} size={64} /><div className="min-w-0 flex-1"><p className="text-xs text-amber-900">いまのとびら君</p><p className="text-xl font-black tabular-nums">{progress.coins.toLocaleString()} <span className="text-xs">マナコイン</span></p><LevelBar xp={progress.xp} compact /></div>
-      </section> : standalone ? null : <ProfileHeader progress={progress} rating={rating} />}
+      {!standalone && <ProfileHeader progress={progress} rating={rating} />}
 
-      {!standalone && <nav className="mb-3 grid grid-cols-5 gap-1.5" aria-label="プロフィールの切り替え">
+      {!standalone && <nav className="mb-3 grid grid-cols-4 gap-1.5" aria-label="プロフィールの切り替え">
         {tabs.map(([id, icon, label]) => (
           <button
             key={id}
@@ -175,7 +172,7 @@ export function BattleProfile({ onBack, initialTab = 'outfit', standalone = fals
       </nav>}
 
       {tab === 'gacha' && <GachaRoom onBack={() => setTab('outfit')} onMissions={onMissions || onBack} />}
-      {(tab === 'outfit' || tab === 'shop') && <OutfitTab key={tab} shop={tab === 'shop'} progress={progress} busy={busy} run={run} setNotice={setNotice} />}
+      {tab === 'outfit' && <OutfitTab progress={progress} busy={busy} run={run} setNotice={setNotice} />}
       {tab === 'badges' && <BadgesTab progress={progress} busy={busy} run={run} />}
       {tab === 'stats' && <StatsTab progress={progress} />}
 

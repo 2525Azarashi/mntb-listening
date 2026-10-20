@@ -30,11 +30,11 @@
 .mana-rush-banner { border-radius: var(--mt-radius-lg) !important; box-shadow: 0 3px 0 #d39a1a; }
 .mana-rush-banner strong { font: 800 18px/1.2 var(--mt-font-display) !important; }
 .mana-rush-banner small { font: 700 12px/1.3 var(--mt-font-body) !important; }
-/* ショップ・きせかえ・称号・ミッション・記録 のタブ＝共通タブ */
+/* きせかえ・称号・ミッション・記録のタブ＝共通タブ */
 .mana-hub-tabs { background: var(--mt-bg-sunken); border-radius: var(--mt-radius-lg); padding: 4px !important; gap: 3px !important; box-shadow: inset 0 0 0 1px var(--mt-line); width: calc(100% - 24px); }
 .mana-hub-tabs button { border: 0 !important; border-radius: calc(var(--mt-radius-lg) - 4px) !important; background: transparent !important; color: var(--mt-ink-2) !important; font: 700 12px/1.1 var(--mt-font-body) !important; min-height: 52px; }
 .mana-hub-tabs button[aria-current=page] { background: var(--mt-bg-card) !important; color: var(--mt-ink-warm) !important; font-weight: 800 !important; box-shadow: 0 2px 0 #e6dccb !important; }
-/* マイページ内の見出し（ショップ・ミッション）も丸ゴシック */
+/* マイページ内の見出し（ミッションなど）も丸ゴシック */
 .mana-hub h1.font-handwriting, .mana-hub .font-handwriting { font-family: var(--mt-font-display) !important; }
 /* マイページの「とびら君」カード（GrowthHomeStrip）：共通カード＋12px以上 */
 .mana-hub .mana-dashboard { border: 1.5px solid #e3c77f; border-radius: var(--mt-radius-xl) !important; box-shadow: 0 3px 0 #d7b865, 0 6px 14px rgba(120, 90, 20, .08); }
@@ -244,15 +244,14 @@
   .missions-shell .missions-toast { position: absolute; top: 12px; left: 50%; transform: translateX(-50%); z-index: 5; margin: 0 !important; min-width: 360px; }
 }
 
-/* ★マイページの3つの入口（2026-10-19）★ きせかえ・称号・ショップ。ホームのサイドボタンをここへ統合 */
-.mypage-entries { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin: 2px 4px 12px 0; }
+/* ★マイページの入口（2026-10-19）★ きせかえ・称号。ショップはガチャ欄に独立 */
+.mypage-entries { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin: 2px 4px 12px 0; }
 .mypage-entries button { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; min-height: 92px; padding: 10px 4px; border: 1.5px solid #e2d3b6; border-radius: 18px; color: #1f3354; box-shadow: 0 4px 0 #d9c8a3; transition: transform .14s cubic-bezier(.3,1.6,.5,1), box-shadow .14s; }
 .mypage-entries button:active { transform: translateY(4px); box-shadow: 0 0 0 #d9c8a3; }
 .mypage-entries button strong { font: 900 16px/1.2 var(--mt-font-display); white-space: nowrap; }
 .mypage-entries button > svg:last-child { display: none; }
 .mypage-entries [data-mypage-entry=outfit] { background: #ffc6da; }
 .mypage-entries [data-mypage-entry=badges] { background: #fff1b8; }
-.mypage-entries [data-mypage-entry=shop] { background: #bfeedd; }
 @media (prefers-reduced-motion: reduce) { .mypage-entries button { transition: none; } .mypage-entries button:active { transform: none; } }
 
 /* ★ショップの背景（2026-10-19 ご要望「質素すぎる」）★ 屋台の日よけ（ストライプ）と、方眼の床。
