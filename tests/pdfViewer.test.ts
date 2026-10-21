@@ -73,6 +73,7 @@ describe('PDF ビューの「もどる」と印刷（2026-10-21）', () => {
     expect(src).toContain('watchdog');
     const share = readFileSync('src/utils/pdfShare.ts', 'utf8');
     expect(share).toContain('Share.share');
-    expect(share).toContain('contentWindow?.print');
+    expect(share).toContain("window.open(url, '_blank')");
+    expect(share).toContain('closePdf();');
   });
 });

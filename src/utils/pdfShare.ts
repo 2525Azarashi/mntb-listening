@@ -1,4 +1,5 @@
 import { Capacitor } from '@capacitor/core';
+import { closePdf } from './pdfViewer';
 
 /**
  * PDF の印刷・保存（2026-10-21 ご指摘「PDF が印刷できない」）
@@ -8,7 +9,7 @@ import { Capacitor } from '@capacitor/core';
  *   そこで PDF を端末のキャッシュに書き出し、OS の共有シートを開く。
  *   共有シートには「プリント」「"ファイル"に保存」「AirDrop」などが並ぶので、そこから印刷・保存できる。
  * ■ ブラウザ
- *   印刷：見えない iframe に PDF を読み込んでブラウザの印刷を呼ぶ。だめなら新しいタブで開く（そこから印刷）。
+ *   印刷：クリック直後に新しいタブで PDF を開く（PDF の表示後、ブラウザの印刷機能を使う）。
  *   保存：ダウンロード。
  * 戻り値：画面に出す一言（なければ空）
  */
@@ -30,7 +31,7 @@ function toBase64(blob: Blob): Promise<string> {
 }
 
 /** アプリ：キャッシュに書き出して共有シートを開く */
-async function shareNative(url: string, fileName: string, title: string): Promise<string> {
+async function shareNative(url: string, fileName: string, title: string, closeAfter = false): Promise<string> {
   const [{ Filesystem, Directory }, { Share }] = await Promise.all([import('@capacitor/filesystem'), import('@capacitor/share')]);
   const data = await toBase64(await fetchPdf(url));
   const path = `pdf/${fileName.replace(/[\\/:*?"<>|]+/g, '_')}`;
@@ -39,34 +40,33 @@ async function shareNative(url: string, fileName: string, title: string): Promis
     await Share.share({ title, files: [res.uri], dialogTitle: '印刷・保存' });
   } catch (e) {
     // 共有シートを閉じただけ（キャンセル）はエラー扱いにしない
-    if (/cancel/i.test(String((e as Error)?.message ?? e))) return '';
+    if (/cancel/i.test(String((e as Error)?.message ?? e))) {
+      if (closeAfter) closePdf();
+      return '';
+    }
     throw e;
   }
+  // 共有シートを閉じてアプリに戻ったら、PDF表示を閉じて元の画面へ戻す。
+  if (closeAfter) closePdf();
   return '';
 }
 
 export async function printPdf(url: string, fileName: string, title: string): Promise<string> {
   if (isNativeApp()) return shareNative(url, fileName, title);
-  const blobUrl = URL.createObjectURL(await fetchPdf(url));
-  const frame = document.createElement('iframe');
-  frame.setAttribute('aria-hidden', 'true');
-  frame.style.cssText = 'position:fixed;right:0;bottom:0;width:1px;height:1px;border:0;opacity:0;';
-  const cleanup = () => setTimeout(() => { frame.remove(); URL.revokeObjectURL(blobUrl); }, 60_000);
-  return new Promise<string>(resolve => {
-    frame.onload = () => {
-      try { frame.contentWindow?.focus(); frame.contentWindow?.print(); resolve(''); }
-      catch { window.open(url, '_blank', 'noopener'); resolve('新しいタブで開きました。そこから印刷してください。'); }
-      cleanup();
-    };
-    frame.src = blobUrl;
-    document.body.appendChild(frame);
-  });
+  // 非同期 fetch の後に print() を呼ぶと、クリック由来のユーザー操作と認識されず
+  // ブラウザに印刷ダイアログを止められることがある。クリック中に直接タブを開く。
+  const opened = window.open(url, '_blank');
+  return opened
+    ? 'PDFを新しいタブで開きました。ブラウザの印刷ボタンから印刷してください。'
+    : 'PDFを開けませんでした。ポップアップを許可して、もう一度お試しください。';
 }
 
 export async function savePdf(url: string, fileName: string, title: string): Promise<string> {
-  if (isNativeApp()) return shareNative(url, fileName, title);
+  if (isNativeApp()) return shareNative(url, fileName, title, true);
   const a = document.createElement('a');
   a.href = url; a.download = fileName; a.rel = 'noopener';
   document.body.appendChild(a); a.click(); a.remove();
+  // ダウンロードを開始したあと、PDFビューを閉じて元の画面へ戻す。
+  closePdf();
   return '';
 }
