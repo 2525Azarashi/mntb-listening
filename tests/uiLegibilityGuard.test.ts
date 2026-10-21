@@ -58,6 +58,18 @@ describe('2026-10-18 のご要望（リスニングの資料・フレンド）',
     const pane = read('src/components/quiz/ListeningMaterialPane.tsx');
     expect(pane).toContain('flex min-h-0 flex-1 flex-col overflow-auto');
   });
+  it('2026-10-21：資料欄の「状況・場面を確認」と「問18〜21」の見出しは出さない（解答欄の黒い札と重複）', () => {
+    const pane = read('src/components/quiz/ListeningMaterialPane.tsx');
+    expect(pane).not.toMatch(/<summary[^>]*>状況・場面を確認/);
+    expect(pane).not.toContain('{materialTrack.label} · 資料');
+    expect(pane).not.toContain(".replace(/^講義（([^）]+)）$/u, '$1')");
+  });
+  it('2026-10-21：説明ページは全文ではなく 題・説明・状況・配点 だけをゴシックで出す', () => {
+    const brief = read('src/components/ListeningBriefing.tsx');
+    expect(brief).toContain('parseListeningBriefing(lead)');
+    expect(brief).not.toContain('<ExplanationBody');
+    expect(brief).toMatch(/data-listening-briefing className="[^"]*font-modern/);
+  });
   it('第4問B：条件表の空欄は ○ → × → 空欄 とタップで切り替えられる（44px）', () => {
     expect(materials).toContain("const NEXT_MARK: Record<string, string> = { '': '○', '○': '×', '×': '' };");
     expect(materials).toMatch(/data-material-mark[\s\S]{0,400}h-11/);
