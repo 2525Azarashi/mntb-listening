@@ -235,7 +235,7 @@
   .game-stage-shortcuts svg { width: 18px; height: 18px; }
   .game-stage-shortcuts .stage-gacha, .game-stage-shortcuts .stage-outfit { top: 20%; }
   .game-stage-shortcuts .stage-shop, .game-stage-shortcuts .stage-badges { top: calc(20% + 53px); }
-  .game-action-deck { min-height: 96px; gap: 6px; }
+  .game-action-deck { min-height: 88px; gap: 6px; }
   .game-home .game-main-action { min-height: 94px; max-height: 104px; border-width: 4px; }
   .game-home .game-main-action strong { font-size: 21px; }
   .game-home .game-main-action .home-battle-emblem, .game-home .game-main-action .home-battle-emblem svg { width: 24px; height: 24px; }
@@ -247,7 +247,7 @@
   .game-study-bar select { font-size: 11px; }
   .game-study-bar button { font-size: 10px; }
   .game-home .game-home-utility button { font-size: 10px; gap: 3px; }
-  .game-home .home-pillars .home-pillar { min-height: 82px; padding: 6px 4px; border-radius: 18px; }
+  .game-home .home-pillars .home-pillar { min-height: 76px; padding: 4px 4px; border-radius: 18px; }
   .game-home .home-pillars .home-pillar strong { font-size: 19px; }
   .game-home .home-review-wide { min-height: 48px; padding: 4px 10px; border-radius: 16px; }
   .game-home .home-review-text strong { font-size: 17px; }
@@ -256,7 +256,7 @@
 }
 @media(max-height:680px) and (max-width:600px) {
   .game-mascot-stage { min-height: 104px; }
-  .game-home .home-pillars .home-pillar { min-height: 76px; }
+  .game-home .home-pillars .home-pillar { min-height: 72px; }
   .game-home .home-pillars .home-pillar-icon { width: 32px; height: 32px; }
   .game-home .home-pillars .home-pillar-icon svg { width: 18px; height: 18px; }
   .game-home .home-review-wide { min-height: 44px; }
