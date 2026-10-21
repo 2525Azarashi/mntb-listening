@@ -44,6 +44,7 @@ function PdfViewer({ doc }: { doc: OpenPdf } & React.Attributes) {
   const [pageCount, setPageCount] = useState(0);
   const [zoom, setZoom] = useState(1);
   const [attempt, setAttempt] = useState(0);
+  const [fallback, setFallback] = useState(false);
   const [busy, setBusy] = useState<'' | 'print' | 'save'>('');
   const [note, setNote] = useState('');
 
@@ -62,15 +63,16 @@ function PdfViewer({ doc }: { doc: OpenPdf } & React.Attributes) {
     if (!box) return;
     box.replaceChildren();
     setState('loading');
-    // 2026-10-21 アプリ（iOS）で最初の1回が「開いています…」のまま止まることがあった。
-    //   12秒たっても1ページ目が出なければ、作り直してもう一度（1回だけ自動）。それでもだめなら「もう一度」を出す。
+    setFallback(false);
+    // pdf.js が一部のブラウザ環境で停止しても、標準PDFビューアーへ切り替えて
+    // 「PDFを開いています…」のままにならないようにする。
     let shown = false;
     const watchdog = window.setTimeout(() => {
       if (cancelled || shown) return;
       cancelled = true; void task?.destroy().catch(() => { /* 片付けの失敗は無視 */ });
-      pdfjsPromise = null;
-      if (attempt < 1) setAttempt(a => a + 1); else setState('error');
-    }, 12000);
+      setFallback(true);
+      setState('ready');
+    }, 8000);
     loadPdfJs().then(async lib => {
       // 1ファイル 1MB 以下なので分割読み込みはしない（アプリの WebView の Range 応答に頼らない）
       const loading = lib.getDocument({ url: doc.url, isEvalSupported: false, disableRange: true, disableStream: true });
@@ -123,7 +125,8 @@ function PdfViewer({ doc }: { doc: OpenPdf } & React.Attributes) {
     </header>
     <div className="pdfv-scroll" data-zoom={zoom > 1 || undefined}>
       {note && <p className="pdfv-note" role="status">{note}</p>}
-      {state === 'loading' && <p className="pdfv-status" role="status">PDF を開いています…{attempt > 0 && <><br /><small>時間がかかっています。もう一度読み込んでいます</small></>}</p>}
+      {state === 'loading' && <p className="pdfv-status" role="status">PDF を開いています…{attempt > 0 && <><br /><small>読み込みを再試行しています</small></>}</p>}
+      {fallback && <p className="pdfv-note" role="status">ブラウザ標準のPDF表示に切り替えました。表示されない場合は <a href={doc.url} target="_blank" rel="noreferrer">PDFを別タブで開く</a> をお試しください。</p>}
       {state === 'error' && <div className="pdfv-status" role="alert">
         <p>PDF を表示できませんでした。接続を確認して、もう一度お試しください。</p>
         <div className="pdfv-status-actions">
@@ -131,7 +134,9 @@ function PdfViewer({ doc }: { doc: OpenPdf } & React.Attributes) {
           <button type="button" onClick={closePdf}>もどる</button>
         </div>
       </div>}
-      <div className="pdfv-pages" ref={pagesRef} />
+      {fallback
+        ? <iframe className="pdfv-native" src={doc.url} title={`${doc.title}（PDF）`} />
+        : <div className="pdfv-pages" ref={pagesRef} />}
     </div>
   </div>;
 }

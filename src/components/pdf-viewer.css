@@ -11,6 +11,7 @@
 .pdfv-tools > button:disabled { opacity: .4; }
 .pdfv-scroll { flex: 1; min-height: 0; overflow: auto; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; padding: 12px 8px calc(env(safe-area-inset-bottom, 0px) + 16px); }
 .pdfv-pages { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+.pdfv-native { display: block; width: 100%; height: calc(100vh - 92px); min-height: 420px; border: 0; background: #fff; }
 .pdfv-scroll[data-zoom] .pdfv-pages { align-items: flex-start; width: max-content; min-width: 100%; }
 .pdfv-pages canvas { display: block; max-width: none; height: auto; background: #fff; box-shadow: 0 2px 10px rgba(0, 0, 0, .35); }
 .pdfv-scroll:not([data-zoom]) .pdfv-pages canvas { max-width: 100%; }
