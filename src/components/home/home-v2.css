@@ -111,8 +111,8 @@
 .home-v2 .home-level-tag b { font: 900 14px/1 var(--mt-font-display); margin-left: 4px; color: var(--hv-ink) !important; }
 
 /* ---------- 主役ボタン（演習＝黄・対戦＝青） ---------- */
-.home-v2 .home-pillars { gap: 12px; }
-.home-v2 .home-pillars > .home-pillar { min-height: 96px; border-radius: 22px !important; flex-direction: row; gap: 10px; }
+.home-v2 .home-pillars { gap: 8px; }
+.home-v2 .home-pillars > .home-pillar { min-height: 88px; border-radius: 22px !important; flex-direction: row; gap: 8px; }
 .home-v2 .home-pillar strong { font: 900 clamp(22px, 6.2vw, 28px)/1.1 var(--mt-font-display) !important; letter-spacing: .02em; font-feature-settings: 'palt'; text-shadow: none !important; }
 .home-v2 .home-pillar small { display: none; }
 .home-v2 .home-pillar-solo { --edge: #f0c24a; --lift: #c98512; background: linear-gradient(180deg, #ffdb73, var(--hv-yellow)) !important; color: var(--hv-ink) !important; }
@@ -159,7 +159,7 @@
 /* ---------- スマホ：ファーストビューは キャラ＋吹き出し＋主ボタン＋小さなステータス ---------- */
 @media (max-width: 1099px) {
   .home-v2 .game-home-viewport { gap: 10px; padding: 6px 14px 10px; }
-  .home-v2 .game-mascot-stage { min-height: 150px; }
+  .home-v2 .game-mascot-stage { min-height: 162px; }
   .home-v2 .game-mascot-button { bottom: 46px; height: calc(100% - 108px); }
   .home-v2 .game-stage-floor { bottom: 18px; height: 64px; }
   /* 広告・下のタブとの間を空ける（誤タップ防止） */
@@ -167,7 +167,8 @@
 }
 @media (max-width: 1099px) and (max-height: 720px) {
   .home-v2 .game-home-viewport { gap: 7px; }
-  .home-v2 .home-pillars > .home-pillar { min-height: 76px; }
+  .home-v2 .game-mascot-stage { min-height: 158px; }
+  .home-v2 .home-pillars > .home-pillar { min-height: 68px; }
   .home-v2 .home-pillar-icon { width: 36px !important; height: 36px !important; }
   .home-v2 .home-review-wide, .home-v2 .home-mini-card { min-height: 48px !important; }
   .home-v2 .game-hud-top button { min-height: 44px; }
