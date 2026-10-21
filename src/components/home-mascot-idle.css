@@ -1,0 +1,34 @@
+/*
+ * ホームのとびら君：待機モーション（2026-10-21）
+ *   6秒に1回、約0.6秒だけ「ちょっとしゃがむ → ぴょこっと跳ねる → 着地でむにっ」。
+ *   ・回している間（data-spinning / data-settling）は止める（ドラッグ回転とけんかしない）
+ *   ・transform ではなく個別の translate / scale / rotate を使う（回転用の inline transform と重ならない）
+ *   ・影も跳ねに合わせて小さく・うすく（影の inline transform とは別の scale / opacity）
+ *   ・動きを減らす設定では動かさない
+ * 戻す: このファイルと Home.tsx の `import './home-mascot-idle.css';` を消す
+ */
+.game-home .spin-mascot .spin-mascot-front { transform-origin: 50% 100%; }
+.game-home .spin-mascot:not([data-spinning]):not([data-settling]) .spin-mascot-front {
+  animation: home-mascot-hop 6s cubic-bezier(.3, .7, .4, 1) 1.2s infinite both;
+}
+.game-home .spin-mascot:not([data-spinning]):not([data-settling]) .spin-mascot-shadow {
+  animation: home-mascot-hop-shadow 6s cubic-bezier(.3, .7, .4, 1) 1.2s infinite both;
+}
+/* 6秒のうち最初の 10%（=0.6秒）だけ動く */
+@keyframes home-mascot-hop {
+  0%   { translate: 0 0;   scale: 1 1;        rotate: 0deg; }
+  1.8% { translate: 0 0;   scale: 1.05 .93;   rotate: 0deg; }   /* ためる */
+  4.2% { translate: 0 -4%; scale: .97 1.04;   rotate: -2deg; }  /* ぴょこっ */
+  6.6% { translate: 0 0;   scale: 1.04 .95;   rotate: 1.2deg; } /* 着地でむにっ */
+  8.4% { translate: 0 0;   scale: .99 1.01;   rotate: 0deg; }
+  10%, 100% { translate: 0 0; scale: 1 1;     rotate: 0deg; }
+}
+@keyframes home-mascot-hop-shadow {
+  0%, 10%, 100% { scale: 1 1; opacity: 1; }
+  1.8% { scale: 1.06 1; opacity: 1; }
+  4.2% { scale: .78 1; opacity: .6; }
+  6.6% { scale: 1.08 1; opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .game-home .spin-mascot .spin-mascot-front, .game-home .spin-mascot .spin-mascot-shadow { animation: none !important; }
+}
