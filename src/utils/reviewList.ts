@@ -15,6 +15,7 @@
  *    これは新規の独立モジュールであり、既存の problem JSON / Firestore スキーマを変更しない。
  */
 
+import { recordReviewDone } from './reviewProgress';
 import {
   fingerprintProblem,
   } from './problemVersion';
@@ -243,6 +244,8 @@ export function markReviewedCorrect(uid: string | null | undefined, key: string)
     };
   });
   saveReviewList(uid, next);
+  // 「今日なおした」「今週」の表示用の日誌（2026-10-21）。書けなくても復習は止めない
+  if (items.some(it => it.key === key)) recordReviewDone(uid, key, now);
   // Optional personal reward; never block review scheduling or add growth code to initial study load.
   if (uid && items.some(it => it.key === key)) {
     void import('../battle/data/growthStore').then(({ recordReviewGrowth }) => recordReviewGrowth(uid, key)).catch(logRejection('growth.recordReview'));

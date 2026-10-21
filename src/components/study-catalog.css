@@ -87,3 +87,12 @@
   :root[data-ad-banner=true] .sc-card { min-height: 58px; padding: 5px 12px; }
   :root[data-ad-banner=true] .sc-desc { display: none; }
 }
+
+/* 2026-10-21 見出しをマイページと同じ「中央・23px・900」にそろえる（左寄りだった）。
+   戻す: このブロックを削除 */
+.sc-head { position: relative; justify-content: center; }
+.sc-head > .sc-back { position: absolute; left: 0; top: 50%; transform: translateY(-50%); }
+.sc-head-title { flex: 0 1 auto; text-align: center; }
+.sc-head:has(.sc-back) .sc-head-title { padding-inline: 92px; }
+.sc-head-title h1 { font: 900 23px/1.2 var(--mt-font-display); color: #1c2a39; }
+@media (min-width: 1024px) { .sc-head-title h1 { font-size: 28px; letter-spacing: .04em; } }
