@@ -215,7 +215,7 @@ export default function App() {
   const [settingsTab, setSettingsTab] = useState<'general' | 'friends' | 'class'>('general');
   const [subjectPickerReturnTo, setSubjectPickerReturnTo] = useState<AppState>('home');
   /** 固めるページで開いているタブ（ページを離れても戻ったときに同じタブを開く） */
-  const [foundationTab, setFoundationTab] = useState<'words' | 'quiz' | 'grammar' | 'more'>('words');
+  const [foundationTab, setFoundationTab] = useState<'words' | 'quiz' | 'reading' | 'grammar' | 'more'>('words');
   /** アプリ内の PDF ビューが開いているか（開いている間は広告を出さない） */
   const pdfOpen = usePdfOpen();
   const [foundationBackTo, setFoundationBackTo] = useState<'home' | 'study'>('home');
@@ -304,7 +304,7 @@ export default function App() {
       if (isSubjectId(content.action.subject)) openSubjectUnits(content.action.subject, 'study');
       return;
     }
-    setFoundationTab(content.action.kind === 'vocabQuiz' ? 'quiz' : content.action.tab);
+    setFoundationTab(content.action.kind === 'vocabQuiz' ? 'quiz' : content.action.kind === 'reading' ? 'reading' : content.action.tab);
     setFoundationBackTo('study');
     setAppState('foundation');
   };
