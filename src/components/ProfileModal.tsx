@@ -272,16 +272,13 @@ export function ProfileModal({ onClose, initialTab, isBgmEnabled, setIsBgmEnable
                     <div className="ps-id">
                       <label className="ps-name">
                         <span className="sr-only">ニックネーム</span>
-                        <input value={name} maxLength={NICKNAME_MAX} onChange={(event) => setName(event.target.value)} placeholder="ニックネーム" aria-invalid={!!name.trim() && !nameCheck.ok} aria-describedby="nickname-help" />
+                        <input value={name} maxLength={NICKNAME_MAX} onChange={(event) => setName(event.target.value)} placeholder="ニックネーム" aria-invalid={!!name.trim() && !nameCheck.ok} aria-describedby={name.trim() && !nameCheck.ok ? 'nickname-help' : undefined} />
                         <Pencil size={16} aria-hidden="true" />
                       </label>
                       <div className="ps-rank"><TitleChip progress={growth} rating={rating} size="md" /><span>Lv.{levelOf(growth.xp).level}</span></div>
                     </div>
                   </div>
-                  {/* 注意書きは名前に問題があるときだけ出す（普段は入力欄の説明＝aria で伝える） */}
-                  <p id="nickname-help" role={name.trim() && !nameCheck.ok ? 'alert' : undefined} className="ps-help" data-error={(name.trim() && !nameCheck.ok) || undefined}>
-                    {name.trim() && !nameCheck.ok ? nameCheck.message : '名前は対戦・ランキングで表示されます（本名・連絡先は不可）'}
-                  </p>
+                  {name.trim() && !nameCheck.ok && <p id="nickname-help" role="alert" className="ps-help" data-error>{nameCheck.message}</p>}
                   <dl className="ps-stats">
                     <div><dt><Flame size={15} aria-hidden="true" />連続</dt><dd>{streak}<small>日</small></dd></div>
                     <div><dt><Clock size={15} aria-hidden="true" />学習時間</dt><dd>{formatStudyTime(studySeconds)}</dd></div>
@@ -329,9 +326,8 @@ export function ProfileModal({ onClose, initialTab, isBgmEnabled, setIsBgmEnable
               <div className="ps-col-app space-y-2 sm:space-y-3 flex flex-col">
                 <h3 className="ps-group-title">アプリ（サウンド）</h3>
                 <section className="ps-sound mt-card" aria-label="サウンド">
-                  <Toggle label="BGM" sub="学習中・待ち時間・対戦の音楽（ひとつでON/OFF）" checked={isBgmEnabled} onChange={toggleBgm} icon={isBgmEnabled ? <Volume2 size={16} /> : <VolumeX size={16} />} />
+                  <Toggle label="BGM" checked={isBgmEnabled} onChange={toggleBgm} icon={isBgmEnabled ? <Volume2 size={16} /> : <VolumeX size={16} />} />
                   <Volume label="BGM音量" value={bgmVolume} onChange={setBgmVolume} />
-                  <p className="ps-help">タイトル・待機・対戦で共通。効果音もこの音量に合わせます。</p>
                   <p className="ps-sub"><Swords size={14} aria-hidden="true" />対戦モードの音</p>
                   <Toggle label="対戦効果音" sub="正解・逆転など" checked={battleAudioSettings.sfx} onChange={() => { updateBattleAudio({ sfx: !battleAudioSettings.sfx }); if (!battleAudioSettings.sfx) window.setTimeout(() => battleAudio().play('correct'), 50); }} tone="gold" />
                 </section>

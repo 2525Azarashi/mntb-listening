@@ -43,7 +43,7 @@ export function GrowthAvatar({
 }) {
   const frame = equippedFrameColor(progress);
   const level = levelOf(progress.xp).level;
-  const badgeSize = size >= 56 ? 'text-xs px-1.5' : 'text-[10px] px-1'; // 小さいアバター（56px未満）だけは枠に収めるため例外
+  const badgeSize = size >= 56 ? 'text-xs px-1.5' : 'text-xs px-1'; // 小さいアバター（56px未満）だけは枠に収めるため例外
   return (
     <div className="relative shrink-0" style={{ width: size, height: size }}>
       <div
