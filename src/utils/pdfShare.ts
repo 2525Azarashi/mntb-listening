@@ -63,9 +63,13 @@ export async function printPdf(url: string, fileName: string, title: string): Pr
 
 export async function savePdf(url: string, fileName: string, title: string): Promise<string> {
   if (isNativeApp()) return shareNative(url, fileName, title, true);
+  // PDF URLへの通常リンクは一部ブラウザで download 属性が無視され、
+  // PDFだけの画面へ遷移してしまう。Blob URLから保存を開始してそれを避ける。
+  const blobUrl = URL.createObjectURL(await fetchPdf(url));
   const a = document.createElement('a');
-  a.href = url; a.download = fileName; a.rel = 'noopener';
+  a.href = blobUrl; a.download = fileName; a.rel = 'noopener';
   document.body.appendChild(a); a.click(); a.remove();
+  window.setTimeout(() => URL.revokeObjectURL(blobUrl), 60_000);
   // ダウンロードを開始したあと、PDFビューを閉じて元の画面へ戻す。
   closePdf();
   return '';
