@@ -76,7 +76,7 @@ describe('PDF ビューの「もどる」と印刷（2026-10-21）', () => {
     expect(src).toContain('<iframe className="pdfv-native"');
     const share = readFileSync('src/utils/pdfShare.ts', 'utf8');
     expect(share).toContain('Share.share');
-    expect(share).toContain('target.print()');
+    expect(share).toContain('window.print()');
     expect(share).not.toContain("window.open(url, '_blank')");
     expect(share).toContain('closePdf();');
     expect(share).toContain('URL.createObjectURL(await fetchPdf(url))');
