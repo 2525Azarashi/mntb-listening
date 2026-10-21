@@ -315,7 +315,7 @@ const NoteCard: React.FC<{ note: StudyNote; onSelect: (note: StudyNote) => void 
 //   どちらの役割も果たし、復習したものが目に見えて喜べる形に。
 // ■ 形
 //   ① 上：達成の帯「今日なおした ○問」＋今日の輪（なおした / 今日の分）＋7日の扉グラフ＋連続日数
-//   ② 主ボタン「復習を始める」（今日の分があるとき）／ないときは次の予定と「演習する」
+//   ② 今日の分がないときだけ、次の予定と「演習する」（「復習を始める」は 2026-10-21 に削除。一覧から直接解く）
 //   ③ 大きな2つの切り替え：［復習ノート］［学習記録］。復習ノートの中に 今日・苦手・習得・ノート の小タブ
 //   ④ 習得済みは「金のメダルの棚」に並べる（集めたものが見えると嬉しい）
 //   ⑤ 学習記録は直近3日の時系列（StudyRecord をそのまま中に置く。見出しの重複は消す）
@@ -479,11 +479,6 @@ export function StudyHub({ onBack, isGuest, onSelectNote, onReview, onPractice, 
   const showSubjectFilter = section === 'review' && tab !== 'notes' && subjectSummaries.length > 1;
   const first = scopedDueItems[0];
   const allDone = dueItems.length === 0 && summary.today > 0;
-  const startReview = () => {
-    if (!first || !onReview) return;
-    const g = groupReviewItems(scopedDueItems).find(x => x.key === `${first.chapterId}::${first.questionId}`);
-    onReview({ ...first, subQuestionIds: g?.subQuestionIds ?? [first.subQuestionId] });
-  };
 
   return (
     <div className="review-note rr-page" data-review-note data-section={section}>
@@ -495,7 +490,7 @@ export function StudyHub({ onBack, isGuest, onSelectNote, onReview, onPractice, 
         </header>
 
         {/* ① 達成の帯 */}
-        <section className="rr-hero" aria-label="今日の復習の達成" data-all-done={allDone || undefined}>
+        <section className="rr-hero" aria-label="今日の復習の達成" data-all-done={allDone || undefined} data-no-cta={first ? true : undefined}>
           <TodayRing done={summary.today} left={dueItems.length} />
           <div className="rr-hero-main">
             <p className="rr-hero-big"><span>今日なおした</span><b key={summary.today} className="rr-pop">{summary.today}</b><span>問</span>
@@ -506,12 +501,8 @@ export function StudyHub({ onBack, isGuest, onSelectNote, onReview, onPractice, 
             </p>
           </div>
           <div className="rr-hero-week"><WeekDoors week={summary.week} /><small>今週 {summary.weekTotal}問</small></div>
-          {first && onReview ? (
-            <button type="button" className="mt-btn mt-btn-accent rr-cta" onClick={startReview}>
-              <RotateCcw size={18} aria-hidden="true" />
-              <span><strong>復習を始める</strong><small>1問目：{formatScope(first)}</small></span>
-            </button>
-          ) : (
+          {/* 2026-10-21：オレンジの「復習を始める」は削除（一覧から直接解ける）。その分、一覧を広く */}
+          {!first && (
             <div className="rr-hero-next">
               <p>{nextUpcoming ? `次の復習は${formatDue(nextUpcoming.dueAt, now)}` : '新しく解いて、苦手を集めよう'}</p>
               {onPractice && <button type="button" className="mt-btn mt-btn-secondary" onClick={onPractice}><PenLine size={16} aria-hidden="true" />演習する</button>}

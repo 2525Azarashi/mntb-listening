@@ -1,13 +1,15 @@
 import { useState } from 'react';
-import { Coins, ChevronRight, Shirt, Award, Store, Sparkles } from 'lucide-react';
+import { Coins, Store, Sparkles } from 'lucide-react';
 import { StudyRecord, type StudyRetry } from './StudyRecord';
 import { LevelRewards } from './LevelRewards';
 import { equippedTitleLabel, type MissionDestination } from '../battle/core/growth';
 import { GachaRoom } from './GachaRoom';
 import { ManaRush } from './ManaRush';
 import { MyCollection } from './MyCollection';
+import { MyProfileCard } from './MyProfileCard';
 import { GrowthAvatar, LevelBar } from '../battle/ui/GrowthParts';
 import { useGrowthProgress } from '../hooks/useGrowthProgress';
+import { useMediaQuery } from '../hooks/useMediaQuery';
 import { BattleMissions } from '../battle/ui/BattleMissions';
 import { BattleProfile } from '../battle/ui/BattleProfile';
 import './growth-hub.css';
@@ -22,6 +24,9 @@ export function GrowthHub({ page, onPage, onBack, onBattle, onReview, onRanking,
   onRetry?: (t: StudyRetry) => void;
 }) {
   const { progress, uid } = useGrowthProgress();
+  // マイページは1画面に収める：スマホではとびら君を小さくして横1段に（2026-10-21）
+  const wide = useMediaQuery('(min-width: 720px)');
+  const short = useMediaQuery('(max-height: 700px)');
   const [outfitKind, setOutfitKind] = useState('all');
   const activePage = page;
   // ★ミッションの「○○へ」★ マイページの中で済むものはここで、ほかの画面は App に任せる
@@ -54,14 +59,11 @@ export function GrowthHub({ page, onPage, onBack, onBattle, onReview, onRanking,
     {page === 'overview' ? <main className="mypage-overview" data-mypage-overview>
       <section className="mypage-stage" aria-label="いまのとびら君">
         <p className="mypage-stage-title">{(progress && equippedTitleLabel(progress)) || 'とびら君'}</p>
-        <div className="mypage-stage-avatar">{progress && <GrowthAvatar progress={progress} size={132}/>}</div>
+        <div className="mypage-stage-avatar">{progress && <GrowthAvatar progress={progress} size={wide ? 132 : short ? 60 : 76}/>}</div>
         <div className="mypage-stage-meta"><span><Coins size={16}/><strong>{progress?.coins.toLocaleString() ?? '—'}</strong>マナコイン</span>{progress && <LevelBar xp={progress.xp} compact/>}</div>
       </section>
-      {/* ★ホームのサイドボタン（きせかえ・称号）をマイページへ統合★ */}
-      <nav className="mypage-entries" aria-label="とびら君のメニュー">
-        <button type="button" data-mypage-entry="outfit" onClick={()=>openTab('outfit')}><Shirt size={24} aria-hidden="true"/><strong>きせかえ</strong><ChevronRight size={18} aria-hidden="true"/></button>
-        <button type="button" data-mypage-entry="badges" onClick={()=>openTab('badges')}><Award size={24} aria-hidden="true"/><strong>称号</strong><ChevronRight size={18} aria-hidden="true"/></button>
-      </nav>
+      {/* 2026-10-21：きせかえ・称号のボタンは削除（上のタブで開ける）。代わりに設定の「アカウント・プロフィール」をここへ */}
+      <MyProfileCard />
       {/* 「レベルで手に入るもの」はミッションの中へ移した（マイページをスクロールなしで1画面に収める・2026-10-05） */}
     </main> : activePage === 'outfit' || activePage === 'prints' || activePage === 'rewards' ? <MyCollection key={`${uid}:${activePage}:${outfitKind}`} view={activePage === 'outfit' || activePage === 'rewards' ? 'owned' : activePage} initialKind={activePage === 'outfit' ? outfitKind : 'all'} onGacha={()=>onPage('gacha')}/>
     : activePage === 'stats' ? <div className="mypage-extra-scroll"><StudyRecord embedded onReview={onReview} onRetry={onRetry}/></div>

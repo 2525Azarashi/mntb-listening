@@ -10,6 +10,7 @@ import { confirmAction } from '../utils/dialog';
 import { useFitPager } from '../hooks/useFitPager';
 import { FitPagerBar } from './ui/FitPagerBar';
 import { openPdf } from '../utils/pdfViewer';
+import { savePdf } from '../utils/pdfShare';
 /** プレゼント（隔週リーグ報酬）でしか手に入らないアイテム */
 const LEAGUE_GIFT_ITEM = 'frame_league_aurora';
 const LEAGUE_LABEL: Record<string, string> = { bronze: 'ブロンズ', silver: 'シルバー', gold: 'ゴールド', platinum: 'プラチナ', manatobi: 'マナトビ' };
@@ -57,12 +58,7 @@ export function MyCollection({ view = 'owned', onGacha, initialKind = 'all', gac
     {message && <p role="status" className="collection-message">{message}</p>}
     {<><div className="collection-controls"><label className="sr-only" htmlFor="collection-search">アイテム名で探す</label><input id="collection-search" placeholder="名前で探す" value={search} onChange={e => setSearch(e.target.value)}/>{view !== 'prints' && <select aria-label="所有状況" value={state} onChange={e => setState(e.target.value as typeof state)}><option value="owned">所持済み</option><option value="available">未所持</option><option value="all">すべて</option></select>}</div>{view !== 'prints' && <label className="collection-kind">種類<select value={kind} onChange={e => setKind(e.target.value)}>{[['all','すべて'],['pose','ポーズ'],['frame','フレーム'],['hat','帽子'],['glasses','メガネ'],['cheek','ほっぺ'],['aura','オーラ'],['wallpaper','壁紙']].map(([id,label]) => <option key={id} value={id}>{label}</option>)}</select></label>}</>}
     <div className="collection-scroll" tabIndex={0} aria-label="所有アイテム一覧" ref={pager.frameRef} data-fit-paged={pager.enabled || undefined}>
-      {view === 'shop' && <section className="store-guide" aria-label="ショップとガチャの違い" data-store-guide>
-        <div><b>ショップ</b><span>欲しい物を<strong>選んで</strong>コイン交換</span></div>
-        <div><b>ガチャ</b><span>何が出るか<strong>ランダム</strong>（UR・SRはガチャ限定）</span></div>
-        <p>どちらで手に入れても「持ちもの」に入り、PDFは「マイPDF」で開けます。装飾で対戦の強さは変わりません。</p>
-        {onGacha && <button type="button" onClick={onGacha}>ガチャを見てみる</button>}
-      </section>}
+      {/* 2026-10-21：ショップとガチャの説明・「ガチャを見てみる」は削除（上のタブで切り替えられる・見れば分かる） */}
       {/* 届いたプレゼント（未受け取りだけ）。受け取ると下の一覧に「プレゼントで獲得」と出る */}
       {view === 'owned' && rewards.some(r => !progress.owned.includes(r.itemId)) && <section className="store-guide is-gift" aria-label="届いたプレゼント" data-gift-guide>
         <p><strong>プレゼントが届いています</strong>（隔週リーグの上位報酬）。受け取ると持ちものに入り、装備できます。</p>
@@ -71,7 +67,7 @@ export function MyCollection({ view = 'owned', onGacha, initialKind = 'all', gac
       <ul className="collection-grid" ref={pager.gridRef}>{list.slice(pager.start, pager.end).map(item => { const owned = progress.owned.includes(item.id); const print = printOf(item.id); const equipped = progress.equipped[item.kind] === item.id; return <li key={item.id} data-owned={owned}>
         <div className="collection-art">{print ? <img src={print.thumb} alt="PDFの表紙" loading="lazy"/> : <GrowthAvatar progress={{...progress,equipped:{...progress.equipped,[item.kind]:item.id}}} size={68} showLevel={false}/>}</div>
         <span className="collection-tag">{gachaRarityOf(item)} · {equipped ? '装備中' : owned ? '所持済み' : '未所持'}</span>{owned && item.id === LEAGUE_GIFT_ITEM && <span className="collection-gift-tag" data-gift-item><Gift size={12} aria-hidden/>プレゼントで獲得</span>}<h3>{item.label}</h3>
-        {print && owned ? <><p>{print.category} · {print.pages}ページ</p><a href={print.file} onClick={e => { e.preventDefault(); openPdf(print.file, print.label); }}><FileText size={16}/>PDFを開く</a><a href={print.file} download><Download size={16}/>保存する</a></> : owned ? (equipped ? (canUnequip(progress, item) ? <button type="button" className="collection-unequip" data-unequip={item.id} disabled={busy} onClick={() => void takeOff(item)}>外す</button> : <button type="button" disabled>装備中</button>) : <button type="button" disabled={busy} onClick={() => void perform(item)}>装備する</button>) : 'coins' in item.unlock ? <><p>{item.unlock.coins} マナコイン</p><button type="button" disabled={busy || progress.coins < item.unlock.coins} onClick={() => void perform(item)}>{progress.coins < item.unlock.coins ? `あと${item.unlock.coins-progress.coins}枚` : '購入する'}</button></> : <p>{item.id === 'frame_league_aurora' ? '隔週リーグ限定UR' : 'level' in item.unlock ? `Lv.${item.unlock.level}で解放` : 'badge' in item.unlock ? '称号で解放' : 'ガチャで獲得'}</p>}
+        {print && owned ? <><p>{print.category} · {print.pages}ページ</p><a href={print.file} onClick={e => { e.preventDefault(); openPdf(print.file, print.label); }}><FileText size={16}/>PDFを開く</a><a href={print.file} download onClick={e => { e.preventDefault(); void savePdf(print.file, `${print.label.replace(/[\\/:*?"<>|\s]+/g, '_')}.pdf`, print.label).catch(() => openPdf(print.file, print.label)); }}><Download size={16}/>保存する</a></> : owned ? (equipped ? (canUnequip(progress, item) ? <button type="button" className="collection-unequip" data-unequip={item.id} disabled={busy} onClick={() => void takeOff(item)}>外す</button> : <button type="button" disabled>装備中</button>) : <button type="button" disabled={busy} onClick={() => void perform(item)}>装備する</button>) : 'coins' in item.unlock ? <><p>{item.unlock.coins} マナコイン</p><button type="button" disabled={busy || progress.coins < item.unlock.coins} onClick={() => void perform(item)}>{progress.coins < item.unlock.coins ? `あと${item.unlock.coins-progress.coins}枚` : '購入する'}</button></> : <p>{item.id === 'frame_league_aurora' ? '隔週リーグ限定UR' : 'level' in item.unlock ? `Lv.${item.unlock.level}で解放` : 'badge' in item.unlock ? '称号で解放' : 'ガチャで獲得'}</p>}
       </li>; })}</ul>{!list.length && <p className="collection-empty">{view === 'prints' ? '獲得したPDFはここに並びます。ガチャのURで学習プリントを手に入れよう。' : 'この条件のアイテムはありません。絞り込みを変えてみてください。'}</p>}
     </div>
     <FitPagerBar pager={pager} label="一覧" />

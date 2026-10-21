@@ -5,6 +5,7 @@ import { GrowthAvatar } from '../battle/ui/GrowthParts';
 import { printOf, type ItemDef, type GachaRarity, type GrowthProgress } from '../battle/core/growth';
 import { wallpaperOf } from '../battle/core/tobiraParts';
 import { openPdf } from '../utils/pdfViewer';
+import { savePdf } from '../utils/pdfShare';
 
 /**
  * GachaParts
@@ -117,7 +118,7 @@ export function PrintLinks({ item, compact = false }: { item: ItemDef; compact?:
         <FileText size={compact ? 14 : 16} aria-hidden="true" />
         {compact ? '開く' : `PDFを開く（${print.pages}ページ）`}
       </a>
-      <a href={print.file} download={name} aria-label={`${print.label}をダウンロード`}>
+      <a href={print.file} download={name} aria-label={`${print.label}をダウンロード`} onClick={e => { e.preventDefault(); void savePdf(print.file, name, print.label).catch(() => openPdf(print.file, print.label, name)); }}>
         <Download size={compact ? 14 : 16} aria-hidden="true" />
         {compact ? '保存' : 'ダウンロード'}
       </a>

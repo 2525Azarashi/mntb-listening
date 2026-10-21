@@ -51,3 +51,28 @@ describe('アプリ内の PDF ビュー', () => {
     expect(AD_CONFIG.banner.hiddenOn).toContain('pdf');
   });
 });
+
+describe('PDF ビューの「もどる」と印刷（2026-10-21）', () => {
+  beforeEach(() => __resetPdfViewer());
+  afterEach(() => { vi.unstubAllGlobals(); });
+  it('popstate が来ない WebView でも「もどる」で即座に閉じる', () => {
+    const stack: unknown[] = [null]; let i = 0;
+    vi.stubGlobal('history', { get state() { return stack[i]; }, pushState(st: unknown) { stack.push(st); i++; }, back() { if (i > 0) i--; /* popstate を出さない */ } });
+    vi.stubGlobal('window', { location: { href: 'https://app.example/', origin: 'https://app.example' }, addEventListener: () => undefined });
+    vi.stubGlobal('setTimeout', (() => 0) as unknown as typeof setTimeout);
+    openPdf('/prints/a.pdf', 'A');
+    closePdf();
+    expect(pdfViewerStore.get()).toBeNull();
+    expect(i).toBe(0);
+  });
+  it('ビューに印刷ボタン・もう一度・止まったときの作り直しがある', async () => {
+    const { readFileSync } = await import('node:fs');
+    const src = readFileSync('src/components/PdfViewer.tsx', 'utf8');
+    expect(src).toContain('data-pdf-print');
+    expect(src).toContain('もう一度');
+    expect(src).toContain('watchdog');
+    const share = readFileSync('src/utils/pdfShare.ts', 'utf8');
+    expect(share).toContain('Share.share');
+    expect(share).toContain('contentWindow?.print');
+  });
+});

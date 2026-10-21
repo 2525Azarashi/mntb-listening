@@ -288,3 +288,44 @@
 .store-guide.is-compact p b { color: #1f3354; }
 .store-guide.is-compact p strong { color: #b8641a; }
 .store-guide.is-compact button { flex-shrink: 0; width: auto !important; min-height: 44px; padding: 0 14px !important; margin: 0 !important; white-space: nowrap; }
+
+/* ===== 2026-10-21 マイページ：とびら君＋レベルを横1段に詰め、その下にプロフィール（旧：設定のアカウント・プロフィール） =====
+   スマホでも1画面に収める（スクロールなし）。PC は左にとびら君、右にプロフィール。 */
+.mypage-overview[data-mypage-overview] { display: flex; flex-direction: column; gap: 8px; padding: 2px 12px 8px; }
+.mypage-overview[data-mypage-overview] .mypage-stage { flex-direction: row; flex-wrap: wrap; justify-content: center; align-items: center; gap: 4px 12px; margin: 0; padding: 8px 12px; border-radius: 18px; }
+.mypage-overview[data-mypage-overview] .mypage-stage-title { order: -1; flex-basis: 100%; width: max-content; max-width: 100%; margin: 0 auto; text-align: center; font-size: 12px; padding: 2px 12px; flex-grow: 0; }
+.mypage-overview[data-mypage-overview] .mypage-stage-avatar { flex-shrink: 0; padding: 0; transform: none !important; margin: 0 !important; }
+.mypage-overview[data-mypage-overview] .mypage-stage { flex-wrap: nowrap; }
+.mypage-overview[data-mypage-overview] .mypage-stage-title { position: absolute; top: 6px; left: 50%; transform: translateX(-50%); flex-basis: auto; }
+.mypage-overview[data-mypage-overview] .mypage-stage-meta { padding-top: 18px; flex: 1; min-width: 0; max-width: 300px; }
+.mypage-overview[data-mypage-overview] .mypage-stage-meta > span { justify-content: flex-start; }
+.mypage-profile { display: grid; gap: 7px; padding: 10px 12px; --ps-line: #e5dccc; --ps-card: #fffdf5; --ps-ink: #344451; --ps-ink-2: #5a6573; }
+.mypage-profile-top { display: flex; gap: 8px; align-items: center; }
+.mypage-profile-top .ps-name { flex: 1; min-width: 0; }
+.mypage-profile-save { flex-shrink: 0; display: inline-flex; align-items: center; gap: 4px; min-height: 44px; padding: 0 14px; border-radius: 12px; border: 0; background: var(--mt-brand, #2458a6); color: #fff; font: 800 13px/1 var(--mt-font-body); box-shadow: 0 3px 0 var(--mt-brand-strong, #14315f); }
+.mypage-profile-save:disabled { background: #e9e3d6; color: #7b7466; box-shadow: none; }
+.mypage-profile .ps-stats > div { padding: 6px 8px; }
+.mypage-profile .ps-stats dd { margin-top: 2px; font-size: 16px; }
+.mypage-profile .ps-fields { gap: 6px; }
+.mypage-profile-motto { grid-column: 1 / -1; }
+.mypage-profile-public { min-height: 44px; padding: 0 2px 0 10px; }
+.mypage-profile-public .ps-toggle-text p { font-size: 13px; }
+@media (max-height: 700px) {
+  .mypage-overview[data-mypage-overview] { gap: 6px; }
+  .mypage-overview[data-mypage-overview] .mypage-stage { padding: 4px 10px; }
+  .mypage-profile { gap: 5px; padding: 8px 10px; }
+  .mypage-profile .ps-badges { display: none; }
+  .mypage-profile .ps-stats dt { font-size: 12px; }
+}
+@media (min-width: 720px) {
+  .mypage-overview[data-mypage-overview] { display: grid !important; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr) !important; grid-template-rows: auto !important; align-items: start; gap: 16px !important; }
+  .mypage-overview[data-mypage-overview] .mypage-stage { grid-row: auto !important; flex-direction: column; padding: 40px 20px 20px; height: auto; }
+  .mypage-overview[data-mypage-overview] .mypage-stage-meta { padding-top: 0; }
+  .mypage-overview[data-mypage-overview] .mypage-stage-meta > span { justify-content: center; }
+  .mypage-profile { padding: 14px 16px; gap: 10px; }
+}
+/* 320×568 などとても低い画面：学習の数字を1行に詰めて1画面に収める */
+@media (max-height: 600px) {
+  .mypage-profile .ps-stats { display: none; }
+  .mypage-profile .ps-fields { gap: 5px; }
+}

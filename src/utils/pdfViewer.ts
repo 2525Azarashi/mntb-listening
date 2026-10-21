@@ -15,6 +15,8 @@ let current: OpenPdf | null = null;
 const listeners = new Set<Listener>();
 const MARK = '__manatobiPdf';
 let popInstalled = false;
+/** 「もどる」で自分から閉じたあと、積んだ履歴を戻すときの popstate を1回だけ無視する */
+let skipPop = 0;
 
 function emit() { listeners.forEach(l => l(current)); }
 
@@ -22,6 +24,7 @@ function installPop() {
   if (popInstalled || typeof window === 'undefined') return;
   popInstalled = true;
   window.addEventListener('popstate', () => {
+    if (skipPop > 0) { skipPop--; return; }
     // 戻る操作で PDF の履歴から離れた → 閉じる（履歴はもう戻っているので触らない）
     if (current && !(history.state && history.state[MARK])) { current = null; emit(); }
   });
@@ -49,14 +52,18 @@ export function openPdf(url: string, title: string, fileName?: string): void {
   emit();
 }
 
-/** 閉じる（「もどる」ボタン・Esc）。積んだ履歴を1つ戻す → popstate で閉じる */
+/**
+ * 閉じる（「もどる」ボタン・Esc）。2026-10-21：読み込み中でも必ずすぐ閉じる。
+ *   以前は history.back() → popstate を待って閉じていたが、アプリ（iOS の WebView）では
+ *   popstate が来ないことがあり「読み込み中のまま戻れない」になっていた。先に閉じてから履歴をそろえる。
+ */
 export function closePdf(): void {
   if (!current) return;
-  if (typeof window !== 'undefined' && history.state && history.state[MARK]) {
-    try { history.back(); return; } catch { /* 戻れなければ下でそのまま閉じる */ }
-  }
   current = null; emit();
+  if (typeof window !== 'undefined' && history.state && history.state[MARK]) {
+    try { skipPop++; history.back(); setTimeout(() => { skipPop = 0; }, 1000); } catch { skipPop = 0; }
+  }
 }
 
 /** テスト用 */
-export function __resetPdfViewer(): void { current = null; listeners.clear(); popInstalled = false; }
+export function __resetPdfViewer(): void { current = null; listeners.clear(); popInstalled = false; skipPop = 0; }
