@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { ChevronLeft, Download, Minus, Plus, Printer, RotateCw } from 'lucide-react';
 import { pdfViewerStore, closePdf, type OpenPdf } from '../utils/pdfViewer';
-import { printPdf, savePdf } from '../utils/pdfShare';
+import { isNativeApp, printPdf, savePdf } from '../utils/pdfShare';
 import './pdf-viewer.css';
 
 /**
@@ -44,7 +44,7 @@ function PdfViewer({ doc }: { doc: OpenPdf } & React.Attributes) {
   const [pageCount, setPageCount] = useState(0);
   const [zoom, setZoom] = useState(1);
   const [attempt, setAttempt] = useState(0);
-  const [fallback, setFallback] = useState(false);
+  const [fallback, setFallback] = useState(!isNativeApp());
   const [busy, setBusy] = useState<'' | 'print' | 'save'>('');
   const [note, setNote] = useState('');
 
@@ -62,6 +62,12 @@ function PdfViewer({ doc }: { doc: OpenPdf } & React.Attributes) {
     const box = pagesRef.current;
     if (!box) return;
     box.replaceChildren();
+    if (!isNativeApp()) {
+      // Webではpdf.jsのworkerで止まる環境があるため、最初からブラウザ標準ビューアーを使う。
+      setFallback(true);
+      setState('ready');
+      return () => { cancelled = true; };
+    }
     setState('loading');
     setFallback(false);
     // pdf.js が一部のブラウザ環境で停止しても、標準PDFビューアーへ切り替えて
@@ -125,8 +131,8 @@ function PdfViewer({ doc }: { doc: OpenPdf } & React.Attributes) {
     </header>
     <div className="pdfv-scroll" data-zoom={zoom > 1 || undefined}>
       {note && <p className="pdfv-note" role="status">{note}</p>}
-      {state === 'loading' && <p className="pdfv-status" role="status">PDF を開いています…{attempt > 0 && <><br /><small>読み込みを再試行しています</small></>}</p>}
-      {fallback && <p className="pdfv-note" role="status">ブラウザ標準のPDF表示に切り替えました。表示されない場合は <a href={doc.url} target="_blank" rel="noreferrer">PDFを別タブで開く</a> をお試しください。</p>}
+      {state === 'loading' && !fallback && <p className="pdfv-status" role="status">PDF を開いています…{attempt > 0 && <><br /><small>読み込みを再試行しています</small></>}</p>}
+      {fallback && <p className="pdfv-note" role="status">ブラウザ標準のPDF表示を使用しています。表示されない場合は <a href={doc.url} target="_blank" rel="noreferrer">PDFを別タブで開く</a> をお試しください。</p>}
       {state === 'error' && <div className="pdfv-status" role="alert">
         <p>PDF を表示できませんでした。接続を確認して、もう一度お試しください。</p>
         <div className="pdfv-status-actions">
