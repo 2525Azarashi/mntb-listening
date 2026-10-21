@@ -7,7 +7,7 @@ import { createPortal } from 'react-dom';
 const PhilosophyPage = React.lazy(() => import('./PhilosophyPage').then(m => ({ default: m.PhilosophyPage })));
 import { auth } from '../firebase';
 import { useGrowthProgress } from '../hooks/useGrowthProgress';
-import { equippedPoseSrc, equippedFrameColor, equippedFramePattern, levelOf, equippedTitleLabel } from '../battle/core/growth';
+import { equippedPoseSrc, equippedFrameColor, equippedFramePattern, levelOf } from '../battle/core/growth';
 import { TobiraAccessories } from '../battle/ui/TobiraAccessories';
 import type { GrowthPage } from './GrowthHub';
 const GrowthHomeStrip = React.lazy(() => import('../battle/ui/GrowthHomeStrip').then(m => ({ default: m.GrowthHomeStrip })));
@@ -356,7 +356,7 @@ export function Home({ onPractice, onPickSubject, onStudyMode, onGrowth, onStart
   const bgmLabel = !isBgmEnabled ? 'BGMを鳴らす' : isBgmFadedOut ? 'BGMをもう一度鳴らす' : 'BGMを止める';
 
   return (
-    <div className="home-lobby arena-home game-home h-full min-h-0 relative">
+    <div className="home-lobby home-v2 arena-home game-home h-full min-h-0 relative">
       <div className="home-lobby-lines" aria-hidden="true" />
       {/* 背景に桜を降らせる（2026-10-04 復活。操作の邪魔をしないよう最背面・pointer-events なし） */}
       <SakuraPetals count={14} className="home-sakura" />
@@ -381,8 +381,7 @@ export function Home({ onPractice, onPickSubject, onStudyMode, onGrowth, onStart
           <div className="game-stage-backdrop" aria-hidden="true"><i /><i /><i /></div>
           {/* ★とびら君は「住人」（2026-10-01）★ 状態（はじめて・久しぶり・復習待ち・連続）で言うことが変わる。しっぽ付きの吹き出し */}
           <TobiraBuddy className="game-stage-say" figure={false} bubble="top" input={{ screen: 'home', streak, dueCount: reviewDueCount, solved: solvedQuestions, daysAway: Math.max(0, daysAway), firstVisit: (daysAway < 0 || (streak <= 1 && solvedQuestions === 0 && !completedIds.length)) && growth.loginDays <= 1 && growth.matches === 0 && growth.studySolved === 0 && growth.rushPlays === 0, isGuest, loginDays: growth.loginDays, seed: new Date().getDate() }} />
-          {growth && equippedTitleLabel(growth) && <p className="game-stage-caption">{equippedTitleLabel(growth)}</p>}
-          <div className="game-stage-floor" aria-hidden="true"><div className="game-equipped-ring" data-frame-pattern={growth ? equippedFramePattern(growth) : 'plain'} style={{borderColor: growth ? equippedFrameColor(growth) : undefined}} /><Swords /></div>
+            <div className="game-stage-floor" aria-hidden="true"><div className="game-equipped-ring" data-frame-pattern={growth ? equippedFramePattern(growth) : 'plain'} style={{borderColor: growth ? equippedFrameColor(growth) : undefined}} /><Swords /></div>
           {/* ★2026-10-01 D：とびら君をドラッグで回せる（モンスト風）★ ちょんと押すと今までどおり着せ替え */}
           {growth && <div className="game-mascot-button" data-home-mascot>
             <SpinMascot className="home-mascot-wrap" label="とびら君（左右にドラッグで回す・押すと着せ替え）" onTap={onGrowth ? () => onGrowth('outfit') : undefined}>
