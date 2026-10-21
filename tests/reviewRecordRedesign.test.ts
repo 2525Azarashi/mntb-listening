@@ -71,6 +71,13 @@ describe('復習・記録の画面構成（2026-10-21）', () => {
     expect(rrCss).toContain('.rr-page .study-record.is-embedded .sr-retry button { min-width: 0;');
   });
 
+  it('上の帯は小さく、スクロールは一覧（rr-scroll）だけ', () => {
+    expect(hub).toContain('className="rr-scroll" data-rr-scroll key={`${tab}-${subjectTab}`}');
+    expect(hub).toContain('<div className="rr-scroll" data-rr-scroll><StudyRecord embedded onRetry={onRetry} /></div>');
+    expect(hub).toContain('const size = 56, stroke = 7');
+    expect(rrCss).toContain('.rr-page > .rn-wrap > .rr-scroll { flex: 1 1 0; min-height: 120px; overflow-y: auto;');
+  });
+
   it('動きは transform/opacity のみ・reduced-motion で止める', () => {
     expect(rrCss).toContain('prefers-reduced-motion');
   });

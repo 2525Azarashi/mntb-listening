@@ -324,7 +324,7 @@ const NoteCard: React.FC<{ note: StudyNote; onSelect: (note: StudyNote) => void 
 function TodayRing({ done, left }: { done: number; left: number }) {
   const total = done + left;
   const rate = total === 0 ? 0 : done / total;
-  const size = 92, stroke = 10, r = (size - stroke) / 2;
+  const size = 56, stroke = 7, r = (size - stroke) / 2;
   const complete = left === 0 && done > 0;
   return (
     <div className="rr-ring" data-complete={complete || undefined} aria-hidden="true">
@@ -334,20 +334,20 @@ function TodayRing({ done, left }: { done: number; left: number }) {
         <circle className="rr-ring-fg" cx={size / 2} cy={size / 2} r={r} fill="none" stroke="url(#rr-ring-grad)" strokeWidth={stroke} strokeLinecap="round"
           pathLength={1} strokeDasharray="1 1" strokeDashoffset={1 - rate} transform={`rotate(-90 ${size / 2} ${size / 2})`} />
       </svg>
-      <span className="rr-ring-label">{complete ? <Check size={30} strokeWidth={3.2} /> : <><b>{done}</b><small>/{total}</small></>}</span>
+      <span className="rr-ring-label">{complete ? <Check size={22} strokeWidth={3.4} /> : <><b>{done}</b><small>/{total}</small></>}</span>
     </div>
   );
 }
 
-/** 7日の扉グラフ：その日なおした数だけ扉が高くなる。0の日は低い閉じた扉 */
+/** 7日の扉グラフ（小さく）：その日なおした数だけ扉が高くなる。今日は金。数字は今日と最大の日だけ */
 function WeekDoors({ week }: { week: ReviewDay[] }) {
   const max = Math.max(3, ...week.map(d => d.count));
   return (
     <ol className="rr-week" aria-label={`この7日でなおした数：${week.map(d => `${d.label}${d.count}問`).join('、')}`}>
       {week.map((d, i) => (
-        <li key={d.date} data-today={d.isToday || undefined} data-zero={d.count === 0 || undefined} style={{ ['--h' as string]: `${Math.max(16, Math.round(d.count / max * 100))}%`, ['--i' as string]: i } as React.CSSProperties}>
-          <span className="rr-week-bar"><i />{d.count > 0 && <b>{d.count}</b>}</span>
-          <small>{d.label}</small>
+        <li key={d.date} data-today={d.isToday || undefined} data-zero={d.count === 0 || undefined} title={`${d.label} ${d.count}問`}
+          style={{ ['--h' as string]: `${Math.max(14, Math.round(d.count / max * 100))}%`, ['--i' as string]: i } as React.CSSProperties}>
+          <i />
         </li>
       ))}
     </ol>
@@ -471,15 +471,14 @@ export function StudyHub({ onBack, isGuest, onSelectNote, onReview, onPractice, 
         <section className="rr-hero" aria-label="今日の復習の達成" data-all-done={allDone || undefined}>
           <TodayRing done={summary.today} left={dueItems.length} />
           <div className="rr-hero-main">
-            <p className="rr-hero-kicker">{allDone ? '今日の分はぜんぶ完了！' : dueItems.length > 0 ? `今日の復習 あと${dueItems.length}問` : reviewItems.length === 0 ? '間違えた問題がここに集まります' : '今日やる復習はありません'}</p>
             <p className="rr-hero-big"><span>今日なおした</span><b key={summary.today} className="rr-pop">{summary.today}</b><span>問</span>
               {cheer > 0 && <i key={cheer} className="rr-plus" aria-hidden="true">+1</i>}</p>
             <p className="rr-hero-sub">
+              <span className="rr-hero-left">{allDone ? '今日の分は完了！' : dueItems.length > 0 ? `あと${dueItems.length}問` : '今日の分なし'}</span>
               <span><Flame size={14} aria-hidden="true" />{summary.streak}日連続</span>
-              <span>今週 {summary.weekTotal}問</span>
             </p>
           </div>
-          <WeekDoors week={summary.week} />
+          <div className="rr-hero-week"><WeekDoors week={summary.week} /><small>今週 {summary.weekTotal}問</small></div>
           {first && onReview ? (
             <button type="button" className="mt-btn mt-btn-accent rr-cta" onClick={startReview}>
               <RotateCcw size={18} aria-hidden="true" />
@@ -520,6 +519,8 @@ export function StudyHub({ onBack, isGuest, onSelectNote, onReview, onPractice, 
             </div>
           )}
 
+          {/* タブを変えたら一覧は先頭から（key で作り直す）。スクロールするのはここだけ */}
+          <div className="rr-scroll" data-rr-scroll key={`${tab}-${subjectTab}`}>
           <div className="rn-panel" role="tabpanel">
             {tab === 'today' && (scopedDueItems.length === 0
               ? <EmptyState icon={<CheckCircle2 size={28} aria-hidden="true" />} tone="done" title={scopedSubjectLabel ? `${scopedSubjectLabel}の今日の復習は完了` : '今日の復習は完了'} desc={summary.today > 0 ? `今日は${summary.today}問なおしました。よくがんばったね。` : '問題を解いて間違えると、ここに自動で追加されます。'} />
@@ -542,10 +543,11 @@ export function StudyHub({ onBack, isGuest, onSelectNote, onReview, onPractice, 
               <ForgettingCurveChart items={scopedItems} now={now} subjectLabel={scopedSubjectLabel} />
             </details>
           )}
+          </div>
         </>}
 
         {/* 学習記録（直近3日）。見出しは上の切り替えが兼ねるので StudyRecord 側の見出しは出さない */}
-        {section === 'record' && <StudyRecord embedded onRetry={onRetry} />}
+        {section === 'record' && <div className="rr-scroll" data-rr-scroll><StudyRecord embedded onRetry={onRetry} /></div>}
       </div>
     </div>
   );
