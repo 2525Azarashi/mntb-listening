@@ -171,7 +171,8 @@ export function ListeningAudioPlayer({
   const idleBtnClass = isDark
     ? 'border-[#5BC0BE]/45 bg-[#1C2541] text-[#E0E1DD] hover:bg-[#243056]'
     : 'border-[#5BC0BE]/50 bg-white text-[#2C3E50] hover:bg-[#E6F7F4]';
-  const activeBtnClass = 'border-[#3E9C93] bg-[#3E9C93] text-white ring-2 ring-[#3E9C93]/30';
+  // 2026-10-21：白文字12px のコントラストを AA（4.5:1）以上に。#3E9C93（3.3:1）→ #2B7A72（5.1:1）
+  const activeBtnClass = 'border-[#2B7A72] bg-[#2B7A72] text-white ring-2 ring-[#3E9C93]/30';
   const scriptBoxClass = isDark
     ? 'border-[#3A506B]/70 bg-[#0B132B]/60 text-[#E0E1DD]'
     : 'border-[#5BC0BE]/30 bg-white text-slate-700';
@@ -378,7 +379,7 @@ export function ListeningAudioPlayer({
           何のブロックかは分かる。 */}
       {isCompact ? (
         <div className="mb-1.5 flex items-center justify-between gap-2">
-          <h3 className={`flex items-center gap-1 text-[11px] font-bold leading-none ${headingClass}`}>
+          <h3 className={`flex items-center gap-1 text-xs font-bold leading-none ${headingClass}`}>
             <Headphones size={13} className="shrink-0" />
             <span>音源・スクリプト</span>
           </h3>
@@ -389,7 +390,7 @@ export function ListeningAudioPlayer({
                 type="button"
                 onClick={() => setRate(r)}
                 aria-pressed={rate === r}
-                className={`min-h-[1.75rem] rounded-md border px-2 py-0.5 text-[10px] font-bold transition-colors cursor-pointer ${
+                className={`min-h-[1.75rem] rounded-md border px-2 py-0.5 text-xs font-bold transition-colors cursor-pointer ${
                   rate === r ? activeBtnClass : idleBtnClass
                 }`}
               >
@@ -420,7 +421,7 @@ export function ListeningAudioPlayer({
               誤解してしまうため、必ず明示する。
             */}
             {usesSpeech && (
-              <p className={`mt-0.5 text-[10px] font-bold leading-snug ${subTextClass}`}>
+              <p className={`mt-0.5 text-xs font-bold leading-snug ${subTextClass}`}>
                 {speechBlocked
                   ? '※この端末では読み上げに対応していません。スクリプトを黙読して練習してください。'
                   : '※この回は端末の読み上げ音声で再生します（録音音源ではありません）'}
@@ -539,8 +540,8 @@ export function ListeningAudioPlayer({
                     }`}
                     className={`flex items-center justify-center rounded-lg border font-bold transition-colors cursor-pointer ${
                       isCompact
-                        ? 'min-h-[2.25rem] shrink-0 gap-0.5 px-1.5 py-1 text-[10px]'
-                        : 'min-h-[2rem] gap-1 px-2 py-1 text-[10px]'
+                        ? 'min-h-[2.25rem] shrink-0 gap-0.5 px-1.5 py-1 text-xs'
+                        : 'min-h-[2rem] gap-1 px-2 py-1 text-xs'
                     } ${idleBtnClass}`}
                   >
                     <FileText size={11} />

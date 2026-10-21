@@ -144,12 +144,12 @@ export function scriptBox(script: string, translation?: string, phrases: readonl
   return (
     LISTENING_SCRIPT_FIRST_MARK +
     '<div style="background-color:#F2FBFA; border:2px solid #3E9C93; border-left:9px solid #3E9C93; border-radius:10px; padding:12px 14px; margin-top:6px; color:#12403C;">' +
-    '<div style="font-size:0.78em; font-weight:bold; letter-spacing:0.08em; color:#2F7C74; margin-bottom:6px;">SCRIPT ／ 実際に流れた英文</div>' +
+    '<div style="font-size:max(12px, 0.78em); font-weight:bold; letter-spacing:0.08em; color:#2F7C74; margin-bottom:6px;">SCRIPT ／ 実際に流れた英文</div>' +
     // 対話（第3問）のスクリプトは 'A: …' / 'B: …' の複数行で入ってくる。
     // 改行をそのまま出すと1行に潰れて誰の発話か追えないため、<br> に置き換える。
     `<div style="font-size:1.06em; font-weight:bold; line-height:1.85;">${highlightedScript(body, phrases)}</div>` +
     (jp
-      ? `<div style="margin-top:8px; padding-top:8px; border-top:1px dashed rgba(62,156,147,0.5); font-size:0.9em; color:#2F7C74;">${escapeHtml(jp)}</div>`
+      ? `<div style="margin-top:8px; padding-top:8px; border-top:1px dashed rgba(62,156,147,0.5); font-size:max(12px, 0.9em); color:#2F7C74;">${escapeHtml(jp)}</div>`
       : '') +
     '</div>'
   );
@@ -309,7 +309,7 @@ function styleReasonLine(line: string): string {
   const head = line.match(/^【(着眼点|ポイント|選択肢|プラス|入試ではここ)】\s*(.*)$/u);
   if (head) {
     const color = EG_HEADS[head[1]];
-    const tag = `<span style="display:inline-block; margin-right:6px; padding:0 8px; border-radius:6px; font-size:0.82em; font-weight:bold; color:#fff; background-color:${color};">${head[1]}</span>`;
+    const tag = `<span style="display:inline-block; margin-right:6px; padding:0 8px; border-radius:6px; font-size:max(12px, 0.82em); font-weight:bold; color:#fff; background-color:${color};">${head[1]}</span>`;
     const body = head[2] ? (head[1] === '入試ではここ' ? `<span style="font-weight:bold; color:#1F3F6A;">${escapeHtml(head[2])}</span>` : escapeHtml(head[2])) : '';
     return tag + body;
   }
@@ -433,7 +433,7 @@ export function buildListeningExplanation(problem: ProblemSource): string {
   if (common.length > 0) {
     sections.push(
       `${LABEL('この形式の解き方')}` +
-        '<span style="font-size:0.8em; color:#B03A5B; margin-left:6px;">（この回の全問に共通・1回だけ載せています）</span>\n' +
+        '<span style="font-size:max(12px, 0.8em); color:#B03A5B; margin-left:6px;">（この回の全問に共通・1回だけ載せています）</span>\n' +
         common.map((step) => String(step).trim()).join('\n'),
     );
   }

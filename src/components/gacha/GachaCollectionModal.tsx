@@ -33,23 +33,36 @@ export function GachaCollectionModal({ oddsDialog, items, tiers, progress }: {
         </button>
       </header>
       <div className="game-details-body gacha-odds">
-        <p>
-          ショップは欲しい装飾を選んでコイン交換。ガチャはランダム抽選です。どちらで獲得したものもマイページに集まり、PDFは「マイPDF」で開けます。
-        </p>
-        <p>
-          全{items.length}種類。まず<strong>レア度</strong>を抽選（UR {pct(GACHA_RARITY_RATES.UR)}%・SR{' '}
-          {pct(GACHA_RARITY_RATES.SR)}%・R {pct(GACHA_RARITY_RATES.R)}%・N {pct(GACHA_RARITY_RATES.N)}
-          %）し、同じレア度の中から等確率で1つ出ます。
-          <strong>UR（大当たり）は学習プリント{tiers.UR.length}種</strong>で、1種あたり約
-          {pct(GACHA_RARITY_RATES.UR / Math.max(1, tiers.UR.length))}%。
-          <strong>10＋1連は最後の1回が「R以上確定」</strong>
-          （それまでにR以上が出ていなければ、UR {pct(GACHA_RARITY_RATES.UR / (1 - GACHA_RARITY_RATES.N))}
-          %・SR {pct(GACHA_RARITY_RATES.SR / (1 - GACHA_RARITY_RATES.N))}%・R{' '}
-          {pct(GACHA_RARITY_RATES.R / (1 - GACHA_RARITY_RATES.N))}% で抽選）。重複は N{' '}
-          {GACHA_DUPLICATE_REFUND_BY_RARITY.N}枚・R {GACHA_DUPLICATE_REFUND_BY_RARITY.R}枚・SR{' '}
-          {GACHA_DUPLICATE_REFUND_BY_RARITY.SR}枚・UR {GACHA_DUPLICATE_REFUND_BY_RARITY.UR}
-          枚返還。課金・換金なし／天井なし。UR・SR はガチャ限定です。フレームや一部ポーズはショップ交換・レベル・称号でも獲得できます。学習プリントの問題・正解はアプリ内の問題（確認済み）から作っています。
-        </p>
+        <section className="gacha-odds-summary" aria-label="入手方法の要点">
+          <strong>入手方法</strong>
+          <p>ショップは選んで交換、ガチャはランダム。獲得した装飾は「持ちもの」へ、PDFは「マイPDF」へ。</p>
+        </section>
+        <section className="gacha-odds-section" aria-labelledby="gacha-rates-heading">
+          <h3 id="gacha-rates-heading">抽選の割合</h3>
+          <p>全{items.length}種類。まずレア度を抽選し、同じレア度の中から等確率で1つ出ます。</p>
+          <ul className="gacha-odds-rate-list" aria-label="レア度ごとの提供割合">
+            <li><RarityTag rarity="UR" /><b>{pct(GACHA_RARITY_RATES.UR)}%</b></li>
+            <li><RarityTag rarity="SR" /><b>{pct(GACHA_RARITY_RATES.SR)}%</b></li>
+            <li><RarityTag rarity="R" /><b>{pct(GACHA_RARITY_RATES.R)}%</b></li>
+            <li><RarityTag rarity="N" /><b>{pct(GACHA_RARITY_RATES.N)}%</b></li>
+          </ul>
+          <p>URは学習プリント{tiers.UR.length}種。1種あたり約{pct(GACHA_RARITY_RATES.UR / Math.max(1, tiers.UR.length))}%です。</p>
+        </section>
+        <section className="gacha-odds-section" aria-labelledby="gacha-multi-heading">
+          <h3 id="gacha-multi-heading">10＋1連</h3>
+          <p>最後の1回はR以上確定。それまでにR以上が出ていない場合の割合：</p>
+          <ul className="gacha-odds-bonus-rates">
+            <li>UR <b>{pct(GACHA_RARITY_RATES.UR / (1 - GACHA_RARITY_RATES.N))}%</b></li>
+            <li>SR <b>{pct(GACHA_RARITY_RATES.SR / (1 - GACHA_RARITY_RATES.N))}%</b></li>
+            <li>R <b>{pct(GACHA_RARITY_RATES.R / (1 - GACHA_RARITY_RATES.N))}%</b></li>
+          </ul>
+        </section>
+        <section className="gacha-odds-section" aria-labelledby="gacha-notes-heading">
+          <h3 id="gacha-notes-heading">重複・入手条件</h3>
+          <p>重複分はコインで返還：N {GACHA_DUPLICATE_REFUND_BY_RARITY.N}枚、R {GACHA_DUPLICATE_REFUND_BY_RARITY.R}枚、SR {GACHA_DUPLICATE_REFUND_BY_RARITY.SR}枚、UR {GACHA_DUPLICATE_REFUND_BY_RARITY.UR}枚。</p>
+          <p>課金・換金・天井はありません。UR・SRはガチャ限定。一部のフレームやポーズはショップ・レベル・称号でも獲得できます。</p>
+          <p>学習プリントは、アプリ内で確認済みの問題から作成しています。装飾で対戦の強さは変わりません。</p>
+        </section>
         <div
           className="gacha-collection-filters gacha-collection-kinds"
           role="group"

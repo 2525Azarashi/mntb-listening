@@ -1,6 +1,7 @@
 /**
  * 演習画面の左ペイン：リスニング後半（資料つき）の「資料・音源」ペイン（C-04）。
- * ProblemPane.tsx の早期 return の JSX をそのまま移した（DOM・クラス名・data-* / aria-* 属性・文言は1文字も変えていない）。
+ * ProblemPane.tsx の早期 return の JSX をそのまま移した。
+ * 2026-10-21：図を資料欄の高さに収めるため、スクロール枠を flex（縦）にした（図の無い資料は従来どおり縦にスクロール）。
  *
  * ★部品ではなく描画関数にしている理由★
  *   ProblemPane の中で呼ぶだけにして、React の木（要素の種類と並び）を1段も変えないため。
@@ -39,9 +40,6 @@ export function renderListeningMaterialPane({
       }`}>
       {isDesktop ? (
         <>
-          <div className="flex shrink-0 items-center justify-between gap-2 border-b px-3">
-            <span className="text-sm font-bold text-[#2C3E50]">{materialTrack.label} · 資料</span>
-          </div>
           <div data-listening-audio className="shrink-0 border-b bg-white px-3 py-1">
             <ListeningAudioPlayer tracks={listeningTracks} focusSubId={activeStepSub.id}
               variant="inline" orientation="horizontal" mode="practice" tone="light"
@@ -50,6 +48,12 @@ export function renderListeningMaterialPane({
         </>
       ) : (
         /*
+          ★2026-10-21：「問18〜21」の見出しも外した★
+          ご指摘：「問～みたいなのも解答欄の上に黒背景の白文字で書いてあるからいらない」
+          解答欄の上の黒い札（問18 など）と同じ情報なので、この段は［▶再生］［速さ］［全画面］だけにする。
+          同じ理由で資料の下の「状況・場面を確認」も外した（状況は説明ページで読む。
+          ご指摘：「状況・場面を確認という文字いらない（特に後半の圧迫する大問）」）。
+
           ★スマホ：見出し行と音源行を1行に統合する★
           ご指摘：「リスニングがまだ一画面に映ってない（後半パート）。見にくい」
           実測（375x740・第4問A）では
@@ -64,9 +68,6 @@ export function renderListeningMaterialPane({
           PC（isDesktop）は従来の2段のまま。
         */
         <div className="flex shrink-0 items-center gap-1.5 border-b bg-white px-2 py-1">
-          <span className="max-w-[4.5rem] shrink-0 truncate text-xs font-bold leading-tight text-[#2C3E50]">
-            {String(materialTrack.label).replace(/^講義（([^）]+)）$/u, '$1')}
-          </span>
           <div data-listening-audio className="min-w-0 flex-1">
             <ListeningAudioPlayer tracks={listeningTracks} focusSubId={activeStepSub.id}
               variant="inline" orientation="horizontal" mode="practice" tone="light"
@@ -81,13 +82,9 @@ export function renderListeningMaterialPane({
         </div>
       )}
       <div ref={problemScrollRef} tabIndex={0} aria-label="資料をスクロール"
-        className={`min-h-0 flex-1 overflow-auto overscroll-contain px-3 md:px-6 ${isDesktop ? 'py-3' : 'py-2'}`}>
+        className={`flex min-h-0 flex-1 flex-col overflow-auto overscroll-contain px-3 md:px-6 ${isDesktop ? 'py-3' : 'py-2'}`}>
         <ListeningMaterials material={materialTrack.material}
           activeSubId={!isDesktop ? selectedAnswerSub?.id : undefined} />
-        {materialTrack.hint && <details className="mt-3 text-sm leading-relaxed text-gray-600">
-          <summary className="cursor-pointer py-2 font-bold">状況・場面を確認</summary>
-          <p>{materialTrack.hint}</p>
-        </details>}
       </div>
     </section>
   );

@@ -19,10 +19,10 @@ export function CompactWeakAreas({ weakAreas }: { weakAreas: ReturnType<typeof c
             <div className="flex items-center justify-between gap-2">
               <div className="flex items-center gap-1 min-w-0">
                 <AlertTriangle className="w-3 h-3 shrink-0 text-[#D9A0A0]" />
-                <span className="text-[11px] font-bold text-[#1B2631] truncate">{area.category}</span>
+                <span className="text-xs font-bold text-[#1B2631] truncate">{area.category}</span>
               </div>
               <span className="font-mono font-bold text-xs text-[#D9A0A0] tabular-nums shrink-0">
-                {area.percentage}<span className="text-[9px] ml-0.5">%</span>
+                {area.percentage}<span className="text-xs ml-0.5">%</span>
               </span>
             </div>
             <div className="relative h-1.5 mt-1 rounded-full overflow-hidden bg-gray-200/70">
@@ -34,7 +34,7 @@ export function CompactWeakAreas({ weakAreas }: { weakAreas: ReturnType<typeof c
           </div>
         ))}
       </div>
-      <p className="text-[9px] text-[#4B5563]/70 mt-1.5 text-right">
+      <p className="text-xs text-[#4B5563]/70 mt-1.5 text-right">
         ※ 記述問題は自己採点チェックを入れるとスコアに反映されます
       </p>
     </div>

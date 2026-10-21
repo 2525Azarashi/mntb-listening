@@ -89,6 +89,7 @@ import { safeGetItem, safeRemoveItem } from './utils/safeLocalStorage';
 import { STORAGE_KEYS } from './utils/storageKeysCatalog';
 import { useAppPersistence, isScreenshotLaunch } from './hooks/useAppPersistence';
 import { trackScreen } from './utils/analytics';
+import { AppToast } from './components/AppToast';
 import { useAppBackgroundSync } from './hooks/useAppBackgroundSync';
 import { useBattleReturn } from './hooks/useBattleReturn';
 import { useScreenPrefetch } from './hooks/useScreenPrefetch';
@@ -467,6 +468,8 @@ export default function App() {
 
   return (
     <>
+      {/* お知らせ（notify）はアプリ内のトーストで出す（components/AppToast.tsx） */}
+      <AppToast />
       <>
         {/*
           ===== アプリの外枠の高さについて =====
