@@ -1,10 +1,9 @@
-import { FileText, Download } from 'lucide-react';
+import { Download } from 'lucide-react';
 import { RarityBadge } from './ui';
 import { GACHA_RARITY_LABELS, GACHA_RARITY_ORDER } from '../battle/core/arenaEconomy';
 import { GrowthAvatar } from '../battle/ui/GrowthParts';
 import { printOf, type ItemDef, type GachaRarity, type GrowthProgress } from '../battle/core/growth';
 import { wallpaperOf } from '../battle/core/tobiraParts';
-import { openPdf } from '../utils/pdfViewer';
 import { savePdf } from '../utils/pdfShare';
 
 /**
@@ -109,18 +108,9 @@ export function PrintLinks({ item, compact = false }: { item: ItemDef; compact?:
   const name = `${print.label.replace(/[\\/:*?"<>|\s]+/g, '_')}.pdf`;
   return (
     <span className={`gacha-print-links ${compact ? 'is-compact' : ''}`}>
-      {/* アプリの中で開く（別ページへ移らないので戻れる・広告も出ない。PdfViewer.tsx） */}
-      <a
-        href={print.file}
-        onClick={e => { e.preventDefault(); openPdf(print.file, print.label, name); }}
-        aria-label={`${print.label}（PDF・${print.pages}ページ）を開く`}
-      >
-        <FileText size={compact ? 14 : 16} aria-hidden="true" />
-        {compact ? '開く' : `PDFを開く（${print.pages}ページ）`}
-      </a>
-      <a href={print.file} download={name} aria-label={`${print.label}をダウンロード`} onClick={e => { e.preventDefault(); void savePdf(print.file, name, print.label).catch(() => openPdf(print.file, print.label, name)); }}>
+      <a href={print.file} download={name} aria-label={`${print.label}をダウンロード`} onClick={e => { e.preventDefault(); void savePdf(print.file, name, print.label).catch(() => window.alert('PDFを保存できませんでした。接続を確認して、もう一度お試しください。')); }}>
         <Download size={compact ? 14 : 16} aria-hidden="true" />
-        {compact ? '保存' : 'ダウンロード'}
+        {compact ? '保存' : '保存する'}
       </a>
     </span>
   );
