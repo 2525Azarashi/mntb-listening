@@ -220,8 +220,9 @@ export function ProfileModal({ onClose, initialTab, isBgmEnabled, setIsBgmEnable
 
         <header className="mt-app-header mb-2 sm:mb-3 relative z-10 shrink-0">
           {/* 上の「＜」（マイページへ戻る）は廃止（2026-10-11）。設定は下のナビから出入りする */}
-          <div className="mt-app-header-title"><p className="mt-kicker">MY ACCOUNT</p><h2>設定</h2></div>
-          <DoorMascot showSpeech={false} size="mini" className="w-auto ml-auto -my-2" />
+          {/* 見出しは中央（2026-10-21・マイページとそろえる）。英字のキッカーは外した */}
+          <div className="mt-app-header-title"><h2>設定</h2></div>
+          <span className="door-mascot-slot"><DoorMascot showSpeech={false} size="mini" className="w-auto -my-2" /></span>
         </header>
 
         <div className="profile-tabs mt-tabs mb-2 sm:mb-3 relative z-10 shrink-0" role="group" aria-label="設定のページ">
