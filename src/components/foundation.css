@@ -453,3 +453,71 @@
 .fd-cond-more .fd-range-conds { padding: 0 12px 12px; }
 .fd-cond-more .fd-goal-guide { margin: 0; font-size: 12px; color: var(--fd-ink-2); }
 @media (max-width: 360px) { .fd-goal-seg button { font-size: 12px; } .fd-level-go { gap: 8px; padding: 8px 10px; } }
+
+/* ---------- 英文解釈（内容一致の4択）2026-10-21：VocabQuiz と同じ部品に、本文カードを足す ---------- */
+.rq-pick { gap: 8px; }
+.rq-target { flex-shrink: 0; margin: 0; font-size: 12px; font-weight: 700; color: var(--fd-ink-2); }
+.rq-list { margin: 0; padding: 2px; list-style: none; gap: 6px; }
+.rq-list button { width: 100%; display: flex; align-items: center; gap: 10px; min-height: 56px; padding: 6px 10px; border-radius: 12px; border: 1px solid var(--fd-line); background: #fff; color: var(--fd-ink); text-align: left; }
+.rq-list button[data-state=part] { background: #fffaf0; }
+.rq-list button[data-state=clear] { background: #e9f6ee; border-color: #9fd3b4; }
+.rq-no { flex-shrink: 0; width: 28px; height: 28px; display: grid; place-items: center; border-radius: 50%; background: #e7eef8; color: #14315f; font: 800 13px/1 var(--mt-font-display); font-style: normal; font-variant-numeric: tabular-nums; }
+.rq-item-main { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.rq-item-main b { font: 800 14px/1.25 'Inter', var(--mt-font-body); overflow-wrap: anywhere; }
+.rq-item-main small { font-size: 12px; color: var(--fd-ink-2); }
+.rq-item-score { flex-shrink: 0; display: inline-flex; align-items: center; gap: 3px; font: 800 12px/1 var(--mt-font-display); color: var(--fd-ink-2); font-variant-numeric: tabular-nums; }
+.rq-list button[data-state=clear] .rq-item-score { color: #2f7a52; }
+.rq-item-score em { margin-left: 4px; padding: 2px 6px; border-radius: 99px; background: #fdecea; color: #9a3029; font-style: normal; }
+
+.rq-play { gap: 8px; }
+.rq-body { flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 8px; }
+.rq-passage { flex: 1 1 45%; min-height: 110px; display: flex; flex-direction: column; border-radius: 16px; background: var(--fd-card); box-shadow: inset 0 0 0 1.5px var(--fd-line), 0 3px 0 #e6d7b8; overflow: hidden; animation: vq-in .25s ease-out both; }
+.rq-passage-head { flex-shrink: 0; display: flex; align-items: baseline; justify-content: space-between; gap: 8px; padding: 8px 12px 6px; border-bottom: 1px dashed var(--fd-line); }
+.rq-passage-head b { min-width: 0; font: 800 14px/1.3 'Inter', var(--mt-font-display); color: #14315f; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.rq-passage-head small { flex-shrink: 0; font-size: 12px; font-weight: 700; color: var(--fd-ink-2); }
+.rq-text { position: relative; flex: 1; min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: 8px 12px 12px; font: 500 15px/1.65 'Inter', var(--mt-font-body); color: var(--fd-ink); white-space: pre-line; }
+.rq-text:focus-visible { box-shadow: inset 0 0 0 2px #2458a6; }
+.rq-text mark { padding: 1px 2px; border-radius: 4px; background: #fff0b3; box-shadow: 0 2px 0 #f6b93b; color: inherit; }
+.rq-q { flex: 0 1 auto; min-height: 0; max-height: 72%; overflow-y: auto; overscroll-behavior: contain; display: flex; flex-direction: column; gap: 6px; padding: 1px 1px 4px; }
+.rq-prompt { margin: 0; display: flex; gap: 8px; align-items: baseline; font: 800 14px/1.45 var(--mt-font-body); color: var(--fd-ink); animation: vq-in .25s ease-out both; }
+.rq-qno { flex-shrink: 0; padding: 2px 8px; border-radius: 99px; background: linear-gradient(180deg, #172a4f, #2d4f8e); color: #fff; font: 800 12px/16px var(--mt-font-display); }
+.rq-options { flex: none; grid-template-rows: none; grid-auto-rows: auto; }
+.rq-options button { min-height: 44px; padding: 6px 12px; font-size: 14px; line-height: 1.35; }
+.rq-options button[lang=en] { font-family: 'Inter', var(--mt-font-body); }
+.rq-explain { margin: 0; padding: 8px 10px; border-radius: 12px; background: #fff; box-shadow: inset 0 0 0 1px var(--fd-line); font-size: 13px; line-height: 1.6; color: var(--fd-ink-2); }
+.rq-explain b { display: block; margin-bottom: 2px; color: var(--fd-ink); }
+/* スマホ：本文を広げて読む／設問を解く（設問のときも本文は上に細く残し、根拠の色が見える） */
+.rq-view { flex-shrink: 0; flex-wrap: nowrap; }
+.rq-view > button { min-height: 44px; font-size: 13px; }
+.rq-body[data-view=text] .rq-q { display: none; }
+.rq-body[data-view=text] .rq-passage { flex: 1 1 auto; }
+.rq-body[data-view=q] .rq-passage { flex: 1 1 28%; min-height: 96px; }
+.rq-to-q { margin-left: auto; }
+.rq-hint-wide { display: none; }
+@media (min-width: 900px) {
+  .rq-view, .rq-to-q { display: none; }
+  .rq-hint-wide { display: block; }
+  .rq-body[data-view] .rq-q { display: flex; }
+  .rq-body[data-view] .rq-passage { flex: 1 1 55%; }
+  .rq-body { flex-direction: row; }
+  .rq-passage { flex: 1 1 55%; }
+  .rq-q { flex: 1 1 45%; max-height: none; }
+}
+@media (max-height: 640px) {
+  .rq-play { gap: 6px; }
+  .rq-text { font-size: 14px; line-height: 1.55; padding: 6px 10px 10px; }
+  .rq-passage { min-height: 96px; }
+  .rq-passage-head { padding: 6px 10px 4px; }
+  .rq-options button { font-size: 13px; padding: 4px 10px; }
+}
+
+.rq-done { gap: 8px; }
+.rq-result { display: grid; gap: 6px; margin: 0; padding: 0; list-style: none; }
+.rq-result li { display: grid; gap: 4px; padding: 8px 10px; border-radius: 12px; background: #fdf0ef; box-shadow: inset 0 0 0 1px #e7b6b0; }
+.rq-result li[data-ok] { background: #fff; box-shadow: inset 0 0 0 1px var(--fd-line); }
+.rq-result-q { margin: 0; display: flex; gap: 6px; align-items: flex-start; font: 800 13px/1.45 var(--mt-font-body); color: var(--fd-ink); }
+.rq-result-q svg { flex-shrink: 0; margin-top: 2px; color: #c0473f; }
+.rq-result li[data-ok] .rq-result-q svg { color: #3e8e63; }
+.rq-result-a { margin: 0; font-size: 13px; font-weight: 700; color: #2f7a52; overflow-wrap: anywhere; }
+.rq-result-e { margin: 0; font-size: 12px; line-height: 1.6; color: var(--fd-ink-2); }
+@media (prefers-reduced-motion: reduce) { .rq-passage, .rq-prompt { animation: none; } }

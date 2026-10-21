@@ -45,7 +45,7 @@ export function StudyCard({ icon, title, description, meta, progress, primary, b
     <button type="button" className="sc-card" data-primary={primary || undefined} data-study-card={dataId} onClick={onClick}>
       <span className="sc-icon"><Icon size={24} aria-hidden /></span>
       <span className="sc-body">
-        <span className="sc-title"><strong>{title}</strong>{badge && <em>{badge}</em>}</span>
+        <span className="sc-title"><strong>{title}</strong>{badge && <em data-badge={badge === 'NEW' ? 'new' : undefined}>{badge}</em>}</span>
         <span className="sc-desc">{description}</span>
         {(meta || pct !== null) && <span className="sc-meta">
           {meta && <small>{meta}</small>}
@@ -98,7 +98,7 @@ export function StudyCatalog({ subjectId, onSubject, onContent, onBack, progress
               {/* 問題を解くもの（リスニング・英文法・英単語の4択）は同じ列に並べる */}
               {subject.contents.filter(c => c.section !== 'memorize').map(c => <div role="listitem" key={c.id}>
                 <StudyCard dataId={c.id} icon={c.icon} title={c.title} description={c.description} meta={c.meta}
-                  primary={c.primary} badge={lastContentId === c.id ? '前回' : undefined}
+                  primary={c.primary} badge={lastContentId === c.id ? '前回' : c.badge}
                   progress={c.progressSubject ? progressOf?.(c.progressSubject) : undefined}
                   onClick={() => onContent(c)} />
               </div>)}
@@ -107,7 +107,7 @@ export function StudyCatalog({ subjectId, onSubject, onContent, onBack, progress
                 <h2 className="sc-section" role="presentation" data-study-section="memorize">覚える</h2>
                 {subject.contents.filter(c => c.section === 'memorize').map(c => <div role="listitem" key={c.id}>
                   <StudyCard dataId={c.id} icon={c.icon} title={c.title} description={c.description} meta={c.meta}
-                    badge={lastContentId === c.id ? '前回' : undefined} onClick={() => onContent(c)} />
+                    badge={lastContentId === c.id ? '前回' : c.badge} onClick={() => onContent(c)} />
                 </div>)}
               </>}
             </>}
