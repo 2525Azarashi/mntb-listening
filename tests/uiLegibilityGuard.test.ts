@@ -70,6 +70,17 @@ describe('2026-10-18 のご要望（リスニングの資料・フレンド）',
     expect(brief).not.toContain('<ExplanationBody');
     expect(brief).toMatch(/data-listening-briefing className="[^"]*font-modern/);
   });
+  it('2026-10-21：図の下の「(18) 1st step …」の空欄一覧は出さない（解答欄の札と重複）', () => {
+    expect(materials).toContain('material.sections?.filter(section => !isBlankList(section.rows))');
+  });
+  it('2026-10-21：解説の要点・思考手順・表の英語は数式用セリフ体にしない（prose）', () => {
+    const lx = read('src/components/explanation/ListeningCompactAnswers.tsx');
+    expect(lx).toContain('formatText(theme, [], { prose: isEnglishChapter })');
+    expect(lx).toContain('formatText(step, [], { prose: isEnglishChapter })');
+    const body = read('src/components/ExplanationBody.tsx');
+    expect(body).not.toMatch(/\{formatText\(cell\)\}/);
+    expect(body).toMatch(/<ExplanationTable key=\{`t-\$\{i\}`\} block=\{block\} tone=\{tone\} prose=\{prose\} \/>/);
+  });
   it('第4問B：条件表の空欄は ○ → × → 空欄 とタップで切り替えられる（44px）', () => {
     expect(materials).toContain("const NEXT_MARK: Record<string, string> = { '': '○', '○': '×', '×': '' };");
     expect(materials).toMatch(/data-material-mark[\s\S]{0,400}h-11/);

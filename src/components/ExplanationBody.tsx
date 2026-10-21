@@ -47,12 +47,16 @@ const toneStyles: Record<ExplanationTone, {
 interface ExplanationTableProps {
   block: TableBlock;
   tone: ExplanationTone;
+  /** 英語の表なら true（散文として組む）。数式・化学の表は false のまま */
+  prose?: boolean;
   // このリポジトリは @types/react を導入していないため、JSX の key が
   // props として型チェックされる。明示的に受け取って型エラーを避ける。
   key?: React.Key;
 }
 
-function ExplanationTable({ block, tone }: ExplanationTableProps) {
+function ExplanationTable({ block, tone, prose = false }: ExplanationTableProps) {
+  // 2026-10-21：英語の表（第4問B の条件表・第6問B など）は prose で組む。数式用のセリフ体に化けるのを防ぐ
+  const cellText = (cell: string) => formatText(cell, [], { prose });
   const colCount = block.header.length;
   const t = toneStyles[tone];
   return (
@@ -113,7 +117,7 @@ function ExplanationTable({ block, tone }: ExplanationTableProps) {
                   alignClass[block.align[i] ?? 'left'],
                 ].join(' ')}
               >
-                {formatText(cell)}
+                {cellText(cell)}
               </th>
             ))}
           </tr>
@@ -135,7 +139,7 @@ function ExplanationTable({ block, tone }: ExplanationTableProps) {
                         alignClass[block.align[c] ?? 'left'],
                       ].join(' ')}
                     >
-                      {formatText(cell)}
+                      {cellText(cell)}
                     </th>
                   );
                 }
@@ -148,7 +152,7 @@ function ExplanationTable({ block, tone }: ExplanationTableProps) {
                       alignClass[block.align[c] ?? 'left'],
                     ].join(' ')}
                   >
-                    {formatText(cell)}
+                    {cellText(cell)}
                   </td>
                 );
               })}
@@ -207,7 +211,7 @@ function SectionBox({ section, tone, highlights, prose }: SectionBoxProps) {
   /** 区画の中身（地の文・表）。枠の内でも外でも同じ描画を使う。 */
   const inner = section.blocks.map((block, i) =>
     block.kind === 'table' ? (
-      <ExplanationTable key={`t-${i}`} block={block} tone={tone} />
+      <ExplanationTable key={`t-${i}`} block={block} tone={tone} prose={prose} />
     ) : (
       <div key={`p-${i}`} className="whitespace-pre-wrap">
         {formatText(block.text, highlights, { prose })}
@@ -325,7 +329,7 @@ export function ExplanationBody({
     <div className={className}>
       {blocks.map((block, i) =>
         block.kind === 'table' ? (
-          <ExplanationTable key={`t-${i}`} block={block} tone={tone} />
+          <ExplanationTable key={`t-${i}`} block={block} tone={tone} prose={prose} />
         ) : (
           <div key={`p-${i}`} className="whitespace-pre-wrap">
             {formatText(block.text, highlights, { prose })}

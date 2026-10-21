@@ -171,7 +171,8 @@ export function ListeningAudioPlayer({
   const idleBtnClass = isDark
     ? 'border-[#5BC0BE]/45 bg-[#1C2541] text-[#E0E1DD] hover:bg-[#243056]'
     : 'border-[#5BC0BE]/50 bg-white text-[#2C3E50] hover:bg-[#E6F7F4]';
-  const activeBtnClass = 'border-[#3E9C93] bg-[#3E9C93] text-white ring-2 ring-[#3E9C93]/30';
+  // 2026-10-21：白文字12px のコントラストを AA（4.5:1）以上に。#3E9C93（3.3:1）→ #2B7A72（5.1:1）
+  const activeBtnClass = 'border-[#2B7A72] bg-[#2B7A72] text-white ring-2 ring-[#3E9C93]/30';
   const scriptBoxClass = isDark
     ? 'border-[#3A506B]/70 bg-[#0B132B]/60 text-[#E0E1DD]'
     : 'border-[#5BC0BE]/30 bg-white text-slate-700';

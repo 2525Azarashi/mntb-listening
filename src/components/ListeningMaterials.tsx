@@ -8,6 +8,8 @@ import type { ListeningMaterial } from '../data/englishListeningQ1AProblems';
  */
 const isMarkColumn = (header: string) => header.trim().length > 0 && header.trim().length <= 2;
 const NEXT_MARK: Record<string, string> = { '': '○', '○': '×', '×': '' };
+/** 図の下の「(18) 1st step」のように、空欄の番号と短い見出しだけが並ぶ行か */
+const isBlankList = (rows: string[]) => rows.length > 0 && rows.every(row => /^\(\s*\d+\s*\)\s*\S/u.test(row.trim()));
 
 type MaterialImage = NonNullable<ListeningMaterial['images']>[number];
 /** 図に書き込んだ印。x / y は図の幅・高さに対する割合（0〜1）なので、図の大きさが変わってもずれない。 */
@@ -260,7 +262,12 @@ export function ListeningMaterials({ material, activeSubId }: {
           onMarks={(next) => setFigureMarks(m => ({ ...m, [image.src]: next }))}
           onZoom={() => setZoomed(image)} /></React.Fragment>)}
       </FigureGrid>}
-      {images.length > 0 && material.sections?.map((section, i) => <p key={i}
+      {/*
+        ★図の下の「(18) 1st step (19) 2nd step …」は出さない（2026-10-21 ご指摘「いらない」）★
+        いまどの空欄を解いているかは解答欄の上の黒い札（問18 1st step）に出ている。
+        空欄の番号だけの行（"(18) 1st step" の形）は省き、その高さを図に回す。
+      */}
+      {images.length > 0 && material.sections?.filter(section => !isBlankList(section.rows)).map((section, i) => <p key={i}
         className="mt-1 flex shrink-0 flex-wrap gap-x-1.5 gap-y-0.5 text-[13px] leading-snug text-gray-800">
         {section.heading && <b>{section.heading}</b>}
         {section.rows.map((row, j) => <span key={j} className="whitespace-nowrap">{text(row, true)}</span>)}
