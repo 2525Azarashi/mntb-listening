@@ -1,7 +1,23 @@
-import React, { useRef } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { locateListeningEvidence } from '../utils/listeningExplanation';
 import type { ListeningAudioTrack } from '../data/englishListeningQ1AProblems';
 import { ScriptReading } from '../features/readAlong/ScriptReading';
+import type { ReadAlong } from '../features/readAlong/readAlong';
+import './listening-explanation.css';
+import { isLongTrack, loadListeningTranslations, segmentBreaks, segmentsOf, trackKey } from '../features/listeningTranslation/segments';
+
+/** このトラックの和訳（まとまりごと）。データに無ければ track.translation を1つにまとめて使う */
+function useTranslation(track: ListeningAudioTrack): string[] {
+  const key = trackKey(track);
+  const [tr, setTr] = useState<string[]>([]);
+  useEffect(() => {
+    let alive = true;
+    loadListeningTranslations().then(all => { if (alive) setTr(all[key] ?? []); });
+    return () => { alive = false; };
+  }, [key]);
+  if (tr.length) return tr;
+  return track.translation?.trim() ? [track.translation.trim()] : [];
+}
 
 /**
  * ListeningEvidenceScript
@@ -51,6 +67,22 @@ export function ListeningEvidenceScript({
     return parts;
   };
 
+  // 2026-10-21 和訳：短い大問はスクリプトの下にまとめて、長い大問は英文→和訳→英文→和訳…
+  const tr = useTranslation(track);
+  const segs = segmentsOf(track);
+  const interleave = isLongTrack(track) && tr.length === segs.length && segs.length > 1;
+  const trLine = (seg: number) => <p className="listening-tr-line" lang="ja">{tr[seg]}</p>;
+  const breaksOf = useCallback((d: ReadAlong) => segmentBreaks(track, d.words, d.lines.length), [track]);
+  const renderBreak = useCallback((seg: number) => (tr[seg] ? <p className="listening-tr-line" lang="ja">{tr[seg]}</p> : null), [tr]);
+  const after = tr.length > 0 && !interleave ? (
+    <div className="listening-tr-block" lang="ja">
+      <p className="listening-tr-label">和訳</p>
+      {track.turns?.length && tr.length === segs.length ? (
+        <ul>{tr.map((t, k) => <li key={k}><b>{segs[k].who}</b>{t}</li>)}</ul>
+      ) : <p>{tr.join('')}</p>}
+    </div>
+  ) : null;
+
   const jump = (index: number) => {
     const target = root.current?.querySelector<HTMLElement>(`[data-listening-evidence="${index}"]`);
     target?.scrollIntoView({ block: 'nearest', inline: 'nearest', behavior: 'auto' });
@@ -92,7 +124,16 @@ export function ListeningEvidenceScript({
         track={track}
         compact={collapsiblePhrases}
         fallback={
-          track.turns?.length ? (
+          interleave ? (
+            <div className="space-y-1">
+              {segs.map((seg, k) => (
+                <div key={k} className="listening-tr-pair">
+                  <p className="listening-script-text">{seg.who && <b className="mr-2 text-xs">{seg.who}</b>}{renderScript(seg.text)}</p>
+                  {trLine(k)}
+                </div>
+              ))}
+            </div>
+          ) : track.turns?.length ? (
             <ul className="space-y-2">
               {track.turns.map((turn, index) => (
                 <li key={index} className="flex gap-2">
@@ -105,7 +146,9 @@ export function ListeningEvidenceScript({
             <p className="listening-script-text">{renderScript(track.script)}</p>
           )
         }
-        after={<p className="mt-3 text-xs leading-relaxed">{track.translation}</p>}
+        breaks={interleave ? breaksOf : undefined}
+        renderBreak={interleave ? renderBreak : undefined}
+        after={after}
       />
       {track.keyPhrases.length > 0 &&
         (collapsiblePhrases ? (

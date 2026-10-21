@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { type RaWord, type ReadAlong, LINK_LABEL, toIpa } from './readAlong';
 import { requireLocalStorage } from '../../utils/safeLocalStorage';
 import { safeSetItem } from '../../utils/storageGuard';
@@ -51,16 +51,16 @@ function dotsOf(w: RaWord, n: number): number[] {
   return Array.from({ length: n }, (_, k) => (k === st ? Math.max(1, top) : 0));
 }
 
-export function AnnotatedScript({ data, opts, cur = -1, curChunk = -1, pickedId = -1, onWord, hidden = false, evidence }: {
+export function AnnotatedScript({ data, opts, cur = -1, curChunk = -1, pickedId = -1, onWord, hidden = false, evidence, breaks, renderBreak }: {
   data: ReadAlong; opts: AnnotateOpts; cur?: number; curChunk?: number; pickedId?: number; onWord?: (w: RaWord) => void; hidden?: boolean;
   /** 語番号 → 「聞き取りの決め手」の番号（黄色で示す） */
   evidence?: Map<number, number>;
+  /** 語番号 → まとまりの番号。その語の後ろで改行し、renderBreak の中身（和訳）を差し込む（2026-10-21） */
+  breaks?: Map<number, number>;
+  renderBreak?: (seg: number) => React.ReactNode;
 }) {
   const words = data.words;
-  return <div className={`ra-annot${opts.ipa ? ' has-ipa' : ''}${opts.stress ? ' has-stress' : ''}${hidden ? ' is-hidden' : ''}`} lang="en">
-    {data.lines.map((ln, li) => <div key={li} className="ra-aline">
-      {ln.who && <b className="ra-who">{ln.who}</b>}
-      {ln.words.map(w => {
+  const renderWord = (w: RaWord) => {
         const nx = words[w.i + 1];
         const chunkEnd = !nx || nx.chunk !== w.chunk;
         const { pre, syl, post } = pieces(w);
@@ -87,8 +87,23 @@ export function AnnotatedScript({ data, opts, cur = -1, curChunk = -1, pickedId 
           </button>
           {slash && <span className="ra-slash" aria-hidden="true">/</span>}
         </span>;
-      })}
-    </div>)}
+  };
+  // 和訳を挟む場合は、まとまりの最後の語で行を分ける
+  const groupsOf = (ws: RaWord[]): { ws: RaWord[]; seg?: number }[] => {
+    if (!breaks || !renderBreak) return [{ ws }];
+    const out: { ws: RaWord[]; seg?: number }[] = []; let cur: RaWord[] = [];
+    for (const w of ws) { cur.push(w); const seg = breaks.get(w.i); if (seg != null) { out.push({ ws: cur, seg }); cur = []; } }
+    if (cur.length) out.push({ ws: cur });
+    return out;
+  };
+  return <div className={`ra-annot${opts.ipa ? ' has-ipa' : ''}${opts.stress ? ' has-stress' : ''}${hidden ? ' is-hidden' : ''}${breaks && renderBreak ? ' has-tr' : ''}`} lang="en">
+    {data.lines.map((ln, li) => groupsOf(ln.words).map((g, gi) => <React.Fragment key={`${li}-${gi}`}>
+      <div className="ra-aline">
+        {gi === 0 && ln.who && <b className="ra-who">{ln.who}</b>}
+        {g.ws.map(renderWord)}
+      </div>
+      {g.seg != null && renderBreak?.(g.seg)}
+    </React.Fragment>))}
   </div>;
 }
 

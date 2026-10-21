@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { ChevronLeft, Download, Minus, Plus } from 'lucide-react';
+import { ChevronLeft, Download, Minus, Plus, Printer, RotateCw } from 'lucide-react';
 import { pdfViewerStore, closePdf, type OpenPdf } from '../utils/pdfViewer';
+import { printPdf, savePdf } from '../utils/pdfShare';
 import './pdf-viewer.css';
 
 /**
@@ -42,6 +43,9 @@ function PdfViewer({ doc }: { doc: OpenPdf } & React.Attributes) {
   const [state, setState] = useState<'loading' | 'ready' | 'error'>('loading');
   const [pageCount, setPageCount] = useState(0);
   const [zoom, setZoom] = useState(1);
+  const [attempt, setAttempt] = useState(0);
+  const [busy, setBusy] = useState<'' | 'print' | 'save'>('');
+  const [note, setNote] = useState('');
 
   // Esc で閉じる
   useEffect(() => {
@@ -58,6 +62,15 @@ function PdfViewer({ doc }: { doc: OpenPdf } & React.Attributes) {
     if (!box) return;
     box.replaceChildren();
     setState('loading');
+    // 2026-10-21 アプリ（iOS）で最初の1回が「開いています…」のまま止まることがあった。
+    //   12秒たっても1ページ目が出なければ、作り直してもう一度（1回だけ自動）。それでもだめなら「もう一度」を出す。
+    let shown = false;
+    const watchdog = window.setTimeout(() => {
+      if (cancelled || shown) return;
+      cancelled = true; void task?.destroy().catch(() => { /* 片付けの失敗は無視 */ });
+      pdfjsPromise = null;
+      if (attempt < 1) setAttempt(a => a + 1); else setState('error');
+    }, 12000);
     loadPdfJs().then(async lib => {
       // 1ファイル 1MB 以下なので分割読み込みはしない（アプリの WebView の Range 応答に頼らない）
       const loading = lib.getDocument({ url: doc.url, isEvalSupported: false, disableRange: true, disableStream: true });
@@ -81,12 +94,21 @@ function PdfViewer({ doc }: { doc: OpenPdf } & React.Attributes) {
         if (!ctx) continue;
         box.appendChild(canvas);
         await page.render({ canvasContext: ctx, viewport: vp }).promise;
-        if (n === 1 && !cancelled) setState('ready');
+        if (n === 1 && !cancelled) { shown = true; window.clearTimeout(watchdog); setState('ready'); }
       }
-    }).catch(() => { if (!cancelled) setState('error'); });
+    }).catch(() => { window.clearTimeout(watchdog); if (!cancelled) { pdfjsPromise = null; setState('error'); } });
     // 閉じた後の片付け（destroy）の失敗は表示に関係ないので捨てる
-    return () => { cancelled = true; void task?.destroy().catch(() => { /* 片付けの失敗は無視してよい */ }); };
-  }, [doc.url, doc.title, zoom]);
+    return () => { cancelled = true; window.clearTimeout(watchdog); void task?.destroy().catch(() => { /* 片付けの失敗は無視してよい */ }); };
+  }, [doc.url, doc.title, zoom, attempt]);
+
+  const run = (kind: 'print' | 'save') => {
+    if (busy) return;
+    setBusy(kind); setNote('');
+    (kind === 'print' ? printPdf(doc.url, doc.fileName, doc.title) : savePdf(doc.url, doc.fileName, doc.title))
+      .then(msg => { if (msg) setNote(msg); })
+      .catch(() => setNote(kind === 'print' ? '印刷を始められませんでした。もう一度お試しください。' : '保存できませんでした。もう一度お試しください。'))
+      .finally(() => setBusy(''));
+  };
 
   return <div className="pdfv" role="dialog" aria-modal="true" aria-label={`${doc.title}（PDF）`} data-pdf-viewer>
     <header className="pdfv-bar">
@@ -95,14 +117,19 @@ function PdfViewer({ doc }: { doc: OpenPdf } & React.Attributes) {
       <div className="pdfv-tools">
         <button type="button" aria-label="小さくする" disabled={zoom <= 1} onClick={() => setZoom(z => Math.max(1, z - 0.5))}><Minus size={18} aria-hidden="true" /></button>
         <button type="button" aria-label="大きくする" disabled={zoom >= 2.5} onClick={() => setZoom(z => Math.min(2.5, z + 0.5))}><Plus size={18} aria-hidden="true" /></button>
-        <a href={doc.url} download={doc.fileName} aria-label="この PDF を保存する"><Download size={18} aria-hidden="true" /><span>保存</span></a>
+        <button type="button" aria-label="この PDF を印刷する" data-pdf-print disabled={busy !== ''} onClick={() => run('print')}><Printer size={18} aria-hidden="true" /><span>印刷</span></button>
+        <button type="button" aria-label="この PDF を保存する" data-pdf-save disabled={busy !== ''} onClick={() => run('save')}><Download size={18} aria-hidden="true" /><span>保存</span></button>
       </div>
     </header>
     <div className="pdfv-scroll" data-zoom={zoom > 1 || undefined}>
-      {state === 'loading' && <p className="pdfv-status" role="status">PDF を開いています…</p>}
+      {note && <p className="pdfv-note" role="status">{note}</p>}
+      {state === 'loading' && <p className="pdfv-status" role="status">PDF を開いています…{attempt > 0 && <><br /><small>時間がかかっています。もう一度読み込んでいます</small></>}</p>}
       {state === 'error' && <div className="pdfv-status" role="alert">
-        <p>PDF を表示できませんでした。接続を確認して、もう一度開いてください。</p>
-        <button type="button" onClick={closePdf}>もどる</button>
+        <p>PDF を表示できませんでした。接続を確認して、もう一度お試しください。</p>
+        <div className="pdfv-status-actions">
+          <button type="button" onClick={() => { setState('loading'); setAttempt(a => a + 1); }}><RotateCw size={16} aria-hidden="true" />もう一度</button>
+          <button type="button" onClick={closePdf}>もどる</button>
+        </div>
       </div>}
       <div className="pdfv-pages" ref={pagesRef} />
     </div>

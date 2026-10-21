@@ -16,6 +16,9 @@
   background: radial-gradient(120% 90% at 0% 0%, #fff7dc 0%, #fffdf6 55%, #fff 100%);
   box-shadow: 0 3px 0 #ead9b0;
 }
+/* 「復習を始める」を消したので、今日の分があるときは帯を1段にして一覧を広くする（2026-10-21） */
+.rr-hero[data-no-cta] { grid-template-areas: "ring main week"; }
+@media (min-width: 900px) { .rr-hero[data-no-cta] { grid-template-columns: auto minmax(0, 1fr) auto; grid-template-areas: "ring main week"; } }
 .rr-hero[data-all-done] { border-color: #b7e0c6; background: radial-gradient(120% 90% at 0% 0%, #e6f7ec 0%, #f8fdf9 60%, #fff 100%); box-shadow: 0 3px 0 #bfe2cb; }
 .rr-ring { grid-area: ring; position: relative; width: 56px; height: 56px; }
 .rr-ring svg { display: block; }

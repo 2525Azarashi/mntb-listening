@@ -93,7 +93,11 @@ function useLiveWord(audioUrl: string | undefined, data: ReadAlong | null | unde
 
 interface Track { subId: string; label: string; audioUrl?: string; script: string; turns?: { who: string; text: string }[]; translation?: string; keyPhrases?: { phrase: string }[] }
 
-export function ScriptReading({ track, fallback, after, compact = false }: { track: Track; fallback: React.ReactNode; after?: React.ReactNode; compact?: boolean }) {
+export function ScriptReading({ track, fallback, after, compact = false, breaks, renderBreak }: {
+  track: Track; fallback: React.ReactNode; after?: React.ReactNode; compact?: boolean;
+  /** 長い大問：英文のまとまりごとに和訳を挟む（2026-10-21）。data を受け取り、語番号→まとまり番号を返す */
+  breaks?: (data: ReadAlong) => Map<number, number>; renderBreak?: (seg: number) => React.ReactNode;
+}) {
   const [data, setData] = useState<ReadAlong | null | undefined>(undefined);
   const [opts, setOpts] = useAnnotOpts();
   const [on, setOn] = useState<boolean>(() => safeGetItem('mtb_readalong_inline') !== 'off');
@@ -106,6 +110,7 @@ export function ScriptReading({ track, fallback, after, compact = false }: { tra
   const curChunk = cur >= 0 && data ? data.words[cur]?.chunk ?? -1 : -1;
 
   useEffect(() => { let alive = true; loadReadAlong(track.audioUrl).then(d => { if (alive) setData(d); }); return () => { alive = false; }; }, [track.audioUrl]);
+  const brk = useMemo(() => (data && breaks && renderBreak ? breaks(data) : undefined), [data, breaks, renderBreak]);
   const evidence = useMemo(() => (data ? evidenceOf(data, track.turns?.length ? track.turns.map(t => t.text) : [track.script], (track.keyPhrases ?? []).map(k => k.phrase)) : new Map()), [data, track]);
 
   const playWord = (w: RaWord) => {
@@ -132,7 +137,7 @@ export function ScriptReading({ track, fallback, after, compact = false }: { tra
   return <div className={`ra-inline${compact ? ' is-compact' : ''}`} data-script-reading>
     {on ? <>
       <div className="ra-inline-text">
-        <AnnotatedScript data={data} opts={opts} cur={cur} curChunk={curChunk} pickedId={picked} onWord={playWord} evidence={evidence} />
+        <AnnotatedScript data={data} opts={opts} cur={cur} curChunk={curChunk} pickedId={picked} onWord={playWord} evidence={evidence} breaks={brk} renderBreak={brk ? renderBreak : undefined} />
       </div>
       <AnnotLegend opts={opts} />
     </> : fallback}

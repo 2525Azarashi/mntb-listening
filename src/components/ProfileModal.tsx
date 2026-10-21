@@ -1,7 +1,6 @@
-import { MOTTO_MAX, normalizeMotto, readOwnPublicStudyProfile, savePublicStudyProfile } from '../utils/publicStudyProfile';
 import React, { useEffect, useState } from 'react';
 import { auth } from '../firebase';
-import { ChevronDown, Pencil, LogOut, Flame, BookOpen, Clock, GraduationCap, Compass, Settings, Volume2, VolumeX, LogIn, Users, Save, Check, Loader2, AlertTriangle, School, ClipboardList, Swords, Shirt } from 'lucide-react';
+import { LogOut, Settings, Volume2, VolumeX, LogIn, Users, Check, Loader2, AlertTriangle, School, ClipboardList, Swords } from 'lucide-react';
 // ★対戦の音（BGM / 効果音 / 音量）★ 通常 BGM とは別の設定（src/battle/core/audioSettings.ts の説明を参照）
 import { useBattleAudioSettings } from '../battle/hooks/useBattleAudio';
 import { battleAudio } from '../battle/audio/battleAudio';
@@ -14,21 +13,16 @@ import { GoogleMark } from './GoogleLinkBanner';
 import { AppleSignInButton } from '../features/auth/AppleSignInButton';
 import { signInWithGoogle, signOutGoogle, switchGoogleAccount, GOOGLE_LINK_BENEFITS } from '../utils/googleAuth';
 import { isFeedbackAdmin } from '../utils/feedbackReply';
-import { syncRankingNickname } from '../utils/leaderboard';
-import { ensureFriendProfile } from '../utils/friends';
 // ユーザーごとの localStorage キー名は utils/userStorageKeys.ts が唯一の定義
-import { profileKey, streakKey, completedKey } from '../utils/userStorageKeys';
-import { checkNickname, checkPublicText, NICKNAME_MAX } from '../features/safety/nicknameFilter';
+import { profileKey } from '../utils/userStorageKeys';
 import { AccountSafetySection } from '../features/account/AccountSafetySection';
 import { useGrowthProgress } from '../hooks/useGrowthProgress';
-import { BADGES, levelOf } from '../battle/core/growth';
+import { levelOf } from '../battle/core/growth';
 import { GrowthAvatar, TitleChip } from '../battle/ui/GrowthParts';
 import { fetchMyRankingRow } from '../battle/data/battleRanking';
-import { readStudyTime, formatStudyTime } from '../utils/studyTime';
-import { GOAL_OPTIONS, TARGET_SCHOOL_MAX, normalizeTargetSchool, readGoal, writeGoal, type GoalId } from '../utils/vocabGoal';
 import './profile-settings.css';
 import { ReminderSettings, AnalyticsSetting } from './ReminderSettings';
-import { readJsonArray, requireLocalStorage, setItemOrThrow } from '../utils/safeLocalStorage';
+import { requireLocalStorage } from '../utils/safeLocalStorage';
 import { logRejection } from '../utils/reportError';
 import { useMediaQuery } from '../hooks/useMediaQuery';
 
@@ -66,109 +60,22 @@ export function ProfileModal({ onClose, initialTab, isBgmEnabled, setIsBgmEnable
   const { progress: growth } = useGrowthProgress();
   const [rating, setRating] = useState(1500);
   useEffect(() => { let alive = true; if (auth.currentUser) void fetchMyRankingRow().then(r => { if (alive && r) setRating(r.rating); }).catch(logRejection('profile.fetchRanking')); return () => { alive = false; }; }, []);
-  const [studySeconds] = useState(() => readStudyTime(auth.currentUser?.uid || 'guest').total);
-  const earnedBadges = BADGES.filter(b => b.id in growth.badges);
   const [tab, setTab] = useState<SettingsTab>(() => (initialTab && initialTab !== 'general' && auth.currentUser ? initialTab : 'general'));
   /** PC の3列レイアウト（profile-settings.css の 1100px と揃える） */
   const wideLayout = useMediaQuery('(min-width: 1100px)');
   const [battleAudioSettings, updateBattleAudio] = useBattleAudioSettings();
+  /** 対戦カードのプレビューに出すニックネーム（編集はマイページ） */
   const [name, setName] = useState('');
-  const [grade, setGrade] = useState('');
-  const [stream, setStream] = useState('science');
-  /** 志望校（2026-10-01 夜：いつでも変えられる）と、単語帳の目標レベル */
-  const [targetSchool, setTargetSchool] = useState('');
-  /** 志（ひとこと・公開時だけ他の人に見える） */
-  const [motto, setMotto] = useState('');
-  const [profilePublic, setProfilePublic] = useState(false);
-  const [wasPublic, setWasPublic] = useState(false);
-  const [publicationReady, setPublicationReady] = useState(!auth.currentUser);
-  const [publicationError, setPublicationError] = useState('');
-  useEffect(() => {
-    let alive = true;
-    if (auth.currentUser) void readOwnPublicStudyProfile().then(p => {
-      if (alive) { setProfilePublic(!!p); setWasPublic(!!p); setPublicationReady(true); }
-    }).catch(() => { if (alive) setPublicationError('公開設定を確認できません。公開機能には新版のFirestoreルールの反映が必要です。'); });
-    return () => { alive = false; };
-  }, []);
-  const [goal, setGoal] = useState<GoalId>(readGoal);
-  const [loading, setLoading] = useState(false);
-  const [streak, setStreak] = useState(0);
-  const [completedCount, setCompletedCount] = useState(0);
   /** Google 連携の進行状態（連携／切り替えのどちらでも使う） */
   const [signing, setSigning] = useState(false);
   const [authError, setAuthError] = useState<string | null>(null);
 
   useEffect(() => {
     try {
-      const uid = auth.currentUser?.uid || 'guest';
-      const ls = requireLocalStorage();
-      const localProfile = ls.getItem(profileKey(uid));
-      if (localProfile) {
-        const data = JSON.parse(localProfile);
-        setName(data.name || '');
-        setGrade(data.grade || '');
-        setStream(data.stream || 'science');
-        setTargetSchool(typeof data.targetSchool === 'string' ? data.targetSchool : '');
-        setMotto(typeof data.motto === 'string' ? data.motto : '');
-      } else {
-        setName(auth.currentUser?.displayName || (auth.currentUser ? 'ユーザー' : 'ゲスト'));
-        setGrade('高校生');
-      }
-      setStreak(parseInt(ls.getItem(streakKey(uid)) || '0', 10));
-      setCompletedCount(readJsonArray(completedKey(uid)).length);
-    } catch (error) {
-      console.error('プロフィール取得エラー:', error);
-    }
+      const raw = requireLocalStorage().getItem(profileKey(auth.currentUser?.uid || 'guest'));
+      setName(raw ? (JSON.parse(raw).name || '') : (auth.currentUser?.displayName || ''));
+    } catch { /* 読めなければ「ニックネーム」と出す */ }
   }, []);
-
-  /** 名前の安全チェック（他人の画面に出るので、使えない名前は保存させない） */
-  const nameCheck = checkNickname(name);
-  const schoolCheck = checkPublicText(targetSchool, TARGET_SCHOOL_MAX);
-  const mottoCheck = checkPublicText(motto, MOTTO_MAX);
-
-  const handleSave = async () => {
-    if (!nameCheck.ok || !schoolCheck.ok || !mottoCheck.ok) return;
-    setLoading(true);
-    try {
-      const uid = auth.currentUser?.uid || 'guest';
-      // ★公開設定の保存に失敗しても、名前・学年などの設定は保存する（2026-10-04）★
-      //   以前は公開の保存が1つ失敗すると全部止まり、何も保存されなかった。
-      let publishFailed: string | null = null;
-      if (auth.currentUser && (profilePublic || wasPublic)) {
-        try {
-          await savePublicStudyProfile(profilePublic, targetSchool, motto);
-          setWasPublic(profilePublic);
-        } catch (e) {
-          const code = (e as { code?: string })?.code || '';
-          console.error('公開設定の保存エラー:', e);
-          publishFailed = code === 'permission-denied'
-            ? 'プロフィールの公開だけ保存できませんでした（サーバー側の公開設定が未更新です）。名前などほかの設定は保存しました。運営がサーバー設定を更新すると公開できるようになります。'
-            : code === 'unavailable' || !navigator.onLine
-              ? 'オフラインのため、プロフィールの公開だけ保存できませんでした。ほかの設定は保存しました。電波のよい所でもう一度保存してください。'
-              : 'プロフィールの公開だけ保存できませんでした。ほかの設定は保存しました。少し時間をおいてもう一度保存してください。';
-        }
-      }
-      setItemOrThrow(profileKey(uid), JSON.stringify({
-        name: name.trim(), grade: grade.trim(), stream, profilePublic: publishFailed ? wasPublic : profilePublic, targetSchool: normalizeTargetSchool(targetSchool), motto: normalizeMotto(motto), iconUrl: auth.currentUser?.photoURL || '',
-      }));
-      writeGoal(goal);
-      // 名前を変えたら、ランキング・フレンド検索の表示名もその場で最新化する。
-      // これまでは「次にスコアを出すまで」旧名のままで、
-      // 「プロフィールを変えたのにランキングが変わらない」と混乱させていた。
-      // 通信失敗しても保存自体は成功として扱う（次回ログイン時に再同期される）。
-      if (auth.currentUser) {
-        void syncRankingNickname().catch(logRejection('ranking.syncNickname'));
-        void ensureFriendProfile().catch(logRejection('friends.ensureProfile'));
-      }
-      if (publishFailed) { setPublicationError(publishFailed); setProfilePublic(wasPublic); return; }
-      onClose();
-    } catch (error) {
-      console.error('保存エラー:', error);
-      setPublicationError('設定を保存できませんでした。公開／非公開の変更は完了していません。接続とFirestoreルールを確認して再度保存してください。');
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const toggleBgm = () => {
     const next = !isBgmEnabled;
@@ -261,66 +168,8 @@ export function ProfileModal({ onClose, initialTab, isBgmEnabled, setIsBgmEnable
             <div className="h-full flex flex-col gap-2">
             <div className="profile-workspace flex-1 min-h-0 grid grid-cols-1 md:grid-cols-2 gap-2 sm:gap-3 overflow-y-auto md:overflow-hidden no-scrollbar">
               <div className="ps-col-profile space-y-2 sm:space-y-3">
-                {/* ★プロフィールカード（A14）★ アバター・レベル/称号・連続日数・学習時間・バッジを1枚に。
-                    「学習状況」と「プロフィール」の2枚に分かれていたものをまとめ、縦を詰める。 */}
-                <h3 className="ps-group-title">アカウント・プロフィール</h3>
-                <section className="ps-card mt-card" aria-label="プロフィール">
-                  <div className="ps-card-top">
-                    <div className="ps-avatar">
-                      <GrowthAvatar progress={growth} size={72} />
-                      {onOpenOutfit && <button type="button" className="ps-avatar-edit" onClick={onOpenOutfit} aria-label="アバターを変更（きせかえ）"><Shirt size={15} aria-hidden="true" /><span>変更</span></button>}
-                    </div>
-                    <div className="ps-id">
-                      <label className="ps-name">
-                        <span className="sr-only">ニックネーム</span>
-                        <input value={name} maxLength={NICKNAME_MAX} onChange={(event) => setName(event.target.value)} placeholder="ニックネーム" aria-invalid={!!name.trim() && !nameCheck.ok} aria-describedby={name.trim() && !nameCheck.ok ? 'nickname-help' : undefined} />
-                        <Pencil size={16} aria-hidden="true" />
-                      </label>
-                      <div className="ps-rank"><TitleChip progress={growth} rating={rating} size="md" /><span>Lv.{levelOf(growth.xp).level}</span></div>
-                    </div>
-                  </div>
-                  {name.trim() && !nameCheck.ok && <p id="nickname-help" role="alert" className="ps-help" data-error>{nameCheck.message}</p>}
-                  <dl className="ps-stats">
-                    <div><dt><Flame size={15} aria-hidden="true" />連続</dt><dd>{streak}<small>日</small></dd></div>
-                    <div><dt><Clock size={15} aria-hidden="true" />学習時間</dt><dd>{formatStudyTime(studySeconds)}</dd></div>
-                    <div><dt><BookOpen size={15} aria-hidden="true" />修了</dt><dd>{completedCount}<small>章</small></dd></div>
-                  </dl>
-                  <div className="ps-badges" aria-label={`獲得バッジ ${earnedBadges.length}個`}>
-                    <span>バッジ {earnedBadges.length}/{BADGES.length}</span>
-                    {earnedBadges.length === 0 ? <small>対戦や復習で集まります</small> : earnedBadges.slice(0, 4).map(b => <i key={b.id} title={b.desc}>{b.label}</i>)}
-                    {earnedBadges.length > 4 && <small>ほか{earnedBadges.length - 4}個</small>}
-                  </div>
-                  <div className="ps-fields">
-                    <label className="ps-select"><GraduationCap size={15} aria-hidden="true" /><span className="sr-only">学年</span>
-                      <input value={grade} onChange={(event) => setGrade(event.target.value)} placeholder="学年（例：高校1年）" /><Pencil size={15} aria-hidden="true" />
-                    </label>
-                    <label className="ps-select"><Compass size={15} aria-hidden="true" /><span className="sr-only">文理</span>
-                      <select value={stream} onChange={(event) => setStream(event.target.value)}>
-                        <option value="science">理系</option>
-                        <option value="humanities">文系</option>
-                        <option value="other">その他</option>
-                      </select><ChevronDown size={16} aria-hidden="true" />
-                    </label>
-                    <label className="ps-select" data-target-school><School size={15} aria-hidden="true" /><span className="sr-only">志望校</span>
-                      <input value={targetSchool} maxLength={TARGET_SCHOOL_MAX} onChange={(event) => setTargetSchool(event.target.value)} placeholder="志望校" aria-invalid={!schoolCheck.ok || undefined} aria-describedby={!schoolCheck.ok ? 'target-school-error' : undefined} /><Pencil size={15} aria-hidden="true" />
-                    </label>
-                    {!schoolCheck.ok && <p id="target-school-error" role="alert" className="ps-help" data-error>{schoolCheck.message?.replace('名前','志望校')}</p>}
-                    <label className="ps-select" data-motto><Compass size={15} aria-hidden="true" /><span className="sr-only">志（ひとこと）</span>
-                      <input value={motto} maxLength={MOTTO_MAX} onChange={(event) => setMotto(event.target.value)} placeholder="志（例：医者になって地元を支える）" aria-invalid={!mottoCheck.ok || undefined} aria-describedby={!mottoCheck.ok ? 'motto-error' : undefined} /><Pencil size={15} aria-hidden="true" />
-                    </label>
-                    {!mottoCheck.ok && <p id="motto-error" role="alert" className="ps-help" data-error>{mottoCheck.message?.replace('名前','志')}</p>}
-                    <label className="ps-select" data-target-goal><GraduationCap size={15} aria-hidden="true" /><span className="sr-only">目標レベル（単語帳の範囲）</span>
-                      <select value={goal} onChange={(event) => setGoal(event.target.value as GoalId)} aria-describedby="target-goal-help">
-                        {GOAL_OPTIONS.map(o => <option key={o.id} value={o.id}>{o.label}</option>)}
-                      </select><ChevronDown size={16} aria-hidden="true" />
-                    </label>
-                  </div>
-                  <Toggle label="プロフィールを公開" sub="志望校・志・学習時間・達成ステージを他の人に表示（初期は非公開）" checked={profilePublic} onChange={()=>{ if (auth.currentUser && publicationReady) setProfilePublic(p=>!p); else setPublicationError('Googleログインと公開設定の確認が必要です。新版ルールの反映後に開き直してください。'); }}/>
-                  <p className="ps-help">公開をやめて保存すると公開データを削除します。学習時間はこの端末での演習・解説の累計で、順位には使いません。</p>
-                  {publicationError && <p className="ps-help" role="alert" data-error>{publicationError}</p>}
-                  <p id="target-goal-help" className="sr-only">目標レベルを変えると、単語帳の出題範囲も変わります。志望校と学習時間は「プロフィールを公開」を保存した場合だけランキングに表示されます。</p>
-                </section>
-
+                {/* 2026-10-21：「アカウント・プロフィール」はマイページへ移した（名前・学年・志望校・公開設定など）。
+                    ここには対戦で相手に見えるカードのプレビューだけ残す */}
                 {!wideLayout && preview}
               </div>
 
@@ -413,10 +262,7 @@ export function ProfileModal({ onClose, initialTab, isBgmEnabled, setIsBgmEnable
               {/* 保存ボタンは下に置いておく（名前を変えたのに保存し忘れる、を防ぐ）。
                   2026-10-11：右の列の中で sticky にしていたため、スマホでは列の頭までスクロールしないと出てこなかった。
                   スクロールする箱の外（すぐ下）に出し、いつでも画面の下に見えるようにする */}
-              <div className="ps-savebar is-fixed grid grid-cols-[1fr_2fr] gap-2 shrink-0">
-                <button onClick={onClose} className="min-h-11 rounded-xl border border-gray-200 bg-white text-xs font-bold text-gray-500">キャンセル</button>
-                <button onClick={handleSave} disabled={loading || !nameCheck.ok || !schoolCheck.ok || !mottoCheck.ok} className="min-h-11 rounded-xl bg-[#2C3E50] text-white text-xs font-bold disabled:opacity-40 flex items-center justify-center gap-1.5"><Save size={14} />{loading ? '保存中…' : '設定を保存'}</button>
-              </div>
+              {/* 2026-10-21：保存が必要だったのはプロフィールだけ（マイページへ移した）。音・通知などはその場で保存されるので、保存バーは置かない */}
             </div>
           )}
         </main>
