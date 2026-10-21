@@ -77,5 +77,9 @@ describe('PDF ビューの「もどる」と印刷（2026-10-21）', () => {
     expect(share).toContain('Share.share');
     expect(share).toContain("window.open(url, '_blank')");
     expect(share).toContain('closePdf();');
+    expect(share).toContain('URL.createObjectURL(await fetchPdf(url))');
+    expect(share).toContain('a.href = blobUrl');
+    const collection = readFileSync('src/components/MyCollection.tsx', 'utf8');
+    expect(collection).not.toContain('catch(() => openPdf(print.file, print.label))');
   });
 });
