@@ -1,5 +1,5 @@
 import { useMountEffect } from '../hooks/useMountEffect';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import type { StudyNote } from '../types/studyNote';
 import type { ReviewRequest } from '../utils/reviewTarget';
 import {
@@ -328,7 +328,7 @@ function TodayRing({ done, left }: { done: number; left: number }) {
   const complete = left === 0 && done > 0;
   return (
     <div className="rr-ring" data-complete={complete || undefined} aria-hidden="true">
-      <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`}>
+      <svg width="100%" height="100%" viewBox={`0 0 ${size} ${size}`}>
         <defs><linearGradient id="rr-ring-grad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stopColor="#ffc94a" /><stop offset="1" stopColor="#2fa86b" /></linearGradient></defs>
         <circle cx={size / 2} cy={size / 2} r={r} fill="none" stroke="var(--rr-ring-bg)" strokeWidth={stroke} />
         <circle className="rr-ring-fg" cx={size / 2} cy={size / 2} r={r} fill="none" stroke="url(#rr-ring-grad)" strokeWidth={stroke} strokeLinecap="round"
@@ -351,6 +351,33 @@ function WeekDoors({ week }: { week: ReviewDay[] }) {
         </li>
       ))}
     </ol>
+  );
+}
+
+/** 一覧だけスクロールする枠。上に影（スクロール済み）・下にうすいフェード（続きあり）を出して、どこまで見たか分かるように */
+function ScrollArea({ children }: { children: React.ReactNode; key?: React.Key }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [edge, setEdge] = useState<{ top: boolean; more: boolean }>({ top: false, more: false });
+  const measure = () => {
+    const el = ref.current;
+    if (!el) return;
+    const top = el.scrollTop > 2;
+    const more = el.scrollTop + el.clientHeight < el.scrollHeight - 2;
+    setEdge(prev => (prev.top === top && prev.more === more ? prev : { top, more }));
+  };
+  useEffect(() => {
+    measure();
+    const el = ref.current;
+    if (!el || typeof ResizeObserver === 'undefined') return;
+    const ro = new ResizeObserver(measure);
+    ro.observe(el);
+    if (el.firstElementChild) ro.observe(el.firstElementChild);
+    return () => ro.disconnect();
+  });
+  return (
+    <div ref={ref} className="rr-scroll" data-rr-scroll data-scrolled={edge.top || undefined} data-more={edge.more || undefined} onScroll={measure}>
+      <div className="rr-scroll-inner">{children}</div>
+    </div>
   );
 }
 
@@ -464,7 +491,7 @@ export function StudyHub({ onBack, isGuest, onSelectNote, onReview, onPractice, 
         <header className="rn-header">
           <button type="button" onClick={onBack} aria-label="ホームに戻る" className="rn-back"><ArrowLeft size={20} aria-hidden="true" /></button>
           <h1><KineticText text="復習・記録" /></h1>
-          <span className="rn-header-stat" aria-label={`メダル（習得済み） ${masteredCount}問`}><Medal size={16} aria-hidden="true" />{masteredCount}</span>
+          <button type="button" className="rn-header-stat rr-medal-pill" onClick={() => { setSection('review'); setTab('mastered'); }} aria-label={`メダル（習得済み） ${masteredCount}問を見る`}><Medal size={16} aria-hidden="true" /><b>{masteredCount}</b></button>
         </header>
 
         {/* ① 達成の帯 */}
@@ -474,8 +501,8 @@ export function StudyHub({ onBack, isGuest, onSelectNote, onReview, onPractice, 
             <p className="rr-hero-big"><span>今日なおした</span><b key={summary.today} className="rr-pop">{summary.today}</b><span>問</span>
               {cheer > 0 && <i key={cheer} className="rr-plus" aria-hidden="true">+1</i>}</p>
             <p className="rr-hero-sub">
-              <span className="rr-hero-left">{allDone ? '今日の分は完了！' : dueItems.length > 0 ? `あと${dueItems.length}問` : '今日の分なし'}</span>
-              <span><Flame size={14} aria-hidden="true" />{summary.streak}日連続</span>
+              <span className="rr-hero-left">{allDone ? '今日は完了！' : dueItems.length > 0 ? `あと${dueItems.length}問` : '今日の分なし'}</span>
+              <span className="rr-streak" aria-label={`${summary.streak}日連続`}><Flame size={14} aria-hidden="true" />{summary.streak}<small>日</small></span>
             </p>
           </div>
           <div className="rr-hero-week"><WeekDoors week={summary.week} /><small>今週 {summary.weekTotal}問</small></div>
@@ -486,14 +513,14 @@ export function StudyHub({ onBack, isGuest, onSelectNote, onReview, onPractice, 
             </button>
           ) : (
             <div className="rr-hero-next">
-              <p>{nextUpcoming ? `次の復習は${formatDue(nextUpcoming.dueAt, now)}。` : '新しく解いて、まちがえた問題を集めよう。'}</p>
+              <p>{nextUpcoming ? `次の復習は${formatDue(nextUpcoming.dueAt, now)}` : '新しく解いて、苦手を集めよう'}</p>
               {onPractice && <button type="button" className="mt-btn mt-btn-secondary" onClick={onPractice}><PenLine size={16} aria-hidden="true" />演習する</button>}
             </div>
           )}
         </section>
 
         {/* ② 大きな2つの切り替え */}
-        <div className="rr-switch" role="tablist" aria-label="復習と記録の切り替え">
+        <div className="rr-switch" role="tablist" aria-label="復習と記録の切り替え" data-active={section}>
           <button type="button" role="tab" aria-selected={section === 'review'} onClick={() => setSection('review')} data-rr-section="review">
             <RotateCcw size={18} aria-hidden="true" />復習ノート{dueItems.length > 0 && <span>{dueItems.length}</span>}
           </button>
@@ -520,7 +547,7 @@ export function StudyHub({ onBack, isGuest, onSelectNote, onReview, onPractice, 
           )}
 
           {/* タブを変えたら一覧は先頭から（key で作り直す）。スクロールするのはここだけ */}
-          <div className="rr-scroll" data-rr-scroll key={`${tab}-${subjectTab}`}>
+          <ScrollArea key={`${tab}-${subjectTab}`}>
           <div className="rn-panel" role="tabpanel">
             {tab === 'today' && (scopedDueItems.length === 0
               ? <EmptyState icon={<CheckCircle2 size={28} aria-hidden="true" />} tone="done" title={scopedSubjectLabel ? `${scopedSubjectLabel}の今日の復習は完了` : '今日の復習は完了'} desc={summary.today > 0 ? `今日は${summary.today}問なおしました。よくがんばったね。` : '問題を解いて間違えると、ここに自動で追加されます。'} />
@@ -543,11 +570,11 @@ export function StudyHub({ onBack, isGuest, onSelectNote, onReview, onPractice, 
               <ForgettingCurveChart items={scopedItems} now={now} subjectLabel={scopedSubjectLabel} />
             </details>
           )}
-          </div>
+          </ScrollArea>
         </>}
 
         {/* 学習記録（直近3日）。見出しは上の切り替えが兼ねるので StudyRecord 側の見出しは出さない */}
-        {section === 'record' && <div className="rr-scroll" data-rr-scroll><StudyRecord embedded onRetry={onRetry} /></div>}
+        {section === 'record' && <ScrollArea key="record"><StudyRecord embedded onRetry={onRetry} /></ScrollArea>}
       </div>
     </div>
   );

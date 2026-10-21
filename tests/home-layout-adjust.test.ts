@@ -22,6 +22,6 @@ describe('ホームの導線（2026-10-20）', () => {
 
   it('学習記録は復習ノートと同じStudyHub内の記録タブで表示する', () => {
     expect(hub).toContain("data-rn-record");
-    expect(hub).toContain("{section === 'record' && <div className=\"rr-scroll\" data-rr-scroll><StudyRecord embedded onRetry={onRetry} /></div>}");
+    expect(hub).toContain("{section === 'record' && <ScrollArea key=\"record\"><StudyRecord embedded onRetry={onRetry} /></ScrollArea>}");
   });
 });

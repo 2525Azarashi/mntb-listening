@@ -72,10 +72,18 @@ describe('復習・記録の画面構成（2026-10-21）', () => {
   });
 
   it('上の帯は小さく、スクロールは一覧（rr-scroll）だけ', () => {
-    expect(hub).toContain('className="rr-scroll" data-rr-scroll key={`${tab}-${subjectTab}`}');
-    expect(hub).toContain('<div className="rr-scroll" data-rr-scroll><StudyRecord embedded onRetry={onRetry} /></div>');
+    expect(hub).toContain('<ScrollArea key={`${tab}-${subjectTab}`}>');
+    expect(hub).toContain('<ScrollArea key="record"><StudyRecord embedded onRetry={onRetry} /></ScrollArea>');
+    expect(hub).toContain('className="rr-scroll" data-rr-scroll data-scrolled=');
     expect(hub).toContain('const size = 56, stroke = 7');
     expect(rrCss).toContain('.rr-page > .rn-wrap > .rr-scroll { flex: 1 1 0; min-height: 120px; overflow-y: auto;');
+  });
+
+  it('仕上げ：すべる切替・スクロールの影・メダルから習得へ', () => {
+    expect(hub).toContain('data-active={section}');
+    expect(rrCss).toContain(".rr-switch[data-active=record]::before { transform: translateX(100%); }");
+    expect(rrCss).toContain('.rr-scroll[data-scrolled]::before');
+    expect(hub).toContain("className=\"rn-header-stat rr-medal-pill\" onClick={() => { setSection('review'); setTab('mastered'); }}");
   });
 
   it('動きは transform/opacity のみ・reduced-motion で止める', () => {
