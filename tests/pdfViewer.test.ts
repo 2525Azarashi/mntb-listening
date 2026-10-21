@@ -83,5 +83,11 @@ describe('PDF ビューの「もどる」と印刷（2026-10-21）', () => {
     expect(share).toContain('a.href = blobUrl');
     const collection = readFileSync('src/components/MyCollection.tsx', 'utf8');
     expect(collection).not.toContain('catch(() => openPdf(print.file, print.label))');
+    expect(collection).not.toContain('PDFを開く');
+    expect(collection).toContain('保存する');
+    const gacha = readFileSync('src/components/GachaParts.tsx', 'utf8');
+    expect(gacha).not.toContain('openPdf');
+    expect(gacha).not.toContain('PDFを開く');
+    expect(gacha).toContain('保存する');
   });
 });
