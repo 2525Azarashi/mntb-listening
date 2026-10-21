@@ -1,0 +1,121 @@
+/*
+ * 復習・記録（StudyHub.tsx）2026-10-21 作り直し
+ *   ① 達成の帯（今日の輪・今日なおした数・連続日数・7日の扉グラフ・主ボタン）
+ *   ② 大きな2つの切り替え［復習ノート］［学習記録］
+ *   ③ 習得済みは金のメダルの棚
+ * 動きは transform / opacity だけ。動きを減らす設定では止める。文字は 12px 以上・押す所は 44px 以上。
+ * 元に戻すときは、このファイルと StudyHub.tsx の「達成の見える化」以降を消す（docs/UI_CHANGELOG.md 参照）。
+ */
+.rr-page { --rr-ring-bg: #f1e6cf; --rr-gold: #f2b53a; --rr-green: #2fa86b; }
+
+/* ① 達成の帯 */
+.rr-hero {
+  display: grid; grid-template-columns: auto minmax(0, 1fr); grid-template-areas: "ring main" "week week" "cta cta";
+  gap: 12px 14px; align-items: center; padding: 14px;
+  border: 1.5px solid #ecd9ad; border-radius: 20px;
+  background: radial-gradient(120% 90% at 0% 0%, #fff7dc 0%, #fffdf6 55%, #fff 100%);
+  box-shadow: 0 3px 0 #ead9b0;
+}
+.rr-hero[data-all-done] { border-color: #b7e0c6; background: radial-gradient(120% 90% at 0% 0%, #e6f7ec 0%, #f8fdf9 60%, #fff 100%); box-shadow: 0 3px 0 #bfe2cb; }
+.rr-ring { grid-area: ring; position: relative; width: 92px; height: 92px; }
+.rr-ring svg { display: block; }
+.rr-ring-fg { transition: stroke-dashoffset .9s cubic-bezier(.34, 1.56, .64, 1); }
+.rr-ring-label { position: absolute; inset: 0; display: grid; place-items: center; align-content: center; grid-auto-flow: column; gap: 1px; color: #1f3354; }
+.rr-ring-label b { font: 900 28px/1 var(--mt-font-display); font-variant-numeric: tabular-nums; }
+.rr-ring-label small { align-self: end; margin-bottom: 4px; font-size: 13px; font-weight: 800; color: #7a6b52; }
+.rr-ring[data-complete] .rr-ring-label { color: var(--rr-green); }
+.rr-ring[data-complete] { animation: rr-done-pop .6s cubic-bezier(.34, 1.56, .64, 1) .2s both; }
+
+.rr-hero-main { grid-area: main; min-width: 0; display: grid; gap: 4px; }
+.rr-hero-kicker { margin: 0; font-size: 13px; font-weight: 800; color: #8a5a00; }
+.rr-hero[data-all-done] .rr-hero-kicker { color: #1f7a4d; }
+.rr-hero-big { position: relative; display: flex; align-items: baseline; gap: 4px; margin: 0; color: #1f3354; }
+.rr-hero-big > span { font-size: 14px; font-weight: 800; }
+.rr-hero-big > b { font: 900 40px/1 var(--mt-font-display); font-variant-numeric: tabular-nums; color: #1f3354; }
+.rr-pop { display: inline-block; animation: rr-pop .5s cubic-bezier(.34, 1.56, .64, 1) both; }
+.rr-plus { position: absolute; left: 112px; top: -6px; font: 900 18px/1 var(--mt-font-display); font-style: normal; color: var(--rr-green); pointer-events: none; animation: rr-plus 1s ease-out both; }
+.rr-hero-sub { display: flex; flex-wrap: wrap; gap: 4px 12px; margin: 0; font-size: 13px; font-weight: 800; color: #5b6b7a; }
+.rr-hero-sub span { display: inline-flex; align-items: center; gap: 3px; }
+.rr-hero-sub svg { color: #e0683f; }
+
+/* 7日の扉グラフ：扉＝角の丸い縦長の棒。今日は金、0の日は低い点線の扉 */
+.rr-week { grid-area: week; display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 6px; height: 74px; margin: 0; padding: 0; list-style: none; }
+.rr-week li { display: grid; grid-template-rows: 1fr auto; justify-items: center; gap: 3px; min-width: 0; }
+.rr-week-bar { position: relative; width: 100%; max-width: 34px; height: 100%; display: flex; align-items: flex-end; justify-content: center; }
+.rr-week-bar i { display: block; width: 100%; height: var(--h); border-radius: 12px 12px 3px 3px; background: linear-gradient(180deg, #8fd3ad, #2fa86b); box-shadow: inset 0 -2px 0 #0000001f; transform-origin: bottom; animation: rr-grow .6s cubic-bezier(.34, 1.56, .64, 1) both; animation-delay: calc(var(--i) * 45ms + 150ms); }
+.rr-week li[data-today] .rr-week-bar i { background: linear-gradient(180deg, #ffe08a, var(--rr-gold)); }
+.rr-week li[data-zero] .rr-week-bar i { background: none; border: 1.5px dashed #d9c9a6; box-shadow: none; }
+/* 扉の取っ手 */
+.rr-week li:not([data-zero]) .rr-week-bar i::after { content: ''; position: absolute; right: 22%; bottom: calc(var(--h) * .45); width: 4px; height: 4px; border-radius: 50%; background: #ffffffcc; }
+.rr-week-bar b { position: absolute; bottom: calc(var(--h) + 2px); font: 900 12px/1 var(--mt-font-display); color: #1f3354; }
+.rr-week small { font-size: 12px; font-weight: 800; color: #7a6b52; }
+.rr-week li[data-today] small { color: #8a5a00; }
+
+.rr-cta { grid-area: cta; justify-content: flex-start; gap: 12px; width: 100%; min-height: 56px; padding: 8px 16px; border-radius: 16px; text-align: left; box-shadow: 0 3px 0 var(--mt-accent-strong, #c77700); }
+.rr-cta > span { display: flex; flex-direction: column; min-width: 0; }
+.rr-cta strong { font: 800 18px/1.2 var(--mt-font-display); }
+.rr-cta small { font-size: 12px; font-weight: 700; color: var(--mt-ink-2, #44505c); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.rr-hero-next { grid-area: cta; display: flex; align-items: center; gap: 10px; }
+.rr-hero-next p { flex: 1; margin: 0; font-size: 13px; font-weight: 700; color: #5b6b7a; }
+.rr-hero-next .mt-btn { min-height: 44px; flex-shrink: 0; }
+
+/* ② 大きな2つの切り替え */
+.rr-switch { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.rr-switch button { display: flex; align-items: center; justify-content: center; gap: 6px; min-height: 52px; padding: 0 10px; border: 1.5px solid #e2d3b6; border-radius: 16px; background: #fffdf7; color: #5d503f; font: 800 15px/1.2 var(--mt-font-body); box-shadow: 0 3px 0 #e6d7b8; white-space: nowrap; }
+.rr-switch button[aria-selected=true] { border-color: #2458a6; background: #2458a6; color: #fff; box-shadow: 0 3px 0 #173d78; }
+.rr-switch button:active { transform: translateY(2px); box-shadow: 0 1px 0 #e6d7b8; }
+.rr-switch button > span { min-width: 22px; padding: 1px 7px; border-radius: 999px; background: #ff8a3d; color: #fff; font-size: 12px; font-weight: 900; line-height: 1.5; }
+.rr-switch button > small { font-size: 12px; font-weight: 700; opacity: .8; }
+.rr-tabs > button svg { color: #c48a12; }
+
+/* ③ 習得済み：金のメダルの棚 */
+.rr-shelf { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.rr-shelf li { display: flex; align-items: center; gap: 10px; min-height: 56px; padding: 8px 8px 8px 10px; border: 1.5px solid #f0dca4; border-radius: 16px; background: linear-gradient(90deg, #fff8e1, #fffdf6); animation: rr-in .4s ease-out both; animation-delay: calc(var(--i) * 40ms); }
+.rr-medal { flex-shrink: 0; width: 40px; height: 40px; display: grid; place-items: center; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #fff6c4, #f6c94a 55%, #d99a16); color: #7a4b00; box-shadow: 0 2px 0 #c98b1a, inset 0 1px 0 #fff8; }
+.rr-shelf-text { flex: 1; min-width: 0; display: grid; gap: 2px; }
+.rr-shelf-text strong { font-size: 14px; font-weight: 800; color: #3d3222; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.rr-shelf-text small { font-size: 12px; color: #7a6b52; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.rr-shelf-remove { flex-shrink: 0; width: 44px; height: 44px; display: grid; place-items: center; border: 0; border-radius: 12px; background: transparent; color: #a0907a; }
+
+/* 空のとき：完了は緑で花丸 */
+.rn-empty[data-tone=done] .rn-empty-icon { background: #e3f3ea; color: #1f7a4d; }
+
+/* 学習記録を埋め込むときは、上の切り替えが見出しを兼ねるので StudyRecord の見出しは出さない */
+.rr-page .study-record.is-embedded { padding: 0 0 8px; max-width: none; }
+.rr-page .study-record.is-embedded > .sr-head { display: none; }
+
+/* PC：達成の帯を横1列に（輪｜数字｜扉グラフ｜主ボタン） */
+@media (min-width: 900px) {
+  .rr-hero { grid-template-columns: auto minmax(0, 1fr) minmax(220px, 300px); grid-template-areas: "ring main week" "cta cta cta"; }
+}
+@media (max-height: 700px) {
+  .rr-hero { gap: 8px 12px; padding: 10px 12px; }
+  .rr-ring { width: 72px; height: 72px; }
+  .rr-ring svg { width: 72px; height: 72px; }
+  .rr-hero-big > b { font-size: 32px; }
+  .rr-week { height: 56px; }
+  .rr-switch button { min-height: 46px; }
+}
+
+@keyframes rr-pop { 0% { transform: scale(.6); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+@keyframes rr-plus { 0% { transform: translateY(6px) scale(.6); opacity: 0; } 25% { opacity: 1; transform: translateY(0) scale(1.1); } 100% { transform: translateY(-22px) scale(1); opacity: 0; } }
+@keyframes rr-grow { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+@keyframes rr-in { from { transform: translateY(6px); opacity: 0; } to { transform: none; opacity: 1; } }
+@keyframes rr-done-pop { 0% { transform: scale(.85); } 60% { transform: scale(1.08); } 100% { transform: scale(1); } }
+@media (prefers-reduced-motion: reduce) {
+  .rr-ring-fg { transition: none; }
+  .rr-pop, .rr-plus, .rr-week-bar i, .rr-shelf li, .rr-ring[data-complete] { animation: none !important; }
+  .rr-plus { display: none; }
+}
+
+/* 学習記録（埋め込み）: 「まちがえた問題だけ解く」ボタンのはみ出し修正（2026-10-21） */
+.rr-page .study-record.is-embedded .sr-retry { grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); }
+.rr-page .study-record.is-embedded .sr-retry button { min-width: 0; white-space: normal; line-height: 1.2; text-align: center; padding: 4px 8px; }
+@media (max-width: 430px) { .rr-page .study-record.is-embedded .sr-retry button small { display: none; } }
+
+/* 2026-10-21 見出しを中央へ（マイページ・学習・設定とそろえる） */
+.rr-page .rn-header { position: relative; justify-content: center; }
+.rr-page .rn-header > .rn-back { position: absolute; left: 0; top: 50%; transform: translateY(-50%); }
+.rr-page .rn-header h1 { flex: 0 1 auto; text-align: center; font: 900 23px/1.2 var(--mt-font-display); color: #1c2a39; padding-inline: 56px; }
+.rr-page .rn-header > .rn-header-stat { position: absolute; right: 0; top: 50%; transform: translateY(-50%); min-height: 44px; }
+@media (min-width: 1024px) { .rr-page .rn-header h1 { font-size: 28px; letter-spacing: .04em; } }

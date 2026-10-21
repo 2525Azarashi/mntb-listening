@@ -5,6 +5,30 @@
 
 ---
 
+## 2026-10-21 復習・記録の画面を作り直し ＋ 見出しの位置をそろえる（PR: feat/review-record-redesign）
+
+### ① 復習・記録：画面の組み立てを作り直し
+| 何を | どう変えた | ファイル |
+|---|---|---|
+| タブが5つ（今日／苦手リスト／ノート／重要／記録）で窮屈。「記録」の中にまた「学習記録」の見出しが出ていた | 上に **達成の帯**、その下に大きな2択 **「復習ノート」｜「学習記録」**。復習ノートの中だけ小タブ **今日／苦手／習得／ノート** の4つ（「重要」は「ノート」にまとめた） | `src/components/StudyHub.tsx`（本体の `StudyHub` を作り直し。カード部品 `ReviewCard` などはそのまま） |
+| 達成感がない | 達成の帯：今日のリング（直した数／今日の分。全部終わると緑＋チェック）、「今日なおした N問」、🔥連続日数、今週の合計、**7日分の「扉」の棒**（直した日ほど高い・今日は金色）。「できた」を押すと **＋1** がふわっと出る | `StudyHub.tsx`（`TodayRing`・`WeekDoors`）、`src/components/review-record.css`（新規） |
+| 覚えた問題が見えない | 「習得」タブに **メダル棚**（6回なおした問題）。見出しの右にもメダル数 | `StudyHub.tsx`（`MasteredShelf`） |
+| 「今日直した数・連続日数」の元データがなかった | 復習で正解したときに小さな日誌を端末に残す（60日・最大600件）。同じ問題を同じ日に2回直しても1と数える | `src/utils/reviewProgress.ts`（新規）、`src/utils/reviewList.ts`（`markReviewedCorrect` の最後で `recordReviewDone`） |
+| 学習記録の「まちがえた問題だけ解く（1問）」がはみ出す | この画面の中ではボタンを2行まで折り返し、430px以下は「（1問）」を省く | `review-record.css`（末尾） |
+
+**戻し方**：`git revert` でこの PR を戻すのがいちばん確実。手で戻す場合は `StudyHub.tsx` の本体を前の版に戻し、`review-record.css`・`reviewProgress.ts` を消し、`reviewList.ts` の `recordReviewDone` の2行（import と呼び出し）を消す。日誌のデータ `review_done_v1_*` は残っても害はない。
+
+### ② 見出しを「中央・23px・太字900」にそろえる（マイページに合わせた）
+| 画面 | 前 | 今 | ファイル |
+|---|---|---|---|
+| 学習（演習する） | 左寄せ・22px・800 | 中央・23px・900（PC 28px）。「演習する › 英語」の道しるべも中央 | `src/components/study-catalog.css`（末尾のブロック） |
+| 設定 | 左寄せ、上に英字「MY ACCOUNT」。PCでは見出しとタブが横並び | 中央・23px・900、「MY ACCOUNT」は外した。とびら君は右端。PCも見出し→タブの2段 | `src/components/ProfileModal.tsx`（header）、`src/components/profile-settings.css`（末尾2ブロック） |
+| 復習・記録 | 戻るボタンの横に左寄せ | 中央（戻るは左、メダル数は右） | `review-record.css`（末尾） |
+
+**戻し方**：上の各 CSS の「2026-10-21」ブロックを消す。設定は `ProfileModal.tsx` の header を `<div className="mt-app-header-title"><p className="mt-kicker">MY ACCOUNT</p><h2>設定</h2></div><DoorMascot … className="w-auto ml-auto -my-2" />` に戻す。
+
+---
+
 ## 2026-10-20 ホーム・対戦・ランキングの手直し（PR: fix/home-battle-ranking-polish）
 
 前提：#55 で UI 刷新はいったん戻され、その後 #56〜#58 でホームの導線が整理された。今回はその **今の main の上に、指定の項目だけ** を入れた（ほかの見た目は今のまま）。
