@@ -53,13 +53,10 @@ async function shareNative(url: string, fileName: string, title: string, closeAf
 
 export async function printPdf(url: string, fileName: string, title: string): Promise<string> {
   if (isNativeApp()) return shareNative(url, fileName, title);
-  // PDFを別タブへ遷移させず、現在のビュー内iframe（なければ現在の文書）を印刷する。
-  // これにより印刷ダイアログを閉じたあとも、戻るボタンのあるPDF画面に留まれる。
-  const frame = document.querySelector<HTMLIFrameElement>('.pdfv-native');
+  // 現在のPDFビューを印刷する。別タブへ遷移しないため、印刷後も戻るボタンのある画面に留まれる。
   try {
-    const target = frame?.contentWindow ?? window;
-    target.focus();
-    target.print();
+    window.focus();
+    window.print();
     return '';
   } catch {
     return '印刷を開始できませんでした。ブラウザの印刷機能をお試しください。';

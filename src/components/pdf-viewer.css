@@ -24,3 +24,12 @@
 .pdfv-status-actions button { display: inline-flex; align-items: center; gap: 6px; }
 .pdfv-note { margin: 0 auto 10px; max-width: 420px; padding: 8px 12px; border-radius: 10px; background: #1c2a39; text-align: center; font-size: 13px; color: #fff; }
 @media (max-width: 400px) { .pdfv-tools > button span { display: none; } .pdfv-tools { gap: 2px; } }
+@media print {
+  body * { visibility: hidden !important; }
+  .pdfv, .pdfv * { visibility: visible !important; }
+  .pdfv { position: absolute !important; inset: 0 !important; display: block !important; overflow: visible !important; background: #fff !important; color: #000 !important; }
+  .pdfv-bar, .pdfv-note, .pdfv-status { display: none !important; }
+  .pdfv-scroll { position: static !important; height: auto !important; overflow: visible !important; padding: 0 !important; }
+  .pdfv-native { width: 100% !important; height: 100vh !important; min-height: 0 !important; }
+  .pdfv-pages canvas { max-width: 100% !important; box-shadow: none !important; break-after: page; page-break-after: always; }
+}
