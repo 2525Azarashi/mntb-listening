@@ -276,3 +276,20 @@
  .compact-gacha .gacha-room > .gacha-machine { display:none; }
  .compact-gacha .gacha-featured { margin-block:auto; }
 }
+
+/* 提供割合・コレクションの長文を短い見出しと小さな情報ブロックに分割 */
+.game-details-dialog .gacha-odds { display:grid; gap:10px; line-height:1.55; }
+.gacha-odds-summary, .gacha-odds-section { padding:10px 12px; border:1px solid #e7decb; border-radius:12px; background:#fffdf8; }
+.gacha-odds-summary { background:#fff6df; border-color:#ead7a8; }
+.gacha-odds-summary > strong, .gacha-odds-section > h3 { display:block; margin:0 0 4px; color:#59451f; font:800 13px/1.35 var(--mt-font-body); }
+.gacha-odds-summary > p, .gacha-odds-section > p { margin:0; }
+.gacha-odds-section > p + p { margin-top:6px; }
+.gacha-odds-rate-list, .gacha-odds-bonus-rates { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:6px; margin:8px 0; padding:0; list-style:none; }
+.gacha-odds-rate-list > li, .gacha-odds-bonus-rates > li { display:flex; align-items:center; justify-content:center; gap:5px; min-height:34px; padding:4px; border:1px solid #eee4d0; border-radius:9px; background:#fff; white-space:nowrap; }
+.gacha-odds-rate-list .mt-rarity { min-width:0; min-height:20px; padding:0 5px; font-size:12px; }
+.gacha-odds-rate-list .mt-rarity-crown { display:none; }
+.gacha-odds-bonus-rates > li { color:#6a5940; font-size:12px; }
+.gacha-odds-bonus-rates b { color:#473916; font-variant-numeric:tabular-nums; }
+@media(max-width:420px) {
+ .gacha-odds-rate-list, .gacha-odds-bonus-rates { grid-template-columns:repeat(2,minmax(0,1fr)); }
+}
