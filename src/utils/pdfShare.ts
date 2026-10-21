@@ -9,7 +9,7 @@ import { closePdf } from './pdfViewer';
  *   そこで PDF を端末のキャッシュに書き出し、OS の共有シートを開く。
  *   共有シートには「プリント」「"ファイル"に保存」「AirDrop」などが並ぶので、そこから印刷・保存できる。
  * ■ ブラウザ
- *   印刷：クリック直後に新しいタブで PDF を開く（PDF の表示後、ブラウザの印刷機能を使う）。
+ *   印刷：PDF画面を離れず、表示中のPDFをブラウザの印刷機能へ送る。
  *   保存：ダウンロード。
  * 戻り値：画面に出す一言（なければ空）
  */
@@ -53,12 +53,17 @@ async function shareNative(url: string, fileName: string, title: string, closeAf
 
 export async function printPdf(url: string, fileName: string, title: string): Promise<string> {
   if (isNativeApp()) return shareNative(url, fileName, title);
-  // 非同期 fetch の後に print() を呼ぶと、クリック由来のユーザー操作と認識されず
-  // ブラウザに印刷ダイアログを止められることがある。クリック中に直接タブを開く。
-  const opened = window.open(url, '_blank');
-  return opened
-    ? 'PDFを新しいタブで開きました。ブラウザの印刷ボタンから印刷してください。'
-    : 'PDFを開けませんでした。ポップアップを許可して、もう一度お試しください。';
+  // PDFを別タブへ遷移させず、現在のビュー内iframe（なければ現在の文書）を印刷する。
+  // これにより印刷ダイアログを閉じたあとも、戻るボタンのあるPDF画面に留まれる。
+  const frame = document.querySelector<HTMLIFrameElement>('.pdfv-native');
+  try {
+    const target = frame?.contentWindow ?? window;
+    target.focus();
+    target.print();
+    return '';
+  } catch {
+    return '印刷を開始できませんでした。ブラウザの印刷機能をお試しください。';
+  }
 }
 
 export async function savePdf(url: string, fileName: string, title: string): Promise<string> {
