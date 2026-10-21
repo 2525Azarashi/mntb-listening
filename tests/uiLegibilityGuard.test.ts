@@ -46,6 +46,18 @@ describe('2026-10-18 のご要望（リスニングの資料・フレンド）',
     expect(materials).not.toMatch(/style=\{\{\s*minWidth:\s*image\.minWidth/);
     expect(materials).toContain('data-material-zoom');
   });
+  it('2026-10-21：図は資料欄に収まる大きさで描き、タップで ○ → × → 消す。拡大は別の 44px ボタン', () => {
+    expect(materials).toContain('data-material-figure-tap');
+    expect(materials).toMatch(/data-material-zoom-open[\s\S]{0,120}h-11 w-11/);
+    expect(materials).toContain('const MARK_HIT = 22;');
+    // 図が複数（第6問B）なら枠の形で 2×2 / 4×1 を選ぶ。メモ表は名前ボタン1行
+    expect(materials).toContain('function bestColumns(');
+    expect(materials).toContain('data-material-memo');
+    // 図の高さで枠が伸びない（absolute）＝資料欄からはみ出さない
+    expect(materials).toMatch(/className="absolute cursor-crosshair/);
+    const pane = read('src/components/quiz/ListeningMaterialPane.tsx');
+    expect(pane).toContain('flex min-h-0 flex-1 flex-col overflow-auto');
+  });
   it('第4問B：条件表の空欄は ○ → × → 空欄 とタップで切り替えられる（44px）', () => {
     expect(materials).toContain("const NEXT_MARK: Record<string, string> = { '': '○', '○': '×', '×': '' };");
     expect(materials).toMatch(/data-material-mark[\s\S]{0,400}h-11/);

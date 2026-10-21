@@ -1,6 +1,7 @@
 /**
  * 演習画面の左ペイン：リスニング後半（資料つき）の「資料・音源」ペイン（C-04）。
- * ProblemPane.tsx の早期 return の JSX をそのまま移した（DOM・クラス名・data-* / aria-* 属性・文言は1文字も変えていない）。
+ * ProblemPane.tsx の早期 return の JSX をそのまま移した。
+ * 2026-10-21：図を資料欄の高さに収めるため、スクロール枠を flex（縦）にした（図の無い資料は従来どおり縦にスクロール）。
  *
  * ★部品ではなく描画関数にしている理由★
  *   ProblemPane の中で呼ぶだけにして、React の木（要素の種類と並び）を1段も変えないため。
@@ -81,10 +82,10 @@ export function renderListeningMaterialPane({
         </div>
       )}
       <div ref={problemScrollRef} tabIndex={0} aria-label="資料をスクロール"
-        className={`min-h-0 flex-1 overflow-auto overscroll-contain px-3 md:px-6 ${isDesktop ? 'py-3' : 'py-2'}`}>
+        className={`flex min-h-0 flex-1 flex-col overflow-auto overscroll-contain px-3 md:px-6 ${isDesktop ? 'py-3' : 'py-2'}`}>
         <ListeningMaterials material={materialTrack.material}
           activeSubId={!isDesktop ? selectedAnswerSub?.id : undefined} />
-        {materialTrack.hint && <details className="mt-3 text-sm leading-relaxed text-gray-600">
+        {materialTrack.hint && <details className="mt-2 shrink-0 text-sm leading-relaxed text-gray-600">
           <summary className="cursor-pointer py-2 font-bold">状況・場面を確認</summary>
           <p>{materialTrack.hint}</p>
         </details>}
