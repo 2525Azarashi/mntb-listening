@@ -5,6 +5,20 @@
 
 ---
 
+## 2026-10-22 Web ログインが「連携中…」で止まる件（PR: fix/web-login-same-origin）
+
+見た目の変更はほぼ無し。
+| 何を | どう変えた | ファイル |
+|---|---|---|
+| ポップアップの結果が届かず「連携中…」のまま | 裏でログインが済んでいたらその時点で成功扱い。90秒たっても何も無ければ止めて「ログインの結果を受け取れませんでした。ページを再読み込みして…」と案内（ボタンをもう一度押せる） | `src/utils/googleAuth.ts`（`popupWithWatchdog`） |
+| ログインの往復が別ドメイン（firebaseapp.com）で、ブラウザの保護で結果が戻らない | `/__/auth/*` を自分のドメインから中継。`VITE_AUTH_SAME_ORIGIN=true` を入れると authDomain が今のドメインになる（アプリ版は変わらない） | `vercel.json`、`src/firebase.ts` |
+
+管理画面での設定手順は `docs/WEB_LOGIN_SAME_ORIGIN.md`。
+
+**戻し方**：まず Vercel の `VITE_AUTH_SAME_ORIGIN` を消して Redeploy。コードごと戻すならこのPRを `git revert`。
+
+---
+
 ## 2026-10-21 Web ログインのエラー文（PR: fix/coin-sync-and-web-login）
 
 見た目の変更はほぼ無し。Web 版でログインの準備に失敗したとき（`auth/argument-error`）の文を

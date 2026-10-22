@@ -32,6 +32,7 @@ import {
   signInWithRedirect,
   getRedirectResult,
   browserPopupRedirectResolver,
+  onAuthStateChanged,
   signOut,
   type AuthProvider,
   type User,
@@ -149,7 +150,10 @@ async function signInWithInner(method: SignInMethod): Promise<GoogleSignInOutcom
     // ★resolver を必ず渡す（2026-10-21）★ firebase.ts はアプリ版のために initializeAuth を使っており、
     // そこでは popup/redirect の部品（resolver）を入れていない。渡さないと Web で auth/argument-error になる。
     // アプリ版はこの関数の先頭で nativeSignIn に分かれるので、ここは通らない（アプリへの影響なし）。
-    const credential: UserCredential = await signInWithPopup(auth, p, browserPopupRedirectResolver);
+    const credential = await popupWithWatchdog(p);
+    if (credential === 'timeout') {
+      return { ok: false, errorCode: 'login_popup_timeout', message: 'ログインの結果を受け取れませんでした。ページを再読み込みしてから、もう一度お試しください（Safari の場合は「サイト越えトラッキングを防ぐ」をオフにすると通ることがあります）。' };
+    }
     return { ok: true, user: credential.user };
   } catch (error) {
     const code = String(asErrorLike(error)?.code || '');
@@ -168,6 +172,26 @@ async function signInWithInner(method: SignInMethod): Promise<GoogleSignInOutcom
     }
     return { ok: false, message: describeAuthError(error) };
   }
+}
+
+/**
+ * ★ポップアップのログインが「連携中…」のまま止まらないようにする（2026-10-22）★
+ *   ブラウザの保護機能でポップアップの結果が画面に届かないことがある。
+ *   ・裏でログインが済んでいたら（onAuthStateChanged）、その時点で成功として返す
+ *   ・90秒たっても何も起きなければ（パスワード入力や2段階認証の時間を見て長めに）、待つのをやめて案内を出す（ボタンをもう一度押せる）
+ */
+const POPUP_WATCHDOG_MS = 90_000;
+async function popupWithWatchdog(p: AuthProvider): Promise<UserCredential | { user: User } | 'timeout'> {
+  const before = auth.currentUser?.uid ?? null;
+  let stop = () => {};
+  const watcher = new Promise<{ user: User } | 'timeout'>((resolve) => {
+    const unsub = onAuthStateChanged(auth, (u) => { if (u && u.uid !== before) resolve({ user: u }); });
+    const t = setTimeout(() => resolve('timeout'), POPUP_WATCHDOG_MS);
+    stop = () => { unsub(); clearTimeout(t); };
+  });
+  try {
+    return await Promise.race([signInWithPopup(auth, p, browserPopupRedirectResolver), watcher]);
+  } finally { stop(); }
 }
 
 /** Google アカウントで連携する（既存の呼び出し口） */
