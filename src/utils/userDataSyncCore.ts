@@ -442,40 +442,53 @@ export const MAX_SECTION_CHARS = 200_000;
 export const sectionField = (id: string) => `s_${id}`;
 
 export interface ReconcileResult {
-  /** localStorage を書き換えたデータ */
+  /** localStorage を書き換えたデータ（apply:false のときは「書き換える予定」のデータ） */
   changedLocal: string[];
   /** クラウドへ送るべきフィールド（s_<id> → JSON 文字列） */
   upload: Record<string, string>;
-  /** 次回の base（id → JSON 文字列） */
+  /** 次回の base（id → JSON 文字列）。送信がクラウドに届いたあとに使う */
   base: Record<string, string>;
   /** 大きすぎてクラウドに置けなかったデータ */
   tooLarge: string[];
+  /** apply:false のときだけ：あとで applyLocalWrites で書く値（id → JSON 文字列） */
+  localWrites: Record<string, string>;
+  /** 合わせるときに読んだクラウドの値（id → JSON 文字列 / 無ければ null） */
+  remoteSeen: Record<string, string | null>;
 }
 
 /**
  * localStorage とクラウドの値を合わせる。
  * @param remote Firestore ドキュメント（s_<id> に JSON 文字列）。初回は null
  * @param base   前回そろえた値（id → JSON 文字列）
+ * @param opts.apply false にすると localStorage を書かずに、書く値を localWrites で返す（同期の順番を守るため）
+ *
+ * ★端末とクラウドがまったく同じなら、base に関係なくそのまま（2026-10-21）★
+ *   base が古いまま残っていると（送信は届いたのに base を保存できなかった等）、
+ *   「同じ値どうし」でも local + remote − base で差分を二重に足してしまう。
+ *   同じなら合わせることは何も無いので、ここで止める（コイン・XP が増え続ける不具合の防止）。
  */
-export function reconcile(kv: KV, uid: string, remote: Record<string, unknown> | null, base: Record<string, string>): ReconcileResult {
-  const result: ReconcileResult = { changedLocal: [], upload: {}, base: { ...base }, tooLarge: [] };
+export function reconcile(kv: KV, uid: string, remote: Record<string, unknown> | null, base: Record<string, string>, opts: { apply?: boolean } = {}): ReconcileResult {
+  const apply = opts.apply !== false;
+  const result: ReconcileResult = { changedLocal: [], upload: {}, base: { ...base }, tooLarge: [], localWrites: {}, remoteSeen: {} };
   for (const s of SYNC_SECTIONS) {
     const local = s.read(kv, uid);
     if (local === undefined) continue; // 壊れている端末の記録は触らない（上書きして消さない）
     const rawRemote = remote ? remote[sectionField(s.id)] : undefined;
+    result.remoteSeen[s.id] = typeof rawRemote === 'string' ? rawRemote : null;
     let remoteValue: Json | null = null;
     if (typeof rawRemote === 'string') { try { remoteValue = JSON.parse(rawRemote); } catch { remoteValue = null; } }
     const baseRaw = base[s.id];
     let baseValue: Json | null = null;
     if (typeof baseRaw === 'string') { try { baseValue = JSON.parse(baseRaw); } catch { baseValue = null; } }
-    const merged = s.merge(local, remoteValue, baseValue);
+    const merged = local !== null && remoteValue !== null && same(local, remoteValue) ? local : s.merge(local, remoteValue, baseValue);
     if (merged === null || merged === undefined) continue;
     let mergedStr = JSON.stringify(merged);
     if (s.id === 'growth' && isObj(merged) && isObj(merged.progress) && merged.progress.uid !== uid) {
       mergedStr = JSON.stringify({ ...merged, progress: { ...merged.progress, uid } });
     }
     if (local === null || JSON.stringify(local) !== mergedStr) {
-      s.write(kv, uid, JSON.parse(mergedStr));
+      if (apply) s.write(kv, uid, JSON.parse(mergedStr));
+      else result.localWrites[s.id] = mergedStr;
       result.changedLocal.push(s.id);
     }
     if (mergedStr.length > MAX_SECTION_CHARS) { result.tooLarge.push(s.id); continue; }
@@ -483,6 +496,105 @@ export function reconcile(kv: KV, uid: string, remote: Record<string, unknown> |
     result.base[s.id] = mergedStr;
   }
   return result;
+}
+
+/** reconcile(…, { apply: false }) で後回しにした localStorage への書き込みを行う */
+export function applyLocalWrites(kv: KV, uid: string, writes: Record<string, string>): void {
+  for (const s of SYNC_SECTIONS) {
+    const v = writes[s.id];
+    if (typeof v === 'string') s.write(kv, uid, JSON.parse(v));
+  }
+}
+
+// -------------------------------------------------------------------
+// 同期の「状態」（base と、送っている途中の値）2026-10-21
+// -------------------------------------------------------------------
+//
+// ■ なぜ要るか（コイン・XP が増えていく不具合）
+//   以前は「送信 → 届いたら base を保存」の順だった。送信がクラウドに届いたあとで
+//   アプリが閉じられる（スマホで裏に回した直後に OS が終了させる など）と、base は古いまま。
+//   次の同期で local + remote − base を計算すると、この端末で増えた分をもう一度足してしまう。
+//   逆に送信に失敗すると、端末には合わせた値が書かれているのに base は古いままで、
+//   ほかの端末で増えた分を二重に足していた。
+//
+// ■ どう直したか
+//   送る前に「送っている途中の値（pending）」と「端末がすでに取り込んだクラウドの値」を保存しておく。
+//   次の同期でクラウドを読んだとき、
+//     ・クラウド＝送った値        → 届いていた。base は送った値
+//     ・クラウド＝送る前の値      → 届いていない。base は送る前のクラウドの値（端末はもう取り込み済み）
+//     ・どちらでもない            → 判断できない。base を使わず「大きい方」で合わせる（二重に足さない）
+//   状態は1つのキーにまとめて書く（途中で止まっても base と pending が食い違わない）。
+
+export interface SyncPending {
+  /** 送ろうとした値（id → JSON 文字列） */
+  merged: Record<string, string>;
+  /** 実際に送ったデータの id */
+  sent: string[];
+  /** 合わせるときに読んだクラウドの値（id → JSON 文字列 / 無ければ null） */
+  prevRemote: Record<string, string | null>;
+}
+export interface SyncState { base: Record<string, string>; pending: SyncPending | null }
+
+const strRecord = (v: unknown): Record<string, string> => {
+  const out: Record<string, string> = {};
+  if (isObj(v)) for (const [k, x] of Object.entries(v)) if (SAFE_KEY(k) && typeof x === 'string') out[k] = x;
+  return out;
+};
+
+/** 保存してある状態を読む。古い形式（id → 文字列 の base だけ）もそのまま読める */
+export function parseSyncState(raw: string | null): SyncState {
+  if (!raw) return { base: {}, pending: null };
+  let v: unknown;
+  try { v = JSON.parse(raw); } catch { return { base: {}, pending: null }; }
+  if (!isObj(v)) return { base: {}, pending: null };
+  if (v.v !== 2) return { base: strRecord(v), pending: null }; // 2026-10-20 までの形式
+  const p = isObj(v.pending) ? v.pending : null;
+  const prevRemote: Record<string, string | null> = {};
+  if (p && isObj(p.prevRemote)) for (const [k, x] of Object.entries(p.prevRemote)) if (SAFE_KEY(k)) prevRemote[k] = typeof x === 'string' ? x : null;
+  return {
+    base: strRecord(v.base),
+    pending: p ? { merged: strRecord(p.merged), sent: strs(p.sent), prevRemote } : null,
+  };
+}
+
+export function serializeSyncState(state: SyncState): string {
+  return JSON.stringify({ v: 2, base: state.base, pending: state.pending });
+}
+
+/**
+ * 前回の送信が途中で終わっていたら、いまのクラウドの値を見て base を決め直す。
+ * pending が無ければ base はそのまま。
+ */
+export function resolvePendingBase(state: SyncState, remote: Record<string, unknown> | null): Record<string, string> {
+  const base = { ...state.base };
+  const p = state.pending;
+  if (!p) return base;
+  for (const [id, mergedStr] of Object.entries(p.merged)) {
+    if (!p.sent.includes(id)) { base[id] = mergedStr; continue; } // 送っていない＝その時点でクラウドと同じだった
+    const raw = remote ? remote[sectionField(id)] : undefined;
+    const now = typeof raw === 'string' ? raw : null;
+    const before = p.prevRemote[id] ?? null;
+    if (now === mergedStr) base[id] = mergedStr;            // 届いていた
+    else if (now === before && before !== null) base[id] = before; // 届いていない（端末は取り込み済み）
+    else delete base[id];                                   // 判断できない → 大きい方で合わせる
+  }
+  return base;
+}
+
+/**
+ * 送る前に保存する状態。base は「端末がもう取り込んだクラウドの値」にしておく
+ * （送信が届かなかったときに、ほかの端末の分を二重に足さないため）。
+ */
+export function stateBeforeUpload(prevBase: Record<string, string>, r: ReconcileResult): SyncState {
+  const base = { ...prevBase };
+  for (const [id, remoteStr] of Object.entries(r.remoteSeen)) {
+    if (r.tooLarge.includes(id)) continue;
+    if (remoteStr === null) delete base[id]; else base[id] = remoteStr;
+  }
+  const merged: Record<string, string> = {};
+  for (const [id, v] of Object.entries(r.base)) if (r.remoteSeen[id] !== undefined && !r.tooLarge.includes(id)) merged[id] = v;
+  const sent = Object.keys(r.upload).map(f => f.replace(/^s_/, ''));
+  return { base, pending: { merged, sent, prevRemote: { ...r.remoteSeen } } };
 }
 
 /** 前回そろえたあと、この端末で何か変わったか（送るべきか）の判定に使う指紋 */

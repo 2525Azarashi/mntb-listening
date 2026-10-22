@@ -23,7 +23,8 @@
 import { doc, getDoc, setDoc, serverTimestamp } from './firestoreMetered';
 import { auth, db } from '../firebase';
 import { safeLocalStorage } from './safeLocalStorage';
-import { localFingerprint, migrateGuestData, reconcile, SYNC_SECTIONS, USER_DATA_SYNCED_EVENT, type KV } from './userDataSyncCore';
+import { applyLocalWrites, localFingerprint, migrateGuestData, parseSyncState, reconcile, resolvePendingBase, serializeSyncState,
+  stateBeforeUpload, SYNC_SECTIONS, USER_DATA_SYNCED_EVENT, type KV, type SyncState } from './userDataSyncCore';
 
 export { USER_DATA_SYNCED_EVENT };
 
@@ -41,38 +42,59 @@ function kv(): KV | null {
   return safeLocalStorage();
 }
 
-function readBase(store: KV, uid: string): Record<string, string> {
-  try {
-    const v = JSON.parse(store.getItem(BASE_KEY(uid)) || '{}');
-    return v && typeof v === 'object' && !Array.isArray(v) ? v as Record<string, string> : {};
-  } catch { return {}; }
+function readState(store: KV, uid: string): SyncState {
+  return parseSyncState(store.getItem(BASE_KEY(uid)));
 }
 
 /**
  * クラウドと1回そろえる（読み1 → 合わせる → 変わったフィールドだけ書く）。
- * 同時に2つ走らないようにする。
+ * 同時に2つ走らないようにする（同じ端末の別タブとも Web Locks で順番に）。
+ *
+ * ★順番（2026-10-21 コイン・XP が増えていく不具合の修正）★
+ *   ① クラウドを読む（キャッシュからの古い値なら、今回は合わせない）
+ *   ② 前回の送信が途中で終わっていたら、届いたかどうかを見て base を決め直す
+ *   ③ 合わせる（まだ書かない）
+ *   ④ 「送っている途中」の状態を保存 → 端末へ書く
+ *   ⑤ 送る。届いたら base を確定
+ *   ④と⑤の間でアプリが閉じられても、次の②で正しく決め直せる（userDataSyncCore.ts の説明）。
  */
 export function syncUserData(reason = 'auto'): Promise<void> {
   if (syncing) return syncing;
   const uid = auth.currentUser?.uid;
   const store = kv();
   if (!uid || !store) return Promise.resolve();
+  const run = async () => {
+    const ref = doc(db, USER_DATA_COLLECTION, uid);
+    const snap = await getDoc(ref);
+    if (auth.currentUser?.uid !== uid) return; // 途中でアカウントが変わった
+    if (snap.metadata?.fromCache) return; // 通信できず古い値しか無い：合わせると増減を取り違えるので次の機会に
+    const remote = snap.exists() ? (snap.data() as Record<string, unknown>) : null;
+    const state = readState(store, uid);
+    const base = resolvePendingBase(state, remote);
+    const r = reconcile(store, uid, remote, base, { apply: false });
+    const hasUpload = Object.keys(r.upload).length > 0;
+    // ④ 状態 → 端末。状態を保存できなければ（容量不足など）端末もクラウドも触らずにやめる
+    try {
+      store.setItem(BASE_KEY(uid), serializeSyncState(hasUpload ? stateBeforeUpload(base, r) : { base: r.base, pending: null }));
+    } catch { return; }
+    try { applyLocalWrites(store, uid, r.localWrites); } catch (error) {
+      try { store.setItem(BASE_KEY(uid), serializeSyncState(state)); } catch { /* 元に戻せなくても次回の②が決め直す */ }
+      throw error;
+    }
+    if (hasUpload) {
+      await setDoc(ref, { uid, ...r.upload, updatedAt: serverTimestamp() }, { merge: true });
+      try { store.setItem(BASE_KEY(uid), serializeSyncState({ base: r.base, pending: null })); } catch { /* 次回の②が決め直す */ }
+    }
+    lastFingerprint = localFingerprint(store, uid);
+    if (r.tooLarge.length) console.warn('[userDataSync] 大きすぎてクラウドに置けないデータ:', r.tooLarge.join(', '));
+    if (r.changedLocal.length && typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent(USER_DATA_SYNCED_EVENT, { detail: { changed: r.changedLocal, reason } }));
+    }
+  };
   syncing = (async () => {
     try {
-      const ref = doc(db, USER_DATA_COLLECTION, uid);
-      const snap = await getDoc(ref);
-      if (auth.currentUser?.uid !== uid) return; // 途中でアカウントが変わった
-      const remote = snap.exists() ? (snap.data() as Record<string, unknown>) : null;
-      const r = reconcile(store, uid, remote, readBase(store, uid));
-      if (Object.keys(r.upload).length) {
-        await setDoc(ref, { uid, ...r.upload, updatedAt: serverTimestamp() }, { merge: true });
-      }
-      try { store.setItem(BASE_KEY(uid), JSON.stringify(r.base)); } catch { /* 容量不足：次回は 2-way で合わせる */ }
-      lastFingerprint = localFingerprint(store, uid);
-      if (r.tooLarge.length) console.warn('[userDataSync] 大きすぎてクラウドに置けないデータ:', r.tooLarge.join(', '));
-      if (r.changedLocal.length && typeof window !== 'undefined') {
-        window.dispatchEvent(new CustomEvent(USER_DATA_SYNCED_EVENT, { detail: { changed: r.changedLocal, reason } }));
-      }
+      const locks = typeof navigator !== 'undefined' ? navigator.locks : undefined;
+      if (locks) await locks.request(`user-data-sync-${uid}`, run); else await run();
     } catch (error) {
       console.warn('[userDataSync] 同期できませんでした（学習は続けられます。次の機会に送り直します）:', error);
     } finally {

@@ -5,6 +5,16 @@
 
 ---
 
+## 2026-10-21 Web ログインのエラー文（PR: fix/coin-sync-and-web-login）
+
+見た目の変更はほぼ無し。Web 版でログインの準備に失敗したとき（`auth/argument-error`）の文を
+「Firebase: Error (auth/argument-error).」→「ログインの準備に失敗しました。ページを再読み込みしてから、もう一度お試しください。」に。
+原因の修正と、マナコイン・XP（レベル）の同期の修正の詳細は `docs/FIX_2026-10-21_coin_sync_web_login.md`。
+
+**戻し方**：`src/utils/googleAuth.ts` の `describeAuthError` の `argument-error` の3行を消す。
+
+---
+
 ## 2026-10-21 ホーム：とびら君に待機モーション（PR: feat/home-mascot-idle）
 
 | 何を | どう変えた | ファイル |
