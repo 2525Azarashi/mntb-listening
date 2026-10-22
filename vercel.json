@@ -4,17 +4,25 @@
   "outputDirectory": "dist",
   "rewrites": [
     {
+      "source": "/__/auth/:path*",
+      "destination": "https://mntb-listening.firebaseapp.com/__/auth/:path*"
+    },
+    {
+      "source": "/__/firebase/:path*",
+      "destination": "https://mntb-listening.firebaseapp.com/__/firebase/:path*"
+    },
+    {
       "source": "/message",
       "destination": "/message/index.html"
     },
     {
-      "source": "/((?!assets/|message/).*)",
+      "source": "/((?!assets/|message/|__/).*)",
       "destination": "/index.html"
     }
   ],
   "headers": [
     {
-      "source": "/(.*)",
+      "source": "/((?!__/).*)",
       "headers": [
         {
           "key": "Content-Security-Policy",
@@ -47,6 +55,27 @@
         {
           "key": "X-Permitted-Cross-Domain-Policies",
           "value": "none"
+        }
+      ]
+    },
+    {
+      "source": "/__/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "Strict-Transport-Security",
+          "value": "max-age=63072000; includeSubDomains; preload"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "no-store"
         }
       ]
     },
