@@ -31,6 +31,7 @@ import {
   signInWithPopup,
   signInWithRedirect,
   getRedirectResult,
+  browserPopupRedirectResolver,
   signOut,
   type AuthProvider,
   type User,
@@ -88,6 +89,9 @@ export function describeAuthError(rawError: unknown): string {
   if (isPopupUnavailable(code)) {
     return 'ブラウザがログイン画面の表示をブロックしました。ポップアップを許可するか、標準ブラウザ（Safari / Chrome）で開き直してください。';
   }
+  if (code.includes('argument-error')) {
+    return 'ログインの準備に失敗しました。ページを再読み込みしてから、もう一度お試しください。';
+  }
   if (code.includes('account-exists-with-different-credential')) {
     return 'このメールアドレスは別の方法で登録済みです。';
   }
@@ -142,7 +146,10 @@ async function signInWithInner(method: SignInMethod): Promise<GoogleSignInOutcom
   }
   const p = providerFor(method);
   try {
-    const credential: UserCredential = await signInWithPopup(auth, p);
+    // ★resolver を必ず渡す（2026-10-21）★ firebase.ts はアプリ版のために initializeAuth を使っており、
+    // そこでは popup/redirect の部品（resolver）を入れていない。渡さないと Web で auth/argument-error になる。
+    // アプリ版はこの関数の先頭で nativeSignIn に分かれるので、ここは通らない（アプリへの影響なし）。
+    const credential: UserCredential = await signInWithPopup(auth, p, browserPopupRedirectResolver);
     return { ok: true, user: credential.user };
   } catch (error) {
     const code = String(asErrorLike(error)?.code || '');
@@ -150,7 +157,7 @@ async function signInWithInner(method: SignInMethod): Promise<GoogleSignInOutcom
       // 同じタブでログイン画面へ遷移する。戻ってきたときは
       // consumeGoogleRedirectResult() が結果を受け取る。
       try {
-        await signInWithRedirect(auth, p);
+        await signInWithRedirect(auth, p, browserPopupRedirectResolver);
         return { ok: false, redirecting: true };
       } catch (redirectError) {
         return { ok: false, message: describeAuthError(redirectError) };
@@ -179,8 +186,10 @@ export function signInWithApple(): Promise<GoogleSignInOutcome> {
  */
 export async function consumeGoogleRedirectResult(): Promise<User | null> {
   if (!FIREBASE_CONFIGURED && !USE_EMULATORS) return null;
+  // アプリ版はリダイレクトを使わない（WebView で Google の画面を読み込ませない）
+  if (isNativeApp()) return null;
   try {
-    const result = await getRedirectResult(auth);
+    const result = await getRedirectResult(auth, browserPopupRedirectResolver);
     return result?.user ?? null;
   } catch {
     // リダイレクト結果が無い／期限切れは正常系として扱う
