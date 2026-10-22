@@ -68,6 +68,7 @@ import { getDaysUntilExam, getDaysUntilSecondExam, EXAM_DATE_LABEL, SECOND_EXAM_
 import { getDueCount } from '../utils/reviewList';
 import { TobiraBuddy } from './TobiraBuddy';
 import { SpinMascot } from './SpinMascot';
+import './home-mascot-idle.css';
 import { streakDoors } from '../data/tobiraMood';
 import { CountUp } from './ui/CountUp';
 import { FeedbackButton } from './FeedbackButton';
