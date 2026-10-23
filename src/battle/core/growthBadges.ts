@@ -1,6 +1,7 @@
 /** growth.ts から分割（growthBadges）。外部からは従来どおり growth.ts 経由で import できる。 */
 import type { GrowthProgress } from './growthTypes';
 import { levelOf } from './growthLevel';
+import { GACHA_SETS, SETS_FOR_COLLECTOR, completedSetCount, setProgress } from './gachaSets';
 
 // ============================================================
 // バッジ（称号としても使える）
@@ -49,6 +50,9 @@ export const BADGES: readonly BadgeDef[] = [
   { id: 'b_rush_2500', label: '瞬速', desc: 'マナラッシュで2500点', emoji: '◆', tier: 2, earned: (p) => p.rushBest >= 2500 },
   { id: 'b_rush_4000', label: '電光石火', desc: 'マナラッシュで4000点（Sランク）', emoji: '◆', tier: 3, earned: (p) => p.rushBest >= 4000 },
   { id: 'b_rush_combo10', label: '十連コンボ', desc: 'マナラッシュで10コンボ', emoji: '◆', tier: 2, earned: (p) => p.rushBestCombo >= 10 },
+  // ── ガチャのセット収集（2026-10-23）。4つそろえると称号＋限定フレーム ──
+  ...GACHA_SETS.map((set): BadgeDef => ({ id: set.badge, label: set.label.replace(/セット$/, ''), desc: `ガチャの「${set.label}」を4つそろえた`, emoji: '◆', tier: 2, earned: (p) => setProgress(p.owned, set).done })),
+  { id: 'b_set_collector', label: 'コレクター', desc: `ガチャのセットを${SETS_FOR_COLLECTOR}つ完成させた`, emoji: '◆', tier: 3, earned: (p) => completedSetCount(p.owned) >= SETS_FOR_COLLECTOR },
 ];
 
 export function badgeById(id: string): BadgeDef | undefined {

@@ -35,6 +35,8 @@ import {
 import { trackEvent } from '../utils/analytics';
 import { GachaMultiResult, GachaSingleResult, type GachaDrawResult } from './gacha/GachaResultStage';
 import { GachaCollectionModal } from './gacha/GachaCollectionModal';
+import { GachaSetsModal } from './gacha/GachaSetsModal';
+import { completedSetCount, GACHA_SETS } from '../battle/core/gachaSets';
 
 type GachaProps = {
   onBack: () => void;
@@ -59,6 +61,7 @@ function GachaRoomContent({
   const lock = useRef(false);
   const [busy, setBusy] = useState(false);
   const oddsDialog = useRef<HTMLDialogElement>(null);
+  const setsDialog = useRef<HTMLDialogElement>(null);
 
   const items = gachaItems();
   const tiers = gachaItemsByRarity();
@@ -410,6 +413,15 @@ function GachaRoomContent({
           )}
           <button
             type="button"
+            className="gacha-foot-link gacha-sets-toggle"
+            aria-haspopup="dialog"
+            onClick={() => setsDialog.current?.showModal()}
+            data-gacha-sets-open
+          >
+            セット {completedSetCount(progress?.owned ?? [])}/{GACHA_SETS.length}・かけら {progress?.shards ?? 0}
+          </button>
+          <button
+            type="button"
             className="gacha-odds-toggle gacha-foot-link"
             aria-haspopup="dialog"
             onClick={() => oddsDialog.current?.showModal()}
@@ -422,6 +434,7 @@ function GachaRoomContent({
         <progress value={ownedCount} max={items.length} aria-label="装飾の収集状況" />
       </div>
       <GachaCollectionModal oddsDialog={oddsDialog} items={items} tiers={tiers} progress={progress} />
+      <GachaSetsModal dialog={setsDialog} progress={progress} />
     </section>
   );
 }

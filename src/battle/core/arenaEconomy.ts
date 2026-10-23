@@ -1,5 +1,6 @@
 import { ITEMS, gachaRarityOf, type GachaRarity, type GrowthProgress, type ItemDef } from './growth';
 import type { MatchSummaryForGrowth } from './growth';
+import { SHARDS_PER_DUPLICATE, SHARD_EXCHANGE_COST } from './gachaSets';
 export const GACHA_COST = 100;
 export const GACHA_MULTI_COST = 1000;
 export const GACHA_MULTI_COUNT = 11;
@@ -74,6 +75,25 @@ export function rollGacha(progress: GrowthProgress, random: number, minRarity: G
   const { item, rarity } = picked;
   const duplicate = progress.owned.includes(item.id);
   const refund = duplicate && options.refundDuplicates !== false ? GACHA_DUPLICATE_REFUND_BY_RARITY[rarity] : 0;
-  return { next: { ...progress, coins: progress.coins - cost + refund,
-    owned: duplicate ? progress.owned : [...progress.owned, item.id] }, item, rarity, duplicate, refund };
+  // ダブりは「とびらのかけら」も貯まる（無料の動画ガチャでも。コインは返さないがかけらは出す）
+  const shards = duplicate ? SHARDS_PER_DUPLICATE[rarity] : 0;
+  return { next: { ...progress, coins: progress.coins - cost + refund, shards: (progress.shards ?? 0) + shards,
+    owned: duplicate ? progress.owned : [...progress.owned, item.id] }, item, rarity, duplicate, refund, shards };
 }
+
+/**
+ * とびらのかけらで、未所持のガチャ景品を1つ選んで交換する（天井の代わり：欲しい物に必ず届く）。
+ *   ・交換できるのはガチャで出る物だけ（セット報酬・リーグ限定・レベル報酬は不可）
+ *   ・学習プリント（UR）は交換不可（大当たりの価値を守る）
+ */
+export function exchangeShards(progress: GrowthProgress, id: string): { next: GrowthProgress; ok: boolean; reason?: string } {
+  const item = gachaItems().find(i => i.id === id);
+  if (!item || !item.gacha) return { next: progress, ok: false, reason: 'その景品はかけらと交換できません。' };
+  if (item.kind === 'print') return { next: progress, ok: false, reason: '学習プリントはかけらと交換できません。' };
+  if (progress.owned.includes(id)) return { next: progress, ok: false, reason: 'すでに持っています。' };
+  const cost = shardCostOf(item);
+  const have = progress.shards ?? 0;
+  if (have < cost) return { next: progress, ok: false, reason: `かけらが ${cost - have} 足りません。` };
+  return { next: { ...progress, shards: have - cost, owned: [...progress.owned, id] }, ok: true };
+}
+export const shardCostOf = (item: ItemDef) => SHARD_EXCHANGE_COST[gachaRarityOf(item)];

@@ -5,6 +5,22 @@
 
 ---
 
+## 2026-10-23 とびら君の背景なしモーション（準備）＋ガチャのやり込み強化（PR: feat/tobira-motion-gacha-depth）
+
+| 何を | どう変えた | ファイル |
+|---|---|---|
+| とびら君の動き | 静止画の位置で短く動く「背景なし動画」の再生部品を追加。**動画ファイルが届くまで見た目は変わらない**（`ready: false`） | `src/components/TobiraMotion.tsx`、`tobira-motion.css` |
+| 置き場所 | ホーム（1日1回のあいさつ／3日ぶりは起きる）、ミッション達成、対戦の負け、全国対戦の相手さがし | `Home.tsx`、`MissionToast.tsx`、`BattleResult.tsx`、`BattleMatchingRadar.tsx` |
+| 動画の作り方 | Adobe Firefly（Firefly Video モデル）用プロンプト・緑背景の参照画像・取り込みスクリプト | `docs/TOBIRA_MOTION*.md`、`docs/tobira_motion_refs/`、`scripts/tobira-motion/import.sh` |
+| ガチャ景品 | 11種追加（ヘッドホン・ふたば・ドットのサングラス・きらりほっぺ・こなゆき・アルファベット・イナズマ・壁紙4種） | `growthItems.ts`、`tobiraParts.ts`、`TobiraAccessories.tsx` |
+| セット収集 | 6セット（各4つ）。そろうと称号＋限定フレーム。3セットで「コレクター」虹フレーム | `src/battle/core/gachaSets.ts`、`growthBadges.ts` |
+| かけら交換 | ダブりで「とびらのかけら」が貯まり、未所持の装飾を選んで交換（学習プリントは対象外）。アカウント同期対応 | `arenaEconomy.ts`、`growthStore.ts`、`userDataSyncCore.ts`、`gacha/GachaSetsModal.tsx` |
+| ガチャ画面 | 下のリンクに「セット n/6・かけら n」を追加（ダイアログで開く＝画面は1画面のまま）。結果に「かけら +n」「セット完成！」 | `GachaRoom.tsx`、`gacha/GachaResultStage.tsx` |
+
+**戻し方**：このPRを `git revert`。かけら（`shards`）は保存データに残るが、古い版は読み飛ばすだけで壊れない。
+
+---
+
 ## 2026-10-22 Web ログインが「連携中…」で止まる件（PR: fix/web-login-same-origin）
 
 見た目の変更はほぼ無し。

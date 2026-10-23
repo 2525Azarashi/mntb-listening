@@ -34,6 +34,7 @@ export function emptyProgress(uid: string): GrowthProgress {
     uid,
     xp: 0,
     coins: 0,
+    shards: 0,
     matches: 0,
     wins: 0,
     losses: 0,
@@ -110,6 +111,7 @@ export function normalizeProgress(uid: string, raw: unknown): GrowthProgress {
     uid,
     xp: num(r.xp, 0),
     coins: num(r.coins, 0),
+    shards: num(r.shards, 0),
     matches: num(r.matches, 0),
     wins: num(r.wins, 0),
     losses: num(r.losses, 0),
@@ -758,7 +760,7 @@ export function shareTextForMatch(input: {
 }
 
 /** XP from missions can cross a level without a battle; unlock immediately. */
-function withAchievements(progress: GrowthProgress, now = Date.now()): GrowthProgress {
+export function withAchievements(progress: GrowthProgress, now = Date.now()): GrowthProgress {
   const badges = { ...progress.badges };
   for (const id of evaluateBadges(progress)) badges[id] = now;
   const next = { ...progress, badges };

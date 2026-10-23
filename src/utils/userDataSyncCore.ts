@@ -151,6 +151,8 @@ export function mergeGrowthEnvelope(local: Obj | null, remote: Obj | null, base?
     p[k] = BEST.has(k) || !bp ? Math.max(n0(lp[k]), n0(rp[k])) : Math.max(n0(lp[k]), n0(rp[k]), mergeCounter(lp[k], rp[k], bp[k]));
   }
   p.coins = mergeCounter(lp.coins, rp.coins, bp ? bp.coins : undefined);
+  // とびらのかけら：コインと同じ（使った分・増えた分の両方を反映）
+  p.shards = mergeCounter(lp.shards, rp.shards, bp ? bp.shards : undefined);
   // 連続日数は「最後に数えた日が新しい方」に合わせる（途切れて1に戻ったことも正しく伝える）
   const newer = (a: unknown, b: unknown) => String(a || '') >= String(b || '');
   p.lastLoginDate = newer(lp.lastLoginDate, rp.lastLoginDate) ? String(lp.lastLoginDate || '') : String(rp.lastLoginDate || '');

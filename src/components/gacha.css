@@ -293,3 +293,19 @@
 @media(max-width:420px) {
  .gacha-odds-rate-list, .gacha-odds-bonus-rates { grid-template-columns:repeat(2,minmax(0,1fr)); }
 }
+
+/* ===== セット収集・かけら交換（2026-10-23） ===== */
+.gacha-foot { flex-wrap: wrap; }
+.gacha-set-complete { margin: 6px 0 0; padding: 8px 12px; border-radius: 12px; background: #fff3c4; border: 1.5px solid #e9c25a; color: #5c4210; font: 700 13px/1.45 var(--mt-font-body); text-align: center; }
+.gacha-set-complete b { margin-right: 6px; color: #b7791f; }
+.gacha-sets-lead { margin: 0; font-size: 13px; line-height: 1.5; color: #4b3d22; }
+.gacha-set-list { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.gacha-set-list > li { display: grid; gap: 6px; padding: 10px 12px; border: 1px solid #e7decb; border-radius: 12px; background: #fffdf8; }
+.gacha-set-list > li[data-done=true] { background: #f1fbef; border-color: #9fd59a; }
+.gacha-set-list strong { display: flex; align-items: center; gap: 6px; color: #3d3222; font: 800 14px/1.3 var(--mt-font-body); }
+.gacha-set-list strong small { margin-left: auto; font-size: 12px; color: #6b5a3a; }
+.gacha-set-list em { font-style: normal; font-size: 12px; color: #6b5a3a; }
+.gacha-set-parts { display: flex; gap: 6px; }
+.gacha-set-part { display: grid; place-items: center; width: 48px; height: 48px; border-radius: 10px; background: #fff; border: 1px solid #eadfc8; overflow: hidden; }
+.gacha-set-part[data-owned=false] { filter: grayscale(1) opacity(.45); }
+.gacha-shard-grid button { min-height: 44px; }

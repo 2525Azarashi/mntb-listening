@@ -60,7 +60,8 @@ export function GachaCollectionModal({ oddsDialog, items, tiers, progress }: {
         <section className="gacha-odds-section" aria-labelledby="gacha-notes-heading">
           <h3 id="gacha-notes-heading">重複・入手条件</h3>
           <p>重複分はコインで返還：N {GACHA_DUPLICATE_REFUND_BY_RARITY.N}枚、R {GACHA_DUPLICATE_REFUND_BY_RARITY.R}枚、SR {GACHA_DUPLICATE_REFUND_BY_RARITY.SR}枚、UR {GACHA_DUPLICATE_REFUND_BY_RARITY.UR}枚。</p>
-          <p>課金・換金・天井はありません。UR・SRはガチャ限定。一部のフレームやポーズはショップ・レベル・称号でも獲得できます。</p>
+          <p>ダブりでは「とびらのかけら」も貯まり、未所持の装飾（学習プリント以外）と選んで交換できます。</p>
+          <p>課金・換金はありません。UR・SRはガチャ限定。一部のフレームやポーズはショップ・レベル・称号・セット完成でも獲得できます。</p>
           <p>学習プリントは、アプリ内で確認済みの問題から作成しています。装飾で対戦の強さは変わりません。</p>
         </section>
         <div
