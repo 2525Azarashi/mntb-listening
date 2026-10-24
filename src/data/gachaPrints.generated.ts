@@ -3,7 +3,7 @@
 //         node scripts/gacha-prints/build-prints.mjs .tmpwork/prints-data.json
 //         python3 scripts/gacha-prints/finalize.py
 
-export type GachaPrintCategory = '出題傾向' | '演習プリント' | '単語テスト';
+export type GachaPrintCategory = '出題傾向' | '演習プリント' | '単語テスト' | '完全版';
 
 export interface GachaPrintDef {
   /** ガチャのアイテム id（ITEMS にもこの id で入る） */
