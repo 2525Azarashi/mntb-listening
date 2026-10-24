@@ -52,9 +52,9 @@
 NODE_OPTIONS=--max-old-space-size=2500 npx vite build --outDir .tmpwork/dist_v
 npx vite preview --outDir .tmpwork/dist_v --port 4175 &
 # 録画（スマホ・パソコン）
-python3 store-assets/_tools/record_vocab.py .tmpwork/vrec_ph wordbook idiom quiz reading battle
-REC_DEVICE=pc python3 store-assets/_tools/record_vocab.py .tmpwork/vrec_pc wordbook quiz reading battle
-# 長文の単語の位置（光らせる場所）: .tmpwork/vrec_*/reading_rects.json（.tmpwork/vx/rects.py と同じ手順で取得）
+python3 store-assets/_tools/record_vocab.py store-assets/_footage/vrec_ph wordbook idiom quiz reading battle
+REC_DEVICE=pc python3 store-assets/_tools/record_vocab.py store-assets/_footage/vrec_pc wordbook quiz reading battle
+# 長文の単語の位置（光らせる場所）: store-assets/_footage/vrec_*/reading_rects.json（store-assets/_tools/text_rects.py で取得）
 # 編集（--sheet で静止画の一覧、--draft で速い下書き、--audio-only で音だけ）
 python3 store-assets/_tools/promo_vocab.py .tmpwork/vout reel story youtube
 ```
