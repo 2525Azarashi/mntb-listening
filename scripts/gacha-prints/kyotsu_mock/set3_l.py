@@ -158,7 +158,7 @@ P4 = {
                "However, this month only, Studio A is being repaired on Wednesdays, so Wednesday classes move to Studio B. And of course, swimming lessons are in the pool.",
                'ダンスやヨガのように音楽を使うクラスは、音響設備のあるスタジオAで行います。バドミントンなどの球技は天井が高い必要があるのでメインホールを使います。ただし今月だけ、水曜日はスタジオAが修理中なので、水曜のクラスはスタジオBに移ります。もちろん水泳教室はプールです。')],
    'qs': [
-    {'no': 2, 'prompt': '( 22 )〜( 25 )　{1} {2} {3} {4}', 'pts': 1, 'score': 'each', 'ans': [2, 1, 3, 4], 'nchoices': 4,
+    {'no': 2, 'prompt': '( 22 ) {1}　( 23 ) {2}　( 24 ) {3}　( 25 ) {4}', 'pts': 1, 'score': 'each', 'ans': [2, 1, 3, 4], 'nchoices': 4,
      'ans_text': '②・①・③・④',
      'ex': ['ヨガ＝スタジオA。バドミントン＝メインホール。ダンスは本来スタジオAだが**水曜**なので**スタジオB**。水泳＝プール。']},
    ]},
@@ -209,7 +209,7 @@ P5 = {
     {'no': 1, 'prompt': 'Choose the best option for ( 27 ).', 'pts': 4, 'ans': 1,
      'choices': ['their diet and the dangers they face', 'the size of their brains', 'the temperature of their habitat', 'the length of their lives'],
      'ex': ['"what it eats, and what dangers it faces" → ①。']},
-    {'no': 2, 'prompt': 'Choose the best options for ( 28 )–( 31 ).　( 28 )・( 29 ) → {1} {2}　( 30 )・( 31 ) → {3} {4}', 'pts': 2, 'score': 'pairs', 'ans': [4, 2, 6, 3],
+    {'no': 2, 'prompt': 'Choose the best options for ( 28 )–( 31 ).\n( 28 ) {1}　( 29 ) {2}　( 30 ) {3}　( 31 ) {4}', 'pts': 2, 'score': 'pairs', 'ans': [4, 2, 6, 3],
      'choices': ['about 12 hours', 'less than 2 hours', 'Sleeps in bursts of a few seconds while flying', 'Saves energy because its food is low in energy', 'Sleeps only on land', 'Sleeps with half its brain so it can breathe'],
      'ans_text': '④・② ／ ⑥・③（各組完答）',
      'ex': ['( 28 ) コアラ：エネルギー節約 → ④。( 29 ) キリン：2時間未満 → ②。( 30 ) イルカ：脳の半分で眠り呼吸 → ⑥。( 31 ) グンカンドリ：飛びながら数秒ずつ → ③。']},

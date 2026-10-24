@@ -77,8 +77,8 @@ def build_reading(n, data):
     doc = R.make_doc(pdf, label + '（LR）', label)
     toc = [(p['label'], p['title']) for p in data['parts']]
     story = R.cover_story(
-        f'LR ★ 共通テスト 英語 予想問題（2025年度〜 新課程の形式） ★ 第{n}回',
-        f'英語リーディング\n予想問題 第{n}回',
+        f'大学入学共通テスト 予想問題（2025年度〜 新課程の形式）　第{n}回',
+        f'外　国　語\n〔英語（リーディング）〕',
         f'{data["theme"]}\n80分・100点・大問8・解答数{marks}　オリジナル問題（本文・設問・解説すべて書き下ろし）',
         [('80分', '試験時間'), ('100点', '配点'), (f'{marks}', '解答数'), (f'約{words // 10 * 10:,}語', '英文の量')],
         ['**本番と同じ順で80分で解く**。時間配分の目安：第1〜3問 15分／第4問 10分／第5問 13分／第6問 13分／第7問 13分／第8問 14分（見直し2分）。',
@@ -88,12 +88,12 @@ def build_reading(n, data):
         toc)
 
     for p in data['parts']:
-        story += [CondPageBreak(60 * mm), R.bar(f'{p["label"]}　{p["title"]}　（配点 {p["pts"]}）'), Spacer(1, 3 * mm)]
+        story += [R.bar(f'{p["label"]}　（配点　{p["pts"]}）'), Spacer(1, 3 * mm)]
         for s in p['sections']:
             if s.get('tag'):
-                story.append(Paragraph(f'<b>{s["tag"]}</b>', R.st['h3']))
+                story.append(Paragraph(f'<font name="JPB">{s["tag"]}</font>', R.st['h3']))
             if s.get('instr'):
-                story += [Paragraph(R.ml(s['instr']), R.st['ja']), Spacer(1, 3)]
+                story += [R.boxed([Paragraph(R.ml(s['instr']), R.st['ja'])], pad=6), Spacer(1, 4)]
             for b in s.get('blocks', []):
                 story += R.render_block(b)
             story.append(Spacer(1, 2 * mm))
@@ -108,24 +108,24 @@ def build_reading(n, data):
     # 正解と配点
     t, total = R.key_table(data['parts'], marks)
     story += [Paragraph('正解と配点', R.st['h2']), t, Spacer(1, 4 * mm)]
-    story.append(R.boxed([Paragraph('<b>得点の目安</b>', R.st['ja']),
+    story.append(R.boxed([Paragraph('<font name="JPB">得点の目安</font>', R.st['ja']),
                           Paragraph('80点以上：難関国公立の合格圏／65点：中堅国公立・共テ利用の標準／50点：平均点前後。'
                                     '第5問以降で崩れる人は「設問を先に読み、探す情報を決めてから本文へ」を徹底する。', R.st['ex'])],
-                         bg=R.GOLD_SOFT, border=R.GOLD))
+                         ))
     story.append(PageBreak())
     # 解説
     story.append(Paragraph('解説', R.st['h2']))
     for p in data['parts']:
-        story += [CondPageBreak(50 * mm), R.bar(f'{p["label"]}　{p["title"]}', R.NIGHT), Spacer(1, 2 * mm)]
+        story += [CondPageBreak(50 * mm), R.bar(f'{p["label"]}　{p["title"]}'), Spacer(1, 2 * mm)]
         if p.get('gist'):
-            story.append(R.boxed([Paragraph('<b>本文の要旨</b>', R.st['ja'])] + [Paragraph(R.ml(x), R.st['ex']) for x in p['gist']],
+            story.append(R.boxed([Paragraph('<font name="JPB">本文の要旨</font>', R.st['ja'])] + [Paragraph(R.ml(x), R.st['ex']) for x in p['gist']],
                                  bg=R.PAPER, border=R.LINE))
             story.append(Spacer(1, 3 * mm))
         for s in p['sections']:
             for q in s['qs']:
                 story += R.explain_flow(q)
         if p.get('vocab'):
-            story.append(Paragraph('<b>語句</b>　' + '　／　'.join(R.esc(v) for v in p['vocab']), R.st['jas']))
+            story.append(Paragraph('<font name="JPB">語句</font>　' + '　／　'.join(R.esc(v) for v in p['vocab']), R.st['jas']))
             story.append(Spacer(1, 3 * mm))
     doc.build(story)
     return pdf, marks, words, R.check_answer_balance(data['parts'])
@@ -135,7 +135,7 @@ def build_reading(n, data):
 def script_flow(lines, times=None):
     out = []
     if times:
-        out.append(Paragraph(f'<font size="8" color="#7a1230"><b>［{times}回読み］</b></font>', R.st['jas']))
+        out.append(Paragraph(f'<font name="JPB" size="8.5">［{times}回読み］</font>', R.st['jas']))
     rows = []
     for ln in lines:
         sp, e, j = ln
@@ -144,8 +144,8 @@ def script_flow(lines, times=None):
     t = Table(rows, colWidths=[22 * mm, R.W - 22 * mm])
     t.setStyle(TableStyle([('VALIGN', (0, 0), (-1, -1), 'TOP'), ('LEFTPADDING', (0, 0), (-1, -1), 2),
                            ('TOPPADDING', (0, 0), (-1, -1), 1.5), ('BOTTOMPADDING', (0, 0), (-1, -1), 2.5),
-                           ('LINEBELOW', (0, 0), (-1, -1), 0.25, R.LINE)]))
-    out += [R.boxed([t], bg=colors.HexColor('#fbfaf6'), border=R.LINE, pad=5), Spacer(1, 3)]
+                           ('LINEBELOW', (0, 0), (-1, -2), 0.25, colors.HexColor('#999999'))]))
+    out += [R.boxed([t], pad=5), Spacer(1, 3)]
     return out
 
 
@@ -163,8 +163,8 @@ def build_listening(n, data):
     label = f'共通テスト 英語リスニング 予想問題 第{n}回'
     doc = R.make_doc(pdf, label + '（LR）', label)
     story = R.cover_story(
-        f'LR ★ 共通テスト 英語 予想問題（2025年度〜 新課程の形式） ★ 第{n}回',
-        f'英語リスニング\n予想問題 第{n}回',
+        f'大学入学共通テスト 予想問題（2025年度〜 新課程の形式）　第{n}回',
+        f'外　国　語\n〔英語（リスニング）〕',
         f'{data["theme"]}\n30分・100点・大問6・解答数{marks}　問題冊子＋全スクリプト（英文・全訳）＋解説',
         [('30分', '試験時間'), ('100点', '配点'), (f'{marks}', '解答数'), (f'約{words // 10 * 10:,}語', 'スクリプトの量')],
         ['**音声は付いていません**。スクリプトを家族や友だちに読んでもらうか、読み上げアプリに貼って使う（第1・2問は2回、第3〜6問は1回だけ読む）。',
@@ -173,14 +173,13 @@ def build_listening(n, data):
          'スクリプトには英国・非母語話者の話し手も入れています（話し手の欄に表示）。'],
         [(p['label'], p['title']) for p in data['parts']])
 
-    story += [Paragraph('問題冊子', R.st['h2'])]
     for p in data['parts']:
-        story += [CondPageBreak(60 * mm), R.bar(f'{p["label"]}　{p["title"]}　（配点 {p["pts"]}）'), Spacer(1, 3 * mm)]
+        story += [R.bar(f'{p["label"]}　（配点　{p["pts"]}）　音声は{p["sections"][0]["times"]}回流れます。'), Spacer(1, 3 * mm)]
         for s in p['sections']:
             if s.get('tag'):
-                story.append(Paragraph(f'<b>{s["tag"]}</b>', R.st['h3']))
+                story.append(Paragraph(f'<font name="JPB">{s["tag"]}</font>', R.st['h3']))
             if s.get('instr'):
-                story += [Paragraph(R.ml(s['instr']) + f'　<font color="#7a1230"><b>（{s["times"]}回流します）</b></font>', R.st['ja']), Spacer(1, 3)]
+                story += [R.boxed([Paragraph(R.ml(s['instr']), R.st['ja'])], pad=6), Spacer(1, 4)]
             for b in s.get('blocks', []):
                 story += R.render_block(b)
             story.append(Spacer(1, 2 * mm))
@@ -195,12 +194,12 @@ def build_listening(n, data):
     story += [Paragraph('正解と配点', R.st['h2']), t, PageBreak()]
 
     story.append(Paragraph('スクリプト・全訳・解説', R.st['h2']))
-    story.append(Paragraph('英文の下の灰色の文字が全訳。話し手の M は男性・W は女性。', R.st['jas']))
+    story.append(Paragraph('英文の下の行が全訳。話し手の M は男性・W は女性。', R.st['jas']))
     for p in data['parts']:
-        story += [CondPageBreak(50 * mm), R.bar(f'{p["label"]}　{p["title"]}', R.NIGHT), Spacer(1, 2 * mm)]
+        story += [CondPageBreak(50 * mm), R.bar(f'{p["label"]}　{p["title"]}'), Spacer(1, 2 * mm)]
         for s in p['sections']:
             if s.get('tag'):
-                story.append(Paragraph(f'<b>{s["tag"]}</b>', R.st['h3']))
+                story.append(Paragraph(f'<font name="JPB">{s["tag"]}</font>', R.st['h3']))
             if s.get('script'):
                 story.append(CondPageBreak(40 * mm))
                 story += script_flow(s['script'], s['times'])
@@ -209,10 +208,9 @@ def build_listening(n, data):
             else:
                 for q in s['qs']:
                     story.append(CondPageBreak(min(95, 30 + 9 * len(q['script'])) * mm))
-                    story += [Paragraph(f'<b>問 {q["no"]}</b>', R.st['ja'])] + script_flow(q['script'], s['times']) + R.explain_flow(q)
+                    story += [Paragraph(f'<font name="JPB">問 {q["no"]}</font>', R.st['ja'])] + script_flow(q['script'], s['times']) + R.explain_flow(q)
         if p.get('tips'):
-            story.append(R.boxed([Paragraph('<b>この大問のコツ</b>', R.st['ja'])] + [Paragraph(R.ml(x), R.st['ex']) for x in p['tips']],
-                                 bg=R.GOLD_SOFT, border=R.GOLD))
+            story.append(R.boxed([Paragraph('<font name="JPB">この大問のコツ</font>', R.st['ja'])] + [Paragraph(R.ml(x), R.st['ex']) for x in p['tips']]))
             story.append(Spacer(1, 3 * mm))
     doc.build(story)
     return pdf, marks, words, R.check_answer_balance(data['parts'])

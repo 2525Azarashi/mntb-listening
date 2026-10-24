@@ -145,7 +145,7 @@ P4 = {
                "Walking comes next. Only two of you come by train, and the bus is used by more than twice as many students as the train.",
                '登校方法のアンケート結果です。いちばん多いのは自転車で、町が平らなので驚くことではありません。次が徒歩です。電車で来る人は2人だけで、バスは電車の2倍より多い人が使っています。')],
    'qs': [
-    {'no': 1, 'prompt': '( 18 )〜( 21 )　{1} {2} {3} {4}', 'pts': 1, 'score': 'each', 'ans': [1, 4, 2, 3], 'nchoices': 4,
+    {'no': 1, 'prompt': '( 18 ) {1}　( 19 ) {2}　( 20 ) {3}　( 21 ) {4}', 'pts': 1, 'score': 'each', 'ans': [1, 4, 2, 3], 'nchoices': 4,
      'ans_text': '①・④・②・③',
      'ex': ['最多（14）＝ 自転車、次（9）＝ 徒歩、電車は2人（21）、バスは「電車の2倍より多い」＝5人（20）。']},
    ]},
@@ -158,7 +158,7 @@ P4 = {
                "Visitors aged sixty-five or over pay five dollars. And on Wednesdays, everyone pays just half the usual price — except, of course, those who are already free.",
                '入館料は大人10ドル、13〜18歳の学生は8ドルです。12歳以下は無料。65歳以上は5ドル。そして水曜日は、全員が通常料金の半額です。もちろん、もともと無料の人は除きます。')],
    'qs': [
-    {'no': 2, 'prompt': '( 22 )〜( 25 )　{1} {2} {3} {4}', 'pts': 1, 'score': 'each', 'ans': [3, 2, 2, 1], 'nchoices': 5,
+    {'no': 2, 'prompt': '( 22 ) {1}　( 23 ) {2}　( 24 ) {3}　( 25 ) {4}', 'pts': 1, 'score': 'each', 'ans': [3, 2, 2, 1], 'nchoices': 5,
      'ans_text': '③・②・②・①',
      'ex': ['Ken（16歳・土曜）＝ 学生 **$8**（③）。Ms. Lopez（42歳・水曜）＝ 大人 $10 の半額 **$5**（②）。',
             'Mr. Sato（70歳・日曜）＝ 65歳以上 **$5**（②）。Amy（9歳・水曜）＝ 12歳以下は**無料**（①）——「もともと無料の人は除く」。',
@@ -211,7 +211,7 @@ P5 = {
     {'no': 1, 'prompt': 'Choose the best option for ( 27 ).', 'pts': 4, 'ans': 3,
      'choices': ['one tenth', 'one fifth', 'one third', 'one half'],
      'ex': ['"Around one third of all the food produced …" → ③。']},
-    {'no': 2, 'prompt': 'Choose the best options for ( 28 )–( 31 ).　( 28 )・( 29 ) → {1} {2}　( 30 )・( 31 ) → {3} {4}', 'pts': 2, 'score': 'pairs', 'ans': [2, 5, 4, 1],
+    {'no': 2, 'prompt': 'Choose the best options for ( 28 )–( 31 ).\n( 28 ) {1}　( 29 ) {2}　( 30 ) {3}　( 31 ) {4}', 'pts': 2, 'score': 'pairs', 'ans': [2, 5, 4, 1],
      'choices': ['Offering smaller portions or take-away boxes', 'Food that does not look perfect', 'Lack of refrigerators', 'Buying more than needed', 'Donating food to charities', 'Raising prices'],
      'ans_text': '②・⑤ ／ ④・①（各組完答）',
      'ex': ['( 28 ) 見た目が完璧でない → ②。( 29 ) 慈善団体へ寄付 → ⑤。( 30 ) 必要以上に買う → ④。( 31 ) 小さいサイズ・持ち帰り → ①。']},

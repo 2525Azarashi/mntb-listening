@@ -168,7 +168,7 @@ P4 = {
                      "Also, students who stay for eight weeks or more get a ten percent discount on the total fee.",
                '料金を説明します。標準コースは週10回で、1週間100ポンドです。週20回の集中コースなら1週間200ポンドです。また、8週間以上在籍する学生は、総額から10％割引になります。')],
    'qs': [
-    {'no': 2, 'prompt': 'Fill in ( 22 )–( 25 ).　{1} {2} {3} {4}', 'pts': 1, 'score': 'each', 'ans': [1, 3, 4, 6], 'nchoices': 6,
+    {'no': 2, 'prompt': '( 22 ) {1}　( 23 ) {2}　( 24 ) {3}　( 25 ) {4}', 'pts': 1, 'score': 'each', 'ans': [1, 3, 4, 6], 'nchoices': 6,
      'ans_text': '①・③・④・⑥',
      'ex': ['Ana：100×4＝**£400**（①）。Ben：100×8＝800 → 8週以上で10％引き → **£720**（③）。',
             'Chen：200×4＝**£800**（④）。Dina：200×8＝1,600 → 8週以上なので10％引き → **£1,440**（⑥）。',
@@ -224,7 +224,7 @@ P5 = {
     {'no': 1, 'prompt': 'Choose the best option for ( 27 ).', 'pts': 4, 'ans': 2,
      'choices': ['decoration', 'infrastructure', 'construction', 'entertainment'],
      'ex': ['"something as essential to a city as roads or pipes" ＝ インフラ。①は「よく考えられがち」として否定された見方。']},
-    {'no': 2, 'prompt': 'Choose the best options for ( 28 )–( 31 ).　( 28 )・( 29 ) → {1} {2}　( 30 )・( 31 ) → {3} {4}', 'pts': 2, 'score': 'pairs', 'ans': [3, 5, 1, 6],
+    {'no': 2, 'prompt': 'Choose the best options for ( 28 )–( 31 ).\n( 28 ) {1}　( 29 ) {2}　( 30 ) {3}　( 31 ) {4}', 'pts': 2, 'score': 'pairs', 'ans': [3, 5, 1, 6],
      'choices': ['feel less stressed', 'spend less money', '10 degrees', '30 degrees', 'reduce flooding', 'attract more spending'],
      'ans_text': '③・⑤ ／ ①・⑥（各組完答）',
      'ex': ['( 28 ) ten degrees → ③。( 29 ) 根が雨水を吸収し洪水を減らす → ⑤。',
