@@ -14,6 +14,7 @@ import { claimMissionReward, subscribeMissionComplete, type MissionAnnouncement 
 import { play } from '../battle/ui/feedback';
 import { flyCoins } from '../battle/ui/GrowthParts';
 import { TobiraBuddy } from './TobiraBuddy';
+import { TobiraMotion } from './TobiraMotion';
 import './mission-clear.css';
 
 const SHOW_MS = 5200;
@@ -75,7 +76,9 @@ export function MissionToast() {
       <p className="mission-clear-stamp">MISSION<br />CLEAR!</p>
       <p className="mission-clear-label">{burst.label}</p>
       <p className="mission-clear-reward"><b>+{burst.rewardXp}</b> XP　<b>+{burst.rewardCoins}</b> マナコイン</p>
-      <TobiraBuddy size="sm" bubble="none" input={{ screen: 'result', outcome: 'win' }} pose="/mascots/cheering.webp" />
+      <span className="mission-clear-motion"><TobiraMotion name="cheer">
+        <TobiraBuddy size="sm" bubble="none" input={{ screen: 'result', outcome: 'win' }} pose="/mascots/cheering.webp" />
+      </TobiraMotion></span>
     </div>
   </div>;
 

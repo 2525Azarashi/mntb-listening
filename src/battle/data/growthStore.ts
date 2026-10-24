@@ -8,10 +8,21 @@ import { safeLocalStorage } from '../../utils/safeLocalStorage';
 import { USER_DATA_SYNCED_EVENT } from '../../utils/userDataSyncEvent';
 import { applyHolesFilled, applyLoginWithBonus, applyMatchToProgress, applyRushResult, applyStudySolved,
   bumpDailyMission, claimMission, emptyProgress, newlyCompletedMissions, equipItem, equipTitle, localDateKey, normalizeProgress, openCompleteChest,
-  purchaseItem, RUSH_COIN_PLAYS_PER_DAY, unequipKind, type EquipKind, type GrowthProgress, type ItemDef, type MatchSummaryForGrowth,
+  purchaseItem, withAchievements, RUSH_COIN_PLAYS_PER_DAY, unequipKind, type EquipKind, type GrowthProgress, type ItemDef, type MatchSummaryForGrowth,
   type RushResult, type GachaRarity, type MissionDef } from '../core/growth';
 
-import { GACHA_MULTI_COUNT, GACHA_MULTI_COST, VIDEO_GACHA_DAILY_LIMIT, matchCoins, rollGacha } from '../core/arenaEconomy';
+import { GACHA_MULTI_COUNT, GACHA_MULTI_COST, VIDEO_GACHA_DAILY_LIMIT, exchangeShards, matchCoins, rollGacha } from '../core/arenaEconomy';
+import { GACHA_SETS, setProgress } from '../core/gachaSets';
+
+/** 抽選の前後で新しく完成したセット（結果画面で「セット完成！」を出す） */
+function newlyCompletedSets(before: GrowthProgress, after: GrowthProgress): string[] {
+  return GACHA_SETS.filter(s => !setProgress(before.owned, s).done && setProgress(after.owned, s).done).map(s => s.label);
+}
+/** 抽選で増えた持ちものから、セットの称号と報酬フレームを解放する */
+function settle(before: GrowthProgress, after: GrowthProgress) {
+  const next = withAchievements(after);
+  return { next, sets: newlyCompletedSets(before, next) };
+}
 
 export const GROWTH_STORAGE_PREFIX = 'battle_growth_local_v1_';
 type Envelope = { version: 1; progress: GrowthProgress; receipts: string[]; day: string };
@@ -240,7 +251,8 @@ export async function drawGacha(requestId: string, expectedUid = scope()) {
     const r = rollGacha(p, values[0] / 4294967296);
     if (!r) return { next: p, extra: null };
     seen.add(receipt);
-    return { next: bumpDailyMission(r.next, 'gacha', today), extra: { item: r.item, rarity: r.rarity, duplicate: r.duplicate, refund: r.refund } };
+    const s = settle(p, r.next);
+    return { next: bumpDailyMission(s.next, 'gacha', today), extra: { item: r.item, rarity: r.rarity, duplicate: r.duplicate, refund: r.refund, shards: r.shards, sets: s.sets } };
   }, expectedUid);
   return out ? { progress: out.next, result: out.extra } : null;
 }
@@ -253,18 +265,20 @@ export async function drawGachaMulti(requestId: string, expectedUid = scope()) {
     const receipt = `gacha11:${requestId}`;
     if (seen.has(receipt) || p.coins < GACHA_MULTI_COST) return { next: p, extra: null };
     const values = new Uint32Array(GACHA_MULTI_COUNT); crypto.getRandomValues(values);
-    let cur = { ...p, coins: p.coins - GACHA_MULTI_COST }; const results: { item: ItemDef; rarity: GachaRarity; duplicate: boolean; refund: number }[] = [];
+    let cur = { ...p, coins: p.coins - GACHA_MULTI_COST }; const results: { item: ItemDef; rarity: GachaRarity; duplicate: boolean; refund: number; shards: number; sets?: string[] }[] = [];
     for (let i = 0; i < GACHA_MULTI_COUNT; i += 1) {
       // 最後の1回は、それまでに R 以上が1つも出ていなければ「R以上確定」
       const last = i === GACHA_MULTI_COUNT - 1;
       const guaranteed = last && results.every(x => x.rarity === 'N');
       const r = rollGacha(cur, values[i] / 4294967296, guaranteed ? 'R' : 'N', { cost: 0 });
       if (!r) break;
-      cur = r.next; results.push({ item: r.item, rarity: r.rarity, duplicate: r.duplicate, refund: r.refund });
+      cur = r.next; results.push({ item: r.item, rarity: r.rarity, duplicate: r.duplicate, refund: r.refund, shards: r.shards });
     }
     if (results.length < GACHA_MULTI_COUNT) return { next: p, extra: null };
     seen.add(receipt);
-    return { next: bumpDailyMission(cur, 'gacha', today, GACHA_MULTI_COUNT), extra: results };
+    const s = settle(p, cur);
+    if (results.length && s.sets.length) results[results.length - 1].sets = s.sets;
+    return { next: bumpDailyMission(s.next, 'gacha', today, GACHA_MULTI_COUNT), extra: results };
   }, expectedUid);
   return out ? { progress: out.next, results: out.extra } : null;
 }
@@ -296,7 +310,8 @@ export async function drawVideoGacha(token: object, expectedUid = scope()) {
     const r = rollGacha(p, values[0] / 4294967296, 'N', { cost: 0, refundDuplicates: false });
     if (!r) return { next: p, extra: null };
     seen.add(`video:${today}:${used + 1}`);
-    return { next: bumpDailyMission(r.next, 'gacha', today), extra: { item: r.item, rarity: r.rarity, duplicate: r.duplicate, refund: r.refund } };
+    const s = settle(p, r.next);
+    return { next: bumpDailyMission(s.next, 'gacha', today), extra: { item: r.item, rarity: r.rarity, duplicate: r.duplicate, refund: r.refund, shards: r.shards, sets: s.sets } };
   }, expectedUid);
   return out ? { progress: out.next, result: out.extra } : null;
 }
@@ -316,4 +331,15 @@ export async function importLeagueReward(rewardId: string, itemId: string | null
 /** そのプレゼントをこの端末で受け取り済みか（コインだけのプレゼントは持ちもので判定できないため） */
 export function leagueRewardClaimed(rewardId: string): boolean {
   try { return read(scope()).receipts.includes(`league:${rewardId}`); } catch { return false; }
+}
+
+/** とびらのかけらで未所持の景品と交換し、そのまま装備する（セットがそろえば称号・報酬も解放） */
+export async function exchangeShardItem(id: string) {
+  const out = await mutate(p => {
+    const r = exchangeShards(p, id);
+    if (!r.ok) return { next: p, extra: { ok: false, reason: r.reason, sets: [] as string[] } };
+    const s = settle(p, r.next);
+    return { next: equipItem(s.next, id), extra: { ok: true, reason: undefined, sets: s.sets } };
+  });
+  return out ? { progress: out.next, ...out.extra } : null;
 }

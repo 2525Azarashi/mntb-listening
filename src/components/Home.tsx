@@ -85,6 +85,7 @@ import { UpdateNoticeModal } from './UpdateNoticeModal';
 import { unreadNoticeCount, refreshRemoteNotices } from '../utils/updateNotices';
 import { readJsonArray, requireLocalStorage, setItemOrThrow } from '../utils/safeLocalStorage';
 import { KineticText } from '../motion';
+import { TobiraMotion, claimDailyMotion } from './TobiraMotion';
 
 interface HomeProps {
   onStart: () => void;
@@ -176,6 +177,8 @@ export function Home({ onPractice, onPickSubject, onStudyMode, onGrowth, onStart
   const [streak, setStreak] = useState(0);
   /** とびら君の気分用：前回からの日数（はじめては -1） */
   const [daysAway, setDaysAway] = useState(0);
+  // ★とびら君のあいさつ動画（1日1回）★ 3日以上あいたら「起きて手をふる」、それ以外は「手をふる」
+  const [greetPlay] = useState(() => claimDailyMotion('home'));
   const [completedIds, setCompletedIds] = useState<string[]>([]);
 
   // ===== 学習進捗（大問ベース） =====
@@ -386,7 +389,9 @@ export function Home({ onPractice, onPickSubject, onStudyMode, onGrowth, onStart
           {/* ★2026-10-01 D：とびら君をドラッグで回せる（モンスト風）★ ちょんと押すと今までどおり着せ替え */}
           {growth && <div className="game-mascot-button" data-home-mascot>
             <SpinMascot className="home-mascot-wrap" label="とびら君（左右にドラッグで回す・押すと着せ替え）" onTap={onGrowth ? () => onGrowth('outfit') : undefined}>
-              <img className="home-mascot-art" src={equippedPoseSrc(growth)} alt="あなたのとびら君" draggable={false} /><TobiraAccessories progress={growth} />
+              <TobiraMotion name={daysAway >= 3 ? 'wakeup' : 'greet'} play={greetPlay}>
+                <img className="home-mascot-art" src={equippedPoseSrc(growth)} alt="あなたのとびら君" draggable={false} /><TobiraAccessories progress={growth} />
+              </TobiraMotion>
             </SpinMascot>
             {/* 「マイとびら」の札（2026-10-20）：名前とレベルを別の色にし、レベルは金のメダル風に */}
             <span className="my-tobira-tag"><i className="my-tobira-name">マイとびら</i><b className="my-tobira-lv">Lv.{levelOf(growth.xp).level}</b></span>

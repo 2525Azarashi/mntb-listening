@@ -179,6 +179,26 @@ export const ITEMS: readonly ItemDef[] = [
   { id: 'wall_galaxy', kind: 'wallpaper', gacha: true, rarity: 'SR', label: '壁紙：銀河', value: 'galaxy', unlock: { gacha: true } },
   { id: 'wall_rainbow', kind: 'wallpaper', gacha: true, rarity: 'SR', label: '壁紙：レインボー', value: 'rainbow', unlock: { gacha: true } },
   { id: 'wall_gold', kind: 'wallpaper', gacha: true, rarity: 'SR', label: '壁紙：黄金の書斎', value: 'gold', unlock: { gacha: true } },
+  // ── 2026-10-23 追加（ガチャ増量・セット収集の部品）──
+  { id: 'hat_headphones', kind: 'hat', gacha: true, rarity: 'R', label: 'ヘッドホン', value: 'headphones:#2F9E8F', unlock: { gacha: true } },
+  { id: 'hat_sprout', kind: 'hat', gacha: true, rarity: 'N', label: 'ふたば', value: 'sprout:#69DB7C', unlock: { gacha: true } },
+  { id: 'glasses_pixel', kind: 'glasses', gacha: true, rarity: 'SR', label: 'ドットのサングラス', value: 'pixel:#F59F00', unlock: { gacha: true } },
+  { id: 'cheek_sparkle', kind: 'cheek', gacha: true, rarity: 'N', label: 'きらりほっぺ', value: 'sparkle:#FFD43B', unlock: { gacha: true } },
+  { id: 'aura_snow', kind: 'aura', gacha: true, rarity: 'R', label: 'こなゆき', value: 'snow:#74C0FC', unlock: { gacha: true } },
+  { id: 'aura_abc', kind: 'aura', gacha: true, rarity: 'R', label: 'アルファベット', value: 'abc:#4C6EF5', unlock: { gacha: true } },
+  { id: 'aura_bolt', kind: 'aura', gacha: true, rarity: 'SR', label: 'イナズマ', value: 'bolt:#FCC419', unlock: { gacha: true } },
+  { id: 'wall_library', kind: 'wallpaper', gacha: true, rarity: 'R', label: '壁紙：図書館', value: 'library', unlock: { gacha: true } },
+  { id: 'wall_english', kind: 'wallpaper', gacha: true, rarity: 'N', label: '壁紙：ABC', value: 'english', unlock: { gacha: true } },
+  { id: 'wall_sky', kind: 'wallpaper', gacha: true, rarity: 'N', label: '壁紙：青空', value: 'sky', unlock: { gacha: true } },
+  { id: 'wall_candy', kind: 'wallpaper', gacha: true, rarity: 'N', label: '壁紙：キャンディ', value: 'candy', unlock: { gacha: true } },
+  // ── セット完成の報酬（ガチャ・ショップには出ない。セットの称号で解放）──
+  { id: 'frame_set_sprout', kind: 'frame', rarity: 'SR', label: '芽ぶきフレーム（セット報酬）', value: '#51CF66', pattern: 'dots', unlock: { badge: 'b_set_sprout' } },
+  { id: 'frame_set_listening', kind: 'frame', rarity: 'SR', label: '音の波フレーム（セット報酬）', value: '#2F9E8F', pattern: 'wave', unlock: { badge: 'b_set_listening' } },
+  { id: 'frame_set_english', kind: 'frame', rarity: 'SR', label: '辞書のフレーム（セット報酬）', value: '#364FC7', pattern: 'grid', unlock: { badge: 'b_set_english' } },
+  { id: 'frame_set_sweets', kind: 'frame', rarity: 'SR', label: 'マカロンフレーム（セット報酬）', value: '#F783AC', pattern: 'stripes', unlock: { badge: 'b_set_sweets' } },
+  { id: 'frame_set_winter', kind: 'frame', rarity: 'SR', label: '雪の結晶フレーム（セット報酬）', value: '#74C0FC', pattern: 'sparkle', unlock: { badge: 'b_set_winter' } },
+  { id: 'frame_set_hero', kind: 'frame', rarity: 'SR', label: 'ヒーローフレーム（セット報酬）', value: '#FAB005', pattern: 'rays', unlock: { badge: 'b_set_hero' } },
+  { id: 'frame_set_collector', kind: 'frame', rarity: 'UR', label: 'コレクターの虹フレーム（3セット完成）', value: '#E76F51', pattern: 'rainbow', unlock: { badge: 'b_set_collector' } },
   // ── UR（大当たり）：学習プリント PDF。ガチャからだけ出る（一覧は gachaPrints.generated.ts）──
   ...GACHA_PRINTS.map((p): ItemDef => ({ id: p.id, kind: 'print', gacha: true, rarity: 'UR', label: p.label, value: p.file, unlock: { gacha: true } })),
   // ── レベル報酬（2026-10-04 ご要望「レベルを上げる意味」）：このレベルでしか手に入らないもの ──

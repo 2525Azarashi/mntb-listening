@@ -35,10 +35,10 @@ export function anchorOf(poseSrc: string): PoseAnchor {
 }
 
 /** アクセサリの value は「形:色」（例 'beanie:#E74C3C'）。形が知らないものなら null */
-export const HAT_STYLES = ['beanie', 'cap', 'crown', 'wizard', 'graduation', 'ribbon', 'flower', 'bunny', 'halo', 'chef', 'beret', 'tiara'] as const;
-export const GLASSES_STYLES = ['round', 'square', 'sun', 'star', 'heart', 'monocle', 'goggle', 'science'] as const;
-export const CHEEK_STYLES = ['blush', 'star', 'heart', 'sticker', 'whisker'] as const;
-export const AURA_STYLES = ['sparkle', 'hearts', 'notes', 'bubbles', 'formula', 'stars', 'petals', 'flame'] as const;
+export const HAT_STYLES = ['beanie', 'cap', 'crown', 'wizard', 'graduation', 'ribbon', 'flower', 'bunny', 'halo', 'chef', 'beret', 'tiara', 'headphones', 'sprout'] as const;
+export const GLASSES_STYLES = ['round', 'square', 'sun', 'star', 'heart', 'monocle', 'goggle', 'science', 'pixel'] as const;
+export const CHEEK_STYLES = ['blush', 'star', 'heart', 'sticker', 'whisker', 'sparkle'] as const;
+export const AURA_STYLES = ['sparkle', 'hearts', 'notes', 'bubbles', 'formula', 'stars', 'petals', 'flame', 'snow', 'abc', 'bolt'] as const;
 const STYLE_SETS: Record<AccessorySlot, readonly string[]> = { hat: HAT_STYLES, glasses: GLASSES_STYLES, cheek: CHEEK_STYLES, aura: AURA_STYLES };
 
 export function parseAccessory(slot: AccessorySlot, value: string): { style: string; color: string } | null {
@@ -71,6 +71,11 @@ export const WALLPAPERS: Record<string, { label: string; css: string; dark?: boo
   aurora: { label: 'オーロラ', dark: true, css: `radial-gradient(ellipse at 20% 20%,#43e97b66,transparent 55%),radial-gradient(ellipse at 80% 35%,#38f9d766,transparent 55%),radial-gradient(ellipse at 50% 80%,#7f5af066,transparent 60%),linear-gradient(#0b132b,#1c2541)` },
   rainbow: { label: 'レインボー', css: `linear-gradient(160deg,#ffadad,#ffd6a5,#fdffb6,#caffbf,#9bf6ff,#a0c4ff,#bdb2ff)` },
   gold: { label: '黄金の書斎', css: `${svg("<path d='M60 10 L66 54 L110 60 L66 66 L60 110 L54 66 L10 60 L54 54Z' fill='#f5d06f' opacity='.25'/>")},linear-gradient(#fff6d8,#f3dea0)` },
+  // ── 2026-10-23 追加（ガチャ増量）──
+  library: { label: '図書館', css: `repeating-linear-gradient(90deg,#c98b5a 0 14px,#7fa3c9 14px 24px,#e2b84f 24px 34px,#8fbf88 34px 46px,#b5838d 46px 56px) 0 0/56px 60px,linear-gradient(#f6ead7,#f6ead7)`, },
+  english: { label: 'ABC', css: `${svg("<g fill='#7aa7d9' opacity='.32' font-family='sans-serif' font-weight='900'><text x='8' y='30' font-size='22'>A</text><text x='70' y='40' font-size='18'>b</text><text x='30' y='92' font-size='20'>C</text><text x='88' y='108' font-size='16'>?</text></g>", 130)},#f5f9ff` },
+  sky: { label: '青空', css: `${svg("<g fill='#ffffff' opacity='.85'><ellipse cx='30' cy='30' rx='22' ry='9'/><ellipse cx='44' cy='24' rx='14' ry='10'/><ellipse cx='92' cy='88' rx='20' ry='8'/><ellipse cx='104' cy='82' rx='12' ry='9'/></g>", 130)},linear-gradient(#9fd3ff,#d9f0ff)` },
+  candy: { label: 'キャンディ', css: `repeating-linear-gradient(45deg,#ffe3ef 0 16px,#fff7d6 16px 32px,#dff6ff 32px 48px)` },
 };
 
 export function wallpaperOf(value: string) { return WALLPAPERS[value] ?? null; }

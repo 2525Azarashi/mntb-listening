@@ -36,6 +36,8 @@ export interface GrowthProgress {
   xp: number;
   /** ミッション報酬などで貯まる通貨（装備の交換に使う） */
   coins: number;
+  /** とびらのかけら（ガチャのダブりで貯まり、未所持の景品と交換する。2026-10-23） */
+  shards: number;
   matches: number;
   wins: number;
   losses: number;

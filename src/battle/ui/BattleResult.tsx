@@ -47,6 +47,7 @@ import { useBattleAudio } from '../hooks/useBattleAudio';
  */
 
 import { TobiraBuddy } from '../../components/TobiraBuddy';
+import { TobiraMotion } from '../../components/TobiraMotion';
 import { CinematicClip, CINEMATIC_CLIPS } from '../../components/CinematicClip';
 import { useEffect, useState } from 'react';
 import './battle-result-review.css';
@@ -446,7 +447,10 @@ export function BattleResult({
       {result.outcome === 'win'
         ? <div className="victory-cinema result-summary-stage" style={{ backgroundImage: `url(${CINEMATIC_CLIPS.victory.poster})` }}><CinematicClip src={CINEMATIC_CLIPS.victory.src} poster={CINEMATIC_CLIPS.victory.poster} label="とびら君の勝利動画" hold /></div>
         : null}
-      <TobiraBuddy className="battle-result-buddy result-summary-buddy" size={result.outcome === 'win' ? 'sm' : 'md'} input={{ screen: 'result', outcome: result.outcome, margin, seed: result.me.score }} />
+      {/* 負け・惜敗のときだけ「はげまし」の動き（勝ちは victory.mp4 があるので出さない） */}
+      <TobiraMotion name="encourage" play={result.outcome === 'lose'} className="battle-result-motion">
+        <TobiraBuddy className="battle-result-buddy result-summary-buddy" size={result.outcome === 'win' ? 'sm' : 'md'} input={{ screen: 'result', outcome: result.outcome, margin, seed: result.me.score }} />
+      </TobiraMotion>
       {growthMatchId && growthOwnerUid && <BattleGrowthReward matchId={growthMatchId} ownerUid={growthOwnerUid}
         eligible={growthEligible} subject={subject} subjectLabel={theme.label} result={result} rating={rating}
         compact onLoaded={setGrowth} />}

@@ -44,6 +44,8 @@ function Hat({ style, c }: { style: string; c: string }) {
     case 'chef': return <g><circle cx={-0.24} cy={-0.36} r={0.22} fill="#fff" stroke="#d5d8dc" strokeWidth={0.018} /><circle cx={0.24} cy={-0.36} r={0.22} fill="#fff" stroke="#d5d8dc" strokeWidth={0.018} /><circle cy={-0.5} r={0.26} fill="#fff" stroke="#d5d8dc" strokeWidth={0.018} /><rect x={-0.4} y={-0.24} width={0.8} height={0.26} rx={0.04} fill="#fff" stroke="#d5d8dc" strokeWidth={0.018} /><rect x={-0.4} y={-0.08} width={0.8} height={0.06} fill={c} /></g>;
     case 'beret': return <g><ellipse cx={0.06} cy={-0.12} rx={0.54} ry={0.2} fill={c} {...ol} /><rect x={-0.4} y={-0.06} width={0.8} height={0.08} rx={0.04} fill={dark} /><path d="M0.06 -0.32 q0.02 -0.08 0.08 -0.1" stroke={dark} strokeWidth={0.04} fill="none" strokeLinecap="round" /></g>;
     case 'tiara': return <g><path d="M-0.4 0 Q0 -0.14 0.4 0" stroke={c} strokeWidth={0.05} fill="none" /><path d="M-0.28 -0.06 L-0.2 -0.24 L-0.1 -0.1 L0 -0.34 L0.1 -0.1 L0.2 -0.24 L0.28 -0.06" stroke={c} strokeWidth={0.04} fill="none" strokeLinejoin="round" /><circle cy={-0.36} r={0.05} fill="#ff6b9d" /><circle cx={-0.2} cy={-0.26} r={0.03} fill="#74c0fc" /><circle cx={0.2} cy={-0.26} r={0.03} fill="#74c0fc" /></g>;
+    case 'headphones': return <g><path d="M-0.46 0.1 Q-0.5 -0.6 0 -0.62 Q0.5 -0.6 0.46 0.1" stroke={c} strokeWidth={0.07} fill="none" strokeLinecap="round" /><rect x={-0.58} y={-0.04} width={0.18} height={0.3} rx={0.08} fill={c} {...ol} /><rect x={0.4} y={-0.04} width={0.18} height={0.3} rx={0.08} fill={c} {...ol} /><circle cx={-0.49} cy={0.11} r={0.05} fill="#fff" opacity={0.7} /><circle cx={0.49} cy={0.11} r={0.05} fill="#fff" opacity={0.7} /></g>;
+    case 'sprout': return <g><path d="M0 0 Q0.02 -0.22 0 -0.34" stroke="#2f9e44" strokeWidth={0.045} fill="none" strokeLinecap="round" /><path d="M0 -0.3 Q-0.24 -0.44 -0.3 -0.26 Q-0.14 -0.18 0 -0.3Z" fill={c} {...ol} /><path d="M0 -0.32 Q0.22 -0.5 0.3 -0.32 Q0.14 -0.22 0 -0.32Z" fill={c} {...ol} /></g>;
     default: return null;
   }
 }
@@ -62,6 +64,7 @@ function Glasses({ style, c }: { style: string; c: string }) {
     case 'monocle': return <g><circle cx={0.27} r={0.22} fill="#ffffff26" stroke={c} strokeWidth={w * 1.2} /><path d="M0.4 0.18 Q0.5 0.5 0.3 0.8" stroke={c} strokeWidth={0.02} fill="none" strokeDasharray="0.03 0.02" /></g>;
     case 'goggle': return <g><path d="M-0.62 -0.04 H0.62" stroke={shade(c, 0.6)} strokeWidth={0.09} /><rect x={-0.52} y={-0.2} width={1.04} height={0.4} rx={0.18} fill="#9bdcfd" fillOpacity={0.55} stroke={c} strokeWidth={w * 1.6} /><path d="M-0.36 -0.1 l0.12 0.14 M0.14 -0.1 l0.12 0.14" stroke="#fff" strokeWidth={0.03} opacity={0.8} /></g>;
     case 'science': return <g><path d="M-0.55 -0.14 Q0 -0.24 0.55 -0.14 L0.5 0.14 Q0.25 0.24 0.05 0.12 Q0 0.08 -0.05 0.12 Q-0.25 0.24 -0.5 0.14Z" fill="#e3fafc" fillOpacity={0.5} stroke={c} strokeWidth={w} strokeLinejoin="round" /></g>;
+    case 'pixel': return <g><rect x={-0.54} y={-0.12} width={0.46} height={0.24} fill="#111" /><rect x={0.08} y={-0.12} width={0.46} height={0.24} fill="#111" /><rect x={-0.08} y={-0.12} width={0.16} height={0.06} fill="#111" /><rect x={-0.48} y={-0.08} width={0.08} height={0.06} fill="#fff" /><rect x={0.14} y={-0.08} width={0.08} height={0.06} fill="#fff" /><rect x={-0.62} y={-0.12} width={0.08} height={0.06} fill={c} /><rect x={0.54} y={-0.12} width={0.08} height={0.06} fill={c} /></g>;
     default: return null;
   }
 }
@@ -75,6 +78,7 @@ function Cheeks({ style, c }: { style: string; c: string }) {
     case 'heart': return <g>{at.map((x) => <path key={x} d={heart(x, 0.4, 0.07)} fill={c} opacity={0.8} />)}</g>;
     case 'sticker': return <g transform="translate(0.44 0.42) rotate(-20)"><rect x={-0.13} y={-0.05} width={0.26} height={0.1} rx={0.04} fill={c} stroke={shade(c, 0.8)} strokeWidth={0.01} /><rect x={-0.04} y={-0.04} width={0.08} height={0.08} fill="#fff" opacity={0.6} /></g>;
     case 'whisker': return <g stroke={c} strokeWidth={0.02} strokeLinecap="round">{at.map((x) => { const s = Math.sign(x); return <g key={x}><path d={`M${x - s * 0.05} 0.36 l${s * 0.18} -0.04`} /><path d={`M${x - s * 0.05} 0.42 l${s * 0.19} 0.01`} /><path d={`M${x - s * 0.05} 0.48 l${s * 0.17} 0.05`} /></g>; })}</g>;
+    case 'sparkle': return <g>{at.map((x) => <polygon key={x} points={star(x, 0.4, 0.1, 0.3, 4)} fill={c} opacity={0.9} />)}</g>;
     default: return null;
   }
 }
@@ -97,6 +101,9 @@ function Aura({ style, c, w, h }: { style: string; c: string; w: number; h: numb
       case 'formula': el = <text x={x} y={y} fontSize={r * 1.3} textAnchor="middle" fill={c} fontWeight={800} fontStyle="italic">{['π', 'H₂O', '∫', 'Σ', 'e', 'CO₂', '√'][i]}</text>; break;
       case 'petals': el = <ellipse cx={x} cy={y} rx={r * 0.45} ry={r * 0.75} fill={c} transform={`rotate(${i * 47} ${x} ${y})`} />; break;
       case 'flame': el = <path d={`M${x} ${y - r} Q${x + r * 0.7} ${y} ${x} ${y + r * 0.7} Q${x - r * 0.7} ${y} ${x} ${y - r}Z`} fill={c} />; break;
+      case 'snow': el = <g stroke={c} strokeWidth={r * 0.14} strokeLinecap="round">{[0, 60, 120].map((a) => <path key={a} d={`M${x} ${y - r * 0.8} V${y + r * 0.8}`} transform={`rotate(${a} ${x} ${y})`} />)}</g>; break;
+      case 'abc': el = <text x={x} y={y} fontSize={r * 1.5} textAnchor="middle" fill={c} fontWeight={900}>{['A', 'b', 'C', 'e', 'S', 'w', '?'][i]}</text>; break;
+      case 'bolt': el = <path d={`M${x + r * 0.2} ${y - r} L${x - r * 0.5} ${y + r * 0.1} H${x} L${x - r * 0.2} ${y + r} L${x + r * 0.5} ${y - r * 0.1} H${x}Z`} fill={c} />; break;
       default: return null;
     }
     return <g key={key} className="tobira-aura-bit" style={delay}>{el}</g>;

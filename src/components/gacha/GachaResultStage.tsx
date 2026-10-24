@@ -18,7 +18,19 @@ export type GachaDrawResult = {
   rarity: GachaRarity;
   duplicate: boolean;
   refund: number;
+  /** ダブりでもらえた「とびらのかけら」 */
+  shards?: number;
+  /** この抽選で完成したセット名 */
+  sets?: string[];
 };
+
+/** セット完成のお知らせ（称号＋限定フレームを受け取ったことを伝える） */
+function SetCompleteNote({ sets }: { sets: string[] }) {
+  if (!sets.length) return null;
+  return <p className="gacha-set-complete" role="status" data-gacha-set-complete>
+    <b>セット完成！</b>{sets.join('・')} → 称号と限定フレームを獲得
+  </p>;
+}
 
 /** 1回引いた結果 */
 export function GachaSingleResult({ result, progress, freeResult, collectionLine, setResult, setError }: {
@@ -56,6 +68,7 @@ export function GachaSingleResult({ result, progress, freeResult, collectionLine
             {freeResult
               ? '無料抽選のためコイン返還はありません'
               : `${result.refund} マナコイン返還（実質 ${GACHA_COST - result.refund}枚）`}
+            {!!result.shards && ` · かけら +${result.shards}`}
           </>
         ) : (
           <>
@@ -64,6 +77,7 @@ export function GachaSingleResult({ result, progress, freeResult, collectionLine
           </>
         )}
       </p>
+      <SetCompleteNote sets={result.sets ?? []} />
       {collectionLine}
       <div className="gacha-reveal-actions">
         {result.item.kind === 'print' ? (
@@ -127,7 +141,7 @@ export function GachaMultiResult({ multi, progress, collectionLine, setMulti, se
             style={{ animationDelay: `${i * 0.18}s` }}
             art={<ItemArt item={r.item} progress={progress} size={r.item.kind === 'print' ? 44 : 60} />}
             title={r.item.label}
-            sub={r.duplicate ? `重複 +${r.refund}枚` : undefined}
+            sub={r.duplicate ? `重複 +${r.refund}枚・かけら+${r.shards ?? 0}` : undefined}
           >
             {r.item.kind === 'print' ? (
               <PrintLinks item={r.item} compact />
@@ -156,8 +170,9 @@ export function GachaMultiResult({ multi, progress, collectionLine, setMulti, se
         ) : (
           'すべて持っているものでした'
         )}
-        {multi.some((r) => r.duplicate) && ` · 重複分 ${multi.reduce((n, r) => n + r.refund, 0)}枚返還`}
+        {multi.some((r) => r.duplicate) && ` · 重複分 ${multi.reduce((n, r) => n + r.refund, 0)}枚返還・かけら +${multi.reduce((n, r) => n + (r.shards ?? 0), 0)}`}
       </p>
+      <SetCompleteNote sets={multi.flatMap((r) => r.sets ?? [])} />
       {collectionLine}
       <button
         type="button"

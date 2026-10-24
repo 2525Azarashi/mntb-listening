@@ -5,6 +5,7 @@
  */
 import type { CSSProperties } from 'react';
 import { Radar } from 'lucide-react';
+import { TobiraMotion } from '../../components/TobiraMotion';
 
 export function BattleMatchingRadar({ theme }: { theme: { accent: string } }) {
   return (
@@ -40,7 +41,8 @@ export function BattleMatchingRadar({ theme }: { theme: { accent: string } }) {
           boxShadow: `0 4px 0 ${theme.accent}22`,
         }}
       >
-        <Radar size={30} style={{ color: theme.accent }} />
+        {/* 相手さがしの間だけ、とびら君が「考え中」でくり返し動く（動画が無い・動かせない環境はレーダーのまま） */}
+        <TobiraMotion name="think" className="battle-radar-motion"><Radar size={30} style={{ color: theme.accent }} /></TobiraMotion>
       </span>
     </div>
   );
