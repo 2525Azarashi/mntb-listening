@@ -31,4 +31,4 @@ python3 scripts/gacha-prints/build-analysis-book.py     # 共通テスト全科�
 ```
 - 共通レイアウトは `book_common.py`（紺と金の表紙・帯・囲み）。
 - 作り直したら `src/data/gachaPrints.generated.ts` の pages / kb を合わせる（`tests/gachaDeluxe.test.ts` が検査）。
-- リーディング第2回を足すときは `reading_mock_b.py`（SET_B）を作り、`build([SET_A, SET_B], ...)` か別IDで出す。
+- リーディングは第1回（reading_mock_a.py）・第2回（reading_mock_b1.py＋b2.py）。第3回は同じ形のデータを足して BOOKS に1行追加。

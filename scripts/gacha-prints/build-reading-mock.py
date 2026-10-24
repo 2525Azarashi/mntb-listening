@@ -18,6 +18,9 @@ sys.path.insert(0, str(Path(__file__).parent))
 from book_common import (ROOT, MARKS, F, FB, st, esc, on_page, bar, box, cover_stats, grid, make_thumb, page_count,
                          GOLD, GOLD_SOFT, LINE, GREEN, BLUE, PAPER, MINT, SKY)
 from reading_mock_a import SET_A
+from reading_mock_b1 import SET_B1
+from reading_mock_b2 import SET_B2
+SET_B = SET_B1 + SET_B2
 from reading_guide import GUIDE, REAL_FORMAT
 
 FOOTER = 'マナトビ ／ 英文・設問はオリジナル（実在の試験・教材の文章は使っていません）'
@@ -82,7 +85,7 @@ def words_of(sets):
             for q in d['questions']: txt += [q['stem']] + q['choices']
     return len(re.findall(r"[A-Za-z']+", ' '.join(txt)))
 
-def build(sets, pid, title, subtitle):
+def build(sets, pid, title, subtitle, no=1):
     flat = title.replace('\n', ' ')
     nq = sum(len(d['questions']) for s in sets for d in s)
     story = [NextPageTemplate('body'), Spacer(1, 30 * mm), Paragraph('KYOTSU TEST ENGLISH READING ／ COMPLETE EDITION', st['eyebrow']), Spacer(1, 4 * mm),
@@ -106,7 +109,7 @@ def build(sets, pid, title, subtitle):
     for si, s in enumerate(sets):
         for d in s:
             g = GUIDE[d['q']]
-            story += [bar(f'第{d["q"]}問　{d["title"]}', f'第{si + 1}回 ／ {d["marks"]}マーク・{d["points"]}点・目標{d["minutes"]}分'), Spacer(1, 3 * mm),
+            story += [bar(f'第{d["q"]}問　{d["title"]}', f'第{no + si}回 ／ {d["marks"]}マーク・{d["points"]}点・目標{d["minutes"]}分'), Spacer(1, 3 * mm),
                       box([Paragraph(f'<b>特徴と解き方：{esc(g[0])}</b>', st['h3'])] + [Paragraph('・' + esc(x), st['body']) for x in g[1]]), Spacer(1, 3 * mm),
                       Paragraph(esc(d['intro']), st['enq']), Spacer(1, 2 * mm), passage_flow(d['passage']), Spacer(1, 3 * mm)]
             for q in d['questions']:
@@ -138,7 +141,14 @@ def build(sets, pid, title, subtitle):
     make_thumb(out, pid)
     return out
 
+BOOKS = [
+    ([SET_A], 'print_book_reading_mock1', '共通テスト 英語リーディング\n大問別演習 完全版 第1回', 1),
+    ([SET_B], 'print_book_reading_mock2', '共通テスト 英語リーディング\n大問別演習 完全版 第2回', 2),
+]
+
 if __name__ == '__main__':
-    out = build([SET_A], 'print_book_reading_mock1', '共通テスト 英語リーディング\n大問別演習 完全版 第1回',
-                '新形式（全8大問・44マーク・100点・80分）に準拠。大問ごとの解き方 → 問題 → 根拠つき解説で、この1冊で仕上げる。')
-    print(out.name, page_count(out), 'pages', out.stat().st_size // 1024, 'KB')
+    want = set(sys.argv[1:])
+    for sets, pid, title, no in BOOKS:
+        if want and pid not in want: continue
+        out = build(sets, pid, title, '新形式（全8大問・44マーク・100点・80分）に準拠。大問ごとの解き方 → 問題 → 根拠つき解説で、この1冊で仕上げる。', no)
+        print(out.name, page_count(out), 'pages', out.stat().st_size // 1024, 'KB')

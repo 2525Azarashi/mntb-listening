@@ -21,8 +21,8 @@ describe('ガチャの配分（はずれ多め・URは完全版の本だけ）',
     for (const item of tiers.UR) expect(books.some(b => b.id === item.id), item.id).toBe(true);
     for (const p of GACHA_PRINTS) expect(printRarity(p), p.id).toBe(p.category === '完全版' ? 'UR' : 'SR');
   });
-  it('完全版は6冊（英単語3・英熟語1・リーディング大問別1・全科目分析1）がそろい、ファイルとページ数が台帳と合う', () => {
-    expect(books.map(b => b.id).sort()).toEqual(['print_book_analysis_all', 'print_book_idiom_all', 'print_book_reading_mock1',
+  it('完全版は7冊（英単語3・英熟語1・リーディング大問別2・全科目分析1）がそろい、ファイルとページ数が台帳と合う', () => {
+    expect(books.map(b => b.id).sort()).toEqual(['print_book_analysis_all', 'print_book_idiom_all', 'print_book_reading_mock1', 'print_book_reading_mock2',
       'print_book_vocab_adv', 'print_book_vocab_lv1', 'print_book_vocab_lv2']);
     for (const b of books) {
       expect(existsSync(`public${b.file}`), b.id).toBe(true);
@@ -42,8 +42,8 @@ describe.skipIf(!hasPdf)('完全版の中身（その一冊で完成するか）
     expect(text('/prints/print_book_vocab_lv2.pdf')).toContain('962語');
     expect(text('/prints/print_book_idiom_all.pdf')).toContain('1,885熟語');
   });
-  it('リーディング大問別：第1問〜第8問すべてに解き方・問題・解説・重要語句、44マーク', () => {
-    const t = text('/prints/print_book_reading_mock1.pdf');
+  it.each(['print_book_reading_mock1', 'print_book_reading_mock2'])('リーディング大問別 %s：第1問〜第8問すべてに解き方・問題・解説・重要語句、44マーク', (id) => {
+    const t = text(`/prints/${id}.pdf`);
     for (let q = 1; q <= 8; q++) {
       expect(t, `第${q}問`).toMatch(new RegExp(`第${q}問\\s*解答・解説`));
     }

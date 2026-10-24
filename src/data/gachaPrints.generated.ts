@@ -580,5 +580,15 @@ export const GACHA_PRINTS: readonly GachaPrintDef[] = [
     "thumb": "/prints/thumbs/print_book_analysis_all.webp",
     "pages": 18,
     "kb": 235
+  },
+  {
+    "id": "print_book_reading_mock2",
+    "label": "共通テスト 英語リーディング 大問別演習 完全版 第2回（全8大問・100点）",
+    "subject": "english_reading",
+    "category": "完全版",
+    "file": "/prints/print_book_reading_mock2.pdf",
+    "thumb": "/prints/thumbs/print_book_reading_mock2.webp",
+    "pages": 24,
+    "kb": 232
   }
 ];
