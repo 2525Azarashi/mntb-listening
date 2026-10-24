@@ -5,6 +5,19 @@
 
 ---
 
+## 2026-10-24 ご指摘4点（PR: fix/battle-choice-shift-and-q6b-carousel）
+
+| 何を | どう変えた | ファイル |
+|---|---|---|
+| 対戦：相手／自分が答えると 🔵🔴 の札・相手の確定回答・「相手は回答ずみ！」が出て、4択ボタンが上下に揺れて押し間違える | 3つとも「高さを先に決めた枠」にして中身だけ入れ替える（実況は最新1行・28px、相手の確定回答は答え合わせのときだけ・34px、お知らせ行18px）。低い画面で進捗行が出たり消えたりしていたのも常時表示に | `src/battle/ui/BattleLiveParts.tsx`、`BattleLiveStage.tsx`、`BattleQuestionView.tsx`、`battle-question.css` |
+| 正解/不正解が出たあとに解答画面へ戻れる | 「問題に戻る」（上部・スマホ下部）を撤去、← キーと「前へ」も解説表示中は無効 | `src/components/explanation/ExplanationHeader.tsx`、`BottomBars.tsx`、`src/utils/quizNavigationActions.ts`、`src/components/Quiz.tsx` |
+| 第6問B のグラフ4枚が並んで小さい | 1枚ずつ大きく表示。‹ › ボタン（44px）・①〜④ボタン・左右スワイプ・← → キーで切り替え（端で反対へ回る） | `src/components/ListeningMaterials.tsx`（`FigureCarousel`） |
+| 選択肢の下の操作説明「ア 選ぶ → ア 斜線 → ア 戻す／閉じる」「?操作説明」 | 全問題で表示しない（操作そのもの＝タップで選択→もう一度で斜線→戻す は残す） | `src/components/MultipleChoiceControl.tsx` |
+
+**戻し方**：このPRを `git revert`。操作説明だけ戻すなら `MultipleChoiceControl.tsx` に `renderEliminationHint({ elimHintOpen, dismissElimHint, setElimHintOpen })` を戻す。
+
+---
+
 ## 2026-10-22 Web ログインが「連携中…」で止まる件（PR: fix/web-login-same-origin）
 
 見た目の変更はほぼ無し。
