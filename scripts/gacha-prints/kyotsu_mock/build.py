@@ -176,13 +176,14 @@ def build_listening(n, data):
     for p in data['parts']:
         story += [R.bar(f'{p["label"]}　（配点　{p["pts"]}）　音声は{p["sections"][0]["times"]}回流れます。'), Spacer(1, 3 * mm)]
         for s in p['sections']:
+            head = []
             if s.get('tag'):
-                story.append(Paragraph(f'<font name="JPB">{s["tag"]}</font>', R.st['h3']))
+                head.append(Paragraph(f'<font name="JPB">{s["tag"]}</font>', R.st['h3']))
             if s.get('instr'):
-                story += [R.boxed([Paragraph(R.ml(s['instr']), R.st['ja'])], pad=6), Spacer(1, 4)]
+                head += [R.boxed([Paragraph(R.ml(s['instr']), R.st['ja'])], pad=6), Spacer(1, 4)]
             for b in s.get('blocks', []):
-                story += R.render_block(b)
-            story.append(Spacer(1, 2 * mm))
+                head += R.render_block(b)
+            story.append(KeepTogether(head + [Spacer(1, 2 * mm)]))
             for q in s['qs']:
                 if q.get('situation'):
                     story.append(Paragraph(R.ml(q['situation']), R.st['jas']))

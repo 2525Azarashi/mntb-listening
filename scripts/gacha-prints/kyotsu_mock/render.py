@@ -156,7 +156,9 @@ def fig_bar(title, cats, series, unit='', maxv=None, width=150 * mm, height=62 *
     bc.categoryAxis.categoryNames = cats
     bc.categoryAxis.labels.fontName = 'EN'; bc.categoryAxis.labels.fontSize = 8.5
     bc.valueAxis.labels.fontName = 'EN'; bc.valueAxis.labels.fontSize = 8
-    bc.valueAxis.valueMin = 0
+    mn = min(min(s) for s in series)
+    bc.valueAxis.valueMin = 0 if mn >= 0 else (int(mn / 10) - 1) * 10
+    bc.categoryAxis.labelAxisMode = 'low'
     mx = maxv or max(max(s) for s in series) * 1.15
     bc.valueAxis.valueMax = mx
     if step:
