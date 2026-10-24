@@ -11,7 +11,7 @@ const text = (file: string) => execFileSync('pdftotext', ['-layout', `public${fi
 
 describe('LR：共通テスト 英語 予想問題', () => {
   it('台帳のページ数・ファイル・サムネイルが実物と合う', () => {
-    expect(KYOTSU_MOCK_PRINTS.length).toBeGreaterThan(0);
+    expect(KYOTSU_MOCK_PRINTS.length).toBe(10); // リーディング・リスニング × 5回分
     for (const p of KYOTSU_MOCK_PRINTS) {
       expect(existsSync(`public${p.file}`), p.id).toBe(true);
       expect(existsSync(`public${p.thumb}`), p.id).toBe(true);

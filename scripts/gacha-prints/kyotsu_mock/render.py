@@ -273,8 +273,12 @@ def render_block(b):
         return [row, Spacer(1, 4)]
     if k == 'box':  # ('box', [blocks], bg?)
         inner = []
-        for bb in b[1]:
-            inner += render_block(bb)
+        _w = W; globals()['W'] = _w - 18  # 枠の内側に収める（左右の余白ぶん）
+        try:
+            for bb in b[1]:
+                inner += render_block(bb)
+        finally:
+            globals()['W'] = _w
         return [boxed(inner), Spacer(1, 6)]
     if k == 'slide':  # ('slide', title, [bullets])
         inner = [Paragraph(f'<b>{en(b[1])}</b>', S('sl', font='ENB', fontSize=11.5, leading=15, alignment=1)), Spacer(1, 3)]
@@ -287,9 +291,9 @@ def render_block(b):
             k = W / sum(widths); widths = [w * k for w in widths]
         return [fig_table(b[1], widths), Spacer(1, 5)]
     if k == 'bar':
-        return [fig_bar(**b[1]), Spacer(1, 4)]
+        return [fig_bar(**{'width': min(150 * mm, W), **b[1]}), Spacer(1, 4)]
     if k == 'line':
-        return [fig_line(**b[1]), Spacer(1, 4)]
+        return [fig_line(**{'width': min(150 * mm, W), **b[1]}), Spacer(1, 4)]
     if k == 'map':
         return [fig_map(**b[1]), Spacer(1, 4)]
     if k == 'pics':

@@ -30,5 +30,9 @@ const l = (n: number, pages: number, kb: number): GachaPrintDef => ({
 });
 
 export const KYOTSU_MOCK_PRINTS: readonly GachaPrintDef[] = [
-  r(1, 21, 306), l(1, 19, 281),
+  r(1, 24, 416), l(1, 20, 376),
+  r(2, 21, 373), l(2, 20, 357),
+  r(3, 21, 392), l(3, 19, 346),
+  r(4, 20, 401), l(4, 19, 337),
+  r(5, 21, 355), l(5, 20, 352),
 ];
