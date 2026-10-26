@@ -1,14 +1,89 @@
 import { useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
+import './cinematic-celebration.css';
 
 /** Locally hosted generated clips; no paid API or session-cookie URLs at runtime. */
+/*
+ * ★2026-10-26 とびら君 C動画 16本を Adobe Firefly で作り直して全部差し替え★（台帳 docs/CINEMATICS.md）
+ *   背景はすべてクリーム色 #FBF5E8 に統一（緑・肌色の背景は とびら君だけ切り抜いて塗り替え）。
+ *   Firefly が最初と最後に貼る参照画像のコマ（画質が違う）は切り落としてある。
+ *   UR の夜空（gachaUrBuild）と金色（gachaUrFinale）は演出なので背景はそのまま。
+ */
 export const CINEMATIC_CLIPS = {
   title: { src: '/cinematics/title.mp4', poster: '/cinematics/title-poster.webp' },
-  // 2026-09-29 差し替え：コンボ攻撃（3.1秒・構えて斬撃→元の立ち姿に戻る）。対戦の答え合わせ 3.5 秒に収まる長さに切った
+  // コンボ攻撃（2.8秒×1.15倍＝約2.4秒）。対戦の答え合わせ 3.5 秒に収まる
   special: { src: '/cinematics/attack.mp4', playbackRate: 1.15 },
+  // ガチャ：抽選の通信を待つあいだ（扉が開いて白い光）
   gacha: { src: '/cinematics/gacha.mp4' },
-  // 2026-09-29 差し替え：勝利（5秒・ジャンプ→紙吹雪とスポットライト→くるっと回って決めポーズ）
+  // 勝利（3.5秒・正面のままジャンプ→紙ふぶき）
   victory: { src: '/cinematics/victory.mp4', poster: '/cinematics/victory-poster.webp' },
+  // 負け（3.0秒・しょんぼり→光がさす→笑顔）
+  lose: { src: '/cinematics/lose.mp4', poster: '/cinematics/lose-poster.webp' },
+  // ガチャの確定演出の丸窓（レア度ごと）。GACHA_REVEAL_CLIPS で並べる
+  gachaN: { src: '/cinematics/gacha_n.mp4' },
+  gachaR: { src: '/cinematics/gacha_r.mp4' },
+  gachaSr: { src: '/cinematics/gacha_sr.mp4' },
+  gachaUrBuild: { src: '/cinematics/gacha_ur_build.mp4' },
+  gachaUrFinale: { src: '/cinematics/gacha_ur_finale.mp4' },
+  // お祝い（CelebrationClip で画面の上に1回だけ出す）
+  levelup: { src: '/cinematics/levelup.mp4', poster: '/cinematics/levelup-poster.webp' },
+  perfect: { src: '/cinematics/perfect.mp4', poster: '/cinematics/perfect-poster.webp' },
+  loginBonus: { src: '/cinematics/login_bonus.mp4', poster: '/cinematics/login_bonus-poster.webp' },
+  setComplete: { src: '/cinematics/set_complete.mp4', poster: '/cinematics/set_complete-poster.webp' },
+  rankUp: { src: '/cinematics/rank_up.mp4', poster: '/cinematics/rank_up-poster.webp' },
+  streak: { src: '/cinematics/streak.mp4', poster: '/cinematics/streak-poster.webp' },
 };
+export type CinematicName = keyof typeof CINEMATIC_CLIPS;
+type Clip = { src: string; poster?: string; playbackRate?: number };
+const clipOf = (name: CinematicName): Clip => CINEMATIC_CLIPS[name];
+
+/** ガチャの確定演出の丸窓で流す順番（引いたレア度ごと）。演出の長さ（gachaRevealSteps）に収まる */
+export const GACHA_REVEAL_CLIPS: Record<'N' | 'R' | 'SR' | 'UR' | 'LR', CinematicName[]> = {
+  N: ['gachaN'], R: ['gachaR'], SR: ['gachaSr'], UR: ['gachaUrFinale'], LR: ['gachaUrBuild', 'gachaUrFinale'],
+};
+
+/** いくつかの動画を順番に1回ずつ流す（ガチャの LR：ため→大当たり） */
+export function CinematicSequence({ names, label }: { names: CinematicName[]; label: string }) {
+  const [i, setI] = useState(0);
+  const name = names[i];
+  if (!name) return null;
+  const c = clipOf(name);
+  return <CinematicClip src={c.src} poster={c.poster} playbackRate={c.playbackRate} label={label} hold={i === names.length - 1}
+    onComplete={() => setI(n => n + 1)} />;
+}
+
+/**
+ * ★お祝いの動画を画面の上に1回だけ出す（2026-10-26）★
+ *   レベルアップ・ランクアップ・ログインボーナス・セット完成・連続学習で使う。
+ *   ・読み込めて再生が始まるまでは見えない（読み込み中に画面をふさがない）
+ *   ・タップか「とじる」で消える。動画が終わったら自動で消える
+ *   ・同じ onceKey は同じタブで1回だけ（結果画面を開き直しても2回出ない）
+ *   ・動きを減らす設定・データセーバーでは CinematicClip がすぐ止めるので何も出ない
+ */
+export function CelebrationClip({ name, label, onceKey, delayMs = 0, onDone }: {
+  name: CinematicName; label: string; onceKey?: string; delayMs?: number; onDone?: () => void;
+}) {
+  const storeKey = onceKey ? `cinematic-once:${onceKey}` : '';
+  const [open, setOpen] = useState(() => { try { return !storeKey || !sessionStorage.getItem(storeKey); } catch { return true; } });
+  const [ready, setReady] = useState(delayMs <= 0);
+  const [active, setActive] = useState(false);
+  const doneRef = useRef(onDone); doneRef.current = onDone;
+  useEffect(() => {
+    if (!open || ready) return;
+    const t = setTimeout(() => setReady(true), delayMs);
+    return () => clearTimeout(t);
+  }, [open, ready, delayMs]);
+  useEffect(() => { if (open && ready && storeKey) { try { sessionStorage.setItem(storeKey, '1'); } catch { /* 保存できなくても再生はする */ } } }, [open, ready, storeKey]);
+  const closed = useRef(false);
+  if (!open || !ready) return null;
+  const close = () => { if (closed.current) return; closed.current = true; setOpen(false); doneRef.current?.(); };
+  const c = clipOf(name);
+  return createPortal(<div className={`cinematic-celebration ${active ? 'is-active' : ''}`} role="dialog" aria-label={label} onClick={close} data-cinematic-celebration={name}>
+    <div className="cinematic-celebration-frame">
+      <CinematicClip src={c.src} poster={c.poster} playbackRate={c.playbackRate} label={label} onActiveChange={a => { if (a) setActive(true); }} onComplete={close} />
+    </div>
+  </div>, document.body);
+}
 type Props = {
   src: string; label: string; onActiveChange?: (active: boolean) => void; onComplete?: () => void; playbackRate?: number;
   /** 再生前に見せる1コマ目（動画の最初のフレームと同じ絵にすると、読み込み中も絵が飛ばない） */

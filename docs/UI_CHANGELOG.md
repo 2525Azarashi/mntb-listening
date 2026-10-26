@@ -5,6 +5,24 @@
 
 ---
 
+## 2026-10-26 とびら君の演出動画 C01〜C16 を全部差し替え・新しい場面に追加（PR: feat/cinematics-c-all）
+
+| 何を | どう変えた | ファイル |
+|---|---|---|
+| 動画16本 | Adobe Firefly で作り直し。背景はすべてクリーム色 #FBF5E8 に統一（緑・肌色を塗り替え）、参照画像が貼られた前後のコマを除去、長さを 1.6〜4.0 秒に | `public/cinematics/*.mp4`、`docs/CINEMATICS.md` |
+| ガチャの確定演出 | 丸窓の動画を引いたレア度ごとに（N・R・SR・UR、LR は ため→大当たり の2本） | `GachaReveal.tsx`、`CinematicClip.tsx`（`GACHA_REVEAL_CLIPS`） |
+| 対戦の負け | 勝ちと同じ場所に「はげまし」動画（最後のコマを残す） | `BattleResult.tsx` |
+| 段位アップ・レベルアップ | 対戦結果が出て約4秒後に、お祝い動画を画面の上に1回（段位を優先） | `BattleResult.tsx`、`CelebrationClip` |
+| ログインボーナス | プレゼントを差し出す動画（7日目は連続学習の動画）をその日1回 | `GrowthFx.tsx` |
+| ガチャのセット完成 | お祝い動画を1回 | `GachaResultStage.tsx` |
+| 全問正解 | 結果のとびら君がトロフィーを掲げる動画に（最後のコマを残す） | `ResultSummary.tsx`、`cinematic-celebration.css` |
+| 応援動画で1回 | 流す動画を起動画面の動画からガチャ開封の動画に | `RewardVideo.tsx` |
+
+お祝い動画は再生が始まってから表示し、タップ・「演出をスキップ」・終了で消える。動きを減らす設定・データセーバーでは出ない。
+**戻し方**：このPRを `git revert`。お祝いだけ止めるなら各ファイルの `<CelebrationClip … />` を消す。
+
+---
+
 ## 2026-10-26 UR に2冊追加（リスニング大問別・リーディング第3回）／ガチャの目玉にリスニング（PR: feat/firefly-kit-ur-deluxe）
 
 | 何を | どう変えた | ファイル |

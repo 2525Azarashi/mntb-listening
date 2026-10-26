@@ -8,6 +8,7 @@ import type { GrowthProgress } from '../../battle/core/growth';
 import type { ResultPage } from './explanationLogic';
 import { KineticText, ScoreRing } from '../../motion';
 import { CountUp } from '../ui/CountUp';
+import { CinematicClip, CINEMATIC_CLIPS } from '../CinematicClip';
 
 /**
  * 結果画面（全問を解き終えたあと）の部品。
@@ -114,7 +115,10 @@ export function ResultStage({ resultTotalJudgeable, resultTotalCorrect, studyRew
         return (
           <section className="practice-stage" aria-label="とびらくんと今回のごほうび" data-practice-stage data-pose={pose}>
             <div className="practice-stage-bubble" role="status"><KineticText text={line} delay={500} step={28} max={40} /></div>
-            <img className="practice-stage-tobira" src={`/mascots/${pose}.webp`} alt="" width={160} height={160} draggable={false} />
+            {pose === 'trophy'
+              // ★2026-10-26★ 全問正解は、とびら君がトロフィーを掲げる動画（最後のコマを残す。再生できなければ絵のまま）
+              ? <div className="practice-stage-cinema" data-practice-perfect><img src="/mascots/trophy.webp" alt="" width={160} height={160} draggable={false} /><CinematicClip src={CINEMATIC_CLIPS.perfect.src} poster={CINEMATIC_CLIPS.perfect.poster} label="とびら君の全問正解動画" hold /></div>
+              : <img className="practice-stage-tobira" src={`/mascots/${pose}.webp`} alt="" width={160} height={160} draggable={false} />}
             <div className="practice-stage-reward" data-practice-reward>
               <Coins size={22} aria-hidden="true" />
               {isGuest

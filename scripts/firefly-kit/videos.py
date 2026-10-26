@@ -65,7 +65,7 @@ def add(**kw):
 # ════════════════════════════════════════════════════════════════
 # A. 撮り直し（いまアプリで使っている全画面の演出 4本）
 # ════════════════════════════════════════════════════════════════
-add(id='C01', name='title', kind='cinema', prio='A', status='reshoot', sec='2.5〜3.5',
+add(id='C01', name='title', kind='cinema', prio='A', sec='2.5〜3.5',
     first='frame:title_first', last='frame:title_first', cut='0.3 3.2',
     where='起動画面（LaunchScreen.tsx）。最後のコマから静止画の場面へクロスフェード',
     ja='目をパチッと開けて伸び → 正面に手をふる → 後ろで紙ひこうきが2〜3機ゆっくり飛ぶ → 元の立ち姿',
@@ -74,7 +74,7 @@ add(id='C01', name='title', kind='cinema', prio='A', status='reshoot', sec='2.5�
             "It settles back into the exact same standing pose and place, smiling."),
     note='前回は顔の前に崩れた文字が出て不採用。文字が出たら作り直し。差し替えたら docs/CODEMAP.md の配置％を最後のコマで測り直す')
 
-add(id='C02', name='attack', kind='cinema', prio='A', status='reshoot', sec='3.0（1.15倍で約2.6秒）',
+add(id='C02', name='attack', kind='cinema', prio='A', sec='3.0（1.15倍で約2.6秒）',
     first='frame:attack_first', last='frame:attack_first', cut='0.8 3.1',
     where='対戦：3問連続正解のコンボ攻撃（ArenaFighters.tsx）。答え合わせの3.5秒に必ず収める',
     ja='きりっと構える → 鉛筆の先が青と金に光る → 前へ踏み込み大きく一振り（光の弧）→ 床に波紋 → ぴょんと戻って元の立ち姿',
@@ -84,7 +84,7 @@ add(id='C02', name='attack', kind='cinema', prio='A', status='reshoot', sec='3.0
             "It never turns its back to the viewer."),
     note='前回は回転で背中が見えた。今回は「背中を見せない」を明記。長さは取り込みで 2.3〜3.0 秒に切る（テストで 3.5 秒未満を確認）')
 
-add(id='C03', name='gacha', kind='cinema', prio='A', status='reshoot', sec='3.0',
+add(id='C03', name='gacha', kind='cinema', prio='A', sec='3.0',
     first='frame:gacha_first', last='frame:gacha_first', cut='0.2 3.0',
     where='ガチャ：開封の共通部分（GachaReveal.tsx）。このあとレア度ごとの動画（C05〜C09）へつなぐ',
     ja='わくわく顔で両手を胸の前に → 顔の扉がゆっくり開き、中から白い光がもれる → 扉を閉じて元の立ち姿（色はつけない＝レア度はこの後で見せる）',
@@ -93,7 +93,7 @@ add(id='C03', name='gacha', kind='cinema', prio='A', status='reshoot', sec='3.0'
             "it peeks at the viewer with a playful smile, then the door closes halfway again."),
     note='光の色は白だけ（金・虹は UR 用に取っておく）。手の鉛筆が消えたら作り直し')
 
-add(id='C04', name='victory', kind='cinema', prio='A', status='reshoot', sec='3.5',
+add(id='C04', name='victory', kind='cinema', prio='A', sec='3.5',
     first='frame:victory_first', last='cream:cheering', cut='0.0 3.6',
     where='対戦の勝利画面（BattleResult.tsx）。最後のコマを残して結果を重ねる',
     ja='正面のままジャンプ → 鉛筆を高く上げる → 色とりどりの紙ふぶきがふわっと降る → 着地して応援ポーズで止まる（後ろを向かない）',

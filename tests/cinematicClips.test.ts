@@ -38,3 +38,34 @@ describe('とびら君の演出動画', () => {
     for (const clip of Object.values(CINEMATIC_CLIPS)) expect(doc).toContain(clip.src.split('/').pop()!);
   });
 });
+
+describe('2026-10-26 Firefly 版の C動画16本', () => {
+  it('16本すべて登録・ポスター付き（コンボとガチャの丸窓以外）', () => {
+    const names = Object.keys(CINEMATIC_CLIPS);
+    expect(names.length).toBe(16);
+    for (const n of ['title', 'victory', 'lose', 'levelup', 'perfect', 'loginBonus', 'setComplete', 'rankUp', 'streak'] as const)
+      expect(CINEMATIC_CLIPS[n].poster, n).toBeTruthy();
+  });
+  it('ガチャの確定演出：引いたレア度ごとの動画が、その演出時間に収まる', async () => {
+    const { GACHA_REVEAL_CLIPS } = await import('../src/components/CinematicClip');
+    const { revealTotalMs } = await import('../src/components/gachaRevealSteps');
+    for (const [rarity, names] of Object.entries(GACHA_REVEAL_CLIPS)) {
+      let sec = 0;
+      for (const n of names) {
+        const out = probe(resolve('public', '.' + CINEMATIC_CLIPS[n].src));
+        if (!out) return;
+        sec += Number(JSON.parse(out).format.duration);
+      }
+      // 丸窓の動画が演出より長いと途中で切れる。少しの超過（弾ける演出に重なる）は許す
+      expect(sec * 1000, rarity).toBeLessThan(revealTotalMs(rarity as 'N') + 2500);
+    }
+  });
+  it('すべて 720×720', () => {
+    for (const [name, clip] of Object.entries(CINEMATIC_CLIPS)) {
+      const out = probe(resolve('public', '.' + clip.src));
+      if (!out) continue;
+      const v = JSON.parse(out).streams.find((s: { codec_type: string }) => s.codec_type === 'video');
+      expect([v.width, v.height], name).toEqual([720, 720]);
+    }
+  });
+});
