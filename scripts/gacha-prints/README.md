@@ -26,7 +26,8 @@ python3 scripts/gacha-prints/build-science-ur.py            # 一部だけなら
 
 ```bash
 python3 scripts/gacha-prints/build-vocab-book.py        # 英単語 Lv1・Lv2・Lv3+4、英熟語（アプリの単語帳の全語）
-python3 scripts/gacha-prints/build-reading-mock.py      # 共通テスト英語リーディング 大問別演習（問題データ reading_mock_a.py・解き方 reading_guide.py）
+python3 scripts/gacha-prints/build-reading-mock.py      # 共通テスト英語リーディング 大問別演習 第1〜3回（問題データ reading_mock_a/b1/b2/c1/c2/c3.py・解き方 reading_guide.py）
+npx tsx scripts/gacha-prints/dump-listening.ts /tmp/listening.json && python3 scripts/gacha-prints/build-listening-book.py  # 共通テスト英語リスニング 大問別演習（アプリの問題・音声をそのまま使う。QR＝https://mntb-listening.vercel.app の mp3）
 python3 scripts/gacha-prints/build-analysis-book.py     # 共通テスト全科目 出題分析（データ analysis_*.py・出典つき）
 ```
 - 共通レイアウトは `book_common.py`（紺と金の表紙・帯・囲み）。

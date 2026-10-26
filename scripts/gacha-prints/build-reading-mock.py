@@ -21,6 +21,10 @@ from reading_mock_a import SET_A
 from reading_mock_b1 import SET_B1
 from reading_mock_b2 import SET_B2
 SET_B = SET_B1 + SET_B2
+from reading_mock_c1 import SET_C1
+from reading_mock_c2 import SET_C2
+from reading_mock_c3 import SET_C3
+SET_C = SET_C1 + SET_C2 + SET_C3
 from reading_guide import GUIDE, REAL_FORMAT
 
 FOOTER = 'マナトビ ／ 英文・設問はオリジナル（実在の試験・教材の文章は使っていません）'
@@ -144,6 +148,7 @@ def build(sets, pid, title, subtitle, no=1):
 BOOKS = [
     ([SET_A], 'print_book_reading_mock1', '共通テスト 英語リーディング\n大問別演習 完全版 第1回', 1),
     ([SET_B], 'print_book_reading_mock2', '共通テスト 英語リーディング\n大問別演習 完全版 第2回', 2),
+    ([SET_C], 'print_book_reading_mock3', '共通テスト 英語リーディング\n大問別演習 完全版 第3回', 3),
 ]
 
 if __name__ == '__main__':

@@ -5,6 +5,16 @@
 
 ---
 
+## 2026-10-26 UR に2冊追加（リスニング大問別・リーディング第3回）／ガチャの目玉にリスニング（PR: feat/firefly-kit-ur-deluxe）
+
+| 何を | どう変えた | ファイル |
+|---|---|---|
+| UR（完全版） | 7冊 → **9冊**：共通テスト英語リスニング 大問別演習（全6大問・3回分・79ページ・各問題に QR でアプリの音声）、リーディング大問別演習 第3回 | `src/data/gachaPrints.generated.ts` |
+| ガチャ部屋の目玉（今週の UR） | 優先する科目の先頭に `english_listening` を追加（リスニングの本が目玉に出やすい） | `src/components/GachaRoom.tsx` |
+| 動画プロンプト | 英文解釈用の動画 R01〜R07・扉絵60枚・本の図12枚を追加。PDF はコピペ用の文字ページつき | `scripts/firefly-kit/reading_media.py`、`build_reading_media.py`、`build_kit.py` |
+
+**戻し方**：目玉は `preferSubjects` から `'english_listening'` を外す。本は台帳の該当2件を消す（PDF は残っていても出ない）。
+
 ## 2026-10-24 ガチャ：はずれ多め・UR は「完全版の本」だけ／Firefly 動画キット（PR: feat/firefly-kit-ur-deluxe）
 
 | 何を | どう変えた | ファイル |

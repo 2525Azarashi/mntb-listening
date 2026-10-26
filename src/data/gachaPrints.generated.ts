@@ -590,5 +590,25 @@ export const GACHA_PRINTS: readonly GachaPrintDef[] = [
     "thumb": "/prints/thumbs/print_book_reading_mock2.webp",
     "pages": 24,
     "kb": 232
+  },
+  {
+    "id": "print_book_reading_mock3",
+    "label": "共通テスト 英語リーディング 大問別演習 完全版 第3回（全8大問・100点）",
+    "subject": "english_reading",
+    "category": "完全版",
+    "file": "/prints/print_book_reading_mock3.pdf",
+    "thumb": "/prints/thumbs/print_book_reading_mock3.webp",
+    "pages": 24,
+    "kb": 242
+  },
+  {
+    "id": "print_book_listening_all",
+    "label": "共通テスト 英語リスニング 大問別演習 完全版（全6大問・3回分・アプリの音声と連動）",
+    "subject": "english_listening",
+    "category": "完全版",
+    "file": "/prints/print_book_listening_all.pdf",
+    "thumb": "/prints/thumbs/print_book_listening_all.webp",
+    "pages": 79,
+    "kb": 2327
   }
 ];
