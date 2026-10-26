@@ -59,27 +59,54 @@ def place(src, bg_rgba, shadow=False):
     return canvas
 
 def build_refs():
-    for sub in ['green', 'transparent', 'cream', 'frames']:
+    for sub in ['green', 'transparent', 'cream', 'night', 'frames']:
         (OUT / 'refs' / sub).mkdir(parents=True, exist_ok=True)
     for p in VD.POSES:
         src = ROOT / 'public' / 'mascots' / f'{p}.webp'
         place(src, (0, 255, 0, 255)).convert('RGB').save(OUT / 'refs/green' / f'{p}.png')
         place(src, (0, 0, 0, 0)).save(OUT / 'refs/transparent' / f'{p}.png')
         place(src, CREAM + (255,), shadow=True).convert('RGB').save(OUT / 'refs/cream' / f'{p}.png')
+    night_ref('basic')
     for n in ['title', 'attack', 'gacha', 'victory']:
         dst = OUT / 'refs/frames' / f'{n}_first.png'
         subprocess.run(['ffmpeg', '-v', 'error', '-y', '-i', str(ROOT / 'public/cinematics' / f'{n}.mp4'),
                         '-frames:v', '1', '-vf', 'scale=1024:1024:flags=lanczos', str(dst)], check=True)
 
+def night_ref(pose):
+    """UR の「ため」用：夜空色の背景＋足元に金の光の輪＋扉のふちに金の光（とびら君の色はそのまま）"""
+    src = ROOT / 'public' / 'mascots' / f'{pose}.webp'
+    bg = Image.new('RGBA', (S, S), (0, 0, 0, 255)); d = ImageDraw.Draw(bg)
+    for yy in range(S):  # 上ほど濃い夜空色
+        t = yy / S; d.line([(0, yy), (S, yy)], fill=(int(14 + 16 * t), int(22 + 22 * t), int(58 + 34 * t), 255))
+    glow = Image.new('RGBA', (S, S), (0, 0, 0, 0)); g = ImageDraw.Draw(glow)
+    g.ellipse([S * 0.18, S * 0.12, S * 0.82, S * 0.90], fill=(255, 200, 80, 70))
+    bg.alpha_composite(glow.filter(ImageFilter.GaussianBlur(70)))
+    rings = Image.new('RGBA', (S, S), (0, 0, 0, 0)); r = ImageDraw.Draw(rings)
+    for k, a in enumerate([200, 140, 90]):
+        w = int(S * (0.30 + 0.12 * k)); h = int(w * 0.18); cy = int(S * 0.89)
+        r.ellipse([S // 2 - w // 2, cy - h // 2, S // 2 + w // 2, cy + h // 2], outline=(255, 205, 90, a), width=6)
+    bg.alpha_composite(rings.filter(ImageFilter.GaussianBlur(2)))
+    im = Image.open(src).convert('RGBA'); im.thumbnail((int(S * 0.66), int(S * 0.70)), Image.LANCZOS)
+    x = (S - im.width) // 2; y = int(S * 0.88) - im.height
+    halo = Image.new('RGBA', (S, S), (0, 0, 0, 0))
+    a = im.split()[-1].point(lambda v: 200 if v > 10 else 0)
+    gold = Image.new('RGBA', im.size, (255, 210, 90, 0)); gold.putalpha(a)
+    halo.alpha_composite(gold, (x, y))
+    bg.alpha_composite(halo.filter(ImageFilter.GaussianBlur(14)))
+    bg.alpha_composite(im, (x, y))
+    bg.convert('RGB').save(OUT / 'refs/night' / f'{pose}.png')
+
+REF_DIR = {'frame': 'frames'}  # 'frame:title_first' → refs/frames/title_first.png
+
 def ref_path(spec):
-    if not spec: return None
+    assert spec, 'First / Last は必須'
     kind, name = spec.split(':')
-    return OUT / 'refs' / kind / f'{name}.png'
+    return OUT / 'refs' / REF_DIR.get(kind, kind) / f'{name}.png'
 
 def ref_label(spec):
-    if not spec: return '（入れない）'
+    assert spec, 'First / Last は必須'
     kind, name = spec.split(':')
-    return f'refs/{kind}/{name}.png'
+    return f'refs/{REF_DIR.get(kind, kind)}/{name}.png'
 
 # ─── カード（1本ずつの指示書・画像） ─────────────────────
 KIND_JA = {'motion': '背景なし（緑→透過）', 'cinema': '全画面の演出（背景ごと）'}
@@ -116,10 +143,8 @@ def card(v):
         d.text((x, y), lab, font=font(24, True), fill=(40, 40, 40))
         p = ref_path(spec)
         box = [x, y + 38, x + T, y + 38 + T]
-        if p and p.exists():
-            r = Image.open(p).convert('RGB').resize((T, T)); im.paste(r, (x, y + 38))
-        else:
-            d.rectangle(box, fill=(240, 240, 240)); d.text((x + 70, y + 38 + T // 2 - 16), '入れない', font=font(30), fill=(150, 150, 150))
+        assert p and p.exists(), (v['id'], spec)
+        r = Image.open(p).convert('RGB').resize((T, T)); im.paste(r, (x, y + 38))
         d.rectangle(box, outline=(200, 200, 200), width=2)
         d.text((x, y + 44 + T), ref_label(spec), font=font(20), fill=(90, 90, 90))
     # 右側：使い道・動き
@@ -139,7 +164,7 @@ def card(v):
     for ln in wrap(d, VD.prompt(v), mono, W - 80):
         d.text((36, y), ln, font=mono, fill=(20, 20, 20)); y += 25
     s = 'Model: Firefly Video ｜ Square 1:1 ｜ 1080p ｜ 5秒 ｜ Enhance prompt: オフ ｜ 音声なし ｜ ' + \
-        ('Camera Motion: Static（Last なしのとき）' if not v['last'] else 'Last あり＝Motion は自動で無効')
+        'First・Last とも必ず入れる（とびら君を認識させる）'
     d.text((28, H - 54), s, font=font(22), fill=(70, 70, 70))
     cut = v['cut'].split()
     imp = (f"取り込み: bash scripts/tobira-motion/import.sh {v['id']}.mp4 {v['name']} {cut[0]} {cut[1]}" if v['kind'] == 'motion'
@@ -181,7 +206,7 @@ def build_pdf(cards):
     rows = [['項目', '指定'],
             ['Model', 'Firefly Video（Adobe 製・商用利用に安全）。Kling / Veo / Ray / Runway / Gemini などのパートナーモデルは選ばない'],
             ['Aspect ratio', 'Square (1:1)'], ['Resolution', '1080p'], ['Duration / FPS', '5秒・24fps（取り込みで必要な長さに切る）'],
-            ['Frames', 'First と Last に、カードに書いた参照画像を入れる（Last「入れない」のものは First だけ＋Camera Motion: Static）'],
+            ['Frames', '★全部の動画で First と Last の両方に、カードの参照画像（とびら君の画像）を必ず入れる。片方でも空にすると Firefly がとびら君を別のキャラに描き変えてしまう'],
             ['Enhance prompt', 'オフ（勝手に背景・紙ふぶき・文字を足されるため）'],
             ['Seed', '良い結果が出たら番号を控える（同じ seed で作り直せる）'],
             ['音声', 'なし'], ['ダウンロード', 'MP4。ファイル名は「ID.mp4」（例：M01.mp4）にして送る']]
@@ -193,7 +218,7 @@ def build_pdf(cards):
             ['背景なしモーション（M）', '真緑 #00FF00 の単色。影・床・紙ふぶき・キラキラは入れない',
              'refs/green/*.png', 'とびら君だけを透過にして、いつもの静止画の位置でその場で動かす'],
             ['全画面の演出（C）', 'クリーム #FBF5E8＋床の影（光・紙ふぶきなどの演出 OK）',
-             'refs/cream/*.png ・ refs/frames/*.png', '背景ごと全画面（または大きな枠）で流す']]
+             'refs/cream/*.png ・ refs/frames/*.png ・ refs/night/basic.png（UR のため C08→C09 のつなぎ）', '背景ごと全画面（または大きな枠）で流す']]
     t = Table([[Paragraph(e(c), b) for c in r] for r in rows], colWidths=[45 * mm, 80 * mm, 55 * mm, 85 * mm])
     t.setStyle(TableStyle([('GRID', (0, 0), (-1, -1), 0.4, colors.HexColor('#c9ced8')),
                            ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor('#e8eef9')), ('VALIGN', (0, 0), (-1, -1), 'TOP')]))
@@ -206,10 +231,11 @@ def build_pdf(cards):
           Paragraph('4. 失敗しやすいところ（出たら作り直し）', h2)]
     for x in ['文字・数字・記号が出る（特に本の表紙・メダル・吹き出し）→ 作り直し。「Absolutely no text」を消さない',
               '後ろを向く・背中が見える回転 → 作り直し（前回の victory・attack で発生）',
-              '鉛筆・三角・消しゴムが消える／形が変わる → 作り直し',
+              '鉛筆が消える／形が変わる → 作り直し（三角・消しゴムは First/Last の画像にあるときだけ。無理に出さなくてよい）',
               'M（緑背景）で影・床・キラキラ・音符・Zzz が出る → 緑に混ざって抜けないので作り直し',
               '最初と最後で位置がずれる → アプリで静止画に戻るときに「飛ぶ」。First/Last に同じ画像を入れて防ぐ',
-              '同じ画像を First/Last に入れると動きが小さくなりやすい → 動きを大きめの言葉で書いてある。それでも止まって見えたら Last を外して First だけで作る']:
+              '同じ画像を First/Last に入れると動きが小さくなりやすい → 動きを大きめの言葉で書いてある。それでも止まって見えたら Last は外さずに、プロンプトの動きの部分を「big, energetic」など強い言葉に足して作り直す',
+              'とびら君の形・色が変わる（扉が右に付く・体が水色になる・鉛筆がペンになる）→ 作り直し。First/Last の画像が正しく入っているか確認']:
         s.append(Paragraph('・' + e(x), b))
     s += [PageBreak(), Paragraph('5. 全動画の一覧（優先度 A から作る）', h2)]
     rows = [['ID', '名前', '種類', '優先', '秒', 'First → Last', 'どこで使う']]
@@ -245,7 +271,9 @@ def build_pdf(cards):
     t = Table(cells, colWidths=[90 * mm] * 3)
     s += [t, Spacer(1, 4), Paragraph('いまの動画の1コマ目（撮り直しの First/Last）：refs/frames/', sm)]
     fr = [RLImage(str(OUT / 'refs/frames' / f'{n}.png'), width=40 * mm, height=40 * mm) for n in VD.CINE_FRAMES]
-    s += [Table([fr, [Paragraph(n, sm) for n in VD.CINE_FRAMES]], colWidths=[62 * mm] * 4)]
+    s += [Table([fr, [Paragraph(n, sm) for n in VD.CINE_FRAMES]], colWidths=[62 * mm] * 4),
+          Spacer(1, 3), Paragraph('UR の「ため」用：refs/night/basic.png（C08 の Last ＝ C09 の First。2本がぴったりつながる）', sm),
+          RLImage(str(OUT / 'refs/night/basic.png'), width=40 * mm, height=40 * mm)]
     # 1本ずつ
     for c in cards:
         s += [PageBreak(), RLImage(str(c), width=pg[0] - 24 * mm, height=(pg[0] - 24 * mm) * 1000 / 1600)]

@@ -8,15 +8,15 @@
 
 | ID | 名前 | 種類 | 優先 | 秒 | First → Last | どこで使う | 状態 |
 |---|---|---|---|---|---|---|---|
-| C01 | title | 撮り直し・全画面 | A | 2.5〜3.5 | refs/frame/title_first.png → refs/frame/title_first.png | 起動画面（LaunchScreen.tsx）。最後のコマから静止画の場面へクロスフェード | 未生成 |
-| C02 | attack | 撮り直し・全画面 | A | 3.0（1.15倍で約2.6秒） | refs/frame/attack_first.png → refs/frame/attack_first.png | 対戦：3問連続正解のコンボ攻撃（ArenaFighters.tsx）。答え合わせの3.5秒に必ず収める | 未生成 |
-| C03 | gacha | 撮り直し・全画面 | A | 3.0 | refs/frame/gacha_first.png → refs/frame/gacha_first.png | ガチャ：開封の共通部分（GachaReveal.tsx）。このあとレア度ごとの動画（C05〜C09）へつなぐ | 未生成 |
-| C04 | victory | 撮り直し・全画面 | A | 3.5 | refs/frame/victory_first.png → refs/cream/cheering.png | 対戦の勝利画面（BattleResult.tsx）。最後のコマを残して結果を重ねる | 未生成 |
+| C01 | title | 撮り直し・全画面 | A | 2.5〜3.5 | refs/frames/title_first.png → refs/frames/title_first.png | 起動画面（LaunchScreen.tsx）。最後のコマから静止画の場面へクロスフェード | 未生成 |
+| C02 | attack | 撮り直し・全画面 | A | 3.0（1.15倍で約2.6秒） | refs/frames/attack_first.png → refs/frames/attack_first.png | 対戦：3問連続正解のコンボ攻撃（ArenaFighters.tsx）。答え合わせの3.5秒に必ず収める | 未生成 |
+| C03 | gacha | 撮り直し・全画面 | A | 3.0 | refs/frames/gacha_first.png → refs/frames/gacha_first.png | ガチャ：開封の共通部分（GachaReveal.tsx）。このあとレア度ごとの動画（C05〜C09）へつなぐ | 未生成 |
+| C04 | victory | 撮り直し・全画面 | A | 3.5 | refs/frames/victory_first.png → refs/cream/cheering.png | 対戦の勝利画面（BattleResult.tsx）。最後のコマを残して結果を重ねる | 未生成 |
 | C05 | gacha_n | 全画面 | A | 1.5 | refs/cream/basic.png → refs/cream/basic.png | ガチャ：N（はずれ）。短く・あっさり（GachaReveal.tsx） | 未生成 |
 | C06 | gacha_r | 全画面 | A | 2.0 | refs/cream/basic.png → refs/cream/good.png | ガチャ：R。青い光（GachaReveal.tsx） | 未生成 |
 | C07 | gacha_sr | 全画面 | A | 2.5 | refs/cream/basic.png → refs/cream/happy.png | ガチャ：SR。紫と銀の光（GachaReveal.tsx） | 未生成 |
-| C08 | gacha_ur_build | 全画面 | A | 3.0 | refs/cream/basic.png → （入れない） | ガチャ：UR の前半「ため」（GachaReveal.tsx）。画面が暗くなり金色が満ちていく | 未生成 |
-| C09 | gacha_ur_finale | 全画面 | A | 4.0 | refs/cream/basic.png → refs/cream/trophy.png | ガチャ：UR の後半「大当たり」（GachaReveal.tsx）。景品＝本（UR プリント）が出てくる | 未生成 |
+| C08 | gacha_ur_build | 全画面 | A | 3.0 | refs/cream/basic.png → refs/night/basic.png | ガチャ：UR の前半「ため」（GachaReveal.tsx）。画面が暗くなり金色が満ちていく | 未生成 |
+| C09 | gacha_ur_finale | 全画面 | A | 4.0 | refs/night/basic.png → refs/cream/cheering.png | ガチャ：UR の後半「大当たり」（GachaReveal.tsx）。景品＝本（UR プリント）が出てくる | 未生成 |
 | C10 | levelup | 全画面 | B | 3.0 | refs/cream/basic.png → refs/cream/cheering.png | レベルアップ（成長画面・対戦結果） | 未生成 |
 | C11 | perfect | 全画面 | B | 3.0 | refs/cream/basic.png → refs/cream/trophy.png | 全問正解（ResultSummary.tsx） | 未生成 |
 | C12 | login_bonus | 全画面 | B | 3.0 | refs/cream/bowing.png → refs/cream/happy.png | ログインボーナス（その日はじめて） | 未生成 |
@@ -53,7 +53,7 @@
 | R03 | read_evidence | 背景なし | A | 2.0 | refs/green/good.png → refs/green/good.png | 英文解釈：根拠の一文がハイライトされたとき（正解） | 未生成 |
 | R04 | read_retry | 背景なし | A | 2.0 | refs/green/thinking.png → refs/green/basic.png | 英文解釈：不正解のとき（もう一度本文へ） | 未生成 |
 | R05 | read_clear | 全画面 | A | 3.0 | refs/cream/studying.png → refs/cream/cheering.png | 英文解釈：1本読み終えた結果画面 | 未生成 |
-| R06 | read_levelup | 全画面 | B | 3.0 | refs/cream/basic.png → refs/cream/trophy.png | 英文解釈：レベル（Lv1〜5）を全部読み終えたとき | 未生成 |
+| R06 | read_levelup | 全画面 | B | 3.0 | refs/cream/basic.png → refs/cream/cheering.png | 英文解釈：レベル（Lv1〜5）を全部読み終えたとき | 未生成 |
 | R07 | mock_start | 全画面 | B | 2.5 | refs/cream/good.png → refs/cream/good.png | UR リーディング大問別演習を開いたとき（本の表紙の前） | 未生成 |
 
 受け取ったら：ファイル名 `ID.mp4` → カードの「取り込み」行のコマンド → 登録（TOBIRA_MOTIONS / CINEMATIC_CLIPS）→ この表の状態を「取り込み済み（日付・seed）」に。

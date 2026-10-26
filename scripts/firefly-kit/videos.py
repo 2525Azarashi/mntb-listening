@@ -15,28 +15,46 @@
              → scripts/firefly-kit/import-cinematic.sh で mp4 に変換（src/components/CinematicClip.tsx）
 """
 
+import re
+
 # ── 全プロンプト共通の固定文（Firefly の上限 175 語に収まるよう短くしてある） ──
-CHAR = ("3D cartoon mascot: a blue arched door-frame body with light-blue circuit lines, "
-        "a light-blue half-open wooden door with a gold knob on the left side of its face, "
-        "a peach face with big brown eyes and a smile, thin blue arms, a yellow pencil in the right hand, "
-        "a small yellow triangle in the left hand, short blue legs. Keep the design exactly the same throughout.")
+CHAR = ("3D cartoon door mascot: dark-blue rounded arch door-frame body with thin light-blue circuit lines, "
+        "a light-blue door open on the left of its face with a small gold knob, smooth tan face, big glossy brown eyes, small smile, "
+        "thin blue arms, short blue legs, yellow pencil in its right hand. "
+        "Same character as the first and last frames; never change its shape or colors.")
 
-GREEN = ("Solid flat pure chroma-key green background (#00FF00), evenly lit, no shadows, no floor, "
-         "no particles, no sparkles, no text. Locked-off static camera, full body centered with margin, "
-         "always facing the viewer. Smooth polished Pixar-like animation.")
+GREEN = ("Flat pure chroma-key green background (#00FF00), even light, no shadow, no floor, no particles, no text. "
+         "Static camera, full body centered, always facing the viewer. Smooth Pixar-like animation.")
 
-CREAM = ("Warm cream background (#FBF5E8) with a soft round floor shadow and gentle studio light. "
-         "Static camera, character centered and always facing the viewer, nothing covers its face. "
-         "Absolutely no text, letters, numbers or symbols. Smooth polished Pixar-like animation.")
+CREAM = ("Warm cream background (#FBF5E8), soft floor shadow, gentle studio light. "
+         "Static camera, character centered, always facing the viewer, face never covered. "
+         "No text, letters, numbers or symbols. Smooth Pixar-like animation.")
 
 # 参照ポーズ（public/mascots/<pose>.webp）
 POSES = ['basic', 'bowing', 'cheering', 'good', 'happy', 'listening', 'science', 'sleeping',
          'studying', 'thinking', 'trophy', 'walking']
 
+# Last のコマのポーズ（動画の最後をこの形で止めると Last の画像にぴたりと着地する）
+POSE_END = {
+    'basic': 'standing straight, pencil in the right hand, left hand slightly out, friendly smile',
+    'bowing': 'bowing deeply with eyes closed and both hands together in front',
+    'cheering': 'a happy banzai with both arms raised high and eyes closed in a big smile',
+    'good': 'winking with a thumbs-up from the left hand, pencil in the right hand',
+    'happy': 'arms up, laughing with joy, one foot lifted in a little hop',
+    'listening': 'wearing white headphones, eyes closed with a calm smile',
+    'science': 'wearing goggles, holding a small green flask up beside it',
+    'sleeping': 'asleep under a blue starry blanket with a pillow',
+    'studying': 'sitting with legs out, reading an open blue book held in both hands',
+    'thinking': 'one finger on its chin, eyes looking up thoughtfully',
+    'trophy': 'holding a golden trophy above its head with both hands',
+    'walking': 'mid-step, one leg forward, arms swinging',
+}
+
 # 既存動画の1コマ目（クリーム背景の正方形・床の影あり）。撮り直しの First/Last にそのまま使える
 CINE_FRAMES = ['title_first', 'attack_first', 'gacha_first', 'victory_first']
 
-# first / last：'green:<pose>' 'cream:<pose>' 'frame:<既存動画の1コマ目>' のどれか。last=None は First だけ
+# first / last：'green:<pose>' 'cream:<pose>' 'night:<pose>' 'frame:<既存動画の1コマ目>' のどれか。
+# ★First と Last は全部の動画で必ず入れる（入れないと Firefly がとびら君を別のキャラにしてしまう）。
 V = []
 def add(**kw):
     kw.setdefault('last', kw['first'])
@@ -62,7 +80,7 @@ add(id='C02', name='attack', kind='cinema', prio='A', status='reshoot', sec='3.0
     ja='きりっと構える → 鉛筆の先が青と金に光る → 前へ踏み込み大きく一振り（光の弧）→ 床に波紋 → ぴょんと戻って元の立ち姿',
     action=("Combo special attack: the character crouches with a determined face, the pencil tip glows blue and gold, "
             "it steps forward and swings the pencil in one big arc leaving a glowing light-blue trail, "
-            "a soft ring ripples on the floor, then it hops back to its original friendly standing pose. "
+            "a soft ring ripples on the floor, then it hops back. "
             "It never turns its back to the viewer."),
     note='前回は回転で背中が見えた。今回は「背中を見せない」を明記。長さは取り込みで 2.3〜3.0 秒に切る（テストで 3.5 秒未満を確認）')
 
@@ -72,9 +90,8 @@ add(id='C03', name='gacha', kind='cinema', prio='A', status='reshoot', sec='3.0'
     ja='わくわく顔で両手を胸の前に → 顔の扉がゆっくり開き、中から白い光がもれる → 扉を閉じて元の立ち姿（色はつけない＝レア度はこの後で見せる）',
     action=("Gacha opening, anticipation: the character looks excited and holds both hands near its chest, "
             "the door on its face slowly swings open and soft white light glows from inside, "
-            "it peeks at the viewer with a playful smile, then the door closes halfway again "
-            "and it returns to the same standing pose."),
-    note='光の色は白だけ（金・虹は UR 用に取っておく）。手の鉛筆・三角が消えたら作り直し')
+            "it peeks at the viewer with a playful smile, then the door closes halfway again."),
+    note='光の色は白だけ（金・虹は UR 用に取っておく）。手の鉛筆が消えたら作り直し')
 
 add(id='C04', name='victory', kind='cinema', prio='A', status='reshoot', sec='3.5',
     first='frame:victory_first', last='cream:cheering', cut='0.0 3.6',
@@ -114,24 +131,27 @@ add(id='C07', name='gacha_sr', kind='cinema', prio='A', sec='2.5',
     note='')
 
 add(id='C08', name='gacha_ur_build', kind='cinema', prio='A', sec='3.0',
-    first='cream:basic', last=None, cut='0.0 3.0',
+    first='cream:basic', last='night:basic', cut='0.0 3.0',
     where='ガチャ：UR の前半「ため」（GachaReveal.tsx）。画面が暗くなり金色が満ちていく',
     ja='背景が夜空のように暗くなる → とびら君の扉のふちが金色に光りだす → 足元から金色の光の輪が何重にも広がる → 扉のすき間から虹色の光線がもれる（まだ開けない）',
     action=("Ultra rare build-up: the cream background slowly dims to a deep night-blue, the edges of the character's door "
             "begin to glow bright gold, golden rings of light pulse outward from its feet one after another, "
             "and rainbow light beams leak from the gap of the door. The character trembles with excitement, "
-            "eyes wide, holding the door knob."),
-    note='Last は入れない（First だけ＋Camera: Static）。暗くなっても体の色は変えない。3秒で切り、C09 へつなぐ')
+            "eyes wide, holding the knob. Its body colors never change."),
+    bg=("Background goes from warm cream (#FBF5E8) to deep night-blue with a golden glow. "
+        "Static camera, character centered, always facing the viewer. No text. Smooth Pixar-like animation."),
+    note='Last は refs/night/basic.png（夜空色の背景＋金の光の輪）。C09 の First も同じ画像なので、C08 の最後と C09 の最初がぴったりつながる。暗くなっても体の色は変えない')
 
 add(id='C09', name='gacha_ur_finale', kind='cinema', prio='A', sec='4.0',
-    first='cream:basic', last='cream:trophy', cut='0.0 4.0',
+    first='night:basic', last='cream:cheering', cut='0.0 4.0',
     where='ガチャ：UR の後半「大当たり」（GachaReveal.tsx）。景品＝本（UR プリント）が出てくる',
     ja='扉が全開 → 金と虹の光が噴き出す → 光の中から金色に輝く分厚い本がゆっくり浮かび上がる → とびら君が本を高くかかげる → 金色の紙ふぶき',
     action=("Ultra rare jackpot: the door on its face bursts wide open and brilliant gold and rainbow light pours out, "
-            "a thick glowing golden book slowly rises from the light, the character catches it and holds it high above "
-            "its head with both hands, golden confetti and twinkling stars rain down, a warm golden glow fills the scene. "
-            "Grand and luxurious."),
-    note='本の表紙に文字が出たら作り直し（「no text」が効かないときは本を「plain golden cover」と書き足す）')
+            "a thick glowing golden book with a plain cover slowly rises and hovers above its head, "
+            "the character throws both arms up in joy, golden confetti and stars rain down. Grand and luxurious."),
+    bg=("Background goes from deep night-blue back to warm cream (#FBF5E8) as the light pours out. "
+        "Static camera, character centered, always facing the viewer. No text. Smooth Pixar-like animation."),
+    note='First は C08 の Last と同じ refs/night/basic.png。本の表紙に文字が出たら作り直し（「no text」が効かないときは本を「plain golden cover」と書き足す）')
 
 # ════════════════════════════════════════════════════════════════
 # C. そのほかの全画面演出（新規）
@@ -199,7 +219,7 @@ add(id='M01', name='greet', kind='motion', prio='A', sec='3.0', first='green:bas
     where='ホームのとびら君（Home.tsx）：その日はじめて開いたとき',
     ja='まばたき → 正面に2回手をふる → 小さくはねる → 元の立ち姿',
     action=("The character blinks, smiles at the viewer and waves hello with the pencil hand two times, "
-            "does a tiny happy bounce, then lowers its arm and settles back into its original standing pose."))
+            "does a tiny happy bounce, then lowers its arm."))
 add(id='M02', name='wakeup', kind='motion', prio='A', sec='3.5', first='green:sleeping', last='green:basic', cut='0.5 3.5',
     where='ホーム：3日以上あいて開いたとき（greet の代わり）',
     ja='ねむそうに目を開ける → 目をこする → 伸びをして小さくあくび → 気づいて手をふる',
@@ -209,7 +229,7 @@ add(id='M03', name='cheer', kind='motion', prio='A', sec='2.5', first='green:bas
     where='ミッション達成スタンプ（MissionToast.tsx）',
     ja='少ししゃがむ → バンザイでジャンプ → ふわっと着地 → 得意げにうなずく',
     action=("The character crouches slightly, jumps up joyfully with both arms raised in a banzai pose, "
-            "lands softly with a small squash-and-stretch bounce, gives a proud nod and returns to its standing pose."))
+            "lands softly with a small squash-and-stretch bounce, gives a proud nod."))
 add(id='M04', name='encourage', kind='motion', prio='A', sec='3.0', first='green:thinking', last='green:basic', cut='0.3 3.0',
     where='対戦の負け（BattleResult.tsx）',
     ja='少ししょんぼり → 深呼吸 → ガッツポーズで力強くうなずく',
@@ -311,14 +331,28 @@ add(id='M24', name='clap', kind='motion', prio='C', sec='2.0', first='green:happ
     action=("The character claps happily several times with a big smile."))
 
 
+def end_pose(spec):
+    return POSE_END.get(spec.split(':')[1]) if spec and not spec.startswith('frame:') else None
+
+
 def prompt(v):
-    bg = GREEN if v['kind'] == 'motion' else CREAM
-    end = ''
-    if v['kind'] == 'motion' and not v['loop'] and v['last'] == v['first']:
-        end = ' It starts and ends in the exact same pose and position.'
+    bg = v.get('bg') or (GREEN if v['kind'] == 'motion' else CREAM)
+    pose = end_pose(v['last'])
+    start = end_pose(v['first'])
     if v['loop']:
-        end = ' The last frame matches the first frame exactly.'
-    return f"{CHAR}\n{v['action']}{end}\n{bg}"
+        end = ' Seamless loop: the last frame matches the first frame exactly.'
+    elif v['last'] == v['first']:
+        end = ' It starts and ends in the exact same pose and place' + (f' ({pose}).' if pose else '.')
+    else:
+        end = f' It ends exactly in the last-frame pose: {pose}.' if pose else ' It ends exactly on the last frame.'
+    action = v['action'].replace(' Seamless loop.', '').replace(' Seamless walk cycle loop.', ' Walk cycle.')
+    action = re.sub(r",?\s*then (settles back|returns to|hops back to)[^.,]*", '', action)
+    action = re.sub(r"\s*It settles back[^.]*\.", '', action).strip()
+    out = f"{CHAR}\n{action}{end}\n{bg}"
+    if start and v['first'] != v['last'] and not v['loop']:
+        longer = f"{CHAR}\nIt begins in the first-frame pose ({start}). {action}{end}\n{bg}"
+        if words(longer) <= 175: out = longer
+    return out
 
 
 def words(s):
@@ -328,4 +362,7 @@ def words(s):
 # Firefly のプロンプト上限（175語）を超えないこと
 for _v in V:
     assert words(prompt(_v)) <= 175, (_v['id'], words(prompt(_v)))
+# First / Last はかならず両方入れる（とびら君を認識させるため）
+for _v in V:
+    assert _v.get('first') and _v.get('last'), ('First/Last 必須', _v['id'])
 assert len({v['id'] for v in V}) == len(V) and len({v['name'] for v in V}) == len(V)
