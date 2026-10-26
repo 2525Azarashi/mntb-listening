@@ -5,6 +5,30 @@
 
 ---
 
+## 2026-10-26 UR に2冊追加（リスニング大問別・リーディング第3回）／ガチャの目玉にリスニング（PR: feat/firefly-kit-ur-deluxe）
+
+| 何を | どう変えた | ファイル |
+|---|---|---|
+| UR（完全版） | 7冊 → **9冊**：共通テスト英語リスニング 大問別演習（全6大問・3回分・79ページ・各問題に QR でアプリの音声）、リーディング大問別演習 第3回 | `src/data/gachaPrints.generated.ts` |
+| ガチャ部屋の目玉（今週の UR） | 優先する科目の先頭に `english_listening` を追加（リスニングの本が目玉に出やすい） | `src/components/GachaRoom.tsx` |
+| 動画プロンプト | 英文解釈用の動画 R01〜R07・扉絵60枚・本の図12枚を追加。PDF はコピペ用の文字ページつき | `scripts/firefly-kit/reading_media.py`、`build_reading_media.py`、`build_kit.py` |
+
+**戻し方**：目玉は `preferSubjects` から `'english_listening'` を外す。本は台帳の該当2件を消す（PDF は残っていても出ない）。
+
+## 2026-10-24 ガチャ：はずれ多め・UR は「完全版の本」だけ／Firefly 動画キット（PR: feat/firefly-kit-ur-deluxe）
+
+| 何を | どう変えた | ファイル |
+|---|---|---|
+| 抽選の割合 | N 65→**75%**・R 25→16%・SR 5→6%・UR 5→**3%** | `src/battle/core/arenaEconomy.ts` |
+| UR（大当たり） | 「その一冊で完成する本」（完全版）7冊だけに：英単語 Lv1／Lv2／Lv3・4、英熟語 全1885、共通テスト英語リーディング大問別演習 第1回・第2回、共通テスト全科目 出題分析 | `src/data/gachaPrints.generated.ts`（category: '完全版'）、`growthItems.ts`（`printRarity`） |
+| これまでの学習プリント（単元・100語テスト等 50種） | UR → **SR** に移動（中身は同じ） | `growthItems.ts` |
+| 提供割合の説明・空のときの文言 | 「URは完全版の本」「SRで学習プリント」に | `GachaCollectionModal.tsx`、`MyCollection.tsx` |
+| 動画 | Adobe Firefly 用キット（40本：撮り直し4＋新規36）の元データと PDF・画像の作り方 | `scripts/firefly-kit/*`、`docs/FIREFLY_KIT.md` |
+
+本の作り方：`python3 scripts/gacha-prints/build-vocab-book.py`／`build-reading-mock.py`／`build-analysis-book.py`（共通部品 `book_common.py`）。
+
+**戻し方**：割合だけ戻すなら `GACHA_RARITY_RATES` を `{ UR: 0.05, SR: 0.05, R: 0.25, N: 0.65 }` に、旧プリントを UR に戻すなら `printRarity` を常に 'UR' に。
+
 ## 2026-10-24 ガチャに LR（レジェンドレア）を追加＝共通テスト英語 予想問題 5回分（PR: feat/kyotsu-mock-lr）
 
 | 何を | どう変えた | ファイル |

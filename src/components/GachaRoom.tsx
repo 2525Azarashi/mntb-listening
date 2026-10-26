@@ -194,7 +194,7 @@ function GachaRoomContent({
   };
 
   const featured = useMemo(
-    () => gachaFeatured({ preferSubjects: ['english_vocab', 'english_grammar'], srCount: 0, rCount: 0 }),
+    () => gachaFeatured({ preferSubjects: ['english_listening', 'english_vocab', 'english_grammar'], srCount: 0, rCount: 0 }),
     [],
   );
   const busyView = revealing || !!result || !!multi;

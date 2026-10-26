@@ -35,7 +35,7 @@ describe('LR：共通テスト 英語 予想問題', () => {
     }
     expect(Object.values(GACHA_RARITY_RATES).reduce((a, b) => a + b, 0)).toBeCloseTo(1, 10);
     expect(GACHA_RARITY_RATES.LR).toBe(0.01);
-    expect(GACHA_RARITY_RATES.UR).toBe(0.05);
+    expect(GACHA_RARITY_RATES.UR).toBe(0.03); // 2026-10-26 統合：UR は完全版の本だけ・3%
     expect(gachaItemRate(tiers.LR[0])).toBeCloseTo(0.01 / tiers.LR.length, 10);
   });
   it('乱数の先頭 1% で LR が出る・かけらとは交換できない', () => {

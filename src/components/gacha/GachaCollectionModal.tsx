@@ -47,7 +47,7 @@ export function GachaCollectionModal({ oddsDialog, items, tiers, progress }: {
             <li><RarityTag rarity="R" /><b>{pct(GACHA_RARITY_RATES.R)}%</b></li>
             <li><RarityTag rarity="N" /><b>{pct(GACHA_RARITY_RATES.N)}%</b></li>
           </ul>
-          <p>LRは共通テスト英語の予想問題{tiers.LR.length}種（1種あたり約{pct(GACHA_RARITY_RATES.LR / Math.max(1, tiers.LR.length))}%）、URは学習プリント{tiers.UR.length}種（1種あたり約{pct(GACHA_RARITY_RATES.UR / Math.max(1, tiers.UR.length))}%）です。</p>
+          <p>LRは共通テスト英語の予想問題{tiers.LR.length}種（1種あたり約{pct(GACHA_RARITY_RATES.LR / Math.max(1, tiers.LR.length))}%）、URは「その一冊で完成する本」（完全版）{tiers.UR.length}種（1種あたり約{pct(GACHA_RARITY_RATES.UR / Math.max(1, tiers.UR.length))}%）です。単元ごとの学習プリントはSRで出ます。</p>
         </section>
         <section className="gacha-odds-section" aria-labelledby="gacha-multi-heading">
           <h3 id="gacha-multi-heading">10＋1連</h3>
@@ -132,7 +132,7 @@ export function GachaCollectionModal({ oddsDialog, items, tiers, progress }: {
               {collectionFilter === 'owned' && n === 0 && (
                 <p>
                   {collectionKind === 'print'
-                    ? 'まだ学習プリントを持っていません。大当たり（UR）で出ます。'
+                    ? 'まだ学習プリントを持っていません。SR（学習プリント）とUR（完全版の本）で出ます。'
                     : 'まだガチャ対象の装飾を持っていません。'}
                 </p>
               )}
