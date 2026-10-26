@@ -10,13 +10,14 @@ P5 = {
   'blocks': [
    ('box', [
     ('title', 'Volunteer at Meadowfield Music Festival! (25–27 July)'),
-    ('p', 'We need 200 volunteers to help our festival run smoothly. All volunteers work **three 6-hour shifts** over the weekend and get **free entry for all three days** when they are not working, plus a meal voucher for each shift.'),
+    ('p', 'We need 200 volunteers to help our festival run smoothly. All volunteers work **three 6-hour shifts** over the weekend and get **free entry for all three days** when they are not working, plus a meal voucher for each shift. Volunteering is a great way to see your favourite bands, meet new people and gain experience that looks good on a CV.'),
     ('table', [['Role', 'What you do', 'Minimum age'],
                ['Welcome Team', 'Check tickets and give out wristbands at the gates', '16'],
                ['Green Team', 'Help visitors sort rubbish into recycling bins', '16'],
                ['Kids\' Zone', 'Run games and craft activities for children', '18'],
                ['Info Point', 'Answer questions; give directions; speak another language (preferred)', '17']], [35, 105, 40]),
-    ('p', 'Apply online by 30 June. Volunteers must attend a one-hour online training session on 15 July. A £30 deposit is taken when you apply and returned after you complete all your shifts.'),
+    ('p', 'Apply online by 30 June. Volunteers must attend a one-hour online training session on 15 July. A £30 deposit is taken when you apply and returned after you complete all your shifts. '
+          'Last year, our volunteers collected more than four tonnes of recycling and helped over 1,500 children make crafts. "It was hard work, but I made friends from all over the country," said one volunteer.'),
    ], '#f4f8f1'),
    ('box', [
     ('h', 'Application (summary)'),
@@ -26,10 +27,20 @@ P5 = {
    ('box', [
     ('small', '**From:** Volunteer Office\n**To:** Mei Tanaka\n**Subject:** Your volunteer role'),
     ('p', 'Dear Mei,'),
-    ('p', 'Thank you for applying! Unfortunately, we are unable to place you in your first choice because of the age requirement. However, we are delighted to offer you a place in your second choice — your language skills will be very useful there.'),
+    ('p', 'Thank you for applying! Unfortunately, we are unable to place you in your first choice because of the age requirement. However, we are delighted to offer you a place in your second choice — your language skills will be very useful there. Many international visitors come to our festival every year, and last year we had guests from more than twenty countries.'),
     ('p', 'Your shifts are: Friday 12:00–18:00, Saturday 08:00–14:00 and Sunday 14:00–20:00. Please note that the online training has been moved from 15 July to **16 July** at 7 p.m.'),
-    ('p', 'Volunteers who camp can use the volunteers\' campsite, which has hot showers. See you there!'),
+    ('p', 'Volunteers who camp can use the volunteers\' campsite, which has hot showers. It is next to the Main Stage, so it can be noisy until midnight — earplugs are recommended! '
+          'Please collect your volunteer T-shirt and meal vouchers at the Info Point when you arrive on Friday, at least 30 minutes before your first shift. See you there!'),
    ], '#fbfaf6'),
+   ('box', [
+    ('h', 'Info Point Volunteers — Quick Guide'),
+    ('pl', '• The Info Point is in the middle of the festival site, between the Kids\' Zone and the recycling area. Look for the big blue "i" sign.\n'
+           '• Most questions are about toilets, lost property, stage times and the last buses into town. A printed timetable and a site map will be at the desk.\n'
+           '• If a child is lost, do not leave the Info Point. Call the security team on the radio and keep the child with you until a team leader arrives.\n'
+           '• Visitors from abroad often come to us first. Wear the badge showing the languages you speak so they can find you easily.'),
+    ('pl', '**FAQ:** Can I swap shifts with a friend? — Yes, but only through the Volunteer Office, at least three days before the festival. '
+           'What if I am ill on the day? — Call the office as early as possible. If you bring a doctor\'s note, your deposit will still be returned.'),
+   ], '#ffffff'),
   ],
   'qs': [
    {'no': 1, 'prompt': 'Which role will Mei have?', 'pts': 3, 'ans': 4,
@@ -67,15 +78,16 @@ P6 = {
    ('box', [
     ('title', 'The Keeper of Gull Point'),
     ('p', 'Ada Pell was born in 1841 in the lighthouse at Gull Point, a rocky headland on the coast of Cornwall. Her father was the lighthouse keeper, and from the age of eight, Ada helped him clean the great lamp and record the weather in the logbook every four hours. '
-          'She learned to read the sea the way other children learned to read books.'),
+          'She learned to read the sea the way other children learned to read books. She went to school in the village only in summer, when the path along the cliffs was safe, but her father taught her arithmetic by asking her to calculate the hours of oil the lamp would need each night.'),
     ('p', 'When her father died suddenly in 1863, the authorities planned to send a new keeper from London. Ada, then 22, wrote a letter asking to take over the job. At first, they refused, saying the work was "unsuitable for a woman." '
-          'But no replacement could be found before winter, and they reluctantly allowed her to continue "for the time being."'),
+          'But no replacement could be found before winter, and they reluctantly allowed her to continue "for the time being." An inspector was sent to check her work every three months. His reports, still kept today, describe the lamp as "in excellent order" and the logbook as "the neatest on this coast."'),
     ('p', 'That winter tested her. On the night of 9 November 1864, a violent storm drove a cargo ship, the //Margaret Rose//, onto the rocks below the lighthouse. '
-          'Ada kept the lamp burning all night, and at dawn, when the wind dropped slightly, she and a local fisherman rowed out in a small boat and brought back five of the crew. Two more were rescued later that morning by a lifeboat from the nearby town.'),
+          'Ada kept the lamp burning all night, and at dawn, when the wind dropped slightly, she and a local fisherman rowed out in a small boat and brought back five of the crew. Two more were rescued later that morning by a lifeboat from the nearby town. Sadly, the ship\'s captain was never found. For the rest of her life, Ada kept a small piece of the //Margaret Rose// on the windowsill of the lamp room.'),
+    ('p', 'Life at the lighthouse was lonely. Supplies came by boat once a fortnight, and in bad weather, Ada sometimes went for six weeks without seeing anyone except the fisherman who had helped with the rescue. She filled the long evenings by reading, mending nets for the village and writing letters to her sister in Plymouth, many of which have survived. In them, she describes the colour of the sea, the birds that rested on the gallery during storms and the exact time of every sunrise.'),
     ('p', 'The rescue made her briefly famous. Newspapers called her "the Heroine of Gull Point," and visitors came to see her. Ada disliked the attention. "I did what any keeper would do," she wrote to her sister. "The real work is not the storm. It is the four-hourly log, every day, for years."'),
     ('p', 'In fact, it was the logbook that became her greatest achievement. Over the next twenty years, Ada compared her weather records with the times of the tides and the reports of local fishermen. '
           'She noticed that certain wind directions combined with high spring tides almost always produced dangerous waves near the harbour entrance. In 1885, she produced a simple table that fishermen could use to decide whether it was safe to go out. Local records suggest that the number of fishing boats lost near Gull Point fell sharply in the following decade.'),
-    ('p', 'Ada remained keeper until 1901, when she was sixty. The authorities, who had once called the job unsuitable for a woman, presented her with a silver medal for "long and faithful service." Her logbooks, covering almost forty years, are now kept in the county archive, where scientists still use them to study changes in the local climate.'),
+    ('p', 'Ada remained keeper until 1901, when she was sixty. The authorities, who had once called the job unsuitable for a woman, presented her with a silver medal for "long and faithful service." At the ceremony, she thanked the fishermen of the village rather than the officials. Her logbooks, covering almost forty years, are now kept in the county archive, where scientists still use them to study changes in the local climate. Ada spent her last years in a cottage in the village, where fishermen often came to ask her opinion before going out to sea. The lighthouse was made automatic in 1953 and no longer has a keeper. Today, visitors can climb its 112 steps in summer. On the wall of the lamp room hangs a copy of Ada\'s 1885 table, and beside it a short line from one of her letters: "Watch, write it down, and the sea will tell you its secrets."'),
    ], '#fbfaf6'),
    ('box', [
     ('ja', '**発表メモ**'),
@@ -115,16 +127,18 @@ P7 = {
   'blocks': [
    ('box', [
     ('title', 'Tiny Pieces, Big Problem'),
-    ('p', 'Microplastics are pieces of plastic smaller than five millimetres — about the size of a sesame seed or smaller. They have been found almost everywhere scientists have looked: in deep ocean trenches, in Arctic snow, in tap water and even in human blood.'),
+    ('p', 'Plastic is cheap, light and strong, which is why we use so much of it — more than 400 million tonnes are produced around the world every year. But these same qualities mean it does not easily disappear. Microplastics are pieces of plastic smaller than five millimetres — about the size of a sesame seed or smaller. They have been found almost everywhere scientists have looked: in deep ocean trenches, in Arctic snow, in tap water and even in human blood. Some estimates suggest that the average person may swallow tens of thousands of tiny plastic particles every year through food, water and the air.'),
     ('p', 'Scientists divide microplastics into two types. **Primary** microplastics are made small on purpose. Examples include the tiny beads once common in face scrubs and toothpaste, many of which are now banned in several countries. '
           '**Secondary** microplastics, which make up the majority, come from larger objects that break down over time. A plastic bottle left on a beach is slowly broken into smaller and smaller pieces by sunlight and waves.'),
+    ('p', 'The story of microbeads shows that action is possible. In the early 2010s, scientists began reporting large numbers of tiny plastic beads in lakes and rivers. Within a few years, public campaigns led the United States, the United Kingdom, Canada and other countries to ban them in rinse-off cosmetics. Companies replaced them with natural materials such as ground nut shells or salt. However, microbeads were only a small part of the problem, and banning secondary microplastics is far more difficult, because they come from so many everyday products.'),
     ('p', 'One surprising source is our clothes. Many fabrics, such as polyester and nylon, are made from plastic. Each time they are washed, thousands of tiny fibres come loose and flow into wastewater. '
-          'Treatment plants catch many of them, but not all. Car tyres are another major source: as they wear down on roads, they release particles that are washed into rivers by rain.'),
+          'Treatment plants catch many of them, but not all. Car tyres are another major source: as they wear down on roads, they release particles that are washed into rivers by rain. Even paint on buildings and ships, and the artificial grass used on some sports fields, can release tiny plastic pieces as they wear away.'),
     ('p', 'What harm do microplastics cause? In the sea, animals such as fish, shellfish and seabirds often mistake them for food. This can make the animals feel full without receiving any nutrition, and some studies have linked it to slower growth. '
-          'Because small animals are eaten by larger ones, microplastics can move up the food chain. The effects on human health, however, are still unclear. Researchers have found microplastics in the human body, but they do not yet know whether — or how much — they are harmful.'),
+          'Because small animals are eaten by larger ones, microplastics can move up the food chain. The effects on human health, however, are still unclear. Researchers have found microplastics in the human body, but they do not yet know whether — or how much — they are harmful. Studying this is difficult, because there is no group of people who have never been exposed to microplastics to compare with.'),
+    ('p', 'Microplastics can also carry other problems with them. Their surfaces easily attract harmful chemicals from the surrounding water, so a single particle may contain much higher levels of pollution than the water around it. Bacteria can grow on them too, and floating plastic may carry these organisms to places they would never normally reach. Scientists are still studying how serious these risks are.'),
     ('p', 'Solutions exist at several levels. Governments can ban unnecessary plastic products and require better filters at treatment plants. Manufacturers can design fabrics that shed fewer fibres. '
-          'Individuals can help too: washing synthetic clothes less often, using a special laundry bag that traps fibres, choosing natural materials such as cotton or wool when possible, and reducing single-use plastics.'),
-    ('p', 'Because microplastics are so small and so widespread, removing them from the environment is nearly impossible. The most effective strategy, experts agree, is to stop them from entering it in the first place.'),
+          'Individuals can help too: washing synthetic clothes less often, using a special laundry bag that traps fibres, choosing natural materials such as cotton or wool when possible, and reducing single-use plastics. In France, a law now requires all new washing machines to be fitted with a microfibre filter, and several other countries are considering similar rules. Some clothing companies have started testing fabrics that lose up to 80 percent fewer fibres in the wash.'),
+    ('p', 'Because microplastics are so small and so widespread, removing them from the environment is nearly impossible. The most effective strategy, experts agree, is to stop them from entering it in the first place. Every plastic item that is reused, recycled or never bought is one less source of the tiny pieces that may stay in our oceans and soils for hundreds of years.'),
    ], '#fbfaf6'),
    ('slide', 'Microplastics', ['Definition: plastic pieces smaller than 5 mm', 'Two types: ( 問1 )', 'Sources: face scrubs, bottles, ( 問2 )',
                                'Effects: animals → certain / humans → ( 問3 )', 'Best strategy: ( 問4 )']),
@@ -159,17 +173,28 @@ P8 = {
   'blocks': [
    ('box', [
     ('h', 'Source A — Research summary'),
-    ('p', 'During adolescence, the body\'s internal clock shifts later. Teenagers typically start to feel sleepy around 11 p.m. and are biologically ready to wake at about 8 a.m. This is not laziness; it is a natural change. '
-          'Medical associations in several countries recommend that secondary schools start no earlier than 8:30 a.m.'),
+    ('p', 'Most adults have noticed that teenagers find it hard to get up in the morning. For a long time, this was blamed on bad habits. Research over the past thirty years, however, tells a different story. During adolescence, the body\'s internal clock shifts later. Teenagers typically start to feel sleepy around 11 p.m. and are biologically ready to wake at about 8 a.m. This is not laziness; it is a natural change. '
+          'Medical associations in several countries recommend that secondary schools start no earlier than 8:30 a.m. '
+          'Sleep loss in teenagers has been linked to poorer concentration, lower test scores, more car accidents among young drivers and a higher risk of low mood. One review found that students who slept less than seven hours a night were more likely to feel sleepy in class and to say that they found it hard to control their emotions. '
+          'Not every school that changed its start time saw the same results, however. In schools where students simply stayed up later, the benefits were smaller. Researchers say a later start works best when it is combined with advice for students and families about healthy sleep habits, such as keeping screens out of the bedroom.'),
    ], '#fbfaf6'),
    ('line', {'title': 'Results at Westbrook High (start time moved from 8:00 to 8:50 in Year 2)', 'cats': ['Year 1', 'Year 2', 'Year 3'],
              'series': [[6.6, 7.3, 7.4], [12, 7, 6]], 'legend': ['Average sleep (hours)', 'Late arrivals (per day)'], 'maxv': 14}),
    ('box', [
     ('h', 'Source B — Opinions'),
-    ('pl', '**Yuto (student):** I take a 70-minute train to school. With an 8:00 start, I leave home at 6:30 and fall asleep in first period. A later start would change my life.'),
-    ('pl', '**Mrs. Clarke (parent):** I start work at 8:30. If school starts later, I can\'t drive my daughter there. Schools need to think about families like mine.'),
+    ('pl', '**Yuto (student):** I take a 70-minute train to school. With an 8:00 start, I leave home at 6:30 and fall asleep in first period. A later start would change my life. On weekends I wake up naturally at about 8:30 and feel great.'),
+    ('pl', '**Mrs. Clarke (parent):** I start work at 8:30. If school starts later, I can\'t drive my daughter there. Schools need to think about families like mine. I am not against the idea, but there must be somewhere safe for children to wait.'),
     ('pl', '**Mr. Ito (football coach):** If classes finish later, practice will end after dark in winter. We would need to rethink club schedules.'),
-    ('pl', '**Ms. Reyes (principal):** At Westbrook, we solved the transport problem by opening the library at 7:30 for early arrivals, and we moved some club activities to the morning.'),
+    ('pl', '**Hana (student):** I like the early start because school finishes early and I have time for my part-time job. I go to bed at 10, so I\'m not tired. I don\'t think one rule fits everyone.'),
+    ('pl', '**Dr. Patel (school doctor):** Many of the students I see in the morning have headaches or feel dizzy, and when I ask, they have usually slept five or six hours. A later start is not a magic cure, but it gives their bodies a fairer chance.'),
+    ('pl', '**Ms. Reyes (principal):** At Westbrook, we solved the transport problem by opening the library at 7:30 for early arrivals, and we moved some club activities to the morning. Teachers were worried about finishing later, but most now say that students are more awake in the first lesson.'),
+   ], '#fbfaf6'),
+   ('box', [
+    ('h', 'Source C — Local newspaper: "Two Years On, Westbrook Says Later Is Better"'),
+    ('p', 'When Westbrook High moved its start time from 8:00 to 8:50, not everyone was convinced. Some parents signed a letter asking the school to think again, and local bus companies had to change their timetables. '
+          'Two years later, the mood has changed. "The first lesson used to be the worst of the day," says maths teacher Lucy Brown. "Now students actually answer questions at nine o\'clock." Attendance in the first lesson has risen, and the school says the number of students arriving late has fallen by half.'),
+    ('p', 'The school has also noticed fewer visits to the nurse\'s room in the morning. However, the change has not solved every problem. Students who work in the evening say they are still short of sleep, '
+          'and the school admits that a few families continue to find the new schedule difficult. Westbrook now holds a meeting every spring at which parents and students can share their views on the timetable.'),
    ], '#fbfaf6'),
    ('box', [
     ('ja', '**エッセイの構成メモ**'),
