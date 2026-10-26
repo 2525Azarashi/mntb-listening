@@ -11,14 +11,17 @@
 | `store-assets/_tools/record_scenes.py` | 録画：リスニング・ガチャ・復習・ミッションなど（スマホ／`REC_DEVICE=pc` でパソコン） |
 | `store-assets/_tools/record_duo.py` | 録画：スマホとパソコンの2台で本当に全国対戦（Firebase エミュレーター） |
 | `store-assets/_tools/record_vocab.py` | 録画：英単語帳・英単語の4択・英文解釈・英単語の対戦 |
+| `store-assets/_tools/record_listening.py` | 録画：リスニングの大問タブ・第3問を解く・解説の聞き直し・音読練習・リスニング対戦。**アプリが鳴らした音源と再生／停止の時刻を json の `audio` に残す**（編集で同じ音を同じ時刻に重ねる） |
+| `store-assets/_tools/promo_parts.py` | **台本の共通部品**（縦のカード配置 `full()`・道のり `road()`・見出し `caption()`・`sc_steps()`・`outro()`・`message()`・音の割りつけ `collect()`・`voice_from_log()`・書き出し `build()`）。新しい台本はこれを import して場面だけ書く |
 | `store-assets/_tools/promo_cut.py` | 台本：リスニング編（リール・フィード・YouTube）→ `store-assets/instagram/`, `store-assets/youtube/` |
 | `store-assets/_tools/promo_vocab.py` | 台本：英単語・英熟語編（リール・ストーリーズ・YouTube）→ `store-assets/vocab/` |
+| `store-assets/_tools/promo_listening.py` | 台本：英語リスニング編（リール・ストーリーズ・YouTube）→ `store-assets/listening/`。`promo_parts.py` を使った最初の台本＝**次の台本はこれをコピーして始める** |
 | `store-assets/_tools/promo_sfx.py` | 冒頭の効果音を数式で作る（素材なし・表記不要） |
 | `store-assets/_tools/measure.py` | 測る道具：画面が変わった時刻・時刻つきの静止画一覧・BGM の音量の山 |
 | `store-assets/_tools/text_rects.py` | 画面の中の文字の位置を取る（長文の単語を光らせる場所） |
 | `store-assets/_tools/setup.sh`, `requirements.txt` | 新しい環境の準備 |
-| `store-assets/_footage/` | **録画素材**（Git LFS）。`scenes3`＝スマホ、`scenes_pc`＝パソコン、`scenes_duo`＝2台対戦、`vrec_ph`／`vrec_pc`＝英単語編。各 `.json` にタップ・再生・正解の時刻 |
-| `store-assets/instagram/`, `youtube/`, `vocab/` | できあがりの動画と、投稿文（`CAPTIONS.md`）・説明（`README.md`） |
+| `store-assets/_footage/` | **録画素材**（Git LFS）。`scenes3`＝スマホ、`scenes_pc`＝パソコン、`scenes_duo`＝2台対戦、`vrec_ph`／`vrec_pc`＝英単語編、`lrec_ph`／`lrec_pc`＝リスニング編。各 `.json` にタップ・再生・正解の時刻 |
+| `store-assets/instagram/`, `youtube/`, `vocab/`, `listening/` | できあがりの動画と、投稿文（`CAPTIONS.md`）・説明（`README.md`） |
 
 ## 2. 準備（新しい環境で1回）
 
@@ -45,7 +48,7 @@ bash store-assets/_tools/setup.sh      # git lfs pull（録画素材）・pip・
    python3 store-assets/_tools/measure.py changes store-assets/_footage/vrec_ph/battle.mp4 9 60 --th 10
    python3 store-assets/_tools/measure.py loud public/tanjou.mp3
    ```
-4. **編集**：台本ファイル（`promo_vocab.py` をコピーして `promo_<テーマ>.py`）を書く
+4. **編集**：台本ファイル（`promo_listening.py` をコピーして `promo_<テーマ>.py`）を書く。共通部品は `promo_parts.py`
    ```sh
    python3 store-assets/_tools/promo_<テーマ>.py .tmpwork/out reel --sheet       # 1秒ごとの静止画一覧（数秒で終わる）
    FRAMES=10,22.5,38 python3 store-assets/_tools/promo_<テーマ>.py .tmpwork/out reel   # 指定時刻を原寸の半分で確認
@@ -66,7 +69,8 @@ Func(lambda cv, t: ...)   # 自由に描く（カウンター・光る単語な�
 text_img('文字', 大きさ, 色, hl='強調', hl_mode='color')、pill_img('札', 大きさ, fg, bg)、load_sprite('public/mascots/happy.webp', h=高さ)
 render_video(shots, W, H, 出力)；mix_audio(長さ, music=[dict(f, src, at, dur, gain, fi, fo)], voice=[...], sfx=[(時刻, ファイル, 音量)], 出力, 作業dir)；mux(映像, 音, 出力)
 ```
-- `promo_vocab.py` の `full()`（縦は角丸カードに入れ、上に道のりと見出し）・`caption()`・`road()`・`reading_hl()`・`outro()` はそのまま流用できる。
+- `promo_parts.py` の `full()`（縦は角丸カードに入れ、上に道のりと見出し）・`caption()`・`road(L, 4語, k)`・`sc_steps()`・`outro()`・`message()` をそのまま使う（`reading_hl()` は `promo_vocab.py` にある）。
+- 問題の音声を入れたいときは、録画 json の `audio` を `voice_from_log()` で読み、`full(..., voice=それ)` に渡す。速さを変えたショット（`speed≠1`）と `freeze` の先には声を重ねない（自動）。英語の字幕は `Karaoke`（単語の時刻は `public/read_along/listening_audio/*.json`、和訳は `public/data/listeningTranslations.json`）。
 - `fit(roi, w, h, 元幅, 元高)`：元動画の「見せたい四角」から切り抜きを計算。`cams([(t, roi), ...])` でズームのキーフレーム。
 
 ## 5. 決まり（守ること）
@@ -96,3 +100,4 @@ render_video(shots, W, H, 出力)；mix_audio(長さ, music=[dict(f, src, at, du
 |---|---|---|---|
 | リスニング（第2問・2台で全国対戦） | `promo_cut.py` | `store-assets/instagram/`, `store-assets/youtube/` | 2026-10-17 |
 | 英単語・英熟語（覚える→演習→長文→対戦） | `promo_vocab.py` | `store-assets/vocab/` | 2026-10-24 |
+| 英語リスニング（解く→聞き直す→音読→対戦） | `promo_listening.py` | `store-assets/listening/` | 2026-10-26 |
