@@ -1,6 +1,6 @@
 import { useMountEffect } from '../hooks/useMountEffect';
 import { useRef, useState } from 'react';
-import { CinematicClip, CINEMATIC_CLIPS } from './CinematicClip';
+import { CinematicSequence, GACHA_REVEAL_CLIPS } from './CinematicClip';
 import type { GachaRarity } from '../battle/core/growth';
 import { play } from '../battle/ui/feedback';
 import { REVEAL_BURST_MS, burstSfx, revealSteps } from './gachaRevealSteps';
@@ -42,7 +42,7 @@ export function GachaReveal({ rarity, onDone }: { rarity: GachaRarity; onDone: (
 
   return <div className="gacha-cinema gacha-reveal" data-stage={step.stage} data-burst={burst || undefined} data-gacha-reveal>
     <div className="gacha-reveal-rays" aria-hidden="true" />
-    <div className="gacha-reveal-orb" aria-hidden="true"><CinematicClip src={CINEMATIC_CLIPS.gacha.src} label="ガチャの開封動画" /></div>
+    <div className="gacha-reveal-orb" aria-hidden="true"><CinematicSequence names={GACHA_REVEAL_CLIPS[rarity]} label="ガチャの開封動画" /></div>
     <div className="gacha-reveal-sparks" aria-hidden="true">{Array.from({ length: 12 }, (_, i) => <i key={i} style={{ ['--i' as string]: i }} />)}</div>
     <p className="gacha-reveal-caption" role="status" aria-live="assertive" key={step.stage}>{step.caption}</p>
     <ol className="gacha-reveal-meter" aria-hidden="true">{steps.map((s, i) => <li key={s.stage} data-stage={s.stage} data-on={i <= index || undefined} />)}</ol>

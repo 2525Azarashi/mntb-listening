@@ -20,6 +20,20 @@ python3 scripts/gacha-prints/build-science-ur.py            # 一部だけなら
 - 品質の下限は `tests/gachaPrintsQuality.test.ts`（100問すべてに解説・正解位置25問ずつ・4択の答えあり）。
 - 理科・化学・数学は `ur_common.py`（表紙・問題・解答用紙・答えの一覧・解説・要点・自己採点表）を共通で使う。IPAゴシックに無い下付き・上付き数字や ≤ ≥ は DejaVu Sans で描く。
 
+## UR「完全版」の本（2026-10-24）
+
+ガチャの UR（大当たり）は「その一冊で完成する本」だけ。単元プリント・100語テストは SR。
+
+```bash
+python3 scripts/gacha-prints/build-vocab-book.py        # 英単語 Lv1・Lv2・Lv3+4、英熟語（アプリの単語帳の全語）
+python3 scripts/gacha-prints/build-reading-mock.py      # 共通テスト英語リーディング 大問別演習 第1〜3回（問題データ reading_mock_a/b1/b2/c1/c2/c3.py・解き方 reading_guide.py）
+npx tsx scripts/gacha-prints/dump-listening.ts /tmp/listening.json && python3 scripts/gacha-prints/build-listening-book.py  # 共通テスト英語リスニング 大問別演習（アプリの問題・音声をそのまま使う。QR＝https://mntb-listening.vercel.app の mp3）
+python3 scripts/gacha-prints/build-analysis-book.py     # 共通テスト全科目 出題分析（データ analysis_*.py・出典つき）
+```
+- 共通レイアウトは `book_common.py`（紺と金の表紙・帯・囲み）。
+- 作り直したら `src/data/gachaPrints.generated.ts` の pages / kb を合わせる（`tests/gachaDeluxe.test.ts` が検査）。
+- リーディングは第1回（reading_mock_a.py）・第2回（reading_mock_b1.py＋b2.py）。第3回は同じ形のデータを足して BOOKS に1行追加。
+
 ## LR：共通テスト 英語 予想問題（2026-10-24）
 
 ```bash

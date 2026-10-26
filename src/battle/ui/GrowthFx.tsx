@@ -18,6 +18,7 @@ import { Check, Coins, Flame, Gift, Share2, Sparkles } from 'lucide-react';
 import { levelOf, loginBonusFor, ratingTierOf, type GrowthProgress, type LoginBonus } from '../core/growth';
 import { ratingTitle } from '../data/battleRanking';
 import { AMBER, GOLD, INK, INK_SUB, LINE } from './BattleParts';
+import { CelebrationClip } from '../../components/CinematicClip';
 import { GrowthAvatar } from './GrowthParts';
 import { play, primeAudio } from './feedback';
 
@@ -248,6 +249,8 @@ export function LoginBonusSheet({
       onClick={onClose}
     >
       {bonus.milestone && <Confetti />}
+      {/* ★2026-10-26★ とびら君がプレゼントを差し出す動画（7日連続は連続学習の動画）。その日1回だけ */}
+      <CelebrationClip name={bonus.milestone ? 'streak' : 'loginBonus'} label={bonus.milestone ? 'とびら君の連続ボーナス動画' : 'とびら君のログインボーナス動画'} onceKey={`login:${bonus.streak}:${new Date().toDateString()}`} />
       <div
         className="growth-sheet login-bonus-sheet overflow-y-auto overscroll-contain w-full max-w-sm rounded-3xl border-2 p-5"
         style={{ background: '#FFFDF7', borderColor: `${GOLD}AA`, boxShadow: '0 12px 40px -12px rgba(0,0,0,0.35)' }}

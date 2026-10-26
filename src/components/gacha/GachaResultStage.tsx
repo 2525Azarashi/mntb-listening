@@ -5,6 +5,7 @@
  */
 import type { ReactNode } from 'react';
 import { RarityStars } from '../GachaReveal';
+import { CelebrationClip } from '../CinematicClip';
 import { RARITY_STARS } from '../gachaRevealSteps';
 import { Badge, ItemCard } from '../ui';
 import { GACHA_COST } from '../../battle/core/arenaEconomy';
@@ -29,6 +30,7 @@ function SetCompleteNote({ sets }: { sets: string[] }) {
   if (!sets.length) return null;
   return <p className="gacha-set-complete" role="status" data-gacha-set-complete>
     <b>セット完成！</b>{sets.join('・')} → 称号と限定フレームを獲得
+    <CelebrationClip name="setComplete" label="とびら君のセット完成動画" onceKey={`set:${sets.join(',')}`} delayMs={500} />
   </p>;
 }
 
