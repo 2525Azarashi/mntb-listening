@@ -48,5 +48,12 @@
 | M22 | surprise | 背景なし | C | 1.5 | refs/green/basic.png → refs/green/basic.png | 時間切れ・タイムアップ | 未生成 |
 | M23 | write | 背景なし | C | 2.5↻ | refs/green/basic.png → refs/green/basic.png | メモ・ミッション一覧（くり返し） | 未生成 |
 | M24 | clap | 背景なし | C | 2.0 | refs/green/happy.png → refs/green/happy.png | フレンドの勝利・ランキング上昇の通知 | 未生成 |
+| R01 | read_start | 背景なし | A | 3.0↻ | refs/green/studying.png → refs/green/studying.png | 英文解釈：読み始めの画面（ReadingQuiz.tsx の上部）。読んでいる間くり返し | 未生成 |
+| R02 | read_think | 背景なし | A | 2.4↻ | refs/green/thinking.png → refs/green/thinking.png | 英文解釈：設問を考えているとき | 未生成 |
+| R03 | read_evidence | 背景なし | A | 2.0 | refs/green/good.png → refs/green/good.png | 英文解釈：根拠の一文がハイライトされたとき（正解） | 未生成 |
+| R04 | read_retry | 背景なし | A | 2.0 | refs/green/thinking.png → refs/green/basic.png | 英文解釈：不正解のとき（もう一度本文へ） | 未生成 |
+| R05 | read_clear | 全画面 | A | 3.0 | refs/cream/studying.png → refs/cream/cheering.png | 英文解釈：1本読み終えた結果画面 | 未生成 |
+| R06 | read_levelup | 全画面 | B | 3.0 | refs/cream/basic.png → refs/cream/trophy.png | 英文解釈：レベル（Lv1〜5）を全部読み終えたとき | 未生成 |
+| R07 | mock_start | 全画面 | B | 2.5 | refs/cream/good.png → refs/cream/good.png | UR リーディング大問別演習を開いたとき（本の表紙の前） | 未生成 |
 
 受け取ったら：ファイル名 `ID.mp4` → カードの「取り込み」行のコマンド → 登録（TOBIRA_MOTIONS / CINEMATIC_CLIPS）→ この表の状態を「取り込み済み（日付・seed）」に。

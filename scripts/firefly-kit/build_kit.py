@@ -20,8 +20,20 @@ HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
 sys.path.insert(0, str(HERE))
 import videos as VD
+import reading_media as RM
+
+# 英文解釈（リーディング）用の動画 R01〜R07 も同じキットに入れる（カード・一覧・PDF を共通化）
+for _r in RM.READING_VIDEOS:
+    _r.setdefault('status', 'new')
+    _r.setdefault('note', '')
+    _r.setdefault('cut', f"0.2 {0.2 + float(_r['sec']):.1f}")
+    if _r['id'] not in {v['id'] for v in VD.V}:
+        VD.V.append(_r)
+for _v in VD.V:
+    assert VD.words(VD.prompt(_v)) <= 175, (_v['id'], VD.words(VD.prompt(_v)))
 
 OUT = Path(sys.argv[1]) if len(sys.argv) > 1 and not sys.argv[1].startswith('--') else Path('/tmp/firefly_kit')
+PDF_NAME = 'Firefly_動画プロンプト_全部.pdf'
 NOTO = '/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc'
 NOTOB = '/usr/share/fonts/opentype/noto/NotoSansCJK-Bold.ttc'
 MONO = '/usr/share/fonts/truetype/dejavu/DejaVuSansMono.ttf'
@@ -156,7 +168,7 @@ def build_pdf(cards):
     mono = P('m', f='MONO', fontSize=8.2, leading=11)
     e = lambda s: str(s).replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
     pg = landscape(A4)
-    doc = SimpleDocTemplate(str(OUT / 'Firefly_とびら君_動画キット.pdf'), pagesize=pg,
+    doc = SimpleDocTemplate(str(OUT / PDF_NAME), pagesize=pg,
                             leftMargin=12 * mm, rightMargin=12 * mm, topMargin=11 * mm, bottomMargin=11 * mm,
                             title='とびら君 動画キット（Adobe Firefly）', author='まなとび')
     s = []
@@ -237,6 +249,12 @@ def build_pdf(cards):
     # 1本ずつ
     for c in cards:
         s += [PageBreak(), RLImage(str(c), width=pg[0] - 24 * mm, height=(pg[0] - 24 * mm) * 1000 / 1600)]
+    # コピペ用（文字として選択できるプロンプト）
+    s += [PageBreak(), Paragraph('7. コピペ用プロンプト（PDF から文字を選択してそのまま貼れる）', h2)]
+    for v in VD.V:
+        s += [Paragraph(f"<b>{e(v['id'])} {e(v['name'])}</b>　{e(KIND_JA[v['kind']])}・優先度{e(v['prio'])}・"
+                        f"First: {e(ref_label(v['first']))} ／ Last: {e(ref_label(v['last']))}", b),
+              Paragraph(e(VD.prompt(v)).replace('\n', '<br/>'), mono), Spacer(1, 5)]
     doc.build(s)
     for f in (OUT / 'cards').glob('_trio_*.png'): f.unlink()
 
