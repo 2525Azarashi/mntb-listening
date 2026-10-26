@@ -260,6 +260,44 @@ IMG_DIR = Path(__file__).resolve().parent / 'assets' / 'img'
 from reportlab.platypus import Flowable  # noqa: E402
 
 
+import numpy as np
+
+# 4枚組画像の各コマを検出（白い区切り帯で4分割し、元画像の枠線の内側を切り出す）
+def _gap(prof, lo, hi):
+    # 中央付近で最も長い白帯の中心
+    best=None; s=None
+    for i in range(lo,hi):
+        if prof[i]:
+            if s is None: s=i
+        else:
+            if s is not None:
+                if best is None or i-s>best[1]-best[0]: best=(s,i)
+                s=None
+    if s is not None and (best is None or hi-s>best[1]-best[0]): best=(s,hi)
+    return None if best is None else (best[0]+best[1])//2
+def _panels(im):
+    im=im.convert('L'); a=np.asarray(im)<200
+    H,W=a.shape
+    cx=_gap(a.sum(0)<=2, int(W*.3), int(W*.7)) or W//2
+    cy=_gap(a.sum(1)<=2, int(H*.3), int(H*.7)) or H//2
+    out=[]
+    boxes=[(0,0,cx,cy),(cx,0,W,cy),(0,cy,cx,H),(cx,cy,W,H)]
+    for x0,y0,x1,y1 in boxes:
+        s=a[y0:y1,x0:x1]; ys=np.where(s.any(1))[0]; xs=np.where(s.any(0))[0]
+        bx0,bx1,by0,by1=x0+xs[0],x0+xs[-1]+1,y0+ys[0],y0+ys[-1]+1
+        # 自前の枠線があれば内側へ
+        def line(r): return r.mean()>.6
+        for _ in range(12):
+            ch=False
+            if line(a[by0,bx0:bx1]): by0+=1; ch=True
+            if line(a[by1-1,bx0:bx1]): by1-=1; ch=True
+            if line(a[by0:by1,bx0]): bx0+=1; ch=True
+            if line(a[by0:by1,bx1-1]): bx1-=1; ch=True
+            if not ch: break
+        k=6  # 枠線のにじみが残らないよう少し内側
+        out.append((bx0+k,by0+k,bx1-k,by1-k))
+    return out
+
 class ImgFig(Flowable):
     """取り込んだイラスト（白黒）。
     - 単独の図：marks=[(x%, y%, r%, '①')] … 絵に描かれた空の丸（点線）を白で消し、同じ位置・同じ大きさで丸数字を入れる
@@ -309,9 +347,10 @@ class ImgFig(Flowable):
         W0, H0 = im.size
         n = self.cols; rows = (4 + n - 1) // n
         cw = self.w / n; ch = self.ph
+        boxes = _panels(im)
         for i in range(4):
             col, row = i % n, i // n
-            crop = im.crop(((i % 2) * W0 // 2, (i // 2) * H0 // 2, (i % 2 + 1) * W0 // 2, (i // 2 + 1) * H0 // 2))
+            crop = im.crop(tuple(int(v) for v in boxes[i]))
             crop = self._shrink(crop, cw)
             x = col * cw; y = (rows - 1 - row) * (ch + self.labH)
             c.drawImage(ImageReader(crop), x + 3, y + self.labH, cw - 6, ch - 2, preserveAspectRatio=True)
