@@ -137,16 +137,16 @@ P4 = {
  'label': '第4問', 'title': 'モノローグ（A：図表の完成／B：条件に合うものを選ぶ）', 'pts': 12,
  'tips': ['イラストの並べ替えでは、時を表す語（first / after that / before / finally）に印をつける。話の順＝時の順とは限らない。'],
  'sections': [
-  {'tag': 'A（問18〜21）', 'times': 1, 'instr': '男子生徒が、職場体験について話しています。四つのイラストを出来事の順に並べなさい。',
-   'blocks': [('pics', ['動物にえさをやる', '飼育員の説明を聞く', '小屋を掃除する', '来園者に動物の説明をする'], PICS)],
-   'script': [('M', "Last week, I did my work experience at the city zoo. In the afternoon, I explained the penguins to visitors, which was the most exciting part. "
-               "But before that, I had to clean the penguin house — that took all morning! Actually, the very first thing I did when I arrived was listen to a talk by the keeper about safety. "
-               "And at the end of the day, I helped feed the animals.",
-               '先週、市の動物園で職場体験をしました。午後は来園者にペンギンの説明をして、これがいちばん楽しかったです。でもその前に、ペンギン舎の掃除をしなければならず、午前中ずっとかかりました！実は、着いて最初にしたのは飼育員の安全についての話を聞くことでした。そして一日の終わりに、動物のえさやりを手伝いました。')],
+  {'tag': 'A（問18〜21）', 'times': 1, 'instr': '女子生徒が、職場体験について話しています。四つのイラストを出来事の順に並べなさい。',
+   'blocks': [('pics', ['キリンにえさをやる', '少人数の来園者にペンギンの説明をする', '動物の小屋を掃除する', 'ライオンの前で大勢の来園者に説明する'], PICS)],
+   'script': [('W', "Last week, I did my work experience at the city zoo. In the afternoon, I gave a short talk to a big group of visitors in front of the lions. I was so nervous! "
+               "Luckily, I'd had some practice before that, when a keeper let me explain the penguins to a small family. My day had started with the dirty work, though — cleaning out an animal house took me the whole morning. "
+               "Then, just before lunch, I fed the giraffes, which was my favourite moment of the day.",
+               '先週、市の動物園で職場体験をしました。午後は、ライオンの前で大勢の来園者に短い説明をしました。とても緊張しました！幸い、その前に飼育員さんがペンギンの説明を少人数の家族にさせてくれたので、少し練習ができていました。でも一日の始まりは汚れ仕事で、動物の小屋の掃除に午前中いっぱいかかりました。それから昼食の直前にキリンにえさをやりました。これがその日いちばん好きな時間でした。')],
    'qs': [
-    {'no': 1, 'prompt': '{1} → {2} → {3} → {4}', 'pts': 4, 'ans': [2, 3, 4, 1], 'score': 'all', 'nchoices': 4,
-     'ans_text': '②→③→④→①',
-     'ex': ['話の順（説明→掃除→話を聞く→えさ）と実際の順は違う。"the very first thing"（説明を聞く）→ 午前の掃除 → 午後の説明 → "at the end of the day" のえさやり。']},
+    {'no': 1, 'prompt': '{1} → {2} → {3} → {4}', 'pts': 4, 'ans': [3, 1, 2, 4], 'score': 'all', 'nchoices': 4,
+     'ans_text': '③→①→②→④',
+     'ex': ['話の順（ライオン→ペンギン→掃除→キリン）と実際の順は違う。午前いっぱい掃除（started with）→ 昼食直前にキリン（just before lunch）→ その前に練習したペンギン（before that）→ 午後のライオン。②と④はどちらも「説明」なので、人数（small family / big group）と動物で区別する。']},
    ]},
   {'tag': 'A（問22〜25）', 'times': 1, 'instr': 'あなたは留学先で、スポーツセンターの案内を聞いています。表の空欄に入れるのに最も適切なものを選びなさい。選択肢は2回以上使ってもかまいません。',
    'blocks': [('table', [['Class', 'Day', 'Room'],
