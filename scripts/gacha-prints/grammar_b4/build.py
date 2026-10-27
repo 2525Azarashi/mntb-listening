@@ -2,14 +2,14 @@
 """
 英文法 4択 B4プリント（B4横に B5縦を左右2面・問題と解答を同じ PDF・白黒）2026-10-27
 
-  アプリの「英文法」第1〜16章（4択・729問）を、アプリと同じ問題・同じ順（章 → 問題番号）・同じ選択肢の並びで。
+  アプリの「英文法」4択を3冊に：文法編 第1〜16章（729問）・語法編 第17〜19章（290問）・会話表現編 第20章（144問）。、アプリと同じ問題・同じ順（章 → 問題番号）・同じ選択肢の並びで。
   1つの面（B5）＝ 1回分（8〜10問）。見出しは「時制（1）」「時制（2）」…
   章の問題を 10問以内の回にほぼ均等に分ける（章をまたがない）
   1枚目：左右2回分の問題、2枚目：同じ配置で解答（切ってB5にしても問題と解答の面が対応する）
   解説はアプリより短く：正解の英文（答えの部分を太字＋下線）・和訳・ポイント1行
 
   入力：src/data/egV3Items.generated.ts（../idiom_reading/dump.ts で JSON に）
-  出力：.tmpwork/idiom_reading/英文法_4択_第1-16章.pdf
+  出力：.tmpwork/idiom_reading/英文法_4択_第1-16章.pdf ／ 英文法_4択_語法_第17-19章.pdf ／ 英文法_4択_会話表現_第20章.pdf
   使い方：npx tsx scripts/gacha-prints/idiom_reading/dump.ts && python3 scripts/gacha-prints/grammar_b4/build.py
 """
 import io, json, math, re, sys
@@ -25,23 +25,42 @@ from b4common import (ROOT, F, FB, INK, SUB, LINE, PALE, H, PANES, MARKS,  # noq
                       esc, mix, jtext, para, bar, footer, cut_line, page_size)
 
 OUT = ROOT / '.tmpwork/idiom_reading'
-ITEMS = [x for x in json.load(open(OUT / 'grammar.json')) if x['c'] <= 16]
-PER = 10
+ALL = json.load(open(OUT / 'grammar.json'))
+# 冊ごとの章の範囲（ファイル名, 書名, 最初の章, 最後の章）
+BOOKS = [
+    ('英文法_4択_第1-16章.pdf', '英文法 4択 文法編（第1〜16章）', 1, 16),
+    ('英文法_4択_語法_第17-19章.pdf', '英文法 4択 語法編（第17〜19章）', 17, 19),
+    ('英文法_4択_会話表現_第20章.pdf', '英文法 4択 会話表現編（第20章）', 20, 20),
+]
+PER_MAX = 10
 BOTTOM = 13 * mm
 SCALES = (1.0, 0.95, 0.9, 0.86, 0.82)
 
 
-def sections():
-    """章ごとに番号順 → 10問以内の回に均等に分ける"""
+def split(c, xs, per):
+    k = math.ceil(len(xs) / per); base, extra = divmod(len(xs), k); i = 0; out = []
+    for j in range(k):
+        m = base + (1 if j < extra else 0)
+        out.append({'c': c, 't': xs[0]['t'], 'no': j + 1, 'of': k, 'items': xs[i:i + m]}); i += m
+    return out
+
+def sections(c0, c1):
+    """章ごとに番号順 → 10問以内の回に均等に分ける。1面に入らない章は1回の問題数を減らす"""
     ch = OrderedDict()
-    for x in sorted(ITEMS, key=lambda x: (x['c'], x['n'])):
+    for x in sorted((x for x in ALL if c0 <= x['c'] <= c1), key=lambda x: (x['c'], x['n'])):
         ch.setdefault(x['c'], []).append(x)
     out = []
     for c, xs in ch.items():
-        k = math.ceil(len(xs) / PER); base, extra = divmod(len(xs), k); i = 0
-        for j in range(k):
-            m = base + (1 if j < extra else 0)
-            out.append({'c': c, 't': xs[0]['t'], 'no': j + 1, 'of': k, 'items': xs[i:i + m]}); i += m
+        for per in range(PER_MAX, 4, -1):
+            secs = split(c, xs, per)
+            try:
+                for sec in secs: sec['s'] = fit_scale(sec)
+                break
+            except ValueError:
+                continue
+        else:
+            raise SystemExit(f'第{c}章が1面に入らない')
+        out += secs
     return out
 
 
@@ -115,7 +134,7 @@ def fit_scale(sec):
             cc = canvas.Canvas(io.BytesIO(), pagesize=page_size())
             if fn(cc, x0, x1, pane_top(), sec, s) < BOTTOM: ok = False
         if ok: return s
-    raise SystemExit(f'入りきらない: {sec_title(sec)}')
+    raise ValueError(sec_title(sec))
 
 def draw_pane(c, side, sec, answer, s):
     x0, x1 = PANES[side]
@@ -133,11 +152,10 @@ def draw_pane(c, side, sec, answer, s):
     footer(c, x0, x1, f'マナトビ 英文法 第{sec["c"]}章 {sec["t"]}　{ns_range(sec)}（アプリと同じ問題・選択肢の順）［{"解答" if answer else "問題"}］')
 
 
-def build():
-    secs = sections()
-    for sec in secs: sec['s'] = fit_scale(sec)
-    path = OUT / '英文法_4択_第1-16章.pdf'
-    c = canvas.Canvas(str(path), pagesize=page_size()); c.setTitle('英文法 4択（アプリと同じ問題）第1〜16章')
+def build_book(fname, title, c0, c1):
+    secs = sections(c0, c1)
+    path = OUT / fname
+    c = canvas.Canvas(str(path), pagesize=page_size()); c.setTitle(f'{title}（アプリと同じ問題・同じ順）')
     for i in range(0, len(secs), 2):
         pair = secs[i:i + 2]
         for answer in (False, True):
@@ -145,12 +163,15 @@ def build():
             cut_line(c); c.showPage()
     c.save()
     small = [f'{sec_title(x)}={x["s"]}' for x in secs if x['s'] < 1]
-    print(f'{len(secs)}回分 / B4 {math.ceil(len(secs) / 2) * 2}ページ  縮小: {small}')
+    print(f'\n== {title}: {sum(len(x["items"]) for x in secs)}問 {len(secs)}回分 / B4 {math.ceil(len(secs) / 2) * 2}ページ  縮小: {small}')
     cur = None
     for x in secs:
         if x['c'] != cur: cur = x['c']; print(f'\n第{cur}章 {x["t"]}:', end='')
         print(f' （{x["no"]}）{len(x["items"])}問', end='')
     print()
+
+def build():
+    for b in BOOKS: build_book(*b)
 
 if __name__ == '__main__':
     build()

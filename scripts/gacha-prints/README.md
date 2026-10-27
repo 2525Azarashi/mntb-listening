@@ -73,4 +73,13 @@ npx tsx scripts/gacha-prints/idiom_reading/dump.ts && python3 scripts/gacha-prin
 # → .tmpwork/idiom_reading/英文法_4択_第1-16章.pdf（80回分・B4 80ページ）
 ```
 - アプリの英文法 第1〜16章（729問）を、章→問題番号の順・同じ選択肢の並びで。1面（B5）＝1回分（7〜10問、章をまたがない）。見出しは「時制（1）」「時制（2）」…
+- 3冊：文法編 第1〜16章（729問・80回分）・語法編 第17〜19章（290問・30回分）・会話表現編 第20章（144問・15回分）。
 - 1枚目＝左右2回分の問題、2枚目＝同じ配置で解答。解説はアプリより短く：正解の英文（答えの部分を太字＋下線）・和訳・ポイント1行。
+
+## ガチャ UR（完全版）への登録 2026-10-27
+
+```bash
+python3 scripts/gacha-prints/idiom_reading/publish.py   # 上の6冊を public/prints/print_book_*.pdf にコピー＋サムネイル
+```
+- id：`print_book_idiom_reading_{basic,standard,advanced}`・`print_book_grammar_b4_{bunpo,gohou,kaiwa}`。
+- `src/data/gachaPrints.generated.ts` の末尾（「2026-10-27 UR に追加」）に pages・kb を書く。作り直したら publish.py が出す pages・kb に合わせる（`tests/gachaDeluxe.test.ts` が照合）。
