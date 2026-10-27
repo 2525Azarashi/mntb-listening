@@ -40,4 +40,4 @@ python3 scripts/gacha-prints/kyotsu_mock/build.py        # 5回分すべて（�
 - `kyotsu_mock/make_audio.py`：OpenAI TTS（gpt-4o-mini-tts）でリスニング音声を作る。`--dry-run` は課金なしで台本だけ表示。実行者の `OPENAI_API_KEY` に課金。
 - `kyotsu_mock/figs.py`＋`kyotsu_mock/assets/img/*.jpg`：受け取った画像（リスニングの絵34・地図4・リーディングの図24）を PDF に組み込む設定。4枚組の絵は枠を検出して切り出し、本番と同じく各絵の下中央に①〜④。地図は元の点線の丸を消し、同じ位置・大きさで丸数字を描く。リーディングの図は `R_PLACE`（回・大問・枠の番号・位置・幅）。
 - **ElevenLabs（Eleven v4）で音声を作る**：`kyotsu_mock/build_orders_el.py` → `.tmpwork/kyotsu_mock_elevenlabs_v4.pdf`（声のキャスト12役・読み方のルール・全120トラックの台本）。一括作成は `kyotsu_mock/make_audio_el.py`（Text to Dialogue API・`eleven_v4`。`ELEVENLABS_API_KEY` と `el_voices.json`（役名→voice_id、`el_voices.example.json` をコピー・git 管理外）が必要。`--dry-run` は課金なし）。生成済みの部品は `.tmpwork/el_cache/` に残り、作り直しでは再生成しない。
-- リーディングの英文量は本番（約5,600語）に合わせて増量済み（各回 約5,000〜5,400語）。図に描かれた内容・正解は変えていない。図がまだ無いもの：r5_3_calligraphy / r5_6_feel_music（無くても解ける）。r4_6_indigo_dye / r4_7_heat_island / r5_2_sunfold は生成して追加済み。
+- リーディングの英文量は本番（約5,600語）に合わせて増量済み（各回 約5,000〜5,400語）。図に描かれた内容・正解は変えていない。図は全29枚そろった（受け取り24枚＋生成5枚：r4_6_indigo_dye / r4_7_heat_island / r5_2_sunfold / r5_3_calligraphy / r5_6_feel_music）。
