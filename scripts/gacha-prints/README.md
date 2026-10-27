@@ -53,3 +53,13 @@ python3 scripts/gacha-prints/kyotsu_mock/build.py        # 5回分すべて（�
 - `kyotsu_mock/build_orders.py`：ChatGPT に貼るプロンプト集＋全台本を1冊の PDF に（`.tmpwork/kyotsu_mock_seisaku_shijisho.pdf`）。
 - `kyotsu_mock/make_audio.py`：OpenAI TTS（gpt-4o-mini-tts）でリスニング音声を作る。`--dry-run` は課金なしで台本だけ表示。実行者の `OPENAI_API_KEY` に課金。
 - 素材を受け取ったら `public/prints/kyotsu_assets/{img,audio}/` に置き、問題 PDF の `［絵］` 枠を差し替える（未対応・次の作業）。
+
+## 熟語＋英文解釈 小テスト（B4横・B5縦2面・問題と解答を同じ PDF）2026-10-27
+
+```bash
+npx tsx scripts/gacha-prints/idiom_reading/dump.ts && python3 scripts/gacha-prints/idiom_reading/build.py
+# → .tmpwork/idiom_reading/熟語英文解釈_小テスト_第01-12回.pdf（全12回・48ページ）と 第NN回.pdf
+```
+- 左：英熟語「基礎（ilv1）」をアプリの単語帳と同じ順に1番から（英→日・書く）。右：英文解釈 レベル1 の1題（アプリと同じ設問・選択肢の順）。右の空きは熟語の続き。
+- 1回＝B4 2枚（問題→解答）。熟語は1回 約40語、12回で No.1〜483。収まらない回は自動で語数を減らす。
+- 続き（No.484〜・英文解釈レベル2）を作るときは build.py の ROUNDS・READ（dump.ts の level）・開始番号を変える。
