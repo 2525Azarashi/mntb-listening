@@ -41,3 +41,17 @@ python3 scripts/gacha-prints/kyotsu_mock/build.py        # 5回分すべて（�
 - `kyotsu_mock/figs.py`＋`kyotsu_mock/assets/img/*.jpg`：受け取った画像（リスニングの絵34・地図4・リーディングの図24）を PDF に組み込む設定。4枚組の絵は枠を検出して切り出し、本番と同じく各絵の下中央に①〜④。地図は元の点線の丸を消し、同じ位置・大きさで丸数字を描く。リーディングの図は `R_PLACE`（回・大問・枠の番号・位置・幅）。
 - **ElevenLabs（Eleven v4）で音声を作る**：`kyotsu_mock/build_orders_el.py` → `.tmpwork/kyotsu_mock_elevenlabs_v4.pdf`（声のキャスト12役・読み方のルール・全120トラックの台本）。一括作成は `kyotsu_mock/make_audio_el.py`（Text to Dialogue API・`eleven_v4`。`ELEVENLABS_API_KEY` と `el_voices.json`（役名→voice_id、`el_voices.example.json` をコピー・git 管理外）が必要。`--dry-run` は課金なし）。生成済みの部品は `.tmpwork/el_cache/` に残り、作り直しでは再生成しない。
 - リーディングの英文量は本番（約5,600語）に合わせて増量済み（各回 約5,000〜5,400語）。図に描かれた内容・正解は変えていない。図は全29枚そろった（受け取り24枚＋生成5枚：r4_6_indigo_dye / r4_7_heat_island / r5_2_sunfold / r5_3_calligraphy / r5_6_feel_music）。
+
+### ピックアップの「中身を少し見る」画像（2026-10-27）
+
+`python3 scripts/gacha-prints/build-previews.py` で、LR 10種＋厳選UR（`GachaParts.tsx` の `FEATURED_UR_IDS`）10種の
+2ページ目と真ん中のページを、**上半分だけ・幅360px・下はぼかし**の webp にする → `public/prints/previews/`。
+一覧は `src/data/gachaPreviews.generated.ts` に自動で書き出す。厳選URを入れ替えたら、このスクリプトを流し直す
+（`tests/gachaPickup.test.ts` が「厳選URと一致・実物あり・1枚30KB以下・余分なファイルなし」を確かめる）。
+
+### LR リスニングの音声（第1回のみ・2026-10-27）
+
+利用者が ElevenLabs v4 で作った6本（`audio_sources/commercial/elevenlabs_2026-10-26_kyotsu_l1/`）を、無音の中ほどで
+問題ごとの24トラックに切って `public/prints/kyotsu_assets/audio/kyotsu_l1_q*.mp3` に置いた（区切りは同フォルダの `split_manifest.json`）。
+第1問・第2問は4秒あけて2回つなぐ。対応表は `src/data/kyotsuMockAudio.ts`。第2回〜第5回は音声が届いたら同じ形で足す。
+**`listening_audio_ledger.json`（374本）には入れない**（別教材）。
