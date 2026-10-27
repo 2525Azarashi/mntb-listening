@@ -58,7 +58,7 @@ python3 scripts/gacha-prints/kyotsu_mock/build.py        # 5回分すべて（�
 
 ```bash
 npx tsx scripts/gacha-prints/idiom_reading/dump.ts && python3 scripts/gacha-prints/idiom_reading/build.py
-# → .tmpwork/idiom_reading/熟語英文解釈_小テスト_第01-12回.pdf（全12回・48ページ）と 第NN回.pdf
+# → .tmpwork/idiom_reading/熟語英文解釈_小テスト_第01-12回.pdf（全12回・B4 24枚）と 第NN回.pdf
 ```
 - 左：英熟語「基礎（ilv1）」をアプリの単語帳と同じ順に1番から（英→日・書く）。右：英文解釈 レベル1 の1題（アプリと同じ設問・選択肢の順）。右の空きは熟語の続き。
 - 1回＝B4 2枚（問題→解答）。熟語は1回 約40語、12回で No.1〜483。収まらない回は自動で語数を減らす。
