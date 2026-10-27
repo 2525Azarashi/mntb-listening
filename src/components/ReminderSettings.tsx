@@ -31,7 +31,7 @@ export function ReminderSettings() {
     </>}
     {perm === 'denied' && <p className="ps-help" role="status">通知が端末の設定でオフになっています。端末の「設定 → 通知 → マナトビ」でオンにしてください。</p>}
     {perm === 'unsupported' && <p className="ps-help" role="status">このブラウザは通知に対応していません。アプリ版ならアプリを閉じていても届きます。</p>}
-    {perm !== 'denied' && perm !== 'unsupported' && <p className="ps-help">Web 版は、マナトビを開いているあいだだけ届きます。</p>}
+    {perm !== 'denied' && perm !== 'unsupported' && <p className="ps-help">Web版では、アプリを開いている間に通知します。</p>}
   </div>;
 }
 
@@ -47,7 +47,7 @@ function Row({ label, sub, checked, onChange, icon }: { label: string; sub?: str
 export function AnalyticsSetting() {
   const [on, setOn] = useState(() => analyticsEnabled());
   return <div className="ps-reminders">
-    <Row label="使われ方の記録" sub="よく使う画面・エラーを匿名で送り、改善に使います（名前・メールは送りません）" checked={on}
+    <Row label="使われ方の記録" sub={<>利用画面・エラーを匿名で送り、改善に活用します（名前・<span className="ps-nowrap">メール</span>は送りません）</>} checked={on}
       onChange={() => { const next = !on; setAnalyticsEnabled(next); setOn(next); }} />
   </div>;
 }
