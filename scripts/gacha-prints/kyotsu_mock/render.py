@@ -106,7 +106,7 @@ def ml(s):
 
 def en(s):
     """英文用：日本語や丸数字が混ざったらその文字だけ IPA ゴシック"""
-    out = re.sub(r'([\u2460-\u2473\u3000-\u9fff\uff00-\uffef\u2190-\u21ff\u25a0-\u25ff\u2500-\u257f]+)',
+    out = re.sub(r'([\u2460-\u2473\u3000-\u9fff\uff00-\uffef\u2190-\u21ff\u25a0-\u25ff\u2500-\u257f\u2600-\u26ff]+)',
                  r'<font name="JM">\1</font>', ml(s))
     return out
 

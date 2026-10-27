@@ -47,6 +47,9 @@ R_PLACE = [
     (4, '第1問', 0, 'after_title', 'kyotsu_r4_1_fridge_note', 50),
     (4, '第2問', 0, 'after_title', 'kyotsu_r4_2_refectory', 92),
     (4, '第3問', 0, 'after_title', 'kyotsu_r4_3_duck_race', 92),
+    (4, '第6問', 0, 'after_title', 'kyotsu_r4_6_indigo_dye', 88),
+    (4, '第7問', 1, 'after', 'kyotsu_r4_7_heat_island', 150),
+    (5, '第2問', 0, 'after_title', 'kyotsu_r5_2_sunfold', 100),
     (5, '第5問', 0, 'after_title', 'kyotsu_r5_5_green_futures', 42),
     (5, '第7問', 1, 'after', 'kyotsu_r5_7_habit_loop', 58),
 ]
