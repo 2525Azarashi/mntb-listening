@@ -23,6 +23,8 @@ import { useBlockedTick } from '../features/safety/useBlockedFilter';
 import { safeAvatarUrl } from '../features/safety/avatarUrl';
 import { displaySafeNickname, displaySafePublicText } from '../features/safety/nicknameFilter';
 import { watchPublicStudyProfiles, type PublicStudyProfile } from '../utils/publicStudyProfile';
+import { UserProfileDialog, type ProfileTarget } from '../features/profile/UserProfileDialog';
+import '../features/profile/public-profile.css';
 import { formatStudyTime } from '../utils/studyTime';
 import { confirmAction } from '../utils/dialog';
 
@@ -36,6 +38,7 @@ export function FriendPanel() {
   const [friends, setFriends] = useState<Array<{ uid: string; nickname: string; photoURL?: string }>>([]);
   /** フレンドの公開プロフィール（本人が公開にしている人だけ。志望校・志・達成ステージ・Lv） */
   const [publicProfiles, setPublicProfiles] = useState<Record<string, PublicStudyProfile>>({});
+  const [openProfile, setOpenProfile] = useState<ProfileTarget | null>(null);
   const friendIds = friends.map(f => f.uid).sort().join(',');
   useEffect(() => {
     if (!friendIds) { setPublicProfiles({}); return; }
@@ -225,7 +228,9 @@ export function FriendPanel() {
             <div key={f.uid} className="flex items-center gap-2.5 bg-gray-50 border border-gray-150 rounded-2xl px-2.5 py-1.5">
               <Avatar name={f.nickname} url={f.photoURL} />
               <span className="min-w-0 flex-1">
-                <span className="block text-sm font-bold text-[#1B2631] truncate">{displaySafeNickname(f.nickname)}</span>
+                {publicProfiles[f.uid]
+                  ? <button type="button" className="pp-open" onClick={() => setOpenProfile({ uid: f.uid, nickname: f.nickname, where: 'friend' })} aria-label={`${displaySafeNickname(f.nickname)} さんのプロフィールを見る`}><span className="block text-sm font-bold text-[#1B2631] truncate underline decoration-dotted underline-offset-2">{displaySafeNickname(f.nickname)}</span></button>
+                  : <span className="block text-sm font-bold text-[#1B2631] truncate">{displaySafeNickname(f.nickname)}</span>}
                 {publicProfiles[f.uid] && (() => { const pp = publicProfiles[f.uid]; return <>
                   <span className="block truncate text-xs font-bold text-[#425c6d]" data-friend-public>
                     {displaySafePublicText(pp.targetSchool) || '志望校未設定'} · 学習 {formatStudyTime(pp.studySeconds)}{pp.stagesCleared != null ? ` · 達成 ${pp.stagesCleared}` : ''}{pp.level != null ? ` · Lv.${pp.level}` : ''}
@@ -239,6 +244,7 @@ export function FriendPanel() {
           ))
         )}
       </div>
+      <UserProfileDialog target={openProfile} onClose={() => setOpenProfile(null)} />
     </div>
   );
 }
