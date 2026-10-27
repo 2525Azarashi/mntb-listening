@@ -54,12 +54,23 @@ python3 scripts/gacha-prints/kyotsu_mock/build.py        # 5回分すべて（�
 - `kyotsu_mock/make_audio.py`：OpenAI TTS（gpt-4o-mini-tts）でリスニング音声を作る。`--dry-run` は課金なしで台本だけ表示。実行者の `OPENAI_API_KEY` に課金。
 - 素材を受け取ったら `public/prints/kyotsu_assets/{img,audio}/` に置き、問題 PDF の `［絵］` 枠を差し替える（未対応・次の作業）。
 
-## 熟語＋英文解釈 小テスト（B4横・B5縦2面・問題と解答を同じ PDF）2026-10-27
+## 熟語＋英文解釈 小テスト（B4横・B5縦2面・問題と解答を同じ PDF・白黒）2026-10-27
 
 ```bash
 npx tsx scripts/gacha-prints/idiom_reading/dump.ts && python3 scripts/gacha-prints/idiom_reading/build.py
-# → .tmpwork/idiom_reading/熟語英文解釈_小テスト_第01-12回.pdf（全12回・B4 24枚）と 第NN回.pdf
+# → .tmpwork/idiom_reading/熟語英文解釈_{基礎,標準,発展}_第01-12回.pdf（各12回・B4 24ページ）
 ```
-- 左：英熟語「基礎（ilv1）」をアプリの単語帳と同じ順に1番から（英→日・書く）。右：英文解釈 レベル1 の1題（アプリと同じ設問・選択肢の順）。右の空きは熟語の続き。
-- 1回＝B4 2枚（問題→解答）。熟語は1回 約40語、12回で No.1〜483。収まらない回は自動で語数を減らす。
-- 続き（No.484〜・英文解釈レベル2）を作るときは build.py の ROUNDS・READ（dump.ts の level）・開始番号を変える。
+- 左：英熟語（ilv1）をアプリの単語帳と同じ順に（英→日・書く）。右：**上に熟語のつづき → 下に英文解釈1題**（熟語は 左上→左下→右上 と続く）。
+- コース：基礎＝英文解釈レベル1、標準＝レベル2、発展＝レベル3。熟語は通し番号（基礎 1〜479 → 標準 480〜939 → 発展 940〜1388）。
+- 白黒印刷用：熟語の答え＝太字、設問の正解＝太字＋下線、本文の根拠＝波下線（`<u color="#010101">`）、ポイント＝太字。赤は使わない。
+- 本文が長い回は右上の熟語を減らし（最低4語）、それでも入らなければ文字を少し小さくする（最小0.85倍）。
+- 共通部品は `scripts/gacha-prints/b4common.py`（フォント・波下線・英日混在・見出し帯）。
+
+## 英文法 4択 B4プリント（アプリと同じ問題・同じ順）2026-10-27
+
+```bash
+npx tsx scripts/gacha-prints/idiom_reading/dump.ts && python3 scripts/gacha-prints/grammar_b4/build.py
+# → .tmpwork/idiom_reading/英文法_4択_第1-16章.pdf（80回分・B4 80ページ）
+```
+- アプリの英文法 第1〜16章（729問）を、章→問題番号の順・同じ選択肢の並びで。1面（B5）＝1回分（7〜10問、章をまたがない）。見出しは「時制（1）」「時制（2）」…
+- 1枚目＝左右2回分の問題、2枚目＝同じ配置で解答。解説はアプリより短く：正解の英文（答えの部分を太字＋下線）・和訳・ポイント1行。
