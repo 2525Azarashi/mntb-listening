@@ -20,6 +20,7 @@
  *     completed   … 修了した章
  *     notes       … 学習ノート（メモ・重要マーク）
  *     reading     … 英文解釈（内容一致4択）の文章ごとの最高点・間違えた設問（2026-10-21）
+ *     manualLog   … 手動の学習記録・教材・学習目標（2026-10-27。ID ごとに新しい方・削除は印で伝える）
  *
  * ■ 合わせ方（3-way マージ）
  *   「前回そろえたときの値（base）」を端末に覚えておき、
@@ -36,6 +37,7 @@
  */
 
 import { mergeReviewLists, mergeSolvedMaps, type SolvedMap } from './studySyncCore';
+import { mergeStores as mergeManualLog } from '../features/studylog/manualLogCore';
 
 /** 読み書きに使う最小の Storage（テストでは Map で代用できる） */
 export interface KV {
@@ -340,6 +342,9 @@ export const SYNC_SECTIONS: readonly SyncSection[] = [
   jsonSection('notes', uid => `notes_${uid}`, mergeNotes, Array.isArray),
   jsonSection('reading', uid => 'reading_quiz_v1_' + enc(uid), (l, r, b) => mergeReading(l as Obj | null, r as Obj | null, b as Obj | null),
     v => isObj(v) && v.version === 1 && isObj(v.best) && Array.isArray(v.missed)),
+  jsonSection('manualLog', uid => 'manual_log_v1_' + enc(uid),
+    (l, r) => (l == null ? r : r == null ? l : mergeManualLog(l, r)),
+    v => isObj(v) && v.version === 1 && Array.isArray(v.records) && Array.isArray(v.materials)),
   {
     // 連続日数は2つのキー（数と日付）に分かれているので、1つにまとめて扱う
     id: 'streak',

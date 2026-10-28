@@ -340,3 +340,8 @@
 .mypage-bio-body .mypage-profile-save { justify-self: end; }
 .mypage-profile .ps-fields > * { min-width: 0; }
 .mypage-profile-public .ps-toggle-text { min-width: 0; }
+/* 2026-10-27：マイページのタブを5つに（記録を追加）。320px でも文字が切れない幅 */
+.mypage-tabs button { padding: 0 2px; white-space: nowrap; }
+.mypage-body > .slog { flex: 1; min-height: 0; }
+.mypage-profile-edit .profile-standalone-head { margin: 0 0 6px; }
+.mypage-profile-edit .profile-standalone-head button { font: 800 18px/1 var(--mt-font-body); }
