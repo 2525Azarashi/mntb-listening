@@ -136,7 +136,7 @@ export function BattleHome({onChoose,onExit,onRanking,onRequireLogin,notice}: {
  const [row,setRow]=useState<BattleRankingRow|null>(null);
  useEffect(()=>{let active=true;if(user)void fetchMyRankingRow().then(r=>{if(active)setRow(r);}).catch(logRejection('battle.home.fetchRanking'));return()=>{active=false;};},[user]);
  return <BattleShell className="arena-menu">
-   <header className="arena-menu-header"><div className="arena-top-switch" role="tablist" aria-label="ランキングと対戦の切替"><button type="button" role="tab" aria-selected={true}><Swords size={18}/><KineticText text="とびらバトル" step={45} variant="pop" /></button>{onRanking && <button type="button" role="tab" aria-selected={false} onClick={onRanking}><Trophy size={18}/>ランキング</button>}</div><BgmButton /></header>
+   <header className="arena-menu-header"><div className="arena-top-switch" role="tablist" aria-label="対戦とランキングの切替"><button type="button" role="tab" aria-selected={true}><Swords size={18}/><KineticText text="とびらバトル" step={45} variant="pop" /></button>{onRanking && <button type="button" role="tab" aria-selected={false} onClick={onRanking}><Trophy size={18}/>ランキング</button>}</div><BgmButton /></header>
    {/* ★E（2026-10-01）対戦前の舞台★ 夜のアリーナに「あなた VS ？？？」。とびら君がひとこと（少し挑発）。
        機能は同じ。下の3択・その他・ルールの中身も同じ */}
    <section className={`arena-vs${row ? ' has-rank' : ''}`} aria-label="あなたの情報" data-arena-vs>
