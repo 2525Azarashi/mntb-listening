@@ -169,3 +169,76 @@
   .profile-frame > .mt-app-header { grid-column: 1 / -1; margin-bottom: 4px !important; }
   .profile-frame > .profile-tabs { grid-column: 1 / -1; }
 }
+
+/* PC設定：空のプロフィール列をなくし、見出し・タブ・本文を同じ幅にそろえる。 */
+@media (min-width: 1100px) {
+  .profile-journal[data-settings-tab="general"] {
+    height: 100% !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    padding-bottom: 12px !important;
+  }
+  .profile-journal[data-settings-tab="general"] > .profile-frame {
+    display: flex !important;
+    flex-direction: column;
+    width: 100%;
+    max-width: none !important;
+    height: auto !important;
+    min-height: 100%;
+    margin-inline: 0 !important;
+    padding-inline: clamp(20px, 2vw, 36px) !important;
+  }
+  .profile-journal[data-settings-tab="general"] > .profile-frame > main {
+    flex: 0 0 auto !important;
+    min-height: auto !important;
+    overflow: visible !important;
+  }
+  .profile-journal[data-settings-tab="general"] > .profile-frame > main > div {
+    height: auto !important;
+  }
+  .profile-journal[data-settings-tab="general"] .profile-workspace {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    flex: 0 0 auto !important;
+    min-height: auto !important;
+    gap: 16px !important;
+    overflow: visible !important;
+    align-content: start !important;
+    align-items: start;
+  }
+  .profile-journal[data-settings-tab="general"] .profile-workspace > .ps-col-profile {
+    display: none !important;
+  }
+  .profile-journal[data-settings-tab="general"] .profile-workspace > .ps-col-app,
+  .profile-journal[data-settings-tab="general"] .profile-workspace > .ps-col-account {
+    min-width: 0;
+  }
+  .profile-journal[data-settings-tab="general"] .profile-workspace > .ps-col-app > *,
+  .profile-journal[data-settings-tab="general"] .profile-workspace > .ps-col-account > * {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+  }
+  .profile-journal[data-settings-tab="general"] .profile-workspace > .ps-col-app > * + *,
+  .profile-journal[data-settings-tab="general"] .profile-workspace > .ps-col-account > * + * {
+    margin-top: 8px !important;
+  }
+  .profile-journal[data-settings-tab="general"] .profile-workspace > .ps-col-app > .ps-group-title,
+  .profile-journal[data-settings-tab="general"] .profile-workspace > .ps-col-account > .ps-group-title {
+    margin-top: 18px !important;
+    margin-bottom: 0 !important;
+  }
+  .profile-journal[data-settings-tab="general"] .profile-workspace > .ps-col-app > .ps-group-title:first-child,
+  .profile-journal[data-settings-tab="general"] .profile-workspace > .ps-col-account > .ps-group-title:first-child {
+    margin-top: 0 !important;
+  }
+  .profile-journal[data-settings-tab="general"] .profile-workspace > .ps-col-app > .ps-group-title + .mt-card,
+  .profile-journal[data-settings-tab="general"] .profile-workspace > .ps-col-account > .ps-group-title + .mt-card {
+    margin-top: 4px !important;
+  }
+  .profile-journal[data-settings-tab="general"] .profile-workspace > .ps-col-app > .ps-preview {
+    margin-top: 12px !important;
+  }
+}
+
+.ps-toggle-text small,
+.ps-help { text-wrap: pretty; line-break: strict; }
+.ps-nowrap { white-space: nowrap; }

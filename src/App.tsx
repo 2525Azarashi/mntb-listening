@@ -561,6 +561,8 @@ export default function App() {
           <div className={`app-screen-stack w-full relative min-h-0 ${
             appState === 'explanation'
               ? 'max-w-none w-full h-full'
+              : appState === 'settings'
+                ? 'max-w-none max-h-full h-full flex flex-col'
               : isFullBleed
                 ? 'max-w-none h-full'
                 : 'max-w-5xl max-h-full flex flex-col'
