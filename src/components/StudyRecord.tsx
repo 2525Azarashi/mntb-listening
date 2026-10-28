@@ -39,7 +39,7 @@ export function StudyRecord({ onReview, onRetry, embedded = false }: { onReview?
         <button type="button" role="tab" aria-selected={filter === 'wrong'} onClick={() => setFilter('wrong')}>まちがえた問題だけ</button>
       </div>
       {days.length === 0 ? (
-        <p className="sr-empty">{filter === 'wrong' ? `直近${STUDY_LOG_DAYS}日にまちがえた問題はありません。` : `直近${STUDY_LOG_DAYS}日の記録はまだありません。演習や対戦をすると、ここに残ります。`}</p>
+        <p className="sr-empty">{filter === 'wrong' ? `直近${STUDY_LOG_DAYS}日にまちがえた問題はありません。` : `直近${STUDY_LOG_DAYS}日に解いた問題はまだありません。演習や対戦をすると、ここに残ります。`}</p>
       ) : days.map(day => (
         <section key={day.date} className="sr-day" aria-label={day.label}>
           <h2>{day.label}<small>{day.solved}問・まちがい{day.wrong}問</small></h2>
