@@ -24,7 +24,7 @@ export function MyCollection({ view = 'owned', onGacha, initialKind = 'all', gac
     // プレゼント（隔週リーグ報酬）は「持ちもの」の中で受け取る（2026-10-04 プレゼントタブを統合）
     if (view !== 'owned' || !auth.currentUser) return;
     let alive = true;
-    setBusy(true); clanCall<{ rewards: LeagueReward[] }>('rewards').then(r => { if (alive) setRewards(r.rewards); }).catch(e => { if (alive) setMessage(e.message); }).finally(() => { if (alive) setBusy(false); });
+    setBusy(true); clanCall<{ rewards: LeagueReward[] }>('rewards').then(r => { if (alive) setRewards(r.rewards); }).catch(() => { /* 2026-10-28 A2：集計サーバーが未準備などで取れなくても青い枠の文言は出さない（届いたときだけ表示） */ }).finally(() => { if (alive) setBusy(false); });
     return () => { alive = false; };
   }, [view, uid]);
   // PC では、枠に入るぶんだけ並べてページでめくる（スクロールさせない）。絞り込みを変えたら1ページ目へ
