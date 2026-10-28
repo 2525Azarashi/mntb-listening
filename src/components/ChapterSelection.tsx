@@ -345,7 +345,7 @@ export function ChapterSelection({ mode, onSelectChapter, onBack, subject = 'eng
                                     })
                                   }
                                   className="round-main flex min-h-[48px] min-w-0 flex-1 flex-col justify-center items-start px-1.5 text-left cursor-pointer"
-                                  title={`${round.roundLabel}${round.detail ? ` ／ ${round.detail}` : ''}`}
+                                  title={`${round.roundLabel}${round.detail && !isToeic ? ` ／ ${round.detail}` : ''}`}
                                 >
                                   <span className="flex w-full items-center justify-between gap-1">
                                     <span className="round-title font-bold text-[#2C3E50]">
@@ -363,7 +363,8 @@ export function ChapterSelection({ mode, onSelectChapter, onBack, subject = 'eng
                                       <ChevronRight size={13} className="shrink-0 text-[#A9CCE3]" />
                                     )}
                                   </span>
-                                  {round.detail && (
+                                  {/* 2026-10-28 TOEIC は内訳（語彙・品詞・文法の数）を出さない。データの分野ラベルと結果の集計はそのまま */}
+                                  {round.detail && !isToeic && (
                                     <span className="round-detail mt-0.5 line-clamp-1 font-bold leading-snug text-slate-600">
                                       {round.detail}
                                     </span>
