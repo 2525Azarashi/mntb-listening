@@ -7,12 +7,12 @@ import './ads.css';
 /**
  * バナー広告の「場所」およびネイティブバナーの制御
  * =====================================================================
- * ネイティブ限定で AD_TOGGLES.enableBottomBanner（または AD_CONFIG.banner.enabled）により管理。
+ * AD_TOGGLES.enableBottomBanner（または AD_CONFIG.banner.enabled）で管理。Web 版も場所だけ空ける（広告はアプリ版だけ）。
  * - 有効時:
  *     --ad-bottom-h に 50px がセットされ、HTMLに [data-ad-banner] 属性が付与される。
  *     CSS により、下部ナビや各画面のフッターが 50px 分自動で持ち上がり、
  *     ネイティブバナー（AdMob）を表示する。
- * - Web版・無効時（または quiz, explanation 等の学習集中画面時）:
+ * - 無効時（または quiz, explanation 等の学習集中画面時）:
  *     --ad-bottom-h は 0px になり、ネイティブバナーは即座に非表示/削除され、
  *     一切の余白・枠が解除される。
  */
