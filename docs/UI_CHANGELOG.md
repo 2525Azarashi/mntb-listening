@@ -5,6 +5,18 @@
 
 ---
 
+## 2026-10-28 Web 版の広告の場所を元に戻す・クラス機能を確認用アカウントだけ開く（PR: fix/ad-space-classroom-preview）
+
+| 何を | どう変えた | ファイル |
+|---|---|---|
+| 下の広告の場所（Web 版） | #114 で Web 版だけ枠（50px）が消え、画面の下が詰まっていた。2026-10-14 の決まり（Web もアプリと同じ場所を空ける・広告を出すのはアプリだけ）に戻した | `src/ads/adConfig.ts`、`AdBannerSlot.tsx`（説明だけ）、`tests/rewarded-ad.test.ts` |
+| 演習する（リスニング・英文法・英単語・英熟語・英文解釈・英単語帳） | 上の枠が戻ったことで、広告ありの詰めた形（説明1行／なし）に戻り、375×667・390×844 でも一覧がスクロールせず1画面に入る（CSS は変えていない） | なし（`study-catalog.css` の既存の広告ありブロックがそのまま効く） |
+| 設定 › クラス | 公開前（`SOCIAL_FEATURES.classroom` は false のまま）でも、hirokingz0927@gmail.com と mntobira@gmail.com でログインしたときだけ「準備中」を外して中に入れる（教師役の確認用）。ほかの人は今までどおり「準備中」 | `src/config/features.ts`（`CLASSROOM_PREVIEW_EMAILS`）、`ProfileModal.tsx`、`ReasonBox.tsx` |
+
+**戻し方**：広告の場所は `adConfig.ts` の `enabled` の頭に `Capacitor.isNativePlatform() &&` を付ける（Web で枠を消したいだけなら `?no_ads=1`）。クラスは `CLASSROOM_PREVIEW_EMAILS` を空にする。
+
+---
+
 ## 2026-10-27 ガチャに「ピックアップ」（LR・厳選URの中身を少し見る）＋ LR リスニング第1回の音声（PR: feat/kyotsu-mock-lr）
 
 | 何を | どう変えた | ファイル |
@@ -35,8 +47,7 @@
 | 台帳 | ページ数・KB を更新（画像入りで1冊 1.1〜1.6MB） |
 | レビューの★ | 第5回 第2問の ★☆ が空白になっていたのを表示されるように | `render.py` | `src/data/kyotsuMockPrints.ts` |
 
-**戻し方**：`figs.py` の `apply_reading` / `apply_listening` の呼び出し（`build.py`）を外すと図なしの版に戻る。分量の増量はこの PR のコミット「英文量を本番並みに増量」を `git revert`。
-## 2026-10-28 英単語の演習：「この範囲を全部」ボタンを追加（PR: fix/vocab-start-all）
+**戻し方**：`figs.py` の `apply_reading` / `apply_listening` の呼び出し（`build.py`）を外すと図なしの版に戻る。分量の増量はこの PR のコミット「英文量を本番並みに増量」を `git revert`。## 2026-10-28 英単語の演習：「この範囲を全部」ボタンを追加（PR: fix/vocab-start-all）
 
 | 何を | どう変えた | ファイル |
 |---|---|---|
