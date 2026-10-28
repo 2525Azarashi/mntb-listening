@@ -18,6 +18,16 @@
 
 ---
 
+## 2026-10-27 ガチャの UR（完全版）に B4 プリント6冊を追加（PR #112: feat/idiom-reading-quiz）
+
+| 何を | どう変えた | ファイル |
+|---|---|---|
+| ガチャの UR | 9冊 → 15冊。熟語＋英文解釈 小テスト（基礎・標準・発展）、英文法4択（文法編 第1〜16章・語法編 第17〜19章・会話表現編 第20章）を追加。UR 枠の確率 3% は変えていない（1冊あたり約0.33% → 約0.2%） | `src/data/gachaPrints.generated.ts`、`public/prints/print_book_{idiom_reading_*,grammar_b4_*}.pdf`、`public/prints/thumbs/` |
+
+戻すとき：`gachaPrints.generated.ts` の「2026-10-27 UR に追加」以降の6件を消し、`tests/gachaDeluxe.test.ts` の冊数リストを9冊に戻す。
+
+---
+
 ## 2026-10-26 とびら君の演出動画 C01〜C16 を全部差し替え・新しい場面に追加（PR: feat/cinematics-c-all）
 
 | 何を | どう変えた | ファイル |

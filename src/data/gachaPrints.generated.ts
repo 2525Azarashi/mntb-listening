@@ -610,5 +610,66 @@ export const GACHA_PRINTS: readonly GachaPrintDef[] = [
     "thumb": "/prints/thumbs/print_book_listening_all.webp",
     "pages": 79,
     "kb": 2327
+  },
+  // ★2026-10-27 UR に追加：B4 白黒の小テスト・英文法4択（scripts/gacha-prints/idiom_reading/ ・ grammar_b4/ → idiom_reading/publish.py）★
+  {
+    "id": "print_book_idiom_reading_basic",
+    "label": "英熟語＋英文解釈 小テスト 基礎コース 全12回（熟語 No.1〜479・B4白黒・解答つき）",
+    "subject": "english_reading",
+    "category": "完全版",
+    "file": "/prints/print_book_idiom_reading_basic.pdf",
+    "thumb": "/prints/thumbs/print_book_idiom_reading_basic.webp",
+    "pages": 24,
+    "kb": 456
+  },
+  {
+    "id": "print_book_idiom_reading_standard",
+    "label": "英熟語＋英文解釈 小テスト 標準コース 全12回（熟語 No.480〜939・B4白黒・解答つき）",
+    "subject": "english_reading",
+    "category": "完全版",
+    "file": "/prints/print_book_idiom_reading_standard.pdf",
+    "thumb": "/prints/thumbs/print_book_idiom_reading_standard.webp",
+    "pages": 24,
+    "kb": 487
+  },
+  {
+    "id": "print_book_idiom_reading_advanced",
+    "label": "英熟語＋英文解釈 小テスト 発展コース 全12回（熟語 No.940〜1388・B4白黒・解答つき）",
+    "subject": "english_reading",
+    "category": "完全版",
+    "file": "/prints/print_book_idiom_reading_advanced.pdf",
+    "thumb": "/prints/thumbs/print_book_idiom_reading_advanced.webp",
+    "pages": 24,
+    "kb": 511
+  },
+  {
+    "id": "print_book_grammar_b4_bunpo",
+    "label": "英文法 4択プリント 文法編 第1〜16章（729問・80回分・アプリと同じ問題）",
+    "subject": "english_grammar",
+    "category": "完全版",
+    "file": "/prints/print_book_grammar_b4_bunpo.pdf",
+    "thumb": "/prints/thumbs/print_book_grammar_b4_bunpo.webp",
+    "pages": 80,
+    "kb": 737
+  },
+  {
+    "id": "print_book_grammar_b4_gohou",
+    "label": "英文法 4択プリント 語法編 第17〜19章（290問・30回分・アプリと同じ問題）",
+    "subject": "english_grammar",
+    "category": "完全版",
+    "file": "/prints/print_book_grammar_b4_gohou.pdf",
+    "thumb": "/prints/thumbs/print_book_grammar_b4_gohou.webp",
+    "pages": 30,
+    "kb": 434
+  },
+  {
+    "id": "print_book_grammar_b4_kaiwa",
+    "label": "英文法 4択プリント 会話表現編 第20章（144問・15回分・アプリと同じ問題）",
+    "subject": "english_grammar",
+    "category": "完全版",
+    "file": "/prints/print_book_grammar_b4_kaiwa.pdf",
+    "thumb": "/prints/thumbs/print_book_grammar_b4_kaiwa.webp",
+    "pages": 16,
+    "kb": 258
   }
 ];
