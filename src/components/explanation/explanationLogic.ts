@@ -35,11 +35,13 @@ export function computeWeakAreas(baseQuestions: Problem[], answers: Answers) {
   const analysis: Record<string, { total: number; correct: number }> = {};
 
   baseQuestions.forEach((q) => {
-    const category = q.category || 'その他';
-    if (!analysis[category]) {
-      analysis[category] = { total: 0, correct: 0 };
-    }
+    const fallback = q.category || 'その他';
     q.subQuestions.forEach((sq) => {
+      // 小問が分野（skill）を持つとき（TOEIC Part 5）は分野ごとに数える。持たない教科は従来どおり大問の category
+      const category = typeof sq.skill === 'string' && sq.skill ? sq.skill : fallback;
+      if (!analysis[category]) {
+        analysis[category] = { total: 0, correct: 0 };
+      }
       analysis[category].total += 1;
       if (isAnswerCorrect(sq, answers[sq.id])) {
         analysis[category].correct += 1;
