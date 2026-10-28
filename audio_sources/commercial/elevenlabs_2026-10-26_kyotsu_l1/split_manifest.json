@@ -1,0 +1,151 @@
+{
+  "method": "ffmpeg silencedetect(-38dB,d=0.2) で無音の中ほどを区切りに。全区切りが無音内（検証済み）。第1・2問(q01-q11)は同じ音声を4秒あけて2回つなぐ。libmp3lame -q:a 6・モノラル・44.1kHz",
+  "excluded": "B ファイル末尾 49.18s 以降の『Kyōtsu』という余分な発声は使わない",
+  "output_dir": "public/prints/kyotsu_assets/audio/",
+  "segments": [
+    {
+      "source": "ElevenLabs_2026-10-26T14_09_56_Hope - upbeat and clear_pvc_sp96_s50_sb75_v4.mp3",
+      "start": 0.0,
+      "end": 4.88,
+      "out": "kyotsu_l1_q01.mp3"
+    },
+    {
+      "source": "ElevenLabs_2026-10-26T14_09_56_Hope - upbeat and clear_pvc_sp96_s50_sb75_v4.mp3",
+      "start": 4.88,
+      "end": 9.51,
+      "out": "kyotsu_l1_q02.mp3"
+    },
+    {
+      "source": "ElevenLabs_2026-10-26T14_09_56_Hope - upbeat and clear_pvc_sp96_s50_sb75_v4.mp3",
+      "start": 9.51,
+      "end": 13.18,
+      "out": "kyotsu_l1_q03.mp3"
+    },
+    {
+      "source": "ElevenLabs_2026-10-26T14_09_56_Hope - upbeat and clear_pvc_sp96_s50_sb75_v4.mp3",
+      "start": 13.18,
+      "end": 17.73,
+      "out": "kyotsu_l1_q04.mp3"
+    },
+    {
+      "source": "ElevenLabs_2026-10-26T14_09_56_Hope - upbeat and clear_pvc_sp96_s50_sb75_v4.mp3",
+      "start": 17.73,
+      "end": 21.78,
+      "out": "kyotsu_l1_q05.mp3"
+    },
+    {
+      "source": "ElevenLabs_2026-10-26T14_09_56_Hope - upbeat and clear_pvc_sp96_s50_sb75_v4.mp3",
+      "start": 21.78,
+      "end": 25.35,
+      "out": "kyotsu_l1_q06.mp3"
+    },
+    {
+      "source": "ElevenLabs_2026-10-26T14_09_56_Hope - upbeat and clear_pvc_sp96_s50_sb75_v4.mp3",
+      "start": 25.35,
+      "end": null,
+      "out": "kyotsu_l1_q07.mp3"
+    },
+    {
+      "source": "ElevenLabs_2026-10-26T14_18_18_Hope - upbeat and clear_pvc_sp96_s50_sb75_v4.mp3",
+      "start": 0.0,
+      "end": 21.33,
+      "out": "kyotsu_l1_q08.mp3"
+    },
+    {
+      "source": "ElevenLabs_2026-10-26T14_18_18_Hope - upbeat and clear_pvc_sp96_s50_sb75_v4.mp3",
+      "start": 21.33,
+      "end": 36.27,
+      "out": "kyotsu_l1_q09.mp3"
+    },
+    {
+      "source": "ElevenLabs_2026-10-26T14_18_18_Hope - upbeat and clear_pvc_sp96_s50_sb75_v4.mp3",
+      "start": 36.27,
+      "end": 48.89,
+      "out": "kyotsu_l1_q10.mp3"
+    },
+    {
+      "source": "ElevenLabs_2026-10-26T14_26_25_Hope - upbeat and clear_pvc_sp96_s50_sb75_v4.mp3",
+      "start": 0.0,
+      "end": 15.86,
+      "out": "kyotsu_l1_q11.mp3"
+    },
+    {
+      "source": "ElevenLabs_2026-10-26T14_26_25_Hope - upbeat and clear_pvc_sp96_s50_sb75_v4.mp3",
+      "start": 15.86,
+      "end": 27.12,
+      "out": "kyotsu_l1_q12.mp3"
+    },
+    {
+      "source": "ElevenLabs_2026-10-26T14_26_25_Hope - upbeat and clear_pvc_sp96_s50_sb75_v4.mp3",
+      "start": 27.12,
+      "end": 40.68,
+      "out": "kyotsu_l1_q13.mp3"
+    },
+    {
+      "source": "ElevenLabs_2026-10-26T14_26_25_Hope - upbeat and clear_pvc_sp96_s50_sb75_v4.mp3",
+      "start": 40.68,
+      "end": null,
+      "out": "kyotsu_l1_q14.mp3"
+    },
+    {
+      "source": "ElevenLabs_2026-10-26T14_34_24_Jessica - Playful, Bright, Warm_pvc_sp100_s50_sb75_v4.mp3",
+      "start": 0.0,
+      "end": 15.5,
+      "out": "kyotsu_l1_q15.mp3"
+    },
+    {
+      "source": "ElevenLabs_2026-10-26T14_34_24_Jessica - Playful, Bright, Warm_pvc_sp100_s50_sb75_v4.mp3",
+      "start": 15.5,
+      "end": 28.95,
+      "out": "kyotsu_l1_q16.mp3"
+    },
+    {
+      "source": "ElevenLabs_2026-10-26T14_34_24_Jessica - Playful, Bright, Warm_pvc_sp100_s50_sb75_v4.mp3",
+      "start": 28.95,
+      "end": 37.42,
+      "out": "kyotsu_l1_q17.mp3"
+    },
+    {
+      "source": "ElevenLabs_2026-10-26T14_34_24_Jessica - Playful, Bright, Warm_pvc_sp100_s50_sb75_v4.mp3",
+      "start": 37.42,
+      "end": 64.73,
+      "out": "kyotsu_l1_q18-21.mp3"
+    },
+    {
+      "source": "ElevenLabs_2026-10-26T14_34_24_Jessica - Playful, Bright, Warm_pvc_sp100_s50_sb75_v4.mp3",
+      "start": 64.73,
+      "end": null,
+      "out": "kyotsu_l1_q22-25.mp3"
+    },
+    {
+      "source": "ElevenLabs_2026-10-26T14_39_25_Savvy - Warm, Grounded & Natural_pvc_sp100_s50_sb75_v4.mp3",
+      "start": 0.0,
+      "end": 29.28,
+      "out": "kyotsu_l1_q26.mp3"
+    },
+    {
+      "source": "ElevenLabs_2026-10-26T14_39_25_Savvy - Warm, Grounded & Natural_pvc_sp100_s50_sb75_v4.mp3",
+      "start": 29.28,
+      "end": 97.45,
+      "out": "kyotsu_l1_q27-32.mp3"
+    },
+    {
+      "source": "ElevenLabs_2026-10-26T14_39_25_Savvy - Warm, Grounded & Natural_pvc_sp100_s50_sb75_v4.mp3",
+      "start": 97.45,
+      "end": null,
+      "out": "kyotsu_l1_q33.mp3"
+    },
+    {
+      "source": "ElevenLabs_2026-10-26T14_43_52_Flint - Deep, Raspy, and Warm_pvc_sp100_s94_sb90_v4.mp3",
+      "start": 0.0,
+      "end": 31.66,
+      "out": "kyotsu_l1_q34-35.mp3"
+    },
+    {
+      "source": "ElevenLabs_2026-10-26T14_43_52_Flint - Deep, Raspy, and Warm_pvc_sp100_s94_sb90_v4.mp3",
+      "start": 31.66,
+      "end": null,
+      "out": "kyotsu_l1_q36-37.mp3"
+    }
+  ]
+}

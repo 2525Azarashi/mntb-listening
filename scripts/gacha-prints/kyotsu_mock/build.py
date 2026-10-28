@@ -17,6 +17,8 @@ from reportlab.lib import colors
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 import render as R  # noqa: E402
+import figs  # noqa: E402
+import copy  # noqa: E402
 
 ROOT = HERE.parents[2]
 OUT = ROOT / 'public' / 'prints'
@@ -71,6 +73,7 @@ def english_words(data):
 # ───────── リーディング ─────────
 def build_reading(n, data):
     marks = validate('R', data)
+    data = figs.apply_reading(n, copy.deepcopy(data))
     words = english_words(data)
     pdf = OUT / f'print_lr_kyotsu_r_{n}.pdf'
     label = f'共通テスト 英語リーディング 予想問題 第{n}回'
@@ -151,6 +154,7 @@ def script_flow(lines, times=None):
 
 def build_listening(n, data):
     marks = validate('L', data)
+    data = figs.apply_listening(n, copy.deepcopy(data))
     # 本番のリスニングは「問番号＝解答番号」（問1〜問37）
     for p in data['parts']:
         for s in p['sections']:
@@ -185,8 +189,6 @@ def build_listening(n, data):
                 head += R.render_block(b)
             story.append(KeepTogether(head + [Spacer(1, 2 * mm)]))
             for q in s['qs']:
-                if q.get('situation'):
-                    story.append(Paragraph(R.ml(q['situation']), R.st['jas']))
                 story += R.q_flow(q)
         page_break(story)
 

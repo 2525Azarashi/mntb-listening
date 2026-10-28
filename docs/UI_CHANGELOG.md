@@ -5,6 +5,37 @@
 
 ---
 
+## 2026-10-27 ガチャに「ピックアップ」（LR・厳選URの中身を少し見る）＋ LR リスニング第1回の音声（PR: feat/kyotsu-mock-lr）
+
+| 何を | どう変えた | ファイル |
+|---|---|---|
+| ガチャ画面の下のボタン | 「ピックアップ」を追加（セット・提供割合の左）。下のボタンは1行に並べ、文字はボタン内で折り返す（画面の高さは増やさない） | `src/components/GachaRoom.tsx`、`src/components/gacha.css` |
+| ピックアップのダイアログ | LR 10種 → 厳選UR 10種の順に並べ、各行の「少し見る」で **2ページ分の上半分だけ**（下はぼかして白く消す）を表示。リスニング第1回は問1の試聴つき | `src/components/gacha/GachaPickupModal.tsx`、`public/prints/previews/`（40枚・計324KB）、`src/data/gachaPreviews.generated.ts`、`scripts/gacha-prints/build-previews.py` |
+| マイPDF | LR リスニング第1回を持っている人だけ「音声を聞く（24トラック）」。問題ごとのボタン（44px）で再生・もう一度押すと停止。第1・2問は本番どおり2回流れる | `src/components/gacha/KyotsuAudioPlayer.tsx`、`src/components/MyCollection.tsx`、`src/data/kyotsuMockAudio.ts`、`public/prints/kyotsu_assets/audio/` |
+| 音声の元ファイル | 受け取った ElevenLabs v4 の6本を保存、区切り位置と sha256 を記録 | `audio_sources/commercial/elevenlabs_2026-10-26_kyotsu_l1/` |
+
+**A案とB案の統合（integrate/gacha-pickup）**：同じ依頼を2つのやり方で作ってしまったので、PR を2本立てて比べ、A案を採用した。
+- 採用 A（下のボタン → ダイアログで一覧）：ガチャは1画面に収める決まり。B（画面に横並びの欄）は背の低い端末で隠すしかなく、隠すと見つからない。
+- 採用 A のマイPDF音声（問題ごとのボタン）：B の「選ぶ → 再生」より1タップ少ない。
+- B から取り込んだもの：ピックアップを閉じたら試聴を止める（A は閉じても鳴り続けていた）。
+- 直したもの：A のコミットで `kyotsuMockAudio.ts` が別版に上書きされ、テスト3件が落ちていた → `q`・`part`・`kyotsuAudioLabel` を戻した。使われていない `GachaPreviewModal.tsx` は削除。
+
+**main（#110〜#114）との統合（2026-10-28）**：main で UR が「完全版の本」15冊だけになり、厳選URの旧10種は SR になっていた → 厳選UR（ショーケースとピックアップ）を完全版の本10冊に入れ替え、ちら見せ画像を作り直した（40枚・320KB）。予想問題の PDF・生成スクリプトはこちらの新しい版（図29枚・英文増量）、レア度・提供割合（LR1/UR3/SR6/R16/N74）は main の版。
+
+**戻し方**：ピックアップだけ消すなら `GachaRoom.tsx` の `data-gacha-pickup-open` のボタンと `<GachaPickupModal>` の2か所を削除（gacha.css の「ピックアップ」節は残っても無害）。音声だけ消すなら `MyCollection.tsx` の `<KyotsuAudioPlayer printId={item.id}/>` を削除。
+
+## 2026-10-26 LR 共通テスト予想問題：図・イラストを組み込み、リーディングを本番並みの分量に（PR: feat/kyotsu-mock-lr）
+
+| 何を | どう変えた | ファイル |
+|---|---|---|
+| リスニングの絵・地図 | 受け取った画像34枚＋地図4枚を問題冊子に。4枚組は横一列で各絵の下中央に①〜④（本番と同じ）。地図は元の丸を消して同じ位置に丸数字 | `scripts/gacha-prints/kyotsu_mock/figs.py`、`render.py`、`assets/img/` |
+| リーディングの図 | チラシ・ブログ・地図・図解など24枚を各枠に。未着の5枚（藍染め・ヒートアイランド・ソーラー充電器・書道・振動で感じる音楽）は白黒線画で生成して追加＝全29枚 | 同上 |
+| 台本の微修正 | 絵と合わない6問（第1回問8、第2回問5・8、第3回第4問A、第4回問8・11）を絵に合わせて書き直し | `set1_l.py`〜`set4_l.py` |
+| 難易度（分量） | リーディング各回 約3,200〜4,400語 → **約5,100〜5,400語**（本番 約5,600語）。資料・段落・意見を追加、正解と図の内容は不変 | `set{1..5}_r1.py`・`_r2.py` |
+| 台帳 | ページ数・KB を更新（画像入りで1冊 1.1〜1.6MB） |
+| レビューの★ | 第5回 第2問の ★☆ が空白になっていたのを表示されるように | `render.py` | `src/data/kyotsuMockPrints.ts` |
+
+**戻し方**：`figs.py` の `apply_reading` / `apply_listening` の呼び出し（`build.py`）を外すと図なしの版に戻る。分量の増量はこの PR のコミット「英文量を本番並みに増量」を `git revert`。
 ## 2026-10-28 英単語の演習：「この範囲を全部」ボタンを追加（PR: fix/vocab-start-all）
 
 | 何を | どう変えた | ファイル |

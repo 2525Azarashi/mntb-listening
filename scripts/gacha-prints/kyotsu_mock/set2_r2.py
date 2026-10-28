@@ -16,19 +16,31 @@ P5 = {
                ['Full-size coach', 'up to 53', '£520', '£600']], [45, 35, 50, 50]),
     ('pl', '• Prices include the driver and fuel for up to 10 hours. Each extra hour: £40.\n'
            '• A deposit of 20% is required when booking. The deposit is refundable if you cancel at least 14 days before the trip.\n'
-           '• Optional travel insurance: £2 per passenger.'),
+           '• Optional travel insurance: £2 per passenger.\n'
+           '• All our coaches have seat belts, air conditioning and space for luggage. Food and drink may be taken on board, but please take your rubbish with you.'),
    ], '#f4f8f1'),
    ('box', [
     ('small', '**From:** Mr. Hughes\n**To:** Trip Committee\n**Subject:** Lake District trip — decisions'),
     ('p', 'Hello everyone,'),
     ('p', 'Thanks for organising the vote. As you know, 20 students have signed up, and Ms. Patel and I will come too. Since most of you chose Saturday, let\'s go on Saturday 17th May. '
-          'We\'ll leave school at 7:30 a.m. and should be back by 6:30 p.m. Please book the smallest coach that fits all of us, and add insurance for everyone, including the teachers.'),
-    ('p', 'The boat trip on Lake Windermere is the main event, but if it rains heavily, the boats won\'t run. In that case, we\'ll visit the Pencil Museum in Keswick instead. Its entrance fee is £5 per person, compared with £9 for the boat.'),
+          'We\'ll leave school at 7:30 a.m. and should be back by 6:30 p.m. Please book the smallest coach that fits all of us, and add insurance for everyone, including the teachers. '
+          'I have checked the timetable of the lake cruises, and if we arrive at Bowness by 10:30, we can catch the 11:00 boat and still have plenty of time for lunch and a short walk by the lake in the afternoon.'),
+    ('p', 'The boat trip on Lake Windermere is the main event, but if it rains heavily, the boats won\'t run. In that case, we\'ll visit the Pencil Museum in Keswick instead. Its entrance fee is £5 per person, compared with £9 for the boat. Keswick is a short drive north of the lake, and the museum has a café, so we can have lunch there if the weather is bad.'),
+    ('p', 'Please remind everyone to bring a packed lunch, a waterproof jacket and comfortable shoes. The weather in the Lake District can change very quickly, even in May. Students who need to take medicine during the day should tell Ms. Patel before the trip. '
+          'Finally, several of you asked about shopping. If there is time after the cruise, we will stop for 30 minutes at the shops in Bowness on the way back to the coach, but please do not spend all your money on fudge!'),
     ('p', 'Please pay the deposit by Friday. Thanks,\nMr. Hughes'),
    ], '#fbfaf6'),
    ('box', [
     ('h', 'Vote results (20 students)'),
     ('table', [['Question', 'Option', 'Votes'], ['Day', 'Saturday / Sunday', '13 / 7'], ['Main activity', 'Boat trip / Hiking / Shopping', '11 / 6 / 3']], [50, 80, 50]),
+    ('pl', '**Comments from the vote:** "The boat trip sounds relaxing." / "Can we have some free time for shopping after lunch?" / "I\'d prefer hiking, but I\'m happy to go on the boat."'),
+   ], '#ffffff'),
+   ('box', [
+    ('h', 'Windermere Lake Cruises — Information for Groups'),
+    ('p', 'Enjoy a 45-minute cruise across England\'s largest lake, with views of the surrounding hills. Our boats leave the pier at Bowness every 30 minutes from 10:00 a.m. to 4:30 p.m. '
+          'Group tickets (15 people or more) cost £9 per person, including teachers. Please arrive at the pier 15 minutes before departure.'),
+    ('p', 'Safety first: cruises may be cancelled in heavy rain or strong winds. If your cruise is cancelled, you will receive a full refund, or you may change to another day free of charge. '
+          'There is a gift shop and a small café at the pier, and life jackets are provided for all passengers on deck.'),
    ], '#ffffff'),
   ],
   'qs': [
@@ -67,16 +79,17 @@ P6 = {
    ('box', [
     ('title', 'Catching Water from the Clouds'),
     ('p', 'Tomás Rivera grew up in a fishing village on the northern coast of Chile, one of the driest places on Earth. It almost never rained there, but most mornings, a thick fog called camanchaca rolled in from the Pacific Ocean. '
-          'As a boy, Tomás noticed that drops of water collected on spider webs and on his grandmother\'s washing line. "If a spider can catch water," he once asked his teacher, "why can\'t we?"'),
+          'As a boy, Tomás noticed that drops of water collected on spider webs and on his grandmother\'s washing line. "If a spider can catch water," he once asked his teacher, "why can\'t we?" His teacher laughed, but she lent him a book about the desert, and Tomás read it so many times that the cover fell off.'),
     ('p', 'Years later, after studying engineering in Santiago, Tomás returned to the north and joined a small project in the hill village of Alto Verde. The village had no river, and drinking water was delivered by truck once a week at a high price. '
-          'A team of scientists had set up large plastic nets, called fog catchers, on a hillside. In theory, fog would pass through the mesh, tiny droplets would stick to it, and the water would run down into pipes.'),
+          'A team of scientists had set up large plastic nets, called fog catchers, on a hillside. In theory, fog would pass through the mesh, tiny droplets would stick to it, and the water would run down into pipes. On paper, a single large net could collect hundreds of litres on a foggy morning. The scientists were excited, and newspapers in Santiago wrote about the "water from the sky."'),
     ('p', 'In practice, the first nets were a failure. Strong winds tore them apart within months, and when they broke, nobody in the village knew how to fix them. Many villagers became skeptical. '
-          '"Scientists come, take photos and leave," one farmer told Tomás. "Then the nets fall down."'),
+          '"Scientists come, take photos and leave," one farmer told Tomás. "Then the nets fall down." Some families even took pieces of the broken nets home to use as fences for their goats. Tomás realised that if the project failed again, it might be many years before anyone in the village trusted outsiders.'),
     ('p', 'Tomás decided that the problem was not only technical. He spent a winter living in the village, listening to people\'s complaints and watching how the wind moved across the hill. '
-          'He then tested dozens of materials and found that a double layer of a cheap, flexible mesh collected more water and survived strong winds better. He also tilted the nets slightly so that water ran off faster before it could be blown away.'),
+          'He then tested dozens of materials and found that a double layer of a cheap, flexible mesh collected more water and survived strong winds better. He also tilted the nets slightly so that water ran off faster before it could be blown away. Not every idea worked. One net made of a strong but expensive fabric collected plenty of water, but no one in the village could afford to replace it, so Tomás gave it up. "A perfect net that nobody can repair," he wrote in his diary, "is just a future piece of rubbish."'),
     ('p', 'Most importantly, he designed the system so that it could be repaired with simple tools and materials sold in the nearest town. He trained a group of local women and young people, who formed a committee to look after the nets. '
-          'Within three years, the fog catchers at Alto Verde were producing an average of 6,000 litres of water a day — enough for drinking, a small vegetable garden and even a tiny brewery that now sells "fog beer" to tourists.'),
-    ('p', 'Today, villages in Peru, Morocco and Nepal use designs based on Tomás\'s work. When asked about his success, he usually points to the committee. "The nets catch the water," he says, "but the people keep the nets."'),
+          'The committee met every Sunday after church to check the nets and decide who would repair them. Within three years, the fog catchers at Alto Verde were producing an average of 6,000 litres of water a day — enough for drinking, a small vegetable garden and even a tiny brewery that now sells "fog beer" to tourists.'),
+    ('p', 'The water changed more than daily life. Children who had spent hours each week carrying water from the truck stop now had time for homework, and the village school reported better attendance. Several families who had moved to the city returned to Alto Verde to grow vegetables again. Not everyone was pleased at first: the truck driver who had sold water to the village lost a good customer. The committee later hired him to carry spare parts and to drive visitors up the hill.'),
+    ('p', 'Today, villages in Peru, Morocco and Nepal use designs based on Tomás\'s work. When asked about his success, he usually points to the committee. "The nets catch the water," he says, "but the people keep the nets." In 2021, members of the Alto Verde committee travelled to Morocco to train villagers there — the first time most of them had ever left Chile.'),
    ], '#fbfaf6'),
    ('box', [
     ('ja', '**発表メモ**'),
@@ -118,14 +131,16 @@ P7 = {
    ('box', [
     ('title', 'The Number That Stays in Your Head'),
     ('p', 'Imagine you are asked two questions. First: "Is the population of Kenya more or less than 90 million?" Second: "What is your best guess of the population of Kenya?" '
-          'Now imagine a friend is asked the same questions, except the first number is 20 million. Research suggests that your guess will probably be much higher than your friend\'s — even though both of you know the first number was chosen at random.'),
+          'Now imagine a friend is asked the same questions, except the first number is 20 million. Research suggests that your guess will probably be much higher than your friend\'s — even though both of you know the first number was chosen at random. Neither of you would say that the first question changed your answer, yet it very likely did.'),
     ('p', 'This tendency is called the **anchoring effect**. The first piece of information we receive acts like a ship\'s anchor: our later judgements may move around it, but they rarely move far away. '
           'In one classic study, participants spun a wheel that stopped at either 10 or 65, and were then asked to estimate the percentage of African countries in the United Nations. Those who saw 10 gave an average estimate of 25%; those who saw 65 guessed 45%.'),
     ('p', 'Anchors are everywhere in daily life. A price tag that says "Was £80, now £50" makes £50 feel like a bargain, even if the item was never really worth £80. '
-          'In salary negotiations, the first figure mentioned — by either side — strongly influences the final agreement. Restaurants sometimes put one extremely expensive dish at the top of the menu, not because they expect to sell many, but because it makes the other dishes look reasonable.'),
-    ('p', 'Surprisingly, experts are not immune. In one experiment, experienced estate agents were shown the same house but given different "listing prices." Their own valuations of the house rose and fell with the listing price, yet most insisted that the listing price had not affected their judgement at all.'),
+          'In salary negotiations, the first figure mentioned — by either side — strongly influences the final agreement. Restaurants sometimes put one extremely expensive dish at the top of the menu, not because they expect to sell many, but because it makes the other dishes look reasonable. Online shops use the same trick when they show a "recommended retail price" next to their own, lower price. Even the order in which we see prices matters: when shoppers look at the most expensive model first, they tend to spend more overall than when they start with the cheapest one.'),
+    ('p', 'Anchors do not even need to be related to the question. In another study, people were asked to write down the last two digits of their national ID number and then to say how much they would pay for items such as a bottle of wine or a computer keyboard. People whose numbers were high were willing to pay up to three times more than those whose numbers were low. A completely meaningless number had affected how much they thought the items were worth.'),
+    ('p', 'Surprisingly, experts are not immune. In one experiment, experienced estate agents were shown the same house but given different "listing prices." Their own valuations of the house rose and fell with the listing price, yet most insisted that the listing price had not affected their judgement at all. Similar results have been found with judges deciding prison sentences and doctors estimating how long a patient will need to recover. Experience, it seems, does not remove the effect; it may only make people more confident that they are not affected.'),
     ('p', 'Can we protect ourselves? Simply knowing about the effect helps only a little. More effective is to create your own reference point before seeing anyone else\'s number — for example, by checking the prices of similar items first. '
-          'Another strategy is called "considering the opposite": deliberately listing reasons why the anchor might be wrong. In experiments, people who did this were influenced much less.'),
+          'Another strategy is called "considering the opposite": deliberately listing reasons why the anchor might be wrong. In experiments, people who did this were influenced much less. Taking time also helps: anchors have their strongest effect when we are tired, busy or in a hurry, so it is wise to avoid making important decisions under time pressure.'),
+    ('p', 'Interestingly, anchors can also be used for good. Some charities have found that suggesting a donation amount on their forms — for example, "Most people give £20" — increases the average gift. Teachers who set high but realistic goals at the start of a course may raise what students believe they can achieve. The effect itself is neither good nor bad; what matters is who sets the anchor and why.'),
     ('p', 'The anchoring effect reminds us that our judgements are not made in a vacuum. The numbers we see first quietly shape what seems "normal," "cheap" or "expensive." Being aware of where an anchor comes from is the first step towards making decisions that are truly our own.'),
    ], '#fbfaf6'),
    ('box', [
@@ -171,16 +186,25 @@ P8 = {
     ('h', 'Source A — Article: "Work and Grades: Is There a Limit?"'),
     ('p', 'A study of 3,200 high school students looked at the relationship between hours of part-time work and school grades. Students who worked up to about 10 hours a week had grades similar to, or slightly better than, those who did not work at all. '
           'Researchers suggest that a small amount of work may encourage better time management. However, grades fell noticeably among students working more than 15 hours a week, and these students also reported sleeping less. '
-          'The researchers warn that the study shows a correlation, not necessarily a cause: students who were already struggling at school might choose to work more.'),
+          'The researchers warn that the study shows a correlation, not necessarily a cause: students who were already struggling at school might choose to work more. '
+          'The study also found that the type of job mattered. Students whose employers gave them fixed weekly schedules reported less stress than those whose shifts changed at short notice, even when the total number of hours was the same.'),
+    ('p', 'In several countries, the law already limits how much teenagers can work. In the UK, for example, 16-year-olds who are still at school may not usually work more than 12 hours in a school week, and in parts of the United States, students under 16 cannot work after 7 p.m. on school nights. '
+          'Supporters of these rules say they protect students\' health and study time. Critics argue that they make it harder for teenagers from low-income families to earn money they really need. '
+          'In a separate survey of 1,000 working students, the most common reasons for having a job were "to have my own spending money" (58%), "to save for the future" (21%) and "to help my family" (12%).'),
    ], '#fbfaf6'),
    ('table', [['Hours of work per week', '0', '1–5', '6–10', '11–15', '16–20', '21+'],
               ['Average grade (out of 5)', '3.4', '3.5', '3.5', '3.2', '2.9', '2.6'],
               ['Average sleep (hours/night)', '7.1', '7.0', '6.9', '6.5', '6.1', '5.8']], [52, 21, 21, 21, 22, 22, 23]),
    ('box', [
     ('h', 'Source B — Opinions'),
-    ('pl', '**Haruka (student, 17):** My job at a bakery taught me how to talk to customers and how hard it is to earn money. I used to buy things without thinking. Now I save first.'),
-    ('pl', '**Mr. Grant (parent):** I support my son working, but I set a rule: no more than two evenings a week, and never during exam periods.'),
-    ('pl', '**Ms. Kwon (shop manager):** Teenage staff are often very reliable. But I\'ve seen students so tired that they fall asleep during breaks. Schools and employers should talk to each other more.'),
+    ('p', 'We asked five people for their views on high school students and part-time jobs.'),
+    ('pl', '**Haruka (student, 17):** My job at a bakery taught me how to talk to customers and how hard it is to earn money. I used to buy things without thinking. Now I save first. I work two afternoons a week, and I still have time for my homework and my club.'),
+    ('pl', '**Daniel (student, 18):** I worked about 20 hours a week at a restaurant last year because I wanted to buy a motorbike. I got the bike, but my grades dropped and I was always tired in class. This year I work only on Saturdays, and I feel much better.'),
+    ('pl', '**Mr. Grant (parent):** I support my son working, but I set a rule: no more than two evenings a week, and never during exam periods. '
+           'At first he complained, but after his first set of exams he admitted that the rule had helped him. He has also learned to plan his week on a calendar, which I never managed to teach him.'),
+    ('pl', '**Mr. Sato (homeroom teacher):** Some of my students work to help their families, so a total ban would be unfair. What worries me is when students take on extra shifts just before exams because the shop is short of staff.'),
+    ('pl', '**Emi (university student, 20):** In high school, I didn\'t work at all because my parents wanted me to focus on entrance exams. When I started university, I had never had a job interview and didn\'t know how to speak politely to customers. My first month at a café was really hard. Looking back, a few hours of work a week in high school would have prepared me much better.'),
+    ('pl', '**Ms. Kwon (shop manager):** Teenage staff are often very reliable. But I\'ve seen students so tired that they fall asleep during breaks. Schools and employers should talk to each other more. At our shop, we now ask young staff for their exam dates at the start of each term, and we try not to give them shifts that week.'),
    ], '#fbfaf6'),
    ('box', [
     ('ja', '**レポートの構成メモ**'),

@@ -10,12 +10,12 @@ P1 = {
   'blocks': [
    ('box', [
     ('title', 'Riku — Weekend To-Do List'),
-    ('p', 'Hi Riku! Thanks so much for looking after things while we\'re at Grandma\'s (Friday night to Sunday evening).'),
-    ('pl', '**Plants:** Water the kitchen plants on Saturday and Sunday. The balcony plants only need water on Saturday — it\'s supposed to rain on Sunday.\n'
-           '**Biscuit (the cat):** Food twice a day, morning and evening. Put her tablet in the **morning** food only. Don\'t let her out!\n'
+    ('p', 'Hi Riku! Thanks so much for looking after things while we\'re at Grandma\'s (Friday night to Sunday evening). I\'ve written everything down so you don\'t have to remember it all.'),
+    ('pl', '**Plants:** Water the kitchen plants on Saturday and Sunday — just one glass each. The balcony plants only need water on Saturday — it\'s supposed to rain on Sunday.\n'
+           '**Biscuit (the cat):** Food twice a day, morning and evening. Put her tablet in the **morning** food only. Don\'t let her out! She will sit by the back door and cry, but she isn\'t allowed outside until the vet says her leg is better.\n'
            '**Rubbish:** Take the green bin out to the street on Sunday morning before 8.\n'
-           '**Problems?** Mr. Lee next door has a spare key. His number is on the board by the door.'),
-    ('p', 'There\'s pizza in the freezer for Saturday. See you on Sunday! — Karen'),
+           '**Problems?** Mr. Lee next door has a spare key. His number is on the board by the door. He\'s usually at home in the evenings.'),
+    ('p', 'There\'s pizza in the freezer for Saturday, and there\'s money in the blue envelope if you want to order something on Sunday. See you on Sunday! — Karen'),
    ]),
   ],
   'qs': [
@@ -39,14 +39,17 @@ P2 = {
   'blocks': [
    ('box', [
     ('title', 'Refectory Survey: What Do Students Really Think?'),
-    ('p', 'Last month, the Student Union asked 500 students to rate the campus refectory. The graph shows the percentage who said they were "satisfied" or "very satisfied" with each area.'),
+    ('p', 'Last month, the Student Union asked 500 students to rate the campus refectory. A total of 412 students replied. The graph shows the percentage who said they were "satisfied" or "very satisfied" with each area.'),
     ('bar', {'title': 'Satisfaction with the refectory (%)', 'cats': ['Taste', 'Price', 'Vegan options', 'Waiting time', 'Seating'],
              'series': [[72, 38, 41, 29, 66]], 'unit': '%', 'maxv': 100, 'step': 20}),
-    ('p', 'The refectory manager said that a second serving counter will open in January to reduce queues at lunchtime. A new vegan menu will also be introduced next term.'),
+    ('p', 'The refectory manager said that a second serving counter will open in January to reduce queues at lunchtime. A new vegan menu will also be introduced next term. She added that prices would stay the same this year, because the cost of ingredients has risen sharply.'),
+    ('p', 'The Student Union also asked what students would most like to change. The top three answers were "shorter queues" (44%), "cheaper meal deals" (31%) and "more plant-based dishes" (15%). About a quarter of the students surveyed said they bring their own lunch at least three days a week.'),
+    ('p', 'Compared with last year\'s survey, satisfaction with taste rose by 6 points, while satisfaction with waiting time fell by 11 points. The Student Union believes this is because the number of students on campus has grown by about 15% without any increase in the size of the refectory.'),
     ('h', 'Student comments'),
-    ('pl', '**Fatima:** The curry is honestly the best I\'ve had in this country. But £6.50 for lunch every day really adds up.'),
-    ('pl', '**Josh:** I waited 25 minutes yesterday and had only ten minutes to eat before my seminar.'),
-    ('pl', '**Elena:** As a vegan, I usually end up with chips and salad. I\'m glad they\'re finally listening.'),
+    ('pl', '**Fatima:** The curry is honestly the best I\'ve had in this country. But £6.50 for lunch every day really adds up. Most days I bring sandwiches and treat myself to the curry on Fridays.'),
+    ('pl', '**Josh:** I waited 25 minutes yesterday and had only ten minutes to eat before my seminar. The food is fine; the queue is the problem.'),
+    ('pl', '**Daniel:** I like the big windows and the comfortable chairs. It\'s my favourite place to meet friends between lectures, even when I don\'t buy anything.'),
+    ('pl', '**Elena:** As a vegan, I usually end up with chips and salad. I\'m glad they\'re finally listening. Last year, several of us wrote to the manager about it.'),
    ]),
   ],
   'qs': [
@@ -75,15 +78,15 @@ P3 = {
    ('box', [
     ('title', 'The Great Duck Race'),
     ('p', 'Every September, the town of Millbrook holds a charity duck race. People buy numbered rubber ducks for two pounds each, and the ducks are dropped into the river from the old stone bridge. The first duck to float under the finish line wins a bicycle. '
-          'This year, fourteen-year-old Hina had volunteered to help her uncle, who organised the event.'),
+          'This year, fourteen-year-old Hina had volunteered to help her uncle, who organised the event. For weeks, she had helped him write numbers on the ducks and sell tickets outside the supermarket.'),
     ('p', 'On the night before the race, it rained so heavily that Hina could hear the water roaring from her bedroom. In the morning, the river was brown and **swollen**, rushing much faster than usual and carrying branches. '
-          'Her uncle stood on the bridge, shaking his head. "If we drop the ducks in there, half of them will end up in the sea," he said. "We might have to cancel."'),
-    ('p', 'Hina thought about the 3,000 ducks already sold and the children who had been waiting all week. Then she remembered the canal that ran beside the park, where she sometimes fed swans. It was narrow, calm and only a few hundred metres long. '
+          'Her uncle stood on the bridge, shaking his head. "If we drop the ducks in there, half of them will end up in the sea," he said. "We might have to cancel." A few families had already arrived with folding chairs and picnic baskets, and some children were waving small flags.'),
+    ('p', 'Hina thought about the 3,000 ducks already sold and the children who had been waiting all week. Then she remembered the canal that ran beside the park, where she sometimes fed swans. It was narrow, calm and only a few hundred metres long, with paths on both sides where people could stand and watch. '
           '"What about the canal?" she asked. "The water there barely moves, but there\'s a lock at the end. If they open it a little, there\'ll be a gentle current."'),
-    ('p', 'Her uncle phoned the canal office, and by ten o\'clock, the plan was ready. Volunteers moved the finish line, and Hina\'s classmates stood along the banks with fishing nets to catch any ducks that drifted to the side. '
-          'The race started an hour late, but the crowd cheered just as loudly as in any other year.'),
-    ('p', 'The winning duck, number 1,207, belonged to an elderly man who said he had bought a duck every year for thirty years and never won anything. The race raised £6,000, which was given to a group that cleans litter from the river. '
-          'At the end of the day, Hina\'s uncle handed her a rubber duck with a gold ribbon. "For the best idea of the year," he said.'),
+    ('p', 'Her uncle looked at her for a moment and then smiled for the first time that morning. He phoned the canal office, and by ten o\'clock, the plan was ready. The lock keeper agreed to open the gate just enough to create a slow, steady current, and he promised to close it immediately if anything went wrong. Volunteers moved the finish line, and Hina\'s classmates stood along the banks with fishing nets to catch any ducks that drifted to the side. '
+          'The race started an hour late, but the crowd cheered just as loudly as in any other year. Because the canal was so narrow, people could stand right next to the water, and many said it was the most exciting race they had ever seen.'),
+    ('p', 'The winning duck, number 1,207, belonged to an elderly man who said he had bought a duck every year for thirty years and never won anything. The race raised £6,000, which was given to a group that cleans litter from the river. Not a single duck was lost, and the volunteers with nets later joked that they had caught more leaves than ducks. '
+          'At the end of the day, Hina\'s uncle handed her a rubber duck with a gold ribbon. "For the best idea of the year," he said. Hina put it on her desk, where it still sits today. Next year, the committee has decided to hold the race on the canal again, whatever the weather.'),
    ]),
   ],
   'qs': [
@@ -110,10 +113,11 @@ P4 = {
   'blocks': [
    ('box', [
     ('title', 'Our Library Should Open Longer'),
-    ('p', 'At our school, the library closes at 4:30 p.m., just thirty minutes after classes end. I believe it should stay open until 7:00 p.m. on weekdays.'),
-    ('p', 'First, many students have no quiet place to study at home. Some share a room with younger brothers and sisters, and others live in small apartments. **[ A ]** the library is the only place where they can concentrate.'),
-    ('p', 'Second, the library has resources that are not available elsewhere. **(a)** Students can use reference books, newspapers and computers for free. **(b)** For students preparing for university entrance exams, these resources are especially valuable. **(c)** Many of them also want to study with friends and ask each other questions. **(d)**'),
-    ('p', 'Some people may say that keeping the library open would cost too much because staff would have to work longer. __I usually borrow mystery novels from the library.__ Parent volunteers or university students could take turns supervising in the evening.'),
+    ('p', 'At our school, the library closes at 4:30 p.m., just thirty minutes after classes end. I believe it should stay open until 7:00 p.m. on weekdays. In this essay, I will explain why and answer a possible objection.'),
+    ('p', 'First, many students have no quiet place to study at home. Some share a room with younger brothers and sisters, and others live in small apartments. **[ A ]** the library is the only place where they can concentrate. Cafés and fast-food restaurants are noisy, and buying a drink every day is expensive for students.'),
+    ('p', 'Second, the library has resources that are not available elsewhere. **(a)** Students can use reference books, newspapers and computers for free. **(b)** For students preparing for university entrance exams, these resources are especially valuable, as some of the books are too expensive for students to buy themselves. **(c)** Many of them also want to study with friends and ask each other questions. **(d)**'),
+    ('p', 'Some people may say that keeping the library open would cost too much because staff would have to work longer. This is a fair point, as the school budget is limited. __I usually borrow mystery novels from the library.__ Parent volunteers or university students could take turns supervising in the evening. Several parents have already said they would be happy to help once a week.'),
+    ('p', 'Other schools have already tried this. A high school in the next city extended its library hours last year, and its librarian reported that the number of evening visitors grew every month. Students there say the library has become a place not only for studying but also for helping each other.'),
     ('p', '**[ D ]** In conclusion, the library closes at 4:30, and I think that is too early.'),
    ]),
    ('box', [

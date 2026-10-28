@@ -8,13 +8,13 @@ P1 = {
  'sections': [{
   'instr': 'あなたはオーストラリアに留学中です。クラスメイトの Chloe とメッセージをやりとりしています。',
   'blocks': [
-   ('msg', 'Chloe', "Hey Yuki! Bad news — the town library is closed all week for renovation. We can't meet there tomorrow arvo for our presentation practice.", 'l'),
-   ('msg', 'Yuki', "Oh no! What about the school study room?", 'r'),
-   ('msg', 'Chloe', "It's booked by the debate team until 5. How about my place instead? It's a 10-minute walk from school. Mum says it's fine.", 'l'),
-   ('msg', 'Yuki', "That's very kind. Shall I bring anything?", 'r'),
-   ('msg', 'Chloe', "Could you bring your laptop? Mine's really slow. We've got a projector, so we can practise with the slides on the wall.", 'l'),
-   ('msg', 'Yuki', "Sure. I'll also bring some Japanese sweets for your family.", 'r'),
-   ('msg', 'Chloe', "Heaps nice! See you at the school gate at 3:30, and we'll walk over together.", 'l'),
+   ('msg', 'Chloe', "Hey Yuki! Bad news — the town library is closed all week for renovation. We can't meet there tomorrow arvo for our presentation practice. And the presentation is on Friday, so we really need to practise!", 'l'),
+   ('msg', 'Yuki', "Oh no! I was going to borrow some books there too. What about the school study room?", 'r'),
+   ('msg', 'Chloe', "It's booked by the debate team until 5. How about my place instead? It's a 10-minute walk from school. Mum says it's fine, and she'll make us afternoon tea.", 'l'),
+   ('msg', 'Yuki', "That's very kind. Please say thanks to your mum. Shall I bring anything?", 'r'),
+   ('msg', 'Chloe', "Could you bring your laptop? Mine's really slow. We've got a projector, so we can practise with the slides on the wall. Don't forget the charger — the battery never lasts long enough.", 'l'),
+   ('msg', 'Yuki', "Sure, I'll bring the charger too. I'll also bring some Japanese sweets for your family. My mum sent me a big box last week.", 'r'),
+   ('msg', 'Chloe', "Heaps nice! My little brother will be so happy — he loves anything from Japan. See you at the school gate at 3:30, and we'll walk over together. It's a bit hard to find if you haven't been before.", 'l'),
   ],
   'qs': [
    {'no': 1, 'prompt': 'Why can\'t the students practise at the library?', 'pts': 2, 'ans': 3,
@@ -37,17 +37,19 @@ P2 = {
   'blocks': [
    ('box', [
     ('title', 'Museum Lates at the Thornbury Science Museum'),
-    ('p', 'On the last Friday of every month, the museum stays open until 10 p.m. for adults only (18+). Enjoy live music, a pop-up bar and special activities among our galleries.'),
+    ('p', 'On the last Friday of every month, the museum stays open until 10 p.m. for adults only (18+). Enjoy live music, a pop-up bar and special activities among our galleries. Each month has a different theme — this month it is "Night at the Jurassic."'),
     ('table', [['Activity', 'Time', 'Booking'],
                ['Torch-lit tour of the dinosaur hall', '7:00 / 8:30 p.m.', 'Required (£6)'],
                ['Make-your-own perfume workshop', '7:30 p.m.', 'Required (£12)'],
                ['Silent disco in the space gallery', 'All evening', 'Not required'],
                ['Talk: "How Do Robots Learn?"', '8:00 p.m.', 'Not required']], [70, 50, 60]),
-    ('p', 'General admission to Museum Lates is free, but bags larger than A3 size must be left in the cloakroom (£2). Please bring photo ID.'),
+    ('p', 'Tickets for booked activities go on sale on the first day of each month on our website, and they usually sell out quickly. General admission to Museum Lates is free, but bags larger than A3 size must be left in the cloakroom (£2). Please bring photo ID, as staff will check the age of every visitor at the door. Food and drink from the bar may not be taken into the galleries, except for bottled water. The last entry is at 9:00 p.m.'),
+    ('p', '**Getting here:** The museum is a five-minute walk from Thornbury Central Station. Late-night buses to the city centre leave from the stop outside the main entrance every 20 minutes until 11:30 p.m. There is no car park at the museum, so we recommend public transport.'),
     ('h', 'Visitor reviews'),
-    ('pl', '**Hannah:** The torch-lit tour was the highlight — seeing the T. rex skeleton in the dark was genuinely spooky. Book early; it sold out a week before.'),
-    ('pl', '**Marco:** Great atmosphere, but the main hall was absolutely heaving by 9 o\'clock. I\'d arrive at opening time if I went again.'),
-    ('pl', '**Aisha:** The robot talk lasted 40 minutes and included a live demonstration. Probably the best free talk I\'ve ever been to.'),
+    ('pl', '**Hannah:** The torch-lit tour was the highlight — seeing the T. rex skeleton in the dark was genuinely spooky. Book early; it sold out a week before. Our guide told brilliant stories about how the bones were found.'),
+    ('pl', '**Marco:** Great atmosphere, but the main hall was absolutely heaving by 9 o\'clock. I\'d arrive at opening time if I went again. The silent disco was great fun, though, and it\'s free.'),
+    ('pl', '**Tom:** The perfume workshop was fun, but £12 felt a bit expensive for 45 minutes. My friend and I left with two tiny bottles that smell like lemons and pine trees.'),
+    ('pl', '**Aisha:** The robot talk lasted 40 minutes and included a live demonstration. Probably the best free talk I\'ve ever been to. The robot learned to pick up a cup in front of us, after about ten failed attempts!'),
    ], '#fbfaf6'),
   ],
   'qs': [
@@ -76,13 +78,13 @@ P3 = {
    ('box', [
     ('title', 'The Picture I Didn\'t Plan'),
     ('p', 'The deadline for the city photo contest was two weeks away, and Ren still had nothing to submit. Every evening, he carried his tripod up to the hill behind the school, hoping to capture a perfect sunset over the harbour. '
-          'But it was the rainy season. Night after night, the sky stayed grey, and his photos looked flat and lifeless.'),
+          'But it was the rainy season. Night after night, the sky stayed grey, and his photos looked flat and lifeless. He had won a small prize the year before with a photo of fireworks, and everyone in the photography club expected something even better from him this time.'),
     ('p', 'One morning, he left home early to try a sunrise instead. Again, clouds covered everything. Disappointed, he was walking past the small bakery on the corner when he saw Mr. Mori, the owner, pulling up the shutters. '
-          'Mr. Mori was over eighty, and his hands and apron were white with flour. Steam rose from the trays of bread behind him. Without thinking, Ren lifted his camera and pressed the button.'),
+          'Mr. Mori was over eighty, and his hands and apron were white with flour. Steam rose from the trays of bread behind him. Without thinking, Ren lifted his camera and pressed the button. The shutter made a small click that sounded very loud in the quiet street.'),
     ('p', 'Mr. Mori turned, surprised, and then laughed. "Taking pictures of an old man? You should photograph something beautiful." Ren apologised and showed him the screen. The old man looked at it for a long time. '
-          '"My wife used to stand right there every morning," he said quietly. "Fifty-two years."'),
-    ('p', 'At school, Ren showed his club advisor a dozen sunset shots and, almost as an afterthought, the bakery picture. Ms. Ueda pointed straight at the last one. "This," she said. "The sunsets are pretty, but this one has a story. It\'s **candid** — he didn\'t pose, and you can feel it."'),
-    ('p', 'Ren entered the photo with Mr. Mori\'s permission. A month later, it won second prize. He printed a large copy and took it to the bakery. It now hangs beside the cash register, and every morning, when Mr. Mori pulls up the shutters, he says good morning to it.'),
+          '"My wife used to stand right there every morning," he said quietly. "Fifty-two years." Ren did not know what to say. He thanked Mr. Mori, bought a melon bun he did not really want, and walked to school with the picture still on his screen.'),
+    ('p', 'That night, Ren could not stop thinking about Mr. Mori\'s words. He looked through all his sunset photos again. They were technically good — sharp, well balanced and full of colour — but none of them made him feel anything. The next day, at school, Ren showed his club advisor a dozen sunset shots and, almost as an afterthought, the bakery picture. Ms. Ueda pointed straight at the last one. "This," she said. "The sunsets are pretty, but this one has a story. It\'s **candid** — he didn\'t pose, and you can feel it." Ren was a little disappointed at first. He had spent hours on the hill, and the bakery photo had taken less than a second. But the more he looked at it, the more he understood what she meant.'),
+    ('p', 'Ren entered the photo with Mr. Mori\'s permission. A month later, it won second prize. The judges wrote that the photo "shows the quiet beauty of an ordinary morning." Ren read the comment several times. He printed a large copy and took it to the bakery. It now hangs beside the cash register, and every morning, when Mr. Mori pulls up the shutters, he says good morning to it. Ren still climbs the hill on clear evenings, but now he often stops at the bakery first.'),
    ], '#fbfaf6'),
   ],
   'qs': [
@@ -108,10 +110,10 @@ P4 = {
   'blocks': [
    ('box', [
     ('title', 'Is Learning a Foreign Language Still Worth It?'),
-    ('p', 'Some of my friends say there is no need to study foreign languages any more, because translation apps can do the job for us. I disagree. I believe learning a language gives us something that no app can.'),
-    ('p', 'First, translation apps often miss nuance. **(a)** The Japanese word "otsukaresama," for example, has no single English equivalent. **(b)** Depending on the situation, it can mean "thank you for your hard work," "good job" or simply "see you." **(c)** Only a person who understands the culture can choose the right meaning. **(d)**'),
-    ('p', 'Second, learning a language changes the way we think. When I studied Spanish, I noticed that it has two verbs for "to be" — one for permanent qualities and one for temporary states. **[ B ]** I started to think more carefully about whether a feeling or situation would last.'),
-    ('p', 'Third, speaking someone\'s language shows respect. __My favourite food is ramen, especially with lots of garlic.__ When I said just a few words of Vietnamese to a classmate\'s grandmother, she smiled and held my hands.'),
+    ('p', 'Some of my friends say there is no need to study foreign languages any more, because translation apps can do the job for us. It is true that these apps have improved a great deal, and I use one myself when I travel. I disagree. I believe learning a language gives us something that no app can. Here are three reasons.'),
+    ('p', 'First, translation apps often miss nuance. **(a)** The Japanese word "otsukaresama," for example, has no single English equivalent. **(b)** Depending on the situation, it can mean "thank you for your hard work," "good job" or simply "see you." **(c)** Only a person who understands the culture can choose the right meaning. **(d)** An app can give us words, but it cannot always give us the feeling behind them.'),
+    ('p', 'Second, learning a language changes the way we think. When I studied Spanish, I noticed that it has two verbs for "to be" — one for permanent qualities and one for temporary states. **[ B ]** I started to think more carefully about whether a feeling or situation would last. Being tired after a test, for example, is a temporary state, not a part of who I am.'),
+    ('p', 'Third, speaking someone\'s language shows respect. It tells people that we are willing to make an effort to meet them halfway. __My favourite food is ramen, especially with lots of garlic.__ When I said just a few words of Vietnamese to a classmate\'s grandmother, she smiled and held my hands. She did not speak any English, but at that moment we did not need a translator.'),
     ('p', '**[ D ]** In conclusion, translation apps are popular, but I still study English every day.'),
    ], '#fbfaf6'),
    ('box', [
