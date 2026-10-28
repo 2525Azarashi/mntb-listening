@@ -59,7 +59,9 @@ describe('D publication boundary and vocabulary guidance',()=>{
     for(const value of [null,{}, {targetSchool:'private school',studySeconds:3600}, {public:false,targetSchool:'private school',studySeconds:3600}]) expect(parsePublicStudyProfile(value)).toBeNull();
   });
   it('valid consent permits only the opted-in public fields, rejecting corrupt totals',()=>{
-    expect(parsePublicStudyProfile({public:true,targetSchool:'  Example   University ',studySeconds:3725,email:'never returned'})).toEqual({public:true,targetSchool:'Example University',studySeconds:3725,motto:'',stagesCleared:null,level:null});
+    expect(parsePublicStudyProfile({public:true,targetSchool:'  Example   University ',studySeconds:3725,email:'never returned'})).toEqual({public:true,targetSchool:'Example University',studySeconds:3725,motto:'',stagesCleared:null,level:null,
+      // 2026-10-26 プロフィール拡張の項目（未設定の空の値）。email のような決まっていない項目は返さない
+      nickname:'',grade:'',bio:'',week:null,weekEnd:'',streak:null,solved:null,badges:null,title:'',look:{pose:'',frame:'',hat:'',glasses:''}});
     for(const seconds of [-1,NaN,Infinity,0.5,315360001])expect(parsePublicStudyProfile({public:true,targetSchool:'U',studySeconds:seconds})).toBeNull();
   });
   it('vocabulary IDs are preserved and labels state target-based guidance',()=>{

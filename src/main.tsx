@@ -15,6 +15,7 @@ import { ThemeProvider } from './contexts/ThemeContext';
 import { AppWallpaper } from './components/AppWallpaper';
 import { installChunkRecovery } from './utils/chunkRecovery';
 import { installDevicePerf } from './utils/devicePerf';
+import { installProfileStatsProvider } from './features/profile/profileStats';
 import { initializeAdMob } from './utils/adService';
 
 import { isNativeApp, getAppPlatform } from './native/platform';
@@ -23,6 +24,8 @@ installChunkRecovery();
 // 端末スペックを判定して <html data-perf> を付ける（波紋・見出しの動きより先に）
 installDevicePerf();
 installRipple();
+// 公開プロフィールに載せる記録（連続日数・解いた数・見た目）を集める口を差し込む（2026-10-26）
+installProfileStatsProvider();
 initializeAdMob();
 if (typeof document !== 'undefined') {
   document.documentElement.dataset.platform = getAppPlatform();

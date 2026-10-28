@@ -3,7 +3,7 @@
 //         node scripts/gacha-prints/build-prints.mjs .tmpwork/prints-data.json
 //         python3 scripts/gacha-prints/finalize.py
 
-export type GachaPrintCategory = '出題傾向' | '演習プリント' | '単語テスト';
+export type GachaPrintCategory = '出題傾向' | '演習プリント' | '単語テスト' | '完全版';
 
 export interface GachaPrintDef {
   /** ガチャのアイテム id（ITEMS にもこの id で入る） */
@@ -519,5 +519,157 @@ export const GACHA_PRINTS: readonly GachaPrintDef[] = [
     "thumb": "/prints/thumbs/print_vocab_lv3_2.webp",
     "pages": 14,
     "kb": 202
+  },
+  // ★2026-10-24 UR（大当たり）＝完全版の本（scripts/gacha-prints/build-vocab-book.py / build-reading-mock.py / build-analysis-book.py）★
+  {
+    "id": "print_book_vocab_lv1",
+    "label": "英単語 完全版 Lv1 共通テスト基礎の全語（1185語・30日で3周）",
+    "subject": "english_vocab",
+    "category": "完全版",
+    "file": "/prints/print_book_vocab_lv1.pdf",
+    "thumb": "/prints/thumbs/print_book_vocab_lv1.webp",
+    "pages": 77,
+    "kb": 759
+  },
+  {
+    "id": "print_book_vocab_lv2",
+    "label": "英単語 完全版 Lv2 共通テスト標準の全語（962語）",
+    "subject": "english_vocab",
+    "category": "完全版",
+    "file": "/prints/print_book_vocab_lv2.pdf",
+    "thumb": "/prints/thumbs/print_book_vocab_lv2.webp",
+    "pages": 61,
+    "kb": 686
+  },
+  {
+    "id": "print_book_vocab_adv",
+    "label": "英単語 完全版 Lv3・Lv4 二次・私大・難関の全語（1681語）",
+    "subject": "english_vocab",
+    "category": "完全版",
+    "file": "/prints/print_book_vocab_adv.pdf",
+    "thumb": "/prints/thumbs/print_book_vocab_adv.webp",
+    "pages": 89,
+    "kb": 879
+  },
+  {
+    "id": "print_book_idiom_all",
+    "label": "英熟語 完全版 基礎から難関まで全熟語（1885熟語）",
+    "subject": "english_vocab",
+    "category": "完全版",
+    "file": "/prints/print_book_idiom_all.pdf",
+    "thumb": "/prints/thumbs/print_book_idiom_all.webp",
+    "pages": 95,
+    "kb": 745
+  },
+  {
+    "id": "print_book_reading_mock1",
+    "label": "共通テスト 英語リーディング 大問別演習 完全版 第1回（全8大問・100点）",
+    "subject": "english_reading",
+    "category": "完全版",
+    "file": "/prints/print_book_reading_mock1.pdf",
+    "thumb": "/prints/thumbs/print_book_reading_mock1.webp",
+    "pages": 25,
+    "kb": 247
+  },
+  {
+    "id": "print_book_analysis_all",
+    "label": "共通テスト 全科目 出題分析 完全版（2026年度平均点・約50年の流れ・時期別対策）",
+    "subject": "all",
+    "category": "完全版",
+    "file": "/prints/print_book_analysis_all.pdf",
+    "thumb": "/prints/thumbs/print_book_analysis_all.webp",
+    "pages": 18,
+    "kb": 235
+  },
+  {
+    "id": "print_book_reading_mock2",
+    "label": "共通テスト 英語リーディング 大問別演習 完全版 第2回（全8大問・100点）",
+    "subject": "english_reading",
+    "category": "完全版",
+    "file": "/prints/print_book_reading_mock2.pdf",
+    "thumb": "/prints/thumbs/print_book_reading_mock2.webp",
+    "pages": 24,
+    "kb": 232
+  },
+  {
+    "id": "print_book_reading_mock3",
+    "label": "共通テスト 英語リーディング 大問別演習 完全版 第3回（全8大問・100点）",
+    "subject": "english_reading",
+    "category": "完全版",
+    "file": "/prints/print_book_reading_mock3.pdf",
+    "thumb": "/prints/thumbs/print_book_reading_mock3.webp",
+    "pages": 24,
+    "kb": 242
+  },
+  {
+    "id": "print_book_listening_all",
+    "label": "共通テスト 英語リスニング 大問別演習 完全版（全6大問・3回分・アプリの音声と連動）",
+    "subject": "english_listening",
+    "category": "完全版",
+    "file": "/prints/print_book_listening_all.pdf",
+    "thumb": "/prints/thumbs/print_book_listening_all.webp",
+    "pages": 79,
+    "kb": 2327
+  },
+  // ★2026-10-27 UR に追加：B4 白黒の小テスト・英文法4択（scripts/gacha-prints/idiom_reading/ ・ grammar_b4/ → idiom_reading/publish.py）★
+  {
+    "id": "print_book_idiom_reading_basic",
+    "label": "英熟語＋英文解釈 小テスト 基礎コース 全12回（熟語 No.1〜479・B4白黒・解答つき）",
+    "subject": "english_reading",
+    "category": "完全版",
+    "file": "/prints/print_book_idiom_reading_basic.pdf",
+    "thumb": "/prints/thumbs/print_book_idiom_reading_basic.webp",
+    "pages": 24,
+    "kb": 456
+  },
+  {
+    "id": "print_book_idiom_reading_standard",
+    "label": "英熟語＋英文解釈 小テスト 標準コース 全12回（熟語 No.480〜939・B4白黒・解答つき）",
+    "subject": "english_reading",
+    "category": "完全版",
+    "file": "/prints/print_book_idiom_reading_standard.pdf",
+    "thumb": "/prints/thumbs/print_book_idiom_reading_standard.webp",
+    "pages": 24,
+    "kb": 487
+  },
+  {
+    "id": "print_book_idiom_reading_advanced",
+    "label": "英熟語＋英文解釈 小テスト 発展コース 全12回（熟語 No.940〜1388・B4白黒・解答つき）",
+    "subject": "english_reading",
+    "category": "完全版",
+    "file": "/prints/print_book_idiom_reading_advanced.pdf",
+    "thumb": "/prints/thumbs/print_book_idiom_reading_advanced.webp",
+    "pages": 24,
+    "kb": 511
+  },
+  {
+    "id": "print_book_grammar_b4_bunpo",
+    "label": "英文法 4択プリント 文法編 第1〜16章（729問・80回分・アプリと同じ問題）",
+    "subject": "english_grammar",
+    "category": "完全版",
+    "file": "/prints/print_book_grammar_b4_bunpo.pdf",
+    "thumb": "/prints/thumbs/print_book_grammar_b4_bunpo.webp",
+    "pages": 80,
+    "kb": 737
+  },
+  {
+    "id": "print_book_grammar_b4_gohou",
+    "label": "英文法 4択プリント 語法編 第17〜19章（290問・30回分・アプリと同じ問題）",
+    "subject": "english_grammar",
+    "category": "完全版",
+    "file": "/prints/print_book_grammar_b4_gohou.pdf",
+    "thumb": "/prints/thumbs/print_book_grammar_b4_gohou.webp",
+    "pages": 30,
+    "kb": 434
+  },
+  {
+    "id": "print_book_grammar_b4_kaiwa",
+    "label": "英文法 4択プリント 会話表現編 第20章（144問・15回分・アプリと同じ問題）",
+    "subject": "english_grammar",
+    "category": "完全版",
+    "file": "/prints/print_book_grammar_b4_kaiwa.pdf",
+    "thumb": "/prints/thumbs/print_book_grammar_b4_kaiwa.webp",
+    "pages": 16,
+    "kb": 258
   }
 ];

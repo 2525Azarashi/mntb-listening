@@ -303,6 +303,12 @@ tools/update.sh が cards.json から作る。1ファイル1行：`パス` — �
 ## 採点・記録の計算（118ファイル）
 
 - `src/features/readAlong/readAlong.ts` — 音読用の単語ごとの時刻データを読み、計算する係（データ・239行・使われる4）
+- `src/features/toeic/types.ts` — 【新】TOEIC の問題セット・模試・記録・単語の型を決める係（データ・256行・使われる4）
+- `src/features/toeic/format.ts` — 【新】TOEIC 本番の形式（Part ごとの問題番号・選択肢・構成）を持つ係（設定・62行・使われる2）
+- `src/features/toeic/validate.ts` — 【新】TOEIC の問題データと模試の構成を確かめる係（データ・55行・使われる1）
+- `src/features/toeic/catalog.ts` — 【新】TOEIC を学習カタログに並べるためのカードと行き先の型の係（設定・40行・使われる1）
+- `src/features/toeic/samples.ts` — 【新】TOEIC 問題データの書き方見本（Part 2・Part 5）の係（データ・54行・使われる0）
+- `src/features/toeic/index.ts` — 【新】TOEIC の型と道具をまとめて公開する入口の係（設定・4行・使われる0）
 - `src/features/safety/avatarUrl.ts` — 他の人のアイコン画像を表示してよいかを判定する係（部品・28行・使われる3）
 - `src/features/safety/nicknameFilter.ts` — 表示名（ニックネーム）に不適切な言葉がないか確かめる係（データ・172行・使われる9）
 - `src/features/safety/useBlockedFilter.ts` — ブロック中の人を、一覧からその場で取り除く係（部品・17行・使われる2）

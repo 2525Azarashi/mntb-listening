@@ -20,6 +20,20 @@ python3 scripts/gacha-prints/build-science-ur.py            # 一部だけなら
 - 品質の下限は `tests/gachaPrintsQuality.test.ts`（100問すべてに解説・正解位置25問ずつ・4択の答えあり）。
 - 理科・化学・数学は `ur_common.py`（表紙・問題・解答用紙・答えの一覧・解説・要点・自己採点表）を共通で使う。IPAゴシックに無い下付き・上付き数字や ≤ ≥ は DejaVu Sans で描く。
 
+## UR「完全版」の本（2026-10-24）
+
+ガチャの UR（大当たり）は「その一冊で完成する本」だけ。単元プリント・100語テストは SR。
+
+```bash
+python3 scripts/gacha-prints/build-vocab-book.py        # 英単語 Lv1・Lv2・Lv3+4、英熟語（アプリの単語帳の全語）
+python3 scripts/gacha-prints/build-reading-mock.py      # 共通テスト英語リーディング 大問別演習 第1〜3回（問題データ reading_mock_a/b1/b2/c1/c2/c3.py・解き方 reading_guide.py）
+npx tsx scripts/gacha-prints/dump-listening.ts /tmp/listening.json && python3 scripts/gacha-prints/build-listening-book.py  # 共通テスト英語リスニング 大問別演習（アプリの問題・音声をそのまま使う。QR＝https://mntb-listening.vercel.app の mp3）
+python3 scripts/gacha-prints/build-analysis-book.py     # 共通テスト全科目 出題分析（データ analysis_*.py・出典つき）
+```
+- 共通レイアウトは `book_common.py`（紺と金の表紙・帯・囲み）。
+- 作り直したら `src/data/gachaPrints.generated.ts` の pages / kb を合わせる（`tests/gachaDeluxe.test.ts` が検査）。
+- リーディングは第1回（reading_mock_a.py）・第2回（reading_mock_b1.py＋b2.py）。第3回は同じ形のデータを足して BOOKS に1行追加。
+
 ## LR：共通テスト 英語 予想問題（2026-10-24）
 
 ```bash
@@ -55,3 +69,33 @@ python3 scripts/gacha-prints/kyotsu_mock/build.py        # 5回分すべて（�
 問題ごとの24トラックに切って `public/prints/kyotsu_assets/audio/kyotsu_l1_q*.mp3` に置いた（区切りは同フォルダの `split_manifest.json`）。
 第1問・第2問は4秒あけて2回つなぐ。対応表は `src/data/kyotsuMockAudio.ts`。第2回〜第5回は音声が届いたら同じ形で足す。
 **`listening_audio_ledger.json`（374本）には入れない**（別教材）。
+
+## 熟語＋英文解釈 小テスト（B4横・B5縦2面・問題と解答を同じ PDF・白黒）2026-10-27
+
+```bash
+npx tsx scripts/gacha-prints/idiom_reading/dump.ts && python3 scripts/gacha-prints/idiom_reading/build.py
+# → .tmpwork/idiom_reading/熟語英文解釈_{基礎,標準,発展}_第01-12回.pdf（各12回・B4 24ページ）
+```
+- 左：英熟語（ilv1）をアプリの単語帳と同じ順に（英→日・書く）。右：**上に熟語のつづき → 下に英文解釈1題**（熟語は 左上→左下→右上 と続く）。
+- コース：基礎＝英文解釈レベル1、標準＝レベル2、発展＝レベル3。熟語は通し番号（基礎 1〜479 → 標準 480〜939 → 発展 940〜1388）。
+- 白黒印刷用：熟語の答え＝太字、設問の正解＝太字＋下線、本文の根拠＝波下線（`<u color="#010101">`）、ポイント＝太字。赤は使わない。
+- 本文が長い回は右上の熟語を減らし（最低4語）、それでも入らなければ文字を少し小さくする（最小0.85倍）。
+- 共通部品は `scripts/gacha-prints/b4common.py`（フォント・波下線・英日混在・見出し帯）。
+
+## 英文法 4択 B4プリント（アプリと同じ問題・同じ順）2026-10-27
+
+```bash
+npx tsx scripts/gacha-prints/idiom_reading/dump.ts && python3 scripts/gacha-prints/grammar_b4/build.py
+# → .tmpwork/idiom_reading/英文法_4択_第1-16章.pdf（80回分・B4 80ページ）
+```
+- アプリの英文法 第1〜16章（729問）を、章→問題番号の順・同じ選択肢の並びで。1面（B5）＝1回分（7〜10問、章をまたがない）。見出しは「時制（1）」「時制（2）」…
+- 3冊：文法編 第1〜16章（729問・80回分）・語法編 第17〜19章（290問・30回分）・会話表現編 第20章（144問・15回分）。
+- 1枚目＝左右2回分の問題、2枚目＝同じ配置で解答。解説はアプリより短く：正解の英文（答えの部分を太字＋下線）・和訳・ポイント1行。
+
+## ガチャ UR（完全版）への登録 2026-10-27
+
+```bash
+python3 scripts/gacha-prints/idiom_reading/publish.py   # 上の6冊を public/prints/print_book_*.pdf にコピー＋サムネイル
+```
+- id：`print_book_idiom_reading_{basic,standard,advanced}`・`print_book_grammar_b4_{bunpo,gohou,kaiwa}`。
+- `src/data/gachaPrints.generated.ts` の末尾（「2026-10-27 UR に追加」）に pages・kb を書く。作り直したら publish.py が出す pages・kb に合わせる（`tests/gachaDeluxe.test.ts` が照合）。

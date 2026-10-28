@@ -34,6 +34,70 @@
 | レビューの★ | 第5回 第2問の ★☆ が空白になっていたのを表示されるように | `render.py` | `src/data/kyotsuMockPrints.ts` |
 
 **戻し方**：`figs.py` の `apply_reading` / `apply_listening` の呼び出し（`build.py`）を外すと図なしの版に戻る。分量の増量はこの PR のコミット「英文量を本番並みに増量」を `git revert`。
+## 2026-10-27 公開プロフィールの充実・ランキングをガチャ画面の見た目に（PR: feat/public-profile-rich）
+
+| 何を | どう変えた | ファイル |
+|---|---|---|
+| 公開プロフィール | 名前を押すと窓で開く（ランキング・フレンド）。とびら君・称号・学年・志望校・志・自己紹介・学習時間・7日間グラフ・連続・解いた大問・達成ステージ・称号数。低い画面（高さ820px以下）は「プロフィール／学習の記録」の2枚に分け、窓の中はスクロールしない | `src/features/profile/*`、`UserProfileDialog.tsx` |
+| マイページのプロフィール | 学年は選択式、自己紹介は窓で編集、「見え方」で公開時の見た目を確認 | `MyProfileCard.tsx`、`growth-hub.css` |
+| ランキング | 背景・字・切替・タブをガチャと同じ共通部品の形に。自分のカードはガチャの目玉カードの作り（白い縁＋下の厚み）で、次のリーグまでのバーをカードの中へ（1段へらして一覧を広く）。行は共通カード、1〜3位は金・銀・銅のメダル。シーズンの帯は44pxで1行 | `ranking.css`（末尾の 2026-10-27 ブロック）、`Leaderboard.tsx`（`is-in-card`・`data-rank`） |
+
+新しい色は足していない（tokens.css のトークンとリーグ色だけ）。
+**戻し方**：ランキングだけ戻すなら `ranking.css` 末尾の「2026-10-27」以降を消し、`Leaderboard.tsx` のバーをカードの外へ戻す。全部戻すならこのPRを `git revert`。
+
+---
+
+## 2026-10-27 ガチャの UR（完全版）に B4 プリント6冊を追加（PR #112: feat/idiom-reading-quiz）
+
+| 何を | どう変えた | ファイル |
+|---|---|---|
+| ガチャの UR | 9冊 → 15冊。熟語＋英文解釈 小テスト（基礎・標準・発展）、英文法4択（文法編 第1〜16章・語法編 第17〜19章・会話表現編 第20章）を追加。UR 枠の確率 3% は変えていない（1冊あたり約0.33% → 約0.2%） | `src/data/gachaPrints.generated.ts`、`public/prints/print_book_{idiom_reading_*,grammar_b4_*}.pdf`、`public/prints/thumbs/` |
+
+戻すとき：`gachaPrints.generated.ts` の「2026-10-27 UR に追加」以降の6件を消し、`tests/gachaDeluxe.test.ts` の冊数リストを9冊に戻す。
+
+---
+
+## 2026-10-26 とびら君の演出動画 C01〜C16 を全部差し替え・新しい場面に追加（PR: feat/cinematics-c-all）
+
+| 何を | どう変えた | ファイル |
+|---|---|---|
+| 動画16本 | Adobe Firefly で作り直し。背景はすべてクリーム色 #FBF5E8 に統一（緑・肌色を塗り替え）、参照画像が貼られた前後のコマを除去、長さを 1.6〜4.0 秒に | `public/cinematics/*.mp4`、`docs/CINEMATICS.md` |
+| ガチャの確定演出 | 丸窓の動画を引いたレア度ごとに（N・R・SR・UR、LR は ため→大当たり の2本） | `GachaReveal.tsx`、`CinematicClip.tsx`（`GACHA_REVEAL_CLIPS`） |
+| 対戦の負け | 勝ちと同じ場所に「はげまし」動画（最後のコマを残す） | `BattleResult.tsx` |
+| 段位アップ・レベルアップ | 対戦結果が出て約4秒後に、お祝い動画を画面の上に1回（段位を優先） | `BattleResult.tsx`、`CelebrationClip` |
+| ログインボーナス | プレゼントを差し出す動画（7日目は連続学習の動画）をその日1回 | `GrowthFx.tsx` |
+| ガチャのセット完成 | お祝い動画を1回 | `GachaResultStage.tsx` |
+| 全問正解 | 結果のとびら君がトロフィーを掲げる動画に（最後のコマを残す） | `ResultSummary.tsx`、`cinematic-celebration.css` |
+| 応援動画で1回 | 流す動画を起動画面の動画からガチャ開封の動画に | `RewardVideo.tsx` |
+
+お祝い動画は再生が始まってから表示し、タップ・「演出をスキップ」・終了で消える。動きを減らす設定・データセーバーでは出ない。
+**戻し方**：このPRを `git revert`。お祝いだけ止めるなら各ファイルの `<CelebrationClip … />` を消す。
+
+---
+
+## 2026-10-26 UR に2冊追加（リスニング大問別・リーディング第3回）／ガチャの目玉にリスニング（PR: feat/firefly-kit-ur-deluxe）
+
+| 何を | どう変えた | ファイル |
+|---|---|---|
+| UR（完全版） | 7冊 → **9冊**：共通テスト英語リスニング 大問別演習（全6大問・3回分・79ページ・各問題に QR でアプリの音声）、リーディング大問別演習 第3回 | `src/data/gachaPrints.generated.ts` |
+| ガチャ部屋の目玉（今週の UR） | 優先する科目の先頭に `english_listening` を追加（リスニングの本が目玉に出やすい） | `src/components/GachaRoom.tsx` |
+| 動画プロンプト | 英文解釈用の動画 R01〜R07・扉絵60枚・本の図12枚を追加。PDF はコピペ用の文字ページつき | `scripts/firefly-kit/reading_media.py`、`build_reading_media.py`、`build_kit.py` |
+
+**戻し方**：目玉は `preferSubjects` から `'english_listening'` を外す。本は台帳の該当2件を消す（PDF は残っていても出ない）。
+
+## 2026-10-24 ガチャ：はずれ多め・UR は「完全版の本」だけ／Firefly 動画キット（PR: feat/firefly-kit-ur-deluxe）
+
+| 何を | どう変えた | ファイル |
+|---|---|---|
+| 抽選の割合 | N 65→**75%**・R 25→16%・SR 5→6%・UR 5→**3%** | `src/battle/core/arenaEconomy.ts` |
+| UR（大当たり） | 「その一冊で完成する本」（完全版）7冊だけに：英単語 Lv1／Lv2／Lv3・4、英熟語 全1885、共通テスト英語リーディング大問別演習 第1回・第2回、共通テスト全科目 出題分析 | `src/data/gachaPrints.generated.ts`（category: '完全版'）、`growthItems.ts`（`printRarity`） |
+| これまでの学習プリント（単元・100語テスト等 50種） | UR → **SR** に移動（中身は同じ） | `growthItems.ts` |
+| 提供割合の説明・空のときの文言 | 「URは完全版の本」「SRで学習プリント」に | `GachaCollectionModal.tsx`、`MyCollection.tsx` |
+| 動画 | Adobe Firefly 用キット（40本：撮り直し4＋新規36）の元データと PDF・画像の作り方 | `scripts/firefly-kit/*`、`docs/FIREFLY_KIT.md` |
+
+本の作り方：`python3 scripts/gacha-prints/build-vocab-book.py`／`build-reading-mock.py`／`build-analysis-book.py`（共通部品 `book_common.py`）。
+
+**戻し方**：割合だけ戻すなら `GACHA_RARITY_RATES` を `{ UR: 0.05, SR: 0.05, R: 0.25, N: 0.65 }` に、旧プリントを UR に戻すなら `printRarity` を常に 'UR' に。
 
 ## 2026-10-24 ガチャに LR（レジェンドレア）を追加＝共通テスト英語 予想問題 5回分（PR: feat/kyotsu-mock-lr）
 
@@ -45,6 +109,47 @@
 | LR の景品 | 共通テスト 英語リーディング（80分・100点・大問8・44解答）／リスニング（30分・100点・大問6・37問）の**予想問題 各5回＝10冊**。本番と同じ白黒の問題冊子レイアウト（表紙の注意事項・四角囲みの解答番号・マークシート型解答欄）＋正解と配点＋全問解説。リスニングは全スクリプト＋全訳つき | `public/prints/print_lr_kyotsu_*.pdf`、`src/data/kyotsuMockPrints.ts`、`scripts/gacha-prints/kyotsu_mock/` |
 
 **戻し方**：このPRを `git revert`。LR を引いた人の所持データ（`owned` の id）は残るが、古い版では該当アイテムが無いので表示されないだけで壊れない。
+
+---
+
+## 2026-10-24 ご指摘4点（PR: fix/battle-choice-shift-and-q6b-carousel）
+
+| 何を | どう変えた | ファイル |
+|---|---|---|
+| 対戦：相手／自分が答えると 🔵🔴 の札・相手の確定回答・「相手は回答ずみ！」が出て、4択ボタンが上下に揺れて押し間違える | 3つとも「高さを先に決めた枠」にして中身だけ入れ替える（実況は最新1行・28px、相手の確定回答は答え合わせのときだけ・34px、お知らせ行18px）。低い画面で進捗行が出たり消えたりしていたのも常時表示に | `src/battle/ui/BattleLiveParts.tsx`、`BattleLiveStage.tsx`、`BattleQuestionView.tsx`、`battle-question.css` |
+| 正解/不正解が出たあとに解答画面へ戻れる | 「問題に戻る」（上部・スマホ下部）を撤去、← キーと「前へ」も解説表示中は無効 | `src/components/explanation/ExplanationHeader.tsx`、`BottomBars.tsx`、`src/utils/quizNavigationActions.ts`、`src/components/Quiz.tsx` |
+| 第6問B のグラフ4枚が並んで小さい | 1枚ずつ大きく表示。‹ › ボタン（44px）・①〜④ボタン・左右スワイプ・← → キーで切り替え（端で反対へ回る） | `src/components/ListeningMaterials.tsx`（`FigureCarousel`） |
+| 選択肢の下の操作説明「ア 選ぶ → ア 斜線 → ア 戻す／閉じる」「?操作説明」 | 全問題で表示しない（操作そのもの＝タップで選択→もう一度で斜線→戻す は残す） | `src/components/MultipleChoiceControl.tsx` |
+
+**戻し方**：このPRを `git revert`。操作説明だけ戻すなら `MultipleChoiceControl.tsx` に `renderEliminationHint({ elimHintOpen, dismissElimHint, setElimHintOpen })` を戻す。
+
+---
+
+## 2026-10-24 英文解釈：本文の全訳を解説に（PR: feat/reading-translation）
+
+| 何を | どう変えた | ファイル |
+|---|---|---|
+| 解説（答えたあと） | 根拠の英文＋和訳の下に「第N段落の全訳」（タップで開く）。根拠の部分は太字＋黄色マーカー。ふだんは閉じているので1画面に収まる | `src/components/ReadingQuiz.tsx`、`src/components/foundation.css` |
+| 結果画面 | 「本文と全訳を見る」（タップで開く）。段落ごとに英文→和訳 | 同上 |
+| データ | 全60題・208段落の全訳。設問の根拠の和訳と同じ言い回し | `src/data/reading/ja/level1〜5.ts` |
+
+**戻し方**：`ReadingQuiz.tsx` の `data-reading-translation` と `data-reading-translation-all` の `<details>` を消す（データは残しても害なし）。
+
+---
+
+## 2026-10-23 Web ログインの「連携中…」と Apple の失敗（PR: fix/web-login-stuck）
+
+見た目の変更はほぼ無し。
+| 何を | どう変えた | ファイル |
+|---|---|---|
+| ポップアップを閉じたとき | 画面全体の遷移に切り替えず「ログインをキャンセルしました。もう一度ボタンを押すとやり直せます。」 | `src/utils/webSignInCore.ts` |
+| Google と Apple のボタン | 片方の処理中はもう片方も押せない | `src/hooks/useSignInGuard.ts` ほか4画面 |
+| ログイン済みなのにログイン画面のまま | 自動でプロフィール確認・ホームへ | `Onboarding.tsx`、`useAuthRouting.ts` |
+| Apple が Invalid web redirect url | 同じドメイン化を二重スイッチに（`VITE_AUTH_SAME_ORIGIN_APPLE_READY`） | `src/authDomainPolicy.ts` |
+
+詳細は `docs/WEB_LOGIN_SAME_ORIGIN.md` の冒頭。
+
+**戻し方**：このPRを `git revert`。
 
 ---
 

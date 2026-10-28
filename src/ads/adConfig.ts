@@ -17,12 +17,10 @@ export const AD_CONFIG = {
   },
   banner: {
     /**
-     * true にすると画面の上／下にバナーの場所を空ける。
-     * ★2026-10-14：Web 版でもアプリ版と同じ場所を空ける（画面の見え方・余白をそろえる）★
-     *   実際の広告（AdMob）を出すのはアプリ版だけ（showNativeBottomBanner が Web では何もしない）。
-     *   Web で枠を消したいときは ?no_ads=1 か VITE_ADS_BANNER=0。
+     * ネイティブアプリでバナー枠を予約する。Web版ではAdMobを表示しないため空白枠も作らない。
+     * ?no_ads=1 または VITE_ADS_BANNER=0 でネイティブ広告も無効化できる。
      */
-    enabled: on(env.VITE_ADS_BANNER, AD_TOGGLES.enableBottomBanner),
+    enabled: Capacitor.isNativePlatform() && on(env.VITE_ADS_BANNER, AD_TOGGLES.enableBottomBanner),
     position: ((env.VITE_ADS_BANNER_POSITION as BannerPosition) || 'bottom') as BannerPosition,
     unitId: getEffectiveBannerId(isIos ? 'ios' : 'android'),
     height: 50,

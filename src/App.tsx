@@ -345,7 +345,7 @@ export default function App() {
   };
 
   // ログイン状態が変わったときの画面の振り分け（hooks/useAuthRouting.ts）
-  useAuthRouting({ isGuest, setIsGuest, setAppState });
+  useAuthRouting({ isGuest, setIsGuest, setAppState, appState });
   
   // BGM（タイトル曲）の制御は hooks/useTitleBgmController.tsx にまとめた
   const {
@@ -561,11 +561,13 @@ export default function App() {
           <div className={`app-screen-stack w-full relative min-h-0 ${
             appState === 'explanation'
               ? 'max-w-none w-full h-full'
+              : appState === 'settings'
+                ? 'max-w-none max-h-full h-full flex flex-col'
               : isFullBleed
                 ? 'max-w-none h-full'
                 : 'max-w-5xl max-h-full flex flex-col'
           }`}>
-            {appState === 'settings' && <ProfileModal initialTab={settingsTab} onClose={() => { setSettingsTab('general'); setAppState(prevAppState); }} isBgmEnabled={isBgmEnabled} setIsBgmEnabled={setIsBgmEnabled} onToggleBgm={handleToggleBgm} bgmVolume={bgmVolume} setBgmVolume={setBgmVolume} onOpenTeacherDashboard={() => setAppState('teacher_dashboard')} onOpenFeedbackAdmin={() => setAppState('feedback_admin')} onOpenOutfit={() => { setGrowthPage('outfit'); navigateMain('growth'); }} />}
+            {appState === 'settings' && <ProfileModal initialTab={settingsTab} onClose={() => { setSettingsTab('general'); setAppState(prevAppState); }} isBgmEnabled={isBgmEnabled} setIsBgmEnabled={setIsBgmEnabled} onToggleBgm={handleToggleBgm} bgmVolume={bgmVolume} setBgmVolume={setBgmVolume} onOpenTeacherDashboard={() => setAppState('teacher_dashboard')} onOpenFeedbackAdmin={() => setAppState('feedback_admin')} onOpenOutfit={() => { setGrowthPage('outfit'); navigateMain('growth'); }} onStartClassChapter={(chapterId, subject) => { if (!isSubjectEnabled(subject)) return; setSettingsTab('general'); setSelectedSubject(subject); setAppMode('practice'); handleSelectChapter(chapterId, 0, false, null, 'practice'); }} />}
             {/* 先生ダッシュボード。戻る先を設定にしているのは、入ってきた経路と揃えるため。 */}
             {appState === 'teacher_dashboard' && <TeacherDashboard onBack={() => setAppState('settings')} />}
             {/* フィードバック管理（運営専用）。入口は設定内の運営専用ボタン。 */}

@@ -48,7 +48,7 @@ import { useBattleAudio } from '../hooks/useBattleAudio';
 
 import { TobiraBuddy } from '../../components/TobiraBuddy';
 import { TobiraMotion } from '../../components/TobiraMotion';
-import { CinematicClip, CINEMATIC_CLIPS } from '../../components/CinematicClip';
+import { CelebrationClip, CinematicClip, CINEMATIC_CLIPS } from '../../components/CinematicClip';
 import { useEffect, useState } from 'react';
 import './battle-result-review.css';
 import { BattleGrowthReward, type GrowthReward } from './BattleGrowthReward';
@@ -57,7 +57,7 @@ import { recordLocalBattle } from '../data/localBattleLog';
 import { recordStudyLog } from '../../utils/studyLog';
 import { auth } from '../../firebase';
 import { ShareButton } from './GrowthFx';
-import { equippedTitleLabel, levelOf, shareTextForMatch } from '../core/growth';
+import { equippedTitleLabel, levelOf, ratingTierOf, shareTextForMatch } from '../core/growth';
 import { Home as HomeIcon, DoorOpen } from 'lucide-react';
 import { BattleMissions } from './BattleMissions';
 import { BattleProfile } from './BattleProfile';
@@ -446,10 +446,18 @@ export function BattleResult({
       {/* 勝ったときはとびら君の動画、それ以外はとびら君のひとことを大きく */}
       {result.outcome === 'win'
         ? <div className="victory-cinema result-summary-stage" style={{ backgroundImage: `url(${CINEMATIC_CLIPS.victory.poster})` }}><CinematicClip src={CINEMATIC_CLIPS.victory.src} poster={CINEMATIC_CLIPS.victory.poster} label="とびら君の勝利動画" hold /></div>
-        : null}
+        : result.outcome === 'lose'
+          ? <div className="victory-cinema result-summary-stage" style={{ backgroundImage: `url(${CINEMATIC_CLIPS.lose.poster})` }}><CinematicClip src={CINEMATIC_CLIPS.lose.src} poster={CINEMATIC_CLIPS.lose.poster} label="とびら君のはげまし動画" hold /></div>
+          : null}
+      {/* ★2026-10-26★ 段位が上がった／レベルが上がったら、勝敗の動画のあとにお祝い動画を1回（両方なら段位を優先） */}
+      {rating && ratingTierOf(rating.after).min > ratingTierOf(rating.before).min
+        ? <CelebrationClip name="rankUp" label="とびら君のランクアップ動画" onceKey={`rank:${matchKey || result.me.score}`} delayMs={3800} />
+        : growth?.delta && growth.delta.levelAfter > growth.delta.levelBefore
+          ? <CelebrationClip name="levelup" label="とびら君のレベルアップ動画" onceKey={`level:${matchKey || result.me.score}`} delayMs={3800} />
+          : null}
       {/* 負け・惜敗のときだけ「はげまし」の動き（勝ちは victory.mp4 があるので出さない） */}
       <TobiraMotion name="encourage" play={result.outcome === 'lose'} className="battle-result-motion">
-        <TobiraBuddy className="battle-result-buddy result-summary-buddy" size={result.outcome === 'win' ? 'sm' : 'md'} input={{ screen: 'result', outcome: result.outcome, margin, seed: result.me.score }} />
+        <TobiraBuddy className="battle-result-buddy result-summary-buddy" size={result.outcome === 'draw' ? 'md' : 'sm'} input={{ screen: 'result', outcome: result.outcome, margin, seed: result.me.score }} />
       </TobiraMotion>
       {growthMatchId && growthOwnerUid && <BattleGrowthReward matchId={growthMatchId} ownerUid={growthOwnerUid}
         eligible={growthEligible} subject={subject} subjectLabel={theme.label} result={result} rating={rating}

@@ -8,10 +8,12 @@ import { FriendPanel } from './FriendPanel';
 import { ClassPanel } from './ClassPanel';
 import { ComingSoon } from './ComingSoon';
 import { SOCIAL_FEATURES } from '../config/features';
+import type { SubjectKey } from '../data/allChapters';
 import { DoorMascot } from './DoorMascot';
 import { GoogleMark } from './GoogleLinkBanner';
 import { AppleSignInButton } from '../features/auth/AppleSignInButton';
 import { signInWithGoogle, signOutGoogle, switchGoogleAccount, GOOGLE_LINK_BENEFITS } from '../utils/googleAuth';
+import { useSignInGuard } from '../hooks/useSignInGuard';
 import { isFeedbackAdmin } from '../utils/feedbackReply';
 // ユーザーごとの localStorage キー名は utils/userStorageKeys.ts が唯一の定義
 import { profileKey } from '../utils/userStorageKeys';
@@ -52,11 +54,13 @@ interface ProfileModalProps {
   onOpenFeedbackAdmin?: () => void;
   /** アバター（とびら君）を着せかえる画面を開く */
   onOpenOutfit?: () => void;
+  /** 塾クラスの課題の「解く」から演習を始める */
+  onStartClassChapter?: (chapterId: string, subject: SubjectKey) => void;
 }
 
 type SettingsTab = 'general' | 'friends' | 'class';
 
-export function ProfileModal({ onClose, initialTab, isBgmEnabled, setIsBgmEnabled, onToggleBgm, bgmVolume, setBgmVolume, onOpenTeacherDashboard, onOpenFeedbackAdmin, onOpenOutfit }: ProfileModalProps) {
+export function ProfileModal({ onClose, initialTab, isBgmEnabled, setIsBgmEnabled, onToggleBgm, bgmVolume, setBgmVolume, onOpenTeacherDashboard, onOpenFeedbackAdmin, onOpenOutfit, onStartClassChapter }: ProfileModalProps) {
   const { progress: growth } = useGrowthProgress();
   const [rating, setRating] = useState(1500);
   useEffect(() => { let alive = true; if (auth.currentUser) void fetchMyRankingRow().then(r => { if (alive && r) setRating(r.rating); }).catch(logRejection('profile.fetchRanking')); return () => { alive = false; }; }, []);
@@ -67,7 +71,7 @@ export function ProfileModal({ onClose, initialTab, isBgmEnabled, setIsBgmEnable
   /** 対戦カードのプレビューに出すニックネーム（編集はマイページ） */
   const [name, setName] = useState('');
   /** Google 連携の進行状態（連携／切り替えのどちらでも使う） */
-  const [signing, setSigning] = useState(false);
+  const { busy: signing, anyBusy: signInBusy, run: runSignIn } = useSignInGuard();
   const [authError, setAuthError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -90,21 +94,18 @@ export function ProfileModal({ onClose, initialTab, isBgmEnabled, setIsBgmEnable
 
   /** ゲスト → Google 連携（記録はローカルに残るのでそのまま引き継がれる） */
   const linkGoogle = async () => {
-    setSigning(true);
     setAuthError(null);
-    const outcome = await signInWithGoogle();
+    // 「連携中…」は useSignInGuard が必ず元に戻す（想定外の例外・ブラウザの「戻る」でも）
+    const outcome = await runSignIn(signInWithGoogle);
     if (outcome.redirecting) return; // ページ遷移するのでそのまま待つ
-    setSigning(false);
-    if (!outcome.ok) setAuthError(outcome.message || 'ログインに失敗しました。');
+    if (!outcome.ok && !outcome.cancelled) setAuthError(outcome.message || 'ログインに失敗しました。');
   };
 
   const switchAccount = async () => {
-    setSigning(true);
     setAuthError(null);
-    const outcome = await switchGoogleAccount();
+    const outcome = await runSignIn(switchGoogleAccount);
     if (outcome.redirecting) return;
-    setSigning(false);
-    if (!outcome.ok) setAuthError(outcome.message || 'ログインに失敗しました。');
+    if (!outcome.ok && !outcome.cancelled) setAuthError(outcome.message || 'ログインに失敗しました。');
   };
 
   /* ★対戦で相手に見えるカードのプレビュー（A16）★ 名前・称号を変えるとその場で反映される。
@@ -121,7 +122,7 @@ export function ProfileModal({ onClose, initialTab, isBgmEnabled, setIsBgmEnable
   );
 
   return (
-    <div className="mtb-page mt-screen profile-journal w-full h-full overflow-hidden pb-[calc(var(--app-nav-h,120px)+8px)] sm:pb-24" data-settings>
+    <div className="mtb-page mt-screen profile-journal w-full h-full overflow-hidden pb-[calc(var(--app-nav-h,120px)+8px)] sm:pb-24" data-settings data-settings-tab={tab}>
       <div className="profile-frame max-w-4xl h-full mx-auto px-3 sm:px-5 py-3 sm:py-5 flex flex-col relative">
         <div className="absolute top-4 right-8 w-40 h-40 bg-[#A9CCE3]/15 rounded-full blur-3xl pointer-events-none" />
 
@@ -151,7 +152,7 @@ export function ProfileModal({ onClose, initialTab, isBgmEnabled, setIsBgmEnable
             <ComingSoon title="クラス">先生が作ったクラスに参加して、課題や進み具合を共有できるようになります。もうすぐ公開します。</ComingSoon>
           ) : tab === 'class' && auth.currentUser ? (
             <div className="h-full overflow-y-auto no-scrollbar pb-4">
-              <ClassPanel defaultDisplayName={name} />
+              <ClassPanel defaultDisplayName={name} onStartChapter={onStartClassChapter} />
 
               {/* 先生用の入口。生徒が誤って開いてもクラス0件の案内が出るだけ。 */}
               {onOpenTeacherDashboard && (
@@ -210,13 +211,13 @@ export function ProfileModal({ onClose, initialTab, isBgmEnabled, setIsBgmEnable
                       </details>
                       <button
                         onClick={linkGoogle}
-                        disabled={signing}
+                        disabled={signInBusy}
                         className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl bg-white border border-gray-300 text-[#1B2631] text-xs font-bold shadow-sm disabled:opacity-50"
                       >
                         {signing ? <Loader2 size={15} className="animate-spin" /> : <GoogleMark size={17} />}
                         {signing ? '連携中…' : 'Google アカウントで連携'}
                       </button>
-                      <AppleSignInButton onResult={(o) => { if (!o.ok) setAuthError(o.message || 'ログインに失敗しました。'); }} />
+                      <AppleSignInButton onResult={(o) => { if (!o.ok && !o.cancelled) setAuthError(o.message || 'ログインに失敗しました。'); }} />
                       <p className="text-xs text-gray-500 text-center leading-snug">
                         連携は無料です。いまの学習記録はそのまま引き継がれます。
                       </p>
@@ -231,8 +232,8 @@ export function ProfileModal({ onClose, initialTab, isBgmEnabled, setIsBgmEnable
                           <ClipboardList size={15} />フィードバック管理（返信）
                         </button>
                       )}
-                      <button onClick={logout} disabled={signing} className="compact-action bg-red-50 text-red-600 border border-red-100 disabled:opacity-50"><LogOut size={15} />ログアウト</button>
-                      <button onClick={switchAccount} disabled={signing} className="compact-action bg-blue-50 text-blue-600 border border-blue-100 disabled:opacity-50">
+                      <button onClick={logout} disabled={signInBusy} className="compact-action bg-red-50 text-red-600 border border-red-100 disabled:opacity-50"><LogOut size={15} />ログアウト</button>
+                      <button onClick={switchAccount} disabled={signInBusy} className="compact-action bg-blue-50 text-blue-600 border border-blue-100 disabled:opacity-50">
                         {signing ? <Loader2 size={15} className="animate-spin" /> : <LogIn size={15} />}
                         {signing ? '切り替え中…' : 'アカウントを切り替え'}
                       </button>
