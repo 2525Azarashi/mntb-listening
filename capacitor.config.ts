@@ -5,6 +5,11 @@ const config: CapacitorConfig = {
   appName: 'マナトビ',
   webDir: 'dist',
   plugins: {
+    // 2026-10-28 A5：学習のお知らせ。アプリを開いているときも音・バナーを出す（iOS）。Android の音はチャンネル（studyRemindersRuntime.ts）
+    LocalNotifications: {
+      presentationOptions: ['badge', 'sound', 'banner', 'list'],
+      sound: 'notify_chime.wav',
+    },
     FirebaseAuthentication: {
       skipNativeAuth: true,
       providers: ['apple.com', 'google.com'],

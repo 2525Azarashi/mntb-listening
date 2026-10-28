@@ -242,3 +242,5 @@
 .ps-toggle-text small,
 .ps-help { text-wrap: pretty; line-break: strict; }
 .ps-nowrap { white-space: nowrap; }
+/* 2026-10-28 A5：テスト通知のボタン */
+.ps-test-notify { display: flex; align-items: center; justify-content: center; gap: 6px; width: 100%; min-height: 44px; margin-top: 4px; border: 1px solid #c9d8e3; border-radius: 12px; background: #f3f8fb; color: #245e7a; font-size: 13px; font-weight: 800; }
