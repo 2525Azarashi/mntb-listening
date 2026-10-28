@@ -20,7 +20,7 @@ export const ROUND_08: ToeicP5Item[] = [
   { k: '前置詞', t: '時（時刻）', d: 1, sc: '広報・メディア',
     s: 'The press conference will begin ______ 10:30 A.M.',
     c: 'at', w: [['on', '日付・曜日に使う。時刻には使わない'], ['in', '月・年や午前・午後（in the morning）に使う。時刻には使わない'], ['during', '後ろには期間を表す名詞が来る。時刻には使わない']],
-    why: '時刻の前は at。',
+    why: '10:30 A.M. のような時刻の前は at。日付・曜日なら on、月・年なら in を使う。',
     tr: '記者会見は午前10時30分に始まる。', kw: [['press conference', '記者会見']] },
   { k: '品詞', t: '形容詞', d: 1, sc: '広報・メディア',
     s: "Ms. Owens gave a ______ speech at the company's anniversary dinner.",
