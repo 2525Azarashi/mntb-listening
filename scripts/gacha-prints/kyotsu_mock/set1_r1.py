@@ -8,13 +8,13 @@ P1 = {
  'sections': [{
   'instr': 'あなたはカナダでホームステイをしています。ホストシスターの Emma から携帯電話にメッセージが届きました。メッセージを読み、問いに答えなさい。',
   'blocks': [
-   ('msg', 'Emma', "Hi Kenta! Mom asked me to pick up a few things on my way home from swimming practice. We're having a barbecue for Grandpa's birthday on Saturday. Is there anything you'd like me to get for you?", 'l'),
-   ('msg', 'Kenta', "Thanks! Could you buy some rice crackers? I want to share them with everyone at the party. Also, I'm out of toothpaste.", 'r'),
+   ('msg', 'Emma', "Hi Kenta! Mom asked me to pick up a few things on my way home from swimming practice. We're having a barbecue for Grandpa's birthday on Saturday. Is there anything you'd like me to get for you? I'll be at the shops around half past six.", 'l'),
+   ('msg', 'Kenta', "Thanks! Could you buy some rice crackers? I want to share them with everyone at the party. My host family in Japan always had them at celebrations. Also, I'm out of toothpaste, so any brand is fine.", 'r'),
    ('msg', 'Emma', "Sure. The supermarket near the pool doesn't sell Japanese snacks, though. I'll try the Asian grocery store next to the library. It closes at seven, so I'll have to hurry.", 'l'),
    ('msg', 'Kenta', "If it's too much trouble, don't worry about the crackers. I can go there myself tomorrow after school.", 'r'),
-   ('msg', 'Emma', "No problem! Practice ends at six. By the way, Grandpa loves gardening. Do you have any ideas for a present?", 'l'),
+   ('msg', 'Emma', "No problem! Practice ends at six. By the way, Grandpa loves gardening. He spends every weekend growing tomatoes and roses. Do you have any ideas for a present? Mom and I can't decide.", 'l'),
    ('msg', 'Kenta', "How about a pair of gardening gloves? I saw some nice ones at the hardware store downtown. I could get them tomorrow when I go to the station to buy my bus pass.", 'r'),
-   ('msg', 'Emma', "Perfect! I'll pay you back half. See you at dinner!", 'l'),
+   ('msg', 'Emma', "Perfect! He'll love them, because his old pair has holes in the fingers. I'll pay you back half. See you at dinner!", 'l'),
   ],
   'qs': [
    {'no': 1, 'prompt': 'What does Kenta ask Emma to buy for him?', 'pts': 2, 'ans': 3,
@@ -49,9 +49,12 @@ P2 = {
            '3. Return the cup to any partner café or to one of the 12 return bins in the town centre within 7 days.'),
     ('p', 'If a cup is not returned within 7 days, £5 will be charged to your account. Each cup can be used up to 500 times and is washed in a commercial dishwasher after every use. '
           'Since the scheme started in 2023, more than 260,000 single-use cups have been kept out of landfill. Partner cafés also take 20p off any drink served in a Cup Loop cup.'),
+    ('pl', '**Q: What happens if a cup gets damaged?**  Just return it as usual. Cracked or chipped cups are collected, ground up and made into new ones, and you will not be charged.\n'
+           '**Q: Can I use my own cup instead?**  Of course. Cup Loop is for people who forget, or who do not want to carry a cup around all day.'),
     ('h', 'What our users say'),
     ('pl', '**Priya** (university student): I use Cup Loop almost every day. Not having to wash a cup myself is a huge relief! The only problem is that the return bins near the station are often full by the evening.'),
     ('pl', '**Tom** (office worker): I was charged £5 when I forgot to return a cup after a weekend trip. Fair enough, I suppose, but a reminder notification would be nice. Otherwise, it\'s a brilliant idea.'),
+    ('pl', '**Hiroshi** (retired teacher): The idea is excellent, and the cups keep my tea hot for a long time. I only wish the app were easier to use for people of my age. It took my granddaughter twenty minutes to set it up for me.'),
     ('pl', '**Grace** (café owner): Since joining, we\'ve cut our spending on paper cups by about 40%. Some customers still prefer to bring their own flasks, which is absolutely fine by us.'),
    ], '#fbfaf6'),
   ],
@@ -94,6 +97,7 @@ P3 = {
     ('p', 'The next day, I took the notebook to Mrs. Hara, our neighbour, who used to make jam with Grandma every June. She smiled when she saw the purple stain. '
           '"Your grandmother never measured anything," she said. "She cooked with her nose." She showed me how to let the plums simmer slowly, stirring now and then, and to wait until the smell changed from sharp to sweet. '
           'At the very end, she added a little lemon peel. "That was Mitsuko\'s secret," she whispered.'),
+    ('p', 'For the next two weeks, I made a batch every evening. Some were too runny and some were too thick, but each time I wrote down how long I had cooked it and what the smell was like. My classmates became my tasters. By the week of the festival, I could tell just by the smell when the jam was ready, and I no longer needed to look at the clock.'),
     ('p', 'On the day of the festival, we sold out before noon. A woman who had known my grandmother tasted it and said quietly, "This takes me back." '
           'That evening, I wrote everything Mrs. Hara had taught me in the margin of the notebook, next to Grandma\'s handwriting. Now the recipe says a little more than "until it feels right."'),
    ], '#fbfaf6'),
@@ -125,12 +129,12 @@ P4 = {
   'blocks': [
    ('box', [
     ('title', 'Why Reading Aloud Matters'),
-    ('p', 'Last summer, I volunteered at our city library, where I read picture books to children aged four to six every Saturday. At first, I thought it would be easy, but I soon realised that reading aloud is a skill — and that it gives young children much more than entertainment.'),
+    ('p', 'Last summer, I volunteered at our city library, where I read picture books to children aged four to six every Saturday. At first, I thought it would be easy, but I soon realised that reading aloud is a skill — and that it gives young children much more than entertainment. In this essay, I will explain three benefits of reading aloud that I noticed during my time at the library.'),
     ('p', 'First, children who are read to regularly learn more words. Picture books often contain words that we rarely use in everyday conversation, such as "gigantic" or "whisper." '
           'When children hear these words in a story, they can guess their meanings from the pictures and the situation. **[ A ]** they tend to enjoy reading on their own later.'),
     ('p', 'Second, reading aloud can help children concentrate for longer. **(a)** On my first day, many of the children could not sit still for more than a few minutes. **(b)** '
           'However, as the weeks passed, I noticed a change. **(c)** By the end of the summer, most of the group could listen to a fifteen-minute story without fidgeting. **(d)**'),
-    ('p', 'Third, stories help children understand feelings. __Many libraries also have cafés where parents can relax.__ When I used a scared voice for a lost rabbit, some children held each other\'s hands, and when the rabbit found its mother, they cheered.'),
+    ('p', 'Third, stories help children understand feelings. __Many libraries also have cafés where parents can relax.__ When I used a scared voice for a lost rabbit, some children held each other\'s hands, and when the rabbit found its mother, they cheered. Afterwards, a girl told me that she had once been lost in a supermarket and had felt just like the rabbit.'),
     ('p', '**[ D ]** In conclusion, I volunteered at the library last summer, and I read picture books to children. It was a good experience.'),
    ], '#fbfaf6'),
    ('box', [

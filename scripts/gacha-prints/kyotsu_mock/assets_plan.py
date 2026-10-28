@@ -168,6 +168,66 @@ def tracks(n):
     return out
 
 
+# ───────── ElevenLabs（Eleven v4・有料プラン）用の設定 ─────────
+# v4 は Text to Dialogue API（model_id = eleven_v4）。1リクエスト2,000字以内が推奨。SSML の <break> は使えないので、
+# 間は「…」と句読点・音声タグ [pause] で作り、問題間の長い無音（解答時間など）は ffmpeg で足す。
+# なまりは「その国の声（Voice Library の Accent で絞り込み）」を選ぶのが基本。タグはその補助。
+EL_MODEL = 'eleven_v4'
+EL_SETTINGS = {'stability': 0.5}     # v4 は Stability のみ（0＝表現豊か／0.5＝自然／1＝安定）。試験音声は 0.5 前後
+# 役ごとの声（キャスト）。voice_id は Voice Library で選んだ声の ID を入れる（未設定ならスクリプトは止まる）
+EL_CAST = {
+    'W_us':  {'ja': '女性・アメリカ英語', 'search': 'Accent: American / Female / Young adult / Conversational', 'tag': '', 'voice_id': ''},
+    'W_us2': {'ja': '女性・アメリカ英語（2人目）', 'search': 'Accent: American / Female / Middle-aged / Conversational', 'tag': '', 'voice_id': ''},
+    'M_us':  {'ja': '男性・アメリカ英語', 'search': 'Accent: American / Male / Young adult / Conversational', 'tag': '', 'voice_id': ''},
+    'M_us2': {'ja': '男性・アメリカ英語（2人目）', 'search': 'Accent: American / Male / Middle-aged / Conversational', 'tag': '', 'voice_id': ''},
+    'W_uk':  {'ja': '女性・イギリス英語', 'search': 'Accent: British / Female / Conversational', 'tag': '[British accent]', 'voice_id': ''},
+    'M_uk':  {'ja': '男性・イギリス英語', 'search': 'Accent: British / Male / Conversational', 'tag': '[British accent]', 'voice_id': ''},
+    'W_nn':  {'ja': '女性・非母語話者（軽いなまり）', 'search': 'Language: English / Accent: Spanish・Indian など / Female', 'tag': '[light Spanish accent, speaking clearly and a little slowly]', 'voice_id': ''},
+    'M_nn':  {'ja': '男性・非母語話者（軽いなまり）', 'search': 'Language: English / Accent: Spanish・Indian など / Male', 'tag': '[light Spanish accent, speaking clearly and a little slowly]', 'voice_id': ''},
+    'W_lec': {'ja': '女性・講義（講師）', 'search': 'Accent: American / Female / Middle-aged / Educational・Narrative', 'tag': '[calm university lecturer, measured pace]', 'voice_id': ''},
+    'M_lec': {'ja': '男性・講義（講師）', 'search': 'Accent: American / Male / Middle-aged / Educational・Narrative', 'tag': '[calm university lecturer, measured pace]', 'voice_id': ''},
+    'NAR':   {'ja': '問いの読み手（Narrator・英語）', 'search': 'Accent: American / Neutral / Narrative・Informative', 'tag': '[neutral exam announcer]', 'voice_id': ''},
+    'JA':    {'ja': '日本語アナウンス', 'search': 'Language: Japanese / Female or Male / Narrative・Informative（落ち着いた標準語）', 'tag': '[落ち着いた試験アナウンス]', 'voice_id': ''},
+}
+EL_RULES = [
+    'モデルは **Eleven v4**（API の model_id は `eleven_v4`）。アプリなら「Text to Speech」でモデル v4 を選び、2人以上が話す問題は **Dialogue（対話）モード**で、行ごとに声を割り当てる。',
+    'Voice settings は **Stability 0.5 前後（Natural）**。0 に近いと感情が出すぎて試験らしくなくなる。',
+    '**なまりは声で決める**：v4 は英語を流ちょうに話すので、日本語や別言語の声に英語を読ませても、なまりは自然に付かない。イギリス英語・非母語話者の役は Voice Library の Accent で絞り込んだ声を使い、各行の先頭に表のタグも付ける。',
+    '**SSML の <break> は使えない**。文中の短い間は「…」やカンマ、`[pause]` タグで作る。問題と問題のあいだの長い無音（先読み・解答時間）は、生成した音声をつなぐときに足す（付属スクリプトが自動で入れる）。',
+    '音声タグ（[ ] の中）は**読まれない**演技の指示。感情タグ（[excited] など）は使わない。試験音声は落ち着いた自然な話し方が基本。',
+    '1回の生成は **2,000字以内**に（それより長いと途中で切れることがある）。最長のトラックでも約1,050字なので、1問＝1回の生成でよい。',
+    '同じ話し手名は同じ声で。同じ問題の中で同じ性別の話し手が2人いるときは、「2人目」の声を使う。',
+    '**第1問・第2問は2回**、**第3〜6問は1回**。2回読みの問題は、同じ音声を2回つなぐ（読み直して生成しない）。',
+]
+
+
+def el_role(v, g_index=0):
+    """assets_plan の声の割り当て（性別・なまり）→ EL_CAST の役名"""
+    g = 'W' if '女性' in v['who'] else 'M'
+    acc = v['accent']
+    if acc in ('uk', 'nn', 'lec'):
+        return f'{g}_{acc}'
+    return f'{g}_us2' if g_index else f'{g}_us'
+
+
+def el_track(t):
+    """1トラックを ElevenLabs 用に：[(役名, タグつき本文)]。同じ性別のアメリカ英語の2人目は *_us2"""
+    roles = {}
+    count = {'W': 0, 'M': 0}
+    for sp, v in t['cast'].items():
+        g = 'W' if '女性' in v['who'] else 'M'
+        if v['accent'] in ('us',):
+            roles[sp] = el_role(v, count[g]); count[g] += 1
+        else:
+            roles[sp] = el_role(v)
+    out = []
+    for ln in t['lines']:
+        role = 'NAR' if ln['speaker'] == 'Narrator' else roles.get(ln['speaker'], 'NAR')
+        tag = EL_CAST[role]['tag']
+        out.append((role, ln['speaker'], (tag + ' ' if tag else '') + ln['text']))
+    return out
+
+
 # ───────── リスニングの絵（4択の絵・4コマの順番） ─────────
 def pics(n):
     data = load_l(n)

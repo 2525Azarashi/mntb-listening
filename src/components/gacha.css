@@ -310,3 +310,42 @@
 .gacha-set-part { display: grid; place-items: center; width: 48px; height: 48px; border-radius: 10px; background: #fff; border: 1px solid #eadfc8; overflow: hidden; }
 .gacha-set-part[data-owned=false] { filter: grayscale(1) opacity(.45); }
 .gacha-shard-grid button { min-height: 44px; }
+
+/* ===== ピックアップ（中身を少し見る・2026-10-27） ===== */
+/* 下のボタンは1行に並べる（ボタンが増えても画面の高さを増やさない。文字はボタンの中で折り返す） */
+.compact-gacha .gacha-foot { display:grid; grid-auto-flow:column; grid-auto-columns:minmax(0,1fr); gap:6px; }
+.compact-gacha .gacha-foot-link { padding:2px 4px; text-align:center; white-space:normal; line-height:1.25 !important; }
+.gacha-pickup-toggle { color:#7a4b12 !important; border-color:#d9b25a !important; background:#fff8e6 !important; }
+.gacha-pickup { display:grid; gap:12px; line-height:1.55; }
+.gacha-pickup-lead { margin:0; font-size:13px; color:#4b3d22; }
+.gacha-pickup-group { display:grid; gap:6px; }
+.gacha-pickup-group > h3 { margin:0; color:#59451f; font:800 14px/1.35 var(--mt-font-body); }
+.gacha-pickup-group > p { margin:0; font-size:12px; color:#6b5a3a; }
+.gacha-pickup-group > ul { display:grid; gap:6px; margin:0; padding:0; list-style:none; }
+.gacha-pickup-item { border:1px solid #e7decb; border-radius:12px; background:#fffdf8; }
+.gacha-pickup-item[open] { border-color:#d9b25a; background:#fffaf0; }
+.gacha-pickup-item > summary { display:flex; align-items:center; gap:8px; min-height:56px; padding:6px 10px; cursor:pointer; list-style:none; }
+.gacha-pickup-item > summary::-webkit-details-marker { display:none; }
+.gacha-pickup-item > summary > img { flex-shrink:0; width:40px; height:56px; object-fit:cover; border:1px solid #e3d8c3; border-radius:4px; background:#fff; }
+.gacha-pickup-item > summary > span { flex:1; min-width:0; display:grid; gap:2px; }
+.gacha-pickup-item > summary strong { font-size:13px; line-height:1.35; color:#344451; }
+.gacha-pickup-meta { display:flex; flex-wrap:wrap; align-items:center; gap:4px; font-size:12px; color:#6b5a3a; }
+.gacha-pickup-meta .mt-rarity { min-height:20px; padding:0 5px; font-size:12px; }
+.gacha-pickup-meta .mt-rarity-crown { display:none; }
+.gacha-pickup-item > summary > em { flex-shrink:0; font-style:normal; font-size:12px; font-weight:800; color:#245e7a; }
+.gacha-pickup-item[open] > summary > em { color:#7a4b12; }
+.gacha-pickup-pages { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:8px; padding:0 10px 10px; }
+.gacha-pickup-pages > img { width:100%; height:auto; border:1px solid #e3d8c3; border-radius:6px; background:#fff; }
+.gacha-pickup-audio { display:grid; gap:4px; margin:0; padding:0 10px 10px; font-size:12px; color:#6b5a3a; }
+.gacha-pickup-audio > audio { width:100%; min-height:44px; }
+
+/* ===== LR リスニングの音声（マイPDF） ===== */
+.kyotsu-audio { border-top:1px dashed #d9c9a8; padding-top:4px; }
+.kyotsu-audio > summary { display:flex; align-items:center; justify-content:center; min-height:44px; font-weight:800; font-size:13px; color:#245e7a; cursor:pointer; }
+.kyotsu-audio h4 { display:flex; align-items:baseline; gap:6px; margin:6px 0 4px; font-size:12px; font-weight:800; color:#59451f; }
+.kyotsu-audio h4 small { font-size:12px; font-weight:600; color:#8a7550; }
+.kyotsu-audio ul { display:grid; grid-template-columns:repeat(auto-fill,minmax(88px,1fr)); gap:4px; margin:0; padding:0; list-style:none; }
+.kyotsu-audio button { display:flex; align-items:center; justify-content:center; gap:4px; width:100%; min-height:44px; padding:2px 4px; border:1px solid #cfbf9c; border-radius:10px; background:#fff; color:#344451; font-size:13px; font-weight:700; }
+.kyotsu-audio button[aria-pressed=true] { background:#245e7a; border-color:#245e7a; color:#fff; }
+.kyotsu-audio button small { font-size:12px; font-weight:500; opacity:.8; }
+.kyotsu-audio p[role=status] { margin:4px 0 0; font-size:12px; color:#9b2c2c; }

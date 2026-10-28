@@ -11,12 +11,13 @@ P1 = {
    ('box', [
     ('title', 'International Food Night — Potluck Party!'),
     ('c', 'Friday, March 14 · 6:00–8:30 p.m. · School Cafeteria'),
-    ('p', 'Bring a dish from your home country or family tradition and share it with everyone! Students, families and teachers are all welcome.'),
+    ('p', 'Bring a dish from your home country or family tradition and share it with everyone! Students, families and teachers are all welcome. Entry is free, and you do not need to bring a dish to join us.'),
     ('pl', '• Please register the name of your dish and its main ingredients on the sign-up sheet outside Room 204 **by Thursday, March 13**.\n'
            '• To help guests with allergies, write on your label whether your dish contains **nuts, eggs or dairy products**.\n'
            '• Dishes should be ready to serve. Microwaves will not be available.\n'
            '• Volunteers to set up tables: meet in the cafeteria at 4:00 p.m.'),
-    ('p', 'The student council will provide drinks, plates and forks. Prizes will be given for "Most Colourful Dish" and "Best Story Behind a Dish."'),
+    ('p', 'Last year, more than 120 people came and tried dishes from 18 different countries, from Brazilian cheese bread to Korean pancakes. Please bring enough for about 15 people to taste. If you cannot cook, you are still very welcome: just come and enjoy the food, or help us wash up at the end of the evening.'),
+    ('p', 'The student council will provide drinks, plates and forks. Prizes will be given for "Most Colourful Dish" and "Best Story Behind a Dish." Guests will vote by putting a sticker next to their favourites, and the winners will be announced at 8:00 p.m.'),
    ], '#fbfaf6'),
   ],
   'qs': [
@@ -42,16 +43,18 @@ P2 = {
   'blocks': [
    ('box', [
     ('title', 'We Tested Three Vocabulary Apps for 30 Days'),
-    ('p', 'Three of our student writers each used a different app for 15 minutes a day for a month. At the end, they took the same 100-word test, made up of words their app had introduced.'),
+    ('p', 'Three of our student writers each used a different app for 15 minutes a day for a month. At the end, they took the same 100-word test, made up of words their app had introduced. None of the three had used a vocabulary app before, and all of them were preparing for the same English exam in June.'),
     ('table', [['App', 'Price', 'Main feature', 'Words remembered'],
                ['WordNest', 'Free (with adverts)', 'Spaced repetition: words come back just before you forget them', '78 / 100'],
                ['Flashly', '£2.99 per month', 'Photos and example sentences for every word', '71 / 100'],
                ['LexiQuest', '£4.99 per month', 'Game-style levels and a weekly leaderboard', '64 / 100']], [28, 34, 82, 38]),
     ('p', '**Our verdict:** WordNest produced the best test score, and it costs nothing — although the adverts can be annoying. LexiQuest was the most fun to use, but our writer admitted she sometimes rushed through levels just to climb the leaderboard. '
           'In our view, the scientific approach of WordNest makes it the smartest choice for exam preparation.'),
+    ('p', 'We should also mention that a month is a short time. Spaced repetition is designed to work over many months, so the gap between WordNest and the others might become even larger over a longer period. On the other hand, our LexiQuest tester says she would happily keep using her app, while our WordNest tester admits he found the daily reviews a little boring by the third week.'),
     ('h', 'Comments'),
-    ('pl', '**Olivia_K:** I\'ve used Flashly for a year. The photos really help me picture each word, so it\'s worth the money for me.'),
-    ('pl', '**Sam1999:** Fun is important too! I gave up on two "serious" apps before LexiQuest. A gimmick that keeps you studying beats a perfect method you abandon.'),
+    ('pl', '**Olivia_K:** I\'ve used Flashly for a year. The photos really help me picture each word, so it\'s worth the money for me. I tried WordNest first, but the same cards kept appearing and I got bored.'),
+    ('pl', '**Kenji_T:** Thanks for the test! I use WordNest on the train every morning. I turned off the sound, so the adverts don\'t bother me much.'),
+    ('pl', '**Sam1999:** Fun is important too! I gave up on two "serious" apps before LexiQuest. A gimmick that keeps you studying beats a perfect method you abandon. I have used LexiQuest every day for five months now, which is a record for me.'),
    ], '#fbfaf6'),
   ],
   'qs': [
@@ -82,11 +85,11 @@ P3 = {
    ('box', [
     ('title', 'The Water Bottle Manager'),
     ('small', 'by Sota Ishii'),
-    ('p', 'When I arrived in Christchurch, New Zealand, for a six-month exchange, my host brother Liam invited me to help his school rugby team. I had never played rugby, so the coach asked me to be the team manager: carrying the kit, filling water bottles and keeping the score book.'),
-    ('p', 'For the first few weeks, I felt invisible. The players spoke so fast, with so many jokes I didn\'t understand, that I just stood at the side of the field holding bottles. During one match, I gave a bottle to the wrong player twice, and someone shouted something I didn\'t catch. Everyone laughed. I went home that evening and almost decided to quit.'),
-    ('p', 'Instead, I came up with a small idea. That weekend, I bought a marker pen and wrote each player\'s name on his bottle — in English and in katakana. At the next practice, the captain, Tama, picked up his bottle and stared at it. "What does this say?" he asked. I explained, and soon everyone was crowding around me, asking how to write their names in Japanese. One player wanted his nickname, "Moose," in katakana too.'),
-    ('p', 'After that, practice felt different. The players started teaching me rugby words, and I taught them a little Japanese. Tama began calling me "Coach Sota," which was a joke, but a kind one.'),
-    ('p', 'At the final match of the season, our team won by two points. In the changing room, Tama handed me the match ball. "This belongs to the whole team," he said, "and you\'re part of the team." I still have that ball on my shelf in Japan. Next to it is the marker pen — almost empty.'),
+    ('p', 'When I arrived in Christchurch, New Zealand, for a six-month exchange, my host brother Liam invited me to help his school rugby team. I had never played rugby, so the coach asked me to be the team manager: carrying the kit, filling water bottles and keeping the score book. I agreed, mainly because I did not want to spend every afternoon alone in my room. I had studied English for six years, so I thought I would be fine.'),
+    ('p', 'For the first few weeks, I felt invisible. The players spoke so fast, with so many jokes I didn\'t understand, that I just stood at the side of the field holding bottles. During one match, I gave a bottle to the wrong player twice, and someone shouted something I didn\'t catch. Everyone laughed. I went home that evening and almost decided to quit. Over dinner, my host mother noticed that I was quiet. "Give it one more week," she said. "People here are friendly, but they need a reason to start talking to you."'),
+    ('p', 'Instead, I came up with a small idea. That weekend, I bought a marker pen and wrote each player\'s name on his bottle — in English and in katakana. At the next practice, the captain, Tama, picked up his bottle and stared at it. "What does this say?" he asked. I explained, and soon everyone was crowding around me, asking how to write their names in Japanese. One player wanted his nickname, "Moose," in katakana too. By the end of the practice, I had written names on the players\' bags, boots and even one player\'s arm.'),
+    ('p', 'After that, practice felt different. The players started teaching me rugby words, and I taught them a little Japanese. Tama began calling me "Coach Sota," which was a joke, but a kind one. I still could not catch every joke, but now I laughed with the players instead of feeling that they were laughing at me. Before each match, they lined up to collect their bottles from me, and nobody ever got the wrong one again.'),
+    ('p', 'Six months passed more quickly than I had expected. At the final match of the season, our team won by two points. In the changing room, Tama handed me the match ball. "This belongs to the whole team," he said, "and you\'re part of the team." I still have that ball on my shelf in Japan. Next to it is the marker pen — almost empty.'),
    ], '#fbfaf6'),
   ],
   'qs': [
@@ -114,10 +117,10 @@ P4 = {
   'blocks': [
    ('box', [
     ('title', 'Bringing Our Shopping Street Back to Life'),
-    ('p', 'The shopping street near my house used to be full of people. Now, many shops have their shutters down. I believe our local shopping street is worth saving, and that high school students can play an important role.'),
+    ('p', 'The shopping street near my house used to be full of people. When I was a child, my grandmother took me there every Sunday to buy fish, tofu and fresh bread. Now, many shops have their shutters down, and some of the owners I remember have retired. I believe our local shopping street is worth saving, and that high school students can play an important role. In this essay, I will give three reasons.'),
     ('p', '**[ A ]**, a shopping street is more than a place to buy things. Shop owners know their customers by name, and elderly people who live alone often stop to chat. **(a)** In this way, the street helps people stay connected. **(b)**'),
-    ('p', 'Second, young people can bring new ideas. Last year, students from a nearby university opened a pop-up café in an empty shop for one month. **(c)** They also posted photos on social media, which attracted visitors from other towns. **(d)**'),
-    ('p', 'Third, students can help shops reach new customers. __I like to buy snacks at the convenience store after school.__ For example, we could design posters, make short videos or help shop owners start online shops.'),
+    ('p', 'Second, young people can bring new ideas. Last year, students from a nearby university opened a pop-up café in an empty shop for one month. **(c)** They also posted photos on social media, which attracted visitors from other towns. **(d)** The café closed when the month ended, but two of the students later opened a permanent bookshop on the same street.'),
+    ('p', 'Third, students can help shops reach new customers. __I like to buy snacks at the convenience store after school.__ For example, we could design posters, make short videos or help shop owners start online shops. Many of us use social media every day, so these are skills we can easily share.'),
     ('p', '**[ D ]** In conclusion, the shopping street near my house has many closed shops, and it is sad.'),
    ], '#fbfaf6'),
    ('box', [

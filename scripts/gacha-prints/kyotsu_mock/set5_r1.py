@@ -7,12 +7,12 @@ P1 = {
  'sections': [{
   'instr': 'あなたはイギリスに留学中です。友人の Oliver とメッセージをやりとりしています。',
   'blocks': [
-   ('msg', 'Oliver', "Hi Sakura! Are we still on for the film on Saturday? I just checked, and the 6 o'clock showing has moved to 7:15.", 'l'),
-   ('msg', 'Sakura', "That's fine with me. It means we can have dinner first!", 'r'),
-   ('msg', 'Oliver', "Actually, my manager asked me to cover a shift at the café until 6:30. I don't think I can make dinner. Sorry!", 'l'),
-   ('msg', 'Sakura', "No problem. Shall I buy the tickets online so we don't have to queue?", 'r'),
-   ('msg', 'Oliver', "That would be brilliant. Get two student tickets — they're £6 each. I'll pay you back on Saturday.", 'l'),
-   ('msg', 'Sakura', "OK! I'll sort them out tonight. Let's meet in front of the cinema at 7.", 'r'),
+   ('msg', 'Oliver', "Hi Sakura! Are we still on for the film on Saturday? I just checked, and the 6 o'clock showing has moved to 7:15. Apparently there was a problem with the projector, so they've changed the times for the whole evening.", 'l'),
+   ('msg', 'Sakura', "That's fine with me. It means we can have dinner first! There's a new Thai restaurant next to the cinema that I've wanted to try.", 'r'),
+   ('msg', 'Oliver', "Actually, my manager asked me to cover a shift at the café until 6:30. I don't think I can make dinner. Sorry! Maybe we can try the Thai place another time.", 'l'),
+   ('msg', 'Sakura', "No problem. Shall I buy the tickets online so we don't have to queue? Saturday evenings are always busy.", 'r'),
+   ('msg', 'Oliver', "That would be brilliant, thanks. Could you get seats near the back? I don't like sitting too close to the screen. Get two student tickets — they're £6 each. Don't forget to bring your student card, because they sometimes check at the door. I'll pay you back on Saturday.", 'l'),
+   ('msg', 'Sakura', "OK! I'll sort them out tonight. Let's meet in front of the cinema at 7. I'll get some popcorn while I'm waiting for you.", 'r'),
   ],
   'qs': [
    {'no': 1, 'prompt': 'What time will the film start?', 'pts': 2, 'ans': 4,
@@ -35,13 +35,15 @@ P2 = {
   'blocks': [
    ('box', [
     ('title', 'SunFold Portable Solar Charger'),
-    ('p', 'Charge your phone anywhere the sun shines! The SunFold folds to the size of a paperback book and weighs only 450 grams. It has two USB ports, so you can charge two devices at once.'),
+    ('p', 'Going camping, hiking or cycling? Charge your phone anywhere the sun shines! The SunFold folds to the size of a paperback book and weighs only 450 grams. It has two USB ports, so you can charge two devices at once. The four solar panels are covered with strong plastic to protect them from scratches, and a small light shows when the charger is working.'),
     ('table', [['Feature', 'Details'], ['Charging time (phone)', 'About 3 hours in full sun; 6–8 hours on cloudy days'],
                ['Water resistance', 'Splash-proof (not for use in heavy rain)'], ['Price', '£39.99 (free delivery on orders over £30)'], ['Guarantee', '1 year']], [55, 119]),
+    ('p', '**Guarantee:** If the SunFold stops working within one year, we will repair or replace it free of charge. Damage caused by heavy rain is not covered. **Tip:** For the fastest charging, place the SunFold so that the panels face the sun directly. Charging through a window or in the shade will take much longer. Do not leave your phone in direct sunlight for long periods, as it may overheat.'),
     ('h', 'Customer reviews'),
-    ('pl', '**Jack (★★★★★):** I took it on a week-long walking holiday in Wales. My phone never ran out of battery. Absolutely worth every penny.'),
-    ('pl', '**Priya (★★★☆☆):** It works, but it took most of the day to charge my phone when it was overcast. Fine for summer, less useful in autumn.'),
-    ('pl', '**Tom (★★★★☆):** Light and easy to carry. I attach it to my rucksack while I walk. It got wet in a shower and still works.'),
+    ('pl', '**Jack (★★★★★):** I took it on a week-long walking holiday in Wales. My phone never ran out of battery. Absolutely worth every penny. It was sunny most of the week, which helped.'),
+    ('pl', '**Priya (★★★☆☆):** It works, but it took most of the day to charge my phone when it was overcast. Fine for summer, less useful in autumn. Delivery was quick, though, and it arrived in two days.'),
+    ('pl', '**Mei (★★☆☆☆):** I bought it for my commute in winter, but there just isn\'t enough sunshine in the mornings. It would be much better with a built-in battery so that it could store power for later.'),
+    ('pl', '**Tom (★★★★☆):** Light and easy to carry. I attach it to my rucksack while I walk. It got wet in a shower and still works. I only wish it came with a longer cable.'),
    ]),
   ],
   'qs': [
@@ -70,13 +72,14 @@ P3 = {
     ('title', 'One Character, One Year'),
     ('small', 'by Daniel Moreau'),
     ('p', 'When I arrived at my Japanese high school as an exchange student from France, my host sister Aya invited me to visit the calligraphy club. I expected it to be easy — after all, I had beautiful handwriting in French. '
-          'I was wrong. My first attempt at the character for "river" looked like three tired worms.'),
+          'I was wrong. My first attempt at the character for "river" looked like three tired worms. The other members were too polite to laugh, but I saw Aya hide a smile behind her hand.'),
     ('p', 'The club advisor, Mr. Kondo, watched me for a while. "You write very fast," he said. "In calligraphy, the brush is not a pen. Each stroke must have a beginning, a middle and an end." '
-          'He showed me how he slowly ground the ink stick before writing. "This is not wasted time," he said. "It calms the mind."'),
-    ('p', 'I started coming to the club room twenty minutes before morning lessons. At first, I did it because I was embarrassed by my poor work. Later, I realised I was looking forward to it. The quiet room, the smell of the ink and the sound of the brush on paper became my favourite part of the day.'),
+          'He showed me how he slowly ground the ink stick before writing. "This is not wasted time," he said. "It calms the mind." I did not believe him. To me, it looked like a slow way of making something that you could buy in a bottle.'),
+    ('p', 'I started coming to the club room twenty minutes before morning lessons. At first, I did it because I was embarrassed by my poor work. Later, I realised I was looking forward to it. The quiet room, the smell of the ink and the sound of the brush on paper became my favourite part of the day. Sometimes Mr. Kondo came in early too, and we worked side by side without saying a word.'),
+    ('p', 'Slowly, my work began to change. Mr. Kondo rarely praised anyone, so when he looked at one of my characters in September and said, "Better," I almost dropped my brush. Aya told me later that it was the first time she had heard him say that word to a first-year member. By then, I had stopped comparing my writing with my French handwriting. Calligraphy was not about neat letters, I realised; it was about controlling my breath, my hand and my patience at the same time.'),
     ('p', 'In October, Mr. Kondo told me I could submit a work to the school festival. I chose the character 縁 (en), which Aya had explained to me. It means a connection between people — the kind of bond that seems to happen by chance but feels meant to be. '
-          'I wrote it more than two hundred times. On the last day before the deadline, I finally wrote one I was not ashamed of.'),
-    ('p', 'At the festival, an elderly visitor stood in front of my work for a long time. Then she turned to me and said, in slow English, "This character is right for you." I did not win a prize, but I have never been prouder of anything. '
+          'I wrote it more than two hundred times. On the last day before the deadline, I finally wrote one I was not ashamed of. It was not perfect — one stroke was a little too thin — but when I looked at it, I felt calm, the way Mr. Kondo had described.'),
+    ('p', 'At the festival, an elderly visitor stood in front of my work for a long time. Then she turned to me and said, in slow English, "This character is right for you." I did not know how to answer, so I bowed, the way I had seen Aya do. I did not win a prize, but I have never been prouder of anything. '
           'The work now hangs in my room in Lyon, and every time I look at it, I think of Aya, Mr. Kondo and the quiet mornings in the club room.'),
    ]),
   ],
@@ -102,10 +105,10 @@ P4 = {
   'blocks': [
    ('box', [
     ('title', 'Smartphones Can Be Learning Tools'),
-    ('p', 'At my school, students must keep their smartphones in their bags all day. I think teachers should allow us to use them in some lessons, because they can help us learn.'),
-    ('p', 'First, smartphones let us find information quickly. In social studies, for example, we could check current news or look at maps and photos of the places we are studying. **(a)** This makes lessons more connected to the real world. **(b)**'),
-    ('p', 'Second, smartphones are useful for practising English pronunciation. **[ B ]** many apps can listen to our voice and tell us which sounds we need to improve. **(c)** In a class of forty students, the teacher cannot check everyone\'s pronunciation. **(d)**'),
-    ('p', 'Of course, some people worry that students will play games or use social media during lessons. __My brother has a new smartphone with a great camera.__ Clear rules, such as using airplane mode and putting phones face down when the teacher is speaking, can reduce this problem.'),
+    ('p', 'At my school, students must keep their smartphones in their bags all day. I think teachers should allow us to use them in some lessons, because they can help us learn. In this essay, I will give two reasons and respond to a common concern.'),
+    ('p', 'First, smartphones let us find information quickly. In social studies, for example, we could check current news or look at maps and photos of the places we are studying. **(a)** This makes lessons more connected to the real world. **(b)** Textbooks are useful, but they cannot show us what happened yesterday.'),
+    ('p', 'Second, smartphones are useful for practising English pronunciation. **[ B ]** many apps can listen to our voice and tell us which sounds we need to improve. **(c)** In a class of forty students, the teacher cannot check everyone\'s pronunciation, even if the lesson is fifty minutes long. **(d)**'),
+    ('p', 'Of course, some people worry that students will play games or use social media during lessons. This is an understandable concern. __My brother has a new smartphone with a great camera.__ Many schools in other countries already allow phones in class for specific tasks, and they report few problems. Clear rules, such as using airplane mode and putting phones face down when the teacher is speaking, can reduce this problem. Teachers could also collect phones at the start of tests and keep them in a box at the front of the room.'),
     ('p', '**[ D ]** In conclusion, smartphones are popular among students, so schools should think about them.'),
    ]),
    ('box', [

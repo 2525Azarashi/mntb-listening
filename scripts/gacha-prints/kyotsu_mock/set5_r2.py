@@ -10,14 +10,14 @@ P5 = {
   'blocks': [
    ('box', [
     ('title', 'Green Futures Challenge 2026'),
-    ('p', 'Have an idea that could make your school or town greener? Enter the Green Futures Challenge! Teams of **2 to 4 people** may enter.'),
+    ('p', 'Have an idea that could make your school or town greener? Every year, hundreds of young people across the country take part in our competition. Enter the Green Futures Challenge! Teams of **2 to 4 people** may enter. Each team must have a teacher or another adult who supports the project, but all the work must be done by the students themselves.'),
     ('table', [['Category', 'Age of all members', 'What to submit'],
                ['Junior', '11–14', 'A poster (A2 size) explaining your idea'],
                ['Senior', '15–18', 'A 3-minute video and a one-page written plan'],
                ['Open', 'Mixed ages (11–18)', 'A 3-minute video only']], [35, 50, 89]),
     ('pl', '**Deadline:** 31 March, 5 p.m.\n'
            '**Prizes (each category):** 1st — £500 for your school and a meeting with an environmental scientist; 2nd — £200; 3rd — £100.\n'
-           'Five shortlisted teams in each category will present their ideas to the judges on 25 April.'),
+           'Five shortlisted teams in each category will present their ideas to the judges on 25 April. The results will be announced on our website on 2 May.'),
    ]),
    ('box', [
     ('h', 'Entry Form (summary)'),
@@ -27,9 +27,18 @@ P5 = {
    ('box', [
     ('small', '**From:** Green Futures Team\n**To:** Ruby Hart\n**Subject:** Your entry'),
     ('p', 'Dear Ruby,'),
-    ('p', 'Thank you for registering "The Rain Savers." Because of the ages of your members, your team has been entered in the category that matches your group. Please make sure your submission meets the requirements for that category.'),
-    ('p', 'Good news: because of the school holidays, the deadline has been extended to **7 April**. Also, shortlisted teams can now choose to present on 25 April either in person in Birmingham or online.'),
+    ('p', 'Thank you for registering "The Rain Savers." Your idea sounds very interesting, and we look forward to seeing your submission. Because of the ages of your members, your team has been entered in the category that matches your group. Please make sure your submission meets the requirements for that category. Submissions that do not follow the rules for their category cannot be judged.'),
+    ('p', 'Good news: because of the school holidays, the deadline has been extended to **7 April**. Also, shortlisted teams can now choose to present on 25 April either in person in Birmingham or online. Teams who come to Birmingham will receive help with travel costs of up to £50 per person, and lunch will be provided. Online presentations will take place by video call, and each team will have ten minutes to present followed by five minutes of questions from the judges.'),
     ('p', 'Good luck!\nGreen Futures Team'),
+   ]),
+   ('box', [
+    ('h', 'Judging criteria (all categories)'),
+    ('pl', '• **Impact (40%)**: How much would your idea help the environment?\n'
+           '• **Practicality (30%)**: Could your idea really be carried out at your school or in your town? Have you thought about the cost?\n'
+           '• **Creativity (20%)**: Is your idea new, or does it use an existing idea in a new way?\n'
+           '• **Communication (10%)**: Is your submission clear and easy to understand?'),
+    ('p', 'Last year\'s Senior winners, from a school in Leeds, designed a system for collecting food waste from the school canteen and turning it into compost for local farms. Their school used the £500 prize to buy the first compost bins, and the system is still running today. '
+          '**FAQ:** Can one student join more than one team? — No, each student may be a member of only one team. Can we change members after registering? — Yes, until the deadline, as long as the new members are within the age range of your category.'),
    ]),
   ],
   'qs': [
@@ -67,15 +76,17 @@ P6 = {
    ('box', [
     ('title', 'Music You Can Feel'),
     ('p', 'Mariko Sato began playing the piano when she was four. By the age of twenty-five, she was teaching piano at a music school in Osaka. Then, after a serious illness, she lost most of her hearing within a single year. '
-          'She stopped teaching and, for a long time, could not bring herself to open the piano at home.'),
+          'She stopped teaching and, for a long time, could not bring herself to open the piano at home. Friends tried to cheer her up by taking her to concerts, but she found them painful. She could see the musicians moving and the audience smiling, but the music itself had disappeared.'),
+    ('p', 'During those years, Mariko worked in an office, entering data into a computer. She was good at the job, but she felt as if a part of her had been switched off. She avoided music shops and changed the subject whenever friends talked about concerts. Her sister later said that Mariko had lost not only her hearing but also her way of understanding the world.'),
     ('p', 'One evening, her young nephew was banging on a drum in the living room. Mariko, sitting on the wooden floor, suddenly realised she could feel each beat through her body. She took off her slippers and put her hands flat on the floor. '
-          'Low notes made the floor tremble slowly; high notes felt like light tapping. "I could not hear the music," she later wrote, "but I could feel its shape."'),
-    ('p', 'Mariko began experimenting. She played the piano with her bare feet on its wooden pedals and her hand resting on its side. Over several years, she developed a method for teaching rhythm and melody through vibration, using drums placed on the floor, balloons that people hold against their chests, and speakers that can be touched.'),
+          'Low notes made the floor tremble slowly; high notes felt like light tapping. "I could not hear the music," she later wrote, "but I could feel its shape." That night, for the first time in two years, she lifted the lid of her piano.'),
+    ('p', 'Mariko began experimenting. She played the piano with her bare feet on its wooden pedals and her hand resting on its side. Over several years, she developed a method for teaching rhythm and melody through vibration, using drums placed on the floor, balloons that people hold against their chests — because the thin rubber passes on even small changes in sound — and speakers that can be touched. She also learned to read the movement of other musicians\' bodies, watching the rise and fall of their shoulders to follow the beat. Progress was slow, and there were weeks when she felt she was getting nowhere, but she kept a diary of every experiment, recording what worked and what did not.'),
     ('p', 'When she proposed opening a music class for deaf children, many people were skeptical. Some parents worried that their children would feel frustrated. A local official told her that music was "not a priority" for deaf students. '
-          'Mariko did not argue. Instead, she invited the parents to a free trial lesson. She asked them to close their eyes, cover their ears and hold a balloon while she played a drum. Several of them were in tears by the end.'),
-    ('p', 'The class started with six children in a borrowed community hall. Mariko communicated with them in sign language, which she had learned after losing her hearing. Within a year, the children were playing simple songs together on drums and xylophones, keeping perfect time by watching each other and feeling the floor. '
+          'Mariko did not argue. Instead, she invited the parents to a free trial lesson. She asked them to close their eyes, cover their ears and hold a balloon while she played a drum. Several of them were in tears by the end. One father said afterwards that it was the first time he had understood how his son might experience the world. The next week, nine families signed up.'),
+    ('p', 'The class started with six children in a borrowed community hall, every Saturday morning. Mariko communicated with them in sign language, which she had learned after losing her hearing. The children took off their shoes at the door, sat in a circle on the wooden floor and began each lesson by "listening" to the floor with their hands. Within a year, the children were playing simple songs together on drums and xylophones, keeping perfect time by watching each other and feeling the floor. '
           'Ten years later, her school has trained more than eighty teachers, and similar classes have opened in four other countries.'),
-    ('p', 'When people call her story a miracle, Mariko shakes her head. "Deaf children were always able to enjoy music," she says. "We simply had not found the right door."'),
+    ('p', 'One of her first students, a girl named Yui, later became a percussion teacher herself. In a television interview, Yui explained that before joining the class, she had thought music was something that belonged only to hearing people. "Mariko-sensei showed me that music was mine too," she said. Today, Yui runs workshops in schools, where hearing and deaf children play drums together on the same wooden stage.'),
+    ('p', 'Mariko still plays the piano every morning before work. When people call her story a miracle, she shakes her head. "Deaf children were always able to enjoy music," she says. "We simply had not found the right door."'),
    ]),
    ('box', [
     ('ja', '**発表メモ**'),
@@ -115,14 +126,15 @@ P7 = {
   'blocks': [
    ('box', [
     ('title', 'How Habits Are Made'),
-    ('p', 'About 40% of what we do each day is not the result of a conscious decision, but of habit. Brushing our teeth, checking our phones when we wake up, taking the same route to school — these actions happen almost automatically. Understanding how habits form can help us build good ones and break bad ones.'),
+    ('p', 'Have you ever arrived at school and realised that you cannot remember the journey? About 40% of what we do each day is not the result of a conscious decision, but of habit. Brushing our teeth, checking our phones when we wake up, taking the same route to school — these actions happen almost automatically. Understanding how habits form can help us build good ones and break bad ones. Habits save the brain a great deal of effort: once an action becomes automatic, we can do it while thinking about something else entirely.'),
     ('p', 'Researchers often describe a habit as a loop with three parts. First comes a **cue**: something that triggers the behaviour, such as a time, a place or a feeling. Next is the **routine**, the behaviour itself. Finally, there is a **reward**, which makes the brain want to repeat the loop. '
-          'For example, feeling bored (cue) leads us to check social media (routine), and seeing new messages (reward) makes us more likely to do it again next time we are bored.'),
-    ('p', 'A popular idea says that it takes 21 days to form a new habit. However, a well-known study at a university in London found that the average was about 66 days — and the range was enormous, from 18 to 254 days. Simple actions, like drinking a glass of water after breakfast, became automatic much faster than complex ones, like doing fifty sit-ups before dinner.'),
-    ('p', 'The same study found something encouraging: missing a day now and then did not seriously affect the process. What mattered was repeating the behaviour in a consistent situation.'),
+          'For example, feeling bored (cue) leads us to check social media (routine), and seeing new messages (reward) makes us more likely to do it again next time we are bored. Over time, the brain begins to expect the reward as soon as it notices the cue, which is why habits can feel so hard to resist.'),
+    ('p', 'A popular idea says that it takes 21 days to form a new habit. However, a well-known study at a university in London found that the average was about 66 days — and the range was enormous, from 18 to 254 days. Simple actions, like drinking a glass of water after breakfast, became automatic much faster than complex ones, like doing fifty sit-ups before dinner. Participants in the study chose their own new behaviour and reported each day how automatic it felt, so the results show how habits form in real life rather than in a laboratory.'),
+    ('p', 'The same study found something encouraging: missing a day now and then did not seriously affect the process. What mattered was repeating the behaviour in a consistent situation. In other words, people who did their new habit at the same time and in the same place each day made faster progress than those who did it whenever they had a free moment. This is good news for anyone who has ever given up on a goal after one bad day.'),
     ('p', 'Experts suggest several strategies. One is "habit stacking": linking a new behaviour to an existing habit. For example, "After I brush my teeth at night, I will read one page of a book." Another is to start very small — two minutes of exercise rather than thirty — so that the behaviour feels easy. '
-          'A third is to change your environment. People who keep fruit on the kitchen table eat more fruit; people who leave their phones in another room sleep better.'),
-    ('p', 'Relying on willpower alone rarely works for long. By designing the cues, routines and rewards in our lives, we can make good behaviour the easy choice.'),
+          'A third is to change your environment, so that the cue for a good habit is easy to see and the cue for a bad one is hidden. People who keep fruit on the kitchen table eat more fruit; people who leave their phones in another room sleep better. Rewards matter too: ticking a box on a calendar or telling a friend about your progress can give the brain a small sense of satisfaction that makes the habit more likely to stick.'),
+    ('p', 'Breaking a bad habit works in a similar way, but in reverse. Because the cue and the reward are what keep the loop going, it is often more effective to change the routine than to try to stop it completely. A student who checks social media whenever she feels bored, for example, might keep the same cue (boredom) and the same kind of reward (a short break) but replace the routine with a five-minute walk or a glass of water. Making a bad habit harder to do — by logging out of apps or leaving snacks in a high cupboard — also helps.'),
+    ('p', 'Relying on willpower alone rarely works for long. By designing the cues, routines and rewards in our lives, we can make good behaviour the easy choice. The aim is not to become a different person overnight, but to make small changes that, repeated over weeks and months, quietly add up.'),
    ]),
    ('slide', 'Building Better Habits', ['The habit loop: cue → routine → reward', 'Time to form a habit: average ( 問2 )',
                                         'Good news: ( 問3 )', 'Strategies: habit stacking / start small / change your environment']),
@@ -159,17 +171,27 @@ P8 = {
   'blocks': [
    ('box', [
     ('h', 'Source A — Article'),
-    ('p', 'A survey of 2,000 young adults aged 18 to 25 found that those who had taken a personal finance course at school were less likely to have credit card debt they could not repay. They were also more likely to have savings. '
-          'However, the researchers point out that a single short course had little effect; the benefits were clearest among students who had studied the topic over several years and practised with realistic examples, such as planning a monthly budget.'),
+    ('p', 'Should schools teach students how to manage money? A survey of 2,000 young adults aged 18 to 25 found that those who had taken a personal finance course at school were less likely to have credit card debt they could not repay. They were also more likely to have savings. '
+          'However, the researchers point out that a single short course had little effect; the benefits were clearest among students who had studied the topic over several years and practised with realistic examples, such as planning a monthly budget. '
+          'Young people today face financial choices earlier than their parents did. Many sign phone contracts, shop online with "buy now, pay later" services and are targeted by advertisements for investment apps while they are still at school. Experts warn that without basic knowledge, it is easy to make mistakes that take years to fix. '
+          'In some countries, money education is already part of the national curriculum. In England, for example, it has been taught in secondary schools since 2014, although teachers say the amount of time given to it varies a great deal from school to school.'),
    ]),
    ('bar', {'title': 'Where did you mainly learn about money? (Students, n = 600)', 'cats': ['Family', 'School', 'Internet', 'Friends', 'Nowhere'],
             'series': [[38, 12, 29, 6, 15]], 'unit': '%', 'maxv': 50, 'step': 10}),
    ('box', [
     ('h', 'Source B — Opinions'),
-    ('pl', '**Hana (student):** I learned about money mainly from videos online, but I\'m never sure which ones to trust.'),
-    ('pl', '**Mr. Evans (parent):** Talking about money is the family\'s job. Schools already have too many subjects.'),
-    ('pl', '**Ms. Mori (teacher):** Not every family can teach this. If schools don\'t, the gap between students will grow.'),
-    ('pl', '**Mr. Silva (bank employee):** I often meet young customers who don\'t understand interest. Practical lessons — budgeting, comparing loans — are what they need, not just theory.'),
+    ('pl', '**Hana (student):** I learned about money mainly from videos online, but I\'m never sure which ones to trust. Some of them are clearly trying to sell something.'),
+    ('pl', '**Mr. Evans (parent):** Talking about money is the family\'s job. Schools already have too many subjects. I would rather teachers spent more time on maths and reading, which are the basis for everything else. At home, we give our children pocket money and let them make their own mistakes.'),
+    ('pl', '**Ms. Mori (teacher):** Not every family can teach this. If schools don\'t, the gap between students will grow. Some of my students have parents who have never had a bank account themselves.'),
+    ('pl', '**Kenta (university student):** When I moved out and started living alone, I had no idea how much to spend on food or electricity. By the end of my first month, I had almost no money left. I wish someone had taught me how to make a budget in high school.'),
+    ('pl', '**Mr. Silva (bank employee):** I often meet young customers who don\'t understand interest. Practical lessons — budgeting, comparing loans — are what they need, not just theory. Many of them are surprised to learn how much a small loan can grow if they only pay the minimum each month.'),
+   ]),
+   ('box', [
+    ('h', 'Source C — Example: A school programme'),
+    ('p', 'At Riverside High School, money lessons are spread across three years. In the first year, students learn to keep a simple record of what they spend. Students say the lessons feel useful because the examples come from their own lives. In the second year, they plan a monthly budget for an imaginary young adult with a part-time job, including rent, food and transport. '
+          'In the third year, they compare real phone contracts and loans and calculate how much interest they would pay.'),
+    ('p', 'Teachers say the most popular activity is a role-play in which students must decide how to spend a fixed amount of money after an unexpected bill arrives. "It\'s the first time I\'ve realised how quickly money disappears," one student said. '
+          'The school invites local bank staff to answer questions once a term, but they are not allowed to advertise their own products.'),
    ]),
    ('box', [
     ('ja', '**エッセイの構成メモ**'),
