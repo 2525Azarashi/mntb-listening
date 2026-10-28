@@ -28,6 +28,9 @@ tools/update.sh が cards.json から作る。1ファイル1行：`パス` — �
 - `src/components/DoorMascot.tsx` — とびら君が科目ごとのミニ豆知識を吹き出しで話す係（部品・126行・使われる4）
 - `src/components/ErrorBoundary.tsx` — 画面の一部が壊れても、アプリ全体を止めずに戻り道を出す係（部品・94行・使われる1）
 - `src/components/Explanation.tsx` — 解き終えた問題の採点結果と解答・解説を見せる画面の係（画面・767行・使われる2）
+- `src/components/toeic/ToeicPageQuiz.tsx` — 【新】TOEIC Part 5 の演習画面（1ページ6問・マーク式・ページ単位の採点と解説）の係（画面・329行・使われる1）
+- `src/components/toeic/toeicPageModel.ts` — 【新】TOEIC Part 5 のページ分け・採点キー・解説の引き当ての計算の係（データ・112行・使われる2）
+- `src/components/toeic/toeic-page.css` — 【新】TOEIC Part 5 のページ式演習の見た目の係（部品・112行・使われる1）
 - `src/components/ExplanationBody.tsx` — 【変】解説の本文を、見出しや表つきで読みやすく描く係（部品・337行・使われる6）
 - `src/components/ExplanationScreen.tsx` — 演習画面から切り替わって解答・解説の画面を出す係（画面・97行・使われる1）
 - `src/components/FeedbackAdminPanel.tsx` — 届いた「ご意見・ご要望」を運営が見て返信する画面の係（画面・333行・使われる1）
@@ -72,7 +75,7 @@ tools/update.sh が cards.json から作る。1ファイル1行：`パス` — �
 - `src/components/ProblemPane.tsx` — 演習画面の左側（スマホでは上側）に問題文を見せる係（部品・723行・使われる1）
 - `src/components/ProfileModal.tsx` — 設定画面で、プロフィール・フレンド・アカウントを扱う係（画面・453行・使われる1）
 - `src/components/QuestionFigure.tsx` — 問題や解説についている図やイラストを表示する係（音声・画像・374行・使われる2）
-- `src/components/Quiz.tsx` — 1つの単元の問題を出し、答えさせて採点へ進ませる演習画面の係（画面・950行・使われる1）
+- `src/components/Quiz.tsx` — 【変】1つの単元の問題を出し、答えさせて採点へ進ませる演習画面の係。TOEIC Part 5 は入口で専用画面へ（画面・964行・使われる1）
 - `src/components/QuizEmptyState.tsx` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（部品・31行・使われる1）
 - `src/components/QuizHeader.tsx` — 演習画面の上に、単元名・点数・順位・進み具合を出す係（部品・183行・使われる1）
 - `src/components/QuizScreens.tsx` — 演習画面と結果・解説画面のどちらを出すかをまとめる係（画面・249行・使われる2）
@@ -654,6 +657,7 @@ tools/update.sh が cards.json から作る。1ファイル1行：`パス` — �
 - `tests/dialog.test.ts` — お知らせと確認の窓口が、決まりどおり動くかを確かめる係（テスト・44行・使われる0）
 - `tests/englishGrammarV3.test.ts` — 英文法の改訂版1,163問が、章ごとにそろっているかを確かめる係（テスト・112行・使われる0）
 - `tests/toeicPart5Data.test.ts` — 【新】TOEIC Part 5 の450問が、1回30問・4択・正解位置の偏りなし・英式つづりなしなどの決まりを守るか確かめる係（テスト・101行・使われる0）
+- `tests/toeicPageModel.test.ts` — 【新】TOEIC Part 5 のページ分け・採点キー・450問の解説の引き当てを確かめる係（テスト・84行・使われる0）
 - `tests/englishListeningData.test.ts` — 英語リスニングの単元の並びと構成が正しいかを確かめる係（テスト・176行・使われる0）
 - `tests/englishListeningQ1A.test.ts` — リスニング第1問Aの問題と解説の中身を確かめる係（テスト・391行・使われる0）
 - `tests/englishListeningQ1Sets.test.ts` — 第1問A・Bの類題集が、PDFどおりの数だけ入っているか確かめる係（テスト・581行・使われる0）
