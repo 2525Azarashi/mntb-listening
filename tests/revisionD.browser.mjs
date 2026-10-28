@@ -64,7 +64,8 @@ try {
       const r=await button.boundingBox();assert.ok(r && r.y+r.height<=limit+1,'pull controls hidden behind navigation');
     }
     await page.screenshot({path:`shots/d-gacha-${w}.png`});
-    assert.equal(await page.locator('[data-gacha-showcase] .gacha-preview-info > span').innerText().then(t=>t.split(' / ')[1].split(' ')[0]),'10','showcase must list 10 curated UR');
+    // 2026-10-28 A10：厳選URの送りカルーセルはやめ、バナーの下に今週のピックアップ5つ（押すと詳細）
+    assert.equal(await page.locator('[data-gacha-pickup-item]').count(),5,'banner shows 5 weekly picks');
     await page.getByRole('button',{name:'マイページへ移動',exact:true}).click();
     await page.locator('[data-mypage-overview]').waitFor();
     await fit(page,'.mypage-hub',`${w} mypage`);

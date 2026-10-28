@@ -29,7 +29,8 @@ describe('ホーム周辺の切替導線', () => {
   // 2026-10-20 30045bd「remove duplicate gacha shop switch」で上部の切替ボタンは重複として撤去した
   // （UI の決まり「同じ操作を1画面に2つ置かない」）。行き来はガチャ説明文のリンクとショップ側の onGacha で残っている
   it('装飾ガチャとショップを行き来でき、重複の切替ボタンは置かない', () => {
-    expect(gacha).toContain('「ショップ」へ');
+    // 2026-10-28 A10：ガチャ画面の説明文は削除（モンスト風のバナーに）。ショップへは上の「装飾ガチャ／ショップ」切替で行く
+    expect(readFileSync('src/components/GrowthHub.tsx', 'utf8')).toContain("onPage('gacha-shop')");
     expect(gacha).not.toContain('collection-mode-switch');
     expect(collection).toContain('onGacha');
     expect(collection).not.toContain('collection-mode-switch');
