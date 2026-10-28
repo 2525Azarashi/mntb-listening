@@ -7,6 +7,7 @@ import { profileKey } from './userStorageKeys';
 import { readStudyTime } from './studyTime';
 import { logRejection } from './reportError';
 import { requireLocalStorage } from './safeLocalStorage';
+import { buildWeek, intOrNull, lookIdOrEmpty, normalizeBio, normalizeGrade, parseWeek, type PublicGrade } from './publicProfileCore';
 export const PUBLIC_STUDY_PROFILES = 'public_study_profiles';
 export const MOTTO_MAX = 40;
 export interface PublicStudyProfile {
@@ -17,6 +18,39 @@ export interface PublicStudyProfile {
   stagesCleared: number | null;
   /** とびら君のレベル。不明なら null */
   level: number | null;
+  // ---- 2026-10-26 プロフィールの充実（どれも任意・古い文書には無い） ----
+  /** 表示名（無ければ呼び出し側がランキング等の名前を使う） */
+  nickname: string;
+  grade: PublicGrade;
+  bio: string;
+  /** 直近7日の学習秒（古い日→今日）。無ければ null */
+  week: number[] | null;
+  /** 週の記録を書いた日（'YYYY-MM-DD'）。古い週を「今週」と見せないため */
+  weekEnd: string;
+  streak: number | null;
+  solved: number | null;
+  badges: number | null;
+  /** 身につけている称号の ID */
+  title: string;
+  look: { pose: string; frame: string; hat: string; glasses: string };
+}
+
+/** 本人が公開プロフィールに載せる「自分で書く」項目 */
+export interface PublicProfileInput {
+  targetSchool: string;
+  motto: string;
+  nickname?: string;
+  grade?: string;
+  bio?: string;
+}
+
+/** 本人の端末から集める「記録」の項目（公開しているときだけ送る） */
+export interface PublicProfileStats {
+  streak?: number;
+  solved?: number;
+  badges?: number;
+  title?: string;
+  look?: { pose?: string; frame?: string; hat?: string; glasses?: string };
 }
 const intIn = (v: unknown, lo: number, hi: number) => typeof v === 'number' && Number.isInteger(v) && v >= lo && v <= hi;
 export const normalizeMotto = (v: string) => v.replace(/\s+/g, ' ').trim().slice(0, MOTTO_MAX);
@@ -28,7 +62,50 @@ export function parsePublicStudyProfile(value: unknown): PublicStudyProfile | nu
     motto: typeof p.motto === 'string' ? normalizeMotto(p.motto) : '',
     stagesCleared: intIn(p.stagesCleared, 0, 100000) ? p.stagesCleared as number : null,
     level: intIn(p.level, 1, 99) ? p.level as number : null,
+    nickname: typeof p.nickname === 'string' ? p.nickname.trim().slice(0, 24) : '',
+    grade: normalizeGrade(p.grade),
+    bio: normalizeBio(p.bio),
+    week: parseWeek(p.week),
+    weekEnd: typeof p.weekEnd === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(p.weekEnd) ? p.weekEnd : '',
+    streak: intOrNull(p.streak, 10000),
+    solved: intOrNull(p.solved),
+    badges: intOrNull(p.badges, 1000),
+    title: lookIdOrEmpty(p.title),
+    look: { pose: lookIdOrEmpty(p.lookPose), frame: lookIdOrEmpty(p.lookFrame), hat: lookIdOrEmpty(p.lookHat), glasses: lookIdOrEmpty(p.lookGlasses) },
   };
+}
+
+/** 学習時間・直近7日・記録（端末の値）を、公開文書に書く形にする */
+function statsFields(uid: string, stats?: PublicProfileStats, now: number = Date.now()): Record<string, unknown> {
+  const log = readStudyTime(uid);
+  const out: Record<string, unknown> = {
+    studySeconds: Math.min(315360000, log.total),
+    week: buildWeek(log.days, now),
+    weekEnd: localDay(now),
+  };
+  if (!stats) return out;
+  if (typeof stats.streak === 'number') out.streak = Math.max(0, Math.min(10000, Math.floor(stats.streak)));
+  if (typeof stats.solved === 'number') out.solved = Math.max(0, Math.min(1_000_000, Math.floor(stats.solved)));
+  if (typeof stats.badges === 'number') out.badges = Math.max(0, Math.min(1000, Math.floor(stats.badges)));
+  if (stats.title !== undefined) out.title = lookIdOrEmpty(stats.title);
+  if (stats.look) {
+    out.lookPose = lookIdOrEmpty(stats.look.pose);
+    out.lookFrame = lookIdOrEmpty(stats.look.frame);
+    out.lookHat = lookIdOrEmpty(stats.look.hat);
+    out.lookGlasses = lookIdOrEmpty(stats.look.glasses);
+  }
+  return out;
+}
+function localDay(t: number): string {
+  const d = new Date(t);
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+}
+
+/** 端末にある記録を集める（呼び出し側から差し込めるようにして、utils が battle に依存しないようにする） */
+let statsProvider: (() => PublicProfileStats) | null = null;
+export function setPublicProfileStatsProvider(fn: (() => PublicProfileStats) | null): void { statsProvider = fn; }
+function currentStats(): PublicProfileStats | undefined {
+  try { return statsProvider?.() ?? undefined; } catch { return undefined; }
 }
 /** 達成ステージ数・レベルはサーバー（achievements 関数）が全端末を合算して書く。ここでは送らない */
 const syncLater = () => { void import('./achievementsSync').then(m => m.syncAchievements()).catch(logRejection('achievements.sync')); };
@@ -38,21 +115,30 @@ export async function readOwnPublicStudyProfile(): Promise<PublicStudyProfile | 
   const snapshot = await getDoc(doc(db, PUBLIC_STUDY_PROFILES, uid));
   return snapshot.exists() ? parsePublicStudyProfile(snapshot.data()) : null;
 }
-export async function savePublicStudyProfile(published: boolean, targetSchool: string, motto = ''): Promise<void> {
+export async function savePublicStudyProfile(published: boolean, targetSchool: string | PublicProfileInput, motto = ''): Promise<void> {
   const uid = auth.currentUser?.uid;
   if (!uid) throw new Error('公開設定にはGoogleログインが必要です。');
   const ref = doc(db, PUBLIC_STUDY_PROFILES, uid);
   if (!published) { await deleteDoc(ref); return; }
+  const input: PublicProfileInput = typeof targetSchool === 'string' ? { targetSchool, motto } : targetSchool;
   // merge：サーバーが書いた 達成ステージ数・レベル は残す（ルールで本人の書き換えを禁止している）
-  const base = { public: true, targetSchool: normalizeTargetSchool(targetSchool),
+  const base = { public: true, targetSchool: normalizeTargetSchool(input.targetSchool),
     studySeconds: Math.min(315360000, readStudyTime(uid).total), updatedAt: serverTimestamp() };
+  const rich: Record<string, unknown> = { ...statsFields(uid, currentStats()) };
+  if (input.nickname !== undefined) rich.nickname = input.nickname.trim().slice(0, 24);
+  if (input.grade !== undefined) rich.grade = normalizeGrade(input.grade);
+  if (input.bio !== undefined) rich.bio = normalizeBio(input.bio);
   try {
-    await setDoc(ref, { ...base, motto: normalizeMotto(motto) }, { merge: true });
+    await setDoc(ref, { ...base, motto: normalizeMotto(input.motto), ...rich }, { merge: true });
   } catch (e) {
-    // 本番の Firestore ルールが「志（motto）」追加前のままだと、motto 付きの保存だけ拒否される。
-    // 公開設定そのものは保存できるよう、motto を外してもう一度だけ試す（ルールを更新すれば志も保存される）。
+    // 本番の Firestore ルールが古い（志・プロフィール拡張の前）と、新しい項目付きの保存は拒否される。
+    // 公開設定そのものは保存できるよう、段階的に項目を減らしてもう一度だけ試す。
     if ((e as { code?: string })?.code !== 'permission-denied') throw e;
-    await setDoc(ref, base, { merge: true });
+    try { await setDoc(ref, { ...base, motto: normalizeMotto(input.motto) }, { merge: true }); }
+    catch (e2) {
+      if ((e2 as { code?: string })?.code !== 'permission-denied') throw e2;
+      await setDoc(ref, base, { merge: true });
+    }
   }
   syncLater();
 }
@@ -66,11 +152,23 @@ export async function refreshPublicStudyTime(): Promise<void> {
   if (local.profilePublic !== true) return;
   // Updates cannot recreate a missing document; the owner must opt in explicitly.
   const { updateDoc } = await import('./firestoreMetered');
-  await updateDoc(doc(db, PUBLIC_STUDY_PROFILES, uid), {
-    studySeconds: Math.min(315360000, readStudyTime(uid).total), updatedAt: serverTimestamp(),
-  });
+  const ref = doc(db, PUBLIC_STUDY_PROFILES, uid);
+  try {
+    await updateDoc(ref, { ...statsFields(uid, currentStats()), updatedAt: serverTimestamp() });
+  } catch (e) {
+    // ルールが古いと週の記録などは拒否される。学習時間だけは今までどおり更新する
+    if ((e as { code?: string })?.code !== 'permission-denied') throw e;
+    await updateDoc(ref, { studySeconds: Math.min(315360000, readStudyTime(uid).total), updatedAt: serverTimestamp() });
+  }
   syncLater();
 }
+/** 1人分の公開プロフィール（プロフィール画面用）。非公開・未作成なら null */
+export async function fetchPublicStudyProfile(targetUid: string): Promise<PublicStudyProfile | null> {
+  if (!targetUid) return null;
+  const snapshot = await getDoc(doc(db, PUBLIC_STUDY_PROFILES, targetUid));
+  return snapshot.exists() ? parsePublicStudyProfile(snapshot.data()) : null;
+}
+
 export function watchPublicStudyProfiles(uids: string[], receive: (profiles: Record<string, PublicStudyProfile>) => void): () => void {
   const ids = [...new Set(uids)].slice(0, 100);
   const groups: Record<string, PublicStudyProfile>[] = [];

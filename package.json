@@ -18,9 +18,9 @@
     "gen:vocabulary": "tsx scripts/gen-listening-vocabulary.mts",
     "test": "vitest run --exclude \"tests/**/*.rules.test.ts\"",
     "firebase:check": "node scripts/check-firebase-setup.mjs",
-    "test:rules": "firebase emulators:exec --only firestore --project demo-manatobi-listening \"vitest run tests/battle.rules.test.ts tests/friends.rules.test.ts tests/leaderboard.rules.test.ts tests/standalone-online.rules.test.ts tests/classroom.rules.test.ts\"",
+    "test:rules": "firebase emulators:exec --only firestore --project demo-manatobi-listening \"vitest run tests/battle.rules.test.ts tests/friends.rules.test.ts tests/leaderboard.rules.test.ts tests/standalone-online.rules.test.ts tests/classroom.rules.test.ts tests/publicProfile.rules.test.ts tests/studyFeed.rules.test.ts\"",
     "test:browser": "node tests/standalone.browser.mjs",
-    "test:clans": "firebase emulators:exec --only firestore --project demo-manatobi-listening \"node --test functions/integration.test.mjs && vitest run tests/standalone-online.rules.test.ts tests/classroom.rules.test.ts\"",
+    "test:clans": "firebase emulators:exec --only firestore --project demo-manatobi-listening \"node --test functions/integration.test.mjs && vitest run tests/standalone-online.rules.test.ts tests/classroom.rules.test.ts tests/publicProfile.rules.test.ts\"",
     "audio:status": "tsx scripts/listening-audio.mts status",
     "audio:check": "tsx scripts/listening-audio.mts check",
     "audio:list": "tsx scripts/listening-audio.mts list",
@@ -29,7 +29,10 @@
     "lint:tests": "tsc -p tsconfig.tests.json",
     "test:listening": "vitest run tests/standalone.test.ts tests/listeningExplanation.test.ts tests/battlePictureListening.test.ts tests/englishListeningQ1A.test.ts tests/englishListeningQ2Sets.test.ts tests/listeningAudioLedger.test.ts tests/listeningOptions.test.ts tests/listeningPostProcess.test.ts tests/listeningRounds.test.ts tests/cinematicClips.test.ts tests/battleBgmFiles.test.ts tests/gachaReveal.test.ts tests/connectionCheck.test.ts",
     "audio:purge-legacy": "node scripts/purge-legacy-listening-audio.mjs",
-    "release:guard": "bash scripts/release-guard.sh"
+    "release:guard": "bash scripts/release-guard.sh",
+    "pr:check": "tsx scripts/pr/pr.mts check",
+    "pr:sync": "tsx scripts/pr/pr.mts sync",
+    "pr:create": "tsx scripts/pr/pr.mts create"
   },
   "dependencies": {
     "@capacitor-community/admob": "^8.2.0",

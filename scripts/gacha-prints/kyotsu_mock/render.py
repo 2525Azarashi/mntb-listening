@@ -106,7 +106,7 @@ def ml(s):
 
 def en(s):
     """英文用：日本語や丸数字が混ざったらその文字だけ IPA ゴシック"""
-    out = re.sub(r'([\u2460-\u2473\u3000-\u9fff\uff00-\uffef\u2190-\u21ff\u25a0-\u25ff\u2500-\u257f]+)',
+    out = re.sub(r'([\u2460-\u2473\u3000-\u9fff\uff00-\uffef\u2190-\u21ff\u25a0-\u25ff\u2500-\u257f\u2600-\u26ff]+)',
                  r'<font name="JM">\1</font>', ml(s))
     return out
 
@@ -131,6 +131,18 @@ def boxed(flows, bg=None, border=None, width=W, pad=8):
     t.setStyle(TableStyle([('BOX', (0, 0), (-1, -1), 0.8, BLACK),
                            ('LEFTPADDING', (0, 0), (-1, -1), pad), ('RIGHTPADDING', (0, 0), (-1, -1), pad),
                            ('TOPPADDING', (0, 0), (-1, -1), pad - 2), ('BOTTOMPADDING', (0, 0), (-1, -1), pad)]))
+    return t
+
+
+def boxed_split(flows, width=None, pad=8):
+    """ページをまたげる枠（1行1要素の表。外枠は BOX で、途中で切れても上下に線が付く）"""
+    width = width or W
+    rows = [[f] for f in flows] or [['']]
+    t = Table(rows, colWidths=[width], splitByRow=1)
+    t.setStyle(TableStyle([('BOX', (0, 0), (-1, -1), 0.8, BLACK),
+                           ('LEFTPADDING', (0, 0), (-1, -1), pad), ('RIGHTPADDING', (0, 0), (-1, -1), pad),
+                           ('TOPPADDING', (0, 0), (-1, -1), 0), ('BOTTOMPADDING', (0, 0), (-1, -1), 0),
+                           ('TOPPADDING', (0, 0), (-1, 0), pad - 2), ('BOTTOMPADDING', (0, -1), (-1, -1), pad)]))
     return t
 
 
@@ -244,6 +256,117 @@ def fig_pics(items, per_row=2, height=24 * mm):
     return t
 
 
+IMG_DIR = Path(__file__).resolve().parent / 'assets' / 'img'
+from reportlab.platypus import Flowable  # noqa: E402
+
+
+import numpy as np
+
+# 4枚組画像の各コマを検出（白い区切り帯で4分割し、元画像の枠線の内側を切り出す）
+def _gap(prof, lo, hi):
+    # 中央付近で最も長い白帯の中心
+    best=None; s=None
+    for i in range(lo,hi):
+        if prof[i]:
+            if s is None: s=i
+        else:
+            if s is not None:
+                if best is None or i-s>best[1]-best[0]: best=(s,i)
+                s=None
+    if s is not None and (best is None or hi-s>best[1]-best[0]): best=(s,hi)
+    return None if best is None else (best[0]+best[1])//2
+def _panels(im):
+    im=im.convert('L'); a=np.asarray(im)<200
+    H,W=a.shape
+    cx=_gap(a.sum(0)<=2, int(W*.3), int(W*.7)) or W//2
+    cy=_gap(a.sum(1)<=2, int(H*.3), int(H*.7)) or H//2
+    out=[]
+    boxes=[(0,0,cx,cy),(cx,0,W,cy),(0,cy,cx,H),(cx,cy,W,H)]
+    for x0,y0,x1,y1 in boxes:
+        s=a[y0:y1,x0:x1]; ys=np.where(s.any(1))[0]; xs=np.where(s.any(0))[0]
+        bx0,bx1,by0,by1=x0+xs[0],x0+xs[-1]+1,y0+ys[0],y0+ys[-1]+1
+        # 自前の枠線があれば内側へ
+        def line(r): return r.mean()>.6
+        for _ in range(12):
+            ch=False
+            if line(a[by0,bx0:bx1]): by0+=1; ch=True
+            if line(a[by1-1,bx0:bx1]): by1-=1; ch=True
+            if line(a[by0:by1,bx0]): bx0+=1; ch=True
+            if line(a[by0:by1,bx1-1]): bx1-=1; ch=True
+            if not ch: break
+        k=6  # 枠線のにじみが残らないよう少し内側
+        out.append((bx0+k,by0+k,bx1-k,by1-k))
+    return out
+
+class ImgFig(Flowable):
+    """取り込んだイラスト（白黒）。
+    - 単独の図：marks=[(x%, y%, r%, '①')] … 絵に描かれた空の丸（点線）を白で消し、同じ位置・同じ大きさで丸数字を入れる
+    - 4枚組（quad=True）：2×2の画像を切り分けて横一列に並べ、本番と同じく各絵の下中央に①〜④（caps があれば番号の右に文字）"""
+
+    def __init__(self, name, width, marks=None, quad=False, caps=None, cols=4):
+        super().__init__()
+        from PIL import Image as _I
+        self.path = str(IMG_DIR / f'{name}.jpg')
+        w, h = _I.open(self.path).size
+        self.w = width; self.h = width * h / w
+        self.marks = marks or []; self.quad = quad; self.caps = caps; self.cols = cols
+        self.labH = 16 if quad else 0
+        self.hAlign = 'CENTER'
+
+    def wrap(self, aw, ah):
+        if self.w > aw:
+            k = aw / self.w; self.w *= k; self.h *= k
+        if self.quad:
+            self.ph = (self.w / self.cols) * (2 / 3)   # 1枠 3:2
+            rows = (4 + self.cols - 1) // self.cols
+            return self.w, (self.ph + self.labH) * rows
+        return self.w, self.h
+
+    @staticmethod
+    def _shrink(im, width_pt):
+        from PIL import Image as _I
+        px = int(width_pt / 72 * 220)  # 220dpi で十分（容量を抑える）
+        if im.width > px:
+            im = im.resize((px, round(im.height * px / im.width)), _I.LANCZOS)
+        return im
+
+    def draw(self):
+        from PIL import Image as _I
+        from reportlab.lib.utils import ImageReader
+        c = self.canv
+        im = _I.open(self.path)
+        if not self.quad:
+            c.drawImage(ImageReader(self._shrink(im, self.w)), 0, 0, self.w, self.h)
+            c.setStrokeColor(BLACK); c.setLineWidth(0.6); c.rect(0, 0, self.w, self.h)
+            for x, y, r, t in self.marks:
+                cx, cy, rr = self.w * x / 100, self.h * (1 - y / 100), self.w * r / 100
+                fs = rr * 2.05                                       # 丸数字の外径＝元の丸の大きさ
+                c.setFillColor(BLACK); c.setFont('JM', fs)
+                c.drawCentredString(cx, cy - fs * 0.36, t)
+            return
+        W0, H0 = im.size
+        n = self.cols; rows = (4 + n - 1) // n
+        cw = self.w / n; ch = self.ph
+        boxes = _panels(im)
+        for i in range(4):
+            col, row = i % n, i // n
+            crop = im.crop(tuple(int(v) for v in boxes[i]))
+            crop = self._shrink(crop, cw)
+            x = col * cw; y = (rows - 1 - row) * (ch + self.labH)
+            c.drawImage(ImageReader(crop), x + 3, y + self.labH, cw - 6, ch - 2, preserveAspectRatio=True)
+            c.setStrokeColor(BLACK); c.setLineWidth(0.6); c.rect(x + 3, y + self.labH, cw - 6, ch - 2)
+            c.setFillColor(BLACK)
+            if self.caps:
+                c.setFont('JM', 12); c.drawRightString(x + cw / 2 - 2, y + 3.5, MARKS[i])
+                c.setFont('EN', 10.5); c.drawString(x + cw / 2 + 2, y + 4, self.caps[i])
+            else:
+                c.setFont('JM', 12); c.drawCentredString(x + cw / 2, y + 3.5, MARKS[i])
+
+
+def fig_img(name, width_mm=110, **kw):
+    return ImgFig(name, width_mm * mm, **kw)
+
+
 # ───────── 本文ブロック ─────────
 def render_block(b):
     k = b[0]
@@ -279,7 +402,7 @@ def render_block(b):
                 inner += render_block(bb)
         finally:
             globals()['W'] = _w
-        return [boxed(inner), Spacer(1, 6)]
+        return [boxed_split(inner), Spacer(1, 6)]
     if k == 'slide':  # ('slide', title, [bullets])
         inner = [Paragraph(f'<b>{en(b[1])}</b>', S('sl', font='ENB', fontSize=11.5, leading=15, alignment=1)), Spacer(1, 3)]
         inner += [Paragraph(f'• {en(x)}' if not x.startswith(' ') else f'&nbsp;&nbsp;&nbsp;&nbsp;– {en(x.strip())}', st['enl']) for x in b[2]]
@@ -298,6 +421,8 @@ def render_block(b):
         return [fig_map(**b[1]), Spacer(1, 4)]
     if k == 'pics':
         return [fig_pics(b[1], **(b[2] if len(b) > 2 else {})), Spacer(1, 4)]
+    if k == 'img':  # ('img', name, width_mm, {marks, quad, caps})
+        return [Spacer(1, 2), fig_img(b[1], b[2] if len(b) > 2 else 110, **(b[3] if len(b) > 3 else {})), Spacer(1, 6)]
     if k == 'sp':
         return [Spacer(1, b[1] * mm)]
     if k == 'cols':  # ('cols', [blocksL], [blocksR])
@@ -378,6 +503,8 @@ def q_flow(q):
     else:
         head = f'<font name="JPB">問 {q["no"]}</font>&nbsp;&nbsp;&nbsp;{en(prompt)}&nbsp;&nbsp;{marks}'
     flows = [Paragraph(head, st['q']), Spacer(1, 3)]
+    if q.get('listening') and q.get('situation'):
+        flows.insert(0, Paragraph(ml(q['situation']), st['jas']))  # 場面の説明と設問を同じページに
     for b in q.get('pre', []):
         flows += render_block(b)
     flows += choices_flow(q)

@@ -11,17 +11,19 @@ P5 = {
    ('box', [
     ('title', 'Oxbridge Language School — Summer Course (2 weeks)'),
     ('pl', '**Mornings (9:00–12:30):** General English for everyone, in classes of up to 12 students.\n'
-           '**Afternoons (14:00–16:00):** Choose ONE elective:'),
+           '**Afternoons (14:00–16:00):** Choose ONE elective. Places in each elective are limited to 15 students and are given in the order that applications are received.'),
     ('table', [['Elective', 'Days', 'Notes'],
                ['A: Drama', 'Mon / Wed / Fri', 'Performance on the last Friday'],
                ['B: Football', 'Mon–Thu', 'Bring trainers'],
                ['C: Cooking', 'Tue / Thu', '£20 extra for ingredients'],
                ['D: Film Club', 'Mon / Wed', 'Films in English with subtitles']], [40, 45, 85]),
-    ('pl', '**Course fee:** £900 (includes lessons and one elective)\n'
+    ('pl', '**Course fee:** £900 (includes lessons, one elective, a welcome dinner and all teaching materials)\n'
            '**Accommodation:** Standard room £250 per week / En-suite room £320 per week\n'
-           '**Weekend excursions:** London (Sat, £45) / Cambridge (Sun, £35)'),
+           '**Weekend excursions:** London (Sat, £45) / Cambridge (Sun, £35)\n'
+           '**Getting here:** Free pick-up from Oxford railway station between 12:00 and 16:00 on the Sunday before the course.'),
    ]),
    ('box', [
+    ('p', 'Our school has welcomed students from over 40 countries since 1998. All teachers are qualified and experienced, and at the end of the course, every student receives a certificate showing their level. Students must be aged 15 to 18.'),
     ('h', 'Application (summary)'),
     ('table', [['Name', 'Ken Ota', 'Age', '16'], ['Elective 1st', 'C: Cooking', 'Elective 2nd', 'A: Drama'],
                ['Room', 'En-suite', 'Excursions', 'London, Cambridge']], [32, 55, 32, 55]),
@@ -29,10 +31,17 @@ P5 = {
    ('box', [
     ('small', '**From:** Admissions Office\n**To:** Ken Ota\n**Subject:** Your summer course'),
     ('p', 'Dear Ken,'),
-    ('p', 'Thank you for your application. Unfortunately, the Cooking class is already full. We have put you on the waiting list and placed you in your second choice for now. '
-          'We are also sorry to say that all en-suite rooms have been booked, so you will stay in a standard room. The difference in price will, of course, be taken off your bill.'),
-    ('p', 'Your excursion bookings have been confirmed. Please arrive by 4 p.m. on the Sunday before the course starts.'),
+    ('p', 'Thank you for your application. Unfortunately, the Cooking class is already full. We have put you on the waiting list and placed you in your second choice for now. Cooking is our most popular elective, and this year it was full within a week. '
+          'We are also sorry to say that all en-suite rooms have been booked, so you will stay in a standard room. The difference in price will, of course, be taken off your bill. Standard rooms are shared by two students of the same age and have a washbasin; showers are on each floor.'),
+    ('p', 'Your excursion bookings have been confirmed. Please arrive by 4 p.m. on the Sunday before the course starts. There will be a welcome dinner at 6 p.m. and a short level test on Monday morning so that we can put you in the right class. '
+          'If a place becomes available in the Cooking class, we will let you know by email. Please note that the Drama group will need extra rehearsal time in the second week, so you may have to stay until 16:30 on some days.'),
     ('p', 'Kind regards,\nAdmissions Office'),
+   ]),
+   ('box', [
+    ('h', 'From our blog: "My Two Weeks at Oxbridge" by Sofia (17, Italy)'),
+    ('p', 'I was nervous before I arrived, but on the first evening, everyone sat together at the welcome dinner, and by Monday I had friends from Brazil, Korea and Turkey. The morning lessons were hard work — we had to speak English all the time — but the teachers were patient and funny.'),
+    ('p', 'I chose Drama, and it was the best part of the course. We wrote our own short play about a lost suitcase and performed it in front of the whole school on the last Friday. The London trip was exhausting but amazing. We saw Big Ben, walked along the river and had two hours of free time near Covent Garden. '
+          'Living with a roommate from Japan also helped me, because we could only talk to each other in English. My only advice: bring an umbrella and some warm clothes, because even in July, English weather can surprise you!'),
    ]),
   ],
   'qs': [
@@ -70,16 +79,19 @@ P6 = {
    ('box', [
     ('title', 'Colours That Last'),
     ('p', 'Lena Okafor grew up in Manchester, but every summer she visited her grandmother in a small town in south-west Nigeria. Her grandmother dyed cloth a deep indigo blue in large clay pots behind her house. '
-          'Lena loved watching the white cloth turn green in the air and then slowly become blue. "The colour is alive," her grandmother told her. "You have to feed it."'),
+          'Lena loved watching the white cloth turn green in the air and then slowly become blue. "The colour is alive," her grandmother told her. "You have to feed it." Lena did not understand what she meant, but she remembered the words for years.'),
     ('p', 'At university, Lena studied chemistry. She learned that most clothes today are coloured with synthetic dyes, and that the factories which produce them often release polluted water into rivers. '
-          'She remembered her grandmother\'s pots and wondered whether natural dyes could be used on a larger scale.'),
+          'She remembered her grandmother\'s pots and wondered whether natural dyes could be used on a larger scale. Her professors were doubtful. Natural dyes, they told her, were slow to produce, difficult to control and impossible to sell at a fair price.'),
+    ('p', 'The problem was not only about rivers. The fashion industry produces huge amounts of clothing, and many items are worn only a few times before being thrown away. Lena believed that if clothes were made more carefully, with colours that lasted, people might keep them longer. A scarf that stayed beautiful for years, she thought, would be worth more than five that faded in a month.'),
     ('p', 'After graduating, Lena borrowed money from her parents and started a small company selling scarves dyed with plants. The first few months were a disaster. Customers loved the colours, but after two or three washes, the scarves began to fade. '
-          'Within half a year, more than a third of buyers had asked for refunds. Lena almost gave up.'),
+          'Within half a year, more than a third of buyers had asked for refunds. Lena almost gave up. She spent her savings on refunds and lay awake at night wondering whether her professors had been right.'),
     ('p', 'Instead, she flew to Nigeria and spent a month working beside her grandmother. She wrote down every step: the wood ash added to the water, the days the mixture was left to ferment, the number of times the cloth was dipped and dried. '
-          'Back in her laboratory, she discovered why her grandmother\'s cloth never faded. The ash made the water alkaline, and the fermentation allowed the dye to bond firmly with the fibres. Her own factory method had skipped both steps to save time.'),
+          'Her grandmother laughed when she saw the notebook. "I never needed to write it down," she said. "My hands remember." Back in her laboratory, Lena discovered why her grandmother\'s cloth never faded. The ash made the water alkaline, and the fermentation allowed the dye to bond firmly with the fibres. Her own factory method had skipped both steps to save time. What her grandmother had called "feeding" the colour was, in scientific terms, keeping the bacteria in the dye pot alive and active.'),
     ('p', 'Lena rebuilt the process around what she had learned. It took longer and cost more, but the new scarves kept their colour after fifty washes. She began employing women from her neighbourhood, many of whom had struggled to find work, and trained them in the dyeing process. '
-          'Today, her company employs thirty people and sells to shops in twelve countries.'),
-    ('p', 'In interviews, Lena is often asked about her chemistry degree. She always answers in the same way: "My degree explained the colour. My grandmother knew how to make it. I needed both."'),
+          'Today, her company employs thirty people and sells to shops in twelve countries. '
+          'The dyeing room is filled with large pots like her grandmother\'s, and every new worker learns to watch the cloth change colour in the air before being allowed to dye anything on their own. The water used in the process is cleaned with plants in a small pond behind the building before it is returned to the river.'),
+    ('p', 'Lena\'s success has not been without criticism. Some people point out that her scarves cost three times as much as ordinary ones, so only wealthier customers can buy them. Lena accepts this. "We are not trying to replace every factory," she says. "We want to show that there is another way, and to make it cheaper step by step." Her company now shares its methods freely with other small dyers, and last year it opened a training centre in her grandmother\'s town.'),
+    ('p', 'In interviews, Lena is often asked about her chemistry degree. She always answers in the same way: "My degree explained the colour. My grandmother knew how to make it. I needed both." Her grandmother, now in her nineties, still dyes a little cloth every summer, and Lena still flies to Nigeria to help her.'),
    ]),
    ('box', [
     ('ja', '**発表メモ**'),
@@ -117,16 +129,19 @@ P7 = {
   'blocks': [
    ('box', [
     ('title', 'Why Are Cities So Hot?'),
-    ('p', 'On a summer evening, the centre of a large city can be several degrees warmer than the countryside around it. This is known as the **urban heat island** effect, and it is becoming more serious as cities grow and summers become hotter.'),
+    ('p', 'On a summer evening, the centre of a large city can be several degrees warmer than the countryside around it. In Tokyo, for example, the average temperature has risen by about three degrees over the past hundred years, while the global average has risen by about one degree. This is known as the **urban heat island** effect, and it is becoming more serious as cities grow and summers become hotter. More than half of the world\'s population now lives in cities, and this figure is expected to reach two-thirds by 2050.'),
     ('p', 'There are three main causes. First, dark surfaces such as asphalt roads and concrete buildings absorb sunlight during the day and release the heat slowly at night, so cities cool down much less after sunset. '
           'Second, cities have fewer trees and less soil. In the countryside, plants release water through their leaves, and this evaporation cools the air — rather like sweat cooling our skin. '
           'Third, cars, factories and air conditioners all produce waste heat. Ironically, the hotter a city becomes, the more people use air conditioners, which makes the streets outside even hotter.'),
-    ('p', 'The effects are serious. Hot nights make it harder for the body to recover, and the risk of heatstroke rises, especially for elderly people. Electricity demand also increases sharply on hot days, which can lead to power cuts.'),
+    ('p', 'The effects are serious. Hot nights make it harder for the body to recover, and the risk of heatstroke rises, especially for elderly people. Hot weather also affects how well people work and learn: studies of schools without air conditioning have found that students\' test scores fall on very hot days. Electricity demand also increases sharply on hot days, which can lead to power cuts. There are also effects on the environment: warm rainwater running off hot roads and roofs can raise the temperature of rivers, harming fish and other wildlife. Poorer neighbourhoods often suffer most, because they tend to have fewer parks and older buildings without good insulation.'),
     ('p', 'Cities have tried several solutions, each with advantages and disadvantages. **Green roofs**, covered with plants, cool buildings and absorb rainwater, but they are expensive to build and many older buildings cannot support their weight. '
           '**Cool roofs**, painted white or a light colour, reflect sunlight and are cheap, but they work best on flat roofs and need repainting as they get dirty. '
-          '**Street trees** provide shade and cool the air through evaporation, but they take many years to grow and need space and water.'),
-    ('p', 'Some cities are also using water. In parts of Tokyo, shopkeepers sprinkle water on the pavement in a traditional practice called //uchimizu//. As the water evaporates, it can lower the surface temperature by several degrees, although the effect lasts only a short time.'),
-    ('p', 'No single solution is enough. Experts recommend combining different methods depending on the type of neighbourhood: cool roofs on factories and warehouses, green roofs on new buildings, and as many trees as possible along streets where people walk.'),
+          '**Street trees** provide shade and cool the air through evaporation, but they take many years to grow and need space and water. Their roots can also damage pavements and underground pipes if the wrong kind of tree is chosen.'),
+    ('p', 'City planning matters too. Tall buildings packed closely together can trap heat and block the wind. Some cities, including Stuttgart in Germany, have kept open "wind paths" — wide streets, rivers and parks that allow cool air from the surrounding hills to flow into the centre at night. Planners there limit the height of new buildings along these routes.'),
+    ('p', 'Some cities are also using water. In parts of Tokyo, shopkeepers sprinkle water on the pavement in a traditional practice called //uchimizu//. As the water evaporates, it can lower the surface temperature by several degrees, although the effect lasts only a short time. Modern versions of this idea include "mist showers" in public squares and fountains that children can play in, which have become popular in cities such as Paris and Madrid.'),
+    ('p', 'Measuring the problem is the first step. Many cities now use sensors on lamp posts, satellites and even volunteers with small thermometers on their bicycles to map which streets are hottest. In one study in the United States, the difference between the hottest and coolest neighbourhoods in the same city was more than 8°C on a summer afternoon. Such maps help planners decide where new trees or cool roofs are needed most.'),
+    ('p', 'No single solution is enough. Experts recommend combining different methods depending on the type of neighbourhood: cool roofs on factories and warehouses, green roofs on new buildings, and as many trees as possible along streets where people walk. '
+          'Individuals can help too, for example by growing plants on balconies, closing curtains during the hottest part of the day and choosing light-coloured materials when they repair their homes. Each small step may seem unimportant, but together they can make a real difference to how hot our cities feel.'),
    ]),
    ('slide', 'The Urban Heat Island Effect', ['Causes: dark surfaces / fewer plants / ( 問1 )', 'Effects: heatstroke, power cuts',
                                               'Solutions compared: ( A ) cheap, needs repainting / ( B ) absorbs rain, heavy', 'Recommendation: ( 問4 )']),
@@ -162,19 +177,30 @@ P8 = {
    ('box', [
     ('h', 'Source A — Article: "Short Trips, Big Impact"'),
     ('p', 'In many towns, more than half of all car journeys are shorter than five kilometres — a distance most people can cycle in under twenty minutes. '
-          'When the town of Lindwick built a network of protected cycle lanes in 2019, the share of people cycling to work rose steadily. Local businesses on the main street initially worried about losing parking spaces, '
-          'but a study two years later found that people arriving by bike visited shops more often and spent about the same amount per month as drivers. Some residents, however, complained that the work caused traffic jams while the lanes were being built.'),
+          'Short car journeys are the least efficient: engines use the most fuel and produce the most pollution when they are cold. When the town of Lindwick built a network of protected cycle lanes in 2019, the share of people cycling to work rose steadily. The lanes were separated from cars by low concrete barriers, and new bicycle parking was added at the station and in the town centre. Local businesses on the main street initially worried about losing parking spaces, '
+          'but a study two years later found that people arriving by bike visited shops more often and spent about the same amount per month as drivers. Cycling also became more popular among women and older people, groups that had rarely cycled before the lanes were built. Some residents, however, complained that the work caused traffic jams while the lanes were being built. '
+          'The town also found that families became more willing to let children cycle to school once the lanes were separated from traffic. Before 2019, only 3% of primary school children in Lindwick cycled to school; by 2022, the figure was 11%.'),
    ]),
    ('table', [['Year', '2018', '2019', '2020', '2021', '2022'],
               ['People cycling to work (%)', '4', '6', '9', '12', '14'],
               ['Road accidents involving cyclists', '38', '35', '27', '22', '21']], [55, 23, 23, 23, 23, 23]),
    ('box', [
     ('h', 'Source B — Opinions'),
-    ('pl', '**Mr. Hall (resident, 68):** I can\'t cycle because of my knees. If roads become narrower for cars, how will people like me get to the hospital?'),
+    ('p', 'Before deciding whether to build lanes in our own town, our class collected these comments from people in Lindwick.'),
+    ('pl', '**Mr. Hall (resident, 68):** I can\'t cycle because of my knees. If roads become narrower for cars, how will people like me get to the hospital? I\'m not against cyclists, but I don\'t want to be forgotten.'),
     ('pl', '**Ms. Sato (café owner):** I was against the lanes at first. Now my regular customers include many cyclists who stop for coffee on their way to work.'),
-    ('pl', '**Dr. Patel (doctor):** Thirty minutes of cycling a day lowers the risk of heart disease. It\'s one of the cheapest health measures a town can take.'),
-    ('pl', '**Mr. Grey (councillor):** Building lanes costs money. I would support a one-year pilot scheme on two roads first, with buses kept free-flowing.'),
+    ('pl', '**Dr. Patel (doctor):** Thirty minutes of cycling a day lowers the risk of heart disease. It\'s one of the cheapest health measures a town can take. Fewer cars also mean cleaner air, which matters a great deal for patients with asthma.'),
+    ('pl', '**Aoi (student, 16):** I cycle to school every day. Before the lanes, my parents were worried because buses passed very close to me. Now I feel safe, and I arrive more awake than when I took the bus.'),
+    ('pl', '**Mrs. Novak (taxi driver):** Some roads are now slower for cars at busy times, and my customers notice it. But I have to admit there are fewer near-misses with cyclists than before.'),
+    ('pl', '**Mr. Grey (councillor):** Building lanes costs money. I would support a one-year pilot scheme on two roads first, with buses kept free-flowing. If the results are good, we can expand it; if not, we will have spent much less.'),
    ]),
+   ('box', [
+    ('h', 'Source C — Report: "What Went Wrong in Harwood?"'),
+    ('p', 'Not every cycle lane project succeeds. In 2020, the town of Harwood painted cycle lanes on several busy roads in just a few weeks, without asking residents for their views. The lanes were not physically separated from traffic, so many people still felt unsafe, and the number of cyclists hardly changed. '
+          'At the same time, drivers complained about longer journeys, and local shops reported fewer customers during the construction period.'),
+    ('p', 'After eighteen months, the council removed most of the lanes. A later review concluded that the problem was not the idea itself but the way it had been carried out. '
+          'It recommended that towns consult residents early, start with a small trial, use barriers to separate cyclists from cars, and measure the results carefully before deciding whether to expand the scheme. Two years later, Harwood began a new trial on a single road, this time with barriers and regular meetings with residents.'),
+   ], '#fbfaf6'),
    ('box', [
     ('ja', '**プレゼンテーションの構成メモ**'),
     ('pl', '**Title:** Cycling Towards a Better Town'),

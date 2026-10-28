@@ -21,6 +21,8 @@ export const AD_CONFIG = {
      * ★2026-10-14：Web 版でもアプリ版と同じ場所を空ける（画面の見え方・余白をそろえる）★
      *   実際の広告（AdMob）を出すのはアプリ版だけ（showNativeBottomBanner が Web では何もしない）。
      *   Web で枠を消したいときは ?no_ads=1 か VITE_ADS_BANNER=0。
+     * ★2026-10-28：#114 で Web の枠を消していたのを元に戻した（ご要望：アプリに合わせるとき困る）。
+     *   この枠はアプリと同じ見え方で画面を作るためのもの。ご指示なく消さないこと。★
      */
     enabled: on(env.VITE_ADS_BANNER, AD_TOGGLES.enableBottomBanner),
     position: ((env.VITE_ADS_BANNER_POSITION as BannerPosition) || 'bottom') as BannerPosition,

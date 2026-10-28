@@ -6,7 +6,7 @@ afterEach(() => registerRewardedAdProvider(null));
 
 it('ads are off by default, so the free gacha keeps using the in-app clip', async () => {
   expect(AD_CONFIG.rewarded.enabled).toBe(false);
-  // 2026-10-14：バナーの「場所」は Web 版でもアプリ版と同じく空ける（実際の広告を出すのはアプリ版だけ）
+  // 2026-10-14／10-28：バナーの「場所」は Web 版でもアプリ版と同じく空ける（実際の広告を出すのはアプリ版だけ）
   expect(AD_CONFIG.banner.enabled).toBe(true);
   registerRewardedAdProvider({ load: async () => true, show: async () => ({ status: 'rewarded' }) });
   expect(rewardedAdAvailable()).toBe(false);

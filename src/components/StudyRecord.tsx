@@ -25,7 +25,7 @@ export function StudyRecord({ onReview, onRetry, embedded = false }: { onReview?
     <section className={`study-record ${embedded ? 'is-embedded' : ''}`} aria-labelledby="study-record-title" data-study-record>
       <header className="sr-head">
         <div>
-          <h1 id="study-record-title"><KineticText text="学習記録" /></h1>
+          <h1 id="study-record-title"><KineticText text="解いた問題" /></h1>
           <p>直近{STUDY_LOG_DAYS}日に解いた問題と、まちがえた所</p>
         </div>
       </header>
@@ -39,7 +39,7 @@ export function StudyRecord({ onReview, onRetry, embedded = false }: { onReview?
         <button type="button" role="tab" aria-selected={filter === 'wrong'} onClick={() => setFilter('wrong')}>まちがえた問題だけ</button>
       </div>
       {days.length === 0 ? (
-        <p className="sr-empty">{filter === 'wrong' ? `直近${STUDY_LOG_DAYS}日にまちがえた問題はありません。` : `直近${STUDY_LOG_DAYS}日の記録はまだありません。演習や対戦をすると、ここに残ります。`}</p>
+        <p className="sr-empty">{filter === 'wrong' ? `直近${STUDY_LOG_DAYS}日にまちがえた問題はありません。` : `直近${STUDY_LOG_DAYS}日に解いた問題はまだありません。演習や対戦をすると、ここに残ります。`}</p>
       ) : days.map(day => (
         <section key={day.date} className="sr-day" aria-label={day.label}>
           <h2>{day.label}<small>{day.solved}問・まちがい{day.wrong}問</small></h2>

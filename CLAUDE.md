@@ -11,3 +11,11 @@ This is the listening derivative. Read README.md and DERIVATIVE_HANDOFF.md. Pres
 
 ## Promo videos (Instagram / YouTube)
 When asked to make an advertising / announcement video, **read `store-assets/VIDEO_PLAYBOOK.md` first**. Everything is in the repo: the editing engine (`store-assets/_tools/promo_engine.py`), recorders, measuring tools, the raw screen recordings (`store-assets/_footage/`, Git LFS — run `bash store-assets/_tools/setup.sh`), BGM rules and credits. Use real app recordings only (no AI-generated video), never claim guaranteed results, and keep the BGM credit (創作堂さくら紅葉 https://yukizakura.net/) in captions.
+
+## Making a PR (decided with the user, 2026-10-28)
+**Always create PRs with `npm run pr:create`, never with a bare `gh pr create`.** It first merges the latest `main`, checks every open PR for conflicts, and only then pushes and opens the PR (or updates the existing one for this branch).
+- `npm run pr:check` — read-only: does this branch conflict with `main` or any open PR?
+- `npm run pr:create -- --title "…" --body-file /tmp/body.md` — the body must contain the listening delivery decision section (the tool refuses otherwise). A "競合の確認" section is appended automatically.
+- Conflicts in append-only files (`docs/UI_CHANGELOG.md`) are resolved automatically by keeping both entries. Any other conflict stops the tool: if this PR depends on that PR, rerun with `--include <PR number>` (merges that PR into this branch); only use `--allow-conflict` when the user agreed to ship them separately.
+- When another PR merges first, run `npm run pr:sync` on this branch (or `--pr <number>` to pull in a specific open PR) before merging.
+- Code: `scripts/pr/pr.mts` (CLI) and `scripts/pr/prCore.mts` (logic), tests in `tests/prTool.test.ts`.

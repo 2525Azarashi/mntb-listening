@@ -19,6 +19,11 @@ P5 = {
                ['B: Bird Watch', 'Record birds at the wetland hide; learn to use a field guide', 'Binoculars provided'],
                ['C: Woodland Care', 'Clear paths, build bird boxes and plant young trees', 'Gloves provided; long trousers required']],
      [42, 90, 50]),
+    ('pl', '**Programme outline**\n'
+           '• Day 1 (5th August): welcome talk, safety briefing and an introduction to the wildlife of the river. Groups then start their course activities.\n'
+           '• Day 2 (6th August): a full day of course activities.\n'
+           '• Day 3 (7th August): groups finish their projects and present what they have found to families and Centre staff at 2:30 p.m.'),
+    ('p', 'All activities are led by trained staff, and each group of six has two leaders. Last year\'s rangers counted more than forty kinds of river insects, recorded a kingfisher for the first time in ten years and planted 150 young trees. "I never knew so much lived in our river," said one participant.'),
     ('p', '**Cost:** £15 for the three days (free for Nature Centre members). **What to bring:** a packed lunch, a water bottle and a waterproof jacket. '
           'Everyone who completes the programme will receive a Youth Ranger certificate. Apply by 20th July using the form below.'),
    ], '#f4f8f1'),
@@ -36,6 +41,7 @@ P5 = {
           'We have noted your allergy, and one of our staff members carries a first-aid kit at all times.'),
     ('p', 'Please note one change to the programme. On the second day (6th August), the meeting point will be the car park at Mill Bridge instead of the Nature Centre, '
           'as we will spend the morning further down the river. A minibus will bring everyone back to the Centre at lunchtime.'),
+    ('p', 'On the first morning, please arrive at the Nature Centre by 9:15 so that we can check your details before the welcome talk. River Detectives spend a lot of time standing in shallow water, so please wear clothes that you do not mind getting wet or muddy, and bring a spare pair of socks. If the river is too high after heavy rain, we will carry out the insect survey in the Centre\'s pond instead, so the programme will go ahead whatever the weather.'),
     ('p', 'Please pay the fee in cash on the first morning. We look forward to seeing you!'),
     ('p', 'Best wishes,\nJoanna Price, Youth Programme Coordinator'),
    ], '#fbfaf6'),
@@ -89,6 +95,7 @@ P6 = {
           'By carefully changing the temperature and humidity, the team could now **reproduce** any shape they had seen in nature — needles, plates, columns and stars. '
           'Ruth combined these results with her notes from university to create a simple diagram showing which shape forms under which conditions. '
           'Meteorologists still use versions of this "snow chart" today: by looking at a snow crystal, they can tell what the sky was like high above the ground. Ruth liked to call snowflakes "letters sent from the sky."'),
+    ('p', 'Over the next thirty years, Ruth tested the chart far away from the laboratory. She spent several winters in a small research hut high in the Rocky Mountains, catching crystals on black velvet and comparing them with readings sent back by weather balloons. Most of the time the chart was right. When it was not, she changed it rather than hiding the result, and she always recorded the dates of her corrections in a red notebook. Younger researchers remember that she answered every letter from schoolchildren who mailed her drawings of snowflakes, often adding a small sketch of her own.'),
     ('p', 'Ruth never became famous. She published her results under Finch\'s name as well as her own, and for many years, textbooks mentioned only him. '
           'She did not seem to mind. After she retired in 1981, she held free snow-watching classes for children every winter, handing out magnifying glasses and black cards to catch the flakes. '
           '"You don\'t need a laboratory to do science," she told them. "You need to look closely and write down what you see." '
@@ -148,10 +155,12 @@ P7 = {
     ('p', 'One well-known type of experiment shows this clearly. Two groups of volunteers learn a list of word pairs in the evening. One group then sleeps for eight hours, while the other stays awake all night. '
           'Two days later, after both groups have had a normal night\'s sleep, they are tested. The group that slept straight after learning typically remembers 20 to 40 percent more than the group that stayed up. '
           'In other words, the lost night cannot simply be "caught up on" later.'),
+    ('p', 'Sleep may also help us solve problems. In one study, volunteers were given a number puzzle that contained a hidden shortcut. Those who were allowed to sleep before trying again were more than twice as likely to discover the shortcut as those who stayed awake for the same length of time. The researchers suggested that, while we sleep, the brain does more than store memories: it reorganises them and finds connections that we missed while we were awake. The common advice to "sleep on it" before making a difficult decision may therefore have a scientific basis.'),
     ('p', 'This does not mean that more sleep is always better, or that a long nap can replace a good night\'s rest. Studies suggest that a short afternoon nap of around 20 minutes can improve alertness and help us learn in the afternoon. '
           'However, naps longer than about 30 minutes may leave people feeling groggy, and late-afternoon naps can make it harder to fall asleep at night.'),
     ('p', 'What we do before bed also matters. Light from phone and computer screens can delay the release of melatonin, a hormone that tells the body it is time to sleep. '
           'Checking social media in bed can also make the mind more active, just when it should be calming down. Experts recommend putting screens away at least an hour before going to bed.'),
+    ('p', 'Teenagers face a special challenge. During adolescence, the body clock tends to shift later, so many teenagers do not feel sleepy until around 11 p.m. or even midnight. School, however, starts at the same time, and most teenagers need between eight and ten hours of sleep. Caffeine makes the problem worse: its effects can last for five hours or more, so an energy drink in the late afternoon may still be keeping the brain awake at bedtime.'),
     ('p', 'Finally, regular timing may be as important as the total number of hours. Our bodies follow a roughly 24-hour cycle known as the circadian rhythm. '
           'Going to bed and waking up at very different times on weekdays and weekends — sometimes called "social jet lag" — can disturb this rhythm, leaving us tired on Monday mornings. '
           'Keeping roughly the same schedule every day helps the body know when to feel sleepy and when to feel alert.'),
@@ -206,17 +215,24 @@ P8 = {
     ('h', 'Opinion 1 — Lena (17, student)'),
     ('p', 'School uniforms tell us that everyone should look the same. But we are not all the same, and the clothes we choose are one way of showing who we are. '
           'At my cousin\'s school in Sweden, there is no uniform, and students there seem confident and relaxed. I think uniforms limit self-expression at a time when young people are trying to discover their identity. '
-          'If schools are worried about inappropriate clothing, they can simply have a basic dress code.'),
+          'If schools are worried about inappropriate clothing, they can simply have a basic dress code. '
+          'When we had a free-dress day last year to raise money for charity, the atmosphere in my class felt different: people talked about each other\'s style and seemed more like themselves. Small daily choices matter to teenagers.'),
     ('h', 'Opinion 2 — Marcus (16, student)'),
     ('p', 'I used to go to a school without uniforms, and honestly, it was stressful. Every morning I worried about what to wear, and some students were teased because their clothes were cheap or out of fashion. '
-          'There was a lot of peer pressure to buy brand-name items. Since moving to a school with uniforms, I spend that energy on other things. Uniforms make differences in family income less visible.'),
+          'There was a lot of peer pressure to buy brand-name items. Since moving to a school with uniforms, I spend that energy on other things. Uniforms make differences in family income less visible. '
+          'Some people say uniforms make everyone look boring, but at my current school, students still show their personalities through their hobbies, their opinions and the way they treat others. To me, that is a better way to express who you are than wearing expensive trainers.'),
     ('h', 'Opinion 3 — Ms. Diaz (parent of two)'),
     ('p', 'People often say uniforms are expensive, and it is true that a full set costs around 40,000 yen. But a uniform lasts for three years. When my eldest went to a school with no uniform, '
           'we ended up spending far more, because she needed different clothes for every day of the week and wanted new ones each season. For our family, the uniform was the cheaper choice. '
-          'That said, I would welcome more practical options, such as trousers for girls and washable jackets.'),
+          'That said, I would welcome more practical options, such as trousers for girls and washable jackets. '
+          'I also know that not every family has had the same experience as ours. For some families, paying for a whole uniform at once is a real burden, so the second-hand sale our school holds every March is a great help.'),
     ('h', 'Opinion 4 — Mr. Okoro (teacher)'),
     ('p', 'From a teacher\'s point of view, uniforms have one clear advantage: safety. On school trips to crowded places, I can find my students immediately, and it is easy to notice if a stranger enters the school building. '
-          'However, I do not believe uniforms improve students\' behaviour or grades by themselves. Research on that question is mixed. What matters most is the relationship between students and teachers.'),
+          'However, I do not believe uniforms improve students\' behaviour or grades by themselves. Research on that question is mixed. What matters most is the relationship between students and teachers. '
+          'A few years ago, my previous school let students choose between a skirt and trousers and between a blazer and a sweater. Complaints about the uniform fell noticeably, and nobody felt that the school had lost its identity.'),
+    ('h', 'Opinion 5 — Yuna (18, student council president)'),
+    ('p', 'This year, our student council collected ideas from every class. The most common request was not to get rid of the uniform but to make it more comfortable, especially in the hot summer months. Many students told us they like wearing the uniform at ceremonies and on school trips because it shows that they belong to the school. '
+          'At the same time, about a quarter of the students we surveyed want no uniform at all, and we should not ignore their voices. We plan to propose a summer polo shirt and a free choice of trousers or skirts for everyone.'),
    ], '#fbfaf6'),
    ('bar', {'title': 'Survey: Should our school keep uniforms? (Students, n = 400)', 'cats': ['Keep as now', 'Keep, with more choices', 'Abolish', 'No opinion'],
             'series': [[22, 47, 25, 6]], 'unit': '%', 'maxv': 60, 'step': 10}),

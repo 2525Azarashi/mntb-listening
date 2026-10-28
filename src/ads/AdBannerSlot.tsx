@@ -7,7 +7,7 @@ import './ads.css';
 /**
  * バナー広告の「場所」およびネイティブバナーの制御
  * =====================================================================
- * AD_TOGGLES.enableBottomBanner（または AD_CONFIG.banner.enabled）で管理。
+ * AD_TOGGLES.enableBottomBanner（または AD_CONFIG.banner.enabled）で管理。Web 版も場所だけ空ける（広告はアプリ版だけ）。
  * - 有効時:
  *     --ad-bottom-h に 50px がセットされ、HTMLに [data-ad-banner] 属性が付与される。
  *     CSS により、下部ナビや各画面のフッターが 50px 分自動で持ち上がり、
@@ -38,7 +38,7 @@ export function AdBannerSlot({ screen }: { screen: string }) {
       const extraMargin = isAndroid ? 4 : 0;
       const margin = (navPureHeight >= 40 && navPureHeight <= 140 ? navPureHeight : 72) + extraMargin;
 
-      // 広告SDKの失敗（未設定・在庫なし・Web）では枠だけ残して学習を続ける
+      // 広告SDKの失敗（未設定・在庫なし）でも予約枠は維持して学習を続ける
       showNativeBottomBanner(margin).catch(() => {});
     } else {
       root.setProperty('--ad-bottom-h', '0px');

@@ -1,0 +1,51 @@
+{
+  "batch": "elevenlabs_2026-10-26_kyotsu_l1",
+  "kind": "commercial",
+  "provider": "ElevenLabs（利用者が直接生成・eleven_v4）",
+  "license": "ElevenLabs有料契約中に新規生成（利用者がアップロード 2026-10-26。既存の領収書 audio_sources/commercial/license_evidence/）",
+  "use": "LR 共通テスト英語リスニング予想問題 第1回（print_lr_kyotsu_l_1）の音声。listening_audio_ledger.json（374本）とは別教材なので台帳には入れない",
+  "files": [
+    {
+      "originalFilename": "ElevenLabs_2026-10-26T14_09_56_Hope - upbeat and clear_pvc_sp96_s50_sb75_v4.mp3",
+      "sha256": "ce500443e0e35125f359abdcd99432ea2ec84857f92ef8f9d3c035c3f5b962c9",
+      "bytes": 469586,
+      "durationSeconds": 28.290563,
+      "receivedAtUtc": "2026-10-26"
+    },
+    {
+      "originalFilename": "ElevenLabs_2026-10-26T14_18_18_Hope - upbeat and clear_pvc_sp96_s50_sb75_v4.mp3",
+      "sha256": "f382f64dae3f9f15c92ad09269fdabc08c7a3e1d7b45fff776c97973c3fbb87d",
+      "bytes": 816074,
+      "durationSeconds": 49.946063,
+      "receivedAtUtc": "2026-10-26"
+    },
+    {
+      "originalFilename": "ElevenLabs_2026-10-26T14_26_25_Hope - upbeat and clear_pvc_sp96_s50_sb75_v4.mp3",
+      "sha256": "7e7798997e7f577dc6bdf214b23358776058c598c08ce66535c9200c6e5255f8",
+      "bytes": 908443,
+      "durationSeconds": 55.719125,
+      "receivedAtUtc": "2026-10-26"
+    },
+    {
+      "originalFilename": "ElevenLabs_2026-10-26T14_34_24_Jessica - Playful, Bright, Warm_pvc_sp100_s50_sb75_v4.mp3",
+      "sha256": "622741dfe02a8ec32ae89e2cf4aabefa93f789afc42c3a38d06627b76ead951e",
+      "bytes": 1344793,
+      "durationSeconds": 82.991,
+      "receivedAtUtc": "2026-10-26"
+    },
+    {
+      "originalFilename": "ElevenLabs_2026-10-26T14_39_25_Savvy - Warm, Grounded & Natural_pvc_sp100_s50_sb75_v4.mp3",
+      "sha256": "3b1c2a5301ebbbc9032fdf074a12bfea57d5e61eaff7ac176062ea0ab8022fed",
+      "bytes": 1854285,
+      "durationSeconds": 114.83425,
+      "receivedAtUtc": "2026-10-26"
+    },
+    {
+      "originalFilename": "ElevenLabs_2026-10-26T14_43_52_Flint - Deep, Raspy, and Warm_pvc_sp100_s94_sb90_v4.mp3",
+      "sha256": "64405181ee3eb776bc5de5be820f855353b86986103bb2a0a91647fde07bd69e",
+      "bytes": 1292548,
+      "durationSeconds": 79.725688,
+      "receivedAtUtc": "2026-10-26"
+    }
+  ]
+}

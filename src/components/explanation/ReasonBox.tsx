@@ -11,7 +11,7 @@ import {
   type ReasonTarget,
 } from '../../utils/classAssignments';
 import { REASON_MAX } from '../../utils/classAssignmentsCore';
-import { SOCIAL_FEATURES } from '../../config/features';
+import { isClassroomEnabledFor } from '../../config/features';
 import '../listening-explanation.css';
 
 /**
@@ -59,7 +59,7 @@ export function ReasonBox({ chapterId, questionId, correct, qNo }: { chapterId: 
   }, [open, roomClassId, roomTeacherUid, chapterId, questionId]);
 
   // クラス機能を公開する前は、端末に古い記録が残っていても出さない
-  if (!SOCIAL_FEATURES.classroom || !uid || !room || !target) return null;
+  if (!isClassroomEnabledFor(auth.currentUser) || !uid || !room || !target) return null;
 
   const handleSend = async () => {
     setBusy(true);

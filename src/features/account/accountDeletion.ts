@@ -21,6 +21,7 @@ import { PUBLIC_STUDY_PROFILES } from '../../utils/publicStudyProfile';
 import { clanCall } from '../../utils/manaClan';
 import { reportError } from '../../utils/reportError';
 import { safeLocalStorage } from '../../utils/safeLocalStorage';
+import { deleteAllMyPosts } from '../studylog/studyFeed';
 
 /** 1件の削除を試す。失敗しても残りの削除は続け、失敗は記録しておく（戻り値は従来どおり成否） */
 async function quiet(p: Promise<unknown>): Promise<boolean> {
@@ -35,6 +36,8 @@ export async function deleteMyCloudData(uid: string): Promise<void> {
   await quiet(deleteDoc(doc(db, 'battle_queue', uid)));
   // 公開プロフィール（志望校・学習時間）とクラン在籍（サーバー関数経由で抜ける）
   await quiet(deleteDoc(doc(db, PUBLIC_STUDY_PROFILES, uid)));
+  // フレンドに共有した学習記録（とそのリアクション）
+  await quiet(deleteAllMyPosts(uid));
   await quiet(clanCall('leave'));
 
   try {

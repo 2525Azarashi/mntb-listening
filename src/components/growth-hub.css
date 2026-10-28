@@ -329,3 +329,19 @@
   .mypage-profile .ps-stats { display: none; }
   .mypage-profile .ps-fields { gap: 5px; }
 }
+/* 2026-10-26 公開プロフィールの充実：自己紹介ボタン（入力欄と同じ見た目）・見え方ボタン・自己紹介の窓 */
+.mypage-profile-bio { width: 100%; min-height: 44px; padding: 0 32px; border: 1px solid var(--ps-line); border-radius: 12px; background: #fff; font: 700 14px/1.2 var(--mt-font-body); color: var(--ps-ink); text-align: left; cursor: pointer; }
+.mypage-profile-bio > span { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.mypage-profile-bio[aria-invalid=true] { border-color: var(--mt-danger); }
+.mypage-profile-preview { flex-shrink: 0; display: inline-flex; align-items: center; gap: 4px; min-height: 44px; padding: 0 12px; border: 1px solid var(--ps-line); border-radius: 12px; background: #fff; color: #436d83; font: 800 13px/1 var(--mt-font-body); }
+.mypage-bio-body { display: grid; gap: 10px; }
+.mypage-bio-body textarea { width: 100%; padding: 10px 12px; border: 1px solid #e5dccc; border-radius: 12px; background: #fff; font: 400 15px/1.6 var(--mt-font-body); color: #344451; resize: vertical; }
+.mypage-bio-body textarea[aria-invalid=true] { border-color: var(--mt-danger); }
+.mypage-bio-body .mypage-profile-save { justify-self: end; }
+.mypage-profile .ps-fields > * { min-width: 0; }
+.mypage-profile-public .ps-toggle-text { min-width: 0; }
+/* 2026-10-27：マイページのタブを5つに（記録を追加）。320px でも文字が切れない幅 */
+.mypage-tabs button { padding: 0 2px; white-space: nowrap; }
+.mypage-body > .slog { flex: 1; min-height: 0; }
+.mypage-profile-edit .profile-standalone-head { margin: 0 0 6px; }
+.mypage-profile-edit .profile-standalone-head button { font: 800 18px/1 var(--mt-font-body); }

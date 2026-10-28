@@ -7,7 +7,7 @@ import { battleAudio } from '../battle/audio/battleAudio';
 import { FriendPanel } from './FriendPanel';
 import { ClassPanel } from './ClassPanel';
 import { ComingSoon } from './ComingSoon';
-import { SOCIAL_FEATURES } from '../config/features';
+import { isClassroomEnabledFor } from '../config/features';
 import type { SubjectKey } from '../data/allChapters';
 import { DoorMascot } from './DoorMascot';
 import { GoogleMark } from './GoogleLinkBanner';
@@ -64,6 +64,8 @@ export function ProfileModal({ onClose, initialTab, isBgmEnabled, setIsBgmEnable
   const { progress: growth } = useGrowthProgress();
   const [rating, setRating] = useState(1500);
   useEffect(() => { let alive = true; if (auth.currentUser) void fetchMyRankingRow().then(r => { if (alive && r) setRating(r.rating); }).catch(logRejection('profile.fetchRanking')); return () => { alive = false; }; }, []);
+  /** クラス機能を開けるか（公開前は先行確認のアカウントだけ・2026-10-28） */
+  const classroomOn = isClassroomEnabledFor(auth.currentUser);
   const [tab, setTab] = useState<SettingsTab>(() => (initialTab && initialTab !== 'general' && auth.currentUser ? initialTab : 'general'));
   /** PC の3列レイアウト（profile-settings.css の 1100px と揃える） */
   const wideLayout = useMediaQuery('(min-width: 1100px)');
@@ -122,7 +124,7 @@ export function ProfileModal({ onClose, initialTab, isBgmEnabled, setIsBgmEnable
   );
 
   return (
-    <div className="mtb-page mt-screen profile-journal w-full h-full overflow-hidden pb-[calc(var(--app-nav-h,120px)+8px)] sm:pb-24" data-settings>
+    <div className="mtb-page mt-screen profile-journal w-full h-full overflow-hidden pb-[calc(var(--app-nav-h,120px)+8px)] sm:pb-24" data-settings data-settings-tab={tab}>
       <div className="profile-frame max-w-4xl h-full mx-auto px-3 sm:px-5 py-3 sm:py-5 flex flex-col relative">
         <div className="absolute top-4 right-8 w-40 h-40 bg-[#A9CCE3]/15 rounded-full blur-3xl pointer-events-none" />
 
@@ -140,15 +142,15 @@ export function ProfileModal({ onClose, initialTab, isBgmEnabled, setIsBgmEnable
           <button aria-pressed={tab === 'friends'} onClick={() => setTab('friends')} disabled={!auth.currentUser} type="button">
             <Users size={14} /> フレンド
           </button>
-          <button aria-pressed={tab === 'class'} onClick={() => setTab('class')} disabled={SOCIAL_FEATURES.classroom && !auth.currentUser} type="button">
-            <School size={14} /> クラス{!SOCIAL_FEATURES.classroom && <span className="soon-tag">準備中</span>}
+          <button aria-pressed={tab === 'class'} onClick={() => setTab('class')} disabled={classroomOn && !auth.currentUser} type="button">
+            <School size={14} /> クラス{!classroomOn && <span className="soon-tag">準備中</span>}
           </button>
         </div>
 
         <main className="relative z-10 flex flex-1 min-h-0 flex-col overflow-hidden">
           {tab === 'friends' && auth.currentUser ? (
             <FriendPanel />
-          ) : tab === 'class' && !SOCIAL_FEATURES.classroom ? (
+          ) : tab === 'class' && !classroomOn ? (
             <ComingSoon title="クラス">先生が作ったクラスに参加して、課題や進み具合を共有できるようになります。もうすぐ公開します。</ComingSoon>
           ) : tab === 'class' && auth.currentUser ? (
             <div className="h-full overflow-y-auto no-scrollbar pb-4">

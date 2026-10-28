@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { Check, Copy, RefreshCw, Send, UserPlus, X } from 'lucide-react';
+import { Check, Copy, RefreshCw, Send, Share2, UserPlus, X } from 'lucide-react';
 import {
   acceptFriendRequest,
   cancelFriendRequest,
@@ -23,8 +23,11 @@ import { useBlockedTick } from '../features/safety/useBlockedFilter';
 import { safeAvatarUrl } from '../features/safety/avatarUrl';
 import { displaySafeNickname, displaySafePublicText } from '../features/safety/nicknameFilter';
 import { watchPublicStudyProfiles, type PublicStudyProfile } from '../utils/publicStudyProfile';
+import { UserProfileDialog, type ProfileTarget } from '../features/profile/UserProfileDialog';
+import '../features/profile/public-profile.css';
 import { formatStudyTime } from '../utils/studyTime';
 import { confirmAction } from '../utils/dialog';
+import { shareFriendCode } from '../utils/friendCodeShare';
 
 export function FriendPanel() {
   const [profile, setProfile] = useState<FriendProfile | null>(null);
@@ -36,6 +39,7 @@ export function FriendPanel() {
   const [friends, setFriends] = useState<Array<{ uid: string; nickname: string; photoURL?: string }>>([]);
   /** フレンドの公開プロフィール（本人が公開にしている人だけ。志望校・志・達成ステージ・Lv） */
   const [publicProfiles, setPublicProfiles] = useState<Record<string, PublicStudyProfile>>({});
+  const [openProfile, setOpenProfile] = useState<ProfileTarget | null>(null);
   const friendIds = friends.map(f => f.uid).sort().join(',');
   useEffect(() => {
     if (!friendIds) { setPublicProfiles({}); return; }
@@ -106,6 +110,19 @@ export function FriendPanel() {
     finally { setLoading(false); }
   };
 
+  const shareOwnCode = async () => {
+    if (!profile?.friendCode) return;
+    setMessage(''); setIsError(false);
+    try {
+      const result = await shareFriendCode(profile.friendCode);
+      if (result === 'copied') setMessage('共有機能が使えないため、共有文面をコピーしました。');
+    } catch (error: unknown) {
+      if (error instanceof Error && error.name === 'AbortError') return;
+      setIsError(true);
+      setMessage('共有を開始できませんでした。コードのコピーをお試しください。');
+    }
+  };
+
   return (
     /*
       ★フレンド一覧に高さを回す（ご指摘「フレンドスクロールが小さすぎる」）★
@@ -129,17 +146,35 @@ export function FriendPanel() {
           {profile ? profile.friendCode : (loading ? '発行中…' : '—')}
         </code>
         <button
-          onClick={() => {
+          type="button"
+          onClick={async () => {
             if (!profile?.friendCode) return;
-            navigator.clipboard?.writeText(profile.friendCode);
-            setCopied(true);
-            window.setTimeout(() => setCopied(false), 1500);
+            setMessage(''); setIsError(false);
+            try {
+              if (!navigator.clipboard?.writeText) throw new Error('Clipboard unavailable');
+              await navigator.clipboard.writeText(profile.friendCode);
+              setCopied(true);
+              window.setTimeout(() => setCopied(false), 1500);
+            } catch {
+              setIsError(true);
+              setMessage('コードをコピーできませんでした。共有ボタンをお試しください。');
+            }
           }}
           disabled={!profile?.friendCode}
           className="inline-flex min-h-11 min-w-11 shrink-0 items-center justify-center gap-1 rounded-xl border border-[#A9CCE3]/40 bg-[#A9CCE3]/20 px-2 text-xs font-bold text-[#2C3E50] hover:bg-[#A9CCE3]/35 disabled:opacity-40"
           aria-label="フレンドコードをコピー"
         >
-          {copied ? <Check size={15} /> : <Copy size={15} />}<span className="friend-own-copy-text">{copied ? '済' : 'コピー'}</span>
+          {copied ? <Check size={15} aria-hidden="true" /> : <Copy size={15} aria-hidden="true" />}<span className="friend-own-copy-text">{copied ? '済' : 'コピー'}</span>
+        </button>
+        <button
+          type="button"
+          onClick={() => void shareOwnCode()}
+          disabled={!profile?.friendCode}
+          className="inline-flex min-h-11 min-w-11 shrink-0 items-center justify-center gap-1 rounded-xl border border-[#A9CCE3]/40 bg-[#A9CCE3]/20 px-2 text-xs font-bold text-[#2C3E50] hover:bg-[#A9CCE3]/35 disabled:opacity-40"
+          aria-label="フレンドコードを共有"
+          title="他のアプリへフレンドコードを共有"
+        >
+          <Share2 size={15} aria-hidden="true" /><span className="friend-own-copy-text">共有</span>
         </button>
       </div>
 
@@ -225,7 +260,9 @@ export function FriendPanel() {
             <div key={f.uid} className="flex items-center gap-2.5 bg-gray-50 border border-gray-150 rounded-2xl px-2.5 py-1.5">
               <Avatar name={f.nickname} url={f.photoURL} />
               <span className="min-w-0 flex-1">
-                <span className="block text-sm font-bold text-[#1B2631] truncate">{displaySafeNickname(f.nickname)}</span>
+                {publicProfiles[f.uid]
+                  ? <button type="button" className="pp-open" onClick={() => setOpenProfile({ uid: f.uid, nickname: f.nickname, where: 'friend' })} aria-label={`${displaySafeNickname(f.nickname)} さんのプロフィールを見る`}><span className="block text-sm font-bold text-[#1B2631] truncate underline decoration-dotted underline-offset-2">{displaySafeNickname(f.nickname)}</span></button>
+                  : <span className="block text-sm font-bold text-[#1B2631] truncate">{displaySafeNickname(f.nickname)}</span>}
                 {publicProfiles[f.uid] && (() => { const pp = publicProfiles[f.uid]; return <>
                   <span className="block truncate text-xs font-bold text-[#425c6d]" data-friend-public>
                     {displaySafePublicText(pp.targetSchool) || '志望校未設定'} · 学習 {formatStudyTime(pp.studySeconds)}{pp.stagesCleared != null ? ` · 達成 ${pp.stagesCleared}` : ''}{pp.level != null ? ` · Lv.${pp.level}` : ''}
@@ -239,6 +276,7 @@ export function FriendPanel() {
           ))
         )}
       </div>
+      <UserProfileDialog target={openProfile} onClose={() => setOpenProfile(null)} />
     </div>
   );
 }
