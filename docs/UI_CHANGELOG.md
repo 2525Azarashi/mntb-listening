@@ -20,6 +20,8 @@
 - B から取り込んだもの：ピックアップを閉じたら試聴を止める（A は閉じても鳴り続けていた）。
 - 直したもの：A のコミットで `kyotsuMockAudio.ts` が別版に上書きされ、テスト3件が落ちていた → `q`・`part`・`kyotsuAudioLabel` を戻した。使われていない `GachaPreviewModal.tsx` は削除。
 
+**main（#110〜#114）との統合（2026-10-28）**：main で UR が「完全版の本」15冊だけになり、厳選URの旧10種は SR になっていた → 厳選UR（ショーケースとピックアップ）を完全版の本10冊に入れ替え、ちら見せ画像を作り直した（40枚・320KB）。予想問題の PDF・生成スクリプトはこちらの新しい版（図29枚・英文増量）、レア度・提供割合（LR1/UR3/SR6/R16/N74）は main の版。
+
 **戻し方**：ピックアップだけ消すなら `GachaRoom.tsx` の `data-gacha-pickup-open` のボタンと `<GachaPickupModal>` の2か所を削除（gacha.css の「ピックアップ」節は残っても無害）。音声だけ消すなら `MyCollection.tsx` の `<KyotsuAudioPlayer printId={item.id}/>` を削除。
 
 ## 2026-10-26 LR 共通テスト予想問題：図・イラストを組み込み、リーディングを本番並みの分量に（PR: feat/kyotsu-mock-lr）
