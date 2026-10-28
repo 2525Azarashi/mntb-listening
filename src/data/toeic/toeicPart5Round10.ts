@@ -148,8 +148,8 @@ export const ROUND_10: ToeicP5Item[] = [
     why: 'be received「受け止められる」と組んで評価を表す positively「好意的に」。',
     tr: '最近の調査によると、新しい広告キャンペーンは若い視聴者に好意的に受け止められている。', kw: [['advertising campaign', '広告キャンペーン'], ['survey', '調査']] },
   { k: '語彙', t: '名詞', d: 2, sc: '人事・研修',
-    s: 'Staff members must obtain their manager\'s ______ before working overtime on weekends.',
-    c: 'permission', w: [['possession', '「所有（物）」。残業前に得るものではない'], ['prediction', '「予測」。文意に合わない'], ['perception', '「認識・知覚」。文意に合わない']],
-    why: '残業する前に上司から得る「許可」。obtain permission「許可を得る」。',
-    tr: '従業員は、週末に残業する前に上司の許可を得なければならない。', kw: [['obtain', '得る'], ['work overtime', '残業する']] },
+    s: 'Staff members must obtain their manager\'s ______ before taking more than five days off.',
+    c: 'permission', w: [['possession', '「所有（物）」。休暇の前に得るものではない'], ['prediction', '「予測」。文意に合わない'], ['perception', '「認識・知覚」。文意に合わない']],
+    why: '長い休みを取る前に上司から得る「許可」。obtain permission「許可を得る」。',
+    tr: '従業員は、5日を超えて休みを取る前に上司の許可を得なければならない。', kw: [['obtain', '得る'], ['take ... days off', '〜日休む']] },
 ];
