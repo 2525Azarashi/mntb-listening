@@ -5,6 +5,19 @@
 
 ---
 
+## 2026-10-28 TOEIC Part 5（短文穴埋め・全15回×30問）を追加（PR: feat/toeic-part5）
+
+| 何を | どう変えた | ファイル |
+|---|---|---|
+| 演習する（英語） | とびら君の吹き出し「今日はどれからやる？」の右に **TOEIC** の小さな入口ボタン（NEW）を置いた。下のカードの列（リスニング〜英単語帳）は動かしていない。高さ600px以下ではとびら君を隠し、ボタンだけ右に残す | `StudyCatalog.tsx`、`study-catalog.css`（`.sc-buddy-row`・`.sc-spot`）、`studyCatalog.ts`（`section: 'spotlight'`） |
+| TOEIC の回の一覧 | リスニングと同じ「第N回演習」のカード（進み具合・正答率・満点3回で達成）。上に商標の注意書き | `ChapterSelection.tsx`（`isToeic`・`data-toeic-disclaimer`） |
+| 出題・解説 | 英文法と同じ1問ずつ。音声の部品は出ない。選択肢は (A)〜(D) | 既存の `Quiz` をそのまま使う |
+| 解説の選択肢（全教科） | 選択肢が (A)〜(D) で始まるときは丸数字を付けない（「①(A)」の二重を防ぐ）。丸数字なしの既存教科は今までどおり | `src/utils/questionDisplay.ts` |
+| 結果画面の弱点 | 小問に `skill`（分野）があるときは分野ごとにまとめる。無い教科は今までどおり | `explanationLogic.ts` |
+
+ホーム画面・ストア掲載物は変えていない。
+**戻し方**：`studyCatalog.ts` の `english_toeic` の行を消せば入口ボタンが消える（`.sc-buddy-row` だけ残っても見た目は元と同じ）。教科ごと消すなら `subjects.ts` の `toeic_part5`・`allChapters.ts`・`gen-chapter-index.mts` の該当行と `src/data/toeic/` を消して `npx tsx scripts/gen-chapter-index.mts`。
+
 ## 2026-10-28 「記録」の住み分け：ホームは「復習」、記録はマイページだけ（PR: feat/study-community）
 
 | 何を | どう変えた | ファイル |
