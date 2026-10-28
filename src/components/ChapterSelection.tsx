@@ -60,6 +60,9 @@ interface ChapterSelectionProps {
 export function ChapterSelection({ mode, onSelectChapter, onBack, subject = 'english_listening', rememberedGroup, onGroupChange, backLabel = '戻る' }: ChapterSelectionProps) {
   // 科目ごとに画面の作りが変わる箇所だけフラグにしている。
   const isListening = subject === 'english_listening';
+  // 2026-10-28 TOEIC Part 5 も「第N回」のカードで並べる（英語リスニングと同じ回一覧）
+  const isToeic = subject === 'toeic_part5';
+  const isRounds = isListening || isToeic;
   const isGrammar = subject === 'english_grammar';
   /**
    * 科目ごとの配色。
@@ -167,7 +170,7 @@ export function ChapterSelection({ mode, onSelectChapter, onBack, subject = 'eng
         </button>
         <div className="unit-head-title">
           <h2 style={{ color: theme.accent }}>{isListening ? '英語リスニング' : isGrammar ? '英文法' : theme.label}</h2>
-          <p>{mode === 'mini_test' ? '小テスト' : isListening ? '共通テスト大問別・1回ずつ完結' : isGrammar ? '単元別の4択演習' : '単元を選ぶ'}</p>
+          <p>{mode === 'mini_test' ? '小テスト' : isListening ? '共通テスト大問別・1回ずつ完結' : isToeic ? '1回30問・4択（短文穴埋め）' : isGrammar ? '単元別の4択演習' : '単元を選ぶ'}</p>
         </div>
         <DoorMascot subject={subject} showSpeech={false} size="mini" className="unit-head-mascot w-auto" />
       </header>
@@ -237,7 +240,7 @@ export function ChapterSelection({ mode, onSelectChapter, onBack, subject = 'eng
                   {(() => {
                     // ★タブにも「問題がまだ無い章」を出す★ 開いてから準備中と分かるのでは遅い
                     const ready = group.chapters.filter((c) => ((mode === 'mini_test' ? c.miniTest : c.practiceProblems) || []).length > 0).length;
-                    if (isListening || ready === group.chapters.length) return null;
+                    if (isRounds || ready === group.chapters.length) return null;
                     return (
                       <span className="chapter-tab-status" data-ready={ready > 0}>
                         {ready === 0 ? '準備中' : `${ready}/${group.chapters.length}単元`}
@@ -285,8 +288,8 @@ export function ChapterSelection({ mode, onSelectChapter, onBack, subject = 'eng
                   回という単位が無い。共通の見た目にすると、かえって
                   どちらの科目でも意味の分からないボタンが並ぶ。
                   そのため、リスニングだけ専用の並べ方にしている。 */}
-            {isListening ? (
-              <div className="space-y-5" data-listening-rounds>
+            {isRounds ? (
+              <div className="space-y-5" data-listening-rounds data-toeic-rounds={isToeic || undefined}>
                 {activeGroup.chapters.map((chapter) => {
                   const questions = mode === 'mini_test' ? (chapter.miniTest || []) : (chapter.practiceProblems || []);
                   const rounds = buildListeningRounds(questions);
