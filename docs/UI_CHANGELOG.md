@@ -36,6 +36,16 @@
 | レビューの★ | 第5回 第2問の ★☆ が空白になっていたのを表示されるように | `render.py` | `src/data/kyotsuMockPrints.ts` |
 
 **戻し方**：`figs.py` の `apply_reading` / `apply_listening` の呼び出し（`build.py`）を外すと図なしの版に戻る。分量の増量はこの PR のコミット「英文量を本番並みに増量」を `git revert`。
+## 2026-10-28 英単語の演習：「この範囲を全部」ボタンを追加（PR: fix/vocab-start-all）
+
+| 何を | どう変えた | ファイル |
+|---|---|---|
+| 出題の設定の下 | 青いボタン（まだ ✓ がない語から○問）の下に「この範囲を全部（○語）」を追加。✓ 済みの語も含めて範囲の全語を出す（順番・向きは設定どおり）。「間違えた語から」と両方あるときは横に2つ並べる。設定が「すべて×全部」で青いボタンが既に全部のときは出さない | `src/components/VocabQuiz.tsx`、`src/components/foundation.css` |
+
+戻すとき：`VocabQuiz.tsx` の `startAll`・`showAll`・`vq-start-sub` を消し、間違えた語のボタンを元の1行に戻す。`foundation.css` の「2026-10-28」の4行を消す。
+
+---
+
 ## 2026-10-27 公開プロフィールの充実・ランキングをガチャ画面の見た目に（PR: feat/public-profile-rich）
 
 | 何を | どう変えた | ファイル |
