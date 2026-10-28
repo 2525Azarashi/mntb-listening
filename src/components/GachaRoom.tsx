@@ -36,6 +36,7 @@ import { trackEvent } from '../utils/analytics';
 import { GachaMultiResult, GachaSingleResult, type GachaDrawResult } from './gacha/GachaResultStage';
 import { GachaCollectionModal } from './gacha/GachaCollectionModal';
 import { GachaSetsModal } from './gacha/GachaSetsModal';
+import { GachaPickup, pickupItems } from './gacha/GachaPickup';
 import { completedSetCount, GACHA_SETS } from '../battle/core/gachaSets';
 
 type GachaProps = {
@@ -69,6 +70,8 @@ function GachaRoomContent({
     (i): i is ItemDef => !!i,
   );
   const showcase = topUr.length ? topUr : tiers.UR.slice(0, 10);
+  // ピックアップ（2026-10-27 B案）：LR 全種＋厳選UR のうち「少し見る」画像があるものを画面に並べる
+  const pickup = pickupItems(tiers.LR, topUr);
   const [previewIndex, setPreviewIndex] = useState(0);
   const previewItem = showcase[previewIndex % showcase.length];
   const ownedCount = items.filter((item) => progress?.owned.includes(item.id)).length;
@@ -263,6 +266,8 @@ function GachaRoomContent({
           </article>
         </section>
       )}
+
+      {!busyView && <GachaPickup items={pickup} progress={progress} disabled={busy} />}
 
       <div
         className={`gacha-machine gacha-preview-stage ${busy ? 'is-spinning' : ''}`}
