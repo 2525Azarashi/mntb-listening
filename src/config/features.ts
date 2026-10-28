@@ -137,3 +137,19 @@ export function fallbackSubjectId(candidates: readonly string[]): string | null 
  *   （クラス機能は Cloud Functions を使わない。本番にルールが反映されているかだけが条件）。
  */
 export const SOCIAL_FEATURES = { classroom: false, manaClan: false } as const;
+
+/**
+ * クラス機能の先行確認（2026-10-28 ご要望）。
+ *   公開前（classroom: false）でも、この一覧のメールでログインした人だけは
+ *   設定 › クラス（参加・先生ダッシュボード）と解説の「選んだ理由」を使える。教師役として動作を確かめるため。
+ *   ほかの人には今までどおり「準備中」。公開するときは SOCIAL_FEATURES.classroom を true にする（この一覧は消してよい）。
+ *   ※画面の入口を開けるだけ。読み書きできるかは本番の firestore.rules で決まる（docs/JUKU_PLAN.md の4）。
+ */
+export const CLASSROOM_PREVIEW_EMAILS: readonly string[] = ['hirokingz0927@gmail.com', 'mntobira@gmail.com'];
+
+/** クラス機能をこの人に見せるか（公開済み、または先行確認のメールで、メール確認済みのとき） */
+export function isClassroomEnabledFor(user: { email?: string | null; emailVerified?: boolean } | null | undefined): boolean {
+  if (SOCIAL_FEATURES.classroom) return true;
+  const email = (user?.email || '').trim().toLowerCase();
+  return !!email && user?.emailVerified === true && CLASSROOM_PREVIEW_EMAILS.includes(email);
+}
