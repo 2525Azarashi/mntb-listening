@@ -14,6 +14,12 @@
 | マイPDF | LR リスニング第1回を持っている人だけ「音声を聞く（24トラック）」。問題ごとのボタン（44px）で再生・もう一度押すと停止。第1・2問は本番どおり2回流れる | `src/components/gacha/KyotsuAudioPlayer.tsx`、`src/components/MyCollection.tsx`、`src/data/kyotsuMockAudio.ts`、`public/prints/kyotsu_assets/audio/` |
 | 音声の元ファイル | 受け取った ElevenLabs v4 の6本を保存、区切り位置と sha256 を記録 | `audio_sources/commercial/elevenlabs_2026-10-26_kyotsu_l1/` |
 
+**A案とB案の統合（integrate/gacha-pickup）**：同じ依頼を2つのやり方で作ってしまったので、PR を2本立てて比べ、A案を採用した。
+- 採用 A（下のボタン → ダイアログで一覧）：ガチャは1画面に収める決まり。B（画面に横並びの欄）は背の低い端末で隠すしかなく、隠すと見つからない。
+- 採用 A のマイPDF音声（問題ごとのボタン）：B の「選ぶ → 再生」より1タップ少ない。
+- B から取り込んだもの：ピックアップを閉じたら試聴を止める（A は閉じても鳴り続けていた）。
+- 直したもの：A のコミットで `kyotsuMockAudio.ts` が別版に上書きされ、テスト3件が落ちていた → `q`・`part`・`kyotsuAudioLabel` を戻した。使われていない `GachaPreviewModal.tsx` は削除。
+
 **戻し方**：ピックアップだけ消すなら `GachaRoom.tsx` の `data-gacha-pickup-open` のボタンと `<GachaPickupModal>` の2か所を削除（gacha.css の「ピックアップ」節は残っても無害）。音声だけ消すなら `MyCollection.tsx` の `<KyotsuAudioPlayer printId={item.id}/>` を削除。
 
 ## 2026-10-26 LR 共通テスト予想問題：図・イラストを組み込み、リーディングを本番並みの分量に（PR: feat/kyotsu-mock-lr）

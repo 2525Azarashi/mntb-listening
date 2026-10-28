@@ -5,7 +5,7 @@
  *   リスニングの第1回は音声の試聴（問1だけ）もできる。
  *   ガチャの画面は1画面に収める決まりなので、一覧は画面には並べず、下のボタンからこのダイアログで開く。
  */
-import type { RefObject } from 'react';
+import { useEffect, type RefObject } from 'react';
 import { gachaRarityOf, printOf, type GrowthProgress, type ItemDef } from '../../battle/core/growth';
 import { gachaItemRate } from '../../battle/core/arenaEconomy';
 import { GACHA_PREVIEWS } from '../../data/gachaPreviews.generated';
@@ -25,6 +25,14 @@ export function GachaPickupModal({ dialog, items, progress }: {
   progress: GrowthProgress | null;
 }) {
   const list = pickupItems(items);
+  // 閉じたら試聴を止める（B案から採用：閉じても裏で鳴り続けないように）
+  useEffect(() => {
+    const d = dialog.current;
+    if (!d) return;
+    const stop = () => d.querySelectorAll('audio').forEach((a) => a.pause());
+    d.addEventListener('close', stop);
+    return () => d.removeEventListener('close', stop);
+  }, [dialog]);
   const groups = [
     { id: 'LR', title: 'LR 共通テスト英語 予想問題', note: 'リーディング・リスニング 各5回分。本番と同じ形式・分量のオリジナル問題。', list: list.filter((i) => gachaRarityOf(i) === 'LR') },
     { id: 'UR', title: '厳選UR 学習プリント', note: '大当たりの中から人気の10種。', list: list.filter((i) => gachaRarityOf(i) !== 'LR') },
