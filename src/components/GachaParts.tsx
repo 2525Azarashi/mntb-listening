@@ -26,16 +26,17 @@ export type CollectionKind = (typeof COLLECTION_KINDS)[number]['id'];
 
 /** 下のプレビューで見せる「質の高いUR」。教科をばらして10個だけ */
 export const FEATURED_UR_IDS = [
-  'print_math_basic_all',
-  'print_grammar_100',
-  'print_trend_cb_all',
-  'print_mock_cb_1',
-  'print_mock_joho_1',
-  'print_mock_bio_1',
-  'print_rank_c',
-  'print_trend_c_all',
-  'print_math_quadratic_weekly',
-  'print_vocab_lv2',
+  // 2026-10-28：UR＝「完全版の本」になった（#112）ので、厳選UR もその本から10冊（以前の10種は SR になっていた）
+  'print_book_listening_all',
+  'print_book_reading_mock1',
+  'print_book_reading_mock2',
+  'print_book_reading_mock3',
+  'print_book_vocab_lv1',
+  'print_book_vocab_lv2',
+  'print_book_idiom_all',
+  'print_book_analysis_all',
+  'print_book_idiom_reading_standard',
+  'print_book_grammar_b4_bunpo',
 ] as const;
 
 export const pct = (r: number): string => {

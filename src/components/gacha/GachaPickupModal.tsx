@@ -35,7 +35,7 @@ export function GachaPickupModal({ dialog, items, progress }: {
   }, [dialog]);
   const groups = [
     { id: 'LR', title: 'LR 共通テスト英語 予想問題', note: 'リーディング・リスニング 各5回分。本番と同じ形式・分量のオリジナル問題。', list: list.filter((i) => gachaRarityOf(i) === 'LR') },
-    { id: 'UR', title: '厳選UR 学習プリント', note: '大当たりの中から人気の10種。', list: list.filter((i) => gachaRarityOf(i) !== 'LR') },
+    { id: 'UR', title: '厳選UR 完全版の本', note: '大当たり（その一冊で完成する本）から10冊。', list: list.filter((i) => gachaRarityOf(i) !== 'LR') },
   ];
   return (
     <dialog ref={dialog} className="game-details-dialog mt-dialog" aria-labelledby="gacha-pickup-title" data-gacha-pickup>
