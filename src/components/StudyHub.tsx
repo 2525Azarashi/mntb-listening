@@ -485,7 +485,7 @@ export function StudyHub({ onBack, isGuest, onSelectNote, onReview, onPractice, 
       <div className="rn-wrap">
         <header className="rn-header">
           <button type="button" onClick={onBack} aria-label="ホームに戻る" className="rn-back"><ArrowLeft size={20} aria-hidden="true" /></button>
-          <h1><KineticText text="復習・記録" /></h1>
+          <h1><KineticText text="復習" /></h1>
           <button type="button" className="rn-header-stat rr-medal-pill" onClick={() => { setSection('review'); setTab('mastered'); }} aria-label={`メダル（習得済み） ${masteredCount}問を見る`}><Medal size={16} aria-hidden="true" /><b>{masteredCount}</b></button>
         </header>
 
@@ -511,12 +511,12 @@ export function StudyHub({ onBack, isGuest, onSelectNote, onReview, onPractice, 
         </section>
 
         {/* ② 大きな2つの切り替え */}
-        <div className="rr-switch" role="tablist" aria-label="復習と記録の切り替え" data-active={section}>
+        <div className="rr-switch" role="tablist" aria-label="復習ノートと解いた問題の切り替え" data-active={section}>
           <button type="button" role="tab" aria-selected={section === 'review'} onClick={() => setSection('review')} data-rr-section="review">
             <RotateCcw size={18} aria-hidden="true" />復習ノート{dueItems.length > 0 && <span>{dueItems.length}</span>}
           </button>
           <button type="button" role="tab" aria-selected={section === 'record'} onClick={() => setSection('record')} data-rr-section="record" data-rn-record>
-            <CalendarDays size={18} aria-hidden="true" />学習記録<small>3日分</small>
+            <CalendarDays size={18} aria-hidden="true" />解いた問題<small>3日分</small>
           </button>
         </div>
 
@@ -564,7 +564,7 @@ export function StudyHub({ onBack, isGuest, onSelectNote, onReview, onPractice, 
           </ScrollArea>
         </>}
 
-        {/* 学習記録（直近3日）。見出しは上の切り替えが兼ねるので StudyRecord 側の見出しは出さない */}
+        {/* 解いた問題（直近3日・解きなおし用）。★2026-10-28：学習時間などの「記録」はマイページ › 記録 に一本化。ここは名前も「解いた問題」★ 見出しは上の切り替えが兼ねるので StudyRecord 側の見出しは出さない */}
         {section === 'record' && <ScrollArea key="record"><StudyRecord embedded onRetry={onRetry} /></ScrollArea>}
       </div>
     </div>
