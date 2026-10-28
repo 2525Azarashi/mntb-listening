@@ -67,6 +67,12 @@ export interface SubjectDefinition {
    * 書いた科目だけカードが出る（まとめプリントを持たない科目は書かない）。
    */
   learningDescription?: string;
+  /**
+   * false にすると、先生用のクラス作成の教科一覧に出さない（2026-10-28 TOEIC）。
+   * Firestore ルールがクラスの教科を固定の一覧で検査しているため、ルールに無い教科は保存できない。
+   * 省略は true（従来どおり出す）。
+   */
+  classroom?: boolean;
   theme: SubjectTheme;
   reviewStyle: ReviewSubjectStyle;
 }
@@ -138,6 +144,8 @@ export const SUBJECT_REGISTRY = [
     enabled: true,
     chapterIdPattern: /^tp5_\d+$/,
     entry: 'chapters',
+    // Firestore ルール（classrooms.subject）に無いので、クラス作成の一覧には出さない
+    classroom: false,
     practiceDescription: 'TOEIC L&R Part 5（短文穴埋め）を1回30問ずつ解きます。全問に和訳と選択肢ごとの理由がつきます。',
     // リスニング（ミント）・英文法（琥珀）と見違えないよう、藍色
     theme: {

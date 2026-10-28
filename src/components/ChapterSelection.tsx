@@ -9,6 +9,7 @@ import { subjectTheme } from '../data/subjectTheme';
 import { ListeningAudioPlayer } from './ListeningAudioPlayer';
 import type { Chapter } from '../types/curriculum';
 import { buildListeningRounds } from '../utils/listeningRounds';
+import { TOEIC_DISCLAIMER } from '../data/toeic/toeicPart5Kit';
 import { problemKey, readSolvedMap } from '../utils/progress';
 // 章 × モードごとの保存キー名は utils/quizStorageKeys.ts が唯一の定義
 import {
@@ -310,6 +311,7 @@ export function ChapterSelection({ mode, onSelectChapter, onBack, subject = 'eng
                             ? `全${rounds.length}回 ／ 達成 ${rounds.filter((r) => isStageCleared(stageRecords[stageKey(chapter.id, r.questionId)])).length}回（満点${STAGE_CLEAR_PERFECTS}回で達成）`
                             : 'この大問の問題は準備中です'}
                         </p>
+                        {isToeic && <p className="mt-1 text-xs leading-relaxed text-slate-600" data-toeic-disclaimer>{TOEIC_DISCLAIMER}</p>}
                       </div>
 
                       {rounds.length > 0 ? (
