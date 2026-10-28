@@ -11,7 +11,9 @@ import { fetchPublicStudyProfile, type PublicStudyProfile } from '../../utils/pu
 import { UserSafetyMenu } from '../safety/UserSafetyMenu';
 import { isBlocked, type ReportTarget } from '../safety/userSafety';
 import { displaySafeNickname } from '../safety/nicknameFilter';
-import { PublicProfileView } from './PublicProfileView';
+import { PublicProfileView, type PublicBattleStats } from './PublicProfileView';
+import { fetchFriendBattleRanking } from '../../battle/data/battleRanking';
+import { fetchUserPosts, type StudyPost } from '../studylog/studyFeed';
 
 export interface ProfileTarget {
   uid: string;
@@ -23,6 +25,8 @@ export interface ProfileTarget {
 export function UserProfileDialog({ target, onClose }: { target: ProfileTarget | null; onClose: () => void }) {
   const dialog = useRef<HTMLDialogElement>(null);
   const [state, setState] = useState<{ uid: string; profile: PublicStudyProfile | null; loading: boolean; error: boolean }>({ uid: '', profile: null, loading: false, error: false });
+  // 対戦成績（ランキングの公開の値）と、フレンドに共有された記録（フレンドでなければルールで読めず空になる）
+  const [extra, setExtra] = useState<{ uid: string; battle: PublicBattleStats | null; posts: StudyPost[] }>({ uid: '', battle: null, posts: [] });
 
   useEffect(() => {
     const d = dialog.current;
@@ -39,6 +43,16 @@ export function UserProfileDialog({ target, onClose }: { target: ProfileTarget |
     fetchPublicStudyProfile(target.uid)
       .then((profile) => { if (alive) setState({ uid: target.uid, profile, loading: false, error: false }); })
       .catch(() => { if (alive) setState({ uid: target.uid, profile: null, loading: false, error: true }); });
+    setExtra({ uid: target.uid, battle: null, posts: [] });
+    // 対戦成績・共有記録はおまけ。読めなければ出さないだけ（プロフィール本体は上で別に扱う）
+    void Promise.all([
+      fetchFriendBattleRanking([target.uid]).then(rows => rows.find(r => r.uid === target.uid) ?? null).catch(() => null),
+      fetchUserPosts(target.uid, 3),
+    ]).then(([row, posts]) => {
+      if (!alive) return;
+      const battle = row ? { wins: row.wins || 0, losses: row.losses || 0, draws: row.draws || 0, rating: row.rating || 0 } : null;
+      setExtra({ uid: target.uid, battle, posts });
+    });
     return () => { alive = false; };
   }, [target]);
 
@@ -65,7 +79,8 @@ export function UserProfileDialog({ target, onClose }: { target: ProfileTarget |
         ) : state.error ? (
           <p role="alert" className="ps-help" data-error>読み込めませんでした。通信を確認して、もう一度開いてください。</p>
         ) : state.profile ? (
-          <PublicProfileView profile={state.profile} fallbackName={target.nickname} />
+          <PublicProfileView profile={state.profile} fallbackName={target.nickname}
+            battle={extra.uid === target.uid ? extra.battle : null} posts={extra.uid === target.uid ? extra.posts : []} />
         ) : (
           <div className="pp-private" data-profile-private>
             <Lock size={28} aria-hidden="true" />

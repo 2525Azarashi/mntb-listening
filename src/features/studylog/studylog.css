@@ -1,0 +1,203 @@
+/*
+ * 学習記録・教材・集計・フレンドの記録（2026-10-27）。
+ * ★既存のUIに合わせる★ 色は tokens.css の共通トークンと、公開プロフィールの棒（#f3d9a4）だけ。
+ *   カード … .mt-card ／ タブ … .mt-tabs ／ ボタン … .mt-btn ／ 窓 … .game-details-dialog.mt-dialog
+ *   文字12px以上・タップ44px以上。画面はスクロールさせず、一覧の中だけ動かす（ランキングと同じ）。
+ */
+.slog { height: 100%; min-height: 0; display: flex; flex-direction: column; gap: 8px; padding: 2px 12px 8px; color: var(--mt-ink); font-family: var(--mt-font-body); }
+.slog-top { flex-shrink: 0; display: flex; align-items: stretch; gap: 8px; }
+.slog-top .mt-tabs { flex: 1; min-width: 0; }
+.slog-top .mt-tabs > button { padding: 0 4px; font-size: 13px; }
+.slog-add { flex-shrink: 0; min-width: 64px; padding: 0 10px !important; border-radius: var(--mt-radius-lg) !important; font: 800 13px/1.1 var(--mt-font-body) !important; }
+.slog-body { flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 8px; }
+.slog-scroll { flex: 1; min-height: 0; overflow-y: auto; overscroll-behavior: contain; }
+.slog-card { padding: 10px 12px; }
+.slog-note { margin: 0; font: 500 12px/1.5 var(--mt-font-body); color: var(--mt-ink-3); }
+.slog-empty { margin: auto 0; padding: 16px 8px; display: grid; justify-items: center; gap: 10px; text-align: center; font: 700 13px/1.6 var(--mt-font-body); color: var(--mt-ink-2); }
+.slog-error { margin: 0; padding: 8px 10px; border-radius: var(--mt-radius-md); background: var(--mt-doing-soft); color: var(--mt-danger); font: 700 13px/1.5 var(--mt-font-body); }
+.slog-tag { display: inline-flex; align-items: center; gap: 3px; padding: 1px 8px; border-radius: 999px; background: var(--mt-bg-sunken); color: var(--mt-ink-muted); font: 700 12px/1.5 var(--mt-font-body); white-space: nowrap; }
+.slog-tag[data-tone=self] { background: var(--mt-accent-soft); color: var(--mt-accent-ink); }
+.slog-tag[data-tone=app] { background: var(--mt-brand-soft); color: var(--mt-brand); }
+
+/* カレンダー */
+.slog-month { flex-shrink: 0; display: flex; align-items: center; justify-content: space-between; min-height: 40px; }
+.slog-month h3 { margin: 0; font: var(--mt-text-md); color: var(--mt-ink-warm); }
+.slog-month button { width: 44px; height: 44px; display: grid; place-items: center; border: 0; border-radius: 50%; background: none; color: var(--mt-ink-2); }
+.slog-month button:disabled { opacity: .35; }
+.slog-cal { flex-shrink: 0; display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 3px; margin: 0; padding: 0; list-style: none; }
+.slog-cal > li > span { display: block; text-align: center; font: 700 12px/1.5 var(--mt-font-body); color: var(--mt-ink-3); }
+.slog-cal button { position: relative; width: 100%; height: 34px; display: grid; place-items: center; border: 1px solid var(--mt-line); border-radius: 10px; background: var(--mt-bg-card); color: var(--mt-ink-2); font: 700 13px/1 var(--mt-font-body); }
+.slog-cal button[data-lv="1"] { background: var(--mt-accent-soft); }
+.slog-cal button[data-lv="2"] { background: #f3d9a4; color: var(--mt-ink-warm); }
+.slog-cal button[data-lv="3"] { background: var(--mt-accent); color: var(--mt-ink); }
+.slog-cal button[data-lv="4"] { background: var(--mt-accent-strong); color: #fff; }
+.slog-cal button[data-today] { box-shadow: inset 0 0 0 2px var(--mt-brand); }
+.slog-cal button[aria-pressed=true] { outline: 3px solid var(--mt-ink-warm); outline-offset: 1px; z-index: 1; }
+.slog-cal button[data-self]::after { content: ''; position: absolute; right: 3px; top: 3px; width: 6px; height: 6px; border-radius: 50%; background: var(--mt-ink-warm); }
+.slog-cal button:disabled { border-style: dashed; background: transparent; color: var(--mt-ink-3); }
+.slog-legend { flex-shrink: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 4px 10px; font: 600 12px/1.4 var(--mt-font-body); color: var(--mt-ink-3); }
+.slog-legend i { display: inline-block; width: 6px; height: 6px; margin-right: 3px; border-radius: 50%; background: var(--mt-ink-warm); }
+.slog-day { flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 6px; padding: 8px 10px; }
+.slog-day > header { flex-shrink: 0; display: flex; align-items: center; gap: 8px; }
+.slog-day > header h4 { flex: 1; min-width: 0; margin: 0; font: 800 14px/1.3 var(--mt-font-body); color: var(--mt-ink-warm); }
+.slog-day > header small { display: block; font: 600 12px/1.4 var(--mt-font-body); color: var(--mt-ink-3); }
+.slog-day > header .mt-btn { min-height: 44px; padding: 0 10px; font-size: 13px; }
+
+/* 記録の行（日ごと・教材） */
+.slog-rows { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.slog-row { width: 100%; display: flex; align-items: center; gap: 8px; min-height: 48px; padding: 6px 10px; border: 1px solid var(--mt-line); border-radius: var(--mt-radius-md); background: var(--mt-bg-card); color: var(--mt-ink); text-align: left; box-shadow: var(--mt-shadow-press); }
+.slog-row > span:first-child { flex: 1; min-width: 0; display: grid; gap: 2px; }
+.slog-row strong { font: 800 14px/1.3 var(--mt-font-body); color: var(--mt-ink-warm); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.slog-row small { font: 600 12px/1.4 var(--mt-font-body); color: var(--mt-ink-3); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.slog-row > b { flex-shrink: 0; font: 800 15px/1 var(--mt-font-display); color: var(--mt-ink-warm); white-space: nowrap; }
+.slog-row-actions { flex-shrink: 0; display: flex; gap: 4px; }
+.slog-row-actions .mt-btn { min-height: 44px; min-width: 44px; padding: 0 8px; font-size: 13px; }
+
+/* 集計 */
+.slog-sum { flex-shrink: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; margin: 0; }
+.slog-sum > div { padding: 6px 8px; border-radius: 12px; background: var(--mt-bg-sunken); }
+.slog-sum dt { font: 700 12px/1.3 var(--mt-font-body); color: var(--mt-ink-3); }
+.slog-sum dd { margin: 2px 0 0; font: 800 16px/1.1 var(--mt-font-display); color: var(--mt-ink-warm); white-space: nowrap; }
+.slog-chart { flex-shrink: 0; list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 6px; height: 92px; align-items: end; }
+.slog-chart li { height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 3px; }
+.slog-chart .bar { width: 100%; max-width: 26px; display: flex; flex-direction: column-reverse; border-radius: 6px 6px 3px 3px; overflow: hidden; background: var(--mt-bg-sunken); }
+.slog-chart .bar > i { display: block; }
+.slog-chart .bar > i[data-k=app] { background: var(--mt-brand); }
+.slog-chart .bar > i[data-k=self] { background: var(--mt-accent); }
+.slog-chart small { font: 700 12px/1 var(--mt-font-body); color: var(--mt-ink-3); }
+.slog-keys { flex-shrink: 0; display: flex; gap: 12px; font: 600 12px/1.4 var(--mt-font-body); color: var(--mt-ink-3); }
+.slog-keys i { display: inline-block; width: 10px; height: 10px; margin-right: 4px; border-radius: 3px; vertical-align: -1px; }
+.slog-meter { display: block; height: 8px; border-radius: 999px; background: var(--mt-bg-sunken); box-shadow: inset 0 0 0 1px var(--mt-line); overflow: hidden; }
+.slog-meter > i { display: block; height: 100%; border-radius: inherit; background: var(--mt-accent); }
+.slog-meter[data-k=app] > i { background: var(--mt-brand); }
+.slog-subjects { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.slog-subjects li { display: grid; grid-template-columns: 5.5em minmax(0, 1fr) auto; align-items: center; gap: 8px; font: 700 13px/1.3 var(--mt-font-body); color: var(--mt-ink-2); }
+.slog-subjects b { font: 800 13px/1 var(--mt-font-display); color: var(--mt-ink-warm); white-space: nowrap; }
+.slog-goalrow { flex-shrink: 0; display: flex; align-items: center; gap: 8px; }
+.slog-goalrow > span { flex: 1; min-width: 0; display: grid; gap: 4px; font: 700 12px/1.3 var(--mt-font-body); color: var(--mt-ink-2); }
+.slog-goalrow .mt-btn { min-height: 44px; padding: 0 10px; font-size: 13px; }
+
+/* 教材 */
+.slog-filter { flex-shrink: 0; display: flex; gap: 6px; }
+.slog-filter input, .slog-filter select { flex: 1; min-width: 0; min-height: 44px; padding: 0 10px; border: 1px solid var(--mt-line); border-radius: 12px; background: #fff; font: 700 14px/1.2 var(--mt-font-body); color: var(--mt-ink); }
+.slog-filter .mt-btn { flex-shrink: 0; min-height: 44px; padding: 0 10px; font-size: 13px; }
+
+/* フレンドの記録 */
+.slog-post { display: grid; gap: 6px; padding: 10px 12px; border: 1px solid var(--mt-line); border-radius: var(--mt-radius-lg); background: var(--mt-bg-card); box-shadow: var(--mt-shadow-card); }
+.slog-post > header { display: flex; align-items: center; gap: 6px; min-width: 0; }
+.slog-post > header .pp-open { flex: 1; min-width: 0; width: auto; }
+.slog-post > header .pp-open strong, .slog-post > header > strong { font: 800 14px/1.3 var(--mt-font-display); color: var(--mt-ink-warm); }
+.slog-post > header time { flex-shrink: 0; font: 600 12px/1.3 var(--mt-font-body); color: var(--mt-ink-3); }
+.slog-post p { margin: 0; font: 700 14px/1.5 var(--mt-font-body); color: var(--mt-ink); overflow-wrap: anywhere; }
+.slog-post p.comment { font-weight: 500; color: var(--mt-ink-2); }
+.slog-post footer { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.slog-react { display: inline-flex; align-items: center; gap: 4px; min-height: 44px; padding: 0 12px; border: 1px solid var(--mt-line); border-radius: 999px; background: var(--mt-bg-card); color: var(--mt-ink-2); font: 700 13px/1 var(--mt-font-body); box-shadow: var(--mt-shadow-press); }
+.slog-react[aria-pressed=true] { border-color: var(--mt-accent-strong); background: var(--mt-accent-soft); color: var(--mt-accent-ink); }
+.slog-react b { font-variant-numeric: tabular-nums; }
+
+/* 入力の窓（記録・教材・目標） */
+.slog-form { display: grid; gap: 8px; }
+.slog-form .row { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.slog-form label.f { position: relative; display: grid; gap: 2px; min-width: 0; }
+.slog-form label.f > span { font: 700 12px/1.3 var(--mt-font-body); color: var(--mt-ink-3); }
+.slog-form input, .slog-form select, .slog-form textarea { width: 100%; min-width: 0; min-height: 44px; padding: 0 10px; border: 1px solid var(--mt-line); border-radius: 12px; background: #fff; font: 700 16px/1.2 var(--mt-font-body); color: var(--mt-ink); }
+.slog-form textarea { padding: 8px 10px; min-height: 64px; font-weight: 500; resize: none; }
+.slog-form [aria-invalid=true] { border-color: var(--mt-danger); }
+.slog-chips { display: flex; flex-wrap: wrap; gap: 4px; }
+.slog-chips button { min-height: 44px; min-width: 44px; padding: 0 10px; border: 1px solid var(--mt-line); border-radius: 999px; background: var(--mt-bg-card); color: var(--mt-ink-2); font: 700 13px/1 var(--mt-font-body); }
+.slog-chips button[aria-pressed=true] { border-color: var(--mt-brand); background: var(--mt-brand-soft); color: var(--mt-brand); }
+.slog-time { display: flex; align-items: center; gap: 6px; }
+.slog-time input { flex: 0 0 88px; text-align: right; }
+.slog-time output { font: 700 13px/1.3 var(--mt-font-body); color: var(--mt-ink-2); }
+.slog-more { justify-self: start; min-height: 44px; padding: 0 4px; border: 0; background: none; color: var(--mt-brand); font: 700 13px/1 var(--mt-font-body); text-decoration: underline; text-underline-offset: 3px; }
+.slog-form .ps-toggle-row { --ps-line: var(--mt-line); --ps-ink: var(--mt-ink); --ps-ink-2: var(--mt-ink-3); min-height: 48px; }
+.slog-actions { display: flex; gap: 8px; }
+.slog-actions .mt-btn { flex: 1; min-height: 48px; }
+.slog-actions .mt-btn[data-danger] { flex: 0 0 auto; color: var(--mt-danger); border-color: var(--mt-line-strong); }
+.slog-dialog .game-details-body { padding: 12px 14px 14px; }
+
+/* マイページの「自分の学習ページ」カード */
+.mystudy { display: grid; gap: 7px; padding: 10px 12px; }
+.mystudy-head { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.mystudy-head > div { flex: 1; min-width: 0; display: grid; gap: 2px; }
+.mystudy-head h2 { margin: 0; font: 800 17px/1.25 var(--mt-font-display); color: var(--mt-ink-warm); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.mystudy-head p { margin: 0; display: flex; flex-wrap: wrap; gap: 2px 10px; font: 700 12px/1.4 var(--mt-font-body); color: var(--mt-ink-3); }
+.mystudy-head p span { display: inline-flex; align-items: center; gap: 3px; min-width: 0; }
+.mystudy-head .mt-btn { flex-shrink: 0; min-height: 44px; padding: 0 10px; font-size: 13px; }
+.mystudy-motto { margin: 0; font: 800 13px/1.4 var(--mt-font-body); color: var(--mt-accent-ink); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.mystudy .slog-sum { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.mystudy .slog-sum dd { font-size: 15px; }
+/* 幅の狭い画面（〜360px）：4つ横並びだと「30時間11分」が切れるので 2×2 にする */
+@media (max-width: 360px) {
+  .mystudy .slog-sum { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px 6px; }
+  .mystudy .slog-sum > div { display: flex; align-items: baseline; justify-content: space-between; gap: 6px; padding: 5px 8px; }
+  .mystudy .slog-sum dd { margin: 0; }
+}
+.mystudy-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 12px; font: 700 12px/1.4 var(--mt-font-body); color: var(--mt-ink-2); }
+.mystudy-meta span { display: inline-flex; align-items: center; gap: 3px; }
+.mystudy-meta svg { color: var(--mt-accent-strong); }
+.mystudy-actions { display: grid; grid-template-columns: 1.3fr 1fr; gap: 6px; }
+.mystudy-actions .mt-btn { min-height: 46px; padding: 0 8px; font-size: 14px; }
+
+@media (max-height: 640px) {
+  .slog { gap: 6px; }
+  .slog-cal button { height: 30px; }
+  .slog-chart { height: 72px; }
+  .mystudy { gap: 5px; padding: 8px 10px; }
+  .mystudy-actions .mt-btn { min-height: 44px; }
+}
+@media (min-width: 720px) {
+  .slog { max-width: 760px; width: 100%; margin: 0 auto; }
+}
+.slog-search { position: relative; flex: 1; min-width: 0; display: flex; }
+.slog-search > svg { position: absolute; right: 10px; top: 14px; color: var(--mt-ink-3); pointer-events: none; }
+.slog-search input { padding-right: 32px; }
+.slog-subject-filter { flex: 0 0 30%; display: flex; min-width: 0; }
+/* 2026-10-27 見直し：カレンダーは見るだけの表（押せる大きさ44pxを7列で取れないため）。記録は下の一覧から直す */
+.slog-month h3 small { font: 700 12px/1 var(--mt-font-body); color: var(--mt-ink-3); }
+.slog-cell { position: relative; height: 30px; display: grid; place-items: center; border: 1px solid var(--mt-line); border-radius: 8px; background: var(--mt-bg-card); color: var(--mt-ink-2); font: 700 12px/1 var(--mt-font-body); }
+.slog-cell[data-lv="1"] { background: var(--mt-accent-soft); }
+.slog-cell[data-lv="2"] { background: #f3d9a4; color: var(--mt-ink-warm); }
+.slog-cell[data-lv="3"] { background: var(--mt-accent); color: var(--mt-ink); }
+.slog-cell[data-lv="4"] { background: var(--mt-accent-strong); color: #fff; }
+.slog-cell[data-today] { box-shadow: inset 0 0 0 2px var(--mt-brand); }
+.slog-cell[data-self]::after { content: ''; position: absolute; right: 2px; top: 2px; width: 6px; height: 6px; border-radius: 50%; background: var(--mt-ink-warm); }
+.slog-cell[data-future] { border-style: dashed; background: transparent; color: var(--mt-ink-3); }
+.slog-legend-today { padding: 0 6px; border-radius: 6px; box-shadow: inset 0 0 0 2px var(--mt-brand); }
+.slog-dayblock { display: grid; gap: 4px; padding: 0 0 8px; }
+.slog-dayblock h4 { margin: 0; display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 8px; font: 800 13px/1.4 var(--mt-font-body); color: var(--mt-ink-warm); }
+.slog-dayblock h4 small { font: 600 12px/1.4 var(--mt-font-body); color: var(--mt-ink-3); }
+@media (max-height: 700px) { .slog-cell { height: 24px; } .slog-month { min-height: 44px; } .slog-legend { display: none; } }
+/* 集計：累計の札がグラフの凡例を兼ねる（色の四角）。累計は1行（入りきらなければ折り返さず…） */
+.slog-total { flex-shrink: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.slog-tag > i { display: inline-block; width: 8px; height: 8px; border-radius: 2px; }
+.slog-tag[data-tone=app] > i { background: var(--mt-brand); }
+.slog-tag[data-tone=self] > i { background: var(--mt-accent); }
+@media (max-height: 700px) {
+  .slog-chart { height: 56px; gap: 4px; }
+  .slog-sum > div { padding: 4px 8px; }
+  .slog-sum dd { font-size: 14px; }
+  .slog-day { padding: 6px 10px; gap: 4px; }
+  .slog-body { gap: 6px; }
+}
+@media (max-width: 360px) { .slog-total { white-space: normal; } }
+/* 記録の窓：小さい画面でもスクロールしないよう詰める（時間・教科の札は1行ずつ） */
+.slog-form .slog-chips { flex-wrap: nowrap; }
+.slog-form .slog-chips > button { flex: 1 1 0; padding: 0 4px; white-space: nowrap; }
+.slog-form .slog-chips > label.f { flex: 1.4 1 0 !important; }
+.slog-form .slog-chips > label.f select { padding: 0 4px 0 8px; text-overflow: ellipsis; }
+@media (max-height: 700px) {
+  .slog-form { gap: 6px; }
+  .slog-form label.f > span { font-size: 12px; line-height: 1.2; }
+  .slog-form .ps-toggle-row { min-height: 44px; padding-block: 0; }
+  .slog-form .ps-toggle-text small { display: none; }
+  .slog-form #record-min-help:not([role=alert]) { display: none; }
+  .slog-dialog .game-details-body { padding: 8px 12px 10px; }
+  .slog-dialog > header { padding-block: 2px; }
+}
+/* とても低い画面（〜620px）：グラフを低くして、教科別の一覧に高さを回す */
+@media (max-height: 620px) {
+  .slog-chart { height: 40px; }
+  .slog-chart small { font-size: 12px; }
+  .slog-goalrow .mt-btn { min-height: 44px; padding: 0 8px; }
+}

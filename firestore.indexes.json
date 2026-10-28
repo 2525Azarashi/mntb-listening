@@ -93,6 +93,21 @@
           "order": "DESCENDING"
         }
       ]
+    },
+    {
+      "//": "学習フィード：フレンドの共有した記録を新しい順に（src/features/studylog/studyFeed.ts fetchFeed / fetchUserPosts）。uid の in/== と createdAt の並べ替えなので複合索引が必要。",
+      "collectionGroup": "study_posts",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "uid",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "createdAt",
+          "order": "DESCENDING"
+        }
+      ]
     }
   ],
   "fieldOverrides": []
