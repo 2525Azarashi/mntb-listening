@@ -294,3 +294,6 @@
 .tobira-aura-bit { animation: tobira-aura-float 2.4s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
 @keyframes tobira-aura-float { 0%,100% { transform: translateY(0) scale(1); opacity: .85; } 50% { transform: translateY(-6%) scale(1.12); opacity: 1; } }
 @media (prefers-reduced-motion: reduce) { .tobira-aura-bit { animation: none; } }
+/* 2026-10-28 A7：ランキングの「詳細」ボタン（…から文字のボタンに） */
+.user-safety-trigger.is-detail { min-width:52px; padding:0 10px; border-radius:12px !important; font:800 13px/1 var(--mt-font-body, inherit); color:#245e7a; }
+.user-safety-actions button[data-primary] { background:#245e7a; border-color:#245e7a; color:#fff; }
