@@ -60,6 +60,12 @@ function stemOf(problem: Problem, sq: SubQuestion): string {
   return line ? line.slice(label.length + 1) : '';
 }
 
+/** 問題番号（1〜30）。復習ノートの解き直しで間違えた問だけに絞られても、元の番号（問N）を出す */
+function questionNumber(sq: SubQuestion, fallback: number): number {
+  const m = String(sq.label || '').match(/(\d+)/);
+  return m ? Number(m[1]) : fallback;
+}
+
 export function ToeicPageQuiz({
   mode, chapter, onFinish, onBack, onReturnToBattle, isGuest, onExplanationChange, onScored, questionRange,
 }: ToeicPageQuizProps) {
@@ -224,7 +230,7 @@ export function ToeicPageQuiz({
       <div className="tp-scroll" ref={listRef}>
         <div className="tp-list" data-toeic-page={safePage + 1}>
           {page.map((sq, idx) => {
-            const no = subs.indexOf(sq) + 1;
+            const no = questionNumber(sq, subs.indexOf(sq) + 1);
             const chosen = answers[sq.id] || '';
             const texts = sq.optionTexts || [];
             const ok = pageScored && isAnswerCorrect(sq, chosen);
