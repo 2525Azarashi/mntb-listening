@@ -130,6 +130,36 @@ export const SUBJECT_REGISTRY = [
       stripeClass: 'bg-[#C77B3C]',
     },
   },
+  {
+    // 2026-10-28 TOEIC L&R Part 5（短文穴埋め）。1回30問×15回。章IDは tp5_1
+    id: 'toeic_part5',
+    label: 'TOEIC Part 5',
+    shortLabel: 'TOEIC',
+    enabled: true,
+    chapterIdPattern: /^tp5_\d+$/,
+    entry: 'chapters',
+    practiceDescription: 'TOEIC L&R Part 5（短文穴埋め）を1回30問ずつ解きます。全問に和訳と選択肢ごとの理由がつきます。',
+    // リスニング（ミント）・英文法（琥珀）と見違えないよう、藍色
+    theme: {
+      label: 'TOEIC Part 5',
+      accent: '#3D5A99',
+      accentSoft: '#C3CFEA',
+      surface: '#F5F7FC',
+      bubbleBorderClass: 'border-[#C3CFEA]/80',
+      bubbleBgClass: 'bg-[#F8FAFE]/95',
+      bubbleShadow: '0 10px 24px -14px rgba(61,90,153,0.55)',
+      chipTextClass: 'text-[#2F4A82]',
+      chipBgClass: 'bg-[#C3CFEA]/35',
+      progressBarClass: 'bg-[#5B78B8]',
+    },
+    reviewStyle: {
+      textClass: 'text-[#2F4A82]',
+      bgClass: 'bg-[#C3CFEA]/25',
+      borderClass: 'border-[#C3CFEA]',
+      activeClass: 'bg-[#3D5A99] text-white border-[#3D5A99]',
+      stripeClass: 'bg-[#3D5A99]',
+    },
+  },
 ] as const satisfies readonly SubjectDefinition[];
 
 /** 教科ID（アプリ全体で唯一の定義）。登録簿に足すと自動で増える */
