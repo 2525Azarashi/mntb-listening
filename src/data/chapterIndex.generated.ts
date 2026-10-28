@@ -259,6 +259,18 @@ export const SUBJECT_INDEX: readonly SubjectIndexEntry[] = [
         "realTitle": "20章 会話表現"
       }
     ]
+  },
+  {
+    "id": "toeic_part5",
+    "label": "TOEIC Part 5",
+    "chapters": [
+      {
+        "id": "tp5_1",
+        "problemCount": 1,
+        "abstractTitle": "Part 5 短文穴埋め",
+        "realTitle": "Part 5"
+      }
+    ]
   }
 ];
 
@@ -328,6 +340,11 @@ export const SUBJECT_STATS: Readonly<Record<string, SubjectStatsEntry>> = {
     "chapters": 20,
     "questions": 238,
     "marks": 1163
+  },
+  "toeic_part5": {
+    "chapters": 1,
+    "questions": 1,
+    "marks": 30
   }
 };
 
