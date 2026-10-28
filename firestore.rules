@@ -307,6 +307,65 @@ service cloud.firestore {
         && request.resource.data.nickname.size() <= 24;
     }
 
+    // ============================================================
+    // 学習記録の共有（フレンドの学習フィード）2026-10-27
+    //   study_posts/{uid}_{recordId} = { uid, nickname, kind, day, subject, materialName, minutes,
+    //                                    amount?, amountUnit?, comment?, createdAt, updatedAt }
+    //   study_posts/{postId}/reactions/{reactorUid} = { uid, type, at }
+    // ------------------------------------------------------------
+    // - 読めるのは本人と本人のフレンドだけ（フレンド解除で読めなくなる）。全員への公開はしない
+    // - 書けるのは本人だけ。ID は「自分のuid_記録ID」に固定（他人になりすませない・重複しない）
+    // - 自由入力（教材名・コメント）は長さを制限し、URL・@・長い数字（電話番号・ID）の形は拒否
+    //   （NG語は端末で先に調べ、表示する側でも伏せる。ルールだけで安全を保証するものではない）
+    // - リアクションはフレンドだけが送れる（1人1つ・自分の投稿には押せない）
+    // ============================================================
+    function postNoContact(s) {
+      return !s.lower().matches('.*(https?:|www[.]|@|＠|[0-9０-９]{7,}).*');
+    }
+    function validStudyPost(postId, d) {
+      return d.keys().hasOnly(['uid', 'nickname', 'kind', 'day', 'subject', 'materialName', 'minutes',
+                                'amount', 'amountUnit', 'comment', 'createdAt', 'updatedAt'])
+        && d.keys().hasAll(['uid', 'nickname', 'kind', 'day', 'subject', 'materialName', 'minutes', 'createdAt', 'updatedAt'])
+        && d.uid == request.auth.uid
+        && postId.matches(request.auth.uid + '_[A-Za-z0-9]{1,40}')
+        && d.nickname is string && d.nickname.size() >= 1 && d.nickname.size() <= 24
+        && d.kind == 'manual'
+        && d.day is string && d.day.matches('^[0-9]{4}-[0-9]{2}-[0-9]{2}$')
+        && d.subject in ['eng', 'math', 'jpn', 'phy', 'chem', 'bio', 'earth', 'sci', 'jhist', 'whist', 'geo', 'civ', 'info', 'other']
+        && d.materialName is string && d.materialName.size() <= 40 && postNoContact(d.materialName)
+        && d.minutes is int && d.minutes >= 1 && d.minutes <= 720
+        && (!('amount' in d) || (d.amount is int && d.amount >= 0 && d.amount <= 99999))
+        && (!('amountUnit' in d) || (d.amountUnit is string && d.amountUnit.size() <= 8))
+        && (!('comment' in d) || (d.comment is string && d.comment.size() <= 140 && postNoContact(d.comment)))
+        && d.createdAt is timestamp && d.createdAt <= request.time + duration.value(5, 'm')
+        && d.updatedAt == request.time;
+    }
+    match /study_posts/{postId} {
+      allow get, list: if isAuthenticated()
+        && (resource.data.uid == request.auth.uid || isMyFriend(resource.data.uid));
+      allow create: if isAuthenticated() && validStudyPost(postId, request.resource.data);
+      allow update: if isAuthenticated() && resource.data.uid == request.auth.uid
+        && validStudyPost(postId, request.resource.data);
+      allow delete: if isAuthenticated() && resource.data.uid == request.auth.uid;
+
+      match /reactions/{reactorUid} {
+        function postDoc() { return get(/databases/$(database)/documents/study_posts/$(postId)); }
+        function postExists() { return exists(/databases/$(database)/documents/study_posts/$(postId)); }
+        allow read: if isAuthenticated() && postExists()
+          && (postDoc().data.uid == request.auth.uid || isMyFriend(postDoc().data.uid));
+        allow create, update: if isOwner(reactorUid) && postExists()
+          && postDoc().data.uid != request.auth.uid
+          && isMyFriend(postDoc().data.uid)
+          && request.resource.data.keys().hasOnly(['uid', 'type', 'at'])
+          && request.resource.data.uid == reactorUid
+          && request.resource.data.type in ['cheer', 'nice']
+          && request.resource.data.at == request.time;
+        // 自分のリアクションの取り消し・投稿の本人による後片付け（共有をやめるとき）
+        allow delete: if isOwner(reactorUid)
+          || (isAuthenticated() && postExists() && postDoc().data.uid == request.auth.uid);
+      }
+    }
+
     match /friend_codes/{friendCode} {
       allow get: if isAuthenticated();
       allow list: if false;
@@ -752,7 +811,7 @@ service cloud.firestore {
         return data.keys().hasOnly([
                  'uid', 'updatedAt',
                  's_growth', 's_vocabQuiz', 's_vocabPrefs', 's_support', 's_studyTime', 's_studyLog',
-                 's_unitStats', 's_stageHistory', 's_battleLog', 's_profile', 's_completed', 's_notes', 's_streak', 's_reading'
+                 's_unitStats', 's_stageHistory', 's_battleLog', 's_profile', 's_completed', 's_notes', 's_streak', 's_reading', 's_manualLog'
                ])
           && data.uid == userId
           && data.uid == request.auth.uid
@@ -760,7 +819,7 @@ service cloud.firestore {
           && sec(data, 's_support') && sec(data, 's_studyTime') && sec(data, 's_studyLog')
           && sec(data, 's_unitStats') && sec(data, 's_stageHistory') && sec(data, 's_battleLog')
           && sec(data, 's_profile') && sec(data, 's_completed') && sec(data, 's_notes') && sec(data, 's_streak')
-          && sec(data, 's_reading')
+          && sec(data, 's_reading') && sec(data, 's_manualLog')
           && (!('updatedAt' in data) || data.updatedAt == request.time);
       }
       allow get: if isOwner(userId);

@@ -604,6 +604,7 @@ export default function App() {
                 onStudy={() => { setFoundationBackTo('home'); navigateMain('study'); }}
                 /* ★学習記録から「解きなおす／間違えた問題だけ解く」（2026-10-11）★ 復習ノートと同じ入口で、その大問を開く */
                 onRetry={(t) => { void handleReviewNote({ chapterId: t.chapterId, questionId: t.questionId, subQuestionIds: t.wrongOnly ? t.subQuestionIds : undefined, wholeQuestion: !t.wrongOnly }); }}
+                onOpenFriends={() => { setSettingsTab('friends'); navigateMain('settings'); }}
                 onFoundation={tab => { setFoundationTab(tab); setFoundationBackTo('home'); navigateMain('foundation'); }} />
             </React.Suspense>}
             {appState === 'leaderboard' && FEATURES.ranking && <Leaderboard onBack={() => setAppState('home')} isGuest={isGuest} initialChapterId={selectedChapterId} initialSubject={selectedSubject} onBattle={FEATURES.battle ? () => setAppState('battle') : undefined} />}

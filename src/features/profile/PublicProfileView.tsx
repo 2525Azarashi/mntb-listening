@@ -14,7 +14,7 @@
  * 見た目は既存の部品だけで組む（mt-card・ps-stats の数字の札・GrowthAvatar・mt-dialog）。
  */
 import { useState } from 'react';
-import { Clock, Flame, BookOpen, Flag, Award, GraduationCap, School, CalendarDays } from 'lucide-react';
+import { Clock, Flame, BookOpen, Flag, Award, GraduationCap, School, CalendarDays, Swords } from 'lucide-react';
 import { GrowthAvatar } from '../../battle/ui/GrowthParts';
 import { emptyProgress, xpRequiredForLevel, DEFAULT_FRAME, DEFAULT_POSE, itemById, type GrowthProgress } from '../../battle/core/growth';
 import { badgeById } from '../../battle/core/growthBadges';
@@ -22,6 +22,11 @@ import { displaySafeNickname, displaySafePublicText } from '../../features/safet
 import { formatStudyTime } from '../../utils/studyTime';
 import { barPercents, weekLabels, weekSummary, dayKey, BIO_MAX } from '../../utils/publicProfileCore';
 import type { PublicStudyProfile } from '../../utils/publicStudyProfile';
+import type { StudyPost } from '../studylog/studyFeed';
+import { subjectLabel } from '../studylog/manualLogCore';
+
+/** 対戦の成績（battle_ranking の公開の値。ランキングに出ている数字と同じ） */
+export interface PublicBattleStats { wins: number; losses: number; draws: number; rating: number }
 import '../../components/profile-settings.css';
 import './public-profile.css';
 
@@ -50,7 +55,13 @@ export function PublicProfileView({
   fallbackName,
   isPreview = false,
   now = Date.now(),
+  battle = null,
+  posts = [],
 }: {
+  /** 対戦の成績（無ければ出さない） */
+  battle?: PublicBattleStats | null;
+  /** フレンドに共有された学習記録（フレンドのときだけ読める。無ければタブを出さない） */
+  posts?: StudyPost[];
   profile: PublicStudyProfile;
   /** 公開文書に名前が無いとき（古い文書）に使う名前 */
   fallbackName?: string;
@@ -71,13 +82,15 @@ export function PublicProfileView({
   const labels = weekLabels(profile.weekEnd ? new Date(`${profile.weekEnd}T12:00:00`).getTime() : now);
   const progress = lookToProgress(profile, xpForLevel(profile.level));
   // 低い画面では「プロフィール」「記録」の2枚に分けて、窓の中をスクロールさせない（背の高い画面では両方を並べ、切替は出さない）
-  const [page, setPage] = useState<'about' | 'record'>('about');
+  const [page, setPage] = useState<'about' | 'record' | 'posts'>('about');
+  const hasPosts = posts.length > 0;
 
   return (
-    <div className="pp-view" data-public-profile-view data-page={page}>
+    <div className="pp-view" data-public-profile-view data-page={page} data-has-posts={hasPosts || undefined}>
       <div className="pp-switch mt-tabs" role="tablist" aria-label="プロフィールの表示">
         <button type="button" role="tab" aria-selected={page === 'about'} onClick={() => setPage('about')} data-pp-tab="about">プロフィール</button>
         <button type="button" role="tab" aria-selected={page === 'record'} onClick={() => setPage('record')} data-pp-tab="record">学習の記録</button>
+        {hasPosts && <button type="button" role="tab" aria-selected={page === 'posts'} onClick={() => setPage('posts')} data-pp-tab="posts">共有した記録</button>}
       </div>
       <div className="pp-page" data-pp-page="about">
       <section className="pp-head mt-card" aria-label="プロフィール">
@@ -88,6 +101,7 @@ export function PublicProfileView({
           <p className="pp-tags">
             {profile.grade && <span><GraduationCap size={14} aria-hidden="true" />{profile.grade}</span>}
             {school && <span><School size={14} aria-hidden="true" />{school}</span>}
+            {battle && battle.wins + battle.losses + battle.draws > 0 && <span data-public-battle><Swords size={14} aria-hidden="true" />対戦 {battle.wins}勝{battle.losses}敗（勝率{Math.round((battle.wins / (battle.wins + battle.losses + battle.draws)) * 100)}%）</span>}
           </p>
         </div>
       </section>
@@ -131,6 +145,16 @@ export function PublicProfileView({
           : '学習時間は本人の端末で記録した、演習・解説の時間です。成績や順位を表すものではありません。'}
       </p>
       </div>
+      {hasPosts && <div className="pp-page" data-pp-page="posts">
+        <ul className="pp-posts" aria-label="フレンドに共有した学習記録">
+          {posts.map(p => <li key={p.id}>
+            <span><strong>{subjectLabel(p.subject)}{p.materialName ? `・${displaySafePublicText(p.materialName)}` : ''}</strong>
+              {p.comment && <small>{displaySafePublicText(p.comment, 140)}</small>}</span>
+            <b>{formatStudyTime(p.minutes * 60)}</b>
+          </li>)}
+        </ul>
+        <p className="ps-help pp-note">フレンドだけに共有された記録です（本人の自己申告）。</p>
+      </div>}
     </div>
   );
 }

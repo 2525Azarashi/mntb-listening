@@ -7,6 +7,8 @@ import { GachaRoom } from './GachaRoom';
 import { ManaRush } from './ManaRush';
 import { MyCollection } from './MyCollection';
 import { MyProfileCard } from './MyProfileCard';
+import { MyStudyCard } from '../features/studylog/MyStudyCard';
+import { StudyLogPage } from '../features/studylog/StudyLogPage';
 import { GrowthAvatar, LevelBar } from '../battle/ui/GrowthParts';
 import { useGrowthProgress } from '../hooks/useGrowthProgress';
 import { useMediaQuery } from '../hooks/useMediaQuery';
@@ -14,14 +16,16 @@ import { BattleMissions } from '../battle/ui/BattleMissions';
 import { BattleProfile } from '../battle/ui/BattleProfile';
 import './growth-hub.css';
 import { KineticText } from '../motion';
-export type GrowthPage = 'overview' | 'gacha' | 'gacha-shop' | 'outfit' | 'prints' | 'rewards' | 'badges' | 'stats' | 'missions' | 'rush';
-export function GrowthHub({ page, onPage, onBack, onBattle, onReview, onRanking, defaultSubject, onStudy, onFoundation, onRetry }: {
+export type GrowthPage = 'overview' | 'gacha' | 'gacha-shop' | 'outfit' | 'prints' | 'rewards' | 'badges' | 'stats' | 'missions' | 'rush' | 'log' | 'log-new' | 'profile-edit';
+export function GrowthHub({ page, onPage, onBack, onBattle, onReview, onRanking, defaultSubject, onStudy, onFoundation, onRetry, onOpenFriends }: {
   page: GrowthPage; onPage: (page: GrowthPage) => void; onBack: () => void;
   /** ミッションの行き先：演習する（教科選び）／英単語の4択・単語帳 */
   onStudy?: () => void; onFoundation?: (tab: 'words' | 'quiz') => void;
   onBattle?: () => void; onReview: () => void; onRanking?: () => void; defaultSubject?: string;
   /** 学習記録から、その大問を解きなおす（間違えた小問だけにも絞れる） */
   onRetry?: (t: StudyRetry) => void;
+  /** 学習記録の「フレンド」で、フレンドがいないときの追加ボタン */
+  onOpenFriends?: () => void;
 }) {
   const { progress, uid } = useGrowthProgress();
   // マイページは1画面に収める：スマホではとびら君を小さくして横1段に（2026-10-21）
@@ -54,7 +58,7 @@ export function GrowthHub({ page, onPage, onBack, onBattle, onReview, onRanking,
   return <section className="mana-hub mypage-hub" data-mypage>
     <header className="mana-hub-header"><h1><KineticText text="マイページ" /></h1></header>
     {/* ショップはガチャ欄から入る独立画面。マイページには置かない。 */}
-    <nav className="mypage-tabs" aria-label="マイページメニュー">{([['overview','マイページ'],['outfit','きせかえ'],['badges','称号'],['prints','マイPDF']] as const).map(([id,label]) => <button type="button" key={id} aria-current={activePage === id ? 'page' : undefined} onClick={()=>openTab(id)}>{label}</button>)}</nav>
+    <nav className="mypage-tabs" aria-label="マイページメニュー">{([['overview','マイページ'],['log','記録'],['outfit','きせかえ'],['badges','称号'],['prints','マイPDF']] as const).map(([id,label]) => <button type="button" key={id} aria-current={activePage === id || (id === 'log' && activePage === 'log-new') || (id === 'overview' && activePage === 'profile-edit') ? 'page' : undefined} onClick={()=>openTab(id)}>{label}</button>)}</nav>
     <div className="mypage-body">
     {page === 'overview' ? <main className="mypage-overview" data-mypage-overview>
       <section className="mypage-stage" aria-label="いまのとびら君">
@@ -63,9 +67,15 @@ export function GrowthHub({ page, onPage, onBack, onBattle, onReview, onRanking,
         <div className="mypage-stage-meta"><span><Coins size={16}/><strong>{progress?.coins.toLocaleString() ?? '—'}</strong>マナコイン</span>{progress && <LevelBar xp={progress.xp} compact/>}</div>
       </section>
       {/* 2026-10-21：きせかえ・称号のボタンは削除（上のタブで開ける）。代わりに設定の「アカウント・プロフィール」をここへ */}
-      <MyProfileCard />
+      {/* 2026-10-27：見るカード（自分の学習ページ）と、直す画面（MyProfileCard）を分けた */}
+      <MyStudyCard onRecord={() => onPage('log-new')} onLog={() => onPage('log')} onEdit={() => onPage('profile-edit')} />
       {/* 「レベルで手に入るもの」はミッションの中へ移した（マイページをスクロールなしで1画面に収める・2026-10-05） */}
     </main> : activePage === 'outfit' || activePage === 'prints' || activePage === 'rewards' ? <MyCollection key={`${uid}:${activePage}:${outfitKind}`} view={activePage === 'outfit' || activePage === 'rewards' ? 'owned' : activePage} initialKind={activePage === 'outfit' ? outfitKind : 'all'} onGacha={()=>onPage('gacha')}/>
+    : activePage === 'profile-edit' ? <main className="mypage-overview mypage-profile-edit" data-mypage-profile-edit>
+      <div className="profile-standalone-head"><button type="button" onClick={() => onPage('overview')} aria-label="マイページにもどる">←</button><h2>プロフィールを編集</h2></div>
+      <MyProfileCard />
+    </main>
+    : activePage === 'log' || activePage === 'log-new' ? <StudyLogPage key={`${uid}:${activePage}`} openNew={activePage === 'log-new'} onStudy={onStudy} onReview={onReview} onOpenFriends={onOpenFriends} />
     : activePage === 'stats' ? <div className="mypage-extra-scroll"><StudyRecord embedded onReview={onReview} onRetry={onRetry}/></div>
     : activePage === 'missions' ? <div className="mypage-extra-scroll"><BattleMissions key={uid} standalone onBack={()=>onPage('overview')} onBattle={onBattle} onReview={onReview} onShop={()=>onPage('gacha-shop')} onRush={()=>onPage('rush')} extra={progress ? <LevelRewards progress={progress} /> : null} onGo={goMission}/></div>
     : <div className="mypage-extra-scroll"><BattleProfile key={`${uid}:${activePage}`} standalone initialTab={activePage as 'outfit' | 'badges' | 'stats'} onBack={()=>onPage('overview')}/></div>}
