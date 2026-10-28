@@ -14,6 +14,7 @@ import { ROUND_11 } from './toeicPart5Round11';
 import { ROUND_12 } from './toeicPart5Round12';
 import { ROUND_13 } from './toeicPart5Round13';
 import { ROUND_14 } from './toeicPart5Round14';
+import { ROUND_15 } from './toeicPart5Round15';
 
 export const TOEIC_P5_ROUNDS: readonly ToeicP5Item[][] = [
   ROUND_01,
@@ -30,4 +31,5 @@ export const TOEIC_P5_ROUNDS: readonly ToeicP5Item[][] = [
   ROUND_12,
   ROUND_13,
   ROUND_14,
+  ROUND_15,
 ];
