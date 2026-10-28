@@ -25,7 +25,7 @@ export function StudyRecord({ onReview, onRetry, embedded = false }: { onReview?
     <section className={`study-record ${embedded ? 'is-embedded' : ''}`} aria-labelledby="study-record-title" data-study-record>
       <header className="sr-head">
         <div>
-          <h1 id="study-record-title"><KineticText text="学習記録" /></h1>
+          <h1 id="study-record-title"><KineticText text="解いた問題" /></h1>
           <p>直近{STUDY_LOG_DAYS}日に解いた問題と、まちがえた所</p>
         </div>
       </header>
