@@ -399,7 +399,7 @@ export function Home({ onPractice, onPickSubject, onStudyMode, onGrowth, onStart
         </section>
         {/* ★ホームの3本柱（2026-10-01）★
             演習する（ひとりで学ぶ）／対戦する（ひとりで・みんなで）を同じ大きさで左右に、
-            その下に復習・記録（苦手をなくす）を横長で。科目の帯は「演習する」の中（科目選択）へ移した。 */}
+            その下に復習（苦手をなくす）を横長で。★2026-10-28：「記録」はマイページ › 記録 だけに置く（ここは解きなおす場所）★科目の帯は「演習する」の中（科目選択）へ移した。 */}
         <section className={`game-action-deck home-pillars ${!onBattle ? 'without-battle' : ''}`} aria-label="学習の入口" data-home-arena={onBattle ? '' : undefined}>
           <button type="button" className="home-pillar home-pillar-solo game-solo" data-home-practice onClick={onPractice ?? (() => (onStudyMode ? onStudyMode('practice') : onStart()))}>
             <span className="home-pillar-icon" aria-hidden="true"><Edit3 /></span><strong>演習する</strong><small>ひとりで学ぶ</small>
@@ -409,9 +409,9 @@ export function Home({ onPractice, onPickSubject, onStudyMode, onGrowth, onStart
           </button>}
         </section>
         <section className="home-review-rush" aria-label="復習と短時間チャレンジ">
-        <button type="button" className="home-review-wide game-review" aria-label={`復習・記録（苦手をなくす）${reviewDueCount > 0 ? `・今日の復習 ${reviewDueCount}問` : ''}`} onClick={onNoteList} data-home-review>
+        <button type="button" className="home-review-wide game-review" aria-label={`復習（苦手をなくす）${reviewDueCount > 0 ? `・今日の復習 ${reviewDueCount}問` : ''}`} onClick={onNoteList} data-home-review>
           <span className="home-pillar-icon" aria-hidden="true"><Repeat2 /></span>
-          <span className="home-review-text"><strong>復習・記録</strong><small>苦手をなくす</small></span>
+          <span className="home-review-text"><strong>復習</strong><small>苦手をなくす</small></span>
           {reviewDueCount > 0 ? <b>今日 {reviewDueCount}問</b> : <ChevronRight aria-hidden="true" />}
         </button>
           {onGrowth && <button type="button" className="home-rush-card" onClick={() => onGrowth('rush')} aria-label="マナラッシュ（60秒チャレンジ）を開く" data-home-rush><Zap size={20} /><span><strong>マナラッシュ</strong><small>60秒チャレンジ</small></span></button>}
