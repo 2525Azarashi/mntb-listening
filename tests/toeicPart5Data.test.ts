@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { TOEIC_P5_ROUNDS } from '../src/data/toeic/toeicPart5Rounds';
 import { answerPositions, TOEIC_MARKS, TOEIC_P5_QUESTIONS_PER_ROUND, type ToeicP5Item } from '../src/data/toeic/toeicPart5Kit';
 import { toeicPart5Data } from '../src/data/toeic/toeicPart5Data';
+import { optionCircledMark } from '../src/utils/questionDisplay';
 
 /**
  * TOEIC Part 5 の問題データの検査（2026-10-28）
@@ -97,5 +98,11 @@ describe('TOEIC Part 5：回ごと・全体の偏り', () => {
     }
     const over = [...answers.entries()].filter(([, at]) => at.length >= 3).map(([a, at]) => `${a}: ${at.join('、')}`);
     expect(over).toEqual([]);
+  });
+
+  it('(A)〜(D) の選択肢には丸数字を重ねない（解説で「①(A)」にならない）', () => {
+    TOEIC_MARKS.forEach((m, i) => expect(optionCircledMark(m, i)).toBe(''));
+    // 既存の教科（丸数字なしの選択肢）には今までどおり付く
+    expect(optionCircledMark('NaCl', 0)).toBe('①');
   });
 });
