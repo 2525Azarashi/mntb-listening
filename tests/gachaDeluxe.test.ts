@@ -21,9 +21,10 @@ describe('ガチャの配分（はずれ多め・URは完全版の本だけ）',
     for (const item of tiers.UR) expect(books.some(b => b.id === item.id), item.id).toBe(true);
     for (const p of GACHA_PRINTS) expect(printRarity(p), p.id).toBe(p.category === '完全版' ? 'UR' : 'SR');
   });
-  it('完全版は9冊（英単語3・英熟語1・リーディング大問別3・リスニング大問別1・全科目分析1）がそろい、ファイルとページ数が台帳と合う', () => {
-    expect(books.map(b => b.id).sort()).toEqual(['print_book_analysis_all', 'print_book_idiom_all', 'print_book_listening_all', 'print_book_reading_mock1', 'print_book_reading_mock2',
-      'print_book_reading_mock3', 'print_book_vocab_adv', 'print_book_vocab_lv1', 'print_book_vocab_lv2']);
+  it('完全版は15冊（英単語3・英熟語1・リーディング大問別3・リスニング大問別1・全科目分析1・熟語＋英文解釈3・英文法4択3）がそろい、ファイルとページ数が台帳と合う', () => {
+    expect(books.map(b => b.id).sort()).toEqual(['print_book_analysis_all', 'print_book_grammar_b4_bunpo', 'print_book_grammar_b4_gohou', 'print_book_grammar_b4_kaiwa',
+      'print_book_idiom_all', 'print_book_idiom_reading_advanced', 'print_book_idiom_reading_basic', 'print_book_idiom_reading_standard', 'print_book_listening_all',
+      'print_book_reading_mock1', 'print_book_reading_mock2', 'print_book_reading_mock3', 'print_book_vocab_adv', 'print_book_vocab_lv1', 'print_book_vocab_lv2']);
     for (const b of books) {
       expect(existsSync(`public${b.file}`), b.id).toBe(true);
       expect(existsSync(`public${b.thumb}`), b.id).toBe(true);
@@ -64,6 +65,28 @@ describe.skipIf(!hasPdf)('完全版の中身（その一冊で完成するか）
     expect(files.length).toBeGreaterThanOrEqual(70);
     const dir = (f: string) => f.startsWith('q5') ? 'listening_q5' : f.startsWith('q6') ? 'listening_q6' : f.startsWith('set') ? 'listening_q4' : 'listening_audio';
     for (const f of files) expect(existsSync(`public/${dir(f)}/${f}`), f).toBe(true);
+  });
+  it.each([
+    ['print_book_idiom_reading_basic', '英文解釈（基礎）', 'r1-12'],
+    ['print_book_idiom_reading_standard', '英文解釈（標準）', 'r2-12'],
+    ['print_book_idiom_reading_advanced', '英文解釈（発展）', 'r3-12'],
+  ])('熟語＋英文解釈 %s：全12回の問題と解答、熟語のつづき（右上）と英文解釈', (id, head, last) => {
+    const t = text(`/prints/${id}.pdf`);
+    for (let r = 1; r <= 12; r++) expect(t, `第${r}回`).toContain(`第${r}回`);
+    expect(t).toContain(head);
+    expect(t).toContain('英熟語（つづき）');
+    expect(t).toContain(last);
+    expect(t).toContain('全訳と解答');
+  });
+  it.each([
+    ['print_book_grammar_b4_bunpo', ['時制（1）', '時制の一致と話法（2）'], 729],
+    ['print_book_grammar_b4_gohou', ['動詞の語法（1）', '名詞の語法（5）'], 290],
+    ['print_book_grammar_b4_kaiwa', ['会話表現（1）', '会話表現（15）'], 144],
+  ])('英文法4択 %s：見出し「〇〇（1）」、アプリの問題数ぶんの正解と解説', (id, heads, n) => {
+    const t = text(`/prints/${id}.pdf`);
+    for (const h of heads) expect(t, h).toContain(h);
+    expect((t.match(/正解\s*[①②③④]/g) || []).length).toBe(n);
+    expect((t.match(/ポイント/g) || []).length).toBeGreaterThanOrEqual(n);
   });
   it('全科目分析：主要科目すべてと出典・最新平均点がある', () => {
     const t = text('/prints/print_book_analysis_all.pdf');
