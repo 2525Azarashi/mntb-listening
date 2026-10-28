@@ -322,6 +322,11 @@
 .vq-start { width: 100%; min-height: 52px; font-size: 16px; gap: 8px; }
 .vq-start:disabled { opacity: .5; }
 .vq-missed-btn { width: 100%; justify-content: center; }
+/* 2026-10-28 青いボタンの下：範囲を全部（✓ 済みも含む）・間違えた語。両方あるときは横に並べて高さを増やさない */
+.vq-start-sub { display: grid; grid-template-columns: 1fr; gap: 6px; }
+.vq-start-sub[data-two] { grid-template-columns: 1fr 1fr; }
+.vq-start-sub > .fd-secondary { width: 100%; min-height: 44px; justify-content: center; padding: 4px 8px; font-size: 13px; line-height: 1.25; text-align: center; white-space: normal; }
+.vq-start-sub > .fd-secondary svg { flex-shrink: 0; }
 .vq-bar { flex: 1; position: relative; height: 10px; border-radius: 99px; background: #eee4d2; }
 .vq-bar i { position: absolute; inset: 0 auto 0 0; border-radius: inherit; background: #f6b93b; }
 .vq-bar small { position: absolute; right: 0; top: 14px; font-size: 12px; font-weight: 700; color: #2f7a52; }
