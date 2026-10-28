@@ -15,6 +15,8 @@
  */
 import type { ListeningWord, WordQuestion } from './listeningSupport';
 import { safeLocalStorage } from '../utils/safeLocalStorage';
+import { shuffleWith } from '../utils/shuffle';
+import { perUserKey } from '../utils/userStorageKeys';
 
 export const QUIZ_SIZE = 10;
 export const BLOCK_SIZE = 100;
@@ -47,7 +49,7 @@ export function buildQuiz(words: readonly ListeningWord[], opts: { missed?: read
   };
   const missed = new Set(opts.missed ?? []);
   const prefer = new Set(opts.prefer ?? []);
-  const shuffle = <T,>(a: T[]) => { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(r() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+  const shuffle = <T,>(a: T[]) => shuffleWith(a, r);
   const first = words.filter(w => missed.has(w.id));
   // prefer（例：まだ ✓ が付いていない語）を、残りより先に（どちらも中はランダム）
   const second = shuffle(words.filter(w => !missed.has(w.id) && prefer.has(w.id)));
@@ -133,7 +135,7 @@ export function buildRangeQuiz(list: readonly ListeningWord[], set: Pick<RangeSe
   return { items: picked.map(pickQ).filter((x): x is QuizItem => !!x), allLearned };
 }
 
-const PREF_KEY = (uid: string) => 'vocab_quiz_prefs_v1_' + encodeURIComponent(uid || 'guest');
+const PREF_KEY = (uid: string) => perUserKey('vocab_quiz_prefs_v1_', uid);
 /** レベルごとの範囲と、全体の問題数・順番・出す語の好み */
 export interface QuizPrefs { count: QuizCount; order: QuizOrder; only: QuizOnly; ranges: Record<string, [number, number]> }
 export const DEFAULT_PREFS: QuizPrefs = { count: 10, order: 'number', only: 'unlearned', ranges: {} };
@@ -162,7 +164,7 @@ export const rangeKey = (level: string, from: number, to: number) => `${level}:$
  * mastered … 4択で正解した語（✓）。間違えると外れる。2026-10-17 に追加（古い記録には無いので空として読む）
  */
 export interface VocabQuizRecord { version: 1; missed: string[]; best: Record<string, number>; mastered?: string[] }
-const key = (uid: string) => 'vocab_quiz_v1_' + encodeURIComponent(uid || 'guest');
+const key = (uid: string) => perUserKey('vocab_quiz_v1_', uid);
 export const blockKey = (level: string, block: number) => `${level}:${block}`;
 
 export function readQuizRecord(uid: string): VocabQuizRecord {

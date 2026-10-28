@@ -32,6 +32,7 @@ import { useGrowthProgress } from '../hooks/useGrowthProgress';
 import { KineticText } from '../motion';
 import { safeGetItem } from '../utils/safeLocalStorage';
 import { safeSetItem } from '../utils/storageGuard';
+import { shuffleSecure } from '../utils/shuffle';
 
 export const RUSH_DURATION_MS = 60_000;
 export const RUSH_MAX_MS = 90_000;
@@ -70,16 +71,6 @@ export function rushSubjects(): string[] {
   });
 }
 
-function shuffle<T>(items: readonly T[]): T[] {
-  const a = [...items];
-  const r = new Uint32Array(a.length);
-  crypto.getRandomValues(r);
-  for (let i = a.length - 1; i > 0; i -= 1) {
-    const j = r[i] % (i + 1);
-    [a[i], a[j]] = [a[j], a[i]];
-  }
-  return a;
-}
 
 type Phase = 'menu' | 'loading' | 'countdown' | 'play' | 'result';
 type Miss = { q: BattleQuestion; chosen: number };
@@ -142,7 +133,7 @@ export function ManaRush({ onBack, defaultSubject }: { onBack: () => void; defau
     try {
       const pool = (await loadPool(subject)).filter(isRushQuestion);
       if (pool.length < 5) { setError('この科目は出せる問題が足りません。別の科目を選んでください。'); setPhase('menu'); return; }
-      setQueue(shuffle(pool).slice(0, 120));
+      setQueue(shuffleSecure(pool).slice(0, 120));
       setQi(0); setLives(RUSH_LIVES); setScore(0); setCombo(0); setCorrect(0); setAnswered(0);
       setMisses([]); setSummary(null); setFlash(null); setRemain(RUSH_DURATION_MS);
       stats.current = { score: 0, correct: 0, answered: 0, maxCombo: 0 };

@@ -11,6 +11,7 @@ import { LEVEL5 } from './level5';
 import { safeGetItem } from '../../utils/safeLocalStorage';
 import { safeSetItem } from '../../utils/storageGuard';
 import type { QType, ReadingLevel, ReadingPassage, ReadingQuestion } from './types';
+import { shuffleWith } from '../../utils/shuffle';
 
 export type { QType, ReadingLevel, ReadingPassage, ReadingQuestion } from './types';
 
@@ -39,8 +40,7 @@ function hash(s: string): number {
 export function shuffledOptions(q: ReadingQuestion): { options: string[]; answerIndex: number } {
   let s = hash(q.id) || 1;
   const rnd = () => { s ^= s << 13; s >>>= 0; s ^= s >>> 17; s ^= s << 5; s >>>= 0; return s / 0x100000000; };
-  const idx = [0, 1, 2, 3];
-  for (let i = idx.length - 1; i > 0; i--) { const j = Math.floor(rnd() * (i + 1)); [idx[i], idx[j]] = [idx[j]!, idx[i]!]; }
+  const idx = shuffleWith([0, 1, 2, 3], rnd);
   return { options: idx.map(i => q.options[i]!), answerIndex: idx.indexOf(0) };
 }
 
