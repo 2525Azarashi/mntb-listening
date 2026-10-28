@@ -21,7 +21,7 @@ tools/update.sh が cards.json から作る。1ファイル1行：`パス` — �
 - `src/components/AnswerPane.tsx` — 演習画面の右側（スマホでは下側）で答えを入力させる係（部品・657行・使われる1）
 - `src/components/AppToast.tsx` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（部品・45行・使われる1）
 - `src/components/AppWallpaper.tsx` — ガチャで当てた壁紙を、アプリ全体の背景に敷く係（部品・27行・使われる1）
-- `src/components/ChapterSelection.tsx` — 単元（章）の一覧を見せ、選んだ単元の演習へ進ませる画面の係（画面・555行・使われる2）
+- `src/components/ChapterSelection.tsx` — 【変】単元（章）の一覧を見せ、選んだ単元の演習へ進ませる画面の係。リスニングと TOEIC は「第N回」の一覧で出す（章）の一覧を見せ、選んだ単元の演習へ進ませる画面の係（画面・560行・使われる2）
 - `src/components/CinematicClip.tsx` — とびら君の演出動画を、アプリ内のファイルから再生する係（音声・画像・60行・使われる5）
 - `src/components/ClassPanel.tsx` — 生徒が先生のクラスに参加するための画面の係（画面・302行・使われる1）
 - `src/components/ComingSoon.tsx` — まだ公開していない機能に「準備中」の札を出す係（部品・15行・使われる2）
@@ -83,7 +83,7 @@ tools/update.sh が cards.json から作る。1ファイル1行：`パス` — �
 - `src/components/ScreenStatus.tsx` — 【変】画面の「読み込み中」と「開けませんでした」を表示する係（部品・24行・使われる2）
 - `src/components/SortingControl.tsx` — 並べ替え問題で、選択肢を正しい順に並べさせる係（部品・249行・使われる1）
 - `src/components/SpinMascot.tsx` — ホームのとびら君を指で回して遊べるようにする係（部品・82行・使われる1）
-- `src/components/StudyCatalog.tsx` — 「演習する」で、科目と学習コンテンツを選ばせる画面の係（画面・119行・使われる1）
+- `src/components/StudyCatalog.tsx` — 【変】「演習する」で、科目と学習コンテンツを選ばせる画面の係。とびら君の吹き出しの右に TOEIC の入口ボタンを出す（画面・132行・使われる1）
 - `src/components/StudyHub.tsx` — ノートと復習リストを1画面にまとめ、今日の復習を示す係（画面・479行・使われる1）
 - `src/components/StudyRecord.tsx` — 直近3日に解いた問題とまちがえた所を記録として見せる係（部品・96行・使われる2）
 - `src/components/TeacherDashboard.tsx` — 先生がクラスの生徒の様子を見て、CSVに書き出す画面の係（画面・472行・使われる1）
@@ -105,7 +105,7 @@ tools/update.sh が cards.json から作る。1ファイル1行：`パス` — �
 - `src/components/explanation/ScoreHead.tsx` — 採点結果の見出しに、正解・不正解・未解答の数を出す係（部品・41行・使われる1）
 - `src/components/explanation/SharedExplanation.tsx` — 大問全体の流れと共通のポイントを右側に見せる係（部品・49行・使われる1）
 - `src/components/explanation/SubQuestionCard.tsx` — 小問1つぶんの正誤・あなたの答え・正解・解説を見せる係（部品・219行・使われる1）
-- `src/components/explanation/explanationLogic.ts` — 解答・解説画面で使う、点数などの計算をまとめる係（データ・117行・使われる5）
+- `src/components/explanation/explanationLogic.ts` — 【変】解答・解説画面で使う、点数などの計算をまとめる係（データ・119行・使われる5）
 - `src/components/explanation/explanationSlices.ts` — 大問の解説を、小問ごとの本文と共通部分に切り分ける係（データ・75行・使われる1）
 - `src/components/explanation/helpers.ts` — 解答・解説画面で使う、画面に依存しない小さな計算の係（データ・48行・使われる8）
 - `src/components/explanation/types.ts` — 解答・解説画面の部品どうしで共有するデータの形の係（データ・18行・使われる3）
@@ -137,14 +137,14 @@ tools/update.sh が cards.json から作る。1ファイル1行：`パス` — �
 - `src/components/review-note.css` — 復習ノート画面の並びと見た目を決めるスタイルの係（部品・153行・使われる1）
 - `src/components/screen-loading.css` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（部品・11行・使われる1）
 - `src/components/step-explanation.css` — 1問ずつ演習の解答と解説を、対戦の結果と同じ並びにする係（部品・136行・使われる1）
-- `src/components/study-catalog.css` — 「演習する」の科目選択と学習コンテンツ選択の見た目の係（部品・89行・使われる1）
+- `src/components/study-catalog.css` — 【変】「演習する」の科目選択と学習コンテンツ選択の見た目の係（部品・116行・使われる1）
 - `src/components/study-record.css` — 学習記録を、時系列で読みやすく並べる見た目の係（部品・44行・使われる1）
 - `src/components/teacher/ClassesTab.tsx` — 先生画面で、クラスの参加コードや受付の開閉を扱う係（画面・92行・使われる1）
 - `src/components/teacher/CreateClassModal.tsx` — 先生画面で、新しいクラスを作る入力の窓を出す係（画面・108行・使われる1）
 - `src/components/teacher/EmptyState.tsx` — クラスがまだ1つも無いときに、作り方を案内する係（部品・35行・使われる1）
 - `src/components/teacher/KantenTab.tsx` — 観点別評価の材料を、所見に使える形で見せるタブの係（画面・205行・使われる1）
 - `src/components/teacher/StudentsTab.tsx` — 先生画面で、生徒ごとの学習の様子を一覧で見せる係（画面・384行・使われる1）
-- `src/components/teacher/teacherSubjects.ts` — クラスを作るときに選べる教科と、最初の教科を決める係（設定・10行・使われる2）
+- `src/components/teacher/teacherSubjects.ts` — 【変】クラスを作るときに選べる教科と、最初の教科を決める係（classroom:false の教科は除く）（設定・13行・使われる2）
 - `src/components/teacher/teacherTheme.ts` — 先生画面で使う配色の形（型）だけを決めておく係（データ・4行・使われる3）
 - `src/components/tobira-buddy.css` — 住人のとびら君が呼吸し、まばたきする動きの見た目の係（部品・36行・使われる1）
 - `src/components/ui/BottomNavigation.tsx` — スマホの下部ナビとPCのサイドバーを1つで出す係（部品・44行・使われる2）
@@ -431,7 +431,7 @@ tools/update.sh が cards.json から作る。1ファイル1行：`パス` — �
 
 - `listening_audio_ledger.json` — リスニング音源374件の出どころと状態を記録する台帳の係（データ・5,612行・使われる0）
 - `public/data/listeningVocabulary.json` — 単語帳と対戦で使う英単語データを、まとめて持つ係（データ・0行・使われる0）
-- `src/data/allChapters.ts` — 教科ごとの単元の一覧を集め、単元を探せるようにする入口の係（データ・182行・使われる25）
+- `src/data/allChapters.ts` — 【変】教科ごとの単元の一覧を集め、単元を探せるようにする入口の係（データ・184行・使われる25）
 - `src/data/chapterCatalog.ts` — 科目ごとに、どんな単元があるかの一覧表を作る係（データ・158行・使われる1）
 - `src/data/egProblemsExpr1.ts` — 英文法⑲「動詞を含む熟語・群動詞」の問題を持つ係（データ・212行・使われる1）
 - `src/data/egProblemsExpr2.ts` — 英文法⑳「会話表現と多義語・語い」の問題を持つ係（データ・210行・使われる1）
@@ -443,6 +443,24 @@ tools/update.sh が cards.json から作る。1ファイル1行：`パス` — �
 - `src/data/englishGrammarData.ts` — 英文法の単元（章）の並びと中身をまとめて持つ係（データ・272行・使われる6）
 - `src/data/englishGrammarKit.ts` — 英文法の4択問題の形と、問題を組み立てる道具を持つ係（データ・228行・使われる8）
 - `src/data/englishGrammarProblems.ts` — 英文法の問題データをいくつかのファイルから集めて渡す係（データ・59行・使われる1）
+- `src/data/toeic/toeicPart5Kit.ts` — 【新】TOEIC Part 5 の問題の形・分野・商標の注意書きと、1回30問の大問を組み立てる道具の係（データ・238行・使われる2）
+- `src/data/toeic/toeicPart5Data.ts` — 【新】TOEIC Part 5 の単元（全15回）をまとめ、教科として渡す係（データ・92行・使われる2）
+- `src/data/toeic/toeicPart5Rounds.ts` — 【新】TOEIC Part 5 の第1〜15回の問題データを集めて渡す係（データ・35行・使われる2）
+- `src/data/toeic/toeicPart5Round01.ts` — 【新】TOEIC Part 5 第1回のオリジナル30問（解説・和訳・語句つき）を持つ係（データ・155行・使われる1）
+- `src/data/toeic/toeicPart5Round02.ts` — 【新】TOEIC Part 5 第2回のオリジナル30問（解説・和訳・語句つき）を持つ係（データ・155行・使われる1）
+- `src/data/toeic/toeicPart5Round03.ts` — 【新】TOEIC Part 5 第3回のオリジナル30問（解説・和訳・語句つき）を持つ係（データ・155行・使われる1）
+- `src/data/toeic/toeicPart5Round04.ts` — 【新】TOEIC Part 5 第4回のオリジナル30問（解説・和訳・語句つき）を持つ係（データ・155行・使われる1）
+- `src/data/toeic/toeicPart5Round05.ts` — 【新】TOEIC Part 5 第5回のオリジナル30問（解説・和訳・語句つき）を持つ係（データ・155行・使われる1）
+- `src/data/toeic/toeicPart5Round06.ts` — 【新】TOEIC Part 5 第6回のオリジナル30問（解説・和訳・語句つき）を持つ係（データ・155行・使われる1）
+- `src/data/toeic/toeicPart5Round07.ts` — 【新】TOEIC Part 5 第7回のオリジナル30問（解説・和訳・語句つき）を持つ係（データ・155行・使われる1）
+- `src/data/toeic/toeicPart5Round08.ts` — 【新】TOEIC Part 5 第8回のオリジナル30問（解説・和訳・語句つき）を持つ係（データ・155行・使われる1）
+- `src/data/toeic/toeicPart5Round09.ts` — 【新】TOEIC Part 5 第9回のオリジナル30問（解説・和訳・語句つき）を持つ係（データ・155行・使われる1）
+- `src/data/toeic/toeicPart5Round10.ts` — 【新】TOEIC Part 5 第10回のオリジナル30問（解説・和訳・語句つき）を持つ係（データ・155行・使われる1）
+- `src/data/toeic/toeicPart5Round11.ts` — 【新】TOEIC Part 5 第11回のオリジナル30問（解説・和訳・語句つき）を持つ係（データ・155行・使われる1）
+- `src/data/toeic/toeicPart5Round12.ts` — 【新】TOEIC Part 5 第12回のオリジナル30問（解説・和訳・語句つき）を持つ係（データ・155行・使われる1）
+- `src/data/toeic/toeicPart5Round13.ts` — 【新】TOEIC Part 5 第13回のオリジナル30問（解説・和訳・語句つき）を持つ係（データ・155行・使われる1）
+- `src/data/toeic/toeicPart5Round14.ts` — 【新】TOEIC Part 5 第14回のオリジナル30問（解説・和訳・語句つき）を持つ係（データ・155行・使われる1）
+- `src/data/toeic/toeicPart5Round15.ts` — 【新】TOEIC Part 5 第15回のオリジナル30問（解説・和訳・語句つき）を持つ係（データ・155行・使われる1）
 - `src/data/englishListeningData.ts` — 共通テスト英語リスニングの単元の並びと中身を持つ係（データ・364行・使われる17）
 - `src/data/englishListeningQ1AProblems.ts` — リスニング第1問Aの演習問題と、問題データの形を持つ係（データ・377行・使われる14）
 - `src/data/englishListeningQ1ASets.ts` — リスニング第1問Aの類題集（第2回〜第14回）を持つ係（データ・2,532行・使われる5）
@@ -457,17 +475,17 @@ tools/update.sh が cards.json から作る。1ファイル1行：`パス` — �
 - `src/data/mascotTips.ts` — とびら君が話す「ミニ豆知識」の文を持つ係（データ・180行・使われる1）
 - `src/data/philosophy.ts` — 理念ページ「学びの扉」に載せる本文を段落ごとに持つ係（データ・68行・使われる1）
 - `src/data/problemCount.ts` — 1つの単元に大問が何問入っているかを数える共通の係（データ・66行・使われる2）
-- `src/data/studyCatalog.ts` — 科目ごとに、選べる学習コンテンツの一覧を持つ係（データ・98行・使われる2）
+- `src/data/studyCatalog.ts` — 【変】科目ごとに、選べる学習コンテンツの一覧を持つ係（データ・119行・使われる2）
 - `src/data/subjectLabels.ts` — 教科のIDと教科名の対応を持ち、正しいIDか判定する係（データ・27行・使われる10）
 - `src/data/subjectTheme.ts` — 科目ごとの配色を、画面で使いやすい形で渡す係（データ・58行・使われる19）
-- `src/data/subjects.ts` — アプリで扱う教科の登録簿で、教科を足すときに書き換える係（設定・157行・使われる15）
+- `src/data/subjects.ts` — 【変】アプリで扱う教科の登録簿で、教科を足すときに書き換える係（設定・195行・使われる15）
 - `src/data/teachingTypes.ts` — 指導テンプレートなどに使うデータの形だけを決める係（データ・110行・使われる1）
 - `src/data/tobiraMood.ts` — 連続日数などの状態から、とびら君の「きもち」を決める係（データ・125行・使われる4）
 - `src/data/unitSections.ts` — 単元一覧を、見出しつきの小さなまとまりに分ける係（データ・74行・使われる1）
 - `src/data/updateNotices.ts` — アプリの更新履歴（お知らせ）の中身を持つ係（データ・333行・使われる3）
 - `src/data/vocabChapters.ts` — 5,700語あまりの英単語を、レベル・100語・20語に分ける係（データ・68行・使われる2）
 - `src/data/vocabQuiz.ts` — 【変】英単語の4択演習で、10問の出し方を決める係（データ・199行・使われる4）
-- `src/types/curriculum.ts` — 単元・大問・小問・音源など、教材データの共通の形を決める係（データ・189行・使われる55）
+- `src/types/curriculum.ts` — 【変】単元・大問・小問・音源など、教材データの共通の形を決める係（データ・193行・使われる55）
 - `src/types/studyNote.ts` — 端末に保存する学習ノート1件の形を決める係（データ・29行・使われる3）
 
 ## ログインと同期（18ファイル）
@@ -563,7 +581,7 @@ tools/update.sh が cards.json から作る。1ファイル1行：`パス` — �
 - `scripts/gacha-prints/fonts.py` — 学習プリントに埋め込む日本語フォントと疑似太字を用意する係（文書・43行・使われる0）
 - `scripts/gacha-prints/ur_common.py` — 理科・化学・数学の学習プリントに共通の割り付けを持つ係（文書・282行・使われる0）
 - `scripts/gen-battle-pool.mts` — 教科のデータから、対戦で出す問題の一覧を作る係（データ・2,434行・使われる0）
-- `scripts/gen-chapter-index.mts` — 単元の軽い索引ファイルを、問題データから作る係（データ・368行・使われる0）
+- `scripts/gen-chapter-index.mts` — 【変】単元の軽い索引ファイルを、問題データから作る係（データ・370行・使われる0）
 - `scripts/gen-listening-vocabulary.mts` — リスニングの台本から、単語帳用の英単語データを作る係（データ・27行・使われる0）
 - `scripts/gen_listening_data.py` — PDFから取り出した第1問A・Bの中身を、アプリのデータにする係（データ・430行・使われる0）
 - `scripts/gen_listening_q2_data.py` — PDFから取り出した第2問の中身を、アプリのデータにする係（データ・564行・使われる0）
@@ -635,6 +653,7 @@ tools/update.sh が cards.json から作る。1ファイル1行：`パス` — �
 - `tests/connectionCheck.test.ts` — 通信チェックが、止まっている場所を正しく示すかを確かめる係（テスト・54行・使われる0）
 - `tests/dialog.test.ts` — お知らせと確認の窓口が、決まりどおり動くかを確かめる係（テスト・44行・使われる0）
 - `tests/englishGrammarV3.test.ts` — 英文法の改訂版1,163問が、章ごとにそろっているかを確かめる係（テスト・112行・使われる0）
+- `tests/toeicPart5Data.test.ts` — 【新】TOEIC Part 5 の450問が、1回30問・4択・正解位置の偏りなし・英式つづりなしなどの決まりを守るか確かめる係（テスト・101行・使われる0）
 - `tests/englishListeningData.test.ts` — 英語リスニングの単元の並びと構成が正しいかを確かめる係（テスト・176行・使われる0）
 - `tests/englishListeningQ1A.test.ts` — リスニング第1問Aの問題と解説の中身を確かめる係（テスト・391行・使われる0）
 - `tests/englishListeningQ1Sets.test.ts` — 第1問A・Bの類題集が、PDFどおりの数だけ入っているか確かめる係（テスト・581行・使われる0）
