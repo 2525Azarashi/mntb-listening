@@ -1,22 +1,30 @@
 /**
- * マイページの「自分の学習ページ」（2026-10-27 第1段階・閲覧用）。
- *   名前・学年・志望校・志 ／ 今日・今週・今月・累計 ／ 連続日数・解いた大問・バッジ・対戦成績。
- *   数字は端末に保存された実際の記録から計算する（ダミーは出さない）。編集は「編集」で別の画面へ。
+ * マイページの「マイページ」タブ＝今日の勉強記録（2026-10-28 作り直し・A1／A3）。
+ *   上：とびら君・称号・Lv・マナコイン（もと別カードだったものをここへまとめた）＋名前・志望校・志・編集
+ *   中：今日・今週・今月・累計 ／ 連続日数・解いた大問・バッジ・対戦
+ *   下：この7日の勉強時間（教材ごとに色分けした棒）と、教材ごとの7日の表（スタディプラスの表記を参考）
+ *   ボタンは「学習を記録」だけ。カレンダーは上の「記録」タブ。数字は端末の実際の記録から計算する（ダミーは出さない）。
  */
-import { useMemo } from 'react';
-import { BookOpen, Flame, GraduationCap, Medal, Pencil, Plus, School, Swords } from 'lucide-react';
+import { useEffect, useMemo, useState } from 'react';
+import { BookOpen, Coins, Flame, GraduationCap, Medal, Pencil, Plus, School, Swords } from 'lucide-react';
 import { auth } from '../../firebase';
-import { BADGES } from '../../battle/core/growth';
+import { BADGES, equippedTitleLabel } from '../../battle/core/growth';
+import { GrowthAvatar, LevelBar } from '../../battle/ui/GrowthParts';
 import { useGrowthProgress } from '../../hooks/useGrowthProgress';
 import { readSolvedMap } from '../../utils/progress';
 import { readStudyTime } from '../../utils/studyTime';
 import { profileKey } from '../../utils/userStorageKeys';
 import { safeLocalStorage } from '../../utils/safeLocalStorage';
 import { normalizeGrade } from '../../utils/publicProfileCore';
-import { currentStreak, summarize } from './manualLogCore';
+import { currentStreak, summarize, weekByMaterial } from './manualLogCore';
 import { useManualLog } from './manualLogStore';
+import { RecordDialog } from './RecordDialog';
 import { fmtSec } from './ui';
 import './studylog.css';
+
+/** 教材ごとの色（棒と表の点で同じ色）。アプリ内の時間はいつも青 */
+const PALETTE = ['#e8a33d', '#4f9d69', '#d9644a', '#7a6bc4', '#3f8fc0', '#c2577d', '#8a6d3b', '#5aa6a0'];
+const WD = ['日', '月', '火', '水', '木', '金', '土'];
 
 function readProfile(uid: string) {
   try {
@@ -26,32 +34,56 @@ function readProfile(uid: string) {
   } catch { return { name: '', grade: '', school: '', motto: '' }; }
 }
 
-export function MyStudyCard({ onRecord, onLog, onEdit }: { onRecord: () => void; onLog: () => void; onEdit: () => void }) {
+/** 表のマス用：「1時間24分」を2行に分けて入れる */
+function Cell({ sec }: { sec: number }) {
+  const m = Math.floor(sec / 60);
+  if (m < 1) return <>{sec > 0 ? '1分未満' : '0分'}</>;
+  const h = Math.floor(m / 60);
+  return h > 0 ? <>{h}時間{m % 60 ? <><br />{m % 60}分</> : null}</> : <>{m}分</>;
+}
+
+export function MyStudyCard({ onEdit }: { onEdit: () => void }) {
   const [store, uid] = useManualLog();
   const { progress } = useGrowthProgress();
+  const [recording, setRecording] = useState(false);
+  const [toast, setToast] = useState('');
+  useEffect(() => { if (!toast) return; const t = setTimeout(() => setToast(''), 2600); return () => clearTimeout(t); }, [toast]);
   const profile = useMemo(() => readProfile(uid), [uid]);
-  const sum = useMemo(() => summarize(store, readStudyTime(uid)), [store, uid]);
+  const app = useMemo(() => readStudyTime(uid), [uid, store]);
+  const sum = useMemo(() => summarize(store, app), [store, app]);
+  const week = useMemo(() => weekByMaterial(store, app), [store, app]);
   const streak = currentStreak(sum.activeDays);
   const solved = useMemo(() => Object.keys(readSolvedMap(uid)).length, [uid]);
   const badges = progress ? BADGES.filter(b => b.id in progress.badges).length : null;
   const matches = progress?.matches ?? 0;
   const winRate = matches > 0 ? Math.round(((progress?.wins ?? 0) / matches) * 100) : null;
   const name = profile.name || auth.currentUser?.displayName || (auth.currentUser ? 'なまえ未設定' : 'ゲスト');
+  const color = (i: number, key: string) => (key === 'app' ? 'var(--mt-brand)' : PALETTE[i % PALETTE.length]);
+  const dayTotals = week.days.map((_, d) => week.rows.reduce((n, r) => n + r.seconds[d], 0));
+  const peak = Math.max(1800, ...dayTotals);
+  const title = progress ? equippedTitleLabel(progress) : '';
+
   return (
-    <section className="mt-card mystudy" aria-label="自分の学習ページ" data-my-study>
+    <section className="mt-card mystudy" aria-label="今日の勉強記録" data-my-study>
       <div className="mystudy-head">
-        <div>
+        <div className="mystudy-avatar">{progress && <GrowthAvatar progress={progress} size={56} />}</div>
+        <div className="mystudy-who">
           <h2>{name}</h2>
-          {(profile.grade || profile.school) && <p>
-            {profile.grade && <span><GraduationCap size={14} aria-hidden="true" />{profile.grade}</span>}
-            {profile.school && <span><School size={14} aria-hidden="true" />{profile.school}</span>}
-          </p>}
+          <p>
+            {title && <span className="mystudy-title">{title}</span>}
+            <span><Coins size={14} aria-hidden="true" /><b>{progress?.coins.toLocaleString() ?? '—'}</b>マナコイン</span>
+          </p>
+          {progress && <LevelBar xp={progress.xp} compact />}
         </div>
         <button type="button" className="mt-btn mt-btn-secondary" onClick={onEdit} data-my-study-edit><Pencil size={15} aria-hidden="true" />編集</button>
       </div>
-      {profile.motto && <p className="mystudy-motto">「{profile.motto}」</p>}
+      {(profile.grade || profile.school || profile.motto) && <p className="mystudy-goal">
+        {profile.grade && <span><GraduationCap size={14} aria-hidden="true" />{profile.grade}</span>}
+        {profile.school && <span><School size={14} aria-hidden="true" />{profile.school}</span>}
+        {profile.motto && <span className="mystudy-motto">「{profile.motto}」</span>}
+      </p>}
       <dl className="slog-sum" aria-label="学習時間（アプリで計測＋自分で記録）">
-        <div><dt>今日</dt><dd>{fmtSec(sum.today.total)}</dd></div>
+        <div data-today><dt>今日</dt><dd>{fmtSec(sum.today.total)}</dd></div>
         <div><dt>今週</dt><dd>{fmtSec(sum.week.total)}</dd></div>
         <div><dt>今月</dt><dd>{fmtSec(sum.month.total)}</dd></div>
         <div><dt>累計</dt><dd>{fmtSec(sum.all.total)}</dd></div>
@@ -62,10 +94,31 @@ export function MyStudyCard({ onRecord, onLog, onEdit }: { onRecord: () => void;
         {badges != null && <span><Medal size={14} aria-hidden="true" />バッジ {badges}/{BADGES.length}</span>}
         {progress && <span><Swords size={14} aria-hidden="true" />対戦 {matches}戦{matches > 0 ? ` ${progress.wins}勝${progress.losses}敗（勝率${winRate}%）` : ''}</span>}
       </p>
-      <div className="mystudy-actions">
-        <button type="button" className="mt-btn mt-btn-primary" onClick={onRecord} data-my-study-record><Plus size={16} aria-hidden="true" />学習を記録</button>
-        <button type="button" className="mt-btn mt-btn-secondary" onClick={onLog} data-my-study-log>記録・集計を見る</button>
-      </div>
+      <button type="button" className="mt-btn mt-btn-primary mystudy-record" onClick={() => setRecording(true)} data-my-study-record><Plus size={16} aria-hidden="true" />学習を記録</button>
+
+      <section className="mystudy-week" aria-label="この7日の勉強時間" data-my-study-week>
+        <ol className="mystudy-bars" aria-hidden="true">
+          {week.days.map((d, i) => <li key={d} data-today={i === 6 || undefined}>
+            <small>{dayTotals[i] > 0 ? fmtSec(dayTotals[i]) : ''}</small>
+            <span className="bar" style={{ height: `${Math.max(3, Math.round((dayTotals[i] / peak) * 100))}%` }}>
+              {week.rows.map((r, k) => r.seconds[i] > 0 ? <i key={r.key} style={{ flex: r.seconds[i], background: color(k, r.key) }} /> : null)}
+            </span>
+          </li>)}
+        </ol>
+        <ol className="mystudy-days" aria-hidden="true">
+          {week.days.map((d, i) => { const t = new Date(`${d}T12:00:00`); return <li key={d} data-today={i === 6 || undefined}>{i === 6 ? '今日' : `${t.getMonth() + 1}/${t.getDate()}`}<small>{WD[t.getDay()]}</small></li>; })}
+        </ol>
+        <div className="mystudy-table slog-scroll" tabIndex={0} aria-label="教材ごとの7日間の勉強時間" data-my-study-table>
+          {week.rows.length === 0
+            ? <p className="slog-note">この7日の記録はまだありません。参考書・学校の課題・塾など、アプリの外の勉強も「学習を記録」で残せます。</p>
+            : week.rows.map((r, k) => <article key={r.key} className="mystudy-row" aria-label={`${r.label}：今日 ${fmtSec(r.seconds[6])}、7日で ${fmtSec(r.total)}`}>
+                <h3><i style={{ background: color(k, r.key) }} aria-hidden="true" />{r.label}</h3>
+                <ol aria-hidden="true">{r.seconds.map((s, i) => <li key={i} data-zero={s === 0 || undefined} data-today={i === 6 || undefined}><Cell sec={s} /></li>)}</ol>
+              </article>)}
+        </div>
+      </section>
+      {recording && <RecordDialog onClose={() => setRecording(false)} onSaved={setToast} />}
+      {toast && <p className="mt-toast" role="status" data-slog-toast>{toast}</p>}
     </section>
   );
 }
