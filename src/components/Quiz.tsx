@@ -31,6 +31,8 @@ import { ExplanationScreen } from './ExplanationScreen';
 // components/ListeningBriefing.tsx へ
 import { ListeningBriefing } from './ListeningBriefing';
 import { QuizEmptyState } from './QuizEmptyState';
+import { ToeicPageQuiz } from './toeic/ToeicPageQuiz';
+import { isToeicPageChapter } from './toeic/toeicPageModel';
 // 「解答と解説を見る」を押した瞬間の採点処理（137行）は utils/quizScoring.ts へ
 import { createScoreCurrentQuestion } from '../utils/quizScoring';
 import { createQuizFocusActions, createQuizStepActions } from '../utils/quizNavigationActions';
@@ -126,7 +128,19 @@ interface QuizProps {
  * クイズの進行（採点・タイマー・ページ送り）とはやり取りしない。
  */
 
-export function Quiz({ mode, chapter, onFinish, onBack, onReturnToBattle, isGuest, isMobileView, onExplanationChange, onScored, questionRange }: QuizProps) {
+/**
+ * 演習画面の入口。TOEIC Part 5 だけは「1ページに複数問・マーク式」の専用画面に渡す（2026-10-28）。
+ * ほかの教科は今までどおり QuizBody（中身は変えていない）。フックの順番を崩さないよう、分岐は本体の外に置く。
+ */
+export function Quiz(props: QuizProps) {
+  if (isToeicPageChapter(props.chapter?.id)) {
+    const { isMobileView: _mobile, ...rest } = props;
+    return <ToeicPageQuiz {...rest} />;
+  }
+  return <QuizBody {...props} />;
+}
+
+function QuizBody({ mode, chapter, onFinish, onBack, onReturnToBattle, isGuest, isMobileView, onExplanationChange, onScored, questionRange }: QuizProps) {
   // ===== タイマー & スコア用 state =====
   const [run, setRun] = useState<ChapterRunState>(() => loadRun(chapter.id, mode));
   const timeUsedRef = useRef(0); // タイマーから250msごとに通知される最新値
