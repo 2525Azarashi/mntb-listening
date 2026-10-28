@@ -28,18 +28,40 @@ service cloud.firestore {
         && request.resource.data.get('stagesCleared', null) == resource.data.get('stagesCleared', null)
         && request.resource.data.get('level', null) == resource.data.get('level', null);
       function validPublicProfile() { return true
-        && request.resource.data.keys().hasOnly(['public', 'targetSchool', 'studySeconds', 'updatedAt', 'motto', 'stagesCleared', 'level'])
+        && request.resource.data.keys().hasOnly(['public', 'targetSchool', 'studySeconds', 'updatedAt', 'motto', 'stagesCleared', 'level',
+             // 2026-10-26 プロフィールの充実（どれも任意。本人が公開を選んだときだけ）
+             'nickname', 'grade', 'bio', 'week', 'weekEnd', 'streak', 'solved', 'badges', 'title',
+             'lookPose', 'lookFrame', 'lookHat', 'lookGlasses'])
         && request.resource.data.keys().hasAll(['public', 'targetSchool', 'studySeconds', 'updatedAt'])
         // 2026-10-04：志（ひとこと）・達成ステージ数・レベル（任意。古い文書には無い）
         && (!('motto' in request.resource.data) || (request.resource.data.motto is string && request.resource.data.motto.size() <= 40))
         && (!('stagesCleared' in request.resource.data) || (request.resource.data.stagesCleared is int && request.resource.data.stagesCleared >= 0 && request.resource.data.stagesCleared <= 100000))
         && (!('level' in request.resource.data) || (request.resource.data.level is int && request.resource.data.level >= 1 && request.resource.data.level <= 99))
+        && pspRich(request.resource.data)
         && request.resource.data.public == true
         && request.resource.data.targetSchool is string && request.resource.data.targetSchool.size() <= 40
         && request.resource.data.studySeconds is int && request.resource.data.studySeconds >= 0
         && request.resource.data.studySeconds <= 315360000
         && request.resource.data.updatedAt == request.time; }
       allow delete: if isOwner(uid);
+      // ---- プロフィールの充実（2026-10-26）：形と大きさだけをここで固定する ----
+      //   学年は決まった選択肢だけ（自由入力にしない）。自己紹介は160文字。
+      //   見た目・称号はアイテムIDの形だけ（英数字・_・-、40文字まで）。
+      //   週の記録は7日分の整数（1日12時間まで）。
+      //   連絡先や使えない語は端末側ではじき、表示する側でも伏せる（nicknameFilter）。
+      function pspId(d, k) { return !(k in d) || (d[k] is string && d[k].matches('^[A-Za-z0-9_-]{0,40}$')); }
+      function pspInt(d, k, hi) { return !(k in d) || (d[k] is int && d[k] >= 0 && d[k] <= hi); }
+      function pspDay(v) { return v is int && v >= 0 && v <= 43200; }
+      function pspRich(d) { return true
+        && (!('nickname' in d) || (d.nickname is string && d.nickname.size() <= 24))
+        && (!('grade' in d) || (d.grade in ['', '中学生', '高校1年', '高校2年', '高校3年', '既卒', '大学生', '社会人', 'その他']))
+        && (!('bio' in d) || (d.bio is string && d.bio.size() <= 160))
+        && (!('week' in d) || (d.week is list && d.week.size() == 7
+              && pspDay(d.week[0]) && pspDay(d.week[1]) && pspDay(d.week[2]) && pspDay(d.week[3])
+              && pspDay(d.week[4]) && pspDay(d.week[5]) && pspDay(d.week[6])))
+        && (!('weekEnd' in d) || (d.weekEnd is string && d.weekEnd.matches('^[0-9]{4}-[0-9]{2}-[0-9]{2}$')))
+        && pspInt(d, 'streak', 10000) && pspInt(d, 'solved', 1000000) && pspInt(d, 'badges', 1000)
+        && pspId(d, 'title') && pspId(d, 'lookPose') && pspId(d, 'lookFrame') && pspId(d, 'lookHat') && pspId(d, 'lookGlasses'); }
     }
     // 積み上げの集計（サーバー専用）。本人は合算結果だけ読める
     match /user_achievements/{uid} { allow get: if isOwner(uid); allow list, write: if false; }
