@@ -82,6 +82,13 @@ export function VocabQuiz({ uid, known, onMark, onWordbook }: { uid: string; kno
     trackEvent('vocab_quiz_start');
     begin(items, { kind: 'range', level, from, to });
   };
+  /** 範囲の語を全部（✓ 済みの語も含めて）出す。順番と向きは設定どおり */
+  const startAll = () => {
+    primeAudio();
+    const { items } = buildRangeQuiz(list, { count: 'all', order: prefs.order, only: 'all' }, { mastered, missed: rec.missed, dir, seed: Date.now(), numbers });
+    trackEvent('vocab_quiz_start');
+    begin(items, { kind: 'range', level, from, to });
+  };
   const startMissed = () => {
     primeAudio();
     begin(buildQuiz(data.words.filter(w => missedSet.has(w.id)), { missed: rec.missed, dir, size: prefs.count === 'all' ? rec.missed.length : prefs.count, seed: Date.now() }), { kind: 'missed' });
@@ -196,6 +203,8 @@ export function VocabQuiz({ uid, known, onMark, onWordbook }: { uid: string; kno
   const allDone = prefs.only === 'unlearned' && pool === 0;
   const startLabel = allDone ? `全部 ✓ 済み。すべての語から${prefs.count === 'all' ? list.length : Math.min(prefs.count as number, list.length)}問` : `${nCount}問はじめる`;
   const firstUnlearned = list.find(w => !mastered.has(w.id));
+  /** 青いボタンが範囲の全部を出さないとき（まだの語だけ／問題数が範囲より少ない）は「全部」ボタンも出す */
+  const showAll = list.length > 0 && !(prefs.only === 'all' && (prefs.count === 'all' || prefs.count >= list.length));
   const seg = <T extends string | number>(label: string, value: T, opts: readonly (readonly [T, string])[], onPick: (v: T) => void, attr: string) =>
     <div className="vq-set-row"><span className="vq-set-label">{label}</span>
       <div className="vq-seg" role="radiogroup" aria-label={label} data-vocab-set={attr}>{opts.map(([v, t]) => <button key={String(v)} type="button" role="radio" aria-checked={value === v} onClick={() => onPick(v)}>{t}</button>)}</div>
@@ -235,8 +244,12 @@ export function VocabQuiz({ uid, known, onMark, onWordbook }: { uid: string; kno
       <p className="vq-start-sum" aria-live="polite">No.{from}〜{to}（{list.length}語）の ✓ <b>{learnedInRange}</b>/{list.length}
         {prefs.order === 'number' && prefs.only === 'unlearned' && firstUnlearned && <>　・No.{numbers.get(firstUnlearned.id)} から</>}</p>
       <button type="button" className="vq-next vq-start" onClick={startRange} disabled={list.length === 0} data-vocab-start><Play size={18} aria-hidden="true" />{startLabel}</button>
-      {rec.missed.length > 0 && <button type="button" className="fd-secondary vq-missed-btn" onClick={startMissed} data-vocab-missed>
-        <RotateCcw size={16} aria-hidden="true" />間違えた語から解く（復習待ち {rec.missed.length}語）</button>}
+      {(showAll || rec.missed.length > 0) && <div className="vq-start-sub" data-two={(showAll && rec.missed.length > 0) || undefined}>
+        {showAll && <button type="button" className="fd-secondary vq-all-btn" onClick={startAll} data-vocab-start-all>
+          <Play size={15} aria-hidden="true" />この範囲を全部（{list.length}語）</button>}
+        {rec.missed.length > 0 && <button type="button" className="fd-secondary vq-missed-btn" onClick={startMissed} data-vocab-missed>
+          <RotateCcw size={15} aria-hidden="true" />間違えた語から（{rec.missed.length}語）</button>}
+      </div>}
     </div>
   </section>;
 }

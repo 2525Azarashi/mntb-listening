@@ -55,6 +55,14 @@ describe('英単語：出題の設定（範囲・問題数・順番・出す語�
     expect(done.items).toHaveLength(10);
   });
 
+  it('「この範囲を全部」：✓ 済みの語も含めて No.1〜100 を全部、番号順に出す（青いボタンが「まだの語」だけのときの逃げ道）', () => {
+    const mastered = new Set(Array.from({ length: 60 }, (_, i) => `lv1:${i + 1}`));
+    const unlearned = buildRangeQuiz(block, { count: 'all', order: 'number', only: 'unlearned' }, { mastered });
+    expect(unlearned.items).toHaveLength(40);
+    const all = buildRangeQuiz(block, { count: 'all', order: 'number', only: 'all' }, { mastered });
+    expect(all.items.map(x => x.wordId)).toEqual(Array.from({ length: 100 }, (_, i) => `lv1:${i + 1}`));
+  });
+
   it('間違えた語は ✓ が外れて、次の番号順でまた先頭に出る', () => {
     // applyQuizResult は VocabQuizRecord（mastered は省略可）を返すので、受ける変数もその型にする
     let rec: VocabQuizRecord = { version: 1 as const, missed: [] as string[], best: {}, mastered: [] as string[] };
