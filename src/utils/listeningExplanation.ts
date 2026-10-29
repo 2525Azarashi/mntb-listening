@@ -313,7 +313,8 @@ function styleReasonLine(line: string): string {
     const body = head[2] ? (head[1] === '入試ではここ' ? `<span style="font-weight:bold; color:#1F3F6A;">${escapeHtml(head[2])}</span>` : escapeHtml(head[2])) : '';
     return tag + body;
   }
-  const choice = line.match(/^([①②③④])\s*(.+?)　([○×])\s*(.*)$/u);
+  // TOEIC Part 5 の選択肢は (A)〜(D)
+  const choice = line.match(/^([①②③④]|\([A-D]\))\s*(.+?)　([○×])\s*(.*)$/u);
   if (choice) {
     const ok = choice[3] === '○';
     const mark = `<span style="font-weight:bold; color:${ok ? '#1E7D46' : '#C0392B'};">${choice[3]}</span>`;
@@ -333,7 +334,7 @@ function reasonLines(problem: ProblemSource, sq: SubSource): string[] {
     const line = raw.trim();
     if (!line) continue;
     if (/^スクリプト\s*[：:]/u.test(line)) continue; // 枠に出した
-    if (/^正解は\s*[①②③④]/u.test(line)) continue; // 解答カードに出ている
+    if (/^正解は\s*([①②③④]|\([A-D]\))/u.test(line)) continue; // 解答カードに出ている
     kept.push(line);
   }
   return kept;

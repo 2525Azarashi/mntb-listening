@@ -57,6 +57,8 @@ export function optionCircledMark(option: string, index: number): string {
   const raw = String(option ?? '').trim();
   // 既に丸数字を持っている選択肢（英語リスニング・英文法）には付けない
   if (/^[①-⑳]/u.test(raw)) return '';
+  // 2026-10-28 TOEIC は (A)〜(D) が記号。「①(A)」と二重にしない
+  if (/^\([A-Z]\)/u.test(raw)) return '';
   return CIRCLED[index] ?? '';
 }
 
