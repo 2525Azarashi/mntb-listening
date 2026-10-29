@@ -99,3 +99,16 @@ python3 scripts/gacha-prints/idiom_reading/publish.py   # 上の6冊を public/p
 ```
 - id：`print_book_idiom_reading_{basic,standard,advanced}`・`print_book_grammar_b4_{bunpo,gohou,kaiwa}`。
 - `src/data/gachaPrints.generated.ts` の末尾（「2026-10-27 UR に追加」）に pages・kb を書く。作り直したら publish.py が出す pages・kb に合わせる（`tests/gachaDeluxe.test.ts` が照合）。
+
+## LR：国公立2次 英語 予想問題 名古屋大学 前期対策（2次試験ガチャ・2026-10-29）
+
+```bash
+# PDF は別リポジトリ（webapp/pdf の build_round{1,2,3}_{q,a}.py・WeasyPrint）で作り、問題＋解答解説を1冊にまとめる
+pdfunite 予想問題_名古屋大学_英語_第N回_問題.pdf 予想問題_名古屋大学_英語_第N回_解答解説.pdf public/prints/print_lr_niji_nagoya_en_N.pdf
+# サムネ（thumbs）と「中身を少し見る」画像だけ作り直す（引数に id を渡すとその分だけ）
+python3 scripts/gacha-prints/build-previews.py print_lr_niji_nagoya_en_1 print_lr_niji_nagoya_en_2 print_lr_niji_nagoya_en_3
+# src/data/nijiMockPrints.ts の pages / kb を実物に合わせる（tests/nijiGacha.test.ts が検査）
+```
+
+- 過去問・公式解答・講評の文言は**一切引用しない**（商用アプリのため）。英5語・日12文字の n-gram で過去問OCRと照合して 0 件を確認してから入れる。
+- 表紙と奥付に「名古屋大学の過去問・公式問題ではありません。予想問題であり、大学とは関係がありません」を入れる。「的中」「必ず出る」「合格できる」は使わない。

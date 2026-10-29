@@ -12,6 +12,7 @@
 import { gachaItemsByRarity, gachaItemRate } from './arenaEconomy';
 import type { GachaRarity, ItemDef } from './growth';
 import { printOf } from './growth';
+import { DEFAULT_GACHA_POOL, type GachaPoolId } from './gachaPools';
 
 export interface FeaturedEntry { item: ItemDef; rarity: GachaRarity; rate: number }
 export interface GachaFeatured {
@@ -39,12 +40,12 @@ function rotate<T>(list: readonly T[], seed: number, salt: number): T[] {
   return [...list.slice(step), ...list.slice(0, step)];
 }
 
-export function gachaFeatured({ now = new Date(), preferSubjects = [], srCount = 2, rCount = 1 }: {
-  now?: Date; preferSubjects?: readonly string[]; srCount?: number; rCount?: number;
+export function gachaFeatured({ now = new Date(), preferSubjects = [], srCount = 2, rCount = 1, pool = DEFAULT_GACHA_POOL }: {
+  now?: Date; preferSubjects?: readonly string[]; srCount?: number; rCount?: number; pool?: GachaPoolId;
 } = {}): GachaFeatured {
-  const tiers = gachaItemsByRarity();
+  const tiers = gachaItemsByRarity(pool);
   const week = featuredWeek(now);
-  const entry = (item: ItemDef): FeaturedEntry => ({ item, rarity: tierOf(tiers, item), rate: gachaItemRate(item) });
+  const entry = (item: ItemDef): FeaturedEntry => ({ item, rarity: tierOf(tiers, item), rate: gachaItemRate(item, 'N', pool) });
 
   const ur = tiers.UR;
   const preferred = ur.filter(i => { const p = printOf(i.id); return !!p && preferSubjects.includes(p.subject); });

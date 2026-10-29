@@ -2,6 +2,7 @@
 import { GACHA_PRINTS } from '../../data/gachaPrints.generated';
 import type { GachaPrintDef } from '../../data/gachaPrints.generated';
 import { KYOTSU_MOCK_PRINTS } from '../../data/kyotsuMockPrints';
+import { NIJI_MOCK_PRINTS } from '../../data/nijiMockPrints';
 import { ACCESSORY_SLOTS, type AccessorySlot } from './tobiraParts';
 import type { GrowthProgress } from './growthTypes';
 import { badgeById } from './growthBadges';
@@ -210,13 +211,28 @@ export const ITEMS: readonly ItemDef[] = [
   ...GACHA_PRINTS.map((p): ItemDef => ({ id: p.id, kind: 'print', gacha: true, rarity: printRarity(p), label: p.label, value: p.file, unlock: { gacha: true } })),
   // ── LR（レジェンドレア）：共通テスト 英語 予想問題（リーディング・リスニング 5回分）。UR より上（一覧は kyotsuMockPrints.ts）──
   ...KYOTSU_MOCK_PRINTS.map((p): ItemDef => ({ id: p.id, kind: 'print', gacha: true, rarity: 'LR', label: p.label, value: p.file, unlock: { gacha: true } })),
+  // ── 2026-10-29 2次試験ガチャ専用（共通テストガチャには出ない。gachaPools.ts の NIJI_NEW_ITEM_IDS）──
+  { id: 'hat_hachimaki_red', kind: 'hat', gacha: true, rarity: 'N', label: '必勝はちまき（あか）', value: 'hachimaki:#E03131', unlock: { gacha: true } },
+  { id: 'hat_hachimaki_navy', kind: 'hat', gacha: true, rarity: 'R', label: '必勝はちまき（こん）', value: 'hachimaki:#1D3557', unlock: { gacha: true } },
+  { id: 'hat_hachimaki_gold', kind: 'hat', gacha: true, rarity: 'SR', label: '合格祈願の金はちまき', value: 'hachimaki:#E0A800', unlock: { gacha: true } },
+  { id: 'aura_pencil', kind: 'aura', gacha: true, rarity: 'N', label: 'えんぴつ', value: 'pencil:#F4C542', unlock: { gacha: true } },
+  { id: 'aura_pencil_gold', kind: 'aura', gacha: true, rarity: 'SR', label: '金のえんぴつ', value: 'pencil:#D4A017', unlock: { gacha: true } },
+  { id: 'wall_campus', kind: 'wallpaper', gacha: true, rarity: 'N', label: '壁紙：キャンパスの並木', value: 'campus', unlock: { gacha: true } },
+  { id: 'wall_sheet', kind: 'wallpaper', gacha: true, rarity: 'N', label: '壁紙：答案用紙', value: 'sheet', unlock: { gacha: true } },
+  { id: 'wall_nightdesk', kind: 'wallpaper', gacha: true, rarity: 'R', label: '壁紙：夜の自習机', value: 'nightdesk', unlock: { gacha: true } },
+  { id: 'wall_dawn', kind: 'wallpaper', gacha: true, rarity: 'SR', label: '壁紙：試験の朝', value: 'dawn', unlock: { gacha: true } },
+  { id: 'frame_niji_ink', kind: 'frame', gacha: true, rarity: 'N', label: '墨のフレーム', value: '#3A3A3A', unlock: { gacha: true } },
+  { id: 'frame_niji_sakura', kind: 'frame', gacha: true, rarity: 'R', label: 'サクラサクフレーム', value: '#F28AB2', pattern: 'sparkle', unlock: { gacha: true } },
+  { id: 'frame_niji_midnight', kind: 'frame', gacha: true, rarity: 'SR', label: '深夜の追い込みフレーム', value: '#2B2D55', pattern: 'stars', unlock: { gacha: true } },
+  // ── LR（2次試験ガチャ）：国公立2次 英語 予想問題（書き下ろし・過去問ではない。一覧は nijiMockPrints.ts）──
+  ...NIJI_MOCK_PRINTS.map((p): ItemDef => ({ id: p.id, kind: 'print', gacha: true, rarity: 'LR', label: p.label, value: p.file, unlock: { gacha: true } })),
   // ── レベル報酬（2026-10-04 ご要望「レベルを上げる意味」）：このレベルでしか手に入らないもの ──
   ...LEVEL_REWARD_ITEMS,
 ];
 
 /** 学習プリント（UR）の詳細（サムネイル・ページ数など）。プリントでなければ undefined */
 export function printOf(id: string): GachaPrintDef | undefined {
-  return GACHA_PRINTS.find((p) => p.id === id) ?? KYOTSU_MOCK_PRINTS.find((p) => p.id === id) ?? LEVEL_PRINTS.find((p) => p.id === id);
+  return GACHA_PRINTS.find((p) => p.id === id) ?? KYOTSU_MOCK_PRINTS.find((p) => p.id === id) ?? NIJI_MOCK_PRINTS.find((p) => p.id === id) ?? LEVEL_PRINTS.find((p) => p.id === id);
 }
 
 /**

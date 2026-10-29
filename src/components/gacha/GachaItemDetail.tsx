@@ -9,6 +9,8 @@ import { gachaItemRate } from '../../battle/core/arenaEconomy';
 import { gachaRarityOf, printOf, type GrowthProgress, type ItemDef } from '../../battle/core/growth';
 import { GACHA_PREVIEWS } from '../../data/gachaPreviews.generated';
 import { kyotsuAudioOf } from '../../data/kyotsuMockAudio';
+import { NIJI_DISCLAIMER, NIJI_MOCK_PRINTS } from '../../data/nijiMockPrints';
+import { DEFAULT_GACHA_POOL, type GachaPoolId } from '../../battle/core/gachaPools';
 import { ItemArt, RarityTag, pct } from '../GachaParts';
 
 /** 週番号を種にした決まった並べ替え（全員同じ・保存も乱数も使わない） */
@@ -41,11 +43,13 @@ export function weekEndLabel(week: number): string {
   return `${end.getUTCMonth() + 1}/${end.getUTCDate()}（日）まで`;
 }
 
-export function GachaItemDetail({ dialog, item, progress }: {
+export function GachaItemDetail({ dialog, item, progress, pool = DEFAULT_GACHA_POOL }: {
   dialog: RefObject<HTMLDialogElement | null>;
   item: ItemDef | null;
   progress: GrowthProgress | null;
+  pool?: GachaPoolId;
 }) {
+  const niji = !!item && NIJI_MOCK_PRINTS.some((p) => p.id === item.id);
   const print = item ? printOf(item.id) : undefined;
   const pages = item ? GACHA_PREVIEWS[item.id] ?? [] : [];
   const sample = item ? kyotsuAudioOf(item.id)[0] : undefined;
@@ -71,7 +75,7 @@ export function GachaItemDetail({ dialog, item, progress }: {
             <RarityTag rarity={gachaRarityOf(item)} />
             <strong>{item.label}</strong>
             <small>
-              {print ? `${print.category} · ${print.pages}ページ · ` : ''}1種あたり {pct(gachaItemRate(item))}%
+              {print ? `${print.category} · ${print.pages}ページ · ` : ''}1種あたり {pct(gachaItemRate(item, 'N', pool))}%
               {sample ? ' · 音声つき' : ''}{owned ? ' · 所持済み' : ''}
             </small>
           </div>
@@ -80,6 +84,7 @@ export function GachaItemDetail({ dialog, item, progress }: {
           {pages.map((src) => <img key={src} src={src} loading="lazy" alt={`${item.label} の一部（${src.match(/_p(\d+)\.webp$/)?.[1] ?? ''}ページ目の上半分）`} />)}
         </div>}
         {sample && <p className="gacha-detail-audio"><span>試し聞き（{sample.label}）</span><audio controls preload="none" src={sample.file} /></p>}
+        {niji && <p className="gacha-detail-disclaimer" data-niji-disclaimer>※ {NIJI_DISCLAIMER}</p>}
         <p className="gacha-detail-note">{pages.length ? '見られるのは一部の上半分だけ。全部はガチャで当てると「マイPDF」で保存できます。' : print ? 'ガチャで当てると「マイPDF」で保存できます。' : 'ガチャで当てると、とびら君に装備できます。'}</p>
       </div>}
     </dialog>
