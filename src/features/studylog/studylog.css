@@ -238,3 +238,19 @@
 .slog-picked > h4 { margin: 0; display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 8px; font: 800 14px/1.4 var(--mt-font-body); color: var(--mt-ink-warm); }
 .slog-picked > h4 small { font: 700 12px/1.4 var(--mt-font-body); color: var(--mt-ink-3); }
 .slog-row[data-app-row] { box-shadow: none; background: var(--mt-brand-soft); }
+/* 2026-10-28 B2：連続・大問・バッジ・対戦の行をやめ、上を詰めて教材の表を広く／B10：7日を左右の矢印で前の週へ */
+.mystudy { gap: 6px; }
+.mystudy-head { align-items: flex-start; }
+.mystudy-who { gap: 2px; }
+.mystudy-who h2 { font-size: 16px; }
+.mystudy-who .level-bar, .mystudy-who [class*="level"] { margin-top: 1px; }
+.mystudy-goal { margin-top: -2px; }
+.mystudy .slog-sum > div { padding: 5px 8px; }
+.mystudy-record { min-height: 44px; }
+.mystudy-week { padding-top: 4px; }
+.mystudy-week-head { flex-shrink: 0; display: flex; align-items: center; gap: 4px; }
+.mystudy-week-head .mystudy-week-title { flex: 1; min-width: 0; justify-content: center; text-align: center; flex-wrap: wrap; }
+.mystudy-week-nav { flex-shrink: 0; width: 44px; height: 44px; display: grid; place-items: center; border: 1px solid var(--mt-line); border-radius: 50%; background: var(--mt-bg-card); color: var(--mt-ink-2); box-shadow: var(--mt-shadow-press); }
+.mystudy-week-nav:disabled { opacity: .35; box-shadow: none; }
+.mystudy-bars { height: 92px; }
+@media (max-height: 700px) { .mystudy-bars { height: 72px; } .mystudy-week-nav { width: 44px; height: 44px; } }
