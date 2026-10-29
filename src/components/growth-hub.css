@@ -382,3 +382,76 @@
 .mypage-tabs button > svg { flex-shrink: 0; color: #8a6a2c; }
 .mypage-tabs [aria-current=page] > svg { color: #6b4a10; }
 @media (max-height: 680px) { .mypage-tabs button > svg { display: none; } }
+/* 2026-10-29 B4：もっているもの・マイPDF・ショップ。種類はアプリ風のチップ（横スクロール）、所有状況は3つの切替、
+   一覧は小さなタイル（押すと詳細の窓。装備・保存・購入は窓の中） */
+.collection-controls { align-items: stretch; }
+.collection-state { display: grid; grid-template-columns: repeat(3, auto); gap: 2px; padding: 3px; border: 1px solid #ddd0b8; border-radius: 12px; background: #f3ecdd; flex-shrink: 0; }
+.my-collection .collection-state button { min-height: 38px; min-width: 44px; padding: 0 8px; border: 0; border-radius: 9px; background: transparent; color: #6e6455; font: 800 12px/1 var(--mt-font-body); }
+.my-collection .collection-state button[aria-pressed=true] { background: #fffdf7; color: #3d3222; box-shadow: 0 1px 3px #8a6b3a33; }
+.collection-kinds { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; padding: 2px 0 4px; margin: 0 -2px; flex-shrink: 0; }
+.collection-kinds::-webkit-scrollbar { display: none; }
+.my-collection .collection-kinds button { flex-shrink: 0; min-height: 44px; padding: 0 14px; border: 1.5px solid #e2d6c1; border-radius: 999px; background: #fffdf8; color: #5d503f; font: 800 13px/1 var(--mt-font-body); white-space: nowrap; }
+.my-collection .collection-kinds button[aria-pressed=true] { background: #3d3222; border-color: #3d3222; color: #fff; }
+.collection-tiles { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; gap: 6px !important; }
+@media (min-width: 520px) { .collection-tiles { grid-template-columns: repeat(4, minmax(0, 1fr)) !important; } }
+@media (min-width: 900px) { .collection-tiles { grid-template-columns: repeat(6, minmax(0, 1fr)) !important; } }
+.collection-tiles > li { padding: 0 !important; border: 0 !important; background: none !important; }
+.my-collection .collection-tile { position: relative; width: 100%; height: 100%; min-height: 112px; display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 6px 4px 6px; border: 1.5px solid #e2d6c1; border-radius: 14px; background: #fff; text-align: center; }
+.collection-tiles li[data-owned=true] .collection-tile { border-color: #c9a85a; background: #fffaf0; }
+.collection-tiles li[data-equipped] .collection-tile { border: 2.5px solid #2f8f5b; box-shadow: 0 0 0 2px #dff3e7; }
+.collection-tiles li[data-owned=false] .collection-tile .collection-art { opacity: .5; filter: grayscale(.6); }
+.collection-tile .collection-art { height: 58px; }
+.collection-tile .collection-art img { height: 56px; }
+.collection-tile-name { width: 100%; font: 800 12px/1.25 var(--mt-font-body); color: #3d3222; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.collection-tile-tag { display: inline-flex; align-items: center; gap: 2px; margin-top: auto; padding: 1px 7px; border-radius: 999px; background: #f3ecdd; color: #6e6455; font: 800 12px/1.4 var(--mt-font-body); }
+.collection-tiles li[data-equipped] .collection-tile-tag { background: #2f8f5b; color: #fff; }
+.collection-tile .collection-gift-tag { position: absolute; top: 3px; left: 3px; padding: 0 5px; }
+.collection-detail-body { display: grid; gap: 10px; }
+.collection-detail-head { display: flex; align-items: center; gap: 12px; }
+.collection-detail-head .collection-art { width: 96px; height: 100px; flex-shrink: 0; border-radius: 14px; background: #fdf6e8; }
+.collection-detail-head .collection-art img { height: 96px; }
+.collection-detail-head > div { display: grid; gap: 4px; min-width: 0; }
+.collection-detail-head strong { font: 900 17px/1.3 var(--mt-font-display); color: #3d3222; }
+.collection-detail-actions { display: grid; gap: 8px; }
+.collection-detail-actions > p { font-size: 13px; color: #5a6573; }
+.collection-detail-actions > button, .collection-detail-actions > a { min-height: 48px; display: flex; align-items: center; justify-content: center; gap: 6px; border-radius: 12px; font: 800 15px/1 var(--mt-font-body); }
+.collection-detail-actions > button:not(.collection-unequip):not(:disabled) { background: var(--mt-brand, #2458a6); color: #fff; border: 0; box-shadow: 0 3px 0 var(--mt-brand-strong, #14315f); }
+.collection-detail-actions > a { color: #245e7a; text-decoration: none; border: 1.5px solid #b9d3e2; background: #f2f8fc; }
+/* 2026-10-29 B4：称号＝小さなタイルの一覧。達成は色つき＋「達成」、つけている称号は太い枠、まだは灰色＋進み具合 */
+.badges-tiles-wrap { display: flex; flex-direction: column; gap: 8px; min-height: 0; }
+.badges-tiles-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.badges-tiles-head h3 { display: inline-flex; align-items: baseline; gap: 4px; margin: 0; font: 800 13px/1 var(--mt-font-body); color: #5a6573; }
+.badges-tiles-head h3 b { font: 900 20px/1 var(--mt-font-display); color: #b7791f; }
+.badges-tiles-head h3 small { font-size: 12px; }
+.badges-tiles-bar { flex: 1; min-width: 80px; height: 8px; border-radius: 999px; background: #ece4d4; overflow: hidden; }
+.badges-tiles-bar i { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #f2c14e, #b7791f); }
+.badges-tiles-head button { min-height: 44px; padding: 0 12px; border: 1px solid #e2d6c1; border-radius: 999px; background: #fff; color: #5a6573; font: 700 12px/1 var(--mt-font-body); }
+.badges-tiles-frame { flex: 1; min-height: 0; overflow-y: auto; }
+.badges-tiles { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
+@media (min-width: 520px) { .badges-tiles { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+@media (min-width: 900px) { .badges-tiles { grid-template-columns: repeat(6, minmax(0, 1fr)); } }
+.badge-tile { position: relative; width: 100%; min-height: 96px; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; gap: 3px; padding: 8px 4px 6px; border: 1.5px solid #e6dfd2; border-radius: 14px; background: #faf8f4; text-align: center; }
+.badge-tile .badge-tile-emoji { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 12px; background: #eeeae2; font-size: 22px; line-height: 1; filter: grayscale(1); opacity: .5; }
+.badge-tile-name { width: 100%; font: 800 12px/1.25 var(--mt-font-body); color: #8a8478; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.badge-tile[data-earned] { border-color: color-mix(in srgb, var(--tier) 55%, white); background: color-mix(in srgb, var(--tier) 9%, white); box-shadow: 0 2px 0 color-mix(in srgb, var(--tier) 30%, white); }
+.badge-tile[data-earned] .badge-tile-emoji { filter: none; opacity: 1; background: color-mix(in srgb, var(--tier) 18%, white); }
+.badge-tile[data-earned] .badge-tile-name { color: #2f2a22; }
+.badge-tile[data-equipped] { border: 3px solid #b7791f; }
+.badge-tile-done { margin-top: auto; padding: 1px 8px; border-radius: 999px; background: var(--tier); color: #fff; font: 800 12px/1.4 var(--mt-font-body); }
+.badge-tile[data-equipped] .badge-tile-done { background: #b7791f; }
+.badge-tile-lock { display: inline-flex; align-items: center; gap: 2px; margin-top: auto; font: 700 12px/1.4 var(--mt-font-body); color: #9a948a; }
+.badge-tile-progress { display: block; width: 80%; height: 6px; margin-top: auto; border-radius: 999px; background: #e3ddd2; overflow: hidden; }
+.badge-tile-progress i { display: block; height: 100%; background: #c9a85a; border-radius: inherit; }
+.badge-detail-body { display: grid; gap: 10px; }
+.badge-detail-head { display: flex; align-items: center; gap: 12px; }
+.badge-detail-head .badge-tile-emoji { display: grid; place-items: center; width: 64px; height: 64px; border-radius: 18px; font-size: 34px; background: #eeeae2; filter: grayscale(1); opacity: .55; }
+.badge-detail-head[data-earned] .badge-tile-emoji { filter: none; opacity: 1; background: color-mix(in srgb, var(--tier) 18%, white); }
+.badge-detail-head > div { display: grid; gap: 3px; }
+.badge-detail-head small { font: 800 12px/1.3 var(--mt-font-body); color: var(--tier); }
+.badge-detail-head strong { font: 900 18px/1.3 var(--mt-font-display); color: #2f2a22; }
+.badge-detail-desc { font: 600 14px/1.6 var(--mt-font-body); color: #3d3222; }
+.badge-detail-goal { display: flex; align-items: center; gap: 8px; font: 700 13px/1 var(--mt-font-body); color: #5a6573; }
+.badge-detail-goal .badge-tile-progress { flex: 1; margin: 0; height: 8px; }
+.badge-detail-btn { min-height: 48px; border: 0; border-radius: 12px; background: var(--mt-brand, #2458a6); color: #fff; font: 800 15px/1 var(--mt-font-body); box-shadow: 0 3px 0 var(--mt-brand-strong, #14315f); }
+.badge-detail-btn:disabled { background: #e9e3d6; color: #7b7466; box-shadow: none; }
+.badge-detail-note { font: 600 12px/1.5 var(--mt-font-body); color: #5a6573; }
