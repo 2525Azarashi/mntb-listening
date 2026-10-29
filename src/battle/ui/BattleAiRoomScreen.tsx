@@ -12,12 +12,13 @@
  *   ・「もう1回」で同じ強さ・同じ教科の新しい試合を作れる
  */
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { auth } from '../../firebase';
 import { Bot, LogOut, Play, X } from 'lucide-react';
 import { subjectTheme } from '../../data/subjectTheme';
 import type { SubjectKey } from '../../data/allChapters';
 import { aiProfileOf, type AiLevel, type AiProfile } from '../core/aiOpponent';
+import { applyGhostRating } from '../data/ghostRating';
 import { fetchMyRankingRow } from '../data/battleRanking';
 import type { GhostReason } from '../core/matchFallback';
 import { ArenaFighters } from './ArenaFighters';
@@ -131,6 +132,20 @@ export function BattleAiRoomScreen({
     return () => { alive = false; };
   }, []);
   const growthMatchId = useMemo(() => `ai:${crypto.randomUUID()}`, [matchNo, subject, level, chapterId]);
+  // ★B7：全国対戦のボット戦はレートを動かす（サーバー関数で1試合1回だけ。AI対戦は動かさない）★
+  const [ghostRating, setGhostRating] = useState<{ before: number; after: number } | null>(null);
+  const [ghostRatingDone, setGhostRatingDone] = useState(false);
+  const ghostSentFor = useRef(-1);
+  useEffect(() => { setGhostRating(null); setGhostRatingDone(false); }, [matchNo]);
+  useEffect(() => {
+    if (!ghost || !b.finished || !b.result || ghostSentFor.current === matchNo) return;
+    ghostSentFor.current = matchNo;
+    const matchId = growthMatchId.replace(/[^A-Za-z0-9_-]/g, '').slice(0, 48);
+    void applyGhostRating({
+      matchId, ghostRating: ghost.profile.displayRating, outcome: b.result.outcome,
+      myScore: b.result.me.score, opponentScore: b.result.opponent?.score ?? 0,
+    }).then((r) => { setGhostRating(r); if (r) setMyRating(r.after); setGhostRatingDone(true); });
+  }, [ghost, b.finished, b.result, matchNo, growthMatchId]);
   const [resultMatchNo, setResultMatchNo] = useState(-1);
   const [showResult, setShowResult] = useState(false);
   const [confirmQuit, setConfirmQuit] = useState(false);
@@ -187,9 +202,9 @@ export function BattleAiRoomScreen({
         opponent={b.opponent}
         meNickname={b.me.nickname}
         mePhotoURL={b.me.photoURL}
-        rating={null}
+        rating={ghost ? ghostRating : null}
         myRating={myRating}
-        ratingNote={ghost ? 'この試合はレートに反映されませんでした' : `AI対戦ではレートは動きません（${myRating}のまま・練習用）`}
+        ratingNote={ghost ? (ghostRatingDone ? 'この試合はレートに反映されませんでした（通信・1日の上限）' : 'レートを反映しています…') : `AI対戦ではレートは動きません（${myRating}のまま・練習用）`}
         byForfeit={false}
         maskOpponent={!!ghost}
         onBackToRoom={onChangeSubject}

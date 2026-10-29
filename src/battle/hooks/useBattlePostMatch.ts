@@ -13,6 +13,7 @@ import { useEffect, useRef, useState } from 'react';
 import type React from 'react';
 import { attestResult, saveHistory } from '../data/battle';
 import { applyRatingResult } from '../data/battleRanking';
+import { settleRatingLater } from '../data/pendingRating';
 import type { BattlePlayerScore, BattleResultSummary, BattleRoom } from '../core/types';
 import { areAttestationsAgreed } from './battleRoomSelectors';
 
@@ -106,6 +107,16 @@ export function useBattlePostMatch({
       });
     });
   }, [roomId, result, scores, subject, attest, uid, opponentUid, opponent, byForfeit, explicitForfeit]);
+
+  // ★B6：相手の申告が届く前に画面を閉じても、裏で待ってレートを反映する★
+  //   （フレンド戦で「部屋に戻って次の問題を選ぶ」をすぐ押すと、ここが消えてレートが動かなかった）
+  const latest = useRef({ roomId, uid, opponentUid, opponentRating: opponent?.rating ?? 1500, outcome: result?.outcome, mine: !!room?.attest?.[uid] });
+  latest.current = { roomId, uid, opponentUid, opponentRating: opponent?.rating ?? 1500, outcome: result?.outcome, mine: !!room?.attest?.[uid] };
+  useEffect(() => () => {
+    const l = latest.current;
+    if (ratedRef.current || !l.roomId || !l.opponentUid || !l.outcome || !l.mine) return;
+    settleRatingLater({ roomId: l.roomId, uid: l.uid, opponentUid: l.opponentUid, opponentRating: l.opponentRating, outcome: l.outcome });
+  }, [roomId]);
 
   return { rating };
 }
