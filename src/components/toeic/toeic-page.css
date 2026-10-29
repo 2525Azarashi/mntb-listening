@@ -13,9 +13,11 @@
 .tp-mode { flex-shrink: 0; border-radius: 999px; background: #f3c64f; padding: 0 8px; font-size: 12px; font-weight: 800; line-height: 20px; color: #5b3d00; }
 .tp-title { min-width: 0; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 14px; font-weight: 700; color: #2c3e50; }
 .tp-stats { display: flex; flex-shrink: 0; gap: 4px; margin: 0; }
-.tp-stats > div { display: flex; align-items: baseline; gap: 4px; border-radius: 999px; background: #f3f4f6; padding: 4px 10px; }
-.tp-stats dt { font-size: 12px; font-weight: 700; color: #4b5563; }
-.tp-stats dd { margin: 0; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 14px; font-weight: 700; color: #2c3e50; }
+.tp-stats > div { display: flex; align-items: center; gap: 4px; border-radius: 999px; background: #f3f4f6; padding: 4px 10px; }
+.tp-stats dt { display: flex; color: #4b5563; }
+.tp-stats dd { margin: 0; font-size: 13px; font-weight: 700; color: #4b5563; white-space: nowrap; }
+.tp-stats dd b { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 14px; color: #2c3e50; }
+.tp-stats dd small { margin-left: 1px; font-size: 12px; font-weight: 700; }
 .tp-timer { flex: none; border-bottom: 1px solid #f3f4f6; background: #fff; }
 
 /* 問題の一覧（ここだけ縦にスクロール。スマホは6問を縦に読む） */
@@ -23,22 +25,30 @@
 .tp-list { display: grid; gap: 10px; padding: 12px 12px 16px; }
 
 .tp-item { border: 1px solid #e5e7eb; border-radius: 14px; background: #fff; padding: 12px 12px 10px; }
-.tp-item[data-status=unanswered] { border-left: 4px solid #d97706; }
+.tp-item { border-left-width: 4px; border-left-color: #e5e7eb; }
+.tp-item[data-status=answered] { border-left-color: #1f3566; }
+.tp-item[data-status=unanswered] { border-left-color: #d97706; }
 .tp-item[data-status=correct] { border-color: #9fd8c3; }
 .tp-item[data-status=wrong], .tp-item[data-status=blank] { border-color: #f0b8b3; }
 
-.tp-item-head { display: flex; align-items: flex-start; gap: 8px; }
-.tp-no { flex-shrink: 0; min-width: 2.2em; font-size: 16px; font-weight: 700; line-height: 1.6; color: #111827; font-family: var(--font-modern); }
-.tp-sentence { min-width: 0; flex: 1; margin: 0; font-size: 16px; font-weight: 700; line-height: 1.6; color: #111827; font-family: var(--font-modern); overflow-wrap: anywhere; }
-.tp-tag { flex-shrink: 0; align-self: center; border-radius: 999px; border: 1px solid #f5c26b; background: #fff7e6; padding: 0 8px; font-size: 12px; font-weight: 700; line-height: 20px; color: #92400e; }
+/* 番号は小さな丸にして英文の1行目の先頭へ（問題文の幅を広く取る） */
+.tp-sentence { margin: 0; font-size: 16px; font-weight: 700; line-height: 1.75; color: #111827; font-family: var(--font-modern); overflow-wrap: anywhere; }
+.tp-no { display: inline-grid; place-items: center; min-width: 24px; height: 24px; margin-right: 8px; padding: 0 4px; border-radius: 999px; background: #2c3e50; color: #fff; font-size: 13px; font-weight: 800; line-height: 1; vertical-align: 2px; }
+.tp-tag { display: inline-block; margin-left: 6px; border-radius: 999px; border: 1px solid #f5c26b; background: #fff7e6; padding: 0 8px; font-size: 12px; font-weight: 700; line-height: 20px; color: #92400e; vertical-align: 2px; }
+/* 空所：太い下線の枠。選んだ語が入る */
+.tp-blank { display: inline-block; min-width: 4.5em; margin: 0 2px; padding: 0 6px; border-bottom: 3px solid #1f3566; border-radius: 4px 4px 0 0; background: #eef2fb; line-height: 1.45; text-align: center; vertical-align: baseline; }
+.tp-blank[data-filled] { color: #1f3566; }
+.tp-blank[data-result=right] { border-bottom-color: #1f7a4d; background: #ecfdf5; color: #166534; }
+.tp-blank[data-result=wrong] { border-bottom-color: #b3261e; background: #fef2f2; color: #991b1b; text-decoration: line-through; text-decoration-thickness: 2px; }
 .tp-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
 /* 選択肢：2×2（(A)(B) が上段、(C)(D) が下段）。長い選択肢がある問題だけ1列 */
-.tp-choices { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 12px; margin: 8px 0 0 calc(2.2em + 8px); border-radius: 10px; outline: none; }
+.tp-choices { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 8px; margin: 8px 0 0; border-radius: 10px; outline: none; }
 .tp-choices.is-single { grid-template-columns: 1fr; }
 .tp-choices:focus-visible { box-shadow: 0 0 0 3px #3d5a99; }
 
-.tp-choice { display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 4px 8px 4px 4px; border-radius: 10px; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.tp-choice { display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 4px 8px 4px 4px; border: 1.5px solid transparent; border-radius: 10px; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.tp-choice-check { margin-left: auto; flex-shrink: 0; color: #1f3566; }
 .tp-choice:hover { background: #f8fafc; }
 .tp-choices[aria-disabled=true] .tp-choice { cursor: default; }
 .tp-choices[aria-disabled=true] .tp-choice:hover { background: none; }
@@ -47,21 +57,23 @@
 
 /* マークの丸：未選択は細い枠、選択は塗り＋太い枠（色だけに頼らない） */
 .tp-bubble { display: grid; place-items: center; flex-shrink: 0; width: 32px; height: 32px; border-radius: 999px; border: 1.5px solid #6b7280; background: #fff; font-size: 13px; font-weight: 800; color: #374151; transition: background-color .12s, border-color .12s, color .12s; }
+.tp-choice[data-checked] { border-color: #1f3566; background: #eef2fb; }
+.tp-choice[data-checked] .tp-choice-text { font-weight: 700; color: #1f3566; }
 .tp-choice[data-checked] .tp-bubble { border-width: 3px; border-color: #1f3566; background: #1f3566; color: #fff; }
-.tp-choice[data-result=right] { background: #ecfdf5; }
+.tp-choice[data-result=right] { border-color: #1f7a4d; background: #ecfdf5; }
 .tp-choice[data-result=right] .tp-bubble { border-width: 3px; border-color: #1f7a4d; background: #1f7a4d; color: #fff; }
 .tp-choice[data-result=right] .tp-choice-note { color: #166534; }
-.tp-choice[data-result=wrong] { background: #fef2f2; }
+.tp-choice[data-result=wrong] { border-color: #b3261e; background: #fef2f2; }
 .tp-choice[data-result=wrong] .tp-bubble { border-color: #b3261e; background: #b3261e; color: #fff; }
 .tp-choice[data-result=wrong] .tp-choice-note { color: #991b1b; }
 
 /* 採点後：○/× と文言 */
-.tp-judge { display: flex; align-items: center; gap: 6px; margin: 8px 0 0 calc(2.2em + 8px); font-size: 14px; font-weight: 800; }
+.tp-judge { display: flex; align-items: center; gap: 6px; margin: 8px 0 0; font-size: 14px; font-weight: 800; }
 .tp-judge[data-result=correct] { color: #166534; }
 .tp-judge[data-result=wrong], .tp-judge[data-result=blank] { color: #991b1b; }
 
 /* 解説（開閉） */
-.tp-ex { margin: 8px 0 0 calc(2.2em + 8px); border-radius: 10px; border: 1px solid #e5e7eb; background: #fafaf9; }
+.tp-ex { margin: 8px 0 0; border-radius: 10px; border: 1px solid #e5e7eb; background: #fafaf9; }
 .tp-ex > summary { display: flex; align-items: center; min-height: 44px; padding: 0 12px; cursor: pointer; font-size: 14px; font-weight: 700; color: #1f3566; list-style: none; }
 .tp-ex > summary::-webkit-details-marker { display: none; }
 .tp-ex > summary::before { content: '▶'; margin-right: 6px; font-size: 12px; transition: transform .15s; }
@@ -88,12 +100,10 @@
 /* 狭いスマホ：ボタンの字を縮めず、余白を詰める */
 @media (max-width: 380px) {
   .tp-head { gap: 4px; padding-left: 4px; padding-right: 6px; }
-  .tp-stats dt { display: none; }
-  .tp-stats > div { padding: 4px 8px; }
+  .tp-stats > div { padding: 4px 7px; gap: 2px; }
   .tp-list { padding: 10px 8px 14px; gap: 8px; }
   .tp-item { padding: 10px 8px 8px; }
-  .tp-choices { margin-left: 0; gap: 2px 8px; }
-  .tp-judge, .tp-ex { margin-left: 0; }
+  .tp-choices { gap: 2px 6px; }
   .tp-btn { padding: 0 12px; }
   .tp-btn-sub span { display: none; }
   .tp-btn-sub { width: 48px; padding: 0; }

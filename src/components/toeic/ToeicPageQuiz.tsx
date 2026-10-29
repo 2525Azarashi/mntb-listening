@@ -13,7 +13,7 @@
  * 共通の ProblemPane / AnswerPane / MultipleChoiceControl / QuizHeader は使わない（リスニング・英文法に影響させない）。
  */
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { ArrowLeft, CheckCircle2, ChevronLeft, ChevronRight, MinusCircle, XCircle } from 'lucide-react';
+import { ArrowLeft, Check, CheckCircle2, ChevronLeft, ChevronRight, FileText, ListChecks, MinusCircle, XCircle } from 'lucide-react';
 import type { Chapter, Problem, SubQuestion } from '../../types/curriculum';
 import type { ScoreBreakdown } from '../../utils/scoring';
 import { QuizTimerBar } from '../QuizTimerBar';
@@ -58,6 +58,24 @@ function stemOf(problem: Problem, sq: SubQuestion): string {
   const label = String(sq.label || '');
   const line = String(problem.text || '').split('\n').find((l) => l.startsWith(`${label}　`));
   return line ? line.slice(label.length + 1) : '';
+}
+
+/**
+ * 英文の空所 ______ を「太い下線の枠」にして描く。選んだ語があれば空所に入れて見せる（紙ではできない確認）。
+ * 読み上げでは「空所」または選んだ語として読む。
+ */
+function StemWithBlank({ stem, filled, result }: { stem: string; filled: string; result?: 'right' | 'wrong' }) {
+  const [before, after] = stem.split('______');
+  if (after === undefined) return <>{formatText(stem, [], { prose: true })}</>;
+  return (
+    <>
+      {before && formatText(before, [], { prose: true })}
+      <span className="tp-blank" data-filled={filled ? true : undefined} data-result={result} data-toeic-blank>
+        {filled ? formatText(filled, [], { prose: true }) : <span className="tp-sr">空所</span>}
+      </span>
+      {after && formatText(after, [], { prose: true })}
+    </>
+  );
 }
 
 /** 問題番号（1〜30）。復習ノートの解き直しで間違えた問だけに絞られても、元の番号（問N）を出す */
@@ -118,6 +136,8 @@ export function ToeicPageQuiz({
     return () => window.clearTimeout(t);
   }, [showFx]);
 
+  // 「未回答」の印は、採点ボタンを押したあとだけ出す（開いた直後に全問へ警告が並ばないように）
+  const [attempted, setAttempted] = useState<Record<number, boolean>>({});
   const listRef = useRef<HTMLDivElement | null>(null);
   const groupRefs = useRef<Record<string, HTMLDivElement | null>>({});
   const scrollTop = () => listRef.current?.scrollTo({ top: 0 });
@@ -154,6 +174,7 @@ export function ToeicPageQuiz({
 
   const handleScore = () => {
     if (pageScored || page.length === 0) return;
+    setAttempted((prev) => ({ ...prev, [safePage]: true }));
     if (unanswered > 0 && !confirmAction(`未回答が${unanswered}問あります。採点しますか？`)) return;
     timeUsedRef.current = Math.max(0, elapsedRef.current - pageStartRef.current);
     const scored = scorePage();
@@ -218,8 +239,14 @@ export function ToeicPageQuiz({
         <span className="tp-mode">{mode === 'mini_test' ? '小テスト' : '演習'}</span>
         <h2 className="tp-title">{chapter.abstractTitle}</h2>
         <dl className="tp-stats">
-          <div><dt>ページ</dt><dd data-toeic-page-pos>{safePage + 1}/{pages.length}</dd></div>
-          <div><dt>回答</dt><dd data-toeic-answered>{answeredCount}/{subs.length}</dd></div>
+          <div title="いまのページ／全ページ">
+            <dt><FileText size={14} aria-hidden="true" /><span className="tp-sr">ページ</span></dt>
+            <dd data-toeic-page-pos><b>{safePage + 1}</b>/{pages.length}<small>ページ</small></dd>
+          </div>
+          <div title="答えた問題／全問題">
+            <dt><ListChecks size={14} aria-hidden="true" /><span className="tp-sr">回答済み</span></dt>
+            <dd data-toeic-answered><b>{answeredCount}</b>/{subs.length}<small>問</small></dd>
+          </div>
         </dl>
       </header>
       <div className="tp-timer">
@@ -234,19 +261,21 @@ export function ToeicPageQuiz({
             const chosen = answers[sq.id] || '';
             const texts = sq.optionTexts || [];
             const ok = pageScored && isAnswerCorrect(sq, chosen);
-            const status = !pageScored ? (chosen ? 'answered' : 'unanswered') : !chosen ? 'blank' : ok ? 'correct' : 'wrong';
+            const status = !pageScored
+              ? (chosen ? 'answered' : attempted[safePage] ? 'unanswered' : 'todo')
+              : !chosen ? 'blank' : ok ? 'correct' : 'wrong';
+            const filled = chosen ? (texts[sq.options.indexOf(chosen)] ?? '') : '';
             const ex = pageScored ? toeicExplanationFor(sq) : null;
             const labelId = `tp-q-${sq.id}`;
             return (
               <article key={sq.id} className="tp-item" data-status={status} data-toeic-question={no}>
-                <div className="tp-item-head">
-                  <span className="tp-no" aria-hidden="true">{no}.</span>
-                  <p className="tp-sentence" id={labelId}>
-                    <span className="tp-sr">問{no}　</span>
-                    {formatText(stemOf(currentQuestion, sq), [], { prose: true })}
-                  </p>
-                  {status === 'unanswered' && <span className="tp-tag" data-toeic-unanswered>未回答</span>}
-                </div>
+                <p className="tp-sentence" id={labelId}>
+                  <span className="tp-no" aria-hidden="true">{no}</span>
+                  <span className="tp-sr">問{no}　</span>
+                  <StemWithBlank stem={stemOf(currentQuestion, sq)} filled={filled}
+                    result={pageScored && chosen ? (ok ? 'right' : 'wrong') : undefined} />
+                  {(status === 'unanswered' || status === 'blank') && <span className="tp-tag" data-toeic-unanswered>未回答</span>}
+                </p>
                 <div
                   role="radiogroup"
                   aria-labelledby={labelId}
@@ -275,6 +304,7 @@ export function ToeicPageQuiz({
                       >
                         <span className="tp-bubble" aria-hidden="true">{markLetter(mark)}</span>
                         <span className="tp-choice-text" aria-hidden="true">{formatText(texts[i] ?? mark, [], { prose: true })}</span>
+                        {checked && !pageScored && <Check size={18} strokeWidth={3} className="tp-choice-check" aria-hidden="true" />}
                         {isRight && <span className="tp-choice-note">正解</span>}
                         {isWrongPick && <span className="tp-choice-note">あなたの答え</span>}
                       </div>
