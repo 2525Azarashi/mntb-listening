@@ -125,7 +125,7 @@
 .mystudy-who p { margin: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 2px 8px; font: 700 12px/1.4 var(--mt-font-body); color: var(--mt-ink-2); }
 .mystudy-who p span { display: inline-flex; align-items: center; gap: 3px; }
 .mystudy-who p b { font: 800 15px/1 var(--mt-font-display); color: var(--mt-ink-warm); }
-.mystudy-title { padding: 0 8px; border: 1px solid #e0c27a; border-radius: 999px; background: #fffdf6; color: #7a5212; font-weight: 800; }
+.mystudy-title { padding: 0 8px; border: 1px solid #e0c27a; border-radius: 999px; background: var(--mt-bg-card); color: #7a5212; font-weight: 800; }
 .mystudy-head > .mt-btn { flex-shrink: 0; align-self: flex-start; min-height: 44px; padding: 0 10px; font-size: 13px; }
 .mystudy-goal { flex-shrink: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 2px 10px; font: 700 12px/1.4 var(--mt-font-body); color: var(--mt-ink-3); }
 .mystudy-goal span { display: inline-flex; align-items: center; gap: 3px; min-width: 0; }

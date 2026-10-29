@@ -9,16 +9,16 @@
 /* 上の帯（固定）：戻る・演習・単元名・ページ位置・回答済み */
 .tp-head { flex: none; display: flex; align-items: center; gap: 8px; padding: calc(6px + env(safe-area-inset-top, 0px)) 8px 6px; border-bottom: 1px solid #eadfc8; background: #fffaf0; box-shadow: 0 1px 2px rgba(0,0,0,.05); }
 .tp-back { display: grid; place-items: center; width: 44px; height: 44px; flex-shrink: 0; border-radius: 999px; color: #6b7280; }
-.tp-back:hover { background: #f3f4f6; }
+.tp-back:hover { background: var(--mt-rare-n-bg); }
 .tp-mode { flex-shrink: 0; border-radius: 999px; background: #f3c64f; padding: 0 8px; font-size: 12px; font-weight: 800; line-height: 20px; color: #5b3d00; }
 .tp-title { min-width: 0; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 14px; font-weight: 700; color: #2c3e50; }
 .tp-stats { display: flex; flex-shrink: 0; gap: 4px; margin: 0; }
-.tp-stats > div { display: flex; align-items: center; gap: 4px; border-radius: 999px; background: #f3f4f6; padding: 4px 10px; }
+.tp-stats > div { display: flex; align-items: center; gap: 4px; border-radius: 999px; background: var(--mt-rare-n-bg); padding: 4px 10px; }
 .tp-stats dt { display: flex; color: #4b5563; }
 .tp-stats dd { margin: 0; font-size: 13px; font-weight: 700; color: #4b5563; white-space: nowrap; }
 .tp-stats dd b { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 14px; color: #2c3e50; }
 .tp-stats dd small { margin-left: 1px; font-size: 12px; font-weight: 700; }
-.tp-timer { flex: none; border-bottom: 1px solid #f3f4f6; background: #fff; }
+.tp-timer { flex: none; border-bottom: 1px solid var(--mt-rare-n-bg); background: #fff; }
 
 /* 問題の一覧（ここだけ縦にスクロール。スマホは6問を縦に読む） */
 .tp-scroll { flex: 1; min-height: 0; overflow-y: auto; -webkit-overflow-scrolling: touch; overscroll-behavior: contain; }
@@ -38,8 +38,8 @@
 /* 空所：太い下線の枠。選んだ語が入る */
 .tp-blank { display: inline-block; min-width: 4.5em; margin: 0 2px; padding: 0 6px; border-bottom: 3px solid #1f3566; border-radius: 4px 4px 0 0; background: #eef2fb; line-height: 1.45; text-align: center; vertical-align: baseline; }
 .tp-blank[data-filled] { color: #1f3566; }
-.tp-blank[data-result=right] { border-bottom-color: #1f7a4d; background: #ecfdf5; color: #166534; }
-.tp-blank[data-result=wrong] { border-bottom-color: #b3261e; background: #fef2f2; color: #991b1b; text-decoration: line-through; text-decoration-thickness: 2px; }
+.tp-blank[data-result=right] { border-bottom-color: var(--mt-done); background: #ecfdf5; color: #166534; }
+.tp-blank[data-result=wrong] { border-bottom-color: var(--mt-danger); background: #fef2f2; color: #991b1b; text-decoration: line-through; text-decoration-thickness: 2px; }
 .tp-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
 /* 選択肢：2×2（(A)(B) が上段、(C)(D) が下段）。長い選択肢がある問題だけ1列 */
@@ -62,11 +62,11 @@
 .tp-choice[data-checked] { border-color: #1f3566; background: #eef2fb; }
 .tp-choice[data-checked] .tp-choice-text { font-weight: 700; color: #1f3566; }
 .tp-choice[data-checked] .tp-bubble { border-width: 3px; border-color: #1f3566; background: #1f3566; color: #fff; }
-.tp-choice[data-result=right] { border-color: #1f7a4d; background: #ecfdf5; }
-.tp-choice[data-result=right] .tp-bubble { border-width: 3px; border-color: #1f7a4d; background: #1f7a4d; color: #fff; }
+.tp-choice[data-result=right] { border-color: var(--mt-done); background: #ecfdf5; }
+.tp-choice[data-result=right] .tp-bubble { border-width: 3px; border-color: var(--mt-done); background: var(--mt-done); color: #fff; }
 .tp-choice[data-result=right] .tp-choice-note { color: #166534; }
-.tp-choice[data-result=wrong] { border-color: #b3261e; background: #fef2f2; }
-.tp-choice[data-result=wrong] .tp-bubble { border-color: #b3261e; background: #b3261e; color: #fff; }
+.tp-choice[data-result=wrong] { border-color: var(--mt-danger); background: #fef2f2; }
+.tp-choice[data-result=wrong] .tp-bubble { border-color: var(--mt-danger); background: var(--mt-danger); color: #fff; }
 .tp-choice[data-result=wrong] .tp-choice-note { color: #991b1b; }
 
 /* 採点後：ページの正解数（一覧の上と下の帯に出す） */

@@ -76,7 +76,7 @@
   .launch-equipped-pose { opacity: 1 !important; }
 }
 
-.launch-emblem, .launch-announcement { height:100dvh; overflow:hidden; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:22px; padding:20px; background:#fcf5e9; color:#344451; font-family:var(--mt-font-body); }
+.launch-emblem, .launch-announcement { height:100dvh; overflow:hidden; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:22px; padding:20px; background:var(--mt-paper); color:#344451; font-family:var(--mt-font-body); }
 .launch-emblem img { width:min(260px,70vw); height:auto; }
 .launch-emblem h1 { font:400 clamp(20px,5.5vw,28px)/1.6 var(--font-handwriting); text-align:center; letter-spacing:.04em; }
 .launch-emblem p { font-size:12px; letter-spacing:.2em; color:#6b6047; }
