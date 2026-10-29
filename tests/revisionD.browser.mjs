@@ -21,12 +21,7 @@ async function open(width,height,mobile=false) {
   await page.locator('.launch-emblem').waitFor({timeout:120000});
   assert.equal(await page.locator('.launch-emblem h1').textContent(),'学んだぶんだけ、強くなる。');
   await page.locator('.launch-start').click();
-  await page.locator('.launch-announcement').waitFor();
-  assert.match(await page.locator('.launch-countdown').innerText(),/共通テストまで.*日/s);
-  await page.getByRole('button',{name:'見てみる',exact:true}).click();
-  await page.getByText('音量と学習の入口を整えました',{exact:true}).waitFor();
-  await page.getByRole('button',{name:'お知らせを閉じる',exact:true}).click();
-  await page.locator('.launch-announcement-actions').getByRole('button',{name:'閉じる',exact:true}).click();
+  // C13（2026-10-29）：お知らせ画面は削除。はじめる → そのままホーム
   await page.locator('.game-home').waitFor();
   return {context,page};
 }
@@ -110,7 +105,7 @@ try {
   const from=r.x+11+(r.width-22)*Number(await slider.inputValue()),to=r.x+11+(r.width-22)*.2;
   await touch('touchStart',from);for(let i=1;i<=8;i++)await touch('touchMove',from+(to-from)*i/8);await touch('touchEnd',to);
   await page.waitForTimeout(600);assert.ok(Math.abs(Number(await slider.inputValue())-.2)<.03,'touch drag did not move slider');
-  await page.reload({waitUntil:'domcontentloaded'});await page.locator('.launch-start').click();await page.locator('.launch-announcement-actions').getByRole('button',{name:'閉じる',exact:true}).click();
+  await page.reload({waitUntil:'domcontentloaded'});await page.locator('.launch-start').click();
   await page.locator('.game-home').waitFor();await page.getByRole('button',{name:'設定画面へ移動',exact:true}).click();
   await page.getByRole('slider',{name:'BGM音量'}).waitFor();assert.ok(Math.abs(Number(await page.getByRole('slider',{name:'BGM音量'}).inputValue())-.2)<.03,'volume not retained after reload');
   await context.close();assert.deepEqual(errors,[]);console.log('D acceptance passed: startup, notices, four viewports, pointer/touch/keyboard, real gain, shared battle volume, reload.');

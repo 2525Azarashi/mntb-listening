@@ -76,7 +76,7 @@
   .launch-equipped-pose { opacity: 1 !important; }
 }
 
-.launch-emblem, .launch-announcement { height:100dvh; overflow:hidden; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:22px; padding:20px; background:#fcf5e9; color:#344451; font-family:var(--mt-font-body); }
+.launch-emblem { height:100dvh; overflow:hidden; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:22px; padding:20px; background:#fcf5e9; color:#344451; font-family:var(--mt-font-body); }
 .launch-emblem img { width:min(260px,70vw); height:auto; }
 .launch-emblem h1 { font:400 clamp(20px,5.5vw,28px)/1.6 var(--font-handwriting); text-align:center; letter-spacing:.04em; }
 .launch-emblem p { font-size:12px; letter-spacing:.2em; color:#6b6047; }
@@ -84,16 +84,6 @@
 .launch-emblem-mark svg:first-child { width:56px; height:56px; color:#987735; }
 .launch-emblem-mark svg:last-child { position:absolute; right:8px; bottom:9px; width:34px; height:34px; background:#fff7e6; border-radius:50%; color:#3e7289; }
 .launch-emblem button { min-height:44px; padding:0 16px; font-size:12px; color:#596673; border:1px solid #d8caa9; border-radius:20px; }
-.launch-announcement > section { width:min(520px,100%); display:flex; flex-direction:column; gap:18px; }
-.launch-announcement h1 { font-size:clamp(22px,6vw,30px); font-weight:900; line-height:1.4; }
-.launch-announcement p { font-size:14px; line-height:1.7; }
-.launch-countdown { display:flex; align-items:center; gap:20px; padding:18px; border:1px solid #d7bd78; border-radius:20px; background:linear-gradient(#fff7e3,#f4e2b4); }
-.launch-countdown > span { font-size:14px; }
-.launch-countdown strong { display:block; font-size:50px; line-height:1.1; color:#496d80; font-variant-numeric:tabular-nums; }
-.launch-countdown small { font-size:12px; margin-left:6px; }
-.launch-announcement-actions { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
-.launch-announcement-actions button { min-height:48px; border:1px solid #bca568; border-radius:14px; font-size:16px; font-weight:800; background:#f0d388; color:#4a3b1f; }
-.launch-announcement-actions button:last-child { background:#fffaf0; color:#475d6b; }
 
 /* 2026-10-02 D2：起動エンブレムを市販アプリのスプラッシュの間合いに（白→フェードイン→保持→フェードアウト→タイトル） */
 .launch-emblem { background:#fff; cursor:pointer; -webkit-tap-highlight-color:transparent; outline:none; }
@@ -104,7 +94,6 @@
 .launch-screen { animation: launch-title-in .8s ease both; }
 @keyframes launch-title-in { from { opacity:0; } to { opacity:1; } }
 @media (prefers-reduced-motion: reduce) { .launch-emblem-inner, .launch-screen { transition:none; animation:none; transform:none; } .launch-emblem[data-phase="hold"] .launch-emblem-inner { opacity:1; } }
-.launch-announcement p.launch-announcement-latest { font-weight:700; color:#3a4a59; }
 
 /* タイトル画面 → 「学びの扉」（理念）ページへの入口。主CTAの邪魔をしない文字リンク */
 .launch-philosophy { display: inline-flex; align-items: center; gap: 8px; min-height: var(--mt-tap); margin-top: 4px; padding: 0 18px; border: 1px solid #e3c49a; border-radius: 999px; background: linear-gradient(135deg, #fff3e0, #e9f1fb); color: #6e4019; font: 700 14px/1.2 'Shippori Mincho', 'Hiragino Mincho ProN', serif; letter-spacing: .06em; box-shadow: 0 2px 0 #e8d3b2; }
@@ -169,17 +158,6 @@
   .launch-kbd { grid-area: kbd; display: block; margin: 0; justify-self: end; font-size: 12px; color: var(--mt-ink-3); }
   .launch-kbd kbd { display: inline-block; min-width: 44px; padding: 3px 8px; margin-right: 4px; border: 1px solid var(--mt-line-strong); border-bottom-width: 3px; border-radius: 8px; background: #fff; font: 700 12px/1.2 var(--mt-font-body); color: var(--mt-ink-2); text-align: center; }
 
-  /* お知らせ（タイトルの次の画面）：PC では横長のカードにして、残り日数を左・本文を右に */
-  .launch-announcement > section { width: min(880px, 100%); display: grid; grid-template-columns: 300px 1fr; grid-template-areas: "kick kick" "title title" "count latest" "count body" "count actions"; column-gap: 32px; row-gap: 14px; padding: 36px 40px; border-radius: 28px; background: #fffdf8; box-shadow: 0 0 0 1px #eadfca, 0 18px 50px -24px rgba(73, 109, 128, .35); }
-  .launch-announcement .mt-kicker { grid-area: kick; margin: 0; }
-  .launch-announcement h1 { grid-area: title; margin: 0; font-size: 32px; }
-  .launch-announcement .launch-countdown { grid-area: count; flex-direction: column; align-items: flex-start; justify-content: center; align-self: stretch; }
-  .launch-announcement .launch-countdown strong { font-size: 64px; }
-  .launch-announcement p.launch-announcement-latest { grid-area: latest; margin: 0; font-size: 16px; }
-  .launch-announcement p:not(.launch-announcement-latest):not(.mt-kicker) { grid-area: body; margin: 0; font-size: 15px; }
-  .launch-announcement-actions { grid-area: actions; align-self: end; }
-  .launch-announcement-actions button { min-height: 52px; cursor: pointer; }
-  .launch-announcement-actions button:hover { filter: brightness(1.03); }
   .launch-emblem-applogo { width: min(340px, 40vh); }
   .launch-emblem h1 { font-size: 34px; }
 }
