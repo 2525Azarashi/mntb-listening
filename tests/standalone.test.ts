@@ -10,10 +10,11 @@ import { defaultEnabledSubjects, normalizeRule } from '../src/battle/core/battle
 import { arenaRule } from '../src/battle/core/arenaRules';
 import { EXTERNAL_SUBJECTS } from '../src/data/externalSubjects';
 const subject = 'english_listening';
+// TOEIC Part 5（toeic_part5）は PR #126 で教材として加えた。対戦の出題範囲（POOL_COUNTS 以下）には入れていない
 it('exposes listening first, with English grammar and vocabulary as sub-features only', () => {
-  expect(SUBJECTS.map(s=>s.id)).toEqual([subject,'english_grammar']);
-  expect(SUBJECT_INDEX.map(s=>s.id)).toEqual([subject,'english_grammar']);
-  expect(Object.keys(SUBJECT_STATS)).toEqual([subject,'english_grammar']);
+  expect(SUBJECTS.map(s=>s.id)).toEqual([subject,'english_grammar','toeic_part5']);
+  expect(SUBJECT_INDEX.map(s=>s.id)).toEqual([subject,'english_grammar','toeic_part5']);
+  expect(Object.keys(SUBJECT_STATS)).toEqual([subject,'english_grammar','toeic_part5']);
   expect(Object.keys(POOL_COUNTS)).toEqual([subject,'english_grammar','english_vocab']);
   expect(defaultEnabledSubjects()).toEqual([subject,'english_grammar','english_vocab']);
   expect(EXTERNAL_SUBJECTS.map(s=>s.id)).toEqual(['english_vocab']);
