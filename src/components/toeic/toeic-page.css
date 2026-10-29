@@ -52,8 +52,10 @@
 .tp-choice:hover { background: #f8fafc; }
 .tp-choices[aria-disabled=true] .tp-choice { cursor: default; }
 .tp-choices[aria-disabled=true] .tp-choice:hover { background: none; }
-.tp-choice-text { min-width: 0; font-size: 15px; font-weight: 500; line-height: 1.5; color: #1f2937; font-family: var(--font-modern); overflow-wrap: anywhere; }
-.tp-choice-note { margin-left: auto; flex-shrink: 0; font-size: 12px; font-weight: 700; }
+.tp-choice-body { display: flex; min-width: 0; flex: 1; flex-direction: column; justify-content: center; }
+/* 単語の途中では折らない（anywhere だと「hav/e/rec/eiv/ed」のように1文字ずつ縦に伸びた） */
+.tp-choice-text { min-width: 0; font-size: 15px; font-weight: 500; line-height: 1.4; color: #1f2937; font-family: var(--font-modern); overflow-wrap: break-word; word-break: normal; hyphens: none; }
+.tp-choice-note { font-size: 12px; font-weight: 700; line-height: 1.3; }
 
 /* マークの丸：未選択は細い枠、選択は塗り＋太い枠（色だけに頼らない） */
 .tp-bubble { display: grid; place-items: center; flex-shrink: 0; width: 32px; height: 32px; border-radius: 999px; border: 1.5px solid #6b7280; background: #fff; font-size: 13px; font-weight: 800; color: #374151; transition: background-color .12s, border-color .12s, color .12s; }
@@ -66,6 +68,13 @@
 .tp-choice[data-result=wrong] { border-color: #b3261e; background: #fef2f2; }
 .tp-choice[data-result=wrong] .tp-bubble { border-color: #b3261e; background: #b3261e; color: #fff; }
 .tp-choice[data-result=wrong] .tp-choice-note { color: #991b1b; }
+
+/* 採点後：ページの正解数（一覧の上と下の帯に出す） */
+.tp-page-result { display: flex; align-items: center; gap: 6px; margin: 12px 12px 0; border: 1px solid #c3cfea; border-radius: 12px; background: #f5f7fc; padding: 8px 14px; font-size: 14px; font-weight: 700; color: #1f3566; }
+.tp-page-result b { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 22px; line-height: 1; margin-left: 4px; }
+.tp-page-result[data-perfect] { border-color: #9fd8c3; background: #ecfdf5; color: #166534; }
+.tp-foot-score { flex-shrink: 0; font-size: 13px; font-weight: 700; color: #1f3566; }
+.tp-foot-score b { font-size: 16px; }
 
 /* 採点後：○/× と文言 */
 .tp-judge { display: flex; align-items: center; gap: 6px; margin: 8px 0 0; font-size: 14px; font-weight: 800; }
@@ -113,6 +122,7 @@
 @media (min-width: 1024px) {
   .tp-head { padding: 12px 24px; gap: 12px; }
   .tp-title { font-size: 18px; }
+  .tp-page-result { max-width: 1232px; margin: 16px auto 0; }
   .tp-list { grid-template-columns: 1fr 1fr; grid-auto-flow: column; grid-template-rows: repeat(3, auto); align-items: start; gap: 12px 16px; max-width: 1280px; margin: 0 auto; padding: 16px 24px 24px; }
   .tp-foot { padding: 10px 24px; }
 }
