@@ -47,6 +47,7 @@ import { LEADERBOARD_PAGE_SIZE } from './scoring';
 import { profileKey } from './userStorageKeys';
 import { sanitizeNickname } from '../features/safety/nicknameFilter';
 import { requireLocalStorage } from './safeLocalStorage';
+import { reportError } from './reportError';
 
 /**
  * leaderboard_events の1件（Firestore から読んだままの形）。
@@ -160,7 +161,7 @@ export async function syncRankingNickname(): Promise<void> {
     if (!(await getDoc(ref)).exists()) return;
     await setDoc(ref, { nickname: resolveNickname(), photoURL: user.photoURL || '' }, { merge: true });
   } catch (e) {
-    console.warn('[Leaderboard] nickname sync failed:', e);
+    reportError('[Leaderboard] nickname sync failed', e);
   }
 }
 
@@ -198,7 +199,7 @@ export async function fetchChapterRanking(
       isMe: !!me && entry.uid === me.uid,
     }));
   } catch (e) {
-    console.error('[Leaderboard] fetchChapterRanking failed:', e);
+    reportError('[Leaderboard] fetchChapterRanking failed', e);
     return [];
   }
 }
@@ -257,7 +258,7 @@ export async function fetchTotalRanking(
     });
     return list;
   } catch (e) {
-    console.error('[Leaderboard] fetchTotalRanking failed:', e);
+    reportError('[Leaderboard] fetchTotalRanking failed', e);
     return [];
   }
 }
@@ -320,7 +321,7 @@ export async function fetchPeriodRanking(
       isMe: !!me && entry.uid === me.uid,
     }));
   } catch (e) {
-    console.error('[Leaderboard] fetchPeriodRanking failed:', e);
+    reportError('[Leaderboard] fetchPeriodRanking failed', e);
     return [];
   }
 }
@@ -339,7 +340,7 @@ export async function fetchMyChapterBest(chapterId: string): Promise<number> {
       return d.bestScore || 0;
     }
   } catch (e) {
-    console.error('[Leaderboard] fetchMyChapterBest failed:', e);
+    reportError('[Leaderboard] fetchMyChapterBest failed', e);
   }
   return 0;
 }
@@ -355,7 +356,7 @@ export async function fetchMyTotalScore(): Promise<TotalScoreEntry | null> {
     const snap = await getDoc(ref);
     if (snap.exists()) return snap.data() as TotalScoreEntry;
   } catch (e) {
-    console.error('[Leaderboard] fetchMyTotalScore failed:', e);
+    reportError('[Leaderboard] fetchMyTotalScore failed', e);
   }
   return null;
 }

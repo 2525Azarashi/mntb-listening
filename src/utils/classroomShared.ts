@@ -62,7 +62,7 @@ export function memberDocId(classId: string, uid: string): string {
 /** classroom.ts 用の Firestore エラー文言（コード → 表示文）。 */
 const CLASSROOM_ERROR_MESSAGES: FirestoreErrorMessages = {
   'permission-denied':
-    'この操作は許可されていません。Firestore のセキュリティルールが古い可能性があります。管理者は firestore.rules をデプロイしてください（docs/DEPLOY_FIRESTORE_RULES.md 参照）。',
+    'この操作は許可されていません。Firestore のセキュリティルールが古い可能性があります。管理者は firestore.rules をデプロイしてください（docs/FIRESTORE_RULES_DEPLOY.md 参照）。',
   unauthenticated: 'ログインの有効期限が切れています。もう一度ログインしてください。',
   unavailable: '通信できませんでした。オンラインに戻ってからお試しください。',
   'failed-precondition': '通信できませんでした。オンラインに戻ってからお試しください。',

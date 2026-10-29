@@ -72,7 +72,7 @@ try {
     assert.equal(await page.locator('.mypage-menu').count(),0,'duplicate menu grid removed');
     assert.equal(await page.locator('.mypage-parts [data-part]').count(),7);
     await page.locator('.mypage-parts [data-part=hat]').click();
-    assert.equal(await page.locator('.collection-kind select').inputValue(),'hat');
+    assert.equal(await page.locator('[data-collection-kinds] [data-kind=hat]').getAttribute('aria-pressed'),'true');
     await page.getByRole('button',{name:'マイページ',exact:true}).click();
     await page.locator('.mypage-more').getByRole('button',{name:'称号'}).click();
     await page.locator('[data-profile-standalone=badges]').waitFor();

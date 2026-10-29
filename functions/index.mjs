@@ -5,7 +5,7 @@ import { onDocumentWritten } from 'firebase-functions/v2/firestore';
 import { onSchedule } from 'firebase-functions/v2/scheduler';
 import { randomBytes } from 'node:crypto';
 import { defineSecret } from 'firebase-functions/params';
-import { clanPower, parsePowerPolicy, seasonAt, rewardPlan, ranked, validAttestation, EPOCH, PERIOD, REWARD_ITEM, aggregateAchievements, parseDeviceAchievements } from './core.mjs';
+import { clanPower, parsePowerPolicy, seasonAt, rewardPlan, ranked, validAttestation, EPOCH, PERIOD, REWARD_ITEM, aggregateAchievements, parseDeviceAchievements, ghostNextRating, parseGhostMatch, GHOST_DAILY_MAX } from './core.mjs';
 initializeApp();
 const db=getFirestore();
 const region='asia-northeast1';
@@ -239,3 +239,41 @@ export async function handleAchievements(req) {
   return {stages,stagesCleared:agg.stagesCleared,level:agg.level,xp:agg.xp};
 }
 export const achievements=onCall({region,maxInstances:20,timeoutSeconds:30},handleAchievements);
+
+/**
+ * ★B7（2026-10-29）全国対戦のボット戦もレートを動かす★
+ *   試合は端末の中で進むので、ルール（2人部屋の証明）ではレートを書けない。サーバーで次を守って反映する。
+ *   ・同じ試合は1回だけ（battle_ghost_receipts/{uid}/matches/{matchId}）
+ *   ・1日 GHOST_DAILY_MAX 試合まで（日本時間で数える）
+ *   ・変化は K=16・相手レートは自分の ±320 に丸める（ghostNextRating）
+ *   ・点数と勝敗が食い違う申告は受け付けない（parseGhostMatch）
+ *   シーズン集計（recordSeasonRating）は部屋が無いので数えない＝ボット戦でシーズン報酬は稼げない。
+ */
+export async function handleGhostMatch(req) {
+  const uid=requireUid(req); await quota(uid);
+  const input=parseGhostMatch(req.data);
+  if(!input) fail('invalid-argument','試合の結果の形式が正しくありません。');
+  const rankRef=db.collection('battle_ranking').doc(uid);
+  const root=db.collection('battle_ghost_receipts').doc(uid);
+  const receipt=root.collection('matches').doc(input.matchId);
+  const day=new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Tokyo'}).format(new Date());
+  return db.runTransaction(async tx=>{
+    const [row,seen,counter]=await tx.getAll(rankRef,receipt,root);
+    if(seen.exists) return {before:seen.get('before'),after:seen.get('after'),duplicate:true};
+    const count=counter.get('day')===day ? (counter.get('count') ?? 0) : 0;
+    if(count>=GHOST_DAILY_MAX) fail('resource-exhausted','今日はこれ以上レートに反映できません（1日の上限）。');
+    const d=row.data() ?? {};
+    const before=Number.isFinite(d.rating) ? d.rating : 1500;
+    const after=ghostNextRating(before,input.ghostRating,input.outcome);
+    const k=input.outcome==='win'?'wins':input.outcome==='lose'?'losses':'draws';
+    tx.set(rankRef,{
+      uid, nickname:String(d.nickname || 'なまえ未設定').slice(0,40), photoURL:String(d.photoURL || '').slice(0,500),
+      rating:after, wins:(d.wins ?? 0)+(k==='wins'?1:0), losses:(d.losses ?? 0)+(k==='losses'?1:0), draws:(d.draws ?? 0)+(k==='draws'?1:0),
+      lastRoomId:`ghost_${input.matchId}`.slice(0,64), updatedAt:stamp(),
+    },{merge:true});
+    tx.set(receipt,{before,after,outcome:input.outcome,ghostRating:input.ghostRating,createdAt:stamp()});
+    tx.set(root,{day,count:count+1},{merge:true});
+    return {before,after};
+  });
+}
+export const ghostMatch=onCall({region,maxInstances:20,timeoutSeconds:30},handleGhostMatch);

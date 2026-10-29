@@ -1,13 +1,15 @@
 /** プロフィールのタブ（着せ替え・称号・戦績）。BattleProfile.tsx から分けた。中身は不変。 */
 import { useFitPager } from '../../hooks/useFitPager';
 import { FitPagerBar } from '../../components/ui/FitPagerBar';
-import { useState } from 'react';
+import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from 'react';
+import { createPortal } from 'react-dom';
 import { Coins, Lock, Sparkles, Trophy } from 'lucide-react';
 import { labelOfSubject } from '../../data/subjectLabels';
 import {
   BADGES,
   badgeById,
   badgeProgress,
+  badgeTierColor,
   ITEMS,
   levelOf,
   lifetimeTotals,
@@ -29,7 +31,7 @@ import {
 } from './BattleParts';
 import { auth } from '../../firebase';
 import { STAGE_CLEAR_PERFECTS, readStageHistory, stageSummary } from '../../utils/stageRecords';
-import { BadgeChip, StatCard } from './GrowthParts';
+import { StatCard } from './GrowthParts';
 
 
 export type Runner = (fn: () => Promise<unknown>, okMessage?: string) => Promise<void>;
@@ -179,77 +181,91 @@ export function OutfitTab({ progress, busy, run, setNotice, shop = false }: { sh
 // 称号（バッジ）
 // ============================================================
 
+/**
+ * 称号（2026-10-29 B4 作り直し）
+ *   全部の称号を小さなタイルで1つの一覧に。達成したものは色つき＋「達成」の印、まだのものは灰色＋進み具合のバー。
+ *   押すと詳細の窓（説明・進み具合・「この称号をつける」）。並び＝達成（希少な順）→ まだ（近い順）。
+ */
 export function BadgesTab({ progress, busy, run }: { progress: GrowthProgress; busy: boolean; run: Runner }) {
   const earned = BADGES.filter((b) => b.id in progress.badges).sort((a, b) => b.tier - a.tier);
-  // ★近い順に並べる★（「あと1」が上に来る。希少度順だと遠い目標が上に来てしまう）
+  // ★近い順に並べる★（「あと1」が前に来る。希少度順だと遠い目標が前に来てしまう）
   const locked = BADGES.filter((b) => !(b.id in progress.badges)).sort((a, b) => {
     const ra = badgeProgress(progress, a.id)?.ratio ?? 0;
     const rb = badgeProgress(progress, b.id)?.ratio ?? 0;
     return rb - ra || a.tier - b.tier;
   });
+  const all = [...earned, ...locked];
   const current = progress.equipped.title;
-  const pager = useFitPager(locked.length);
+  const pager = useFitPager(all.length);
+  const [open, setOpen] = useState<string | null>(null);
+  const openBadge = open ? badgeById(open) : undefined;
+  const isEarned = (id: string) => id in progress.badges;
 
   return (
-    <div className="badges-tab grid gap-4">
-      <section>
-        <div className="mb-2 flex items-center justify-between">
-          <h3 className="flex items-center gap-1 text-xs font-black" style={{ color: INK_SUB }}>
-            <Trophy size={12} style={{ color: AMBER }} /> もっている称号（{earned.length}/{BADGES.length}）
-          </h3>
-          {current !== '' && (
-            <button
-              type="button"
-              disabled={busy}
-              onClick={() => void run(() => equipBadgeTitle(''), 'レートの称号にもどしました')}
-              className="rounded-full border px-2 py-0.5 text-xs font-bold"
-              style={{ borderColor: LINE, color: INK_SUB }}
-            >
-              レート称号にもどす
-            </button>
-          )}
-        </div>
-        {earned.length === 0 ? (
-          <p className="rounded-2xl border px-3 py-3 text-center text-xs font-bold" style={{ borderColor: LINE, color: INK_SUB }}>
-            まだ称号がありません。1回対戦すると最初の称号がもらえます。
-          </p>
-        ) : (
-          <div className="grid gap-1.5">
-            {earned.map((b, i) => (
-              <BadgeChip
-                key={b.id}
-                id={b.id}
-                delay={i * 0.05}
-                selected={current === b.id}
-                onClick={() => {
-                  if (busy || current === b.id) return;
-                  void run(() => equipBadgeTitle(b.id), `称号「${b.label}」を身につけました`);
-                }}
-              />
-            ))}
-          </div>
+    <div className="badges-tab badges-tiles-wrap" data-badges-tiles>
+      <header className="badges-tiles-head">
+        <h3><Trophy size={14} style={{ color: AMBER }} aria-hidden />達成 <b>{earned.length}</b><small>/ {BADGES.length}</small></h3>
+        <span className="badges-tiles-bar" aria-hidden><i style={{ width: `${Math.round((earned.length / BADGES.length) * 100)}%` }} /></span>
+        {current !== '' && (
+          <button type="button" disabled={busy} onClick={() => void run(() => equipBadgeTitle(''), 'レートの称号にもどしました')}>レート称号にもどす</button>
         )}
-        <p className="mt-1.5 text-xs font-bold" style={{ color: INK_SUB }}>
-          選んだ称号は、この端末の自分のプロフィールに表示されます（他の人には公開されません）。
-        </p>
-      </section>
-
-      <section className="badges-locked">
-        <h3 className="mb-2 flex items-center gap-1 text-xs font-black" style={{ color: INK_SUB }}>
-          <Lock size={12} /> まだの称号
-        </h3>
-        {/* PC では入るぶんだけ並べてページでめくる（スクロールさせない）。スマホは従来どおり縦に並べる */}
-        <div ref={pager.frameRef} className="badge-locked-frame">
-          <ul className="badge-locked-grid grid gap-1.5" ref={pager.gridRef}>
-            {locked.slice(pager.start, pager.end).map((b) => (
-              <li key={b.id}><BadgeChip id={b.id} earned={false} progress={progress} /></li>
-            ))}
-          </ul>
-        </div>
-        <FitPagerBar pager={pager} label="まだの称号" />
-      </section>
+      </header>
+      <div ref={pager.frameRef} className="badge-locked-frame badges-tiles-frame">
+        <ul className="badges-tiles" ref={pager.gridRef} aria-label="称号の一覧（押すと詳細）">
+          {all.slice(pager.start, pager.end).map((b) => {
+            const got = isEarned(b.id);
+            const goal = got ? null : badgeProgress(progress, b.id);
+            const color = badgeTierColor(b.tier);
+            return (
+              <li key={b.id}>
+                <button type="button" className="badge-tile" data-earned={got || undefined} data-equipped={current === b.id || undefined} data-badge={b.id}
+                  style={{ ['--tier' as string]: color } as CSSProperties} onClick={() => setOpen(b.id)}
+                  aria-label={`${b.label}（${got ? (current === b.id ? '達成・つけている' : '達成') : goal ? `まだ・${goal.current}/${goal.goal}` : 'まだ'}）の詳細`}>
+                  <span className="badge-tile-emoji" aria-hidden>{b.emoji}</span>
+                  <span className="badge-tile-name">{b.label}</span>
+                  {got ? <span className="badge-tile-done">{current === b.id ? 'つけている' : '達成'}</span>
+                    : goal && goal.goal > 1 ? <span className="badge-tile-progress" aria-hidden><i style={{ width: `${goal.ratio * 100}%` }} /></span>
+                    : <span className="badge-tile-lock"><Lock size={11} aria-hidden />まだ</span>}
+                </button>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+      <FitPagerBar pager={pager} label="称号" />
+      {openBadge && <BadgeDialog onClose={() => setOpen(null)} title={openBadge.label}>
+        {(() => {
+          const got = isEarned(openBadge.id);
+          const goal = got ? null : badgeProgress(progress, openBadge.id);
+          const color = badgeTierColor(openBadge.tier);
+          return <>
+            <div className="badge-detail-head" style={{ ['--tier' as string]: color } as CSSProperties} data-earned={got || undefined}>
+              <span className="badge-tile-emoji" aria-hidden>{openBadge.emoji}</span>
+              <div><small>{openBadge.tier === 3 ? 'ゴールド' : openBadge.tier === 2 ? 'シルバー' : 'ブロンズ'}{got ? ' · 達成！' : ' · まだ'}</small><strong>{openBadge.label}</strong></div>
+            </div>
+            <p className="badge-detail-desc">{openBadge.desc}</p>
+            {goal && goal.goal > 1 && <p className="badge-detail-goal"><span className="badge-tile-progress"><i style={{ width: `${goal.ratio * 100}%` }} /></span><b>{goal.current}/{goal.goal}</b>（あと{goal.remain}）</p>}
+            {got ? (current === openBadge.id
+              ? <button type="button" className="badge-detail-btn" disabled>つけています</button>
+              : <button type="button" className="badge-detail-btn" disabled={busy} onClick={() => { void run(() => equipBadgeTitle(openBadge.id), `称号「${openBadge.label}」を身につけました`); setOpen(null); }}>この称号をつける</button>)
+              : <p className="badge-detail-note">達成すると、この称号をつけられます。</p>}
+            <p className="badge-detail-note">選んだ称号は、この端末の自分のプロフィールに表示されます（他の人には公開されません）。</p>
+          </>;
+        })()}
+      </BadgeDialog>}
     </div>
   );
+}
+
+/** 称号の詳細の窓（既存の窓と同じ見た目） */
+function BadgeDialog({ title, onClose, children }: { title: string; onClose: () => void; children: ReactNode }) {
+  const ref = useRef<HTMLDialogElement>(null);
+  useEffect(() => { const d = ref.current; if (d && !d.open) d.showModal(); }, []);
+  return createPortal(<dialog ref={ref} className="game-details-dialog mt-dialog badge-detail" aria-label={`称号「${title}」の詳細`} data-badge-detail
+    onClose={onClose} onCancel={e => { e.preventDefault(); onClose(); }} onClick={e => { if (e.target === ref.current) onClose(); }}>
+    <header><h2>称号の詳細</h2><button type="button" autoFocus onClick={onClose}>閉じる</button></header>
+    <div className="game-details-body badge-detail-body">{children}</div>
+  </dialog>, document.body);
 }
 
 // ============================================================

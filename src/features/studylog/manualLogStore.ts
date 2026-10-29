@@ -11,8 +11,9 @@ import { auth } from '../../firebase';
 import { requireLocalStorage, safeLocalStorage, setItemOrThrow } from '../../utils/safeLocalStorage';
 import { USER_DATA_SYNCED_EVENT } from '../../utils/userDataSyncEvent';
 import { parseStore, prune, type ManualLogStore } from './manualLogCore';
+import { perUserKey } from '../../utils/userStorageKeys';
 
-export const manualLogKey = (uid: string | null | undefined) => 'manual_log_v1_' + encodeURIComponent(uid || 'guest');
+export const manualLogKey = (uid: string | null | undefined) => perUserKey('manual_log_v1_', uid);
 const CHANGED = 'manatobi:manual-log-changed';
 const currentUid = () => auth.currentUser?.uid || 'guest';
 
