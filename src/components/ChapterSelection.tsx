@@ -357,7 +357,8 @@ export function ChapterSelection({ mode, onSelectChapter, onBack, subject = 'eng
                                       <span className="round-done mt-status shrink-0" data-status="done">
                                         達成
                                       </span>
-                                    ) : tried ? (
+                                    ) : tried && !isToeic ? (
+                                      // 2026-10-29 TOEIC は「満点 0/3」を出さない（ご要望）。達成の表示はそのまま
                                       <span className="round-done mt-status shrink-0" data-status="doing">
                                         満点 {roundStage?.p ?? 0}/{STAGE_CLEAR_PERFECTS}
                                       </span>

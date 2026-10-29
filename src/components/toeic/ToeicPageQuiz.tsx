@@ -27,7 +27,6 @@ import { parseStoredNonNegativeInteger, parseStoredStringRecord } from '../../ut
 import { safeGetItem, safeRemoveItem } from '../../utils/safeLocalStorage';
 import { safeSetItem } from '../../utils/storageGuard';
 import { isAnswerCorrect } from '../../utils/answerJudge';
-import { confirmAction } from '../../utils/dialog';
 import { formatText } from '../../utils/textFormatter';
 import {
   QUESTIONS_PER_PAGE, countUnanswered, pageFromStoredStep, pageScoreKey, prefersSingleColumn, splitPages, toeicExplanationFor,
@@ -176,7 +175,7 @@ export function ToeicPageQuiz({
   const handleScore = () => {
     if (pageScored || page.length === 0) return;
     setAttempted((prev) => ({ ...prev, [safePage]: true }));
-    if (unanswered > 0 && !confirmAction(`未回答が${unanswered}問あります。採点しますか？`)) return;
+    // 未回答があっても確認せずに採点する（ご要望で確認の注意書きを外した。未回答は不正解として数える）
     timeUsedRef.current = Math.max(0, elapsedRef.current - pageStartRef.current);
     const scored = scorePage();
     pageStartRef.current = elapsedRef.current;
