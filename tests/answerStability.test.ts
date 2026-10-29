@@ -17,7 +17,9 @@ describe('ご指摘3点の修正（2026-10-23）', () => {
 
   it('② 正解/不正解が出たあとは解答画面へ戻れない', () => {
     expect(read('src/utils/quizNavigationActions.ts')).toMatch(/if \(showingExplanation\) return;/);
-    expect(read('src/components/Quiz.tsx')).toMatch(/canGoPrevious = showingExplanation\s*\?\s*false/);
+    // 「前へ」を押せるかの式は Phase 5 / A2 で Quiz.tsx から utils/quizStepState.ts へ移した
+    expect(read('src/utils/quizStepState.ts')).toMatch(/canGoPrevious = showingExplanation\s*\?\s*false/);
+    expect(read('src/components/Quiz.tsx')).toMatch(/deriveQuizStepState\(/);
     expect(read('src/components/explanation/ExplanationHeader.tsx')).not.toMatch(/>\s*問題に戻る/);
   });
 
