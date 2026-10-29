@@ -80,7 +80,7 @@ function requestId(fromUid: string, toUid: string) {
 /** friends.ts 用の Firestore エラー文言（コード → 表示文）。 */
 const FRIEND_ERROR_MESSAGES: FirestoreErrorMessages = {
   'permission-denied':
-    'この操作は許可されていません。本番の Firestore セキュリティルールが古いままです。管理者は Firebase Console（console.firebase.google.com → Firestore → ルール）でリポジトリの firestore.rules を貼り付けて「公開」するか、firebase deploy --only firestore:rules を実行してください。詳細は docs/DEPLOY_FIRESTORE_RULES.md を参照。',
+    'この操作は許可されていません。本番の Firestore セキュリティルールが古いままです。管理者は Firebase Console（console.firebase.google.com → Firestore → ルール）でリポジトリの firestore.rules を貼り付けて「公開」するか、firebase deploy --only firestore:rules を実行してください。詳細は docs/FIRESTORE_RULES_DEPLOY.md を参照。',
   unauthenticated: 'ログインの有効期限が切れています。もう一度Googleログインしてください。',
   unavailable: 'Firestore に接続できません。通信状態を確認してもう一度お試しください。',
   'failed-precondition': 'オフラインのため実行できません。オンラインに戻ってからお試しください。',

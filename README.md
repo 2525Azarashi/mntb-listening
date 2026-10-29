@@ -1,6 +1,6 @@
 # マナトビ リスニング — 独立コピー
 
-> **公開・App Store 申請までの残り作業は [`docs/RELEASE_STEPS_2026-10-05.md`](docs/RELEASE_STEPS_2026-10-05.md) に上から順にまとめています。** Firestore ルールはコンソールに貼り付けるだけで反映できます（`firestore.rules` の全文、または同じ内容の `docs/firestore.rules.copy.txt`）。
+> **公開・App Store 申請の手順**は `docs/APP_STORE.md`・`docs/BUILD.md`、Firestore ルールの反映は `docs/FIRESTORE_RULES_DEPLOY.md`（コンソールに `firestore.rules` の全文を貼るだけでも反映できる）。古い手順書（2026-10-05 版など）は `docs/archive/`。
 
 > **とびら君の動画：C（全画面の演出）16本は 2026-10-26 に Adobe Firefly 版へ全部差し替え済み。残りの仕事＝M（背景なしモーション 24本）と R（英文解釈の動画 7本）は未着手**です。プロンプト・参照画像は `docs/FIREFLY_KIT.md`、取り込み手順と残りの一覧は [`docs/CINEMATICS.md`](docs/CINEMATICS.md) の「残っている仕事」。
 
