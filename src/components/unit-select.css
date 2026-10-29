@@ -34,7 +34,7 @@
 @media (min-width: 1200px) { .chapter-route .chapter-route-list.unit-card-list { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 @media (min-width: 1700px) { .chapter-route .chapter-route-list.unit-card-list { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
 .unit-card-list .math-stage-heading { grid-column: 1 / -1; }
-.unit-card-link { display: inline-flex; align-items: center; gap: 5px; min-height: 44px; margin-top: 6px; padding: 0 12px; border: 1px solid #f1d3ad; border-radius: 12px; background: #fdf0db; color: #8a4b00; font: 700 13px/1 var(--mt-font-body); }
+.unit-card-link { display: inline-flex; align-items: center; gap: 5px; min-height: 44px; margin-top: 6px; padding: 0 12px; border: 1px solid #f1d3ad; border-radius: 12px; background: var(--mt-accent-soft); color: var(--mt-accent-ink); font: 700 13px/1 var(--mt-font-body); }
 .unit-card-questions { display: grid; gap: 4px; margin-top: 8px; padding: 6px; border: 1px solid #e5dccc; border-radius: 12px; background: #fff; }
 .unit-card-questions button { display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 44px; padding: 6px 10px; border-radius: 8px; text-align: left; font: 700 13px/1.5 var(--mt-font-body); color: #4f5a66; }
 .unit-card-questions button:hover { background: #fdf6e8; }

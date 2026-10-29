@@ -46,7 +46,7 @@
 .league-tabs [aria-selected=true],.league-actions [aria-current=page] { background:#f6e4b6; border-color:#b18434; }
 .league-top-switch { display:flex; gap:5px; flex-shrink:0; }
 .league-top-switch button { flex:1; display:flex; align-items:center; justify-content:center; gap:6px; min-height:44px; border:1px solid #d8c7a5; border-radius:12px; background:#fffdf7; color:#5d503f; font-weight:900; }
-.league-top-switch button[aria-current=page] { background:#f6e4b6; border-color:#b18434; color:#3d3222; }
+.league-top-switch button[aria-current=page] { background:#f6e4b6; border-color:#b18434; color:var(--mt-ink-warm); }
 .league-my-card { display:flex; align-items:center; gap:10px; padding:10px 12px; border:1.5px solid; border-radius:18px; flex-shrink:0; }
 .league-my-card div { flex:1; min-width:0; }
 .league-my-card strong { display:block; font-size:19px; font-weight:900; }
@@ -92,7 +92,7 @@
 .clan-steps { list-style: none; margin: 8px 0 0; padding: 0; display: grid; gap: 4px; }
 .clan-steps li { display: flex; align-items: center; gap: 8px; min-height: 32px; padding: 4px 8px; border-radius: 10px; font-size: 13px; font-weight: 700; color: #6b5a43; background: #f7f1e3; }
 .clan-steps li b { display: grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; background: #d8c9a6; color: #fff; font-size: 12px; flex: none; }
-.clan-steps li[data-active] { background: #fff1c9; color: #3d3222; box-shadow: inset 0 0 0 2px #e5b93c; }
+.clan-steps li[data-active] { background: #fff1c9; color: var(--mt-ink-warm); box-shadow: inset 0 0 0 2px #e5b93c; }
 .clan-steps li[data-active] b { background: #b18434; }
 .clan-steps li[data-done] { opacity: .75; }
 .clan-steps li[data-done] b { background: #4caf7a; }
@@ -120,7 +120,7 @@
 .season-join li { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 6px 2px; border: 1.5px solid; border-radius: 12px; background: #fff; }
 .season-join li[data-me] { box-shadow: 0 0 0 3px #f4d03f; }
 .season-join strong { font-size: 12px; }
-.season-join span { font-size: 16px; font-weight: 900; color: #3d3222; }
+.season-join span { font-size: 16px; font-weight: 900; color: var(--mt-ink-warm); }
 .season-join small { font-size: 12px; margin-left: 1px; color: #7a6a40; }
 .season-rank { margin: 0; padding: 0; list-style: none; display: grid; gap: 4px; }
 .season-rank li { display: flex; justify-content: space-between; gap: 8px; padding: 6px 10px; border-radius: 10px; background: #fff; border: 1px solid #f0e2b0; }
@@ -176,7 +176,7 @@
    ① 次のリーグまでのバー：いまのリーグ色→次のリーグ色のグラデーション＋両端の札＋「あと○」を大きく
    ② スマホ：上の部品を低くまとめ、一覧（.league-scroll）の高さを広げる。下の「この範囲で1位」バーは削除済み
    元に戻すときはこのブロックを消し、Leaderboard.tsx の league-progress-rich を元の <progress> に戻す */
-.league-progress-rich { display: flex; align-items: center; gap: 6px; padding: 7px 10px; border: 1.5px solid #e6d6b2; border-radius: 14px; background: linear-gradient(180deg, #fffdf6, #fbf2dc); flex-shrink: 0; }
+.league-progress-rich { display: flex; align-items: center; gap: 6px; padding: 7px 10px; border: 1.5px solid #e6d6b2; border-radius: 14px; background: linear-gradient(180deg, var(--mt-bg-card), #fbf2dc); flex-shrink: 0; }
 .league-progress-rich .lp-chip { flex-shrink: 0; padding: 2px 8px; border-radius: 999px; color: #fff; font-size: 12px; font-weight: 900; line-height: 1.4; letter-spacing: .02em; box-shadow: inset 0 -1.5px 0 #0003; }
 .league-progress-rich .lp-track { position: relative; flex: 1; min-width: 40px; height: 14px; border: 1.5px solid #e2d3b6; border-radius: 999px; background: #fff; overflow: hidden; box-shadow: inset 0 1px 2px #0000001a; }
 .league-progress-rich .lp-track i { position: relative; display: block; height: 100%; overflow: hidden; border-radius: inherit; background: linear-gradient(90deg, var(--from), var(--to)); transition: width .9s cubic-bezier(.34, 1.56, .64, 1); }
@@ -285,7 +285,7 @@
 .league-hall .league-progress-rich .lp-remain, .league-hall .league-progress-rich .lp-remain strong { color: var(--mt-ink-warm); font-family: var(--mt-font-display); }
 
 /* シーズンの帯：ガチャの「注目アイテム」の枠と同じ金の面。押せる高さは44px */
-.league-hall .season-card { border: 1.5px solid #ead9b4; border-radius: var(--mt-radius-lg); background: linear-gradient(#fffdf6, #fdf3dc); box-shadow: var(--mt-shadow-card); }
+.league-hall .season-card { border: 1.5px solid #ead9b4; border-radius: var(--mt-radius-lg); background: linear-gradient(var(--mt-bg-card), #fdf3dc); box-shadow: var(--mt-shadow-card); }
 .league-hall .season-card > summary { min-height: 44px; color: var(--mt-ink-warm); }
 .league-hall .season-card > summary::after { color: var(--mt-rare-ur-ink); }
 .league-hall .season-badge { background: var(--mt-rare-ur-grad); color: var(--mt-rare-ur-ink); box-shadow: inset 0 0 0 1.5px var(--mt-rare-ur-line); }
