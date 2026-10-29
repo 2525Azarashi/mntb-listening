@@ -408,3 +408,4 @@
 | PDF | 白黒・A4縦。解説は太字・下線・波下線で強調。表紙と奥付に「神戸大学の過去問・公式問題ではありません。予想問題であり，大学とは関係がありません」 | `public/prints/print_lr_kobe_{q,a}_{1,2,3}.pdf`、`scripts/gacha-prints/kobe_mock/` |
 
 **戻し方**：`growthItems.ts` の `KOBE_MOCK_PRINTS` の2か所（import・ITEMS・printOf）を消し、`kobeMockPrints.ts`・`public/prints/*kobe*`・`tests/kobeMockPrints.test.ts` を消して `build-previews.py` を流し直す。`tests/kyotsuMockPrints.test.ts` の LR の一覧も共通テストだけに戻す。
+- 同日追記：神戸大 予想問題 PDF の2ページ目以降の上の注記（「マナトビ 予想問題 ／ 神戸大学の過去問・公式問題ではありません（大学とは無関係）」）を削除（表紙と奥付には残す）。表紙右上の「MANATOBI MOCK EXAM SERIES」も削除。`scripts/gacha-prints/kobe_mock/render.py`

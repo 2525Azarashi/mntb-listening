@@ -55,11 +55,9 @@ CSS_TEXT = """
         --paper:#ffffff; --card:#ffffff; --ink:#000000; --ink2:#333333; --ink3:#555555; --line:#cfcfcf; --line-strong:#999999; --done:#000000; --done-soft:#eeeeee; }
 @page { size: A4; margin: 17mm 17mm 19mm 17mm;
   @bottom-center { content: "— " counter(page) " —"; font-family: 'Noto Serif', 'Noto Serif CJK JP'; font-size: 9.5pt; color: #1c2a39; }
-  @top-left { content: string(foot); font-family: 'Noto Sans CJK JP'; font-size: 6.6pt; color: #7a6a4c; width: 130mm; }
   @top-right { content: string(run); font-family: 'MPR'; font-weight:700; font-size: 7.5pt; color: #2458a6; } }
 @page cover { margin: 0; counter-increment: page 0; @bottom-center { content: none; } @top-left { content: none; } @top-right { content: none; } }
 html { font-family: 'Noto Serif CJK JP', serif; color: var(--ink); font-size: 10.2pt; line-height: 1.75; }
-body { string-set: foot "マナトビ 予想問題 ／ 神戸大学の過去問・公式問題ではありません（大学とは無関係）"; }
 .cover { page: cover; height: 297mm; position: relative; background: #fff; overflow: hidden; font-family: 'Noto Serif CJK JP', serif; }
 .cover .brand { position: absolute; top: 12mm; left: 18mm; right: 18mm; display: flex; justify-content: space-between; align-items: center; border-bottom: .6pt solid #999; padding-bottom: 2.5mm; }
 .cover .brand img { width: 34mm; }
@@ -206,7 +204,7 @@ def cover(R, kind):
 <p style="margin:1.5mm 0 0;font-size:8.6pt;color:#5a6573">設問ごとの配点は，大問の配点（大学公表の形式）に合わせて本予想問題が独自に定めたもので，大学の配点ではありません。</p>"""
     rng = PAGE_INFO.get((R, kind), '')
     return f"""<section class="cover">
-<div class="brand"><img src="file://{HERE}/logo_gray.png"><div class="kicker">MANATOBI MOCK EXAM SERIES<br>学習アプリ マナトビ</div></div>
+<div class="brand"><img src="file://{HERE}/logo_gray.png"><div class="kicker">学習アプリ マナトビ</div></div>
 <div class="head"><span class="tag">（予想 第{R}回）</span><h1>外国語</h1></div>
 <div class="eigo">英語</div>
 <div class="range">{rng}</div>
