@@ -23,7 +23,26 @@ describe('カレンダーの日付選び（最大7日）', () => {
   it('グラフはカレンダーのすぐ下・ボタンを増やさない（日付だけで操作）', () => {
     const src = readFileSync('src/features/studylog/CalendarTab.tsx', 'utf8');
     expect(src).toContain('data-slog-compare');
+    // C5：改訂前の「その日の記録リスト」は消して、マイページと同じ「何を何分」の表に
+    expect(src).toContain('data-slog-what');
+    expect(src).not.toContain('slog-picked');
     expect(src).toContain('aria-pressed={picks.includes(d)}');
     expect(src).not.toMatch(/クリア|すべて外す/);
+  });
+});
+
+import { emptyStore, materialsByDays, upsertRecord } from '../src/features/studylog/manualLogCore';
+describe('C5 選んだ日ごとの「何を何分」', () => {
+  it('教材ごとに、選んだ日の列で分を数える（アプリ内は最後の行）', () => {
+    let store = emptyStore();
+    const now = new Date('2026-10-20T12:00:00+09:00').getTime();
+    const add = (day: string, minutes: number, name: string) => { store = upsertRecord(store, { day, minutes, subject: 'english', materialName: name } as never, now).store; };
+    add('2026-10-18', 30, '単語帳'); add('2026-10-20', 45, '単語帳'); add('2026-10-20', 20, '長文');
+    const rows = materialsByDays(store, { total: 600, days: { '2026-10-18': 600 } }, ['2026-10-18', '2026-10-20']);
+    const words = rows.find(r => r.label === '単語帳')!;
+    expect(words.seconds).toEqual([1800, 2700]);
+    expect(words.recordIds?.[1]).toHaveLength(1);
+    expect(rows[rows.length - 1].key).toBe('app');
+    expect(rows[rows.length - 1].seconds).toEqual([600, 0]);
   });
 });
