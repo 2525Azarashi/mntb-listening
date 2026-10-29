@@ -12,6 +12,7 @@ import {
   GACHA_MULTI_COST,
   gachaItems,
   gachaItemsByRarity,
+  gachaItemRate,
 } from '../battle/core/arenaEconomy';
 import {
   completedVideoToken,
@@ -32,7 +33,7 @@ import {
 import { trackEvent } from '../utils/analytics';
 import { GachaMultiResult, GachaSingleResult, type GachaDrawResult } from './gacha/GachaResultStage';
 import { GachaCollectionModal } from './gacha/GachaCollectionModal';
-import { GachaItemDetail, weekEndLabel, weeklyPickup } from './gacha/GachaItemDetail';
+import { GachaItemDetail, weekEndLabel, weeklyHero, weeklyPickup } from './gacha/GachaItemDetail';
 import { GachaPickupModal } from './gacha/GachaPickupModal';
 
 type GachaProps = {
@@ -191,7 +192,9 @@ function GachaRoomContent({
     () => gachaFeatured({ preferSubjects: ['english_listening', 'english_vocab', 'english_grammar'], srCount: 0, rCount: 0 }),
     [],
   );
-  const pickup = useMemo(() => weeklyPickup(items, featured.week, featured.hero?.item.id), [items, featured]);
+  // 目玉は週ごとに LR と UR を交互に（いつも UR にならない）。割合は本物の抽選表の値
+  const hero = useMemo(() => weeklyHero(items, featured.week, featured.hero?.item ?? null), [items, featured]);
+  const pickup = useMemo(() => weeklyPickup(items, featured.week, hero?.id), [items, featured, hero]);
   const busyView = revealing || !!result || !!multi;
   const collectionLine = (
     <span
@@ -223,7 +226,7 @@ function GachaRoomContent({
       {/* ★2026-10-28 A10：モンストのガチャのように「バナー＋絵を押すと詳細」★
           目玉（週がわり）を大きく、その下に今週のピックアップ（LR・URを週ごとに入れ替え）の絵。押すと「アイテムの詳細」。
           ピックアップ一覧・提供割合・ミッションは小さいボタンにまとめた。セット・かけらはショップの「種類」へ移した。 */}
-      {!busyView && featured.hero && (
+      {!busyView && hero && (
         <section className="gacha-banner" aria-labelledby="gacha-banner-title" data-gacha-featured>
           <header className="gacha-banner-head">
             <h1 id="gacha-banner-title"><Sparkles size={16} aria-hidden="true" />装飾ガチャ</h1>
@@ -232,16 +235,16 @@ function GachaRoomContent({
           <button
             type="button"
             className="gacha-banner-hero"
-            data-rarity={gachaRarityOf(featured.hero.item)}
+            data-rarity={gachaRarityOf(hero)}
             data-gacha-hero
-            onClick={() => openDetail(featured.hero!.item)}
-            aria-label={`今週の目玉 ${featured.hero.item.label} の詳細を見る`}
+            onClick={() => openDetail(hero)}
+            aria-label={`今週の目玉 ${hero.label} の詳細を見る`}
           >
-            <span className="gacha-banner-art"><ItemArt item={featured.hero.item} progress={progress} size={76} /></span>
+            <span className="gacha-banner-art"><ItemArt item={hero} progress={progress} size={76} /></span>
             <span className="gacha-banner-body">
-              <span className="gacha-banner-top"><RarityTag rarity={gachaRarityOf(featured.hero.item)} /><em>今週の目玉</em></span>
-              <strong>{featured.hero.item.label}</strong>
-              <small>1種あたり {pct(featured.hero.rate)}%{progress?.owned.includes(featured.hero.item.id) ? ' · 所持済み' : ''}</small>
+              <span className="gacha-banner-top"><RarityTag rarity={gachaRarityOf(hero)} /><em>今週の目玉</em></span>
+              <strong>{hero.label}</strong>
+              <small>1種あたり {pct(gachaItemRate(hero))}%{progress?.owned.includes(hero.id) ? ' · 所持済み' : ''}</small>
               <span className="gacha-banner-tap"><Info size={13} aria-hidden="true" />タップで詳細</span>
             </span>
           </button>

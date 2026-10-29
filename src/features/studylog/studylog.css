@@ -145,9 +145,9 @@
 /* この7日（棒＋教材ごとの表）。表の中だけ縦に動く */
 .mystudy-week { flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 2px; padding-top: 6px; border-top: 1px dashed var(--mt-line); }
 .mystudy-bars, .mystudy-days, .mystudy-row > ol { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 4px; }
-.mystudy-bars { flex-shrink: 0; height: 84px; align-items: end; }
+.mystudy-bars { flex-shrink: 0; height: 104px; align-items: end; }
 .mystudy-bars li { height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 2px; }
-.mystudy-bars small { min-height: 14px; font: 700 12px/1.1 var(--mt-font-body); color: var(--mt-ink-3); text-align: center; white-space: nowrap; letter-spacing: -.03em; transform: scale(.92); }
+.mystudy-bars small { min-height: 28px; display: flex; align-items: flex-end; justify-content: center; font: 700 12px/1.15 var(--mt-font-body); color: var(--mt-ink-2); text-align: center; }
 .mystudy-bars .bar { width: 70%; max-width: 30px; display: flex; flex-direction: column-reverse; border-radius: 4px 4px 2px 2px; overflow: hidden; background: var(--mt-bg-sunken); }
 .mystudy-bars .bar > i { display: block; min-height: 1px; }
 .mystudy-days { flex-shrink: 0; }
@@ -223,3 +223,18 @@
   .slog-chart small { font-size: 12px; }
   .slog-goalrow .mt-btn { min-height: 44px; padding: 0 8px; }
 }
+
+/* 2026-10-28 見直し：今日の勉強記録の見出し・小さい画面 */
+.mystudy-week-title { margin: 0; display: flex; align-items: baseline; gap: 8px; font: 800 13px/1.3 var(--mt-font-body); color: var(--mt-ink-warm); }
+.mystudy-week-title small { font: 600 12px/1.3 var(--mt-font-body); color: var(--mt-ink-3); }
+@media (max-height: 700px) {
+  .mystudy-avatar { width: 52px; height: 52px; }
+  .mystudy-bars { height: 80px; }
+}
+/* 記録タブ：日付を押せるので、押せる大きさ（44px）を取る。7列が入るよう左右の余白を少し使う */
+.slog-cal { gap: 2px; margin-inline: -6px; }
+.slog-cal .slog-cell { width: 100%; height: auto; min-height: 44px; border-radius: 8px; font-size: 13px; }
+.slog-picked { display: grid; align-content: start; gap: 6px; padding-top: 4px; }
+.slog-picked > h4 { margin: 0; display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 8px; font: 800 14px/1.4 var(--mt-font-body); color: var(--mt-ink-warm); }
+.slog-picked > h4 small { font: 700 12px/1.4 var(--mt-font-body); color: var(--mt-ink-3); }
+.slog-row[data-app-row] { box-shadow: none; background: var(--mt-brand-soft); }

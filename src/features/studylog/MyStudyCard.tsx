@@ -96,10 +96,11 @@ export function MyStudyCard({ onEdit }: { onEdit: () => void }) {
       </p>
       <button type="button" className="mt-btn mt-btn-primary mystudy-record" onClick={() => setRecording(true)} data-my-study-record><Plus size={16} aria-hidden="true" />学習を記録</button>
 
-      <section className="mystudy-week" aria-label="この7日の勉強時間" data-my-study-week>
+      <section className="mystudy-week" aria-labelledby="mystudy-week-title" data-my-study-week>
+        <h3 id="mystudy-week-title" className="mystudy-week-title">この7日の勉強時間<small>教材ごと・今日は枠つき</small></h3>
         <ol className="mystudy-bars" aria-hidden="true">
           {week.days.map((d, i) => <li key={d} data-today={i === 6 || undefined}>
-            <small>{dayTotals[i] > 0 ? fmtSec(dayTotals[i]) : ''}</small>
+            <small>{dayTotals[i] > 0 ? <Cell sec={dayTotals[i]} /> : ''}</small>
             <span className="bar" style={{ height: `${Math.max(3, Math.round((dayTotals[i] / peak) * 100))}%` }}>
               {week.rows.map((r, k) => r.seconds[i] > 0 ? <i key={r.key} style={{ flex: r.seconds[i], background: color(k, r.key) }} /> : null)}
             </span>

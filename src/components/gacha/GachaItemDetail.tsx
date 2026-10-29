@@ -18,6 +18,15 @@ function rotate<T>(list: readonly T[], seed: number): T[] {
   return [...list.slice(step), ...list.slice(0, step)];
 }
 
+/** 今週の目玉：偶数週は LR（共通テスト予想問題）、奇数週は UR（完全版の本）。いつも UR にならない（2026-10-28 見直し） */
+export function weeklyHero(items: readonly ItemDef[], week: number, urHero: ItemDef | null): ItemDef | null {
+  if (week % 2 === 0) {
+    const lr = rotate(Object.keys(GACHA_PREVIEWS).map((id) => items.find((i) => i.id === id)).filter((i): i is ItemDef => !!i && gachaRarityOf(i) === 'LR'), week / 2);
+    if (lr[0]) return lr[0];
+  }
+  return urHero;
+}
+
 /** 今週のピックアップ：中身を見られるもの（LR・厳選UR）から LR 2つ＋UR 3つ。目玉（hero）とは重ねない */
 export function weeklyPickup(items: readonly ItemDef[], week: number, heroId?: string, lrCount = 2, urCount = 3): ItemDef[] {
   const pool = Object.keys(GACHA_PREVIEWS).map((id) => items.find((i) => i.id === id)).filter((i): i is ItemDef => !!i && i.id !== heroId);
