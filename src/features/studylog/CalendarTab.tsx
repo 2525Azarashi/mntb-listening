@@ -48,7 +48,7 @@ export function CalendarTab({ store, app, onEdit }: {
 
   // ── C5（2026-10-29）：マイページのグラフ・表と同じ形（教材ごとの色・何を何分） ──
   const sorted = useMemo(() => picks.slice().sort(), [picks]);
-  const rows = useMemo(() => materialsByDays(store, app, sorted), [store, app, sorted]);
+  const rows = useMemo(() => materialsByDays(store, { total: 0, days: app.days }, sorted), [store, app, sorted]);
   const color = (i: number, key: string) => (key === 'app' ? 'var(--mt-brand)' : PALETTE[i % PALETTE.length]);
   const totals = sorted.map(total);
   const sum = totals.reduce((a, b) => a + b, 0);
