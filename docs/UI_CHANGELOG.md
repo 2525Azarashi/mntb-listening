@@ -16,9 +16,10 @@
 | 上と下の帯 | 上：戻る・演習・ページ位置（2/5）・回答済み（12/30）・残り時間（10分）。下：前のページ・未回答数・採点する／次のページ／結果を見る | 同上 |
 | 中断と再開 | ページ位置・選んだ答え・採点済みのページを復元（保存先は今までと同じキー）。TOEIC だけ、途中で戻っても採点前の答えを消さない | 同上 |
 | ご指摘5点（同日） | ①開いた直後は「未回答」の印もオレンジの左線も出さない（中立の灰色）。印は採点ボタンを押したあとだけ未回答の問に出す。答えた問は左線を紺に ②番号を小さな丸にして英文の先頭へ（右のバッジも外し、問題文の幅を広げた。390px で6問中5問が2行） ③空所 ______ を太い下線の枠にし、選んだ語を空所に入れて見せる（採点後は正解=緑・誤り=赤の取り消し線） ④上の帯を「📄 1/5ページ」「☑ 0/30問」とアイコン＋単位で区別 ⑤選んだ選択肢は丸を塗る＋行全体を淡い紺で塗る＋紺の枠＋チェック印（色だけに頼らない） | `ToeicPageQuiz.tsx`、`toeic-page.css` |
+| ご指摘3点（同日） | ①採点後に長い選択肢が「hav/e/rec/eiv/ed」と1文字ずつ折れて縦に伸びた → 単語の途中では折らない（`overflow-wrap: break-word`）、「正解」「あなたの答え」は選択肢の横でなく下の行へ ②回の一覧（単元選択）は見出しを「TOEIC」だけにし、「1章 Part 5」のタブ1枚と「TOEIC Part 5 短文穴埋め」の小見出しを出さない ③採点後、一覧の上に「このページの正解 3/6問」、下の帯に「正解 3/6問」を出す（全問正解なら緑） | `ToeicPageQuiz.tsx`、`toeic-page.css`、`ChapterSelection.tsx`（`isToeic` の分岐3か所） |
 
 リスニング・英文法の演習画面と共有部品（`ProblemPane`・`AnswerPane`・`MultipleChoiceControl`・`QuizHeader`）は変えていない。`Quiz.tsx` は入口で TOEIC のときだけ専用画面に渡す分岐を足しただけ（本体は `QuizBody` に名前を変えただけで中身は同じ）。
-**戻し方**：`Quiz.tsx` の `Quiz` を元の1関数に戻す（`isToeicPageChapter` の分岐と2行の import を消し、`QuizBody` を `export function Quiz` に戻す）。一覧の内訳行は `ChapterSelection.tsx` の `&& !isToeic` を2か所消す。
+**戻し方**：`Quiz.tsx` の `Quiz` を元の1関数に戻す（`isToeicPageChapter` の分岐と2行の import を消し、`QuizBody` を `export function Quiz` に戻す）。一覧の内訳行は `ChapterSelection.tsx` の `&& !isToeic` を2か所消す。タブ・小見出しは `ChapterSelection.tsx` の `!isToeic &&` と `isToeic ? 'TOEIC'`・`aria-label` の分岐を消す。
 
 ## 2026-10-28 TOEIC Part 5（短文穴埋め・全15回×30問）を追加（PR: feat/toeic-part5）
 
