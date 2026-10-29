@@ -125,7 +125,7 @@
 .mystudy-who p { margin: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 2px 8px; font: 700 12px/1.4 var(--mt-font-body); color: var(--mt-ink-2); }
 .mystudy-who p span { display: inline-flex; align-items: center; gap: 3px; }
 .mystudy-who p b { font: 800 15px/1 var(--mt-font-display); color: var(--mt-ink-warm); }
-.mystudy-title { padding: 0 8px; border: 1px solid #e0c27a; border-radius: 999px; background: #fffdf6; color: #7a5212; font-weight: 800; }
+.mystudy-title { padding: 0 8px; border: 1px solid #e0c27a; border-radius: 999px; background: var(--mt-bg-card); color: #7a5212; font-weight: 800; }
 .mystudy-head > .mt-btn { flex-shrink: 0; align-self: flex-start; min-height: 44px; padding: 0 10px; font-size: 13px; }
 .mystudy-goal { flex-shrink: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 2px 10px; font: 700 12px/1.4 var(--mt-font-body); color: var(--mt-ink-3); }
 .mystudy-goal span { display: inline-flex; align-items: center; gap: 3px; min-width: 0; }
@@ -275,7 +275,9 @@
 @media (max-height: 700px) { .slog-bars { height: 92px; } .slog-cal .slog-cell { min-height: 40px; } }
 @media (max-height: 600px) { .slog-bars { height: 74px; } .slog-compare-legend { display: none; } }
 /* 2026-10-29 C5：カレンダーの下＝マイページと同じ「何を何分」。教材ごとの行（色の点・名前・合計）×選んだ日の列。
-   改訂前の「その日の記録リスト（.slog-compare > .slog-bars { flex-shrink: 0; }
+   改訂前の「その日の記録リスト」は削除。
+   （2026-10-29 統合時に修正：このコメントが閉じておらず、下の .slog-what 以降が全部コメント扱いで効いていなかった） */
+.slog-compare > .slog-bars { flex-shrink: 0; }
 .slog-what { flex: 1; min-height: 0; display: grid; align-content: start; gap: 2px; padding-top: 4px; border-top: 1px solid var(--mt-line); }
 .slog-what-row { position: relative; display: grid; gap: 3px; padding: 5px 0 6px; border-bottom: 1px solid var(--mt-line); }
 .slog-what-row h4 { margin: 0; display: flex; align-items: baseline; gap: 6px; min-width: 0; font: 800 13px/1.35 var(--mt-font-body); color: var(--mt-ink-warm); }

@@ -89,7 +89,7 @@
   .practice-pager { max-width: 1180px; margin-inline: auto; }
 }
 /* 結果（1画面目）→ 詳しい結果へ */
-.practice-detail-open { margin-top: 10px; width: 100%; min-height: 48px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; border-radius: 14px; background: #f4d03f; color: #3d3222; font-weight: 800; font-size: 15px; box-shadow: 0 4px 0 #c9a227; border: 0; }
+.practice-detail-open { margin-top: 10px; width: 100%; min-height: 48px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; border-radius: 14px; background: #f4d03f; color: var(--mt-ink-warm); font-weight: 800; font-size: 15px; box-shadow: 0 4px 0 #c9a227; border: 0; }
 .practice-detail-open:active { transform: translateY(2px); box-shadow: 0 2px 0 #c9a227; }
 .practice-pager-title { gap: 8px; }
 .practice-pager-title span { flex: 1; }

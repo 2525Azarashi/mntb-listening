@@ -4,7 +4,7 @@
 .chapter-title-card { width: min(340px, calc(100vw - 32px)); gap: 8px; padding: 22px 20px 18px; }
 .chapter-title-stamp { font-size: 30px; }
 .chapter-title-chapter { margin: 8px 0 0; font: 800 14px/1.4 var(--mt-font-display); color: #6b4300; text-align: center; }
-.chapter-title-name { display: inline-flex; align-items: center; gap: 6px; margin: 2px 0 4px; padding: 6px 14px; border: 2px solid #e2a83a; border-radius: 999px; background: linear-gradient(120deg, #fff4dc, #ffe7a6); font: 900 22px/1.2 var(--mt-font-display); color: #7a3e00; }
+.chapter-title-name { display: inline-flex; align-items: center; gap: 6px; margin: 2px 0 4px; padding: 6px 14px; border: 2px solid var(--mt-rare-ur-line); border-radius: 999px; background: linear-gradient(120deg, var(--mt-rare-ur-bg), #ffe7a6); font: 900 22px/1.2 var(--mt-font-display); color: var(--mt-rare-ur-ink); }
 .chapter-title-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; width: 100%; margin-top: 6px; }
 .chapter-title-actions button { min-height: 48px; border-radius: 14px; font-weight: 800; font-size: 15px; display: inline-flex; align-items: center; justify-content: center; gap: 6px; }
 .chapter-title-equip { border: 0; background: var(--mt-brand); color: #fff; }
