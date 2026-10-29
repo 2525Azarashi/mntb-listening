@@ -398,3 +398,13 @@
 ### テスト
 - `tests/homeBattleRankingPolish.test.ts`（新規）で上の①〜⑤が崩れていないかを確認。戻すときはこのテストも消す。
 - `tests/revision.test.ts`：main で1件落ちていた（#58 でホームの「ランキングを見る」を外したのに、テストがホームにあることを求めていた）。入口が対戦画面の切替（`onRanking`）にあることを確かめる形に直した。
+
+## 2026-10-29 ガチャ LR に「神戸大学 前期 英語 予想問題」6種を追加
+
+| 何を | どう変えた | ファイル |
+|---|---|---|
+| ガチャの LR | 共通テスト予想問題10種に、神戸大学 前期 英語 予想問題（第1〜3回 × 問題／解答・解説）の6種を追加。LR の出る割合（1%）は同じで、LR の中で16種に等分 | `src/data/kobeMockPrints.ts`（新規）、`src/battle/core/growthItems.ts` |
+| ピックアップの「中身を少し見る」 | 6種のちら見せ画像を追加 | `public/prints/previews/print_lr_kobe_*`、`src/data/gachaPreviews.generated.ts`、`scripts/gacha-prints/build-previews.py` |
+| PDF | 白黒・A4縦。解説は太字・下線・波下線で強調。表紙と奥付に「神戸大学の過去問・公式問題ではありません。予想問題であり，大学とは関係がありません」 | `public/prints/print_lr_kobe_{q,a}_{1,2,3}.pdf`、`scripts/gacha-prints/kobe_mock/` |
+
+**戻し方**：`growthItems.ts` の `KOBE_MOCK_PRINTS` の2か所（import・ITEMS・printOf）を消し、`kobeMockPrints.ts`・`public/prints/*kobe*`・`tests/kobeMockPrints.test.ts` を消して `build-previews.py` を流し直す。`tests/kyotsuMockPrints.test.ts` の LR の一覧も共通テストだけに戻す。

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """ガチャの「ピックアップ」で見せる『中身を少しだけ』の画像を作る。
 
-対象：LR（共通テスト予想問題 10種）＋ 厳選UR（GachaParts.tsx の FEATURED_UR_IDS 10種）。
+対象：LR（共通テスト予想問題 10種＋神戸大 英語予想問題 6種）＋ 厳選UR（GachaParts.tsx の FEATURED_UR_IDS 10種）。
 各PDFの 2ページ目と真ん中のページを、上半分だけ・幅 360px の webp にする（下はぼかして白く消す）。
 → 全部は読めない「ちら見せ」。出力：public/prints/previews/<id>_p<n>.webp
 一覧は src/data/gachaPreviews.generated.ts に書き出す（tests/gachaPickup.test.ts が実物と照合）。
@@ -29,6 +29,9 @@ def lr_ids() -> list[str]:
     out = []
     for kind, n in re.findall(r'\b([rl])\((\d), \d+, \d+\)', src):
         out.append(f'print_lr_kyotsu_{kind}_{n}')
+    src = (ROOT / 'src/data/kobeMockPrints.ts').read_text()
+    for kind, n in re.findall(r'\b([qa])\((\d), \d+, \d+\)', src):
+        out.append(f'print_lr_kobe_{kind}_{n}')
     return out
 
 

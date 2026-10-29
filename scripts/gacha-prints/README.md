@@ -99,3 +99,17 @@ python3 scripts/gacha-prints/idiom_reading/publish.py   # 上の6冊を public/p
 ```
 - id：`print_book_idiom_reading_{basic,standard,advanced}`・`print_book_grammar_b4_{bunpo,gohou,kaiwa}`。
 - `src/data/gachaPrints.generated.ts` の末尾（「2026-10-27 UR に追加」）に pages・kb を書く。作り直したら publish.py が出す pages・kb に合わせる（`tests/gachaDeluxe.test.ts` が照合）。
+
+## LR：神戸大学 前期 英語 予想問題（3回分・白黒）2026-10-29
+
+```bash
+# WeasyPrint・Noto Serif / Noto Serif CJK JP / Noto Sans CJK JP が必要。
+# M PLUS Rounded 1c の Bold / ExtraBold（Google Fonts・OFL）の ttf を .tmpwork/fonts/ に置く（KOBE_FONT_DIR で変更可）
+cd scripts/gacha-prints/kobe_mock && for R in 1 2 3; do python3 render.py $R; done
+# → .tmpwork/kobe_mock/manatobi_kobe_eng_yoso{n}_{mondai,kaitou}.pdf
+#   を public/prints/print_lr_kobe_{q,a}_{n}.pdf にコピー → サムネイル（book_common.make_thumb と同じ作り方）
+#   → src/data/kobeMockPrints.ts の pages / kb を合わせる → python3 scripts/gacha-prints/build-previews.py
+```
+- 問題データは `rN_I.py`〜`rN_IV.py`（N＝回）。英文・設問・図表はすべて書き下ろし。IV の図表のデータは架空。
+- 表紙と奥付に「神戸大学の過去問・公式問題ではありません。予想問題であり，大学とは関係がありません」（`tests/kobeMockPrints.test.ts` が確認）。
+- 白黒：色は `mono()` で全部グレーに直す。解説の強調は、正解＝太字＋下線、本文の英語の根拠“…”＝波下線、「…」の要点＝下線、選択肢記号・○×・判定（本文と逆 など）＝太字。
