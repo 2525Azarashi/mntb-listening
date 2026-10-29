@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowRight, BookOpen, ChevronLeft, FlaskConical, Globe2, Headphones, PenLine, Sigma } from 'lucide-react';
+import { ArrowRight, BookOpen, Briefcase, ChevronLeft, FlaskConical, Globe2, Headphones, PenLine, Sigma } from 'lucide-react';
 import { STUDY_CATALOG, findStudySubject, type StudyContent, type StudyIcon, type StudySubject } from '../data/studyCatalog';
 import './study-catalog.css';
 import { TobiraBuddy } from './TobiraBuddy';
@@ -30,7 +30,7 @@ export interface StudyCatalogProps {
 }
 
 const ICONS: Record<StudyIcon, React.ComponentType<{ size?: number; 'aria-hidden'?: boolean }>> = {
-  headphones: Headphones, pen: PenLine, book: BookOpen, flask: FlaskConical, sigma: Sigma, globe: Globe2,
+  headphones: Headphones, pen: PenLine, book: BookOpen, briefcase: Briefcase, flask: FlaskConical, sigma: Sigma, globe: Globe2,
   letters: () => <span className="sc-letters" aria-hidden="true">Aa</span>,
 };
 
@@ -86,7 +86,20 @@ export function StudyCatalog({ subjectId, onSubject, onContent, onBack, progress
         </div>
       </header>
 
-      {!showSubjects && <TobiraBuddy className="sc-buddy" size="sm" bubble="right" input={{ screen: 'study', seed: new Date().getDate() }} />}
+      {!showSubjects && <div className="sc-buddy-row">
+        <TobiraBuddy className="sc-buddy" size="sm" bubble="right" input={{ screen: 'study', seed: new Date().getDate() }} />
+        {/* 2026-10-28：とびら君の吹き出しの右に置く小さな入口（TOEIC）。カードの列は動かさない */}
+        {subject.contents.filter(c => c.section === 'spotlight').map(c => {
+          const Icon = ICONS[c.icon];
+          return <button key={c.id} type="button" className="sc-spot" data-study-card={c.id} onClick={() => onContent(c)}
+            aria-label={`${c.title} ${c.description}（${c.meta}）を開く`}>
+            <span className="sc-spot-icon"><Icon size={18} aria-hidden /></span>
+            <span className="sc-spot-body"><strong>{c.title}</strong><small>{c.description}</small></span>
+            {c.badge && lastContentId !== c.id && <em data-badge={c.badge === 'NEW' ? 'new' : undefined}>{c.badge}</em>}
+            {lastContentId === c.id && <em>前回</em>}
+          </button>;
+        })}
+      </div>}
 
       <div className="sc-list" role="list">
         {showSubjects
@@ -96,7 +109,7 @@ export function StudyCatalog({ subjectId, onSubject, onContent, onBack, progress
             </div>)
           : <>
               {/* 問題を解くもの（リスニング・英文法・英単語の4択）は同じ列に並べる */}
-              {subject.contents.filter(c => c.section !== 'memorize').map(c => <div role="listitem" key={c.id}>
+              {subject.contents.filter(c => c.section !== 'memorize' && c.section !== 'spotlight').map(c => <div role="listitem" key={c.id}>
                 <StudyCard dataId={c.id} icon={c.icon} title={c.title} description={c.description} meta={c.meta}
                   primary={c.primary} badge={lastContentId === c.id ? '前回' : c.badge}
                   progress={c.progressSubject ? progressOf?.(c.progressSubject) : undefined}
