@@ -568,6 +568,7 @@ tools/update.sh が cards.json から作る。1ファイル1行：`パス` — �
 - `scripts/build-q2-rerecord-pdf.py` — リスニング第2問を録り直すための台本PDFを作る係（文書・186行・使われる0）
 - `scripts/build.sh` — ビルドの前にメモリ不足を見つけ、理由と対処を先に示す係（設定・49行・使われる0）
 - `scripts/check-firebase-setup.mjs` — 新しいFirebaseプロジェクトにつなぐ設定が済んだかを確かめる係（設定・37行・使われる0）
+- `scripts/check-toeic-notes.mts` — 【新】TOEIC Part 5 の追加解説が英文法の解説やほかの文章と5語続けて一致していないかを調べる係（`npm run check:toeic-notes`）
 - `scripts/check-release.mjs` — 本番でゲスト専用の版が黙って公開されないよう止める係（設定・17行・使われる0）
 - `scripts/concat_listening_audio.sh` — 古い配布ZIPの、分かれたリスニング音声をつなげる係（音声・画像・57行・使われる0）
 - `scripts/data/grammar_v3/build_ts.py` — そろえた英文法データから、アプリ用の問題ファイルを作る係（データ・81行・使われる0）
