@@ -10,7 +10,7 @@ import { toeicPart5Data } from '../src/data/toeic/toeicPart5Data';
 /**
  * TOEIC Part 5 解説の追加項目（着眼点 h・ポイント r・TOEICでのコツ tip・手がかり cues）の検証（2026-10-29）
  * 決まりは docs/TOEIC_P5_GLOSSARY.md。空の項目は許す（画面は見出しごと出さない）。
- * 他の文章との5語連続一致は重いので scripts/check-toeic-notes.mts で確かめる。
+ * 他の文章との5語連続一致は重いので scripts/check-toeic-notes.mts（npm run check:toeic-notes）で確かめる。
  */
 export const BANNED = /必ず|絶対|頻出|よく出る|定番|確実|間違いなく|合格|満点|スコアが上が|点が上が|得点アップ|毎回出る/;
 /** スマホ幅（360px・14px）で3行に収まる長さ。全角1・半角0.5で数える */

@@ -144,7 +144,7 @@ export const NOTES_06: ToeicP5Note[] = [
     cues: [{ p: 'provide', w: 'provide' }] },
   { // 29 on behalf of
     h: '空所の後ろの the entire design team と、前半の accepted the award を見る。誰に代わって受け取ったか。',
-    r: 'on behalf of 〜 は「〜を代表して・〜に代わって」。後ろに人や団体を表す名詞を取る群前置詞。',
+    r: '群前置詞 on behalf of 〜 は、人や団体の代わりに何かを行うことを表し、後ろに名詞を取る。',
     tip: '受賞や挨拶の文では on behalf of が使われる。in spite of、instead of など形の似た語と取り違えない。',
     cues: [{ p: 'the entire design team', w: 'チーム全体' }] },
   { // 30 mandatory

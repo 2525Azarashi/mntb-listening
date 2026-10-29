@@ -14,7 +14,7 @@ export const NOTES_13: ToeicP5Note[] = [
     cues: [{ p: 'report any damaged packages' }] },
   { // 3 comfortable
     h: '空所の前の is much more と、後ろの than the old one を見る。比較級を作る more の後ろの語。',
-    r: 'be 動詞の後ろの補語は形容詞。more＋形容詞＋than で比較級になり、much はその差を強める。',
+    r: '主語の性質を表す補語なので形容詞が入る。more＋形容詞＋than で比較級になり、much がその差を強める。',
     tip: 'more ＿ than の空所は、形容詞か副詞の原級。be 動詞の後ろなら形容詞を選ぶ。',
     cues: [{ p: 'is' }] },
   { // 4 supplier

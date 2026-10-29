@@ -79,7 +79,7 @@ export const NOTES_08: ToeicP5Note[] = [
     cues: [{ p: "The CEO's", w: 'CEO' }, { p: 'merger', w: '合併' }] },
   { // 16 ensuring
     h: '空所の前の前置詞 for と、後ろの that 節を見る。前置詞の後ろで that 節を目的語に取る形。',
-    r: '前置詞の後ろに動詞を置くときは動名詞。be responsible for doing は「〜する責任がある」。',
+    r: 'be responsible for の for は前置詞なので、続く動詞は -ing 形（動名詞）にする。「〜する責任がある」の意味。',
     tip: 'responsible for の後ろが動詞なら -ing を選ぶ。to ensure は前置詞の後ろに置けない。',
     cues: [{ p: 'responsible for', w: 'for' }] },
   { // 17 do away with
@@ -129,7 +129,7 @@ export const NOTES_08: ToeicP5Note[] = [
     cues: [{ p: 'it rains on Sunday', w: '日曜日に雨が降ったら' }] },
   { // 26 has
     h: '主語の The number of subscribers を見る。中心の語は The number で、数そのものを表している。',
-    r: 'the number of 〜「〜の数」は単数扱い、a number of 〜「たくさんの〜」は複数扱い。',
+    r: 'a number of 〜（多くの〜）は複数として扱う。一方 the number of 〜 は「数」そのものが主語なので、動詞は単数に合わせる。',
     tip: 'The number of と A number of は冠詞1つで扱いが変わる。主語の先頭の冠詞を見落とさない。',
     cues: [{ p: 'The number of', w: 'the number of' }] },
   { // 27 personally

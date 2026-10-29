@@ -109,7 +109,7 @@ export const NOTES_02: ToeicP5Note[] = [
     cues: [{ p: 'the proposal', w: '提案' }, { p: 'before making a final decision', w: '最終決定の前' }] },
   { // 22 consistent
     h: '空所の前の were と、後ろの with を見る。be 動詞の後ろで主語の様子を表す位置。',
-    r: 'be 動詞の後ろの補語は形容詞か名詞。主語の性質を言うときは形容詞を置く。',
+    r: '主語の様子や性質を述べる補語の位置には形容詞を置く。名詞を置くと主語とイコールの意味になる。',
     tip: 'be ＿ with の形では、consistent with や familiar with など with と組む形容詞を探す。',
     cues: [{ p: 'were', w: 'be 動詞' }, { p: 'with' }] },
   { // 23 whose

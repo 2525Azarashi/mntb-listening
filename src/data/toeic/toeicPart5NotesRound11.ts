@@ -34,7 +34,7 @@ export const NOTES_11: ToeicP5Note[] = [
     cues: [{ p: 'asked' }] },
   { // 7 working
     h: '空所の前の looks forward to を見る。この to が不定詞か前置詞かを考える。',
-    r: 'look forward to の to は前置詞。後ろに動詞を置くときは動名詞（-ing）にする。',
+    r: 'look forward to の to は不定詞ではなく前置詞。続く動詞は動名詞（-ing）の形にする。',
     tip: 'look forward to、be used to、be committed to の to は前置詞。原形を選ばないよう注意する。',
     cues: [{ p: 'looks forward to', w: 'look forward to' }] },
   { // 8 will be introduced
@@ -69,7 +69,7 @@ export const NOTES_11: ToeicP5Note[] = [
     cues: [{ p: 'on paper', w: '紙' }, { p: 'online', w: 'オンライン' }] },
   { // 14 hers
     h: '空所の前の use と、空所の後ろに名詞が無いことを見る。誰のノートパソコンを使うのかを考える。',
-    r: '「〜のもの」を1語で表すのは所有代名詞（mine、yours、hers、ours、theirs）。後ろに名詞を置かない。',
+    r: '所有代名詞（mine、yours、hers、ours、theirs）は「〜のもの」をまとめて言う形で、後ろに名詞を続けない。',
     tip: '所有格（her）と所有代名詞（hers）が並んだら、空所の後ろに名詞があるかどうかで決まる。',
     cues: [{ p: 'use' }] },
   { // 15 Anyone

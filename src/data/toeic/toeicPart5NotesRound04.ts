@@ -79,7 +79,7 @@ export const NOTES_04: ToeicP5Note[] = [
     cues: [{ p: 'form of' }, { p: 'security desk', w: '警備の受付' }] },
   { // 16 considering
     h: '空所の前の After と、後ろの the proposal を見る。前置詞の後ろで、目的語も取れる形を考える。',
-    r: '前置詞の後ろに動詞を置くときは動名詞（-ing）。動名詞は動詞と同じように目的語を取れる。',
+    r: '前置詞に動詞をつなげるには -ing 形（動名詞）にする。動名詞は動詞と同じように目的語を取れる。',
     tip: 'After／Before／By／Without の直後の空所では、まず -ing の選択肢を当ててみる。',
     cues: [{ p: 'After' }, { p: 'the proposal' }] },
   { // 17 turned down

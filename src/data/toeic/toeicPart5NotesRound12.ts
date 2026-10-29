@@ -99,7 +99,7 @@ export const NOTES_12: ToeicP5Note[] = [
     cues: [{ p: 'busy' }] },
   { // 20 much
     h: '空所の後ろの shorter と、than the one を見る。比較級を強める語が入る位置。',
-    r: '比較級を強めるのは much、far、even、still。very は比較級に付けないので外す。',
+    r: '比較級の差を大きく見せる語は much、far、even、still。very は比較級の前に置かないので外す。',
     tip: '比較級の前の空所に very と much が並んでいれば、much を選ぶ。意味は「ずっと〜」。',
     cues: [{ p: 'shorter' }] },
   { // 21 write up
