@@ -2,13 +2,13 @@
 # 第2回 大問IV（英作文：棒グラフ・架空データ）
 PART = {
 'roman': 'IV', 'points': 25,
-'intro_en': 'This graph presents the percentage of people in one country who mainly paid without cash for everyday shopping, by age group, in 2019 and in 2025. (The data are fictional.) Answer the questions below in English.',
+'intro_en': 'This graph presents the share of people in one country who mainly paid without cash for everyday shopping, by age group, in 2019 and in 2025. (The data are fictional.) Answer the questions below in English.',
 'chart': {'kind': 'bar', 'title': 'People who mainly pay without cash (%)', 'unit_label': '(%)', 'vmax': 100, 'step': 20,
           'cats': ['Ages 18–29', 'Ages 30–49', 'Ages 50–69', 'Ages 70 and over'],
           'series': [('2019', [48, 41, 22, 9]), ('2025', [79, 70, 51, 28])]},
 'questions': [
  {'no': '(1)', 'points': 10, 'target': 40,
-  'stem': 'Select two of the four age groups and compare the changes in the percentage of people who mainly paid without cash between 2019 and 2025. Answer in English in about 40 words.',
+  'stem': 'Select two of the four age groups and compare the changes in the share of people who mainly paid without cash between 2019 and 2025. Answer in English in about 40 words.',
   'models': [
    ('18〜29歳と70歳以上', 'Between 2019 and 2025, cashless payment spread in every age group. Among people aged 18 to 29, it rose from 48% to 79%. People aged 70 and over also used it more, but only 28% of them paid this way in 2025.'),
    ('30〜49歳と50〜69歳', 'The share of people mainly paying without cash grew in both middle age groups. It went up from 41% to 70% among those aged 30 to 49, and from 22% to 51% among those aged 50 to 69, an equal rise of 29 points.')],

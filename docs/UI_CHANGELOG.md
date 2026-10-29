@@ -409,3 +409,4 @@
 
 **戻し方**：`growthItems.ts` の `KOBE_MOCK_PRINTS` の2か所（import・ITEMS・printOf）を消し、`kobeMockPrints.ts`・`public/prints/*kobe*`・`tests/kobeMockPrints.test.ts` を消して `build-previews.py` を流し直す。`tests/kyotsuMockPrints.test.ts` の LR の一覧も共通テストだけに戻す。
 - 同日追記：神戸大 予想問題 PDF の2ページ目以降の上の注記（「マナトビ 予想問題 ／ 神戸大学の過去問・公式問題ではありません（大学とは無関係）」）を削除（表紙と奥付には残す）。表紙右上の「MANATOBI MOCK EXAM SERIES」も削除。`scripts/gacha-prints/kobe_mock/render.py`
+- 同日追記（品質）：神戸大 予想問題の問題データを見直し。過去問・解答との一致（英語4語・日本語13字）を0に、設問文の言い回しも独自のものへ。過去問と同じだった登場人物名（第2回 III）を変更。正解位置を（あ）〜（え）に均等化し、正解だけが長い選択肢を減らした。難語の割合を過去問の平均に近づけ、第3回 III の語数を範囲内に。検査スクリプトは `scripts/gacha-prints/kobe_mock/check_orig.py`・`check_quality.py`・`verify.py`。

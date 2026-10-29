@@ -113,3 +113,15 @@ cd scripts/gacha-prints/kobe_mock && for R in 1 2 3; do python3 render.py $R; do
 - 問題データは `rN_I.py`〜`rN_IV.py`（N＝回）。英文・設問・図表はすべて書き下ろし。IV の図表のデータは架空。
 - 表紙と奥付に「神戸大学の過去問・公式問題ではありません。予想問題であり，大学とは関係がありません」（`tests/kobeMockPrints.test.ts` が確認）。
 - 白黒：色は `mono()` で全部グレーに直す。解説の強調は、正解＝太字＋下線、本文の英語の根拠“…”＝波下線、「…」の要点＝下線、選択肢記号・○×・判定（本文と逆 など）＝太字。
+
+### 神戸大 予想問題：品質・オリジナル性の検査（商用利用のため毎回実行）2026-10-29
+
+```bash
+# 照合用の過去問 OCR・分析データを .tmpwork/kobe_ref/{ocr,analysis} に置く（著作物なので git に入れない。KOBE_REF_DIR で変更可）
+cd scripts/gacha-prints/kobe_mock
+python3 check_orig.py          # 過去問・解答と英語4語連続／日本語13字連続の一致、題材の近さ（TF-IDF）、下線語句の重複 → logs/originality.json
+python3 check_quality.py       # 解説の英文引用が本文に実在するか・正解の数と○×の一致・選択肢の重複・正解位置の偏り → logs/quality.json（NG なら終了コード1）
+for R in 1 2 3; do python3 verify.py $R; done   # 語数・平均文長・難語率が 2022〜2026年度の範囲内か、字数・語数の指定どおりか → logs/verify_rN.json
+```
+- 合格の目安：4語以上の一致は（選択肢記号の並びなど意味のないもの以外）0、日本語13字一致 0、題材の近さは過去問どうしの最大値（0.18）未満。
+- 登場人物名も過去問と重ならないようにする（例：第2回 III は過去問の人物名と同じだったため Hazel に変更）。

@@ -30,7 +30,7 @@ const a = (n: number, pages: number, kb: number): GachaPrintDef => ({
 });
 
 export const KOBE_MOCK_PRINTS: readonly GachaPrintDef[] = [
-  q(1, 14, 678), a(1, 19, 925),
-  q(2, 14, 675), a(2, 19, 924),
-  q(3, 15, 684), a(3, 20, 908),
+  q(1, 14, 678), a(1, 19, 929),
+  q(2, 14, 676), a(2, 19, 925),
+  q(3, 15, 684), a(3, 20, 909),
 ];
