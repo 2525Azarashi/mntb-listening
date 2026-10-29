@@ -121,7 +121,7 @@ export function BattleProfile({ onBack, initialTab = 'outfit', standalone = fals
     return (
       <section className="profile-standalone" data-profile-standalone={tab}>
         <header className="profile-standalone-head">
-          <button type="button" onClick={onBack} aria-label="マイページにもどる"><ArrowLeft size={18} /></button>
+          {/* 2026-10-28 A9：←は削除（上のタブで行き来する。きせかえ・マイPDFのタブにも無いのでそろえる） */}
           <div><h2>{heading[0]}</h2>{heading[1] && <p>{heading[1]}</p>}</div>
         </header>
         {notice && <div className="mb-3"><BattleNotice message={notice} tone="info" /></div>}

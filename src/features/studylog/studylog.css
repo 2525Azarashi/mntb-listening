@@ -116,35 +116,57 @@
 .slog-actions .mt-btn[data-danger] { flex: 0 0 auto; color: var(--mt-danger); border-color: var(--mt-line-strong); }
 .slog-dialog .game-details-body { padding: 12px 14px 14px; }
 
-/* マイページの「自分の学習ページ」カード */
-.mystudy { display: grid; gap: 7px; padding: 10px 12px; }
-.mystudy-head { display: flex; align-items: center; gap: 8px; min-width: 0; }
-.mystudy-head > div { flex: 1; min-width: 0; display: grid; gap: 2px; }
-.mystudy-head h2 { margin: 0; font: 800 17px/1.25 var(--mt-font-display); color: var(--mt-ink-warm); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.mystudy-head p { margin: 0; display: flex; flex-wrap: wrap; gap: 2px 10px; font: 700 12px/1.4 var(--mt-font-body); color: var(--mt-ink-3); }
-.mystudy-head p span { display: inline-flex; align-items: center; gap: 3px; min-width: 0; }
-.mystudy-head .mt-btn { flex-shrink: 0; min-height: 44px; padding: 0 10px; font-size: 13px; }
-.mystudy-motto { margin: 0; font: 800 13px/1.4 var(--mt-font-body); color: var(--mt-accent-ink); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+/* マイページ＝今日の勉強記録（2026-10-28 A1/A3：とびら君・Lv・コインもこのカードに） */
+.mystudy { display: flex; flex-direction: column; gap: 7px; padding: 10px 12px; min-height: 0; flex: 1; }
+.mystudy-head { flex-shrink: 0; display: flex; align-items: center; gap: 10px; min-width: 0; }
+.mystudy-avatar { flex-shrink: 0; width: 64px; height: 64px; display: grid; place-items: center; border-radius: 16px; background: radial-gradient(circle at 50% 42%, #fff8e1 0, #f7e5b4 70%, #efd79a 100%); border: 1px solid #e0c27a; overflow: hidden; }
+.mystudy-who { flex: 1; min-width: 0; display: grid; gap: 3px; }
+.mystudy-who h2 { margin: 0; font: 800 17px/1.25 var(--mt-font-display); color: var(--mt-ink-warm); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.mystudy-who p { margin: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 2px 8px; font: 700 12px/1.4 var(--mt-font-body); color: var(--mt-ink-2); }
+.mystudy-who p span { display: inline-flex; align-items: center; gap: 3px; }
+.mystudy-who p b { font: 800 15px/1 var(--mt-font-display); color: var(--mt-ink-warm); }
+.mystudy-title { padding: 0 8px; border: 1px solid #e0c27a; border-radius: 999px; background: #fffdf6; color: #7a5212; font-weight: 800; }
+.mystudy-head > .mt-btn { flex-shrink: 0; align-self: flex-start; min-height: 44px; padding: 0 10px; font-size: 13px; }
+.mystudy-goal { flex-shrink: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 2px 10px; font: 700 12px/1.4 var(--mt-font-body); color: var(--mt-ink-3); }
+.mystudy-goal span { display: inline-flex; align-items: center; gap: 3px; min-width: 0; }
+.mystudy-motto { color: var(--mt-accent-ink); font-weight: 800; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 100%; }
 .mystudy .slog-sum { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.mystudy .slog-sum > div[data-today] { background: var(--mt-accent-soft); box-shadow: inset 0 0 0 1.5px var(--mt-accent); }
 .mystudy .slog-sum dd { font-size: 15px; }
-/* 幅の狭い画面（〜360px）：4つ横並びだと「30時間11分」が切れるので 2×2 にする */
 @media (max-width: 360px) {
   .mystudy .slog-sum { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px 6px; }
   .mystudy .slog-sum > div { display: flex; align-items: baseline; justify-content: space-between; gap: 6px; padding: 5px 8px; }
   .mystudy .slog-sum dd { margin: 0; }
 }
-.mystudy-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 12px; font: 700 12px/1.4 var(--mt-font-body); color: var(--mt-ink-2); }
+.mystudy-meta { flex-shrink: 0; margin: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 4px 12px; font: 700 12px/1.4 var(--mt-font-body); color: var(--mt-ink-2); }
 .mystudy-meta span { display: inline-flex; align-items: center; gap: 3px; }
 .mystudy-meta svg { color: var(--mt-accent-strong); }
-.mystudy-actions { display: grid; grid-template-columns: 1.3fr 1fr; gap: 6px; }
-.mystudy-actions .mt-btn { min-height: 46px; padding: 0 8px; font-size: 14px; }
-
+.mystudy-record { flex-shrink: 0; min-height: 46px; font-size: 14px; }
+/* この7日（棒＋教材ごとの表）。表の中だけ縦に動く */
+.mystudy-week { flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 2px; padding-top: 6px; border-top: 1px dashed var(--mt-line); }
+.mystudy-bars, .mystudy-days, .mystudy-row > ol { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 4px; }
+.mystudy-bars { flex-shrink: 0; height: 104px; align-items: end; }
+.mystudy-bars li { height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 2px; }
+.mystudy-bars small { min-height: 28px; display: flex; align-items: flex-end; justify-content: center; font: 700 12px/1.15 var(--mt-font-body); color: var(--mt-ink-2); text-align: center; }
+.mystudy-bars .bar { width: 70%; max-width: 30px; display: flex; flex-direction: column-reverse; border-radius: 4px 4px 2px 2px; overflow: hidden; background: var(--mt-bg-sunken); }
+.mystudy-bars .bar > i { display: block; min-height: 1px; }
+.mystudy-days { flex-shrink: 0; }
+.mystudy-days li { display: grid; justify-items: center; font: 700 12px/1.15 var(--mt-font-body); color: var(--mt-ink-2); }
+.mystudy-days li small { font: 600 12px/1.1 var(--mt-font-body); color: var(--mt-ink-3); }
+.mystudy-days li[data-today] { color: var(--mt-brand); }
+.mystudy-table { display: grid; align-content: start; gap: 4px; padding-top: 4px; }
+.mystudy-row { display: grid; gap: 2px; padding: 4px 0 6px; border-bottom: 1px solid var(--mt-line); }
+.mystudy-row h3 { margin: 0; display: flex; align-items: center; gap: 6px; font: 800 13px/1.35 var(--mt-font-body); color: var(--mt-ink-warm); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.mystudy-row h3 > i { flex-shrink: 0; width: 10px; height: 10px; border-radius: 50%; }
+.mystudy-row li { min-height: 34px; display: grid; place-items: center; border-radius: 6px; background: #fff; box-shadow: inset 0 0 0 1px var(--mt-line); font: 800 12px/1.15 var(--mt-font-body); color: var(--mt-ink); text-align: center; }
+.mystudy-row li[data-zero] { background: var(--mt-bg-sunken); color: var(--mt-ink-3); font-weight: 600; }
+.mystudy-row li[data-today]:not([data-zero]) { box-shadow: inset 0 0 0 1.5px var(--mt-accent-strong); }
 @media (max-height: 640px) {
   .slog { gap: 6px; }
   .slog-cal button { height: 30px; }
   .slog-chart { height: 72px; }
   .mystudy { gap: 5px; padding: 8px 10px; }
-  .mystudy-actions .mt-btn { min-height: 44px; }
+  .mystudy-bars { height: 60px; }
 }
 @media (min-width: 720px) {
   .slog { max-width: 760px; width: 100%; margin: 0 auto; }
@@ -201,3 +223,18 @@
   .slog-chart small { font-size: 12px; }
   .slog-goalrow .mt-btn { min-height: 44px; padding: 0 8px; }
 }
+
+/* 2026-10-28 見直し：今日の勉強記録の見出し・小さい画面 */
+.mystudy-week-title { margin: 0; display: flex; align-items: baseline; gap: 8px; font: 800 13px/1.3 var(--mt-font-body); color: var(--mt-ink-warm); }
+.mystudy-week-title small { font: 600 12px/1.3 var(--mt-font-body); color: var(--mt-ink-3); }
+@media (max-height: 700px) {
+  .mystudy-avatar { width: 52px; height: 52px; }
+  .mystudy-bars { height: 80px; }
+}
+/* 記録タブ：日付を押せるので、押せる大きさ（44px）を取る。7列が入るよう左右の余白を少し使う */
+.slog-cal { gap: 2px; margin-inline: -6px; }
+.slog-cal .slog-cell { width: 100%; height: auto; min-height: 44px; border-radius: 8px; font-size: 13px; }
+.slog-picked { display: grid; align-content: start; gap: 6px; padding-top: 4px; }
+.slog-picked > h4 { margin: 0; display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 8px; font: 800 14px/1.4 var(--mt-font-body); color: var(--mt-ink-warm); }
+.slog-picked > h4 small { font: 700 12px/1.4 var(--mt-font-body); color: var(--mt-ink-3); }
+.slog-row[data-app-row] { box-shadow: none; background: var(--mt-brand-soft); }

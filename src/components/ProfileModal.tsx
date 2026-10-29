@@ -18,15 +18,9 @@ import { isFeedbackAdmin } from '../utils/feedbackReply';
 // ユーザーごとの localStorage キー名は utils/userStorageKeys.ts が唯一の定義
 import { profileKey } from '../utils/userStorageKeys';
 import { AccountSafetySection } from '../features/account/AccountSafetySection';
-import { useGrowthProgress } from '../hooks/useGrowthProgress';
-import { levelOf } from '../battle/core/growth';
-import { GrowthAvatar, TitleChip } from '../battle/ui/GrowthParts';
-import { fetchMyRankingRow } from '../battle/data/battleRanking';
 import './profile-settings.css';
 import { ReminderSettings, AnalyticsSetting } from './ReminderSettings';
 import { requireLocalStorage } from '../utils/safeLocalStorage';
-import { logRejection } from '../utils/reportError';
-import { useMediaQuery } from '../hooks/useMediaQuery';
 
 interface ProfileModalProps {
   onClose: () => void;
@@ -61,14 +55,9 @@ interface ProfileModalProps {
 type SettingsTab = 'general' | 'friends' | 'class';
 
 export function ProfileModal({ onClose, initialTab, isBgmEnabled, setIsBgmEnabled, onToggleBgm, bgmVolume, setBgmVolume, onOpenTeacherDashboard, onOpenFeedbackAdmin, onOpenOutfit, onStartClassChapter }: ProfileModalProps) {
-  const { progress: growth } = useGrowthProgress();
-  const [rating, setRating] = useState(1500);
-  useEffect(() => { let alive = true; if (auth.currentUser) void fetchMyRankingRow().then(r => { if (alive && r) setRating(r.rating); }).catch(logRejection('profile.fetchRanking')); return () => { alive = false; }; }, []);
   /** クラス機能を開けるか（公開前は先行確認のアカウントだけ・2026-10-28） */
   const classroomOn = isClassroomEnabledFor(auth.currentUser);
   const [tab, setTab] = useState<SettingsTab>(() => (initialTab && initialTab !== 'general' && auth.currentUser ? initialTab : 'general'));
-  /** PC の3列レイアウト（profile-settings.css の 1100px と揃える） */
-  const wideLayout = useMediaQuery('(min-width: 1100px)');
   const [battleAudioSettings, updateBattleAudio] = useBattleAudioSettings();
   /** 対戦カードのプレビューに出すニックネーム（編集はマイページ） */
   const [name, setName] = useState('');
@@ -110,19 +99,7 @@ export function ProfileModal({ onClose, initialTab, isBgmEnabled, setIsBgmEnable
     if (!outcome.ok && !outcome.cancelled) setAuthError(outcome.message || 'ログインに失敗しました。');
   };
 
-  /* ★対戦で相手に見えるカードのプレビュー（A16）★ 名前・称号を変えるとその場で反映される。
-     PC の3列（1100px〜）ではプロフィール列が縦に長くなるので、余白のあるサウンド列に置く。 */
-  const preview = (
-    <section className="ps-preview mt-card" aria-label="対戦で相手に見えるカード">
-      <p>対戦で相手に見えるカード</p>
-      <div className="ps-mini" aria-hidden="true">
-        <span className="ps-mini-avatar"><GrowthAvatar progress={growth} size={44} showLevel={false} /></span>
-        <div><strong>{name.trim() || 'ニックネーム'}</strong><span><TitleChip progress={growth} rating={rating} /> Lv.{levelOf(growth.xp).level}</span></div>
-        <b>VS</b>
-      </div>
-    </section>
-  );
-
+  /* 2026-10-28 A4：「対戦で相手に見えるカード」のプレビューは削除（ご要望） */
   return (
     <div className="mtb-page mt-screen profile-journal w-full h-full overflow-hidden pb-[calc(var(--app-nav-h,120px)+8px)] sm:pb-24" data-settings data-settings-tab={tab}>
       <div className="profile-frame max-w-4xl h-full mx-auto px-3 sm:px-5 py-3 sm:py-5 flex flex-col relative">
@@ -171,9 +148,6 @@ export function ProfileModal({ onClose, initialTab, isBgmEnabled, setIsBgmEnable
             <div className="h-full flex flex-col gap-2">
             <div className="profile-workspace flex-1 min-h-0 grid grid-cols-1 md:grid-cols-2 gap-2 sm:gap-3 overflow-y-auto md:overflow-hidden no-scrollbar">
               <div className="ps-col-profile space-y-2 sm:space-y-3">
-                {/* 2026-10-21：「アカウント・プロフィール」はマイページへ移した（名前・学年・志望校・公開設定など）。
-                    ここには対戦で相手に見えるカードのプレビューだけ残す */}
-                {!wideLayout && preview}
               </div>
 
               <div className="ps-col-app space-y-2 sm:space-y-3 flex flex-col">
@@ -188,7 +162,6 @@ export function ProfileModal({ onClose, initialTab, isBgmEnabled, setIsBgmEnable
                 <section className="ps-sound mt-card" aria-label="通知">
                   <ReminderSettings />
                 </section>
-                {wideLayout && preview}
               </div>
 
               <div className="ps-col-account space-y-2 sm:space-y-3 flex flex-col">

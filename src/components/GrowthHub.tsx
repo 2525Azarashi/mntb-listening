@@ -1,17 +1,15 @@
 import { useState } from 'react';
-import { Coins, Store, Sparkles } from 'lucide-react';
+import { Store, Sparkles } from 'lucide-react';
 import { StudyRecord, type StudyRetry } from './StudyRecord';
 import { LevelRewards } from './LevelRewards';
-import { equippedTitleLabel, type MissionDestination } from '../battle/core/growth';
+import { type MissionDestination } from '../battle/core/growth';
 import { GachaRoom } from './GachaRoom';
 import { ManaRush } from './ManaRush';
 import { MyCollection } from './MyCollection';
 import { MyProfileCard } from './MyProfileCard';
 import { MyStudyCard } from '../features/studylog/MyStudyCard';
 import { StudyLogPage } from '../features/studylog/StudyLogPage';
-import { GrowthAvatar, LevelBar } from '../battle/ui/GrowthParts';
 import { useGrowthProgress } from '../hooks/useGrowthProgress';
-import { useMediaQuery } from '../hooks/useMediaQuery';
 import { BattleMissions } from '../battle/ui/BattleMissions';
 import { BattleProfile } from '../battle/ui/BattleProfile';
 import './growth-hub.css';
@@ -28,9 +26,6 @@ export function GrowthHub({ page, onPage, onBack, onBattle, onReview, onRanking,
   onOpenFriends?: () => void;
 }) {
   const { progress, uid } = useGrowthProgress();
-  // マイページは1画面に収める：スマホではとびら君を小さくして横1段に（2026-10-21）
-  const wide = useMediaQuery('(min-width: 720px)');
-  const short = useMediaQuery('(max-height: 700px)');
   const [outfitKind, setOutfitKind] = useState('all');
   const activePage = page;
   // ★ミッションの「○○へ」★ マイページの中で済むものはここで、ほかの画面は App に任せる
@@ -61,21 +56,15 @@ export function GrowthHub({ page, onPage, onBack, onBattle, onReview, onRanking,
     <nav className="mypage-tabs" aria-label="マイページメニュー">{([['overview','マイページ'],['log','記録'],['outfit','きせかえ'],['badges','称号'],['prints','マイPDF']] as const).map(([id,label]) => <button type="button" key={id} aria-current={activePage === id || (id === 'log' && activePage === 'log-new') || (id === 'overview' && activePage === 'profile-edit') ? 'page' : undefined} onClick={()=>openTab(id)}>{label}</button>)}</nav>
     <div className="mypage-body">
     {page === 'overview' ? <main className="mypage-overview" data-mypage-overview>
-      <section className="mypage-stage" aria-label="いまのとびら君">
-        <p className="mypage-stage-title">{(progress && equippedTitleLabel(progress)) || 'とびら君'}</p>
-        <div className="mypage-stage-avatar">{progress && <GrowthAvatar progress={progress} size={wide ? 132 : short ? 60 : 76}/>}</div>
-        <div className="mypage-stage-meta"><span><Coins size={16}/><strong>{progress?.coins.toLocaleString() ?? '—'}</strong>マナコイン</span>{progress && <LevelBar xp={progress.xp} compact/>}</div>
-      </section>
-      {/* 2026-10-21：きせかえ・称号のボタンは削除（上のタブで開ける）。代わりに設定の「アカウント・プロフィール」をここへ */}
-      {/* 2026-10-27：見るカード（自分の学習ページ）と、直す画面（MyProfileCard）を分けた */}
-      <MyStudyCard onRecord={() => onPage('log-new')} onLog={() => onPage('log')} onEdit={() => onPage('profile-edit')} />
+      {/* 2026-10-28 A1/A3：とびら君・Lv・コインのカードは「今日の勉強記録」カードにまとめた（別カードはなくした） */}
+      <MyStudyCard onEdit={() => onPage('profile-edit')} />
       {/* 「レベルで手に入るもの」はミッションの中へ移した（マイページをスクロールなしで1画面に収める・2026-10-05） */}
     </main> : activePage === 'outfit' || activePage === 'prints' || activePage === 'rewards' ? <MyCollection key={`${uid}:${activePage}:${outfitKind}`} view={activePage === 'outfit' || activePage === 'rewards' ? 'owned' : activePage} initialKind={activePage === 'outfit' ? outfitKind : 'all'} onGacha={()=>onPage('gacha')}/>
     : activePage === 'profile-edit' ? <main className="mypage-overview mypage-profile-edit" data-mypage-profile-edit>
       <div className="profile-standalone-head"><button type="button" onClick={() => onPage('overview')} aria-label="マイページにもどる">←</button><h2>プロフィールを編集</h2></div>
       <MyProfileCard />
     </main>
-    : activePage === 'log' || activePage === 'log-new' ? <StudyLogPage key={`${uid}:${activePage}`} openNew={activePage === 'log-new'} onStudy={onStudy} onReview={onReview} onOpenFriends={onOpenFriends} />
+    : activePage === 'log' || activePage === 'log-new' ? <StudyLogPage key={`${uid}:log`} />
     : activePage === 'stats' ? <div className="mypage-extra-scroll"><StudyRecord embedded onReview={onReview} onRetry={onRetry}/></div>
     : activePage === 'missions' ? <div className="mypage-extra-scroll"><BattleMissions key={uid} standalone onBack={()=>onPage('overview')} onBattle={onBattle} onReview={onReview} onShop={()=>onPage('gacha-shop')} onRush={()=>onPage('rush')} extra={progress ? <LevelRewards progress={progress} /> : null} onGo={goMission}/></div>
     : <div className="mypage-extra-scroll"><BattleProfile key={`${uid}:${activePage}`} standalone initialTab={activePage as 'outfit' | 'badges' | 'stats'} onBack={()=>onPage('overview')}/></div>}

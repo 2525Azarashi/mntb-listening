@@ -4,12 +4,13 @@
 import { useEffect, useState, type ReactNode } from 'react';
 import { Bell, BellOff } from 'lucide-react';
 import { readReminderPrefs, writeReminderPrefs, type ReminderPrefs, REVIEW_HOUR, STREAK_HOUR } from '../utils/studyReminders';
-import { reminderPermission, requestReminderPermission, rescheduleReminders, type ReminderPermission } from '../utils/studyRemindersRuntime';
+import { reminderPermission, requestReminderPermission, rescheduleReminders, sendTestReminder, type ReminderPermission } from '../utils/studyRemindersRuntime';
 import { analyticsEnabled, setAnalyticsEnabled, trackEvent } from '../utils/analytics';
 
 export function ReminderSettings() {
   const [prefs, setPrefs] = useState<ReminderPrefs>(() => readReminderPrefs());
   const [perm, setPerm] = useState<ReminderPermission>('prompt');
+  const [testMsg, setTestMsg] = useState('');
   useEffect(() => { let alive = true; void reminderPermission().then(p => { if (alive) setPerm(p); }); return () => { alive = false; }; }, []);
 
   const save = (next: ReminderPrefs) => { setPrefs(next); writeReminderPrefs(next); void rescheduleReminders(); };
@@ -28,6 +29,9 @@ export function ReminderSettings() {
     {prefs.enabled && <>
       <Row label="復習の日" sub={`間違えた問題の復習日に ${REVIEW_HOUR}:00`} checked={prefs.review} onChange={() => save({ ...prefs, review: !prefs.review })} />
       <Row label="連続日数がとぎれそう" sub={`まだ学習していない日の ${STREAK_HOUR}:00`} checked={prefs.streak} onChange={() => save({ ...prefs, streak: !prefs.streak })} />
+      {/* 2026-10-28 A5：届くか・鳴るかをその場で確かめる */}
+      <button type="button" className="ps-test-notify" data-test-notify onClick={() => { setTestMsg('送っています…'); void sendTestReminder().then(r => setTestMsg(r === 'sent' ? '5秒後にテスト通知が届きます。音が鳴らないときは、端末の消音・おやすみモードと「設定 → 通知 → マナトビ → サウンド」を確認してください。' : r === 'denied' ? '通知が許可されていません。端末の「設定 → 通知 → マナトビ」でオンにしてください。' : 'この端末では通知を出せません。')); }}><Bell size={15} aria-hidden="true" />テスト通知を送る</button>
+      {testMsg && <p className="ps-help" role="status">{testMsg}</p>}
     </>}
     {perm === 'denied' && <p className="ps-help" role="status">通知が端末の設定でオフになっています。端末の「設定 → 通知 → マナトビ」でオンにしてください。</p>}
     {perm === 'unsupported' && <p className="ps-help" role="status">このブラウザは通知に対応していません。アプリ版ならアプリを閉じていても届きます。</p>}

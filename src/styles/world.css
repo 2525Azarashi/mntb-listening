@@ -275,3 +275,7 @@
   .game-home .desktop-study-summary .study-next { display: none; }
   .game-home .desktop-study-summary > p:first-child { display: none; }
 }
+/* 2026-10-28 A8：装飾（帽子・オーラ・横のボタン）で とびら君のセリフが隠れないよう、吹き出しをいちばん手前に・背景を不透明に */
+.game-home .game-stage-say { z-index: 8; }
+.game-home .game-stage-say .tb-bubble { background: #fff; box-shadow: 0 0 0 2px var(--tb-line, #e2d3b5), 0 3px 0 var(--tb-line, #e2d3b5), 0 6px 14px rgba(40, 30, 10, .18); }
+.game-home .game-mascot-button .tobira-accessories { z-index: 0; }

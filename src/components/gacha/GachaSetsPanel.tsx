@@ -2,9 +2,9 @@
  * ガチャの「セット収集」と「かけら交換」のダイアログ（2026-10-23 やり込み強化）。
  *   ・セット：テーマごとに4つ。そろうと称号＋限定フレーム（gachaSets.ts）
  *   ・かけら交換：ダブりで貯まる「とびらのかけら」で、未所持の景品を選んで交換（天井の代わり）
- * ガチャ画面を1画面に収めるため、どちらもダイアログの中に置く（UI原則1）。
+ * 2026-10-28 A10：ガチャ画面からはずし、ショップの「種類」の選択（セット収集／かけら交換）で出す（ボタンは増やさない）。
  */
-import { useState, type RefObject } from 'react';
+import { useState } from 'react';
 import { Check, Gem } from 'lucide-react';
 import { gachaRarityOf, itemById, type GrowthProgress, type ItemDef } from '../../battle/core/growth';
 import { gachaItems, shardCostOf } from '../../battle/core/arenaEconomy';
@@ -13,10 +13,9 @@ import { exchangeShardItem } from '../../battle/data/growthStore';
 import { confirmAction } from '../../utils/dialog';
 import { ItemArt, RarityTag } from '../GachaParts';
 
-type Tab = 'sets' | 'shards';
+export type GachaSetsTab = 'sets' | 'shards';
 
-export function GachaSetsModal({ dialog, progress }: { dialog: RefObject<HTMLDialogElement | null>; progress: GrowthProgress | null }) {
-  const [tab, setTab] = useState<Tab>('sets');
+export function GachaSetsPanel({ progress, tab }: { progress: GrowthProgress | null; tab: GachaSetsTab }) {
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState('');
   const owned = progress?.owned ?? [];
@@ -39,20 +38,8 @@ export function GachaSetsModal({ dialog, progress }: { dialog: RefObject<HTMLDia
   };
 
   return (
-    <dialog ref={dialog} className="game-details-dialog mt-dialog" aria-labelledby="gacha-sets-title" data-gacha-sets-dialog>
-      <header>
-        <h2 id="gacha-sets-title">セット収集・かけら交換</h2>
-        <button type="button" autoFocus onClick={() => dialog.current?.close()}>閉じる</button>
-      </header>
-      <div className="game-details-body gacha-odds gacha-sets">
-        <div className="gacha-collection-filters" role="tablist" aria-label="切り替え">
-          <button type="button" role="tab" aria-selected={tab === 'sets'} aria-pressed={tab === 'sets'} onClick={() => setTab('sets')}>
-            セット {done}/{GACHA_SETS.length}
-          </button>
-          <button type="button" role="tab" aria-selected={tab === 'shards'} aria-pressed={tab === 'shards'} onClick={() => setTab('shards')} data-shard-tab>
-            <Gem size={14} aria-hidden="true" /> かけら {shards}
-          </button>
-        </div>
+    <div className="gacha-odds gacha-sets gacha-sets-panel" data-gacha-sets-panel={tab}>
+      <p className="gacha-sets-summary">{tab === 'sets' ? `セット ${done}/${GACHA_SETS.length} 完成` : <><Gem size={14} aria-hidden="true" /> とびらのかけら {shards}個</>}</p>
         {message && <p role="status" className="gacha-message">{message}</p>}
 
         {tab === 'sets' ? (
@@ -105,7 +92,6 @@ export function GachaSetsModal({ dialog, progress }: { dialog: RefObject<HTMLDia
             )}
           </>
         )}
-      </div>
-    </dialog>
+    </div>
   );
 }

@@ -431,3 +431,27 @@ export function linkRecordsToMaterial(store: ManualLogStore, materialId: string,
   return { ...store, records: store.records.map(r => (!r.deleted && !r.materialId && r.subject === mat.subject && r.materialName === mat.name
     ? { ...r, materialId: mat.id, updatedAt: Math.max(now, r.updatedAt + 1) } : r)) };
 }
+
+/** マイページの「今日の勉強記録」用（2026-10-28）：直近7日（古い→新しい）の教材ごとの時間。アプリ内の時間は「マナトビ（アプリ内）」1行 */
+export interface WeekRow { key: string; label: string; subject: string; seconds: number[]; total: number }
+export function weekByMaterial(store: ManualLogStore, app: AppTime, now = Date.now()): { days: string[]; rows: WeekRow[] } {
+  const today = dayOf(now);
+  const days = Array.from({ length: 7 }, (_, i) => addDays(today, i - 6));
+  const idx = new Map(days.map((d, i) => [d, i]));
+  const mats = new Map(liveMaterials(store).map(x => [x.id, x]));
+  const rows = new Map<string, WeekRow>();
+  for (const r of liveRecords(store)) {
+    const i = idx.get(r.day);
+    if (i == null) continue;
+    const mat = r.materialId ? mats.get(r.materialId) : undefined;
+    const key = mat ? `id:${mat.id}` : `name:${r.subject}:${r.materialName}`;
+    const row = rows.get(key) ?? { key, label: mat?.name || r.materialName || subjectLabel(r.subject), subject: mat?.subject ?? r.subject, seconds: Array(7).fill(0), total: 0 };
+    row.seconds[i] += r.minutes * 60; row.total += r.minutes * 60;
+    rows.set(key, row);
+  }
+  const out = [...rows.values()].sort((a, b) => b.seconds[6] - a.seconds[6] || b.total - a.total);
+  const appSec = days.map(d => app.days[d] ?? 0);
+  const appTotal = appSec.reduce((a, b) => a + b, 0);
+  if (appTotal > 0) out.push({ key: 'app', label: 'マナトビ（アプリ内）', subject: 'app', seconds: appSec, total: appTotal });
+  return { days, rows: out };
+}
