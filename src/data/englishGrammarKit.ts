@@ -45,6 +45,7 @@
  */
 
 import type { SubQuestion } from '../types/curriculum';
+import { memorizeSetLine } from './grammarMemorizeSets';
 
 /** 音源トラック（リスニングの ListeningAudioTrack と同形にする） */
 export type GrammarAudioTrack = {
@@ -201,9 +202,14 @@ export function buildEgSet(meta: EgSetMeta, items: EgItem[]): GrammarProblem {
   }));
 
   // --- 解説本文（条件 (4) を構造で満たす：見出しは行頭の「問N」） ---
-  const bodies = items.map(
-    (item, index) => `問${index + 1}　正解は ${item.answer}\n${item.commentary.join('\n')}`,
-  );
+  // C9（2026-10-29）：問題にできなかった仲間の表現（例：Frankly speaking の問題なら generally / strictly speaking）を
+  //   【セットで覚える】の1行で解説の最後に足す。解説で触れていない表現だけ（data/grammarMemorizeSets.ts）。
+  const bodies = items.map((item, index) => {
+    const lines = [...item.commentary];
+    const memorize = memorizeSetLine(item.full, lines.join('\n'));
+    if (memorize) lines.push(memorize);
+    return `問${index + 1}　正解は ${item.answer}\n${lines.join('\n')}`;
+  });
 
   const summary =
     meta.summary.length > 0

@@ -306,14 +306,16 @@ export function sharedSteps(problem: ProblemSource): string[] {
  *   選択肢の行は ○（緑）／×（赤）を目立たせる。中身の文は変えない。
  */
 const EG_HEADS: Record<string, string> = {
-  着眼点: '#2F7C74', ポイント: '#B0464F', 選択肢: '#5A6573', プラス: '#7A5B2A', 入試ではここ: '#1F5FA8',
+  着眼点: '#2F7C74', ポイント: '#B0464F', 選択肢: '#5A6573', プラス: '#7A5B2A', 入試ではここ: '#1F5FA8', セットで覚える: '#6B3FA0',
 };
 function styleReasonLine(line: string): string {
-  const head = line.match(/^【(着眼点|ポイント|選択肢|プラス|入試ではここ)】\s*(.*)$/u);
+  const head = line.match(/^【(着眼点|ポイント|選択肢|プラス|入試ではここ|セットで覚える)】\s*(.*)$/u);
   if (head) {
     const color = EG_HEADS[head[1]];
     const tag = `<span style="display:inline-block; margin-right:6px; padding:0 8px; border-radius:6px; font-size:max(12px, 0.82em); font-weight:bold; color:#fff; background-color:${color};">${head[1]}</span>`;
-    const body = head[2] ? (head[1] === '入試ではここ' ? `<span style="font-weight:bold; color:#1F3F6A;">${escapeHtml(head[2])}</span>` : escapeHtml(head[2])) : '';
+    // C9：【セットで覚える】は太字で目立たせる（入試ではここ と同じ扱い）
+    const strong = head[1] === '入試ではここ' ? '#1F3F6A' : head[1] === 'セットで覚える' ? '#4A2A73' : '';
+    const body = head[2] ? (strong ? `<span style="font-weight:bold; color:${strong};">${escapeHtml(head[2])}</span>` : escapeHtml(head[2])) : '';
     return tag + body;
   }
   // TOEIC Part 5 の選択肢は (A)〜(D)
