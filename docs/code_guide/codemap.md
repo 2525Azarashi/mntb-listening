@@ -30,6 +30,10 @@ tools/update.sh が cards.json から作る。1ファイル1行：`パス` — �
 - `src/components/Explanation.tsx` — 解き終えた問題の採点結果と解答・解説を見せる画面の係（画面・767行・使われる2）
 - `src/components/toeic/ToeicPageQuiz.tsx` — 【新】TOEIC Part 5 の演習画面（1ページ6問・マーク式・ページ単位の採点と解説）の係（画面・329行・使われる1）
 - `src/components/toeic/toeicPageModel.ts` — 【新】TOEIC Part 5 のページ分け・採点キー・解説の引き当ての計算の係（データ・112行・使われる2）
+- `src/components/toeic/ToeicExplanationPanel.tsx` — 【新】TOEIC Part 5 の採点後の解説（役割ごとの札・手がかりのマーカー・空所の下線枠）の係（部品・使われる1）
+- `src/components/toeic/ToeicTimer.tsx` — 【新】TOEIC Part 5 の演習画面の控えめな時間表示の係（QuizTimerBar の TOEIC 用の複製）（部品・使われる1）
+- `src/components/toeic/toeicNote.ts` — 【新】TOEIC Part 5 の1問ずつの「ノートに保存」（同じ問題は1件だけ）の係（データ・使われる1）
+- `src/data/toeic/toeicPart5Notes.ts`・`toeicPart5NoteTypes.ts`・`toeicPart5NotesRound01〜15.ts` — 【新】TOEIC Part 5 の解説の追加項目（着眼点・ポイント・TOEICでのコツ・手がかり）の係（データ）
 - `src/components/toeic/toeic-page.css` — 【新】TOEIC Part 5 のページ式演習の見た目の係（部品・112行・使われる1）
 - `src/components/ExplanationBody.tsx` — 【変】解説の本文を、見出しや表つきで読みやすく描く係（部品・337行・使われる6）
 - `src/components/ExplanationScreen.tsx` — 演習画面から切り替わって解答・解説の画面を出す係（画面・97行・使われる1）
