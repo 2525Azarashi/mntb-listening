@@ -58,7 +58,7 @@ import { loadRun, type ChapterRunState } from '../utils/quizRunState';
 import { isShortAnswerType } from '../utils/quizBlanks';
 // cleanQuestionText は解説画面（Explanation.tsx）と同じ実装が必要なので
 // questionDisplay.ts の1つだけを使う。呼ぶ場所は派生値フックへ移った。
-import { buildListeningSteps, buildProgressPill, isPerSubQuestionListening, stepSubQuestions } from '../utils/listeningSteps';
+import { deriveQuizStepState } from '../utils/quizStepState';
 import { usePreventZoom } from '../hooks/usePreventZoom';
 import { useIsDesktop } from '../hooks/useMediaQuery';
 import { safeSetItem } from '../utils/storageGuard';
@@ -512,57 +512,15 @@ export function Quiz({ mode, chapter, onFinish, onBack, onReturnToBattle, isGues
 
   const currentQuestion = questions[currentQuestionIndex];
 
-  // ────────────────────────────────────────────────────────────────
-  // リスニング：1画面＝1問（ご要望「問1で1つの進捗、問2で1つの進捗」）
-  // ────────────────────────────────────────────────────────────────
-  //
-  // `perStep` が true のときは、大問（回）の中の小問を1問ずつ見せる。
-  // 化学など音源を持たない問題は false になり、これまでどおり
-  // 大問まるごと1画面（(1)〜(4)を並べて表示）のまま。
-  const perStep = isPerSubQuestionListening(currentQuestion);
-  const listeningSteps = perStep ? buildListeningSteps(currentQuestion) : [];
-  /** 範囲外を指さないよう丸めた、いま表示している問の位置 */
-  const safeStepIndex = perStep
-    ? Math.min(Math.max(0, stepIndex), Math.max(0, listeningSteps.length - 1))
-    : 0;
-  /**
-   * いま表示しているステップの小問一覧（1問ずつモードのときだけ中身が入る）。
-   *
-   * 第1〜3問は常に1つ。第4問以降は「音声1本に複数の解答欄」なので
-   * 2〜5つになる（例：問18〜21）。ステップの位置（index）ではなく
-   * ステップが持つ subQuestionIds から引く。以前の「subQuestions[safeStepIndex]」は
-   * ステップ数＝小問数のときしか成り立たなかった。
-   */
-  const activeStepSubs: SubQuestion[] = perStep
-    ? stepSubQuestions(currentQuestion, listeningSteps[safeStepIndex])
-    : [];
-  /** いま表示している小問（先頭）。音源・採点キー・解説の絞り込みはこれをキーにする */
-  const activeStepSub = perStep ? (activeStepSubs[0] ?? null) : null;
-  /** この回の最後の問まで来たか */
-  const isLastStep = !perStep || safeStepIndex >= listeningSteps.length - 1;
-
-  // 進捗ピルの分子・分母（数え方は utils/listeningSteps.ts の buildProgressPill）
-  const progressPill = buildProgressPill({
-    perStep, steps: listeningSteps, stepIndex: safeStepIndex, rangeCount, rangePosition,
+  // 「いまどの問を表示しているか」の計算は utils/quizStepState.ts（純粋関数。各値の意味と理由もそちら）。
+  // 以前ここに並んでいた式を同じ順番のまま移しただけで、結果は変わらない。
+  const {
+    perStep, listeningSteps, safeStepIndex, activeStepSubs, activeStepSub,
+    isLastStep, progressPill, canGoPrevious, isLastQuestion,
+  } = deriveQuizStepState({
+    currentQuestion, currentQuestionIndex, stepIndex, showingExplanation,
+    rangeStart, rangeEnd, rangeCount, rangePosition,
   });
-
-  /**
-   * 「前へ」を押せるか。
-   *
-   * 1問ずつモードでは、回の先頭（問1）にいても
-   * まだ前の回が範囲内にあるなら戻れる。逆に範囲の先頭の問1では
-   * 戻る先が無いのでボタンを無効にする（押しても何も起きないボタンを
-   * 押せる状態にしておくと、壊れているように見えるため）。
-   */
-  const canGoPrevious = showingExplanation
-    ? false
-    : (perStep && safeStepIndex > 0) || currentQuestionIndex > rangeStart;
-
-  // 「最後の問題か」＝範囲の終わりに来たか。
-  // 章の最終問ではなく範囲の終わりで判定することで、
-  // 1回分（例：第3回演習）を解き終えた時点でちゃんと結果画面へ進める。
-  // 1問ずつモードでは「範囲の最後の回」かつ「その回の最後の問」で完了とする。
-  const isLastQuestion = currentQuestionIndex >= rangeEnd && isLastStep;
 
   // visualViewport の resize ハンドラ（マウント時登録・依存なし）から
   // 最新の currentQuestion を参照するための ref。
