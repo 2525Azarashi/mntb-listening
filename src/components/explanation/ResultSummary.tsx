@@ -1,5 +1,5 @@
 import React from 'react';
-import { AlertTriangle, ChevronLeft, ChevronRight, Coins, ListOrdered, TrendingUp } from 'lucide-react';
+import { AlertTriangle, ChevronLeft, ChevronRight, Coins, Home, ListOrdered, TrendingUp } from 'lucide-react';
 import { FeedbackButton } from '../FeedbackButton';
 import { NextBadgeHint } from '../../battle/ui/GrowthParts';
 import { formatResultTime } from './helpers';
@@ -135,15 +135,40 @@ export function ResultStage({ resultTotalJudgeable, resultTotalCorrect, studyRew
  * ★結果（1画面目）の下のバー：主操作は「詳しい結果を確認する」1つだけ。親指の届く画面の下に置く★
  * 元は2つの兄弟要素（下の余白 div とバー本体）だったので、Fragment で同じ並びのまま返す。
  */
-export function ResultSummaryActions({ onOpenDetail, wrongCount }: { onOpenDetail: () => void; wrongCount: number }) {
+/**
+ * 結果（1画面目）の下のバー。
+ * C7（2026-10-29 ご指摘「5問終わっても次の問題へしかない。いつ終われるの？」）：
+ *   詳しい結果の中にしか無かった「次の回へ／単元選択に戻る／ホームに戻る」を、
+ *   結果を開いた最初の画面の下にも出す（詳しい結果の下と同じ並び・同じ見た目）。
+ */
+export function ResultSummaryActions({ onOpenDetail, wrongCount, onNext, nextLabel, onChapters, onHome }: {
+  onOpenDetail: () => void;
+  wrongCount: number;
+  onNext?: () => void;
+  nextLabel?: string;
+  onChapters?: () => void;
+  onHome?: () => void;
+}) {
+  const hasExits = !!(onNext || onChapters || onHome);
   return (
     <>
-      <div className="practice-bottom-spacer" aria-hidden="true" />
-        <div className="practice-bottom-bar" data-practice-summary-actions>
+      <div className={`practice-bottom-spacer${hasExits ? ' is-exits' : ''}`} aria-hidden="true" />
+        <div className={`practice-bottom-bar${hasExits ? ' is-review' : ''}`} data-practice-summary-actions>
           <button type="button" className="practice-detail-open" data-practice-open-detail
             onClick={onOpenDetail}>
             <ListOrdered size={18} aria-hidden="true" />詳しい結果を確認する{wrongCount > 0 ? `（まちがい${wrongCount}問）` : ''}
           </button>
+          {onNext && (
+            <button type="button" className="pbb-main" data-practice-next onClick={onNext}>
+              <ChevronRight size={17} aria-hidden="true" />{nextLabel || '次へ進む'}
+            </button>
+          )}
+          {(onChapters || onHome) && (
+            <div className="pbb-sub">
+              {onChapters && <button type="button" data-practice-chapters onClick={onChapters}><ListOrdered size={16} aria-hidden="true" />単元選択に戻る</button>}
+              {onHome && <button type="button" data-practice-home onClick={onHome}><Home size={16} aria-hidden="true" />ホームに戻る</button>}
+            </div>
+          )}
         </div>
     </>
   );

@@ -470,16 +470,24 @@ export function ChapterSelection({ mode, onSelectChapter, onBack, subject = 'eng
                     onStart={() => isGrammar
                       ? onSelectChapter(chapter.id, nextRound, false, { startIndex: nextRound, endIndex: nextRound })
                       : onSelectChapter(chapter.id, 0, false)}
+                    // C7（2026-10-29）：英文法の「続きから」は、前に解いていた回の最初の問題（No.1）から始め直す。
+                    //   途中の問・解説の途中から再開すると、どこまで解いたか分からなくなるため。
                     onResume={() => isGrammar
-                      ? onSelectChapter(chapter.id, savedIndex, true, { startIndex: savedIndex, endIndex: savedIndex })
+                      ? onSelectChapter(chapter.id, savedIndex, false, { startIndex: savedIndex, endIndex: savedIndex })
                       : onSelectChapter(chapter.id, savedIndex, true)}
                     onAudio={audioSets.length > 0 ? () => setOpenAudioSetId(openAudioSetId === audioSets[0].id ? null : audioSets[0].id) : undefined}
                     audioOpen={audioSets.length > 0 && openAudioSetId === audioSets[0].id}
                   >
                     {hasQuestions && questions.length > 1 && (
                       <div className="chapter-question-list unit-card-questions">
+                        {/* C7：英文法は「回を選んで始める」と見出しを付ける（続きから以外の入口が分かりにくかった） */}
+                        {isGrammar && <p className="unit-card-pick-label">回を選んで始める</p>}
+                        {/* C7：英文法の回は「その回だけ」を範囲として渡す。渡さないと単元の通しになり、
+                            5問解いても「次の問題へ」しか出ず結果画面に行けなかった（No.1〜5 → No.6〜 と続いてしまう） */}
                         {questions.map((question, questionIndex: number) => (
-                          <button key={question.id} type="button" onClick={() => onSelectChapter(chapter.id, questionIndex, false)}>
+                          <button key={question.id} type="button" onClick={() => isGrammar
+                            ? onSelectChapter(chapter.id, questionIndex, false, { startIndex: questionIndex, endIndex: questionIndex })
+                            : onSelectChapter(chapter.id, questionIndex, false)}>
                             <span>{question.category || `問 ${questionIndex + 1}`}</span>
                             <ChevronRight size={14} aria-hidden="true" />
                           </button>
