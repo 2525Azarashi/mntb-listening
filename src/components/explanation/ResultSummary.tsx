@@ -109,7 +109,7 @@ export function ResultStage({ resultTotalJudgeable, resultTotalCorrect, studyRew
         const pose = judge > 0 && correct === judge ? 'trophy' : rate >= 0.6 ? 'happy' : rate > 0 ? 'cheering' : 'thinking';
         const line = judge > 0 && correct === judge ? '全問正解！この調子で次の回へ行こう！'
           : rate >= 0.6 ? 'いい感じ！まちがえた所だけ見直せば完ぺき！'
-          : rate > 0 ? 'ナイスチャレンジ！解説で「解くカギ」を確認しよう'
+          : rate > 0 ? 'ナイスチャレンジ！解説の黄色いところを確認しよう'
           : 'ここからが伸びしろ！詳しい結果で1問ずつ確かめよう';
         const coins = studyReward?.coins ?? 0;
         return (
