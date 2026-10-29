@@ -348,3 +348,32 @@
 /* 2026-10-28 B1：ミッションはそれだけの画面（マイページの見出し・タブは出さない）。マナラッシュと同じ作り */
 .mana-hub-missions { display: flex; flex-direction: column; height: 100%; }
 .mana-hub-missions > .mypage-extra-scroll { flex: 1; min-height: 0; overflow-y: auto; }
+/* 2026-10-29 B3：プロフィールを編集＝1画面。項目名を枠の中に出し、枠を大きく（56px）。
+   名前・志・自己紹介は横いっぱい、学年/文理・志望校/目標は2列。公開の行と保存は下にそろえ、下の余白をなくす */
+.mypage-profile-edit[data-mypage-profile-edit] { display: flex !important; flex-direction: column; min-height: 100%; padding-bottom: 12px; }
+.mypage-profile-edit .mypage-profile { flex: 1; display: flex; flex-direction: column; gap: clamp(8px, 1.6vh, 14px); padding: clamp(12px, 2vh, 18px) 14px; }
+.mypage-profile-edit .mypage-profile-top { display: grid; grid-template-columns: 1fr; }
+.mypage-profile-edit .ps-fields { gap: clamp(8px, 1.6vh, 14px) 10px; }
+.mypage-profile-edit .ps-fields > [data-motto], .mypage-profile-edit .ps-fields > .mypage-profile-bio { grid-column: 1 / -1; }
+.mypage-profile-edit .ps-field-label { position: absolute; top: 7px; left: 34px; z-index: 1; font: 700 12px/1 var(--mt-font-body); color: var(--ps-ink-2); pointer-events: none; }
+.mypage-profile-edit .ps-name .ps-field-label { left: 13px; }
+.mypage-profile-edit .ps-select > svg:first-child { top: 30px; }
+.mypage-profile-edit .ps-select input, .mypage-profile-edit .ps-select select { min-height: 56px; padding-top: 18px; font-size: 15px; }
+.mypage-profile-edit .ps-name input { min-height: 58px; padding-top: 18px; font-size: 18px; }
+.mypage-profile-edit .ps-name > svg, .mypage-profile-edit .ps-select > svg:last-child { top: 34px; }
+.mypage-profile-edit .mypage-profile-bio { position: relative; min-height: 56px; padding: 18px 32px 0 13px; }
+.mypage-profile-edit .mypage-profile-bio .ps-field-label { left: 13px; }
+.mypage-profile-bio-text { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 15px; }
+.mypage-profile-edit .mypage-profile-public { min-height: 60px; margin-top: auto; padding: 6px 6px 6px 14px; }
+.mypage-profile-edit .mypage-profile-public .ps-toggle-text p { font-size: 15px; }
+.mypage-profile-edit .mypage-profile-public .ps-toggle-text small { display: block; font-size: 12px; }
+.mypage-profile-edit .mypage-profile-public:has([aria-checked=false]) .ps-toggle-text small { color: var(--mt-danger); font-weight: 700; }
+.mypage-profile-edit .mypage-profile > .mypage-profile-save { width: 100%; justify-content: center; min-height: 52px; font-size: 15px; }
+@media (max-height: 620px) {
+  .mypage-profile-edit .ps-select input, .mypage-profile-edit .ps-select select, .mypage-profile-edit .mypage-profile-bio { min-height: 50px; }
+  .mypage-profile-edit .ps-name input { min-height: 50px; }
+  .mypage-profile-edit .mypage-profile > .mypage-profile-save { min-height: 46px; }
+}
+/* B3：プロフィールが非公開なら、マイページの「編集」に赤い点 */
+.mystudy-edit-alert { position: relative; }
+.mystudy-edit-alert::after { content: ''; position: absolute; top: -3px; right: -3px; width: 12px; height: 12px; border-radius: 50%; background: var(--mt-danger, #d33); box-shadow: 0 0 0 2px #fff; }

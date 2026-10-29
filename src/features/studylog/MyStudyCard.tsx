@@ -30,8 +30,8 @@ function readProfile(uid: string) {
   try {
     const p = JSON.parse(safeLocalStorage()?.getItem(profileKey(uid)) || '{}');
     const s = (v: unknown) => (typeof v === 'string' ? v.trim() : '');
-    return { name: s(p.name), grade: normalizeGrade(s(p.grade)), school: s(p.targetSchool), motto: s(p.motto) };
-  } catch { return { name: '', grade: '', school: '', motto: '' }; }
+    return { name: s(p.name), grade: normalizeGrade(s(p.grade)), school: s(p.targetSchool), motto: s(p.motto), isPublic: p.profilePublic === true };
+  } catch { return { name: '', grade: '', school: '', motto: '', isPublic: false }; }
 }
 
 /** 表のマス用：「1時間24分」を2行に分けて入れる */
@@ -60,6 +60,7 @@ export function MyStudyCard({ onEdit }: { onEdit: () => void }) {
   const dayTotals = week.days.map((_, d) => week.rows.reduce((n, r) => n + r.seconds[d], 0));
   const peak = Math.max(1800, ...dayTotals);
   const title = progress ? equippedTitleLabel(progress) : '';
+  const notPublic = !!auth.currentUser && !profile.isPublic;
 
   return (
     <section className="mt-card mystudy" aria-label="今日の勉強記録" data-my-study>
@@ -73,7 +74,9 @@ export function MyStudyCard({ onEdit }: { onEdit: () => void }) {
           </p>
           {progress && <LevelBar xp={progress.xp} compact />}
         </div>
-        <button type="button" className="mt-btn mt-btn-secondary" onClick={onEdit} data-my-study-edit><Pencil size={15} aria-hidden="true" />編集</button>
+        {/* B3：ログインしていて非公開なら、赤い点で「公開できていない」と知らせる */}
+        <button type="button" className={`mt-btn mt-btn-secondary${notPublic ? ' mystudy-edit-alert' : ''}`} onClick={onEdit} data-my-study-edit data-not-public={notPublic || undefined}
+          aria-label={notPublic ? 'プロフィールを編集（まだ公開されていません）' : 'プロフィールを編集'}><Pencil size={15} aria-hidden="true" />編集</button>
       </div>
       {(profile.grade || profile.school || profile.motto) && <p className="mystudy-goal">
         {profile.grade && <span><GraduationCap size={14} aria-hidden="true" />{profile.grade}</span>}
