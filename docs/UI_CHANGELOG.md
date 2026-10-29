@@ -5,6 +5,25 @@
 
 ---
 
+## 2026-10-29 ご指摘B1〜B10：ミッション単独画面・プロフィール1画面・称号/持ちものタイル・カレンダーで7日比較・対戦レート ほか（PR: fix/mypage-b10）
+
+| # | 何を | どう変えた | ファイル |
+|---|---|---|---|
+| B1 | ミッション | それだけの画面に（マイページの見出し・5つのタブを出さない）。もどるは来た画面へ（ガチャから来たらガチャ） | `src/components/GrowthHub.tsx`・`src/App.tsx`・`growth-hub.css` |
+| B2 | マイページのカード | 「連続・解いた大問・バッジ・対戦」の行を削除、上を詰めて教材の表を広く | `src/features/studylog/MyStudyCard.tsx`・`studylog.css` |
+| B3 | プロフィールを編集 | 1画面に。項目名を枠の中に出して枠を大きく（56px）、連続/学習時間/バッジ（重複）を削除、公開と保存を下にそろえた。非公開ならマイページの「編集」に赤い点 | `src/components/MyProfileCard.tsx`・`MyStudyCard.tsx`・`growth-hub.css` |
+| B4 | 称号・もっているもの・マイPDF・ショップ | 小さなタイルの一覧に（押すと詳細の窓・装備/保存/購入は窓の中）。種類はアプリ風のチップ、所有状況は3つの切替（ネイティブの select をやめた）。称号は達成を色と「達成」の印でひと目で、つけている称号は太い枠 | `src/components/MyCollection.tsx`・`src/battle/ui/BattleProfileTabs.tsx`・`growth-hub.css` |
+| B5 | ガチャの目玉 | 光の帯・キラキラ・枠の光・絵がふわっと動く。下の余白にとびら君のひとこと（動きを減らす設定では止める） | `src/components/GachaRoom.tsx`・`gacha.css` |
+| B5 | とびらバトル／ランキングの切替 | ガチャの「装飾ガチャ／ショップ」と同じ形の共通部品にして、両画面で同じ位置・同じ並び（押されている方だけ変わる）。ランキング上の ← を削除 | `src/components/BattleRankSwitch.tsx`（新）・`battle-rank-switch.css`（新）・`Leaderboard.tsx`・`src/battle/ui/BattleHome.tsx` |
+| B6 | フレンド戦のレート | 結果画面からすぐ「部屋に戻る」を押すと、相手の申告を待つ処理が消えてレートが動かなかった。画面を閉じても裏で最大2分待って反映する | `src/battle/data/pendingRating.ts`（新）・`src/battle/hooks/useBattlePostMatch.ts` |
+| B7 | 全国対戦のボット戦 | レートが動く（サーバー関数 ghostMatch：1試合1回・1日30試合まで・K=16）。強さの幅を ±90 → ±320 に（近い相手が多い）。答える間を人間らしく（即答・長考・考えるテンポ） | `src/battle/core/aiOpponent.ts`・`src/battle/data/ghostRating.ts`（新）・`BattleAiRoomScreen.tsx`・`functions/index.mjs`・`functions/core.mjs`・`firestore.rules` |
+| B8 | カレンダー | 日付を押すと黒くなり、すぐ下のグラフに加わる（最大7日・もう一度押すと外す）。教科色の積み上げ棒＋合計・平均・最長 | `src/features/studylog/CalendarTab.tsx`・`studylog.css` |
+| B9 | タブ名 | 「記録」→「カレンダー」。5つのタブにアイコン | `src/components/GrowthHub.tsx`・`growth-hub.css` |
+| B10 | 7日のグラフ | 左右の矢印で前の週へ（最大12週前・前の週は日付と合計） | `MyStudyCard.tsx`・`studylog.css` |
+
+**戻し方**：B1・B2/B10・B3・B8/B9・B5（切替）・B5（ガチャ）・B6/B7・B4 は別コミットなので、その1コミットを revert すれば戻る。
+**B7 の反映**：サーバー関数とルールの反映（`firebase deploy --only functions:ghostMatch,firestore:rules`）が要る。反映前はボット戦の結果に「レートに反映されませんでした」と出るだけ（対戦はできる）。
+
 ## 2026-10-28 ご指摘10点：マイページ＝今日の勉強記録・記録はカレンダーだけ・ガチャをモンスト風に ほか（PR: fix/mypage-gacha-10）
 
 | # | 何を | どう変えた | ファイル |
