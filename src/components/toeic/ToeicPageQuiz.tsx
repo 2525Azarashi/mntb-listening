@@ -13,6 +13,7 @@
  * 共通の ProblemPane / AnswerPane / MultipleChoiceControl / QuizHeader は使わない（リスニング・英文法に影響させない）。
  */
 import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { useMountEffect } from '../../hooks/useMountEffect';
 import { ArrowLeft, Check, CheckCircle2, ChevronLeft, ChevronRight, FileText, ListChecks, MinusCircle, XCircle } from 'lucide-react';
 import type { Chapter, Problem, SubQuestion } from '../../types/curriculum';
 import type { ScoreBreakdown } from '../../utils/scoring';
@@ -117,8 +118,8 @@ export function ToeicPageQuiz({
   useEffect(() => { safeSetItem(quizStepKey(chapter.id, mode), String(safePage * QUESTIONS_PER_PAGE)); }, [safePage, chapter.id, mode]);
   useEffect(() => { safeSetItem(quizIndexKey(chapter.id, mode), String(currentQuestionIndex)); }, [currentQuestionIndex, chapter.id, mode]);
   // App 側の「解説表示中」は使わない（この画面の中で解説を開く）。開いた時に1回だけ伝える
-  // eslint-disable-next-line react-hooks/exhaustive-deps -- 親の関数は描画ごとに作り直されるので、マウント時の1回だけでよい
-  useEffect(() => { onExplanationChange?.(false); }, []);
+  //   親の関数は描画ごとに作り直されるので、マウント時の1回だけでよい（useMountEffect＝useEffect(fn, []) と同じ動き・R-23）
+  useMountEffect(() => { onExplanationChange?.(false); });
 
   // 時間：上には回の通し（現行の10分）を出す。ページの採点には「前の採点からの経過」を渡す
   const elapsedRef = useRef(0);
