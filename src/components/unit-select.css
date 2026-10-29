@@ -40,6 +40,8 @@
 .unit-card-questions button:hover { background: #fdf6e8; }
 /* C7：英文法の「回を選んで始める」見出し */
 .unit-card-pick-label { margin: 2px 4px 2px; font-size: 12px; font-weight: 800; color: var(--mt-ink-2); }
+.unit-round-done { flex-shrink: 0; padding: 2px 8px; border-radius: 999px; background: #e3f4e8; color: #1f6b3a; font: 800 12px/1.4 var(--mt-font-body); }
+.unit-card-questions button[data-cleared] { color: #2c3e50; }
 
 /* リスニングの「第N回演習」：12px以上・44px以上 */
 .chapter-route [data-listening-rounds] p { font-size: 12px !important; }

@@ -571,9 +571,8 @@ export function Explanation({ mode: initialMode, chapter, answers, onBack, onRet
         <ResultSummaryActions
           onOpenDetail={() => { setResultStep('detail'); setResultPage(firstWrongPage >= 0 ? firstWrongPage : 0); }}
           wrongCount={wrongCount}
-          // C7：最初の結果画面にも出口を3つ（詳しい結果の下と同じ文言）
           onNext={onNextChapter}
-          nextLabel={nextChapterTitle ? (/^第\d+回$/.test(nextChapterTitle) ? `次の回へ（${nextChapterTitle}）` : `次の単元へ`) : '次へ進む'}
+          nextLabel={nextChapterTitle ? (/^第\d+回$/.test(nextChapterTitle) ? `次の回へ（${nextChapterTitle}）` : `次の単元へ`) : undefined}
           onChapters={onBack}
           onHome={onHome}
         />

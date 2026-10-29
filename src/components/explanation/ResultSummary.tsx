@@ -109,7 +109,7 @@ export function ResultStage({ resultTotalJudgeable, resultTotalCorrect, studyRew
         const pose = judge > 0 && correct === judge ? 'trophy' : rate >= 0.6 ? 'happy' : rate > 0 ? 'cheering' : 'thinking';
         const line = judge > 0 && correct === judge ? '全問正解！この調子で次の回へ行こう！'
           : rate >= 0.6 ? 'いい感じ！まちがえた所だけ見直せば完ぺき！'
-          : rate > 0 ? 'ナイスチャレンジ！解説の黄色いところを確認しよう'
+          : rate > 0 ? 'ナイスチャレンジ！解説で「解くカギ」を確認しよう'
           : 'ここからが伸びしろ！詳しい結果で1問ずつ確かめよう';
         const coins = studyReward?.coins ?? 0;
         return (
@@ -132,14 +132,10 @@ export function ResultStage({ resultTotalJudgeable, resultTotalCorrect, studyRew
 }
 
 /**
- * ★結果（1画面目）の下のバー：主操作は「詳しい結果を確認する」1つだけ。親指の届く画面の下に置く★
+ * ★結果（1画面目）の下のバー★
+ * C7（2026-10-29 ご要望）：5問終わったら「次の回へ／単元選択に戻る／ホームに戻る」の3つをはっきり出す
+ * （続きからの時と同じ並び）。「詳しい結果を確認する」は消さずに、その下の控えめなボタンとして残す。
  * 元は2つの兄弟要素（下の余白 div とバー本体）だったので、Fragment で同じ並びのまま返す。
- */
-/**
- * 結果（1画面目）の下のバー。
- * C7（2026-10-29 ご指摘「5問終わっても次の問題へしかない。いつ終われるの？」）：
- *   詳しい結果の中にしか無かった「次の回へ／単元選択に戻る／ホームに戻る」を、
- *   結果を開いた最初の画面の下にも出す（詳しい結果の下と同じ並び・同じ見た目）。
  */
 export function ResultSummaryActions({ onOpenDetail, wrongCount, onNext, nextLabel, onChapters, onHome }: {
   onOpenDetail: () => void;
@@ -149,26 +145,27 @@ export function ResultSummaryActions({ onOpenDetail, wrongCount, onNext, nextLab
   onChapters?: () => void;
   onHome?: () => void;
 }) {
-  const hasExits = !!(onNext || onChapters || onHome);
+  const hasNav = !!(onNext || onChapters || onHome);
+  const detailLabel = `詳しい結果を確認する${wrongCount > 0 ? `（まちがい${wrongCount}問）` : ''}`;
   return (
     <>
-      <div className={`practice-bottom-spacer${hasExits ? ' is-exits' : ''}`} aria-hidden="true" />
-        <div className={`practice-bottom-bar${hasExits ? ' is-review' : ''}`} data-practice-summary-actions>
-          <button type="button" className="practice-detail-open" data-practice-open-detail
-            onClick={onOpenDetail}>
-            <ListOrdered size={18} aria-hidden="true" />詳しい結果を確認する{wrongCount > 0 ? `（まちがい${wrongCount}問）` : ''}
-          </button>
+      <div className={`practice-bottom-spacer${hasNav ? ' is-nav' : ''}`} aria-hidden="true" />
+        <div className={`practice-bottom-bar${hasNav ? ' is-nav' : ''}`} data-practice-summary-actions>
           {onNext && (
-            <button type="button" className="pbb-main" data-practice-next onClick={onNext}>
-              <ChevronRight size={17} aria-hidden="true" />{nextLabel || '次へ進む'}
+            <button type="button" className="practice-detail-open" data-practice-next onClick={onNext}>
+              {nextLabel ?? '次の回へ'}<ChevronRight size={18} aria-hidden="true" />
             </button>
           )}
           {(onChapters || onHome) && (
-            <div className="pbb-sub">
-              {onChapters && <button type="button" data-practice-chapters onClick={onChapters}><ListOrdered size={16} aria-hidden="true" />単元選択に戻る</button>}
-              {onHome && <button type="button" data-practice-home onClick={onHome}><Home size={16} aria-hidden="true" />ホームに戻る</button>}
+            <div className="practice-summary-nav">
+              {onChapters && <button type="button" className="practice-summary-sub" data-practice-chapters onClick={onChapters}><ChevronLeft size={16} aria-hidden="true" />単元選択に戻る</button>}
+              {onHome && <button type="button" className="practice-summary-sub" data-practice-home onClick={onHome}><Home size={16} aria-hidden="true" />ホームに戻る</button>}
             </div>
           )}
+          <button type="button" className={hasNav ? 'practice-summary-detail' : 'practice-detail-open'} data-practice-open-detail
+            onClick={onOpenDetail}>
+            <ListOrdered size={hasNav ? 16 : 18} aria-hidden="true" />{detailLabel}
+          </button>
         </div>
     </>
   );

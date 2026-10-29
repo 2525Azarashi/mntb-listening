@@ -120,9 +120,6 @@
 /* 下のバーは position:fixed（iOS Safari の sticky が途中で止まる不具合を避ける）。本文の最後にバーの高さぶんの余白を置く */
 .practice-bottom-spacer { flex-shrink: 0; height: calc(84px + env(safe-area-inset-bottom)); }
 .practice-bottom-spacer.is-review { height: calc(140px + env(safe-area-inset-bottom)); }
-/* C7：結果の最初の画面にも「詳しい結果・次の回へ・単元選択・ホーム」の4つを並べたとき */
-.practice-bottom-spacer.is-exits { height: calc(196px + env(safe-area-inset-bottom)); }
-.practice-bottom-bar.is-review .practice-detail-open { margin: 0; min-height: 44px; }
 /* 結果のステージ：とびらくん＋吹き出し＋ごほうび（カードと下のボタンの間の空きを埋める） */
 .practice-stage { position: relative; z-index: 10; flex: 1 0 auto; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; padding: 14px 16px 4px; min-height: 230px; }
 .practice-stage-bubble { position: relative; max-width: 320px; padding: 10px 16px; border-radius: 18px; background: #fff; border: 2px solid #f1d58a; color: #5b4300; font: 400 16px/1.55 var(--font-handwriting); text-align: center; box-shadow: 0 4px 12px #b26b0014; animation: stage-pop .45s cubic-bezier(.2,1.4,.4,1) both; }
@@ -137,3 +134,12 @@
 @keyframes stage-pop { from { opacity: 0; transform: scale(.8); } to { opacity: 1; transform: none; } }
 @media (prefers-reduced-motion: reduce) { .practice-stage-tobira, .practice-stage-bubble { animation: none; } }
 @media (max-height: 700px) { .practice-stage { min-height: 0; } .practice-stage-tobira { width: 100px; } }
+
+/* C7（2026-10-29）結果まとめの下：次の回へ／単元選択に戻る／ホームに戻る＋控えめな「詳しい結果」 */
+.practice-bottom-bar.is-nav { display: grid; gap: 8px; }
+.practice-bottom-bar.is-nav > * { max-width: 720px; width: 100%; margin-inline: auto; }
+.practice-summary-nav { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.practice-summary-sub { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; gap: 6px; border-radius: 12px; border: 2px solid #d8cdb5; background: #fff; color: #2c3e50; font-weight: 800; font-size: 14px; }
+.practice-summary-sub:active { transform: translateY(1px); }
+.practice-summary-detail { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; gap: 6px; border: 0; background: transparent; color: #5b6b7c; font-weight: 700; font-size: 13px; text-decoration: underline; text-underline-offset: 3px; }
+.practice-bottom-spacer.is-nav { height: calc(170px + env(safe-area-inset-bottom)); }
