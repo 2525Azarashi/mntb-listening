@@ -377,3 +377,8 @@
 /* B3：プロフィールが非公開なら、マイページの「編集」に赤い点 */
 .mystudy-edit-alert { position: relative; }
 .mystudy-edit-alert::after { content: ''; position: absolute; top: -3px; right: -3px; width: 12px; height: 12px; border-radius: 50%; background: var(--mt-danger, #d33); box-shadow: 0 0 0 2px #fff; }
+/* 2026-10-29 B9：マイページのタブにアイコン（文字だけより何のタブかわかりやすい）。低い画面ではアイコンを隠す */
+.mypage-tabs button { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px; line-height: 1.1; }
+.mypage-tabs button > svg { flex-shrink: 0; color: #8a6a2c; }
+.mypage-tabs [aria-current=page] > svg { color: #6b4a10; }
+@media (max-height: 680px) { .mypage-tabs button > svg { display: none; } }

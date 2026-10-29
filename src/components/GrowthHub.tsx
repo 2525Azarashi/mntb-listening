@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import { Store, Sparkles } from 'lucide-react';
+import { Store, Sparkles, UserRound, CalendarDays, Shirt, Award, FileText } from 'lucide-react';
 import { StudyRecord, type StudyRetry } from './StudyRecord';
 import { LevelRewards } from './LevelRewards';
 import { type MissionDestination } from '../battle/core/growth';
@@ -59,7 +59,7 @@ export function GrowthHub({ page, onPage, onBack, onBattle, onReview, onRanking,
   return <section className="mana-hub mypage-hub" data-mypage>
     <header className="mana-hub-header"><h1><KineticText text="マイページ" /></h1></header>
     {/* ショップはガチャ欄から入る独立画面。マイページには置かない。 */}
-    <nav className="mypage-tabs" aria-label="マイページメニュー">{([['overview','マイページ'],['log','記録'],['outfit','きせかえ'],['badges','称号'],['prints','マイPDF']] as const).map(([id,label]) => <button type="button" key={id} aria-current={activePage === id || (id === 'log' && activePage === 'log-new') || (id === 'overview' && activePage === 'profile-edit') ? 'page' : undefined} onClick={()=>openTab(id)}>{label}</button>)}</nav>
+    <nav className="mypage-tabs" aria-label="マイページメニュー">{/* B9：「記録」→「カレンダー」。中身（日付を押して比べる）がひと目でわかる名前とアイコン */}{([['overview','マイページ',UserRound],['log','カレンダー',CalendarDays],['outfit','きせかえ',Shirt],['badges','称号',Award],['prints','マイPDF',FileText]] as const).map(([id,label,Icon]) => <button type="button" key={id} data-tab={id} aria-current={activePage === id || (id === 'log' && activePage === 'log-new') || (id === 'overview' && activePage === 'profile-edit') ? 'page' : undefined} onClick={()=>openTab(id)}><Icon size={16} aria-hidden="true" /><span>{label}</span></button>)}</nav>
     <div className="mypage-body">
     {page === 'overview' ? <main className="mypage-overview" data-mypage-overview>
       {/* 2026-10-28 A1/A3：とびら君・Lv・コインのカードは「今日の勉強記録」カードにまとめた（別カードはなくした） */}
