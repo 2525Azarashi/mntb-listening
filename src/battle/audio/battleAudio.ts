@@ -32,6 +32,7 @@ import { playSample, preloadSamples } from './sfxSamples';
 import { BGM_FILES, bgmFileKeyOf, introDelaySec, introOffsetSec, pickBattleVariant, isBattleVariantKey, BATTLE_BGM_VARIANTS, type BattleBgmVariant, type BgmFileKey } from './bgmFiles';
 import { BATTLE_BGM_BUS_GAIN } from './bgmLoudness';
 import { sharedAudioContext } from './sharedAudioContext';
+import { reportError } from '../../utils/reportError';
 
 /** 効果音ファイルの再生音量（ファイルはピーク約 -1dB で作ってあるので下げて合成音と揃える） */
 const SAMPLE_GAIN = 0.5;
@@ -236,7 +237,7 @@ export class BattleAudioEngine {
           });
         })
         .catch((err) => {
-          console.error(`[battleAudio] ❌ BGMロード失敗: "${key}" (${spec.url}):`, err);
+          reportError(`[battleAudio] ❌ BGMロード失敗: "${key}" (${spec.url})`, err);
           this.fileBuffers.delete(key);
           return null;
         });
@@ -274,7 +275,7 @@ export class BattleAudioEngine {
         this.fileKey = null;
         return;
       }
-      console.log(`[battleAudio] 🎵 BGMファイル "${key}" (${spec.url}) 再生開始`);
+      if (import.meta.env.DEV) console.log(`[battleAudio] 🎵 BGMファイル "${key}" (${spec.url}) 再生開始`);
       // 読み込みにかかった時間ぶん、カウントダウンは進んでいる
       const waited = (typeof performance !== 'undefined' ? performance.now() : Date.now()) - requestedAt;
       const remainMs = startInMs == null ? null : startInMs - waited;

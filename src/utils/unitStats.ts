@@ -15,12 +15,13 @@
  * 壊れた値は読み飛ばす（学習を止めない）。
  */
 import { isPlainObject, safeLocalStorage, safeParseJson } from './safeLocalStorage';
+import { perUserKey } from './userStorageKeys';
 
 export const UNIT_STATS_PREFIX = 'unit_stats_v1_';
 export interface UnitStat { c: number; j: number; t: number }
 export type UnitStatsMap = Record<string, UnitStat>;
 
-const keyOf = (uid: string | null | undefined) => UNIT_STATS_PREFIX + encodeURIComponent(uid || 'guest');
+const keyOf = (uid: string | null | undefined) => perUserKey(UNIT_STATS_PREFIX, uid);
 const isStat = (v: unknown): v is UnitStat => {
   if (!v || typeof v !== 'object') return false;
   const s = v as Record<string, unknown>;
