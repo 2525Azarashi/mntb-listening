@@ -345,3 +345,6 @@
 .mypage-body > .slog { flex: 1; min-height: 0; }
 .mypage-profile-edit .profile-standalone-head { margin: 0 0 6px; }
 .mypage-profile-edit .profile-standalone-head button { font: 800 18px/1 var(--mt-font-body); }
+/* 2026-10-28 B1：ミッションはそれだけの画面（マイページの見出し・タブは出さない）。マナラッシュと同じ作り */
+.mana-hub-missions { display: flex; flex-direction: column; height: 100%; }
+.mana-hub-missions > .mypage-extra-scroll { flex: 1; min-height: 0; overflow-y: auto; }

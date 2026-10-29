@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { Store, Sparkles } from 'lucide-react';
 import { StudyRecord, type StudyRetry } from './StudyRecord';
 import { LevelRewards } from './LevelRewards';
@@ -40,6 +40,12 @@ export function GrowthHub({ page, onPage, onBack, onBattle, onReview, onRanking,
     else (onBattle ?? onBack)();
   };
   const openTab = (id: GrowthPage) => { if (id === 'outfit') setOutfitKind('all'); onPage(id); };
+  // ミッションへ来る前の画面（ガチャの「コインをためる」から来たらガチャへ戻す。ホームから来たらホームへ）
+  const cameFrom = useRef<GrowthPage | null>(null);
+  if (activePage !== 'missions') cameFrom.current = activePage;
+  const leaveMissions = () => { const from = cameFrom.current; if (from === 'gacha' || from === 'gacha-shop') onPage(from); else onBack(); };
+  // ★2026-10-28 B1：ミッションもマイページの中ではなく、それだけの画面にする（上の「マイページ」見出し・5つのタブは出さない）★
+  if (activePage === 'missions') return <section className="mana-hub mana-hub-missions" data-missions-page><div className="mypage-extra-scroll"><BattleMissions key={uid} standalone onBack={leaveMissions} onBattle={onBattle} onReview={onReview} onShop={()=>onPage('gacha-shop')} onRush={()=>onPage('rush')} extra={progress ? <LevelRewards progress={progress} /> : null} onGo={goMission}/></div></section>;
   // ★マナラッシュはマイページの中ではなく、それだけの画面にする（2026-10-04 ご要望）★
   if (activePage === 'rush') return <section className="mana-hub mana-hub-rush" data-rush-page><div className="mypage-extra-scroll"><ManaRush onBack={onBack} defaultSubject={defaultSubject}/></div></section>;
   // ★ガチャ・マイページは下のナビから入るので「← ホーム」は置かない（2026-10-05）★
@@ -66,7 +72,6 @@ export function GrowthHub({ page, onPage, onBack, onBattle, onReview, onRanking,
     </main>
     : activePage === 'log' || activePage === 'log-new' ? <StudyLogPage key={`${uid}:log`} />
     : activePage === 'stats' ? <div className="mypage-extra-scroll"><StudyRecord embedded onReview={onReview} onRetry={onRetry}/></div>
-    : activePage === 'missions' ? <div className="mypage-extra-scroll"><BattleMissions key={uid} standalone onBack={()=>onPage('overview')} onBattle={onBattle} onReview={onReview} onShop={()=>onPage('gacha-shop')} onRush={()=>onPage('rush')} extra={progress ? <LevelRewards progress={progress} /> : null} onGo={goMission}/></div>
     : <div className="mypage-extra-scroll"><BattleProfile key={`${uid}:${activePage}`} standalone initialTab={activePage as 'outfit' | 'badges' | 'stats'} onBack={()=>onPage('overview')}/></div>}
     </div>
   </section>;
