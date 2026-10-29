@@ -67,6 +67,12 @@ export interface SubjectDefinition {
    * 書いた科目だけカードが出る（まとめプリントを持たない科目は書かない）。
    */
   learningDescription?: string;
+  /**
+   * false にすると、先生用のクラス作成の教科一覧に出さない（2026-10-28 TOEIC）。
+   * Firestore ルールがクラスの教科を固定の一覧で検査しているため、ルールに無い教科は保存できない。
+   * 省略は true（従来どおり出す）。
+   */
+  classroom?: boolean;
   theme: SubjectTheme;
   reviewStyle: ReviewSubjectStyle;
 }
@@ -128,6 +134,38 @@ export const SUBJECT_REGISTRY = [
       borderClass: 'border-[#EFD3B4]',
       activeClass: 'bg-[#C77B3C] text-white border-[#C77B3C]',
       stripeClass: 'bg-[#C77B3C]',
+    },
+  },
+  {
+    // 2026-10-28 TOEIC L&R Part 5（短文穴埋め）。1回30問×15回。章IDは tp5_1
+    id: 'toeic_part5',
+    label: 'TOEIC Part 5',
+    shortLabel: 'TOEIC',
+    enabled: true,
+    chapterIdPattern: /^tp5_\d+$/,
+    entry: 'chapters',
+    // Firestore ルール（classrooms.subject）に無いので、クラス作成の一覧には出さない
+    classroom: false,
+    practiceDescription: 'TOEIC L&R Part 5（短文穴埋め）を1回30問ずつ解きます。全問に和訳と選択肢ごとの理由がつきます。',
+    // リスニング（ミント）・英文法（琥珀）と見違えないよう、藍色
+    theme: {
+      label: 'TOEIC Part 5',
+      accent: '#3D5A99',
+      accentSoft: '#C3CFEA',
+      surface: '#F5F7FC',
+      bubbleBorderClass: 'border-[#C3CFEA]/80',
+      bubbleBgClass: 'bg-[#F8FAFE]/95',
+      bubbleShadow: '0 10px 24px -14px rgba(61,90,153,0.55)',
+      chipTextClass: 'text-[#2F4A82]',
+      chipBgClass: 'bg-[#C3CFEA]/35',
+      progressBarClass: 'bg-[#5B78B8]',
+    },
+    reviewStyle: {
+      textClass: 'text-[#2F4A82]',
+      bgClass: 'bg-[#C3CFEA]/25',
+      borderClass: 'border-[#C3CFEA]',
+      activeClass: 'bg-[#3D5A99] text-white border-[#3D5A99]',
+      stripeClass: 'bg-[#3D5A99]',
     },
   },
 ] as const satisfies readonly SubjectDefinition[];

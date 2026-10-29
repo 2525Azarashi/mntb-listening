@@ -51,6 +51,10 @@ export interface SubQuestion {
   optionTexts?: string[];
   /** 選択肢が図そのもののときの画像パス（options と同じ並び） */
   optionImages?: string[];
+  /** 分野（TOEIC Part 5 など）。あれば結果画面の分野別正答率をこの単位で数える */
+  skill?: string;
+  /** 場面（TOEIC Part 5 の出題の偏りチェック用。画面には出さない） */
+  scene?: string;
   /** 完答グループ。同じ値の小問が全部正解のときだけ正解として数える */
   allOrNothingGroup?: string;
   examPoints?: number;

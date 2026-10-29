@@ -18,7 +18,7 @@ export type StudyAction =
   | { kind: 'vocabQuiz' }                         // 英単語の4択演習（2026-10-01）
   | { kind: 'reading' };                         // 英文解釈（内容一致の4択）2026-10-21
 
-export type StudyIcon = 'headphones' | 'pen' | 'letters' | 'book' | 'flask' | 'sigma' | 'globe';
+export type StudyIcon = 'headphones' | 'pen' | 'letters' | 'book' | 'flask' | 'sigma' | 'globe' | 'briefcase';
 
 export interface StudyContent {
   id: string;
@@ -34,9 +34,10 @@ export interface StudyContent {
    * 並べる場所（2026-10-01 夜）。
    *   'practice' … 問題を解くもの（リスニング・英文法・英単語の4択）。単元と同じ列に並べる
    *   'memorize' … 覚えるための暗記帳（英単語帳）。問題とは混ぜず、最初から別の枠に置く
+   *   'spotlight' … とびら君の吹き出しの右に置く小さな入口（2026-10-28 TOEIC）。カードの列には並べない
    * 省略は 'practice'。
    */
-  section?: 'practice' | 'memorize';
+  section?: 'practice' | 'memorize' | 'spotlight';
   /** 進捗の集計に使う科目ID（単元一覧を持つコンテンツだけ） */
   progressSubject?: string;
   /** タイトル横の小さな札（例：'NEW'）。「前回」のほうが優先 */
@@ -55,6 +56,7 @@ export interface StudySubject {
 
 const listening = getSubjectStats('english_listening');
 const grammar = getSubjectStats('english_grammar');
+const toeic = getSubjectStats('toeic_part5');
 
 export const STUDY_CATALOG: readonly StudySubject[] = [
   {
@@ -98,6 +100,14 @@ export const STUDY_CATALOG: readonly StudySubject[] = [
         description: '100語ずつめくって覚える。意味・英語を隠せる',
         meta: `${VOCABULARY_COUNT.toLocaleString()}語・レベル別`,
         action: { kind: 'foundation', tab: 'words' },
+      },
+      {
+        // 2026-10-28：TOEIC L&R Part 5（短文穴埋め・1回30問）。とびら君の吹き出しの右に置く（カードの列は動かさない）
+        id: 'english_toeic', title: 'TOEIC', icon: 'briefcase', badge: 'NEW', section: 'spotlight',
+        description: 'Part 5 短文穴埋め',
+        meta: `全${toeic.questions ?? 0}回・各30問`,
+        progressSubject: 'toeic_part5',
+        action: { kind: 'units', subject: 'toeic_part5' },
       },
     ],
   },
