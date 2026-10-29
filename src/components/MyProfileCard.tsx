@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { BookOpen, Check, ChevronDown, Clock, Compass, Eye, Flame, GraduationCap, Pencil, Save, School } from 'lucide-react';
+import { Check, ChevronDown, Compass, Eye, GraduationCap, Pencil, Save, School } from 'lucide-react';
 import { auth } from '../firebase';
 import { MOTTO_MAX, normalizeMotto, parsePublicStudyProfile, readOwnPublicStudyProfile, savePublicStudyProfile } from '../utils/publicStudyProfile';
 import { BIO_MAX, GRADE_OPTIONS, normalizeBio, normalizeGrade, buildWeek, dayKey } from '../utils/publicProfileCore';
@@ -8,13 +8,11 @@ import { collectProfileStats } from '../features/profile/profileStats';
 import { PublicProfileView } from '../features/profile/PublicProfileView';
 import { syncRankingNickname } from '../utils/leaderboard';
 import { ensureFriendProfile } from '../utils/friends';
-import { profileKey, streakKey, completedKey } from '../utils/userStorageKeys';
+import { profileKey } from '../utils/userStorageKeys';
 import { checkNickname, checkPublicText, NICKNAME_MAX } from '../features/safety/nicknameFilter';
-import { BADGES } from '../battle/core/growth';
-import { useGrowthProgress } from '../hooks/useGrowthProgress';
-import { readStudyTime, formatStudyTime } from '../utils/studyTime';
+import { readStudyTime } from '../utils/studyTime';
 import { GOAL_OPTIONS, TARGET_SCHOOL_MAX, normalizeTargetSchool, readGoal, writeGoal, type GoalId } from '../utils/vocabGoal';
-import { readJsonArray, requireLocalStorage, setItemOrThrow } from '../utils/safeLocalStorage';
+import { requireLocalStorage, setItemOrThrow } from '../utils/safeLocalStorage';
 import { logRejection } from '../utils/reportError';
 import './profile-settings.css';
 
@@ -25,10 +23,8 @@ import './profile-settings.css';
  *   スマホでも1画面に収めるため、公開トグルの長い説明文は省いた（公開の仕組みはランキング画面の「について」に記載）。
  */
 export function MyProfileCard() {
-  const { progress: growth } = useGrowthProgress();
   const uid = auth.currentUser?.uid || 'guest';
   const [studySeconds] = useState(() => readStudyTime(uid).total);
-  const earnedBadges = BADGES.filter(b => b.id in growth.badges);
   const [name, setName] = useState('');
   const [grade, setGrade] = useState('');
   const [stream, setStream] = useState('science');
@@ -42,8 +38,6 @@ export function MyProfileCard() {
   const [wasPublic, setWasPublic] = useState(false);
   const [publicationReady, setPublicationReady] = useState(!auth.currentUser);
   const [message, setMessage] = useState<{ text: string; error?: boolean } | null>(null);
-  const [streak, setStreak] = useState(0);
-  const [completedCount, setCompletedCount] = useState(0);
   const [saving, setSaving] = useState(false);
   const [dirty, setDirty] = useState(false);
 
@@ -69,8 +63,6 @@ export function MyProfileCard() {
         setName(auth.currentUser?.displayName || (auth.currentUser ? 'ユーザー' : 'ゲスト'));
         setGrade('高校生');
       }
-      setStreak(parseInt(ls.getItem(streakKey(uid)) || '0', 10));
-      setCompletedCount(readJsonArray(completedKey(uid)).length);
     } catch (error) { console.error('プロフィール取得エラー:', error); }
   }, [uid]);
 
@@ -120,29 +112,16 @@ export function MyProfileCard() {
   };
 
   return <section className="ps-card mt-card mypage-profile" aria-label="プロフィール" data-mypage-profile>
-    <div className="mypage-profile-top">
+    <div className="mypage-profile-top ps-fields">
       <label className="ps-name">
-        <span className="sr-only">ニックネーム</span>
+        <span className="ps-field-label">名前</span>
         <input value={name} maxLength={NICKNAME_MAX} onChange={e => edit(setName)(e.target.value)} placeholder="ニックネーム" aria-invalid={!!name.trim() && !nameCheck.ok} aria-describedby={name.trim() && !nameCheck.ok ? 'nickname-help' : undefined} />
         <Pencil size={16} aria-hidden="true" />
       </label>
-      <button type="button" className="mypage-profile-save" onClick={() => void save()} disabled={saving || !dirty || !nameCheck.ok || !schoolCheck.ok || !mottoCheck.ok || !bioCheck.ok} data-mypage-save>
-        {message && !message.error && !dirty ? <Check size={16} aria-hidden="true" /> : <Save size={16} aria-hidden="true" />}{saving ? '保存中…' : message && !message.error && !dirty ? '保存済み' : '保存'}
-      </button>
     </div>
     {name.trim() && !nameCheck.ok && <p id="nickname-help" role="alert" className="ps-help" data-error>{nameCheck.message}</p>}
-    <dl className="ps-stats">
-      <div><dt><Flame size={15} aria-hidden="true" />連続</dt><dd>{streak}<small>日</small></dd></div>
-      <div><dt><Clock size={15} aria-hidden="true" />学習時間</dt><dd>{formatStudyTime(studySeconds)}</dd></div>
-      <div><dt><BookOpen size={15} aria-hidden="true" />修了</dt><dd>{completedCount}<small>章</small></dd></div>
-    </dl>
-    <div className="ps-badges" aria-label={`獲得バッジ ${earnedBadges.length}個`}>
-      <span>バッジ {earnedBadges.length}/{BADGES.length}</span>
-      {earnedBadges.length === 0 ? <small>対戦や復習で集まります</small> : earnedBadges.slice(0, 3).map(b => <i key={b.id} title={b.desc}>{b.label}</i>)}
-      {earnedBadges.length > 3 && <small>ほか{earnedBadges.length - 3}個</small>}
-    </div>
     <div className="ps-fields">
-      <label className="ps-select"><GraduationCap size={15} aria-hidden="true" /><span className="sr-only">学年</span>
+      <label className="ps-select"><GraduationCap size={15} aria-hidden="true" /><span className="ps-field-label">学年</span>
         {/* 公開するので自由入力をやめ、決まった選択肢から選ぶ（2026-10-26） */}
         <select value={publicGrade || (grade.trim() ? grade : '')} onChange={e => edit(setGrade)(e.target.value)}>
           {/* 以前の自由入力の値（例：高校生）は選択肢に残して消さない。公開ページには載せない */}
@@ -150,32 +129,32 @@ export function MyProfileCard() {
           {GRADE_OPTIONS.map(g => <option key={g || 'none'} value={g}>{g || '学年（選ぶ）'}</option>)}
         </select><ChevronDown size={16} aria-hidden="true" />
       </label>
-      <label className="ps-select"><Compass size={15} aria-hidden="true" /><span className="sr-only">文理</span>
+      <label className="ps-select"><Compass size={15} aria-hidden="true" /><span className="ps-field-label">文理</span>
         <select value={stream} onChange={e => edit(setStream)(e.target.value)}>
           <option value="science">理系</option><option value="humanities">文系</option><option value="other">その他</option>
         </select><ChevronDown size={16} aria-hidden="true" />
       </label>
-      <label className="ps-select" data-target-school><School size={15} aria-hidden="true" /><span className="sr-only">志望校</span>
+      <label className="ps-select" data-target-school><School size={15} aria-hidden="true" /><span className="ps-field-label">志望校</span>
         <input value={targetSchool} maxLength={TARGET_SCHOOL_MAX} onChange={e => edit(setTargetSchool)(e.target.value)} placeholder="志望校" aria-invalid={!schoolCheck.ok || undefined} /><Pencil size={15} aria-hidden="true" />
       </label>
-      <label className="ps-select" data-target-goal><GraduationCap size={15} aria-hidden="true" /><span className="sr-only">目標レベル（単語帳の範囲）</span>
+      <label className="ps-select" data-target-goal><GraduationCap size={15} aria-hidden="true" /><span className="ps-field-label" aria-label="目標レベル（単語帳の範囲）">目標</span>
         <select value={goal} onChange={e => edit(setGoal)(e.target.value as GoalId)}>
           {GOAL_OPTIONS.map(o => <option key={o.id} value={o.id}>{o.label}</option>)}
         </select><ChevronDown size={16} aria-hidden="true" />
       </label>
-      <label className="ps-select" data-motto><Compass size={15} aria-hidden="true" /><span className="sr-only">志（ひとこと）</span>
+      <label className="ps-select" data-motto><Compass size={15} aria-hidden="true" /><span className="ps-field-label" aria-label="志（ひとこと）">志</span>
         <input value={motto} maxLength={MOTTO_MAX} onChange={e => edit(setMotto)(e.target.value)} placeholder="志（例：医者になって地元を支える）" aria-invalid={!mottoCheck.ok || undefined} /><Pencil size={15} aria-hidden="true" />
       </label>
       {/* 自己紹介：入力欄と同じ見た目のボタン。押すと既存と同じ窓で書く（マイページを1画面のまま保つ） */}
       <button type="button" className="ps-select mypage-profile-bio" onClick={() => setShowBio(true)} data-profile-bio aria-invalid={!bioCheck.ok || undefined}>
-        <Pencil size={15} aria-hidden="true" /><span>{bio.trim() ? bio.trim().split('\n')[0] : '自己紹介（任意）'}</span><ChevronDown size={16} aria-hidden="true" />
+        <span className="ps-field-label">自己紹介</span><span className="mypage-profile-bio-text">{bio.trim() ? bio.trim().split('\n')[0] : '書く（任意）'}</span><ChevronDown size={16} aria-hidden="true" />
       </button>
     </div>
     {!schoolCheck.ok && <p role="alert" className="ps-help" data-error>{schoolCheck.message?.replace('名前', '志望校')}</p>}
     {!mottoCheck.ok && <p role="alert" className="ps-help" data-error>{mottoCheck.message?.replace('名前', '志')}</p>}
     {!bioCheck.ok && <p role="alert" className="ps-help" data-error>{bioCheck.message?.replace('名前', '自己紹介')}</p>}
     <div className="ps-toggle-row mypage-profile-public">
-      <div className="ps-toggle-text"><p>プロフィールを公開</p></div>
+      <div className="ps-toggle-text"><p>プロフィールを公開</p><small>{profilePublic ? 'ほかの人に見えます' : 'いまは非公開です'}</small></div>
       <button type="button" role="switch" aria-checked={profilePublic} aria-label="プロフィールを公開（名前・学年・志望校・志・自己紹介・学習の記録を他の人に表示）" className="ps-switch"
         onClick={() => { if (auth.currentUser && publicationReady) { setProfilePublic(p => !p); setDirty(true); setMessage(null); } else setMessage({ text: 'Googleログインと公開設定の確認が必要です。', error: true }); }}><span /></button>
       {/* 公開の行に並べる（マイページを1画面に収めたまま、見え方を確かめられる） */}
@@ -183,6 +162,9 @@ export function MyProfileCard() {
         <Eye size={16} aria-hidden="true" />見え方
       </button>
     </div>
+    <button type="button" className="mypage-profile-save" onClick={() => void save()} disabled={saving || !dirty || !nameCheck.ok || !schoolCheck.ok || !mottoCheck.ok || !bioCheck.ok} data-mypage-save>
+        {message && !message.error && !dirty ? <Check size={16} aria-hidden="true" /> : <Save size={16} aria-hidden="true" />}{saving ? '保存中…' : message && !message.error && !dirty ? '保存済み' : '保存'}
+      </button>
     {message && <p className="ps-help" role={message.error ? 'alert' : 'status'} data-error={message.error || undefined}>{message.text}</p>}
     {showBio && <BioDialog value={bio} onChange={v => edit(setBio)(v)} error={bioCheck.ok ? '' : (bioCheck.message || '').replace('名前', '自己紹介')} onClose={() => setShowBio(false)} />}
     {showPreview && <PreviewDialog onClose={() => setShowPreview(false)} profilePublic={profilePublic}

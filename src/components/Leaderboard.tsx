@@ -12,6 +12,7 @@ import { useWithoutBlocked } from '../features/safety/useBlockedFilter';
 import { UserSafetyMenu } from '../features/safety/UserSafetyMenu';
 import { ManaClan } from './ManaClan';
 import { ListSkeleton } from './ui';
+import { BattleRankSwitch } from './BattleRankSwitch';
 import { ComingSoon } from './ComingSoon';
 import { SOCIAL_FEATURES } from '../config/features';
 import { clanCall } from '../utils/manaClan';
@@ -87,8 +88,10 @@ export function Leaderboard({ onBack, onBattle, onGacha, initialTab = 'national'
   const end = fmtDay(season.end);
   const myJoin = SEASON_REWARDS.participation[league.id as LeagueId];
   return <section className="league-hall" data-rating-ranking>
-    <header className="league-header"><button type="button" onClick={onBack} aria-label="ホームへ戻る"><ArrowLeft size={20}/></button><div><h1><Trophy size={23}/>ランキング</h1></div><button type="button" onClick={() => setRetry(n => n + 1)} disabled={loading} aria-label="ランキングを再読み込み"><RefreshCw size={19}/></button></header>
-    {onBattle && <nav className="league-top-switch" aria-label="対戦とランキングの切替">{/* 2026-10-28 A6：対戦画面と同じ並び（左＝とびらバトル・右＝ランキング）に固定 */}<button type="button" onClick={onBattle}><Swords size={18}/>とびらバトル</button><button type="button" aria-current="page"><Trophy size={18}/>ランキング</button></nav>}
+    {/* 2026-10-29 B5：対戦から来たときは、ガチャと同じ形の切替（対戦画面と同じ部品・同じ位置）。上の ← は置かない */}
+    {onBattle
+      ? <BattleRankSwitch current="ranking" onBattle={onBattle} side={<button type="button" onClick={() => setRetry(n => n + 1)} disabled={loading} aria-label="ランキングを再読み込み"><RefreshCw size={19}/></button>} />
+      : <header className="league-header"><button type="button" onClick={onBack} aria-label="ホームへ戻る"><ArrowLeft size={20}/></button><div><h1><Trophy size={23}/>ランキング</h1></div><button type="button" onClick={() => setRetry(n => n + 1)} disabled={loading} aria-label="ランキングを再読み込み"><RefreshCw size={19}/></button></header>}
     {onGacha && <nav className="league-actions" aria-label="ガチャとランキング"><button type="button" onClick={onGacha}><Gift size={18}/>ガチャ</button><button type="button" aria-current="page"><Trophy size={18}/>ランキング</button></nav>}
     {/* ★2026-10-11★ 上：何で競うか（対戦レート／学習時間）、下：だれと（全国／フレンド／マナクラン）。どちらも低く・一覧を広く */}
     <div className="league-metric mt-segment" role="tablist" aria-label="ランキングの種目">

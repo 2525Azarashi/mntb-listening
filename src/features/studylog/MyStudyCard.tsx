@@ -6,17 +6,16 @@
  *   ボタンは「学習を記録」だけ。カレンダーは上の「記録」タブ。数字は端末の実際の記録から計算する（ダミーは出さない）。
  */
 import { useEffect, useMemo, useState } from 'react';
-import { BookOpen, Coins, Flame, GraduationCap, Medal, Pencil, Plus, School, Swords } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Coins, GraduationCap, Pencil, Plus, School } from 'lucide-react';
 import { auth } from '../../firebase';
-import { BADGES, equippedTitleLabel } from '../../battle/core/growth';
+import { equippedTitleLabel } from '../../battle/core/growth';
 import { GrowthAvatar, LevelBar } from '../../battle/ui/GrowthParts';
 import { useGrowthProgress } from '../../hooks/useGrowthProgress';
-import { readSolvedMap } from '../../utils/progress';
 import { readStudyTime } from '../../utils/studyTime';
 import { profileKey } from '../../utils/userStorageKeys';
 import { safeLocalStorage } from '../../utils/safeLocalStorage';
 import { normalizeGrade } from '../../utils/publicProfileCore';
-import { currentStreak, summarize, weekByMaterial } from './manualLogCore';
+import { dayOf, summarize, weekByMaterial } from './manualLogCore';
 import { useManualLog } from './manualLogStore';
 import { RecordDialog } from './RecordDialog';
 import { fmtSec } from './ui';
@@ -25,13 +24,14 @@ import './studylog.css';
 /** 教材ごとの色（棒と表の点で同じ色）。アプリ内の時間はいつも青 */
 const PALETTE = ['#e8a33d', '#4f9d69', '#d9644a', '#7a6bc4', '#3f8fc0', '#c2577d', '#8a6d3b', '#5aa6a0'];
 const WD = ['日', '月', '火', '水', '木', '金', '土'];
+const fmtShort = (d: string) => { const t = new Date(`${d}T12:00:00`); return `${t.getMonth() + 1}/${t.getDate()}`; };
 
 function readProfile(uid: string) {
   try {
     const p = JSON.parse(safeLocalStorage()?.getItem(profileKey(uid)) || '{}');
     const s = (v: unknown) => (typeof v === 'string' ? v.trim() : '');
-    return { name: s(p.name), grade: normalizeGrade(s(p.grade)), school: s(p.targetSchool), motto: s(p.motto) };
-  } catch { return { name: '', grade: '', school: '', motto: '' }; }
+    return { name: s(p.name), grade: normalizeGrade(s(p.grade)), school: s(p.targetSchool), motto: s(p.motto), isPublic: p.profilePublic === true };
+  } catch { return { name: '', grade: '', school: '', motto: '', isPublic: false }; }
 }
 
 /** 表のマス用：「1時間24分」を2行に分けて入れる */
@@ -46,22 +46,21 @@ export function MyStudyCard({ onEdit }: { onEdit: () => void }) {
   const [store, uid] = useManualLog();
   const { progress } = useGrowthProgress();
   const [recording, setRecording] = useState(false);
+  /** B10：0＝この7日、-1＝その前の7日 …（最大12週前まで） */
+  const [weekOffset, setWeekOffset] = useState(0);
   const [toast, setToast] = useState('');
   useEffect(() => { if (!toast) return; const t = setTimeout(() => setToast(''), 2600); return () => clearTimeout(t); }, [toast]);
   const profile = useMemo(() => readProfile(uid), [uid]);
   const app = useMemo(() => readStudyTime(uid), [uid, store]);
   const sum = useMemo(() => summarize(store, app), [store, app]);
-  const week = useMemo(() => weekByMaterial(store, app), [store, app]);
-  const streak = currentStreak(sum.activeDays);
-  const solved = useMemo(() => Object.keys(readSolvedMap(uid)).length, [uid]);
-  const badges = progress ? BADGES.filter(b => b.id in progress.badges).length : null;
-  const matches = progress?.matches ?? 0;
-  const winRate = matches > 0 ? Math.round(((progress?.wins ?? 0) / matches) * 100) : null;
+  const week = useMemo(() => weekByMaterial(store, app, Date.now() + weekOffset * 7 * 86_400_000), [store, app, weekOffset]);
+  const today = dayOf(Date.now());
   const name = profile.name || auth.currentUser?.displayName || (auth.currentUser ? 'なまえ未設定' : 'ゲスト');
   const color = (i: number, key: string) => (key === 'app' ? 'var(--mt-brand)' : PALETTE[i % PALETTE.length]);
   const dayTotals = week.days.map((_, d) => week.rows.reduce((n, r) => n + r.seconds[d], 0));
   const peak = Math.max(1800, ...dayTotals);
   const title = progress ? equippedTitleLabel(progress) : '';
+  const notPublic = !!auth.currentUser && !profile.isPublic;
 
   return (
     <section className="mt-card mystudy" aria-label="今日の勉強記録" data-my-study>
@@ -75,7 +74,9 @@ export function MyStudyCard({ onEdit }: { onEdit: () => void }) {
           </p>
           {progress && <LevelBar xp={progress.xp} compact />}
         </div>
-        <button type="button" className="mt-btn mt-btn-secondary" onClick={onEdit} data-my-study-edit><Pencil size={15} aria-hidden="true" />編集</button>
+        {/* B3：ログインしていて非公開なら、赤い点で「公開できていない」と知らせる */}
+        <button type="button" className={`mt-btn mt-btn-secondary${notPublic ? ' mystudy-edit-alert' : ''}`} onClick={onEdit} data-my-study-edit data-not-public={notPublic || undefined}
+          aria-label={notPublic ? 'プロフィールを編集（まだ公開されていません）' : 'プロフィールを編集'}><Pencil size={15} aria-hidden="true" />編集</button>
       </div>
       {(profile.grade || profile.school || profile.motto) && <p className="mystudy-goal">
         {profile.grade && <span><GraduationCap size={14} aria-hidden="true" />{profile.grade}</span>}
@@ -88,18 +89,19 @@ export function MyStudyCard({ onEdit }: { onEdit: () => void }) {
         <div><dt>今月</dt><dd>{fmtSec(sum.month.total)}</dd></div>
         <div><dt>累計</dt><dd>{fmtSec(sum.all.total)}</dd></div>
       </dl>
-      <p className="mystudy-meta">
-        <span><Flame size={14} aria-hidden="true" />連続 {streak}日</span>
-        <span><BookOpen size={14} aria-hidden="true" />解いた大問 {solved}</span>
-        {badges != null && <span><Medal size={14} aria-hidden="true" />バッジ {badges}/{BADGES.length}</span>}
-        {progress && <span><Swords size={14} aria-hidden="true" />対戦 {matches}戦{matches > 0 ? ` ${progress.wins}勝${progress.losses}敗（勝率${winRate}%）` : ''}</span>}
-      </p>
       <button type="button" className="mt-btn mt-btn-primary mystudy-record" onClick={() => setRecording(true)} data-my-study-record><Plus size={16} aria-hidden="true" />学習を記録</button>
 
       <section className="mystudy-week" aria-labelledby="mystudy-week-title" data-my-study-week>
-        <h3 id="mystudy-week-title" className="mystudy-week-title">この7日の勉強時間<small>教材ごと・今日は枠つき</small></h3>
+        <div className="mystudy-week-head">
+          <button type="button" className="mystudy-week-nav" onClick={() => setWeekOffset(o => Math.max(-12, o - 1))} disabled={weekOffset <= -12} aria-label="前の7日を見る" data-week-prev><ChevronLeft size={18} aria-hidden="true" /></button>
+          <h3 id="mystudy-week-title" className="mystudy-week-title" aria-live="polite">
+            {weekOffset === 0 ? 'この7日の勉強時間' : `${fmtShort(week.days[0])}〜${fmtShort(week.days[6])}`}
+            <small>{weekOffset === 0 ? '今日は枠つき' : `合計 ${fmtSec(dayTotals.reduce((a, b) => a + b, 0))}`}</small>
+          </h3>
+          <button type="button" className="mystudy-week-nav" onClick={() => setWeekOffset(o => Math.min(0, o + 1))} disabled={weekOffset >= 0} aria-label="次の7日を見る" data-week-next><ChevronRight size={18} aria-hidden="true" /></button>
+        </div>
         <ol className="mystudy-bars" aria-hidden="true">
-          {week.days.map((d, i) => <li key={d} data-today={i === 6 || undefined}>
+          {week.days.map((d, i) => <li key={d} data-today={d === today || undefined}>
             <small>{dayTotals[i] > 0 ? <Cell sec={dayTotals[i]} /> : ''}</small>
             <span className="bar" style={{ height: `${Math.max(3, Math.round((dayTotals[i] / peak) * 100))}%` }}>
               {week.rows.map((r, k) => r.seconds[i] > 0 ? <i key={r.key} style={{ flex: r.seconds[i], background: color(k, r.key) }} /> : null)}
@@ -107,14 +109,14 @@ export function MyStudyCard({ onEdit }: { onEdit: () => void }) {
           </li>)}
         </ol>
         <ol className="mystudy-days" aria-hidden="true">
-          {week.days.map((d, i) => { const t = new Date(`${d}T12:00:00`); return <li key={d} data-today={i === 6 || undefined}>{i === 6 ? '今日' : `${t.getMonth() + 1}/${t.getDate()}`}<small>{WD[t.getDay()]}</small></li>; })}
+          {week.days.map(d => { const t = new Date(`${d}T12:00:00`); return <li key={d} data-today={d === today || undefined}>{d === today ? '今日' : `${t.getMonth() + 1}/${t.getDate()}`}<small>{WD[t.getDay()]}</small></li>; })}
         </ol>
         <div className="mystudy-table slog-scroll" tabIndex={0} aria-label="教材ごとの7日間の勉強時間" data-my-study-table>
           {week.rows.length === 0
-            ? <p className="slog-note">この7日の記録はまだありません。参考書・学校の課題・塾など、アプリの外の勉強も「学習を記録」で残せます。</p>
-            : week.rows.map((r, k) => <article key={r.key} className="mystudy-row" aria-label={`${r.label}：今日 ${fmtSec(r.seconds[6])}、7日で ${fmtSec(r.total)}`}>
+            ? <p className="slog-note">{weekOffset === 0 ? 'この7日の記録はまだありません。参考書・学校の課題・塾など、アプリの外の勉強も「学習を記録」で残せます。' : 'この7日の記録はありません。'}</p>
+            : week.rows.map((r, k) => <article key={r.key} className="mystudy-row" aria-label={`${r.label}：7日で ${fmtSec(r.total)}`}>
                 <h3><i style={{ background: color(k, r.key) }} aria-hidden="true" />{r.label}</h3>
-                <ol aria-hidden="true">{r.seconds.map((s, i) => <li key={i} data-zero={s === 0 || undefined} data-today={i === 6 || undefined}><Cell sec={s} /></li>)}</ol>
+                <ol aria-hidden="true">{r.seconds.map((s, i) => <li key={i} data-zero={s === 0 || undefined} data-today={week.days[i] === today || undefined}><Cell sec={s} /></li>)}</ol>
               </article>)}
         </div>
       </section>
