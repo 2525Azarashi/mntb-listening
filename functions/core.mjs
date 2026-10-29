@@ -107,3 +107,30 @@ export function parseDeviceAchievements(data) {
   }
   return { deviceId: data.deviceId, xp, stages };
 }
+
+/**
+ * B7（2026-10-29）全国対戦のボット戦のレート。
+ *   端末内で進む試合なので、ふつうの対戦より小さく動かす（K=16）。
+ *   相手のレートは自分の ±320 に丸める（端末から極端な相手レートを送られても大きく動かない）。
+ */
+export const GHOST_K = 16;
+export const GHOST_SPREAD = 320;
+export const GHOST_DAILY_MAX = 30;
+export function ghostNextRating(current, ghostRating, outcome) {
+  const me = Number.isFinite(current) ? current : 1500;
+  const foe = Math.min(me + GHOST_SPREAD, Math.max(me - GHOST_SPREAD, Number(ghostRating) || me));
+  const expected = 1 / (1 + Math.pow(10, (foe - me) / 400));
+  const actual = outcome === 'win' ? 1 : outcome === 'draw' ? 0.5 : 0;
+  return Math.max(800, Math.min(4000, Math.round(me + GHOST_K * (actual - expected))));
+}
+/** 端末から届いた結果の形と、点数と勝敗の食い違いを調べる */
+export function parseGhostMatch(data) {
+  const { matchId, ghostRating, outcome, myScore, opponentScore } = data ?? {};
+  if (typeof matchId !== 'string' || !/^[A-Za-z0-9_-]{8,48}$/.test(matchId)) return null;
+  if (!['win', 'lose', 'draw'].includes(outcome)) return null;
+  if (![ghostRating, myScore, opponentScore].every(Number.isFinite)) return null;
+  if (myScore < 0 || opponentScore < 0 || myScore > 100000 || opponentScore > 100000) return null;
+  const byScore = myScore > opponentScore ? 'win' : myScore < opponentScore ? 'lose' : null;
+  if (byScore && byScore !== outcome) return null;
+  return { matchId, ghostRating, outcome, myScore, opponentScore };
+}

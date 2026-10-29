@@ -15,6 +15,7 @@
  *   壊れた値は読み飛ばす（学習を止めない）。
  */
 import { isPlainObject, safeLocalStorage, safeParseJson } from './safeLocalStorage';
+import { perUserKey } from './userStorageKeys';
 
 export const STAGE_CLEAR_PERFECTS = 3;
 const HISTORY_MAX = 40;
@@ -25,7 +26,7 @@ export interface StageRecord { p: number; n: number; b: number; t: number }
 export interface StageHistoryEntry { k: string; title: string; c: number; j: number; t: number }
 
 const OTHERS = 'stage_records_others_v1_';
-const keyOf = (prefix: string, uid: string | null | undefined) => prefix + encodeURIComponent(uid || 'guest');
+const keyOf = (prefix: string, uid: string | null | undefined) => perUserKey(prefix, uid);
 const num = (v: unknown): v is number => typeof v === 'number' && Number.isFinite(v) && v >= 0;
 
 export function stageKey(chapterId: string, questionId?: string): string {

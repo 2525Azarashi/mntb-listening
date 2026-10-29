@@ -394,3 +394,25 @@
   .gacha-banner-art .gacha-print-thumb { width: 46px !important; height: 64px !important; }
   .gacha-banner-picks button { min-height: 54px; }
 }
+/* 2026-10-29 B5：今週の目玉を派手に。光の帯が数秒ごとに走り、キラキラが舞い、枠がゆっくり光る。下にとびら君のひとこと */
+.gacha-banner-hero { position: relative; overflow: hidden; isolation: isolate; animation: gacha-hero-glow 2.6s ease-in-out infinite; }
+.gacha-banner-hero[data-rarity=LR] { --glow: #b48af0; }
+.gacha-banner-hero { --glow: #f2c14e; }
+@keyframes gacha-hero-glow { 0%, 100% { box-shadow: 0 0 0 3px #fff, 0 0 0 0 var(--glow); } 50% { box-shadow: 0 0 0 3px #fff, 0 0 16px 4px var(--glow); } }
+.gacha-banner-shine { position: absolute; inset: 0; z-index: 2; pointer-events: none; background: linear-gradient(105deg, transparent 35%, rgba(255,255,255,.85) 48%, transparent 60%); transform: translateX(-120%); animation: gacha-hero-shine 3.2s ease-in-out infinite; }
+@keyframes gacha-hero-shine { 0%, 55% { transform: translateX(-120%); } 85%, 100% { transform: translateX(120%); } }
+.gacha-banner-sparks { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
+.gacha-banner-sparks i { position: absolute; width: 8px; height: 8px; background: #fff; clip-path: polygon(50% 0, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0 50%, 38% 38%); opacity: 0; animation: gacha-spark 2.4s ease-in-out infinite; filter: drop-shadow(0 0 3px var(--glow)); }
+.gacha-banner-sparks i:nth-child(1) { left: 8%; top: 14%; animation-delay: 0s; }
+.gacha-banner-sparks i:nth-child(2) { left: 22%; top: 72%; animation-delay: .5s; width: 10px; height: 10px; }
+.gacha-banner-sparks i:nth-child(3) { right: 10%; top: 18%; animation-delay: 1s; }
+.gacha-banner-sparks i:nth-child(4) { right: 26%; bottom: 12%; animation-delay: 1.5s; width: 11px; height: 11px; }
+.gacha-banner-sparks i:nth-child(5) { left: 54%; top: 8%; animation-delay: 1.9s; }
+@keyframes gacha-spark { 0%, 100% { opacity: 0; transform: scale(.3) rotate(0); } 40% { opacity: 1; transform: scale(1) rotate(45deg); } 70% { opacity: 0; transform: scale(.6) rotate(90deg); } }
+.gacha-banner-hero .gacha-banner-art { position: relative; z-index: 1; animation: gacha-hero-float 3s ease-in-out infinite; }
+.gacha-banner-hero .gacha-banner-body { position: relative; z-index: 1; }
+@keyframes gacha-hero-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-3px); } }
+.gacha-banner-buddy { display: flex; align-items: center; min-height: 0; }
+.gacha-banner-buddy > * { width: 100%; }
+@media (max-height: 640px) { .gacha-banner-buddy { display: none; } }
+@media (prefers-reduced-motion: reduce) { .gacha-banner-hero, .gacha-banner-shine, .gacha-banner-sparks i, .gacha-banner-hero .gacha-banner-art { animation: none !important; } .gacha-banner-shine { display: none; } }

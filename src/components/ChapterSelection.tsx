@@ -170,7 +170,7 @@ export function ChapterSelection({ mode, onSelectChapter, onBack, subject = 'eng
           <ArrowLeft size={18} aria-hidden="true" /><span>{backLabel}</span>
         </button>
         <div className="unit-head-title">
-          <h2 style={{ color: theme.accent }}>{isListening ? '英語リスニング' : isGrammar ? '英文法' : theme.label}</h2>
+          <h2 style={{ color: theme.accent }}>{isListening ? '英語リスニング' : isGrammar ? '英文法' : isToeic ? 'TOEIC' : theme.label}</h2>
           <p>{mode === 'mini_test' ? '小テスト' : isListening ? '共通テスト大問別・1回ずつ完結' : isToeic ? '1回30問・4択（短文穴埋め）' : isGrammar ? '単元別の4択演習' : '単元を選ぶ'}</p>
         </div>
         <DoorMascot subject={subject} showSpeech={false} size="mini" className="unit-head-mascot w-auto" />
@@ -191,7 +191,8 @@ export function ChapterSelection({ mode, onSelectChapter, onBack, subject = 'eng
               sm 以上では従来どおり折り返しグリッドに戻す。
               長い章名は途中で省略せず、タブ内で折り返して全文を表示する。
         */}
-        <div className="chapter-index mb-3 shrink-0 border-b border-slate-200/80" data-few-tabs={groups.length <= 3 || undefined}>
+        {/* TOEIC は「1章 Part 5」のタブ（1枚だけ）を出さない（ご要望：単元選択には TOEIC とだけ書く） */}
+        {!isToeic && <div className="chapter-index mb-3 shrink-0 border-b border-slate-200/80" data-few-tabs={groups.length <= 3 || undefined}>
           <div
             role="tablist"
             aria-label="章を選択"
@@ -253,23 +254,24 @@ export function ChapterSelection({ mode, onSelectChapter, onBack, subject = 'eng
               );
             })}
           </div>
-        </div>
+        </div>}
 
         {activeGroup && (
           <section
             id="chapter-tab-panel"
             role="tabpanel"
-            aria-labelledby={`chapter-tab-${groups.indexOf(activeGroup)}`}
+            aria-labelledby={isToeic ? undefined : `chapter-tab-${groups.indexOf(activeGroup)}`}
+            aria-label={isToeic ? 'TOEIC の回一覧' : undefined}
             tabIndex={0}
             className="min-h-0 flex-1 touch-pan-y overflow-y-auto overscroll-contain rounded-2xl border border-slate-200/80 bg-white/35 p-3 pb-6 sm:p-4 sm:pb-6 [-webkit-overflow-scrolling:touch] [scrollbar-gutter:stable]"
           >
-            <div className="mb-3 flex flex-wrap items-center justify-between gap-2 border-b border-slate-200/70 pb-3">
+            {!isToeic && <div className="mb-3 flex flex-wrap items-center justify-between gap-2 border-b border-slate-200/70 pb-3">
               <div>
                 <p className="text-xs font-bold" style={{ color: theme.accent }}>{activeGroup.partTitle}</p>
                 {/* タブと同じ名前をもう一度出さない（UIの決まり：同じものを2つ置かない）。
                     タブにない情報（部の名前・流れ）だけを1行で添える。 */}
               </div>
-            </div>
+            </div>}
 
             {/* ================================================================
                 英語リスニング：「第N回演習」のボタンを並べる

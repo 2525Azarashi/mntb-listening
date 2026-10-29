@@ -4,7 +4,7 @@ import { readFileSync } from 'node:fs';
 /**
  * 「記録」の言葉の住み分け（2026-10-28 ご要望：ホームの復習・記録とマイページの記録が混ざる）
  *   ホーム「復習」  … まちがえた問題を解きなおす（復習ノート／解いた問題 3日分）
- *   マイページ「記録」… 学習時間・自分で書いた勉強・集計・カレンダー・フレンド
+ *   マイページ「カレンダー」… 勉強カレンダー（2026-10-29 B9：「記録」から改名。日付を押して最大7日をグラフで比べる）
  */
 const home = readFileSync('src/components/Home.tsx', 'utf8');
 const hub = readFileSync('src/components/StudyHub.tsx', 'utf8');
@@ -22,7 +22,8 @@ describe('「記録」はマイページだけ・ホームは「復習」', () =
     expect(hub).not.toContain('学習記録<small>');
     expect(rec).toContain('<KineticText text="解いた問題" />');
   });
-  it('マイページのタブに「記録」がある', () => {
-    expect(growth).toContain("['log','記録']");
+  it('マイページのタブは「カレンダー」（B9：「記録」から改名・アイコンつき）', () => {
+    expect(growth).toContain("['log','カレンダー',CalendarDays]");
+    expect(growth).not.toContain("['log','記録'");
   });
 });

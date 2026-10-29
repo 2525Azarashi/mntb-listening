@@ -238,3 +238,42 @@
 .slog-picked > h4 { margin: 0; display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 8px; font: 800 14px/1.4 var(--mt-font-body); color: var(--mt-ink-warm); }
 .slog-picked > h4 small { font: 700 12px/1.4 var(--mt-font-body); color: var(--mt-ink-3); }
 .slog-row[data-app-row] { box-shadow: none; background: var(--mt-brand-soft); }
+/* 2026-10-28 B2：連続・大問・バッジ・対戦の行をやめ、上を詰めて教材の表を広く／B10：7日を左右の矢印で前の週へ */
+.mystudy { gap: 6px; }
+.mystudy-head { align-items: flex-start; }
+.mystudy-who { gap: 2px; }
+.mystudy-who h2 { font-size: 16px; }
+.mystudy-who .level-bar, .mystudy-who [class*="level"] { margin-top: 1px; }
+.mystudy-goal { margin-top: -2px; }
+.mystudy .slog-sum > div { padding: 5px 8px; }
+.mystudy-record { min-height: 44px; }
+.mystudy-week { padding-top: 4px; }
+.mystudy-week-head { flex-shrink: 0; display: flex; align-items: center; gap: 4px; }
+.mystudy-week-head .mystudy-week-title { flex: 1; min-width: 0; justify-content: center; text-align: center; flex-wrap: wrap; }
+.mystudy-week-nav { flex-shrink: 0; width: 44px; height: 44px; display: grid; place-items: center; border: 1px solid var(--mt-line); border-radius: 50%; background: var(--mt-bg-card); color: var(--mt-ink-2); box-shadow: var(--mt-shadow-press); }
+.mystudy-week-nav:disabled { opacity: .35; box-shadow: none; }
+.mystudy-bars { height: 92px; }
+@media (max-height: 700px) { .mystudy-bars { height: 72px; } .mystudy-week-nav { width: 44px; height: 44px; } }
+/* 2026-10-29 B8：押した日（最大7日）を黒く。すぐ下に日ごとの積み上げ棒グラフ（教科の色）と合計・平均・最長 */
+.slog-cal .slog-cell[aria-pressed=true] { background: var(--mt-ink, #2b2b2b) !important; color: #fff !important; border-color: var(--mt-ink, #2b2b2b); outline: none; box-shadow: 0 2px 0 rgba(0,0,0,.25); }
+.slog-cal .slog-cell[aria-pressed=true][data-self]::after { background: #fff; }
+.slog-cal .slog-cell[aria-pressed=true][data-today] { box-shadow: inset 0 0 0 2px #fff, 0 0 0 2px var(--mt-brand); }
+.slog-compare { flex-shrink: 0; display: grid; gap: 4px; padding: 8px 10px 6px; border: 1px solid var(--mt-line); border-radius: 14px; background: var(--mt-bg-card); animation: slog-pop .18s ease-out; }
+@keyframes slog-pop { from { transform: translateY(-4px); opacity: .4; } to { transform: none; opacity: 1; } }
+.slog-compare-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 12px; font: 700 12px/1.4 var(--mt-font-body); color: var(--mt-ink-3); }
+.slog-compare-head strong { font: 800 14px/1.4 var(--mt-font-body); color: var(--mt-ink-warm); }
+.slog-compare-head b { font-size: 13px; color: var(--mt-ink); }
+.slog-bars { display: flex; align-items: stretch; justify-content: space-around; gap: 6px; height: 118px; margin: 0; padding: 0; list-style: none; }
+.slog-bars > li { flex: 1; max-width: 56px; min-width: 0; display: flex; flex-direction: column; align-items: center; gap: 2px; }
+.slog-bars em { font: 700 12px/1.2 var(--mt-font-body); font-style: normal; color: var(--mt-ink-2); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.slog-bar-track { flex: 1; width: 70%; min-height: 0; display: flex; flex-direction: column-reverse; border-radius: 6px 6px 2px 2px; background: repeating-linear-gradient(to top, transparent 0 calc(25% - 1px), var(--mt-line) calc(25% - 1px) 25%); overflow: hidden; }
+.slog-bar-track > i { display: block; width: 100%; transition: height .25s ease; }
+.slog-bars span { font: 700 12px/1.1 var(--mt-font-body); color: var(--mt-ink-2); text-align: center; white-space: nowrap; }
+.slog-bars span small { display: block; font-size: 12px; color: var(--mt-ink-3); }
+.slog-bars li[data-focus] span { color: var(--mt-ink); font-weight: 900; }
+.slog-bars li[data-best] em { color: var(--mt-accent-strong, #b86b00); font-weight: 900; }
+.slog-compare-legend { display: flex; flex-wrap: wrap; gap: 2px 10px; margin: 0; font: 600 12px/1.4 var(--mt-font-body); color: var(--mt-ink-3); }
+.slog-compare-legend i { display: inline-block; width: 8px; height: 8px; margin-right: 3px; border-radius: 2px; }
+.slog-compare > .slog-note { margin: 0; font-size: 12px; }
+@media (max-height: 700px) { .slog-bars { height: 92px; } .slog-cal .slog-cell { min-height: 40px; } }
+@media (max-height: 600px) { .slog-bars { height: 74px; } .slog-compare-legend { display: none; } }

@@ -3,7 +3,7 @@
 # （Bot の権限では workflows を直接 push できないため docs/ に同梱しています。
 #   GitHub の Web UI から「Add file」で作成するのが簡単です。）
 # 事前に GitHub Secrets へ FIREBASE_SERVICE_ACCOUNT を登録すること。
-# 手順: docs/DEPLOY_FIRESTORE_RULES.md 方法3 を参照。
+# 手順: docs/FIRESTORE_RULES_DEPLOY.md の 9.2 を参照。
 name: Deploy Firestore Rules
 
 on:
@@ -30,7 +30,7 @@ jobs:
           FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
         run: |
           if [ -z "$FIREBASE_SERVICE_ACCOUNT" ]; then
-            echo "::error::GitHub Secret 'FIREBASE_SERVICE_ACCOUNT' が未設定です。docs/DEPLOY_FIRESTORE_RULES.md の方法3に従って設定してください。"
+            echo "::error::GitHub Secret 'FIREBASE_SERVICE_ACCOUNT' が未設定です。docs/FIRESTORE_RULES_DEPLOY.md の 9.2に従って設定してください。"
             exit 1
           fi
 
