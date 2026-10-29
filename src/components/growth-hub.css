@@ -455,3 +455,26 @@
 .badge-detail-btn { min-height: 48px; border: 0; border-radius: 12px; background: var(--mt-brand, #2458a6); color: #fff; font: 800 15px/1 var(--mt-font-body); box-shadow: 0 3px 0 var(--mt-brand-strong, #14315f); }
 .badge-detail-btn:disabled { background: #e9e3d6; color: #7b7466; box-shadow: none; }
 .badge-detail-note { font: 600 12px/1.5 var(--mt-font-body); color: #5a6573; }
+/* 2026-10-29 C6：ミッション画面の上に ←（下まで行かなくても戻れる） */
+.missions-top { position: relative; display: flex; align-items: center; justify-content: center; min-height: 48px; margin: 0 0 8px; }
+.missions-top h1 { margin: 0; text-align: center; }
+.missions-back { position: absolute; left: 0; top: 50%; transform: translateY(-50%); display: grid; place-items: center; width: 44px; height: 44px; border: 1px solid #d9cdbb; border-radius: 50%; background: #fffdf6; color: #3d3222; box-shadow: 0 2px 0 #e6dccb; }
+.missions-top .missions-back + * { padding-inline: 48px; }
+/* 2026-10-29 C1/C2：アイテムの詳細＝大きな絵（きせかえは拡大図・PDFは表紙ページ）＋種類・状態のチップ＋軽い説明＋操作（PDFは「保存する」） */
+.collection-detail-body { display: grid; gap: 10px; }
+.collection-detail-hero { display: grid; place-items: center; min-height: 170px; padding: 10px; border-radius: 18px; background: radial-gradient(120% 90% at 50% 0%, #fff6dc 0, #f6ead0 70%, #efdfbd 100%); }
+.collection-detail-cover { width: auto; max-width: 70%; max-height: 260px; border-radius: 6px; box-shadow: 0 6px 18px rgba(60,40,10,.25); background: #fff; }
+.collection-detail-title { display: flex; flex-wrap: wrap; gap: 6px; }
+.collection-detail-chip { padding: 2px 10px; border-radius: 999px; background: #f3ecdd; color: #5d503f; font: 800 12px/1.5 var(--mt-font-body); }
+.collection-detail-chip[data-rarity=LR] { background: #efe6ff; color: #6b36b0; }
+.collection-detail-chip[data-rarity=UR] { background: #fff1c9; color: #8a5a00; }
+.collection-detail-chip[data-state=equipped] { background: #2f8f5b; color: #fff; }
+.collection-detail-chip[data-state=owned] { background: #e3f1e8; color: #2f6b47; }
+.collection-detail-name { font: 900 18px/1.35 var(--mt-font-display); color: #2f2a22; }
+.collection-detail-desc { font: 600 13px/1.6 var(--mt-font-body); color: #4a4f57; }
+.collection-detail-actions > button, .collection-detail-actions > a { min-height: 48px; padding: 0 14px; border: 1px solid #d6cbbb; border-radius: 12px; background: #fffdf8; }
+.collection-detail-actions audio { width: 100%; }
+/* 2026-10-29 C4：非公開のとき、「プロフィールを公開」の行にも「編集」と同じ赤い印（理由がわかるように） */
+.mypage-profile-public[data-not-public] { background: #fff1ef; box-shadow: inset 0 0 0 2px #f2b8b0; }
+.mypage-public-dot { display: inline-block; width: 10px; height: 10px; margin-right: 6px; border-radius: 50%; background: var(--mt-danger, #d33); box-shadow: 0 0 0 2px #fff; vertical-align: middle; }
+.mypage-profile-public[data-not-public] .ps-toggle-text small { color: var(--mt-danger, #c0392b); font-weight: 700; }
