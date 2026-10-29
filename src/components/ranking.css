@@ -345,3 +345,5 @@
   .league-hall .league-my-card.is-time span { display: block; min-width: 0; }
 }
 .league-hall .league-my-card.is-time strong { white-space: nowrap; flex-shrink: 0; }
+/* 2026-10-28 A8：志望校・志（夢）は切らずに2行まで見せる（以前は1行で「…」になっていた） */
+.league-rows .league-public-profile, .league-rows .league-public-motto, .league-hall .league-rows .league-public-profile, .league-hall .league-rows .league-public-motto { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; white-space: normal; overflow: hidden; overflow-wrap: anywhere; }

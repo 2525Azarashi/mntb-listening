@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { Gift, Coins, ArrowLeft, ChevronLeft, PlayCircle, ChevronRight, Target } from 'lucide-react';
+import { Gift, Coins, ArrowLeft, PlayCircle, Target, Info, Sparkles } from 'lucide-react';
 import { RewardVideo } from './RewardVideo';
 import { rewardedAdAvailable, preloadRewardedAd, showRewardedAd } from '../ads/rewardedAd';
 import { GachaReveal } from './GachaReveal';
@@ -24,9 +24,7 @@ import {
 } from '../battle/data/growthStore';
 import { gachaRarityOf, type ItemDef, type GachaRarity } from '../battle/core/growth';
 import { primeAudio } from '../battle/ui/feedback';
-import { KineticText } from '../motion';
 import {
-  FEATURED_UR_IDS,
   ItemArt,
   RarityTag,
   bestOf,
@@ -35,9 +33,8 @@ import {
 import { trackEvent } from '../utils/analytics';
 import { GachaMultiResult, GachaSingleResult, type GachaDrawResult } from './gacha/GachaResultStage';
 import { GachaCollectionModal } from './gacha/GachaCollectionModal';
-import { GachaSetsModal } from './gacha/GachaSetsModal';
+import { GachaItemDetail, weekEndLabel, weeklyHero, weeklyPickup } from './gacha/GachaItemDetail';
 import { GachaPickupModal } from './gacha/GachaPickupModal';
-import { completedSetCount, GACHA_SETS } from '../battle/core/gachaSets';
 
 type GachaProps = {
   onBack: () => void;
@@ -62,17 +59,13 @@ function GachaRoomContent({
   const lock = useRef(false);
   const [busy, setBusy] = useState(false);
   const oddsDialog = useRef<HTMLDialogElement>(null);
-  const setsDialog = useRef<HTMLDialogElement>(null);
+  const detailDialog = useRef<HTMLDialogElement>(null);
+  const [detailItem, setDetailItem] = useState<ItemDef | null>(null);
+  const openDetail = (item: ItemDef) => { setDetailItem(item); requestAnimationFrame(() => detailDialog.current?.showModal()); };
   const pickupDialog = useRef<HTMLDialogElement>(null);
 
   const items = gachaItems();
   const tiers = gachaItemsByRarity();
-  const topUr = FEATURED_UR_IDS.map((id) => items.find((i) => i.id === id)).filter(
-    (i): i is ItemDef => !!i,
-  );
-  const showcase = topUr.length ? topUr : tiers.UR.slice(0, 10);
-  const [previewIndex, setPreviewIndex] = useState(0);
-  const previewItem = showcase[previewIndex % showcase.length];
   const ownedCount = items.filter((item) => progress?.owned.includes(item.id)).length;
 
   const [confirm, setConfirm] = useState(false);
@@ -199,6 +192,9 @@ function GachaRoomContent({
     () => gachaFeatured({ preferSubjects: ['english_listening', 'english_vocab', 'english_grammar'], srCount: 0, rCount: 0 }),
     [],
   );
+  // 目玉は週ごとに LR と UR を交互に（いつも UR にならない）。割合は本物の抽選表の値
+  const hero = useMemo(() => weeklyHero(items, featured.week, featured.hero?.item ?? null), [items, featured]);
+  const pickup = useMemo(() => weeklyPickup(items, featured.week, hero?.id), [items, featured, hero]);
   const busyView = revealing || !!result || !!multi;
   const collectionLine = (
     <span
@@ -227,81 +223,48 @@ function GachaRoomContent({
           マイページ
         </button>
       )}
-      <header className="gacha-head">
-        <p className="mt-kicker">TOBIRA COLLECTION</p>
-        <h1><KineticText text="とびらくんの装飾ガチャ" step={30} variant="pop" /></h1>
-        <p className="gacha-lead">
-          コインで<strong>ランダム抽選</strong>。選んで買うなら
-          <wbr />
-          「ショップ」へ
-        </p>
-      </header>
-
-      {!busyView && featured.hero && (
-        <section className="gacha-featured" aria-labelledby="gacha-featured-title" data-gacha-featured>
-          <h2 id="gacha-featured-title" className="gacha-step">
-            今回の注目アイテム<small>毎週月曜に入れ替え</small>
-          </h2>
-          <article
-            className="gacha-hero"
-            data-rarity="UR"
+      {/* ★2026-10-28 A10：モンストのガチャのように「バナー＋絵を押すと詳細」★
+          目玉（週がわり）を大きく、その下に今週のピックアップ（LR・URを週ごとに入れ替え）の絵。押すと「アイテムの詳細」。
+          ピックアップ一覧・提供割合・ミッションは小さいボタンにまとめた。セット・かけらはショップの「種類」へ移した。 */}
+      {!busyView && hero && (
+        <section className="gacha-banner" aria-labelledby="gacha-banner-title" data-gacha-featured>
+          <header className="gacha-banner-head">
+            <h1 id="gacha-banner-title"><Sparkles size={16} aria-hidden="true" />装飾ガチャ</h1>
+            <small>{weekEndLabel(featured.week)}</small>
+          </header>
+          <button
+            type="button"
+            className="gacha-banner-hero"
+            data-rarity={gachaRarityOf(hero)}
             data-gacha-hero
-            aria-label={`今回の目玉 UR ${featured.hero.item.label}`}
+            onClick={() => openDetail(hero)}
+            aria-label={`今週の目玉 ${hero.label} の詳細を見る`}
           >
-            <span className="gacha-hero-art">
-              <ItemArt item={featured.hero.item} progress={progress} size={52} />
+            <span className="gacha-banner-art"><ItemArt item={hero} progress={progress} size={76} /></span>
+            <span className="gacha-banner-body">
+              <span className="gacha-banner-top"><RarityTag rarity={gachaRarityOf(hero)} /><em>今週の目玉</em></span>
+              <strong>{hero.label}</strong>
+              <small>1種あたり {pct(gachaItemRate(hero))}%{progress?.owned.includes(hero.id) ? ' · 所持済み' : ''}</small>
+              <span className="gacha-banner-tap"><Info size={13} aria-hidden="true" />タップで詳細</span>
             </span>
-            <span className="gacha-hero-body">
-              <span className="gacha-hero-top">
-                <RarityTag rarity="UR" />
-                <em>これが今回の目玉！</em>
-              </span>
-              <strong>{featured.hero.item.label}</strong>
-              <small>
-                1種あたり {pct(featured.hero.rate)}%
-                {progress?.owned.includes(featured.hero.item.id) ? ' · 所持済み' : ''}
-              </small>
-            </span>
-          </article>
+          </button>
+          <ul className="gacha-banner-picks" aria-label="今週のピックアップ（押すと詳細）">
+            {pickup.map((item) => (
+              <li key={item.id}>
+                <button type="button" onClick={() => openDetail(item)} data-gacha-pickup-item={item.id} data-rarity={gachaRarityOf(item)} aria-label={`${gachaRarityOf(item)} ${item.label} の詳細を見る`}>
+                  <ItemArt item={item} progress={progress} size={40} />
+                  <RarityTag rarity={gachaRarityOf(item)} />
+                </button>
+              </li>
+            ))}
+          </ul>
+          <nav className="gacha-banner-links" aria-label="ガチャの案内">
+            <button type="button" className="gacha-chip" aria-haspopup="dialog" onClick={() => pickupDialog.current?.showModal()} data-gacha-pickup-open>ピックアップ一覧</button>
+            <button type="button" className="gacha-chip gacha-odds-toggle" aria-haspopup="dialog" onClick={() => oddsDialog.current?.showModal()}>提供割合</button>
+            {progress && progress.coins < GACHA_COST && <button type="button" className="gacha-chip" onClick={onMissions}><Target size={13} aria-hidden="true" />コインをためる</button>}
+          </nav>
         </section>
       )}
-
-      <div
-        className={`gacha-machine gacha-preview-stage ${busy ? 'is-spinning' : ''}`}
-        aria-label="厳選UR（大当たり）10種"
-        data-gacha-showcase
-      >
-        <span className="gacha-preview-tag">厳選UR 10</span>
-        <button
-          type="button"
-          className="gacha-preview-prev"
-          aria-label="前の厳選URを見る"
-          disabled={busy}
-          onClick={() => setPreviewIndex((i) => (i + showcase.length - 1) % showcase.length)}
-        >
-          <ChevronLeft />
-        </button>
-        <div className="gacha-exhibit" data-kind={previewItem.kind}>
-          <ItemArt item={previewItem} progress={progress} size={previewItem.kind === 'print' ? 64 : 88} />
-        </div>
-        <button
-          type="button"
-          className="gacha-preview-next"
-          aria-label="次の厳選URを見る"
-          disabled={busy}
-          onClick={() => setPreviewIndex((i) => (i + 1) % showcase.length)}
-        >
-          <ChevronRight />
-        </button>
-        <div className="gacha-preview-info" aria-live="polite">
-          <strong>
-            <RarityTag rarity={gachaRarityOf(previewItem)} /> {previewItem.label}
-          </strong>
-          <span>
-            {previewIndex + 1} / {showcase.length} · {pct(gachaItemRate(previewItem))}%
-          </span>
-        </div>
-      </div>
 
       <div className="gacha-wallet" data-gacha-wallet>
         <p className="gacha-balance" aria-label={`所持 ${progress?.coins ?? 0} マナコイン`}>
@@ -405,47 +368,11 @@ function GachaRoomContent({
           {error}
         </p>
       )}
-      {!busyView && (
-        <div className="gacha-foot">
-          {progress && progress.coins < GACHA_COST && (
-            <button type="button" className="gacha-foot-link" onClick={onMissions}>
-              <Target size={16} aria-hidden="true" />
-              ミッションでコインをためる
-            </button>
-          )}
-          <button
-            type="button"
-            className="gacha-foot-link gacha-pickup-toggle"
-            aria-haspopup="dialog"
-            onClick={() => pickupDialog.current?.showModal()}
-            data-gacha-pickup-open
-          >
-            ピックアップ
-          </button>
-          <button
-            type="button"
-            className="gacha-foot-link gacha-sets-toggle"
-            aria-haspopup="dialog"
-            onClick={() => setsDialog.current?.showModal()}
-            data-gacha-sets-open
-          >
-            セット {completedSetCount(progress?.owned ?? [])}/{GACHA_SETS.length}・かけら {progress?.shards ?? 0}
-          </button>
-          <button
-            type="button"
-            className="gacha-odds-toggle gacha-foot-link"
-            aria-haspopup="dialog"
-            onClick={() => oddsDialog.current?.showModal()}
-          >
-            提供割合・コレクション
-          </button>
-        </div>
-      )}
       <div className="gacha-collection-meter" aria-label={`コレクション ${ownedCount}/${items.length}種類`} hidden>
         <progress value={ownedCount} max={items.length} aria-label="装飾の収集状況" />
       </div>
       <GachaCollectionModal oddsDialog={oddsDialog} items={items} tiers={tiers} progress={progress} />
-      <GachaSetsModal dialog={setsDialog} progress={progress} />
+      <GachaItemDetail dialog={detailDialog} item={detailItem} progress={progress} />
       <GachaPickupModal dialog={pickupDialog} items={items} progress={progress} />
     </section>
   );

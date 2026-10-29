@@ -5,6 +5,23 @@
 
 ---
 
+## 2026-10-28 ご指摘10点：マイページ＝今日の勉強記録・記録はカレンダーだけ・ガチャをモンスト風に ほか（PR: fix/mypage-gacha-10）
+
+| # | 何を | どう変えた | ファイル |
+|---|---|---|---|
+| A1 | マイページの記録 | 「マイページ」タブ＝今日の勉強記録（今日・今週・今月・累計、7日の棒グラフ、教材ごとの7日の表＝スタディプラスの表記を参考）。「記録」タブはカレンダーだけ（日付を押すとその日の記録）。集計・教材・フレンドのタブと「＋記録」ボタンは撤去（記録を書くのはマイページの「学習を記録」1か所） | `src/features/studylog/MyStudyCard.tsx`・`CalendarTab.tsx`・`StudyLogPage.tsx`・`manualLogCore.ts`（weekByMaterial）・`studylog.css`、`SummaryTab.tsx`/`MaterialsTab.tsx` は削除 |
+| A2 | きせかえタブの青い枠 | 「マナクランの集計サーバー…」の文言を出さない（プレゼントは届いたときだけ表示） | `src/components/MyCollection.tsx` |
+| A3 | とびら君・Lv・コインのカード | 別カードをやめ、A1のカードの上段にまとめた | `src/components/GrowthHub.tsx`・`MyStudyCard.tsx` |
+| A4 | 設定の「対戦で相手に見えるカード」 | 削除 | `src/components/ProfileModal.tsx` |
+| A5 | 通知が鳴らない | iOS は予約に音（notify_chime.wav）を付ける、Android は重要度「高」の専用チャンネル（res/raw/notify_chime.wav）、Web はチャイムを鳴らす。設定に「テスト通知を送る」 | `src/utils/studyRemindersRuntime.ts`・`ReminderSettings.tsx`・`capacitor.config.ts`・`public/notify_chime.wav`・`android/app/src/main/res/raw/notify_chime.wav` |
+| A6 | とびらバトル／ランキングの切替 | 両画面とも 左＝とびらバトル・右＝ランキング に固定 | `src/components/Leaderboard.tsx`・`src/battle/ui/BattleHome.tsx` |
+| A7 | ランキングの「…」 | 「詳細」ボタンに。窓は ①プロフィールを見る ②運営に通報する ③ブロックする の3段、見出しに名前を出さない | `src/features/safety/UserSafetyMenu.tsx`・`Leaderboard.tsx`・`src/styles/game-extras.css` |
+| A8 | セリフ・志望校・夢 | ホームの吹き出しを装飾より手前・不透明に。ランキングの志望校・志は2行まで表示 | `src/styles/world.css`・`src/components/ranking.css` |
+| A9 | 称号タブの← | 削除（ほかのタブとそろえる） | `src/battle/ui/BattleProfile.tsx` |
+| A10 | ガチャ画面 | モンスト風：週がわりの目玉バナー＋今週のピックアップ5つ（LR2・UR3を週ごとに入れ替え）。絵を押すと「アイテムの詳細」（中身の一部・試し聞き）。ピックアップ一覧・提供割合・コインをためるは小さいボタン。動画で1回・1回・10＋1連はそのまま。セット収集・かけら交換はショップの「種類」へ（ボタンは増やさない） | `src/components/GachaRoom.tsx`・`gacha/GachaItemDetail.tsx`（新）・`gacha/GachaSetsPanel.tsx`（旧 GachaSetsModal）・`MyCollection.tsx`・`gacha.css` |
+
+**戻し方**：各項目は別コミット（A1/A3・A2/A4・A9・A6・A7・A8・A5・A10）なので、その1コミットを revert すれば戻る。
+
 ## 2026-10-28 「記録」の住み分け：ホームは「復習」、記録はマイページだけ（PR: feat/study-community）
 
 | 何を | どう変えた | ファイル |
