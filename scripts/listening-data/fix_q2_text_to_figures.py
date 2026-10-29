@@ -34,8 +34,8 @@
     何度実行しても同じ結果になる（2回目は「変更なし」と出る）。
 
 使い方
-    python3 scripts/fix_q2_text_to_figures.py            # 書き換える
-    python3 scripts/fix_q2_text_to_figures.py --check    # 確認だけ
+    python3 scripts/listening-data/fix_q2_text_to_figures.py            # 書き換える
+    python3 scripts/listening-data/fix_q2_text_to_figures.py --check    # 確認だけ
 """
 
 from __future__ import annotations
@@ -45,7 +45,7 @@ import json
 import sys
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parent.parent
+ROOT = Path(__file__).resolve().parents[2]
 SRC = ROOT / 'scripts' / 'data' / 'q2_parsed.json'
 
 MARKS = '①②③④'

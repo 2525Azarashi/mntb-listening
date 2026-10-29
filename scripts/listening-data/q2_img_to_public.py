@@ -21,8 +21,8 @@
     長辺が SIZE より小さい画像は、拡大するとぼやけるだけなので原寸のまま。
 
 使い方
-    python3 scripts/q2_img_to_public.py                 # scripts/data/q2_raw/*.png
-    python3 scripts/q2_img_to_public.py a.png b.png     # ファイル指定
+    python3 scripts/listening-data/q2_img_to_public.py                 # scripts/data/q2_raw/*.png
+    python3 scripts/listening-data/q2_img_to_public.py a.png b.png     # ファイル指定
 """
 import pathlib
 import sys

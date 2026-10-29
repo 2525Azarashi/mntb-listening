@@ -20,9 +20,9 @@
      再実行で並びが変わると、コミット済みの TS と食い違ってしまう。
 
 使い方
-  python3 scripts/shuffle_listening_q3_options.py            # 書き換える
-  python3 scripts/shuffle_listening_q3_options.py --check    # 検証のみ
-  python3 scripts/shuffle_listening_q3_options.py --force    # 強制的に再抽選
+  python3 scripts/listening-data/shuffle_listening_q3_options.py            # 書き換える
+  python3 scripts/listening-data/shuffle_listening_q3_options.py --check    # 検証のみ
+  python3 scripts/listening-data/shuffle_listening_q3_options.py --force    # 強制的に再抽選
 """
 
 from __future__ import annotations
@@ -34,7 +34,7 @@ import random
 import re
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parent.parent
+ROOT = Path(__file__).resolve().parents[2]
 SRC = ROOT / 'scripts' / 'data' / 'q3_parsed.json'
 MARKS = '①②③④'
 

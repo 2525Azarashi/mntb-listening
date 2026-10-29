@@ -24,10 +24,10 @@
     丸数字も同じ置換で書き換えるため、画像・選択肢・解説が必ず一致する。
 
 ■ 使い方
-    python3 scripts/shuffle_q1b_options.py          # 実行（画像とJSONを更新）
-    python3 scripts/shuffle_q1b_options.py --check   # 検証のみ
+    python3 scripts/listening-data/shuffle_q1b_options.py          # 実行（画像とJSONを更新）
+    python3 scripts/listening-data/shuffle_q1b_options.py --check   # 検証のみ
 
-    実行後に scripts/gen_listening_data.py を回すと TS が再生成される。
+    実行後に scripts/listening-data/gen_listening_data.py を回すと TS が再生成される。
 """
 from __future__ import annotations
 
@@ -41,7 +41,7 @@ from pathlib import Path
 import numpy as np
 from PIL import Image
 
-ROOT = Path(__file__).resolve().parent.parent
+ROOT = Path(__file__).resolve().parents[2]
 IMG_DIR = ROOT / 'public' / 'listening_q1b'
 JSON_PATH = Path('/tmp/lst/q1b.json')
 BACKUP_DIR = ROOT / 'scripts' / 'assets' / 'q1b_original'

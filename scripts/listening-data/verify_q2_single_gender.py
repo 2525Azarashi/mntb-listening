@@ -31,8 +31,8 @@ F0（声の高さ）だけで男女を決めると誤判定する。理由は2�
 という手順にした。
 
 ■ 使い方
-    python3 scripts/verify_q2_single_gender.py            # 全部
-    python3 scripts/verify_q2_single_gender.py el2_set10_q1
+    python3 scripts/listening-data/verify_q2_single_gender.py            # 全部
+    python3 scripts/listening-data/verify_q2_single_gender.py el2_set10_q1
 
 ■ 判定が出たあとの扱い
   OK          … そのまま使う
@@ -48,7 +48,7 @@ import pathlib
 import re
 import sys
 
-ROOT = pathlib.Path(__file__).resolve().parent.parent
+ROOT = pathlib.Path(__file__).resolve().parents[2]
 AUDIO = ROOT / 'public' / 'listening_audio'
 MANIFEST = ROOT / 'scripts' / 'data' / 'q2_tts' / 'manifest.json'
 REF_DIR = ROOT / '.tmpwork' / 'tts'

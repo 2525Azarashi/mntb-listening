@@ -39,8 +39,8 @@
     A 型34問の割り当てでその不足を埋め、全体でほぼ均等にする。
 
 ■ 使い方
-    python3 scripts/shuffle_listening_q2_options.py            # 実行
-    python3 scripts/shuffle_listening_q2_options.py --check    # 検証のみ
+    python3 scripts/listening-data/shuffle_listening_q2_options.py            # 実行
+    python3 scripts/listening-data/shuffle_listening_q2_options.py --check    # 検証のみ
 """
 
 from __future__ import annotations
@@ -53,7 +53,7 @@ import random
 import re
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parent.parent
+ROOT = Path(__file__).resolve().parents[2]
 SRC = ROOT / 'scripts' / 'data' / 'q2_parsed.json'
 OUT = ROOT / 'scripts' / 'data' / 'q2_shuffled.json'
 
@@ -112,9 +112,9 @@ SEED = 20260828
 #   (B) 絵は使えるが選択肢が絵と噛み合っていなかった問
 #       … 7-3 / 8-3 / 11-1 / 13-1 / 16-2 の5問。
 #          「絵を作り直す」のではなく「テキストを絵に合わせて書き直す」
-#          方針を採り、scripts/fix_q2_text_to_figures.py で
+#          方針を採り、scripts/listening-data/fix_q2_text_to_figures.py で
 #          選択肢・対話・設問・解説を書き換えた。
-#          書き換えの根拠は scripts/q2_figure_fixes.py に1問ずつ残してある。
+#          書き換えの根拠は scripts/listening-data/q2_figure_fixes.py に1問ずつ残してある。
 #
 # ★(B) の5問も並べ替えてはいけない★
 # 絵に ①②③④ が焼き込まれている以上、データ側だけ動かすと食い違う。
@@ -250,8 +250,8 @@ ILLUSTRATION_SOURCE_LABEL: dict[tuple[int, int], tuple[int, int]] = {
 # ------------------------------------------------------------------
 # 【2026-08-30 解消】上の6問はいずれも「絵を作り直す」のではなく
 # 「文章側（場面・対話・設問・選択肢・解説）を絵に合わせて書き直す」ことで解決した。
-#   → 書き換えの実体は scripts/q2_figure_fixes.py（FIXES）
-#   → 適用スクリプトは scripts/fix_q2_text_to_figures.py
+#   → 書き換えの実体は scripts/listening-data/q2_figure_fixes.py（FIXES）
+#   → 適用スクリプトは scripts/listening-data/fix_q2_text_to_figures.py
 #   → 6問はすべて PDF_ILLUSTRATION_QUESTIONS に入り、実物イラストを収録する。
 # 画像生成は一切していない（クレジットを使わない方針）。
 # したがって除外リストは空。上のコメントは経緯の記録として残す。

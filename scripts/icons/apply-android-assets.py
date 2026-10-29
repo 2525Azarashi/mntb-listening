@@ -3,7 +3,7 @@
 from pathlib import Path
 from PIL import Image
 
-ROOT = Path(__file__).resolve().parent.parent
+ROOT = Path(__file__).resolve().parents[2]
 SRC_ANDROID = ROOT / 'public' / 'まなとびandroid.png'
 RES_DIR = ROOT / 'android' / 'app' / 'src' / 'main' / 'res'
 

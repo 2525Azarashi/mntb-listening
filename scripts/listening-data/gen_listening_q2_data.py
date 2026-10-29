@@ -4,9 +4,9 @@
 
 処理の流れ
   共通テスト_英語リスニング_第2問_類題集_15セット_改訂版v2.pdf
-    → scripts/parse_listening_q2_pdf.py        … PDF を JSON 化（突き合わせ検査つき）
-    → scripts/shuffle_listening_q2_options.py  … 正解位置の偏りを均す
-    → scripts/gen_listening_q2_data.py（このファイル） … TS を生成
+    → scripts/listening-data/parse_listening_q2_pdf.py        … PDF を JSON 化（突き合わせ検査つき）
+    → scripts/listening-data/shuffle_listening_q2_options.py  … 正解位置の偏りを均す
+    → scripts/listening-data/gen_listening_q2_data.py（このファイル） … TS を生成
   出力: src/data/englishListeningQ2Problems.ts
 
 なぜ生成するのか
@@ -41,7 +41,7 @@
     記号の意味を解釈しなくても「話者が替わったこと」は耳で分かる。
 
 使い方
-  python3 scripts/gen_listening_q2_data.py
+  python3 scripts/listening-data/gen_listening_q2_data.py
 """
 
 from __future__ import annotations
@@ -51,7 +51,7 @@ import re
 import sys
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parent.parent
+ROOT = Path(__file__).resolve().parents[2]
 SRC = ROOT / 'scripts' / 'data' / 'q2_shuffled.json'
 
 # 「どの問を収録するか」の定義はシャッフラー側に1か所だけ置き、
@@ -194,9 +194,9 @@ HEAD = """/**
  * 生成方法（手打ちしていない理由）
  *   48問＝選択肢192個・対話192発話・画像プロンプト48本を手で書き写すと、
  *   選択肢と正解の対応ズレが必ず混入する。そこで
- *     scripts/parse_listening_q2_pdf.py        … PDF → JSON（突き合わせ検査つき）
- *     scripts/shuffle_listening_q2_options.py  … 正解位置の偏りを均す
- *     scripts/gen_listening_q2_data.py         … JSON → このファイル
+ *     scripts/listening-data/parse_listening_q2_pdf.py        … PDF → JSON（突き合わせ検査つき）
+ *     scripts/listening-data/shuffle_listening_q2_options.py  … 正解位置の偏りを均す
+ *     scripts/listening-data/gen_listening_q2_data.py         … JSON → このファイル
  *   の3段で機械的に生成している。
  *
  * 正解位置について

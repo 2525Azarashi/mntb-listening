@@ -252,12 +252,12 @@ const LISTENING_PROBLEMS: Record<string, Problem[]> = {
   //   絵と文がズレていた6問（6-3 / 7-3 / 8-3 / 11-1 / 13-1 / 16-2）は、
   //   絵を作り直すのではなく「文章側を絵に合わせて書き直す」方法で解決した
   //   （書き換えの根拠は scripts/data/q2_figure_audit.md、
-  //     実体は scripts/q2_figure_fixes.py に記録）。
+  //     実体は scripts/listening-data/q2_figure_fixes.py に記録）。
   //   また見出しと中身がズレていた6問は
   //   ILLUSTRATION_SOURCE_LABEL で正しいPDF見出しへ張り替えている。
   //   追加するときは実物イラストを public/listening_q2/ に置き、
-  //     python3 scripts/extract_q2_illustrations.py --pdf <PDF>
-  //     python3 scripts/gen_listening_q2_data.py
+  //     python3 scripts/listening-data/extract_q2_illustrations.py --pdf <PDF>
+  //     python3 scripts/listening-data/gen_listening_q2_data.py
   //   を回すだけでよい（この行は変更不要）。
   el2: EL2_PROBLEMS,
   // 第3問：配布PDF由来の15セット（各6問・1回読み・2人の対話）

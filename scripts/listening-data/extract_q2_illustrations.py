@@ -30,9 +30,9 @@ public/listening_q2/ に正式な名前（el2_set<N>_q<M>.jpg）で置く。
     （実測値の例：約 10% 対 約 0.3%）
 
 使い方
-    python3 scripts/extract_q2_illustrations.py --pdf <第２問.pdf>
-    python3 scripts/extract_q2_illustrations.py --pdf <第２問.pdf> --verify
-    python3 scripts/extract_q2_illustrations.py --pdf <第２問.pdf> --dry-run
+    python3 scripts/listening-data/extract_q2_illustrations.py --pdf <第２問.pdf>
+    python3 scripts/listening-data/extract_q2_illustrations.py --pdf <第２問.pdf> --verify
+    python3 scripts/listening-data/extract_q2_illustrations.py --pdf <第２問.pdf> --dry-run
 """
 
 from __future__ import annotations
@@ -47,7 +47,7 @@ import fitz  # PyMuPDF
 import numpy as np
 from PIL import Image
 
-ROOT = Path(__file__).resolve().parent.parent
+ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from q2_img_to_public import convert  # noqa: E402
 from shuffle_listening_q2_options import (  # noqa: E402

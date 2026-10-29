@@ -23,7 +23,7 @@
   4. しきい値未満の画像は一切加工せずコピーする（イラストを壊さない安全側）。
 
 使い方
-  python3 scripts/strip_genspark_logo.py <入力ディレクトリ> <出力ディレクトリ>
+  python3 scripts/listening-data/strip_genspark_logo.py <入力ディレクトリ> <出力ディレクトリ>
 """
 
 from __future__ import annotations
@@ -34,7 +34,7 @@ from pathlib import Path
 import cv2
 import numpy as np
 
-TEMPLATE_PATH = Path(__file__).resolve().parent / 'assets' / 'genspark_badge_template.png'
+TEMPLATE_PATH = Path(__file__).resolve().parents[1] / 'assets' / 'genspark_badge_template.png'
 
 # ロゴあり/なしを分ける相関スコアのしきい値。
 # 実測：ロゴあり 0.823〜1.000 / ロゴなし 0.100〜0.526 → 0.70 で安全に分離できる。

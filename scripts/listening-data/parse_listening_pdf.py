@@ -24,8 +24,8 @@
   ]
 
 使い方
-  python3 scripts/parse_listening_pdf.py A /tmp/lst/q1a.txt /tmp/lst/q1a.json
-  python3 scripts/parse_listening_pdf.py B /tmp/lst/q1b.txt /tmp/lst/q1b.json
+  python3 scripts/listening-data/parse_listening_pdf.py A /tmp/lst/q1a.txt /tmp/lst/q1a.json
+  python3 scripts/listening-data/parse_listening_pdf.py B /tmp/lst/q1b.txt /tmp/lst/q1b.json
 """
 
 from __future__ import annotations

@@ -34,7 +34,7 @@ PDF の構造（46ページ）
   scripts/data/q3_parsed.json
 
 使い方
-  python3 scripts/parse_listening_q3_pdf.py <PDF>
+  python3 scripts/listening-data/parse_listening_q3_pdf.py <PDF>
 """
 
 from __future__ import annotations
@@ -46,7 +46,7 @@ from pathlib import Path
 
 import pdfplumber
 
-ROOT = Path(__file__).resolve().parent.parent
+ROOT = Path(__file__).resolve().parents[2]
 
 # --- 行の見分け方 -----------------------------------------------------------
 # セット見出し：「第1セット 【難易度:易しめ】」
@@ -252,7 +252,7 @@ def parse_part2(pages: list[str]) -> dict[int, dict[int, dict]]:
 def main() -> None:
     pdf_path = Path(sys.argv[1]) if len(sys.argv) > 1 else None
     if pdf_path is None or not pdf_path.exists():
-        raise SystemExit('使い方: python3 scripts/parse_listening_q3_pdf.py <PDF>')
+        raise SystemExit('使い方: python3 scripts/listening-data/parse_listening_q3_pdf.py <PDF>')
 
     pages = extract_pages(pdf_path)
     # 第1部と第2部の境目を探す（「第2部」の見出しがあるページ）

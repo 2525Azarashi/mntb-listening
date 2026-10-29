@@ -1,7 +1,7 @@
 """まとめ録りの音声が「ちゃんと3人の声になっているか」を実測で判定する。
 
 使い方:
-    python3 scripts/verify_q2_tts_speakers.py \
+    python3 scripts/listening-data/verify_q2_tts_speakers.py \
         .tmpwork/tts/batch02.mp3 \
         .tmpwork/tts/batch02_words.json \
         scripts/data/q2_tts_batches/batch02.json

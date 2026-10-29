@@ -12,7 +12,7 @@ parse_listening_pdf.py が作った JSON から、アプリの TypeScript デー
   src/data/englishListeningQ1BProblems.ts … 第1問B（第1回〜第15回・イラスト選択）
 
 使い方
-  python3 scripts/gen_listening_data.py
+  python3 scripts/listening-data/gen_listening_data.py
 """
 
 from __future__ import annotations
@@ -21,7 +21,7 @@ import json
 import re
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parent.parent
+ROOT = Path(__file__).resolve().parents[2]
 MARKS = '①②③④'
 
 
@@ -100,8 +100,8 @@ A_HEAD = """/**
  *
  * 生成方法（手打ちしていない理由）
  *   52問を手で書き写すと選択肢と正解の対応ズレが必ず混入する。
- *   scripts/parse_listening_pdf.py で PDF テキストを JSON 化し、
- *   scripts/gen_listening_data.py がこのファイルを生成している。
+ *   scripts/listening-data/parse_listening_pdf.py で PDF テキストを JSON 化し、
+ *   scripts/listening-data/gen_listening_data.py がこのファイルを生成している。
  *   問題文・選択肢・正解・スクリプト・解説はすべて PDF の原文どおり。
  *
  * 音源について
@@ -264,7 +264,7 @@ B_HEAD = """/**
  *
  * イラストの前処理
  *   第1セットの4枚には生成時の Genspark ロゴが右下に焼き込まれていたため、
- *   scripts/strip_genspark_logo.py（テンプレートマッチ＋インペイント）で除去した。
+ *   scripts/listening-data/strip_genspark_logo.py（テンプレートマッチ＋インペイント）で除去した。
  *   画像は public/listening_q1b/el1B_set<N>_q<M>.jpg として配置している。
  *
  * 第1問A との違い

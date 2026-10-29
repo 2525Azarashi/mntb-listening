@@ -56,7 +56,7 @@ PDF の構造（39ページ / 3部構成）
   scripts/data/q2_parsed.json
 
 使い方
-  python3 scripts/parse_listening_q2_pdf.py <PDF>
+  python3 scripts/listening-data/parse_listening_q2_pdf.py <PDF>
 
 ■ 「15セット45問」と書いてあるが実体は16セット48問
   PDF の表紙は「全15セット・45問」だが、中身は第16セットまであり
@@ -73,7 +73,7 @@ from pathlib import Path
 
 import pdfplumber
 
-ROOT = Path(__file__).resolve().parent.parent
+ROOT = Path(__file__).resolve().parents[2]
 OUT = ROOT / 'scripts' / 'data' / 'q2_parsed.json'
 
 MARKS = '①②③④'
@@ -450,7 +450,7 @@ def verify(sets: list[dict]) -> list[str]:
 
 def main() -> int:
     if len(sys.argv) < 2:
-        print('使い方: python3 scripts/parse_listening_q2_pdf.py <PDF>')
+        print('使い方: python3 scripts/listening-data/parse_listening_q2_pdf.py <PDF>')
         return 2
     pdf_path = Path(sys.argv[1])
     if not pdf_path.exists():

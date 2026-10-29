@@ -13,7 +13,7 @@ from reportlab.lib.pagesizes import A4
 from reportlab.lib.styles import ParagraphStyle
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, PageBreak, KeepTogether, Table, TableStyle, Image
 
-ROOT = Path(__file__).resolve().parents[1]
+ROOT = Path(__file__).resolve().parents[2]
 assert Path.cwd() == ROOT, 'Run in project root'
 PACK = ROOT / '.delivery/listening-audio-prompts-2026-09-18'
 OUT = ROOT / '.delivery'

@@ -3,7 +3,7 @@
 from pathlib import Path
 from PIL import Image
 
-ROOT = Path(__file__).resolve().parent.parent
+ROOT = Path(__file__).resolve().parents[2]
 SRC_PATH = Path('/Users/bentodai/Downloads/マナトビリスニング最終盤アイコン.png')
 
 def make_maskable(img: Image.Image, size: int, scale: float = 0.8) -> Image.Image:

@@ -4,13 +4,13 @@
 Preserve the entire logo, its white background and original aspect ratio.
 Favicons use the same artwork, not a cropped initial. Maskable versions add
 extra white padding. No application logos, questions or audio are modified.
-Run: python3 scripts/make-icons.py
+Run: python3 scripts/icons/make-icons.py
 """
 import math
 from pathlib import Path
 from PIL import Image, ImageChops
 
-ROOT = Path(__file__).resolve().parent.parent
+ROOT = Path(__file__).resolve().parents[2]
 SRC_LOGO = ROOT / 'scripts' / 'assets' / 'app-icon-source.png'
 OUT_DIR = ROOT / 'public' / 'icons'
 BG = (255, 255, 255, 255)

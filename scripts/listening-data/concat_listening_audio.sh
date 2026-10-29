@@ -14,10 +14,10 @@
 #   配布 ZIP の個別ファイルは解凍先に残し、public/ には連結後だけを置く。
 #   録り直しが来たら該当の個別ファイルを差し替えてこのスクリプトを回す。
 #
-# 使い方: sh scripts/concat_listening_audio.sh <配布ZIPを解凍したフォルダ>
+# 使い方: sh scripts/listening-data/concat_listening_audio.sh <配布ZIPを解凍したフォルダ>
 set -e
 SRC="${1:-/tmp/lq}"
-ROOT=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
+ROOT=$(CDPATH= cd -- "$(dirname -- "$0")/../.." && pwd)
 
 # 第4問B：4人 × 15セット → setNN_4B.mp3（発話間 1.2 秒）
 for n in $(seq -w 1 15); do

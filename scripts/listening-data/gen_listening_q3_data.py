@@ -4,9 +4,9 @@
 
 処理の流れ
   共通テスト_英語リスニング_第3問_類題集_15セット90問.pdf
-    → scripts/parse_listening_q3_pdf.py   … PDF を JSON 化（突き合わせ検査つき）
-    → scripts/shuffle_listening_q3_options.py … 正解位置の偏りを均す
-    → scripts/gen_listening_q3_data.py（このファイル） … TS を生成
+    → scripts/listening-data/parse_listening_q3_pdf.py   … PDF を JSON 化（突き合わせ検査つき）
+    → scripts/listening-data/shuffle_listening_q3_options.py … 正解位置の偏りを均す
+    → scripts/listening-data/gen_listening_q3_data.py（このファイル） … TS を生成
   出力: src/data/englishListeningQ3Problems.ts
 
 なぜ生成するのか
@@ -21,7 +21,7 @@
     本番と同じく「日本語の場面 → 英語の設問 → 英語の選択肢」の順に並べる。
 
 使い方
-  python3 scripts/gen_listening_q3_data.py
+  python3 scripts/listening-data/gen_listening_q3_data.py
 """
 
 from __future__ import annotations
@@ -30,7 +30,7 @@ import json
 import re
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parent.parent
+ROOT = Path(__file__).resolve().parents[2]
 SRC = ROOT / 'scripts' / 'data' / 'q3_parsed.json'
 OUT = ROOT / 'src' / 'data' / 'englishListeningQ3Problems.ts'
 MARKS = '①②③④'
@@ -111,9 +111,9 @@ HEAD = """/**
  * 生成方法（手打ちしていない理由）
  *   90問＝選択肢360個・対話530発話を手で書き写すと、
  *   選択肢と正解の対応ズレが必ず混入する。そこで
- *     scripts/parse_listening_q3_pdf.py        … PDF → JSON（突き合わせ検査つき）
- *     scripts/shuffle_listening_q3_options.py  … 正解位置の偏りを均す
- *     scripts/gen_listening_q3_data.py         … JSON → このファイル
+ *     scripts/listening-data/parse_listening_q3_pdf.py        … PDF → JSON（突き合わせ検査つき）
+ *     scripts/listening-data/shuffle_listening_q3_options.py  … 正解位置の偏りを均す
+ *     scripts/listening-data/gen_listening_q3_data.py         … JSON → このファイル
  *   の3段で機械的に生成している。
  *
  * 正解位置を並べ替えている理由

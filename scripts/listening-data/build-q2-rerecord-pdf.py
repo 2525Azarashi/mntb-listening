@@ -2,7 +2,7 @@
 """
 第2問（48問＝16回×3問）の「録り直し用」台本 PDF を作る（ElevenLabs Eleven v3 向け・クレジット不要）。
 
-  python3 scripts/build-q2-rerecord-pdf.py   → .delivery/manatobi_q2_rerecord_<日付>.pdf
+  python3 scripts/listening-data/build-q2-rerecord-pdf.py   → .delivery/manatobi_q2_rerecord_<日付>.pdf
 
 ■ 2026-09-19 版（ハブの話者ラベル PDF）からの修正点
   - 問題データの話者記号 M は「男性」とは限らない（1-2・8-1・10-2 は M=Mother＝母親）。
@@ -22,7 +22,7 @@ from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, PageBreak, Table, TableStyle, KeepTogether
 
-ROOT = Path(__file__).resolve().parents[1]
+ROOT = Path(__file__).resolve().parents[2]
 SETS = json.loads((ROOT / 'scripts/data/q2_shuffled.json').read_text())
 PUBLIC = ROOT / 'public/listening_audio'
 TODAY = date.today().isoformat()
