@@ -159,6 +159,7 @@ export { isAppState, isAppMode } from './appState';
 export type { AppState, AppMode } from './appState';
 const GrowthHub = React.lazy(() => import('./components/GrowthHub').then(m => ({ default: m.GrowthHub })));
 const MissionToast = React.lazy(() => import('./components/MissionToast').then(m => ({ default: m.MissionToast })));
+const CoinCelebration = React.lazy(() => import('./components/CoinCelebration').then(m => ({ default: m.CoinCelebration })));
 // C12：章の称号ゲットのお祝い（どの画面でも画面全体に出す）
 const ChapterTitleCelebration = React.lazy(() => import('./components/ChapterTitleCelebration').then(m => ({ default: m.ChapterTitleCelebration })));
 
@@ -791,6 +792,8 @@ export default function App() {
       <React.Suspense fallback={null}>
         <MissionToast />
         <ChapterTitleCelebration />
+        {/* D10：マナコインを手に入れたら、どの画面でも上に「＋N マナコイン」の演出 */}
+        <CoinCelebration />
         <DoorTransition screen={appState} />
       </React.Suspense>
 
