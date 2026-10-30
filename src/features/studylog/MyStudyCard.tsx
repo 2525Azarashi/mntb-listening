@@ -16,7 +16,7 @@ import { profileKey } from '../../utils/userStorageKeys';
 import { safeLocalStorage } from '../../utils/safeLocalStorage';
 import { normalizeGrade } from '../../utils/publicProfileCore';
 import { readOwnPublicStudyProfile } from '../../utils/publicStudyProfile';
-import { dayOf, summarize, weekByMaterial } from './manualLogCore';
+import { dayOf, summarize, weekByMaterial, type ManualRecord } from './manualLogCore';
 import { useManualLog } from './manualLogStore';
 import { RecordDialog } from './RecordDialog';
 import { fmtSec } from './ui';
@@ -47,6 +47,8 @@ export function MyStudyCard({ onEdit }: { onEdit: () => void }) {
   const [store, uid] = useManualLog();
   const { progress } = useGrowthProgress();
   const [recording, setRecording] = useState(false);
+  /** D11：表のマス（自分で記録した分）を押したときに直す・消す記録 */
+  const [editing, setEditing] = useState<ManualRecord | null>(null);
   /** B10：0＝この7日、-1＝その前の7日 …（最大12週前まで） */
   const [weekOffset, setWeekOffset] = useState(0);
   const [toast, setToast] = useState('');
@@ -58,6 +60,12 @@ export function MyStudyCard({ onEdit }: { onEdit: () => void }) {
   const today = dayOf(Date.now());
   const name = profile.name || auth.currentUser?.displayName || (auth.currentUser ? 'なまえ未設定' : 'ゲスト');
   const color = (i: number, key: string) => (key === 'app' ? 'var(--mt-brand)' : PALETTE[i % PALETTE.length]);
+  // D11（2026-10-30）：マスを押すと、そのマスのいちばん新しい自分の記録を直す・消す（カレンダーと同じ）
+  const byId = useMemo(() => new Map(store.records.map(r => [r.id, r])), [store]);
+  const editCell = (ids: string[] | undefined) => {
+    const recs = (ids ?? []).map(id => byId.get(id)).filter((r): r is ManualRecord => !!r && !r.deleted).sort((a, b) => b.createdAt - a.createdAt);
+    if (recs[0]) setEditing(recs[0]);
+  };
   const dayTotals = week.days.map((_, d) => week.rows.reduce((n, r) => n + r.seconds[d], 0));
   const peak = Math.max(1800, ...dayTotals);
   const title = progress ? equippedTitleLabel(progress) : '';
@@ -125,11 +133,20 @@ export function MyStudyCard({ onEdit }: { onEdit: () => void }) {
             ? <p className="slog-note">{weekOffset === 0 ? 'この7日の記録はまだありません。参考書・学校の課題・塾など、アプリの外の勉強も「学習を記録」で残せます。' : 'この7日の記録はありません。'}</p>
             : week.rows.map((r, k) => <article key={r.key} className="mystudy-row" aria-label={`${r.label}：7日で ${fmtSec(r.total)}`}>
                 <h3><i style={{ background: color(k, r.key) }} aria-hidden="true" />{r.label}</h3>
-                <ol aria-hidden="true">{r.seconds.map((s, i) => <li key={i} data-zero={s === 0 || undefined} data-today={week.days[i] === today || undefined}><Cell sec={s} /></li>)}</ol>
+                <ol>{r.seconds.map((s, i) => {
+                  const ids = r.recordIds?.[i];
+                  const label = `${fmtShort(week.days[i])} ${r.label} ${fmtSec(s)}`;
+                  return <li key={i} data-zero={s === 0 || undefined} data-today={week.days[i] === today || undefined} data-editable={ids?.length ? true : undefined}>
+                    {ids?.length
+                      ? <button type="button" onClick={() => editCell(ids)} aria-label={`${label}（押すと直す・消す）`} data-record-row={ids[0]}><Cell sec={s} /></button>
+                      : <span aria-label={label}><Cell sec={s} /></span>}
+                  </li>;
+                })}</ol>
               </article>)}
         </div>
       </section>
       {recording && <RecordDialog onClose={() => setRecording(false)} onSaved={setToast} />}
+      {editing && <RecordDialog record={editing} onClose={() => setEditing(null)} onSaved={setToast} />}
       {toast && <p className="mt-toast" role="status" data-slog-toast>{toast}</p>}
     </section>
   );
