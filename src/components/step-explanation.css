@@ -89,7 +89,7 @@
   .practice-pager { max-width: 1180px; margin-inline: auto; }
 }
 /* 結果（1画面目）→ 詳しい結果へ */
-.practice-detail-open { margin-top: 10px; width: 100%; min-height: 48px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; border-radius: 14px; background: #f4d03f; color: #3d3222; font-weight: 800; font-size: 15px; box-shadow: 0 4px 0 #c9a227; border: 0; }
+.practice-detail-open { margin-top: 10px; width: 100%; min-height: 48px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; border-radius: 14px; background: #f4d03f; color: var(--mt-ink-warm); font-weight: 800; font-size: 15px; box-shadow: 0 4px 0 #c9a227; border: 0; }
 .practice-detail-open:active { transform: translateY(2px); box-shadow: 0 2px 0 #c9a227; }
 .practice-pager-title { gap: 8px; }
 .practice-pager-title span { flex: 1; }
@@ -134,3 +134,12 @@
 @keyframes stage-pop { from { opacity: 0; transform: scale(.8); } to { opacity: 1; transform: none; } }
 @media (prefers-reduced-motion: reduce) { .practice-stage-tobira, .practice-stage-bubble { animation: none; } }
 @media (max-height: 700px) { .practice-stage { min-height: 0; } .practice-stage-tobira { width: 100px; } }
+
+/* C7（2026-10-29）結果まとめの下：次の回へ／単元選択に戻る／ホームに戻る＋控えめな「詳しい結果」 */
+.practice-bottom-bar.is-nav { display: grid; gap: 8px; }
+.practice-bottom-bar.is-nav > * { max-width: 720px; width: 100%; margin-inline: auto; }
+.practice-summary-nav { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.practice-summary-sub { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; gap: 6px; border-radius: 12px; border: 2px solid #d8cdb5; background: #fff; color: #2c3e50; font-weight: 800; font-size: 14px; }
+.practice-summary-sub:active { transform: translateY(1px); }
+.practice-summary-detail { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; gap: 6px; border: 0; background: transparent; color: #5b6b7c; font-weight: 700; font-size: 13px; text-decoration: underline; text-underline-offset: 3px; }
+.practice-bottom-spacer.is-nav { height: calc(170px + env(safe-area-inset-bottom)); }

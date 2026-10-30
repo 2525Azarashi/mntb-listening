@@ -117,7 +117,7 @@
 .home-v2 .home-pillar small { display: none; }
 .home-v2 .home-pillar-solo { --edge: #f0c24a; --lift: #c98512; background: linear-gradient(180deg, #ffdb73, var(--hv-yellow)) !important; color: var(--hv-ink) !important; }
 .home-v2 .home-pillar-solo strong { color: var(--hv-ink) !important; }
-.home-v2 .home-pillar-battle { --edge: #5b8fe3; --lift: #1c4687; background: linear-gradient(180deg, #4d86e3, var(--hv-blue)) !important; color: #fff !important; }
+.home-v2 .home-pillar-battle { --edge: #5b8fe3; --lift: var(--mt-brand-strong); background: linear-gradient(180deg, #4d86e3, var(--hv-blue)) !important; color: #fff !important; }
 .home-v2 .home-pillar-battle strong { color: #fff !important; }
 .home-v2 .home-pillar-icon { width: 44px !important; height: 44px !important; background: #ffffffe6 !important; color: var(--hv-ink) !important; box-shadow: none !important; }
 .home-v2 .home-pillar-battle .home-pillar-icon { background: #ffffff2e !important; color: #fff !important; box-shadow: inset 0 0 0 1.5px #ffffff66 !important; }

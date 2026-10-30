@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Bell, X, Sparkles } from 'lucide-react';
+import { Bell, CheckCircle2, X, Sparkles } from 'lucide-react';
 import { NOTICE_KIND_META } from '../data/updateNotices';
 import {
   formatNoticeDateTime,
@@ -141,6 +141,12 @@ export function UpdateNoticeModal({ onClose }: UpdateNoticeModalProps) {
                             相対だけでは記録として残らず、絶対だけでは勢いが伝わらない。 */}
                         <span className="text-xs font-bold text-gray-500">
                           {relativeNoticeLabel(notice)}・{formatNoticeDateTime(notice)}
+                        </span>
+                        {/* C14（2026-10-29）：中身を直したお知らせには「反映しました」をはっきり出す
+                            （お知らせはアプリの配信物と一緒に届くので、見えている時点でこの端末に反映済み） */}
+                        <span className="update-notice-applied flex items-center gap-1 rounded-lg border border-[#1f7a4d] bg-[#e3f3ea] px-2 py-0.5 text-xs font-bold text-[#1f7a4d]" data-notice-applied>
+                          <CheckCircle2 size={12} aria-hidden="true" />
+                          反映しました
                         </span>
                       </div>
 
