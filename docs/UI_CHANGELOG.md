@@ -5,6 +5,24 @@
 
 ---
 
+## 2026-10-29 ご指摘C7〜C14：英文法の回の終わり方・2列の選択肢・解くカギ/大問の流れを外す・セットで覚える・章の称号・お知らせ（PR: feat/grammar-c7-c14、#132 を取り込み済み）
+
+| # | 何を | どう変えた | ファイル |
+|---|---|---|---|
+| C7 | 英文法の回の終わり | #132 の結果画面（次の回へ／単元選択に戻る／ホームに戻る・詳しい結果は控えめ）を採用。回の一覧に「回を選んで始める」見出し、「第N回」が二重にならないように | `ChapterSelection.tsx`・`unit-select.css` |
+| C8 | 選択肢 | 4択でどれも16文字以下なら2列×2。英文法・TOEIC の選択肢を問題文と同じ英文の書体（prose）に | `MultipleChoiceControl.tsx`・`hooks/useQuestionDerived.ts` |
+| C9 | 英文法の解説 | 問題にできなかった仲間の表現を【セットで覚える】（太字・紫）で1行。解説で触れていないものだけ | `data/grammarMemorizeSets.ts`・`data/englishGrammarKit.ts`・`utils/listeningExplanation.ts` |
+| C10 | 英文法・TOEIC の解説 | 「解くカギ」の一覧と英文の番号を外す（黄色いマーカーは残す） | `utils/listeningExplanation.ts`・`data/listeningPostProcess.ts`・`englishGrammarData.ts`・`toeicPart5Data.ts` |
+| C11 | 解説の右側 | 「大問全体の流れ・共通ポイント」を出さない（`SharedExplanation.tsx` を削除） | `explanation/ExplanationAnswerItem.tsx` |
+| C12 | 章の称号 | 英文法の章を全部の回で満点 →「○○マスター」を画面全体のお祝いで渡す。その場で称号をつけられる | `battle/core/chapterTitles.ts`・`growthBadges.ts`・`growthStore.ts`・`utils/chapterTitleAward.ts`・`ChapterTitleCelebration.tsx` |
+| C13 | 起動 | 「学ぶ入口を、もっと快適に。」のお知らせ画面を削除（はじめる → ホーム） | `LaunchScreen.tsx`・`launch-screen.css` |
+| C14 | お知らせ | 各お知らせに「✓ 反映しました」。C7〜C13 をお知らせに追加 | `UpdateNoticeModal.tsx`・`data/updateNotices.ts` |
+| ほか | ガチャの目玉の枠の光 | box-shadow のアニメ → ::after の opacity（見た目同じ・軽い） | `gacha.css` |
+
+**戻し方**：C7〜C14 はそれぞれ別コミットなので、その1コミットを revert すれば戻る。C11 を戻すときは `SharedExplanation.tsx` も戻る。
+
+---
+
 ## 2026-10-29 ご指摘C1〜C7：アイテム詳細の拡大・マイPDFの保存・設定を短く・公開の赤い印・カレンダーの「何を何分」・ミッションの←・英文法の回の終わり（PR: fix/mypage-c）
 
 | # | 何を | どう変えた | ファイル |

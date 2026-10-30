@@ -38,6 +38,8 @@
 .unit-card-questions { display: grid; gap: 4px; margin-top: 8px; padding: 6px; border: 1px solid #e5dccc; border-radius: 12px; background: #fff; }
 .unit-card-questions button { display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 44px; padding: 6px 10px; border-radius: 8px; text-align: left; font: 700 13px/1.5 var(--mt-font-body); color: #4f5a66; }
 .unit-card-questions button:hover { background: #fdf6e8; }
+/* C7：英文法の「回を選んで始める」見出し */
+.unit-card-pick-label { margin: 2px 4px 2px; font-size: 12px; font-weight: 800; color: var(--mt-ink-2); }
 .unit-round-done { flex-shrink: 0; padding: 2px 8px; border-radius: 999px; background: #e3f4e8; color: #1f6b3a; font: 800 12px/1.4 var(--mt-font-body); }
 .unit-card-questions button[data-cleared] { color: #2c3e50; }
 

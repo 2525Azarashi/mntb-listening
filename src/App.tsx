@@ -158,6 +158,8 @@ export { isAppState, isAppMode } from './appState';
 export type { AppState, AppMode } from './appState';
 const GrowthHub = React.lazy(() => import('./components/GrowthHub').then(m => ({ default: m.GrowthHub })));
 const MissionToast = React.lazy(() => import('./components/MissionToast').then(m => ({ default: m.MissionToast })));
+// C12：章の称号ゲットのお祝い（どの画面でも画面全体に出す）
+const ChapterTitleCelebration = React.lazy(() => import('./components/ChapterTitleCelebration').then(m => ({ default: m.ChapterTitleCelebration })));
 
 /**
  * 無操作でホーム画面に戻るまでの時間（30分）。
@@ -786,6 +788,7 @@ export default function App() {
       {/* ミッション達成のお知らせ（どの画面でも上に出る。「報酬を受け取る」はその場で受け取る・2026-10-11） */}
       <React.Suspense fallback={null}>
         <MissionToast />
+        <ChapterTitleCelebration />
         <DoorTransition screen={appState} />
       </React.Suspense>
 

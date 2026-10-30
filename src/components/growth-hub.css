@@ -387,11 +387,11 @@
 .collection-controls { align-items: stretch; }
 .collection-state { display: grid; grid-template-columns: repeat(3, auto); gap: 2px; padding: 3px; border: 1px solid #ddd0b8; border-radius: 12px; background: #f3ecdd; flex-shrink: 0; }
 .my-collection .collection-state button { min-height: 38px; min-width: 44px; padding: 0 8px; border: 0; border-radius: 9px; background: transparent; color: #6e6455; font: 800 12px/1 var(--mt-font-body); }
-.my-collection .collection-state button[aria-pressed=true] { background: #fffdf7; color: #3d3222; box-shadow: 0 1px 3px #8a6b3a33; }
+.my-collection .collection-state button[aria-pressed=true] { background: #fffdf7; color: var(--mt-ink-warm); box-shadow: 0 1px 3px #8a6b3a33; }
 .collection-kinds { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; padding: 2px 0 4px; margin: 0 -2px; flex-shrink: 0; }
 .collection-kinds::-webkit-scrollbar { display: none; }
 .my-collection .collection-kinds button { flex-shrink: 0; min-height: 44px; padding: 0 14px; border: 1.5px solid #e2d6c1; border-radius: 999px; background: #fffdf8; color: #5d503f; font: 800 13px/1 var(--mt-font-body); white-space: nowrap; }
-.my-collection .collection-kinds button[aria-pressed=true] { background: #3d3222; border-color: #3d3222; color: #fff; }
+.my-collection .collection-kinds button[aria-pressed=true] { background: var(--mt-ink-warm); border-color: var(--mt-ink-warm); color: #fff; }
 .collection-tiles { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; gap: 6px !important; }
 @media (min-width: 520px) { .collection-tiles { grid-template-columns: repeat(4, minmax(0, 1fr)) !important; } }
 @media (min-width: 900px) { .collection-tiles { grid-template-columns: repeat(6, minmax(0, 1fr)) !important; } }
@@ -402,7 +402,7 @@
 .collection-tiles li[data-owned=false] .collection-tile .collection-art { opacity: .5; filter: grayscale(.6); }
 .collection-tile .collection-art { height: 58px; }
 .collection-tile .collection-art img { height: 56px; }
-.collection-tile-name { width: 100%; font: 800 12px/1.25 var(--mt-font-body); color: #3d3222; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.collection-tile-name { width: 100%; font: 800 12px/1.25 var(--mt-font-body); color: var(--mt-ink-warm); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 .collection-tile-tag { display: inline-flex; align-items: center; gap: 2px; margin-top: auto; padding: 1px 7px; border-radius: 999px; background: #f3ecdd; color: #6e6455; font: 800 12px/1.4 var(--mt-font-body); }
 .collection-tiles li[data-equipped] .collection-tile-tag { background: #2f8f5b; color: #fff; }
 .collection-tile .collection-gift-tag { position: absolute; top: 3px; left: 3px; padding: 0 5px; }
@@ -411,11 +411,11 @@
 .collection-detail-head .collection-art { width: 96px; height: 100px; flex-shrink: 0; border-radius: 14px; background: #fdf6e8; }
 .collection-detail-head .collection-art img { height: 96px; }
 .collection-detail-head > div { display: grid; gap: 4px; min-width: 0; }
-.collection-detail-head strong { font: 900 17px/1.3 var(--mt-font-display); color: #3d3222; }
+.collection-detail-head strong { font: 900 17px/1.3 var(--mt-font-display); color: var(--mt-ink-warm); }
 .collection-detail-actions { display: grid; gap: 8px; }
 .collection-detail-actions > p { font-size: 13px; color: #5a6573; }
 .collection-detail-actions > button, .collection-detail-actions > a { min-height: 48px; display: flex; align-items: center; justify-content: center; gap: 6px; border-radius: 12px; font: 800 15px/1 var(--mt-font-body); }
-.collection-detail-actions > button:not(.collection-unequip):not(:disabled) { background: var(--mt-brand, #2458a6); color: #fff; border: 0; box-shadow: 0 3px 0 var(--mt-brand-strong, #14315f); }
+.collection-detail-actions > button:not(.collection-unequip):not(:disabled) { background: var(--mt-brand, var(--mt-brand)); color: #fff; border: 0; box-shadow: 0 3px 0 var(--mt-brand-strong, #14315f); }
 .collection-detail-actions > a { color: #245e7a; text-decoration: none; border: 1.5px solid #b9d3e2; background: #f2f8fc; }
 /* 2026-10-29 B4：称号＝小さなタイルの一覧。達成は色つき＋「達成」、つけている称号は太い枠、まだは灰色＋進み具合 */
 .badges-tiles-wrap { display: flex; flex-direction: column; gap: 8px; min-height: 0; }
@@ -449,16 +449,16 @@
 .badge-detail-head > div { display: grid; gap: 3px; }
 .badge-detail-head small { font: 800 12px/1.3 var(--mt-font-body); color: var(--tier); }
 .badge-detail-head strong { font: 900 18px/1.3 var(--mt-font-display); color: #2f2a22; }
-.badge-detail-desc { font: 600 14px/1.6 var(--mt-font-body); color: #3d3222; }
+.badge-detail-desc { font: 600 14px/1.6 var(--mt-font-body); color: var(--mt-ink-warm); }
 .badge-detail-goal { display: flex; align-items: center; gap: 8px; font: 700 13px/1 var(--mt-font-body); color: #5a6573; }
 .badge-detail-goal .badge-tile-progress { flex: 1; margin: 0; height: 8px; }
-.badge-detail-btn { min-height: 48px; border: 0; border-radius: 12px; background: var(--mt-brand, #2458a6); color: #fff; font: 800 15px/1 var(--mt-font-body); box-shadow: 0 3px 0 var(--mt-brand-strong, #14315f); }
+.badge-detail-btn { min-height: 48px; border: 0; border-radius: 12px; background: var(--mt-brand, var(--mt-brand)); color: #fff; font: 800 15px/1 var(--mt-font-body); box-shadow: 0 3px 0 var(--mt-brand-strong, #14315f); }
 .badge-detail-btn:disabled { background: #e9e3d6; color: #7b7466; box-shadow: none; }
 .badge-detail-note { font: 600 12px/1.5 var(--mt-font-body); color: #5a6573; }
 /* 2026-10-29 C6：ミッション画面の上に ←（下まで行かなくても戻れる） */
 .missions-top { position: relative; display: flex; align-items: center; justify-content: center; min-height: 48px; margin: 0 0 8px; }
 .missions-top h1 { margin: 0; text-align: center; }
-.missions-back { position: absolute; left: 0; top: 50%; transform: translateY(-50%); display: grid; place-items: center; width: 44px; height: 44px; border: 1px solid #d9cdbb; border-radius: 50%; background: #fffdf6; color: #3d3222; box-shadow: 0 2px 0 #e6dccb; }
+.missions-back { position: absolute; left: 0; top: 50%; transform: translateY(-50%); display: grid; place-items: center; width: 44px; height: 44px; border: 1px solid #d9cdbb; border-radius: 50%; background: var(--mt-bg-card); color: var(--mt-ink-warm); box-shadow: 0 2px 0 #e6dccb; }
 .missions-top .missions-back + * { padding-inline: 48px; }
 /* 2026-10-29 C1/C2：アイテムの詳細＝大きな絵（きせかえは拡大図・PDFは表紙ページ）＋種類・状態のチップ＋軽い説明＋操作（PDFは「保存する」） */
 .collection-detail-body { display: grid; gap: 10px; }

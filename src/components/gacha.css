@@ -395,10 +395,14 @@
   .gacha-banner-picks button { min-height: 54px; }
 }
 /* 2026-10-29 B5：今週の目玉を派手に。光の帯が数秒ごとに走り、キラキラが舞い、枠がゆっくり光る。下にとびら君のひとこと */
-.gacha-banner-hero { position: relative; overflow: hidden; isolation: isolate; animation: gacha-hero-glow 2.6s ease-in-out infinite; }
+.gacha-banner-hero { position: relative; overflow: hidden; isolation: isolate; box-shadow: 0 0 0 3px #fff; }
+/* 枠の光：box-shadow を毎フレーム変えると低スペック端末で重い（tests/lowSpecMotion.test.ts・L-05）。
+   光は ::after に固定で描き、opacity だけを動かす（見た目は同じ周期で明るくなったり暗くなったりする）。
+   親が overflow:hidden なので光は内側に出す。 */
+.gacha-banner-hero::after { content: ''; position: absolute; inset: 0; z-index: 3; pointer-events: none; border-radius: inherit; box-shadow: inset 0 0 16px 4px var(--glow); opacity: 0; animation: gacha-hero-glow 2.6s ease-in-out infinite; }
 .gacha-banner-hero[data-rarity=LR] { --glow: #b48af0; }
 .gacha-banner-hero { --glow: #f2c14e; }
-@keyframes gacha-hero-glow { 0%, 100% { box-shadow: 0 0 0 3px #fff, 0 0 0 0 var(--glow); } 50% { box-shadow: 0 0 0 3px #fff, 0 0 16px 4px var(--glow); } }
+@keyframes gacha-hero-glow { 0%, 100% { opacity: 0; } 50% { opacity: 1; } }
 .gacha-banner-shine { position: absolute; inset: 0; z-index: 2; pointer-events: none; background: linear-gradient(105deg, transparent 35%, rgba(255,255,255,.85) 48%, transparent 60%); transform: translateX(-120%); animation: gacha-hero-shine 3.2s ease-in-out infinite; }
 @keyframes gacha-hero-shine { 0%, 55% { transform: translateX(-120%); } 85%, 100% { transform: translateX(120%); } }
 .gacha-banner-sparks { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
@@ -415,4 +419,4 @@
 .gacha-banner-buddy { display: flex; align-items: center; min-height: 0; }
 .gacha-banner-buddy > * { width: 100%; }
 @media (max-height: 640px) { .gacha-banner-buddy { display: none; } }
-@media (prefers-reduced-motion: reduce) { .gacha-banner-hero, .gacha-banner-shine, .gacha-banner-sparks i, .gacha-banner-hero .gacha-banner-art { animation: none !important; } .gacha-banner-shine { display: none; } }
+@media (prefers-reduced-motion: reduce) { .gacha-banner-hero, .gacha-banner-hero::after, .gacha-banner-shine, .gacha-banner-sparks i, .gacha-banner-hero .gacha-banner-art { animation: none !important; } .gacha-banner-shine { display: none; } }
