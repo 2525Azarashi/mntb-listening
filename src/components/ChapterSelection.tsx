@@ -436,6 +436,8 @@ export function ChapterSelection({ mode, onSelectChapter, onBack, subject = 'eng
                 const clearedRounds = roundCleared.filter(Boolean).length;
                 const nextRound = isGrammar ? Math.max(0, roundCleared.findIndex((c: boolean) => !c)) : 0;
                 const roundTried = isGrammar && questions.some((q) => stageRecords[stageKey(chapter.id, q.id)]);
+                // D1：英文法で「いまやる回」＝途中保存があればその回、なければ未達成の最初の回
+                const grammarTarget = isGrammar ? Math.min(Math.max(0, questions.length - 1), hasSavedProgress ? savedIndex : nextRound) : 0;
                 const status = isGrammar
                   ? (questions.length > 0 && clearedRounds === questions.length ? 'done' : (solvedCount > 0 || hasSavedProgress || !!stat || roundTried) ? 'doing' : 'todo')
                   : isStageCleared(stage) ? 'done' : (solvedCount > 0 || hasSavedProgress || !!stat || !!stage) ? 'doing' : 'todo';
@@ -467,33 +469,64 @@ export function ChapterSelection({ mode, onSelectChapter, onBack, subject = 'eng
                     hasSavedProgress={hasSavedProgress}
                     expanded={expanded}
                     accent={theme.accent}
+                    // D1（2026-10-30）：英文法は「どの回をやるか」を主ボタンに書く（続き＝途中の回をNo.1から／なければ未達成の最初の回）
+                    primaryLabel={isGrammar && hasQuestions ? (hasSavedProgress ? `第${grammarTarget + 1}回の続き` : clearedRounds === questions.length ? `第${grammarTarget + 1}回をもう一度` : `第${grammarTarget + 1}回を始める`) : undefined}
+                    roundsMode={isGrammar && hasQuestions}
                     onToggle={() => setExpandedChapterId(expanded ? null : chapter.id)}
                     onStart={() => isGrammar
-                      ? onSelectChapter(chapter.id, nextRound, false, { startIndex: nextRound, endIndex: nextRound })
+                      ? onSelectChapter(chapter.id, grammarTarget, false, { startIndex: grammarTarget, endIndex: grammarTarget })
                       : onSelectChapter(chapter.id, 0, false)}
                     // C7：英文法の「続きから」は、前にやっていた回をその回の最初の問題（No.1）から始める
                     onResume={() => isGrammar
-                      ? onSelectChapter(chapter.id, savedIndex, false, { startIndex: savedIndex, endIndex: savedIndex })
+                      ? onSelectChapter(chapter.id, grammarTarget, false, { startIndex: grammarTarget, endIndex: grammarTarget })
                       : onSelectChapter(chapter.id, savedIndex, true)}
                     onAudio={audioSets.length > 0 ? () => setOpenAudioSetId(openAudioSetId === audioSets[0].id ? null : audioSets[0].id) : undefined}
                     audioOpen={audioSets.length > 0 && openAudioSetId === audioSets[0].id}
                   >
-                    {hasQuestions && questions.length > 1 && (
+                    {/* ★D1（2026-10-30）英文法：回の一覧を「つぎにやる回」＋進み具合つきの道のりにする★
+                        以前は「続きから」「最初から」「回を選んで始める」が別々にあり、どこをやるのか分かりにくかった。 */}
+                    {isGrammar && hasQuestions && (
+                      <div className="grammar-rounds" data-grammar-rounds>
+                        <p className="grammar-rounds-head">
+                          <span>全{questions.length}回（1回5問）</span>
+                          <span className="grammar-rounds-meter" aria-label={`達成 ${clearedRounds}/${questions.length}回`}>
+                            {roundCleared.map((c, i) => <i key={i} data-on={c || undefined} data-next={i === grammarTarget || undefined} />)}
+                          </span>
+                          <b>達成 {clearedRounds}/{questions.length}</b>
+                        </p>
+                        <ol className="grammar-rounds-list">
+                          {questions.map((question, questionIndex: number) => {
+                            const rec = stageRecords[stageKey(chapter.id, question.id)];
+                            const cleared = roundCleared[questionIndex];
+                            const isNext = questionIndex === grammarTarget;
+                            const state = cleared ? 'done' : rec ? 'doing' : 'todo';
+                            const label = String(question.category || question.title || '').replace(/^第\d+回\s*/, '');
+                            return (
+                              <li key={question.id}>
+                                <button type="button" className="grammar-round" data-round={questionIndex} data-state={state} data-next={isNext || undefined} data-cleared={cleared || undefined}
+                                  aria-label={`第${questionIndex + 1}回 ${label}（${cleared ? '達成' : rec ? `最高${rec.b}%` : 'まだ'}）を始める`}
+                                  onClick={() => onSelectChapter(chapter.id, questionIndex, false, { startIndex: questionIndex, endIndex: questionIndex })}>
+                                  <span className="grammar-round-no" aria-hidden="true">{questionIndex + 1}</span>
+                                  <span className="grammar-round-body">
+                                    {isNext && <em className="grammar-round-next">{hasSavedProgress ? 'つづき' : 'つぎ'}</em>}
+                                    <span className="grammar-round-title">{label || `第${questionIndex + 1}回`}</span>
+                                  </span>
+                                  <span className="grammar-round-state">
+                                    {cleared ? <span className="unit-round-done">達成</span> : rec ? <span className="grammar-round-best">最高 {rec.b}%</span> : <span className="grammar-round-todo">まだ</span>}
+                                  </span>
+                                  <ChevronRight size={16} aria-hidden="true" />
+                                </button>
+                              </li>
+                            );
+                          })}
+                        </ol>
+                      </div>
+                    )}
+                    {!isGrammar && hasQuestions && questions.length > 1 && (
                       <div className="chapter-question-list unit-card-questions">
-                        {/* C7：英文法は「回を選んで始める」と見出しを付ける（続きから以外の入口が分かりにくかった） */}
-                        {isGrammar && <p className="unit-card-pick-label">回を選んで始める</p>}
-                        {/* C7：英文法の回は「その回だけ」を範囲として渡す。渡さないと単元の通しになり、
-                            5問解いても「次の問題へ」しか出ず結果画面に行けなかった（No.1〜5 → No.6〜 と続いてしまう） */}
                         {questions.map((question, questionIndex: number) => (
-                          // C7（2026-10-29）：英文法は「1回（5問）＝1ステージ」。一覧から選んだときも、その回だけを範囲にして始める
-                          //   （範囲なしだと5問終わっても次の回へ進み続け、結果画面・「次の回へ／単元選択／ホーム」が出なかった）
-                          <button key={question.id} type="button" data-round={isGrammar ? questionIndex : undefined} data-cleared={isGrammar && roundCleared[questionIndex] || undefined}
-                            onClick={() => isGrammar
-                              ? onSelectChapter(chapter.id, questionIndex, false, { startIndex: questionIndex, endIndex: questionIndex })
-                              : onSelectChapter(chapter.id, questionIndex, false)}>
-                            {/* 英文法のデータの category は「第1回 No.1〜5 …」と回の番号から始まるので、そのときは「第N回」を足さない（二重表示を防ぐ） */}
-                            <span>{isGrammar && !/^第\d+回/.test(question.category || '') ? `第${questionIndex + 1}回${question.category ? ' ' : ''}` : ''}{question.category || (isGrammar ? '' : `問 ${questionIndex + 1}`)}</span>
-                            {isGrammar && roundCleared[questionIndex] ? <span className="unit-round-done">達成</span> : null}
+                          <button key={question.id} type="button" onClick={() => onSelectChapter(chapter.id, questionIndex, false)}>
+                            <span>{question.category || `問 ${questionIndex + 1}`}</span>
                             <ChevronRight size={14} aria-hidden="true" />
                           </button>
                         ))}
