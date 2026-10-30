@@ -16,6 +16,23 @@ import { KyotsuAudioPlayer } from './gacha/KyotsuAudioPlayer';
 import { GachaSetsPanel } from './gacha/GachaSetsPanel';
 /** プレゼント（隔週リーグ報酬）でしか手に入らないアイテム */
 const LEAGUE_GIFT_ITEM = 'frame_league_aurora';
+/** C2：種類の名前と、詳細の窓に出す軽い説明 */
+const KIND_LABEL: Record<string, string> = { pose: 'ポーズ', frame: 'フレーム', hat: '帽子', glasses: 'メガネ', cheek: 'ほっぺ', aura: 'オーラ', wallpaper: '壁紙', print: 'PDF' };
+const KIND_DESC: Record<string, string> = {
+  pose: 'とびら君のポーズが変わります。ホームと対戦で表示されます。',
+  frame: 'とびら君のまわりの枠が変わります。ランキングや対戦のカードにも出ます。',
+  hat: 'とびら君の頭にのせるアクセサリです。',
+  glasses: 'とびら君の目もとにつけるアクセサリです。',
+  cheek: 'とびら君のほっぺの飾りです。',
+  aura: 'とびら君のまわりに出る光のアクセサリです。',
+  wallpaper: 'マイページやホームでとびら君の後ろに出る壁紙です。',
+};
+function describeItem(item: ItemDef): string {
+  const print = printOf(item.id);
+  if (print) return `${print.category}（${print.pages}ページ）。「保存する」で端末にPDFを保存して、いつでも見られます。${print.category === '完全版' ? '本1冊ぶんの完全版です。' : ''}`;
+  const how = 'coins' in item.unlock ? `ショップで${item.unlock.coins}マナコインと交換できます。` : 'level' in item.unlock ? `Lv.${item.unlock.level}で手に入ります。` : 'badge' in item.unlock ? '称号を手に入れると解放されます。' : 'ガチャで手に入ります。';
+  return `${KIND_DESC[item.kind] ?? ''}${how}`;
+}
 const LEAGUE_LABEL: Record<string, string> = { bronze: 'ブロンズ', silver: 'シルバー', gold: 'ゴールド', platinum: 'プラチナ', manatobi: 'マナトビ' };
 export function MyCollection({ view = 'owned', onGacha, initialKind = 'all', gachaMode = false }: { view?: 'owned' | 'prints' | 'shop'; key?: string; onGacha?: () => void; initialKind?: string; gachaMode?: boolean }) {
   const { progress, uid } = useGrowthProgress();
@@ -90,11 +107,26 @@ export function MyCollection({ view = 'owned', onGacha, initialKind = 'all', gac
       </li>; })}</ul>{!list.length && <p className="collection-empty">{view === 'prints' ? '獲得したPDFはここに並びます。ガチャのSRで学習プリント、URで完全版の本が出ます。' : 'この条件のアイテムはありません。絞り込みを変えてみてください。'}</p>}</>}
     </div>
     <FitPagerBar pager={pager} label="一覧" />
+    {/* C1/C2（2026-10-29）：詳細の窓＝大きな絵＋説明＋操作。PDF は表紙のページ・中身の説明・「保存する」 */}
     {detail && <ItemDialog onClose={() => setDetail(null)} title={detail.label}>
-      <div className="collection-detail-head"><span className="collection-art">{art(detail, 88)}</span>
-        <div><span className="collection-tag">{gachaRarityOf(detail)} · {progress.equipped[detail.kind] === detail.id ? '装備中' : progress.owned.includes(detail.id) ? '所持済み' : '未所持'}</span><strong>{detail.label}</strong></div></div>
-      <div className="collection-detail-actions">{actions(detail)}</div>
-      {message && <p role="status" className="collection-message">{message}</p>}
+      {(() => {
+        const owned = progress.owned.includes(detail.id); const print = printOf(detail.id); const equipped = progress.equipped[detail.kind] === detail.id;
+        return <>
+          <div className="collection-detail-hero" data-kind={detail.kind}>
+            {print ? <img className="collection-detail-cover" src={print.thumb} alt={`${print.label}の表紙`} />
+              : <GrowthAvatar progress={{...progress,equipped:{...progress.equipped,[detail.kind]:detail.id}}} size={150} showLevel={false}/>}
+          </div>
+          <div className="collection-detail-title">
+            <span className="collection-detail-chip" data-rarity={gachaRarityOf(detail)}>{gachaRarityOf(detail)}</span>
+            <span className="collection-detail-chip">{KIND_LABEL[detail.kind] ?? 'アイテム'}</span>
+            <span className="collection-detail-chip" data-state={equipped ? 'equipped' : owned ? 'owned' : 'none'}>{equipped ? '装備中' : owned ? '所持済み' : '未所持'}</span>
+          </div>
+          <strong className="collection-detail-name">{detail.label}</strong>
+          <p className="collection-detail-desc">{describeItem(detail)}</p>
+          <div className="collection-detail-actions">{actions(detail)}</div>
+          {message && <p role="status" className="collection-message">{message}</p>}
+        </>;
+      })()}
     </ItemDialog>}
     <p className="collection-storage">所有アイテム・コインはこの端末のアカウント別に保存。リーグの配布記録はサーバーに保存され、受け取り直せます。</p>
   </section>;
@@ -107,6 +139,6 @@ function ItemDialog({ title, onClose, children }: { title: string; onClose: () =
   return createPortal(<dialog ref={ref} className="game-details-dialog mt-dialog collection-detail" aria-label={`${title}の詳細`} data-collection-detail
     onClose={onClose} onCancel={e => { e.preventDefault(); onClose(); }} onClick={e => { if (e.target === ref.current) onClose(); }}>
     <header><h2>アイテムの詳細</h2><button type="button" autoFocus onClick={onClose}>閉じる</button></header>
-    <div className="game-details-body my-collection collection-detail-body">{children}</div>
+    <div className="game-details-body collection-detail-body">{children}</div>
   </dialog>, document.body);
 }

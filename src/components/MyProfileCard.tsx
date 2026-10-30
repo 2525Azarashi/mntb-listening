@@ -153,8 +153,9 @@ export function MyProfileCard() {
     {!schoolCheck.ok && <p role="alert" className="ps-help" data-error>{schoolCheck.message?.replace('名前', '志望校')}</p>}
     {!mottoCheck.ok && <p role="alert" className="ps-help" data-error>{mottoCheck.message?.replace('名前', '志')}</p>}
     {!bioCheck.ok && <p role="alert" className="ps-help" data-error>{bioCheck.message?.replace('名前', '自己紹介')}</p>}
-    <div className="ps-toggle-row mypage-profile-public">
-      <div className="ps-toggle-text"><p>プロフィールを公開</p><small>{profilePublic ? 'ほかの人に見えます' : 'いまは非公開です'}</small></div>
+    {/* C4：非公開のときは、マイページの「編集」と同じ赤い印をここにも付ける（なぜ赤いのかが分かるように） */}
+    <div className="ps-toggle-row mypage-profile-public" data-not-public={(!!auth.currentUser && !profilePublic) || undefined}>
+      <div className="ps-toggle-text"><p>{!!auth.currentUser && !profilePublic && <i className="mypage-public-dot" aria-hidden="true" />}プロフィールを公開</p><small>{profilePublic ? 'ほかの人に見えます' : 'いまは非公開です（オンにして保存すると公開されます）'}</small></div>
       <button type="button" role="switch" aria-checked={profilePublic} aria-label="プロフィールを公開（名前・学年・志望校・志・自己紹介・学習の記録を他の人に表示）" className="ps-switch"
         onClick={() => { if (auth.currentUser && publicationReady) { setProfilePublic(p => !p); setDirty(true); setMessage(null); } else setMessage({ text: 'Googleログインと公開設定の確認が必要です。', error: true }); }}><span /></button>
       {/* 公開の行に並べる（マイページを1画面に収めたまま、見え方を確かめられる） */}

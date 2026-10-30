@@ -433,10 +433,19 @@ export function linkRecordsToMaterial(store: ManualLogStore, materialId: string,
 }
 
 /** マイページの「今日の勉強記録」用（2026-10-28）：直近7日（古い→新しい）の教材ごとの時間。アプリ内の時間は「マナトビ（アプリ内）」1行 */
-export interface WeekRow { key: string; label: string; subject: string; seconds: number[]; total: number }
+export interface WeekRow { key: string; label: string; subject: string; seconds: number[]; total: number; recordIds?: string[][] }
 export function weekByMaterial(store: ManualLogStore, app: AppTime, now = Date.now()): { days: string[]; rows: WeekRow[] } {
   const today = dayOf(now);
   const days = Array.from({ length: 7 }, (_, i) => addDays(today, i - 6));
+  return { days, rows: materialsByDays(store, app, days) };
+}
+
+/**
+ * 指定した日ごとの「教材ごとの勉強時間」（C5 2026-10-29：カレンダーで選んだ日にも使う）。
+ *   並び＝最後の日に多い順 → 合計の多い順。アプリ内の時間は最後に1行（マナトビ）。
+ *   recordIds … そのマスに入っている自分の記録（押すと直す・消すの窓を開くため）
+ */
+export function materialsByDays(store: ManualLogStore, app: AppTime, days: readonly string[]): WeekRow[] {
   const idx = new Map(days.map((d, i) => [d, i]));
   const mats = new Map(liveMaterials(store).map(x => [x.id, x]));
   const rows = new Map<string, WeekRow>();
@@ -445,13 +454,15 @@ export function weekByMaterial(store: ManualLogStore, app: AppTime, now = Date.n
     if (i == null) continue;
     const mat = r.materialId ? mats.get(r.materialId) : undefined;
     const key = mat ? `id:${mat.id}` : `name:${r.subject}:${r.materialName}`;
-    const row = rows.get(key) ?? { key, label: mat?.name || r.materialName || subjectLabel(r.subject), subject: mat?.subject ?? r.subject, seconds: Array(7).fill(0), total: 0 };
+    const row = rows.get(key) ?? { key, label: mat?.name || r.materialName || subjectLabel(r.subject), subject: mat?.subject ?? r.subject, seconds: Array(days.length).fill(0), total: 0, recordIds: days.map(() => [] as string[]) };
     row.seconds[i] += r.minutes * 60; row.total += r.minutes * 60;
+    row.recordIds?.[i].push(r.id);
     rows.set(key, row);
   }
-  const out = [...rows.values()].sort((a, b) => b.seconds[6] - a.seconds[6] || b.total - a.total);
+  const last = days.length - 1;
+  const out = [...rows.values()].sort((a, b) => b.seconds[last] - a.seconds[last] || b.total - a.total);
   const appSec = days.map(d => app.days[d] ?? 0);
   const appTotal = appSec.reduce((a, b) => a + b, 0);
   if (appTotal > 0) out.push({ key: 'app', label: 'マナトビ（アプリ内）', subject: 'app', seconds: appSec, total: appTotal });
-  return { days, rows: out };
+  return out;
 }

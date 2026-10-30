@@ -125,11 +125,18 @@ export function MultipleChoiceControl({
       ★選択肢が5つ・6つで本文が短い（第4問の並べ替え・6択共有）★
       縦1列では高さを食うので 2 列にする。
     */
+    /*
+      ★C8（2026-10-29 ご要望「問題によっては横2列×2でいい」）★
+      4択でどの選択肢も短い（16文字以下＝英文法の has taken / takes、TOEIC の her / herself など）なら 2×2。
+      1つあたり約 170px 幅（390px 端末）で 16 文字の英語が1行に収まり、高さが半分になる。
+      長い英文（リスニングの文の選択肢）は縦1列のまま（2列にすると折り返して読みにくい）。
+    */
+    const SHORT_OPTION_MAX = 16;
     const twoCol =
       !!optionTexts &&
       !optionImages &&
-      sq.options.length >= (listeningMaterialsMobile ? 4 : 5) &&
-      optionTexts.every((t) => t.length <= 28);
+      ((sq.options.length >= (listeningMaterialsMobile ? 4 : 5) && optionTexts.every((t) => t.length <= 28)) ||
+        (sq.options.length === 4 && optionTexts.every((t) => t.length <= SHORT_OPTION_MAX)));
     // 本文つきの選択肢は必ず縦1列（英文は長いので横並びにすると読めない）。
     const stacked = (isLongOptionList || !!optionTexts) && !optionImages;
 

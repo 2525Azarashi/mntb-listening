@@ -17,7 +17,7 @@
  */
 
 import React, { useEffect, useState } from 'react';
-import { ArrowLeft, CalendarCheck, Clock, Coins, Gift, PartyPopper, Sparkles, Zap } from 'lucide-react';
+import { ArrowLeft, CalendarCheck, Clock, Coins, Gift, PartyPopper, Sparkles } from 'lucide-react';
 import { allMissionsClaimed, allMissionsForDate, chestOpenedToday, completeChestFor, currentCompleteStreak, localDateKey, missionsForDate, msUntilNextDay, rolloverDaily, type CompleteChest, type GrowthProgress } from '../core/growth';
 import { claimMissionReward, loadMyGrowth, openChest, subscribeGrowth } from '../data/growthStore';
 import { play, primeAudio } from './feedback';
@@ -134,27 +134,14 @@ export function BattleMissions({ onBack, onBattle, onReview, onShop, onRush, sta
   return (
     <BattleShell
       className={standalone ? 'missions-shell' : ''}
-      footer={
-        <div className="missions-actions grid gap-2.5">
-          {onRush && !allClaimed && (
-            <BattleButton onClick={onRush} icon={<Zap size={18} />}>
-              マナラッシュでミッションを進める
-            </BattleButton>
-          )}
-          {onBattle && !allClaimed && (
-            <BattleButton onClick={onBattle} icon={<Sparkles size={18} />}>
-              対戦してミッションを進める
-            </BattleButton>
-          )}
-          {onReview && <BattleButton variant="ghost" onClick={onReview}>復習でミッションを進める</BattleButton>}
-          {onShop && <BattleButton variant="ghost" onClick={onShop}>マナコインをショップで使う</BattleButton>}
-          <BattleButton variant="ghost" onClick={onBack} icon={<ArrowLeft size={18} />}>
-            もどる
-          </BattleButton>
-        </div>
-      }
+      // C6（2026-10-29）：「マナラッシュ／対戦／復習でミッションを進める」は削除（各ミッションの「○○へ」で行ける）。
+      //   もどるは画面の上の ← に移した（下まで行かないと戻れなかった）
+      footer={onShop ? <div className="missions-actions grid gap-2.5"><BattleButton variant="ghost" onClick={onShop}>マナコインをショップで使う</BattleButton></div> : undefined}
     >
-      {standalone ? <h1 className="mb-4 text-center font-handwriting text-2xl font-black">きょうのミッション</h1> : <BattleTitle subtitle="きょうのミッション" />}
+      <header className="missions-top" data-missions-top>
+        <button type="button" className="missions-back" onClick={onBack} aria-label="もどる" data-missions-back><ArrowLeft size={20} aria-hidden="true" /></button>
+        {standalone ? <h1 className="font-handwriting text-2xl font-black">きょうのミッション</h1> : <BattleTitle subtitle="きょうのミッション" />}
+      </header>
       <p className="missions-lead mb-3 text-xs text-gray-600">この端末だけの成長記録です。AI対戦でも進みます。復習ミッションは「復習リスト」で「できた」にした問題を1問1日1回数えます。</p>
 
       {toast && (

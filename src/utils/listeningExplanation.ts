@@ -126,18 +126,21 @@ export function locateListeningEvidence(script: string, phrases: readonly string
   return chosen.sort((a,b) => a.start-b.start);
 }
 
-function highlightedScript(script: string, phrases: readonly string[]): string {
+function highlightedScript(script: string, phrases: readonly string[], numbered = true): string {
   let end = 0;
   let html = '';
   for (const hit of locateListeningEvidence(script, phrases)) {
     html += escapeHtml(script.slice(end, hit.start));
-    html += `<mark class="listening-evidence" aria-label="聞き取りの決め手 ${hit.phraseIndex+1}"><sup>${hit.phraseIndex+1}</sup>${escapeHtml(script.slice(hit.start, hit.end))}</mark>`;
+    // numbered=false（英文法・TOEIC）：下に番号の一覧を出さないので、番号も付けず黄色だけにする（C10）
+    html += numbered
+      ? `<mark class="listening-evidence" aria-label="聞き取りの決め手 ${hit.phraseIndex+1}"><sup>${hit.phraseIndex+1}</sup>${escapeHtml(script.slice(hit.start, hit.end))}</mark>`
+      : `<mark class="listening-evidence">${escapeHtml(script.slice(hit.start, hit.end))}</mark>`;
     end = hit.end;
   }
   return (html + escapeHtml(script.slice(end))).replace(/\n/g, '<br>');
 }
 
-export function scriptBox(script: string, translation?: string, phrases: readonly string[] = []): string {
+export function scriptBox(script: string, translation?: string, phrases: readonly string[] = [], numbered = true): string {
   const body = String(script || '').trim();
   if (!body) return '';
   const jp = String(translation || '').trim();
@@ -147,7 +150,7 @@ export function scriptBox(script: string, translation?: string, phrases: readonl
     '<div style="font-size:max(12px, 0.78em); font-weight:bold; letter-spacing:0.08em; color:#2F7C74; margin-bottom:6px;">SCRIPT ／ 実際に流れた英文</div>' +
     // 対話（第3問）のスクリプトは 'A: …' / 'B: …' の複数行で入ってくる。
     // 改行をそのまま出すと1行に潰れて誰の発話か追えないため、<br> に置き換える。
-    `<div style="font-size:1.06em; font-weight:bold; line-height:1.85;">${highlightedScript(body, phrases)}</div>` +
+    `<div style="font-size:1.06em; font-weight:bold; line-height:1.85;">${highlightedScript(body, phrases, numbered)}</div>` +
     (jp
       ? `<div style="margin-top:8px; padding-top:8px; border-top:1px dashed rgba(62,156,147,0.5); font-size:max(12px, 0.9em); color:#2F7C74;">${escapeHtml(jp)}</div>`
       : '') +
@@ -303,14 +306,16 @@ export function sharedSteps(problem: ProblemSource): string[] {
  *   選択肢の行は ○（緑）／×（赤）を目立たせる。中身の文は変えない。
  */
 const EG_HEADS: Record<string, string> = {
-  着眼点: '#2F7C74', ポイント: '#B0464F', 選択肢: '#5A6573', プラス: '#7A5B2A', 入試ではここ: '#1F5FA8',
+  着眼点: '#2F7C74', ポイント: '#B0464F', 選択肢: '#5A6573', プラス: '#7A5B2A', 入試ではここ: '#1F5FA8', セットで覚える: '#6B3FA0',
 };
 function styleReasonLine(line: string): string {
-  const head = line.match(/^【(着眼点|ポイント|選択肢|プラス|入試ではここ)】\s*(.*)$/u);
+  const head = line.match(/^【(着眼点|ポイント|選択肢|プラス|入試ではここ|セットで覚える)】\s*(.*)$/u);
   if (head) {
     const color = EG_HEADS[head[1]];
     const tag = `<span style="display:inline-block; margin-right:6px; padding:0 8px; border-radius:6px; font-size:max(12px, 0.82em); font-weight:bold; color:#fff; background-color:${color};">${head[1]}</span>`;
-    const body = head[2] ? (head[1] === '入試ではここ' ? `<span style="font-weight:bold; color:#1F3F6A;">${escapeHtml(head[2])}</span>` : escapeHtml(head[2])) : '';
+    // C9：【セットで覚える】は太字で目立たせる（入試ではここ と同じ扱い）
+    const strong = head[1] === '入試ではここ' ? '#1F3F6A' : head[1] === 'セットで覚える' ? '#4A2A73' : '';
+    const body = head[2] ? (strong ? `<span style="font-weight:bold; color:${strong};">${escapeHtml(head[2])}</span>` : escapeHtml(head[2])) : '';
     return tag + body;
   }
   // TOEIC Part 5 の選択肢は (A)〜(D)
@@ -404,7 +409,19 @@ function decisiveBlock(phrases: { phrase: string; meaning: string }[], theme: st
  *   従来の汎用エンジンに任せる。無理に専用整形をかけて
  *   情報が欠けるほうが害が大きい。
  */
-export function buildListeningExplanation(problem: ProblemSource): string {
+/**
+ * 組み立ての設定。
+ * - decisive: 「聞き取りの決め手」（英文法・TOEIC では「解くカギ」）の番号つき一覧を出すか。
+ *   C10（2026-10-29 ご指摘「解くカギってところいらない。黄色のところが大切ってことぐらいわかる」）で、
+ *   英文法・TOEIC は false にしている。英文の黄色いマーカーは残し、一覧と番号だけ出さない。
+ *   リスニングは音を聞いた後に「どの語が勝負だったか」を照合するので、これまでどおり true。
+ */
+export interface ListeningExplanationOptions {
+  decisive?: boolean;
+}
+
+export function buildListeningExplanation(problem: ProblemSource, options: ListeningExplanationOptions = {}): string {
+  const showDecisive = options.decisive !== false;
   const subs: SubQuestion[] = Array.isArray(problem?.subQuestions) ? problem.subQuestions : [];
   if (subs.length === 0) return '';
 
@@ -459,10 +476,10 @@ export function buildListeningExplanation(problem: ProblemSource): string {
 
     // ① スクリプト（枠・英文だけ）★いちばん先に出す★
     const phrases = extractDecisivePhrases(problem, sq, script);
-    if (script) rows.push(scriptBox(script, translation, phrases.map(item => item.phrase)));
+    if (script) rows.push(scriptBox(script, translation, phrases.map(item => item.phrase), showDecisive));
 
-    // ② 聞き取りの決め手
-    const decisive = decisiveBlock(phrases, String(sq?.detailedExplanation?.theme || ''));
+    // ② 聞き取りの決め手（英文法・TOEIC では出さない＝C10）
+    const decisive = showDecisive ? decisiveBlock(phrases, String(sq?.detailedExplanation?.theme || '')) : '';
     if (decisive) rows.push(decisive);
 
     // ③ 解答の道すじ（元の説明から重複行だけを除いたもの）

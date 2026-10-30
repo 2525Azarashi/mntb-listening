@@ -28,7 +28,14 @@ tools/update.sh が cards.json から作る。1ファイル1行：`パス` — �
 - `src/components/ComingSoon.tsx` — まだ公開していない機能に「準備中」の札を出す係（部品・15行・使われる2）
 - `src/components/DoorMascot.tsx` — とびら君が科目ごとのミニ豆知識を吹き出しで話す係（部品・126行・使われる4）
 - `src/components/ErrorBoundary.tsx` — 画面の一部が壊れても、アプリ全体を止めずに戻り道を出す係（部品・94行・使われる1）
-- `src/components/Explanation.tsx` — 解き終えた問題の採点結果と解答・解説を見せる画面の係（画面・770行・使われる2）
+- `src/components/Explanation.tsx` — 解き終えた問題の採点結果と解答・解説を見せる画面の係（画面・774行・使われる2）
+- `src/components/toeic/ToeicPageQuiz.tsx` — 【新】TOEIC Part 5 の演習画面（1ページ6問・マーク式・ページ単位の採点と解説）の係（画面・416行・使われる1）
+- `src/components/toeic/toeicPageModel.ts` — 【新】TOEIC Part 5 のページ分け・採点キー・解説の引き当ての計算の係（データ・208行・使われる2）
+- `src/components/toeic/ToeicExplanationPanel.tsx` — 【新】TOEIC Part 5 の採点後の解説（役割ごとの札・手がかりのマーカー・空所の下線枠）の係（部品・使われる1）
+- `src/components/toeic/ToeicTimer.tsx` — 【新】TOEIC Part 5 の演習画面の控えめな時間表示の係（QuizTimerBar の TOEIC 用の複製）（部品・使われる1）
+- `src/components/toeic/toeicNote.ts` — 【新】TOEIC Part 5 の1問ずつの「ノートに保存」（同じ問題は1件だけ）の係（データ・使われる1）
+- `src/data/toeic/toeicPart5Notes.ts`・`toeicPart5NoteTypes.ts`・`toeicPart5NotesRound01〜15.ts` — 【新】TOEIC Part 5 の解説の追加項目（着眼点・ポイント・TOEICでのコツ・手がかり）の係（データ）
+- `src/components/toeic/toeic-page.css` — 【新】TOEIC Part 5 のページ式演習の見た目の係（部品・197行・使われる1）
 - `src/components/ExplanationBody.tsx` — 【変】解説の本文を、見出しや表つきで読みやすく描く係（部品・341行・使われる5）
 - `src/components/ExplanationScreen.tsx` — 演習画面から切り替わって解答・解説の画面を出す係（画面・97行・使われる1）
 - `src/components/FeedbackAdminPanel.tsx` — 届いた「ご意見・ご要望」を運営が見て返信する画面の係（画面・333行・使われる1）
@@ -625,6 +632,7 @@ tools/update.sh が cards.json から作る。1ファイル1行：`パス` — �
 - `scripts/README.md` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（文書・49行・使われる0）
 - `scripts/build.sh` — ビルドの前にメモリ不足を見つけ、理由と対処を先に示す係（設定・49行・使われる0）
 - `scripts/check-firebase-setup.mjs` — 新しいFirebaseプロジェクトにつなぐ設定が済んだかを確かめる係（設定・37行・使われる0）
+- `scripts/check-toeic-notes.mts` — 【新】TOEIC Part 5 の追加解説が英文法の解説やほかの文章と5語続けて一致していないかを調べる係（`npm run check:toeic-notes`）
 - `scripts/check-release.mjs` — 本番でゲスト専用の版が黙って公開されないよう止める係（設定・17行・使われる0）
 - `scripts/data/grammar_v3/build_ts.py` — そろえた英文法データから、アプリ用の問題ファイルを作る係（データ・81行・使われる0）
 - `scripts/data/grammar_v3/exam_tips.py` — 英文法の解説に「入試ではここ」のひと言を足すための表の係（データ・176行・使われる0）

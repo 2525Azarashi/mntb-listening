@@ -59,7 +59,7 @@ export const toeicPart5Data: { parts: ToeicPart[] } = {
 
 /** 解説の整形（英文法と同じ経路）と、音を出さない設定 */
 (() => {
-  applyListeningPostProcess(toeicPart5Data);
+  applyListeningPostProcess(toeicPart5Data, { decisive: false }); // C10：「解くカギ」の一覧は出さない（黄色いマーカーだけ残す）
   for (const c of toeicPart5Data.parts.flatMap((p) => p.chapters)) {
     for (const problem of c.practiceProblems) {
       if (Array.isArray(problem.audioTracks)) problem.explanationTracks = problem.audioTracks;
@@ -68,8 +68,6 @@ export const toeicPart5Data: { parts: ToeicPart[] } = {
       if (typeof problem.explanation === 'string') {
         problem.explanation = problem.explanation
           .replace(/SCRIPT ／ 実際に流れた英文/g, 'ANSWER ／ 完成した英文')
-          .replace(/聞き取りの決め手/g, '解くカギ')
-          .replace(/スクリプト内の黄色いマーカー/g, '英文の黄色いマーカー')
           .replace(/解答の道すじ/g, '解説');
       }
     }
