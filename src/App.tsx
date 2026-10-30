@@ -6,6 +6,7 @@
 import { AdBannerSlot } from './ads/AdBannerSlot';
 import { PdfViewerHost } from './components/PdfViewer';
 import { usePdfOpen } from './hooks/usePdfOpen';
+import { useBannerAdSuppressed } from './utils/adSuppress';
 import React, { useState, useEffect, useRef } from 'react';
 import { Capacitor } from '@capacitor/core';
 import { BottomNavigation } from './components/ui/BottomNavigation';
@@ -221,6 +222,7 @@ export default function App() {
   const [foundationTab, setFoundationTab] = useState<'words' | 'quiz' | 'reading' | 'grammar' | 'more'>('words');
   /** アプリ内の PDF ビューが開いているか（開いている間は広告を出さない） */
   const pdfOpen = usePdfOpen();
+  const bannerAdSuppressed = useBannerAdSuppressed();
   const [foundationBackTo, setFoundationBackTo] = useState<'home' | 'study'>('home');
   // 演習する（科目→コンテンツ）。選んだ科目・前回のコンテンツは端末に覚えておく
   const [studyCatalogSubject, setStudyCatalogSubject] = useState<string | null>(() => safeGetItem(STORAGE_KEYS.studyCatalogSubject));
@@ -781,7 +783,7 @@ export default function App() {
 
       {/* バナー広告の場所（今は OFF なので何も描かない。src/ads/adConfig.ts で有効にする） */}
       {/* PDF を開いている間は 'pdf'（広告を出さない画面）として扱う */}
-      <AdBannerSlot screen={pdfOpen ? 'pdf' : appState === 'battle' && battleActive ? 'battle_live' : appState} />
+      <AdBannerSlot screen={pdfOpen ? 'pdf' : bannerAdSuppressed ? 'philosophy' : appState === 'battle' && battleActive ? 'battle_live' : appState} />
       {/* アプリ内の PDF ビュー（どの画面からでも openPdf() で開く。戻るボタン・Esc で閉じる） */}
       <PdfViewerHost />
 
