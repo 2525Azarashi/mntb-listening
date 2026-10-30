@@ -49,7 +49,7 @@ export interface MobileFloatingBarProps {
   /** その並びの中のいまの位置。 */
   focusedIndex: number;
   /** 入力欄のフォーカスを前後に動かす。 */
-  moveFocus: (delta: number) => void;
+  moveFocus: (dir: -1 | 1) => void;
   /** 入力欄の ref をまとめて持つ箱。 */
   inputRefs: React.MutableRefObject<Record<string, HTMLInputElement | HTMLTextAreaElement | null>>;
   /** この大問が数式パレットを要るか。 */

@@ -35,7 +35,7 @@
 .sr-items em { font-style: normal; font-weight: 800; color: #2f7a52; }
 /* 2026-10-11：解きなおしの2択。左＝全部、右＝まちがえた問題だけ（右を目立たせる） */
 .sr-retry { display: grid; grid-template-columns: 1fr 1.6fr; gap: 6px; padding: 0 12px 10px; }
-.sr-retry button { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; gap: 5px; padding: 0 8px; border-radius: 12px; font-size: 13px; font-weight: 800; border: 1px solid #d9cdbb; background: #fffdf6; color: #2c3e50; }
+.sr-retry button { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; gap: 5px; padding: 0 8px; border-radius: 12px; font-size: 13px; font-weight: 800; border: 1px solid #d9cdbb; background: var(--mt-bg-card); color: #2c3e50; }
 .sr-retry button[data-sr-retry=wrong] { border-color: #e07a6a; background: #fdeeea; color: #a93226; }
 .sr-retry button small { font-size: 12px; font-weight: 800; margin-left: 2px; }
 .sr-retry button:disabled { border-color: #d6e9dc; background: #eef7f1; color: #2f7a52; opacity: 1; }

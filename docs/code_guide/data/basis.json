@@ -11,17 +11,9 @@
 "h": "3eb416223e9e",
 "lines": 54
 },
-"APP_CAPACITOR_README.md": {
-"h": "3eb416223e9e",
-"lines": 132
-},
 "CLAUDE.md": {
 "h": "3eb416223e9e",
 "lines": 8
-},
-"COMMERCIAL_AUDIO_MIGRATION.md": {
-"h": "3eb416223e9e",
-"lines": 123
 },
 "COMMERCIAL_AUDIO_STATUS.json": {
 "h": "3eb416223e9e",
@@ -87,10 +79,6 @@
 "h": "3eb416223e9e",
 "lines": 0
 },
-"docs/DEPLOY_FIRESTORE_RULES.md": {
-"h": "3eb416223e9e",
-"lines": 0
-},
 "docs/FEEDBACK_SETUP.md": {
 "h": "3eb416223e9e",
 "lines": 0
@@ -116,14 +104,6 @@
 "lines": 0
 },
 "docs/LISTENING_DERIVATIVE.md": {
-"h": "3eb416223e9e",
-"lines": 0
-},
-"docs/RELEASE_STEPS_2026-10-05.md": {
-"h": "3eb416223e9e",
-"lines": 0
-},
-"docs/UI_REVAMP_2026-09-30.md": {
 "h": "3eb416223e9e",
 "lines": 0
 },
@@ -307,22 +287,6 @@
 "h": "f9a57f977143",
 "lines": 11
 },
-"scripts/apply-android-assets.py": {
-"h": "3eb416223e9e",
-"lines": 79
-},
-"scripts/apply-new-icon.py": {
-"h": "3eb416223e9e",
-"lines": 100
-},
-"scripts/build-listening-prompts-pdf.py": {
-"h": "3eb416223e9e",
-"lines": 143
-},
-"scripts/build-q2-rerecord-pdf.py": {
-"h": "3eb416223e9e",
-"lines": 186
-},
 "scripts/build.sh": {
 "h": "fca2556319b4",
 "lines": 49
@@ -334,10 +298,6 @@
 "scripts/check-release.mjs": {
 "h": "3eb416223e9e",
 "lines": 17
-},
-"scripts/concat_listening_audio.sh": {
-"h": "e82482f2236c",
-"lines": 57
 },
 "scripts/data/grammar_v3/build_ts.py": {
 "h": "3eb416223e9e",
@@ -359,17 +319,9 @@
 "h": "be92e20b8e4d",
 "lines": 97
 },
-"scripts/extract_q2_illustrations.py": {
-"h": "3eb416223e9e",
-"lines": 225
-},
 "scripts/fix-vocab-meanings.py": {
 "h": "3eb416223e9e",
 "lines": 69
-},
-"scripts/fix_q2_text_to_figures.py": {
-"h": "3eb416223e9e",
-"lines": 159
 },
 "scripts/gacha-prints/README.md": {
 "h": "3eb416223e9e",
@@ -419,18 +371,6 @@
 "h": "895d4224059f",
 "lines": 27
 },
-"scripts/gen_listening_data.py": {
-"h": "3eb416223e9e",
-"lines": 430
-},
-"scripts/gen_listening_q2_data.py": {
-"h": "3eb416223e9e",
-"lines": 564
-},
-"scripts/gen_listening_q3_data.py": {
-"h": "3eb416223e9e",
-"lines": 344
-},
 "scripts/kasa-diff.sh": {
 "h": "12388e48f874",
 "lines": 20
@@ -443,33 +383,9 @@
 "h": "3eb416223e9e",
 "lines": 190
 },
-"scripts/make-icons.py": {
-"h": "3eb416223e9e",
-"lines": 72
-},
-"scripts/parse_listening_pdf.py": {
-"h": "3eb416223e9e",
-"lines": 199
-},
-"scripts/parse_listening_q2_pdf.py": {
-"h": "3eb416223e9e",
-"lines": 484
-},
-"scripts/parse_listening_q3_pdf.py": {
-"h": "3eb416223e9e",
-"lines": 318
-},
 "scripts/purge-legacy-listening-audio.mjs": {
 "h": "70d240556249",
 "lines": 87
-},
-"scripts/q2_figure_fixes.py": {
-"h": "3eb416223e9e",
-"lines": 273
-},
-"scripts/q2_img_to_public.py": {
-"h": "3eb416223e9e",
-"lines": 57
 },
 "scripts/readalong/add_prosody.py": {
 "h": "3eb416223e9e",
@@ -482,30 +398,6 @@
 "scripts/readalong/dump_tracks.ts": {
 "h": "3eb416223e9e",
 "lines": 7
-},
-"scripts/shuffle_listening_q2_options.py": {
-"h": "3eb416223e9e",
-"lines": 570
-},
-"scripts/shuffle_listening_q3_options.py": {
-"h": "3eb416223e9e",
-"lines": 197
-},
-"scripts/shuffle_q1b_options.py": {
-"h": "3eb416223e9e",
-"lines": 373
-},
-"scripts/strip_genspark_logo.py": {
-"h": "3eb416223e9e",
-"lines": 113
-},
-"scripts/verify_q2_single_gender.py": {
-"h": "3eb416223e9e",
-"lines": 189
-},
-"scripts/verify_q2_tts_speakers.py": {
-"h": "3eb416223e9e",
-"lines": 149
 },
 "src/App.tsx": {
 "h": "d13b6f276e7b",
@@ -2430,9 +2322,5 @@
 "vitest.config.ts": {
 "h": "ec67f7b6761b",
 "lines": 2
-},
-"リスニングの部屋へ_これ1つで全部.md": {
-"h": "3eb416223e9e",
-"lines": 59
 }
 }

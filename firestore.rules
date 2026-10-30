@@ -8,6 +8,8 @@ service cloud.firestore {
     match /mana_invites/{document=**} { allow read, write: if false; }
     match /mana_duels/{document=**} { allow read, write: if false; }
     match /mana_rate_limits/{document=**} { allow read, write: if false; }
+    // B7（2026-10-29）全国対戦のボット戦の受領記録・1日の回数（サーバー関数 ghostMatch だけが書く）
+    match /battle_ghost_receipts/{document=**} { allow read, write: if false; }
     match /league_control/{document=**} { allow read, write: if false; }
     match /league_seasons/{document=**} { allow read, write: if false; }
     match /league_receipts/{document=**} { allow read, write: if false; }

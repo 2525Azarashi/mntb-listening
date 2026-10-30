@@ -38,8 +38,8 @@
  * 代わりに ★localStorage に残った古い選択が復元される★ という
  * まったく同じ抜け道がある。だから 3 を必ず通す。
  *
- * 4箇所すべてを通っていることは tests/featureFlags.test.ts が
- * 機械的に検査する（人の記憶に頼らない）。
+ * 4箇所すべてを通っていることを人の記憶に頼らず確かめるテストを置く予定
+ * （以前の説明にあった tests/featureFlags.test.ts は現在のリポジトリには無い。2026-10-28 確認）。
  *
  * -------------------------------------------------------------------
  * ■ import してよいのは教科の登録簿（data/subjects.ts、これも葉）だけ
@@ -60,7 +60,8 @@ import { SUBJECT_REGISTRY } from '../data/subjects';
  * 理由が書かれていないフラグは、後で誰も戻せなくなる。
  */
 export const FEATURES = {
-  "my_words": false,
+  // bgm：既定は OFF。勉強中に勝手に音が鳴ると困る人が多いため（useTitleBgmController.tsx の説明）。設定のトグルで ON にできる
+  // （2026-10-28 どこからも使われていなかった "my_words" を削除）
   "bgm": false,
   "ranking": true,
   "battle": true

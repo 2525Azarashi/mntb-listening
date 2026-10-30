@@ -216,11 +216,11 @@ html[data-wallpaper] .home-lobby-lines { display: none; }
 .game-home > .game-home-viewport { position: relative; z-index: 1; }
 
 /* 準備中の札（クラス・マナクラン｜2026-10-05） */
-.coming-soon { display: flex; flex-direction: column; align-items: center; gap: 8px; margin: 16px auto; max-width: 420px; padding: 28px 20px; border: 1.5px dashed #d8c7a6; border-radius: 20px; background: #fffaf0; text-align: center; color: #3e4c5b; }
-.coming-soon-icon { width: 56px; height: 56px; display: grid; place-items: center; border-radius: 999px; background: #fdeedb; color: #8a4b00; }
-.coming-soon h3 { margin: 0; font: 900 17px/1.4 var(--mt-font-display, inherit); color: #1c2a39; }
+.coming-soon { display: flex; flex-direction: column; align-items: center; gap: 8px; margin: 16px auto; max-width: 420px; padding: 28px 20px; border: 1.5px dashed #d8c7a6; border-radius: 20px; background: #fffaf0; text-align: center; color: var(--mt-ink-2); }
+.coming-soon-icon { width: 56px; height: 56px; display: grid; place-items: center; border-radius: 999px; background: var(--mt-doing-soft); color: var(--mt-accent-ink); }
+.coming-soon h3 { margin: 0; font: 900 17px/1.4 var(--mt-font-display, inherit); color: var(--mt-ink); }
 .coming-soon p { margin: 0; font-size: 13px; line-height: 1.7; }
-.soon-tag { display: inline-block; margin-left: 4px; padding: 1px 6px; border-radius: 999px; background: #eef0f2; color: #5a6573; font-size: 12px; font-weight: 800; line-height: 1.4; vertical-align: middle; }
+.soon-tag { display: inline-block; margin-left: 4px; padding: 1px 6px; border-radius: 999px; background: var(--mt-todo-soft); color: #5a6573; font-size: 12px; font-weight: 800; line-height: 1.4; vertical-align: middle; }
 
 /* ホーム下の帯：ミッション／学習記録／使い方／学びの扉（2026-10-05）。4つ並べても1行に収める */
 .game-home .game-home-utility.has-four { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 5px; }
@@ -239,10 +239,10 @@ html[data-wallpaper] .home-lobby-lines { display: none; }
 /* フレンドコード入力（合言葉と同じ見た目・2026-10-05） */
 .friend-code-row { display: flex; flex-direction: column; gap: 8px; }
 .friend-code-input { display: flex; align-items: stretch; gap: 8px; width: 100%; min-width: 0; }
-.friend-code-field { flex: 1; min-width: 0; height: 52px; box-sizing: border-box; padding: 0 12px; border: 2px solid #e3d9c8; border-radius: 14px; background: #fff; color: #1c2a39; font: 900 17px/1 var(--mt-font-display, inherit); letter-spacing: .06em; text-transform: uppercase; outline: none; -webkit-user-select: text; user-select: text; }
+.friend-code-field { flex: 1; min-width: 0; height: 52px; box-sizing: border-box; padding: 0 12px; border: 2px solid var(--mt-line); border-radius: 14px; background: #fff; color: var(--mt-ink); font: 900 17px/1 var(--mt-font-display, inherit); letter-spacing: .06em; text-transform: uppercase; outline: none; -webkit-user-select: text; user-select: text; }
 .friend-code-field::placeholder { color: #b3aa99; letter-spacing: .04em; text-transform: none; }
-.friend-code-field:focus { border-color: #f29a1f; box-shadow: 0 0 0 3px #fdf0db; }
-.friend-code-paste { flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; gap: 4px; min-width: 52px; min-height: 52px; padding: 0 10px; border: 2px solid #e3d9c8; border-radius: 14px; background: #fffaf0; color: #2c3e50; font-weight: 800; font-size: 12px; }
+.friend-code-field:focus { border-color: var(--mt-accent); box-shadow: 0 0 0 3px var(--mt-accent-soft); }
+.friend-code-paste { flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; gap: 4px; min-width: 52px; min-height: 52px; padding: 0 10px; border: 2px solid var(--mt-line); border-radius: 14px; background: #fffaf0; color: #2c3e50; font-weight: 800; font-size: 12px; }
 .friend-code-send { width: 100%; display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 48px; padding: 0 14px; border: 0; border-radius: 14px; background: #2c3e50; color: #fff; font-weight: 800; font-size: 15px; box-shadow: 0 3px 0 #1b2631; }
 .friend-code-send:disabled { background: #b8c0c6; box-shadow: none; }
 @media (max-width: 374px) { .friend-code-field { font-size: 16px; padding: 0 10px; letter-spacing: .03em; } .friend-code-paste span { display: none; } }

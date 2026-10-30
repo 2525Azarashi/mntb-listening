@@ -13,7 +13,6 @@ import { ListeningCompactAnswers } from './ListeningCompactAnswers';
 import { MobileResultChips } from './MobileResultChips';
 import { renderSubQuestionCard } from './SubQuestionCard';
 import { ScoreHead } from './ScoreHead';
-import { SharedExplanation } from './SharedExplanation';
 import { buildExplanationSlices } from './explanationSlices';
 import { isAttempted, textTracksOf } from './helpers';
 import { isAnswerCorrect } from '../../utils/answerJudge';
@@ -93,7 +92,10 @@ export function renderExplanationAnswerItem(ctx: ExplanationAnswerItemContext) {
 
   // 解説本文を「小問ごとの本文（sliceForSq）」と「大問全体の共通部分（sharedExplanation）」に切り分ける。
   // 計算は explanation/explanationSlices.ts（元のコードのまま移した）。
-  const { sliceForSq, sharedExplanation } = buildExplanationSlices(question, focusSubQuestionId);
+  // C11（2026-10-29 ご指摘「大問全体の流れ・共通ポイント これもいる？ 定型文に当てはめすぎて無理やり感がすごい」）：
+  //   共通部分（解答の一覧＝各問の解答カードと同じ／リスニングの「この形式の解き方」＝定型の4手順）は画面に出さない。
+  //   データ側は消していない（小問ごとの切り分けにはこれまでどおり使う）。
+  const { sliceForSq } = buildExplanationSlices(question, focusSubQuestionId);
 
   // 小問1つぶんのカード。中身は explanation/SubQuestionCard.tsx（元の JSX のまま）。
   // 呼び出し方（renderSq(sq, isCorrect)）と、開閉などの状態の持ち主（この Explanation）は変えていない。
@@ -246,7 +248,6 @@ export function renderExplanationAnswerItem(ctx: ExplanationAnswerItemContext) {
         </div>
       )}
 
-      <SharedExplanation sharedExplanation={sharedExplanation} reorderMobile={reorderMobile} pcListening={pcListening} listeningTracks={listeningTracks} isEnglishChapter={isEnglishChapter} explBodyBaseClass={explBodyBaseClass} explBodyFontClass={explBodyFontClass} />
     </>
   );
 }

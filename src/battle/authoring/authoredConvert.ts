@@ -42,6 +42,7 @@ import { kanaKeysOf, KANA_MAX_INPUT } from '../core/kanaKeyboard';
 import { hashString } from '../core/battleCore';
 import { normalizeAnswer } from '../../utils/answerJudge';
 import type { AuthoredQuestion } from './authoredTypes';
+import { shuffleWith } from '../../utils/shuffle';
 
 // ============================================================
 // 制約（生成器と共有する値）
@@ -170,17 +171,6 @@ function createRandom(seed: number): () => number {
     t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
     return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
   };
-}
-
-function shuffleWith<T>(items: readonly T[], random: () => number): T[] {
-  const arr = items.slice();
-  for (let i = arr.length - 1; i > 0; i -= 1) {
-    const j = Math.floor(random() * (i + 1));
-    const tmp = arr[i];
-    arr[i] = arr[j];
-    arr[j] = tmp;
-  }
-  return arr;
 }
 
 // ============================================================

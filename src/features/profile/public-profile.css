@@ -12,7 +12,7 @@
 .pp-name { margin: 0; font: 800 18px/1.25 var(--mt-font-display); color: var(--ps-ink); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .pp-tags { display: flex; flex-wrap: wrap; gap: 4px 10px; margin: 0; font: 700 12px/1.4 var(--mt-font-body); color: var(--ps-ink-2); }
 .pp-tags span { display: inline-flex; align-items: center; gap: 3px; min-width: 0; }
-.pp-tags svg { color: #d97e06; flex-shrink: 0; }
+.pp-tags svg { color: var(--mt-accent-strong); flex-shrink: 0; }
 .pp-motto { margin: 0; padding: 0 4px; font: 800 14px/1.5 var(--mt-font-body); color: #6b5a3a; }
 .pp-bio { margin: 0; padding: 10px 12px; border-radius: 12px; background: #fdf8ee; font: 400 14px/1.7 var(--mt-font-body); color: var(--ps-ink); white-space: pre-wrap; overflow-wrap: anywhere; }
 .pp-stats { grid-template-columns: repeat(3, minmax(0, 1fr)); }
@@ -25,7 +25,7 @@
 .pp-bars li { display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 4px; height: 100%; }
 .pp-bar-track { flex: 1; width: 100%; display: flex; align-items: flex-end; justify-content: center; }
 .pp-bar { display: block; width: 100%; max-width: 28px; min-height: 2px; border-radius: 6px 6px 3px 3px; background: #f3d9a4; }
-.pp-bars li[data-today] .pp-bar { background: #d97e06; }
+.pp-bars li[data-today] .pp-bar { background: var(--mt-accent-strong); }
 .pp-bars small { font: 700 12px/1 var(--mt-font-body); color: var(--ps-ink-2); }
 .pp-empty { margin: 0; padding: 12px 0; text-align: center; font: 700 12px/1.5 var(--mt-font-body); color: var(--ps-ink-2); }
 .pp-note { padding: 0 4px; }

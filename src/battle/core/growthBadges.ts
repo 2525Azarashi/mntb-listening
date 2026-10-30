@@ -2,6 +2,7 @@
 import type { GrowthProgress } from './growthTypes';
 import { levelOf } from './growthLevel';
 import { GACHA_SETS, SETS_FOR_COLLECTOR, completedSetCount, setProgress } from './gachaSets';
+import { CHAPTER_TITLES, chapterTitleBadgeId } from './chapterTitles';
 
 // ============================================================
 // バッジ（称号としても使える）
@@ -53,6 +54,12 @@ export const BADGES: readonly BadgeDef[] = [
   // ── ガチャのセット収集（2026-10-23）。4つそろえると称号＋限定フレーム ──
   ...GACHA_SETS.map((set): BadgeDef => ({ id: set.badge, label: set.label.replace(/セット$/, ''), desc: `ガチャの「${set.label}」を4つそろえた`, emoji: '◆', tier: 2, earned: (p) => setProgress(p.owned, set).done })),
   { id: 'b_set_collector', label: 'コレクター', desc: `ガチャのセットを${SETS_FOR_COLLECTOR}つ完成させた`, emoji: '◆', tier: 3, earned: (p) => completedSetCount(p.owned) >= SETS_FOR_COLLECTOR },
+  // C12：英文法の章を全部の回で満点 → その章の称号。進捗（GrowthProgress）からは判定できないので
+  //   earned は常に false にし、演習の結果で growthStore.awardChapterTitle が直接付ける。
+  ...CHAPTER_TITLES.map((t): BadgeDef => ({
+    id: chapterTitleBadgeId(t.chapterId), label: t.label, desc: `英文法「${t.chapterTitle}」の全部の回で満点をとった`,
+    emoji: '★', tier: 2, earned: () => false,
+  })),
 ];
 
 export function badgeById(id: string): BadgeDef | undefined {

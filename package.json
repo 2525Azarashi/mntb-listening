@@ -13,6 +13,7 @@
     "app:android": "npm run app:build && cap open android",
     "preview": "vite preview",
     "lint": "tsc --noEmit",
+    "check:toeic-notes": "tsx scripts/check-toeic-notes.mts",
     "gen:index": "tsx scripts/gen-chapter-index.mts",
     "gen:battle-pool": "tsx scripts/gen-battle-pool.mts",
     "gen:vocabulary": "tsx scripts/gen-listening-vocabulary.mts",

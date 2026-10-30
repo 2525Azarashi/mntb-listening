@@ -102,9 +102,9 @@ export const STUDY_CATALOG: readonly StudySubject[] = [
         action: { kind: 'foundation', tab: 'words' },
       },
       {
-        // 2026-10-28：TOEIC L&R Part 5（短文穴埋め・1回30問）。とびら君の吹き出しの右に置く（カードの列は動かさない）
+        // 2026-10-28：TOEIC L&RをまずはPart 5から試験導入。とびら君の吹き出しの右に置く（カードの列は動かさない）
         id: 'english_toeic', title: 'TOEIC', icon: 'briefcase', badge: 'NEW', section: 'spotlight',
-        description: 'Part 5 短文穴埋め',
+        description: 'まずはPart 5を試験導入',
         meta: `全${toeic.questions ?? 0}回・各30問`,
         progressSubject: 'toeic_part5',
         action: { kind: 'units', subject: 'toeic_part5' },
@@ -116,4 +116,3 @@ export const STUDY_CATALOG: readonly StudySubject[] = [
 export function findStudySubject(id: string | null | undefined): StudySubject | undefined {
   return STUDY_CATALOG.find(s => s.id === id);
 }
-

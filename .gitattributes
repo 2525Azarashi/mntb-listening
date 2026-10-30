@@ -1,2 +1,8 @@
 # 宣伝動画の録画素材（大きい動画）は Git LFS に置く
 store-assets/_footage/**/*.mp4 filter=lfs diff=lfs merge=lfs -text
+# 完成した宣伝動画（YouTube・Instagram・リール用。数MB〜30MB）も Git LFS に置く（2026-10-29 Phase 9）
+#   アプリ・ビルド・テストはこれらを読まない。LFS を入れていない環境では中身が小さな「目印」ファイルになるだけ
+store-assets/youtube/*.mp4 filter=lfs diff=lfs merge=lfs -text
+store-assets/instagram/*.mp4 filter=lfs diff=lfs merge=lfs -text
+store-assets/listening/*.mp4 filter=lfs diff=lfs merge=lfs -text
+store-assets/vocab/*.mp4 filter=lfs diff=lfs merge=lfs -text

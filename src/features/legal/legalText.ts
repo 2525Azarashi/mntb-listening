@@ -39,7 +39,7 @@ export const PRIVACY_POLICY: LegalSection[] = [
     'データは Google Firebase（Cloud Firestore / Firebase Authentication）に保存します。アプリの配信には Vercel を使用します。',
   ] },
   { heading: '5. 削除', body: [
-    '設定 → その他・データ →「アカウントを削除」から、いつでもアカウントと学習記録を削除できます。',
+    '設定 → 安全・データ →「アカウントを削除」から、いつでもアカウントと学習記録を削除できます。',
     'ランキングの記録など一部は、削除依頼を受けて運営が30日以内に削除します。',
   ] },
   { heading: '6. 未成年の方へ', body: [

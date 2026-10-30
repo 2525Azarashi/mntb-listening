@@ -41,7 +41,7 @@
  * （この循環は以前わざわざ解消したもの。）
  */
 import { enhanceExplanation, isStructuredExplanation } from '../utils/explanationFormat';
-import { buildListeningExplanation } from '../utils/listeningExplanation';
+import { buildListeningExplanation, type ListeningExplanationOptions } from '../utils/listeningExplanation';
 import type { Chapter } from '../types/curriculum';
 
 /** 教科データの、このファイルが必要とする最小限の形 */
@@ -53,7 +53,7 @@ interface SubjectDataLike {
  * 英語2教科の解説を、画面表示用の形に整える。
  * データ自身を書き換える（もとのループと同じ振る舞い）。
  */
-export function applyListeningPostProcess(data: SubjectDataLike): void {
+export function applyListeningPostProcess(data: SubjectDataLike, options: ListeningExplanationOptions = {}): void {
   const chapters = data.parts.flatMap((part) => part.chapters || []);
   for (const chapter of chapters) {
     const problems = [
@@ -68,7 +68,7 @@ export function applyListeningPostProcess(data: SubjectDataLike): void {
       }
       // 音声・例文を持つ問題は専用の並び（スクリプト → 決め手 → 道すじ）に、
       // それ以外は従来の汎用エンジンに。
-      problem.explanation = buildListeningExplanation(problem) || enhanceExplanation(problem);
+      problem.explanation = buildListeningExplanation(problem, options) || enhanceExplanation(problem);
     }
   }
 }

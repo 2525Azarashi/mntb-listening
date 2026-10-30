@@ -1,6 +1,6 @@
 # Firestore ルールの反映手順（管理者向け）
 
-最終更新: 2026-10-01
+最終更新: 2026-10-28（`DEPLOY_FIRESTORE_RULES.md` をここに統合。古い方は `docs/archive/`）
 
 アプリのお知らせ（ホームのベル）・対戦・フレンド・ランキングは、Firestore の
 **セキュリティルール**（`firestore.rules`）と **索引**（`firestore.indexes.json`）が
@@ -159,3 +159,22 @@ npx firebase deploy --only firestore:rules,firestore:indexes --project <プロ�
 
 `firestore.rules` か `firestore.indexes.json` が変わったプルリクエストをマージしたら、
 手順 5〜6 をもう一度行います（手順 1〜2 は初回だけ）。
+
+---
+
+## 9. ほかの反映方法（2026-10-28 に旧 `DEPLOY_FIRESTORE_RULES.md` から統合）
+
+> ⚠ 旧手順書は統合版の `mntb-4ef06` 向けに書かれていました。このリポジトリ（リスニング派生）の反映先は **`--project` に指定するリスニング用のプロジェクト**です（0. の表）。下の手順も、プロジェクトIDは必ず読み替えてください。
+
+### 9.1 Firebase コンソールに貼り付ける（パソコンに何も入れずに反映）
+1. Firebase コンソール → 反映先のプロジェクト → Firestore → **ルール** を開く
+2. GitHub でこのリポジトリの最新の `firestore.rules` を開き、「Raw」→ 全文をコピー
+3. コンソールのエディタを全部消して貼り付け、「**公開**」を押す（反映は通常1分以内）
+4. アプリを再読み込みして確かめる（6. と同じ）
+
+### 9.2 GitHub Actions で自動反映（任意）
+- 雛形は `docs/deploy-firestore-rules.workflow.yml`。`.github/workflows/deploy-firestore-rules.yml` として GitHub の Web 画面から作成する（作業用の Bot は workflows に push できない）。
+- 雛形の `--project mntb-4ef06` は統合版のID。**リスニング用のプロジェクトIDに書き換えてから**有効にすること。
+- サービスアカウントの秘密鍵（JSON の全文）を GitHub の Secrets に `FIREBASE_SERVICE_ACCOUNT` として登録する。リポジトリにはコミットしない。
+- 以降は `firestore.rules`・`firestore.indexes.json`・`firebase.json` を変えて main にマージするたびに自動で反映される。
+

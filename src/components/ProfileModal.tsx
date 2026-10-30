@@ -147,20 +147,18 @@ export function ProfileModal({ onClose, initialTab, isBgmEnabled, setIsBgmEnable
           ) : (
             <div className="h-full flex flex-col gap-2">
             <div className="profile-workspace flex-1 min-h-0 grid grid-cols-1 md:grid-cols-2 gap-2 sm:gap-3 overflow-y-auto md:overflow-hidden no-scrollbar">
-              <div className="ps-col-profile space-y-2 sm:space-y-3">
-              </div>
-
               <div className="ps-col-app space-y-2 sm:space-y-3 flex flex-col">
-                <h3 className="ps-group-title">アプリ（サウンド）</h3>
+                <h3 className="ps-group-title">サウンド</h3>
                 <section className="ps-sound mt-card" aria-label="サウンド">
                   <Toggle label="BGM" checked={isBgmEnabled} onChange={toggleBgm} icon={isBgmEnabled ? <Volume2 size={16} /> : <VolumeX size={16} />} />
                   <Volume label="BGM音量" value={bgmVolume} onChange={setBgmVolume} />
                   <p className="ps-sub"><Swords size={14} aria-hidden="true" />対戦モードの音</p>
                   <Toggle label="対戦効果音" sub="正解・逆転など" checked={battleAudioSettings.sfx} onChange={() => { updateBattleAudio({ sfx: !battleAudioSettings.sfx }); if (!battleAudioSettings.sfx) window.setTimeout(() => battleAudio().play('correct'), 50); }} tone="gold" />
                 </section>
-                <h3 className="ps-group-title">通知</h3>
-                <section className="ps-sound mt-card" aria-label="通知">
+                <h3 className="ps-group-title">通知・記録</h3>
+                <section className="ps-sound mt-card" aria-label="通知と使われ方の記録">
                   <ReminderSettings />
+                  <AnalyticsSetting />
                 </section>
               </div>
 
@@ -207,11 +205,14 @@ export function ProfileModal({ onClose, initialTab, isBgmEnabled, setIsBgmEnable
                           <ClipboardList size={15} />フィードバック管理（返信）
                         </button>
                       )}
-                      <button onClick={logout} disabled={signInBusy} className="compact-action bg-red-50 text-red-600 border border-red-100 disabled:opacity-50"><LogOut size={15} />ログアウト</button>
-                      <button onClick={switchAccount} disabled={signInBusy} className="compact-action bg-blue-50 text-blue-600 border border-blue-100 disabled:opacity-50">
-                        {signing ? <Loader2 size={15} className="animate-spin" /> : <LogIn size={15} />}
-                        {signing ? '切り替え中…' : 'アカウントを切り替え'}
-                      </button>
+                      {/* C3（2026-10-29）：ログアウトと切り替えは横に並べて縦を詰める */}
+                      <div className="ps-account-actions">
+                        <button onClick={switchAccount} disabled={signInBusy} className="compact-action bg-blue-50 text-blue-600 border border-blue-100 disabled:opacity-50">
+                          {signing ? <Loader2 size={15} className="animate-spin" /> : <LogIn size={15} />}
+                          {signing ? '切り替え中…' : '切り替え'}
+                        </button>
+                        <button onClick={logout} disabled={signInBusy} className="compact-action bg-red-50 text-red-600 border border-red-100 disabled:opacity-50"><LogOut size={15} />ログアウト</button>
+                      </div>
                     </>
                   )}
                   {authError && (
@@ -222,10 +223,7 @@ export function ProfileModal({ onClose, initialTab, isBgmEnabled, setIsBgmEnable
                   )}
                 </section>
 
-                <h3 className="ps-group-title">その他・データ</h3>
-                <section className="ps-sound mt-card" aria-label="使われ方の記録">
-                  <AnalyticsSetting />
-                </section>
+                <h3 className="ps-group-title">安全・データ</h3>
                 <AccountSafetySection onDeleted={onClose} />
 
                 {/* ※「お問い合わせの送信状態」の欄は廃止した。

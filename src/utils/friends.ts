@@ -47,6 +47,7 @@ import {
 import { auth, db } from '../firebase';
 import { resolveNickname } from './leaderboard';
 import { isPermissionDenied, toFriendlyFirestoreError, type FirestoreErrorMessages } from './firestoreErrors';
+import { reportError } from './reportError';
 
 export interface FriendProfile {
   uid: string;
@@ -79,7 +80,7 @@ function requestId(fromUid: string, toUid: string) {
 /** friends.ts 用の Firestore エラー文言（コード → 表示文）。 */
 const FRIEND_ERROR_MESSAGES: FirestoreErrorMessages = {
   'permission-denied':
-    'この操作は許可されていません。本番の Firestore セキュリティルールが古いままです。管理者は Firebase Console（console.firebase.google.com → Firestore → ルール）でリポジトリの firestore.rules を貼り付けて「公開」するか、firebase deploy --only firestore:rules を実行してください。詳細は docs/DEPLOY_FIRESTORE_RULES.md を参照。',
+    'この操作は許可されていません。本番の Firestore セキュリティルールが古いままです。管理者は Firebase Console（console.firebase.google.com → Firestore → ルール）でリポジトリの firestore.rules を貼り付けて「公開」するか、firebase deploy --only firestore:rules を実行してください。詳細は docs/FIRESTORE_RULES_DEPLOY.md を参照。',
   unauthenticated: 'ログインの有効期限が切れています。もう一度Googleログインしてください。',
   unavailable: 'Firestore に接続できません。通信状態を確認してもう一度お試しください。',
   'failed-precondition': 'オフラインのため実行できません。オンラインに戻ってからお試しください。',
@@ -178,14 +179,14 @@ export async function ensureFriendProfile(): Promise<FriendProfile | null> {
     doc(db, 'friend_profiles', user.uid),
     { ...profile, updatedAt: serverTimestamp() },
     { merge: true }
-  ).catch((e) => console.error('フレンドプロフィールの保存に失敗しました（コードは利用できます）:', e));
+  ).catch((e) => reportError('フレンドプロフィールの保存に失敗しました（コードは利用できます）', e));
 
   // 逆引きインデックス。これが無いと相手からコード検索されない。
   void setDoc(
     doc(db, 'friend_codes', friendCode),
     { uid: user.uid, nickname, photoURL, updatedAt: serverTimestamp() },
     { merge: true }
-  ).catch((e) => console.error('フレンドコードの登録に失敗しました:', e));
+  ).catch((e) => reportError('フレンドコードの登録に失敗しました', e));
 
   return profile;
 }
@@ -346,7 +347,7 @@ export async function fetchFriendRequests(): Promise<FriendRequest[]> {
       .filter((r) => (r.status ?? 'pending') === 'pending');
   } catch (e) {
     // 権限エラー（ルール未デプロイなど）でもパネル全体を壊さないよう空配列で返す。
-    console.error('フレンド申請の取得に失敗しました:', e);
+    reportError('フレンド申請の取得に失敗しました', e);
     return [];
   }
 }
@@ -361,7 +362,7 @@ export async function fetchSentFriendRequests(): Promise<FriendRequest[]> {
       .map((s) => ({ id: s.id, ...(s.data() as Omit<FriendRequest, 'id'>) }))
       .filter((r) => (r.status ?? 'pending') === 'pending');
   } catch (e) {
-    console.error('送信済み申請の取得に失敗しました:', e);
+    reportError('送信済み申請の取得に失敗しました', e);
     return [];
   }
 }
@@ -466,7 +467,7 @@ export async function acceptFriendRequest(req: FriendRequest) {
   try {
     await deleteDoc(reqRef);
   } catch (e) {
-    console.error('承認済み申請の削除に失敗しました（フレンド登録は完了しています）:', e);
+    reportError('承認済み申請の削除に失敗しました（フレンド登録は完了しています）', e);
   }
 }
 
@@ -479,7 +480,7 @@ export async function rejectFriendRequest(req: FriendRequest) {
     // 監査可能性のため一度 rejected を記録してから削除する。
     await updateDoc(reqRef, { status: 'rejected', updatedAt: serverTimestamp() });
   } catch (e) {
-    console.error('拒否ステータスの記録に失敗しました:', e);
+    reportError('拒否ステータスの記録に失敗しました', e);
   }
   try {
     await deleteDoc(reqRef);
@@ -496,7 +497,7 @@ export async function cancelFriendRequest(req: FriendRequest) {
   try {
     await updateDoc(reqRef, { status: 'canceled', updatedAt: serverTimestamp() });
   } catch (e) {
-    console.error('取消ステータスの記録に失敗しました:', e);
+    reportError('取消ステータスの記録に失敗しました', e);
   }
   try {
     await deleteDoc(reqRef);
@@ -512,7 +513,7 @@ export async function fetchFriends(): Promise<Array<{ uid: string; nickname: str
     const snaps = await getDocs(collection(db, 'friends', user.uid, 'items'));
     return snaps.docs.map((s) => s.data() as { uid: string; nickname: string; photoURL?: string });
   } catch (e) {
-    console.error('フレンド一覧の取得に失敗しました:', e);
+    reportError('フレンド一覧の取得に失敗しました', e);
     return [];
   }
 }

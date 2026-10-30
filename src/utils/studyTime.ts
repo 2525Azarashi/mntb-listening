@@ -10,10 +10,11 @@
  * days は直近60日だけ残す（容量を増やし続けない）。
  */
 import { safeLocalStorage, safeParseJson } from './safeLocalStorage';
+import { perUserKey } from './userStorageKeys';
 
 export interface StudyTimeLog { total: number; days: Record<string, number> }
 const PREFIX = 'study_time_v1_';
-export const studyTimeKey = (uid: string | null | undefined) => PREFIX + encodeURIComponent(uid || 'guest');
+export const studyTimeKey = (uid: string | null | undefined) => perUserKey(PREFIX, uid);
 const DAY_CAP = 12 * 3600;
 const STEP_CAP = 90;
 const KEEP_DAYS = 60;

@@ -24,7 +24,7 @@
 > 6. Tap "…" to open a menu with **"運営に通報する" (Report to the operator)** and **"ブロックする" (Block)**.
 >    - Report: choose a reason (inappropriate name / inappropriate icon / cheating / harassment / other), optionally add details, and send. The operator reviews reports within 24 hours.
 >    - Block: the user is immediately hidden from the ranking, online matching and friend requests. The blocked user is not notified.
-> 7. Blocked users are listed in **Settings ("設定", bottom tab bar) → "その他・データ" (Other / Data) → "ブロック中の人" (Blocked users)**, where they can be unblocked ("解除").
+> 7. Blocked users are listed in **Settings ("設定", bottom tab bar) → "安全・データ" (Safety / Data) → "ブロック中の人" (Blocked users)**, where they can be unblocked ("解除").
 >
 > The same "…" menu is also shown next to the opponent's name on the online battle result screen and next to each friend in the friend list.
 >
@@ -42,7 +42,7 @@
 | 3 | ホーム | とびら君の左にある **トロフィーの「ランキング」** |
 | 4 | ランキング | 他の人の行の右にある **「…」** |
 | 5 | メニュー | 「運営に通報する」／「ブロックする」 |
-| 6 | 設定 → その他・データ | 「ブロック中の人」に一覧・「解除」 |
+| 6 | 設定 → 安全・データ | 「ブロック中の人」に一覧・「解除」 |
 
 - 「…」はランキングのほかに、**対戦結果の相手の名前の横**・**フレンド一覧**にも出る（`UserSafetyMenu`）。
 - ブロックするとランキング・マッチング・フレンド申請から消える（端末に保存・相手に通知しない）。
@@ -56,10 +56,10 @@
 | `s2_menu.png` | 「…」を押したメニュー（運営に通報する／ブロックする／閉じる） |
 | `s3_report.png` | 通報の理由を選ぶ画面 |
 | `s4_blocked.png` | ブロックした直後の案内 |
-| `s5_settings.png` | 設定 → その他・データ →「ブロック中の人」と「解除」 |
+| `s5_settings.png` | 設定 → 安全・データ →「ブロック中の人」と「解除」 |
 
 ※ s1〜s4 は本物の部品（`UserSafetyMenu` / `AccountSafetySection`）を描いた写真。サンドボックスは Firebase につながらないので、ランキングの行の名前（Sakura など）は見本。実機では実際の対戦者の名前が並ぶ。
-※ 実機（iPad）で撮り直すなら：ホーム →「ランキング」→「…」→「ブロックする」→ 設定 → その他・データ。
+※ 実機（iPad）で撮り直すなら：ホーム →「ランキング」→「…」→「ブロックする」→ 設定 → 安全・データ。
 
 ## 4. 審査で見つけてもらえなかった理由（推測）と、次の提出で検討すること
 

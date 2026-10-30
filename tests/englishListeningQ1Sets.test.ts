@@ -191,7 +191,7 @@ describe('第1問B：イラスト選択の類題集15セットが収録されて
     // ロゴ除去は画像処理なので中身は目視で確認済み。
     // ここでは「除去スクリプトが残っており、テンプレートも同梱されている」ことを固定し、
     // 画像を再生成したときに素材が失われていないことを保証する。
-    expect(fs.existsSync(path.join(ROOT, 'scripts/strip_genspark_logo.py'))).toBe(true);
+    expect(fs.existsSync(path.join(ROOT, 'scripts/listening-data/strip_genspark_logo.py'))).toBe(true);
     expect(
       fs.existsSync(path.join(ROOT, 'scripts/assets/genspark_badge_template.png')),
     ).toBe(true);
@@ -557,7 +557,7 @@ describe('第1問B：セット7〜15 の選択肢はシャッフルされてい�
   });
 
   it('シャッフル用スクリプトが残っている（手作業ではない＝再現できる）', () => {
-    const script = read('scripts/shuffle_q1b_options.py');
+    const script = read('scripts/listening-data/shuffle_q1b_options.py');
     // 選択肢の①②③④のバッジと枠は動かさず、中身だけを入れ替える設計。
     expect(script).toContain('badge_box');
     expect(script).toContain('frame_inner_box');

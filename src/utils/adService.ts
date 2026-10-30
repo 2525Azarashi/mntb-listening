@@ -9,6 +9,7 @@ import { Capacitor } from '@capacitor/core';
 import { AD_TOGGLES, getEffectiveBannerId, getEffectiveInterstitialId, getEffectiveRewardedId } from './adConfig';
 import { registerRewardedAdProvider } from '../ads/rewardedAd';
 import { requireLocalStorage, setItemOrThrow } from './safeLocalStorage';
+import { reportError } from './reportError';
 
 let isInitialized = false;
 let isBannerShowing = false;
@@ -26,7 +27,7 @@ export async function initializeAdMob(): Promise<void> {
       try {
         await AdMob.requestTrackingAuthorization();
       } catch (e) {
-        console.warn('[AdMob] requestTrackingAuthorization error:', e);
+        reportError('[AdMob] requestTrackingAuthorization error', e);
       }
     }
     await AdMob.initialize({
@@ -44,7 +45,7 @@ export async function initializeAdMob(): Promise<void> {
             await AdMob.prepareRewardVideoAd({ adId: unitId, isTesting });
             return true;
           } catch (e) {
-            console.warn('[AdMob] prepareRewardVideoAd error:', e);
+            reportError('[AdMob] prepareRewardVideoAd error', e);
             return false;
           }
         },
@@ -75,7 +76,7 @@ export async function initializeAdMob(): Promise<void> {
       preloadInterstitial();
     }
   } catch (error) {
-    console.warn('[AdMob] Initialization failed:', error);
+    reportError('[AdMob] Initialization failed', error);
   }
 }
 
@@ -108,7 +109,7 @@ export async function preloadInterstitial(): Promise<void> {
       isTesting: isDemo,
     });
   } catch (error) {
-    console.warn('[AdMob] Preload interstitial failed:', error);
+    reportError('[AdMob] Preload interstitial failed', error);
   }
 }
 
@@ -171,7 +172,7 @@ export async function showInterstitialAtBreakpoint(): Promise<void> {
     }
     preloadInterstitial();
   } catch (error) {
-    console.warn('[AdMob] Interstitial show at breakpoint failed/skipped:', error);
+    reportError('[AdMob] Interstitial show at breakpoint failed/skipped', error);
     preloadInterstitial();
   }
 }
@@ -210,7 +211,7 @@ export async function showNativeBottomBanner(margin = 72): Promise<void> {
     await AdMob.showBanner(options);
     isBannerShowing = true;
   } catch (error) {
-    console.warn('[AdMob] Show banner failed:', error);
+    reportError('[AdMob] Show banner failed', error);
   }
 }
 
@@ -226,6 +227,6 @@ export async function hideNativeBottomBanner(): Promise<void> {
       isBannerShowing = false;
     }
   } catch (error) {
-    console.warn('[AdMob] Hide banner failed:', error);
+    reportError('[AdMob] Hide banner failed', error);
   }
 }

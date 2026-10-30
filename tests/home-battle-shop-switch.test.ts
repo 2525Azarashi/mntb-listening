@@ -11,19 +11,19 @@ describe('ホーム周辺の切替導線', () => {
   it('対戦ロビーとランキングを上部で切り替えられる', () => {
     expect(battleHome).toContain('とびらバトル');
     expect(battleHome).toContain('ランキング');
-    expect(leaderboard).toContain('とびらバトル');
-    expect(leaderboard).toContain('league-top-switch');
+    expect(leaderboard).toContain('<BattleRankSwitch current="ranking"');
+    expect(battleHome).toContain('<BattleRankSwitch current="battle"');
     expect(battleHome).not.toContain('>ホームへ</button>');
   });
 
-  // 2026-10-28 A6：どちらの画面でも 左＝とびらバトル・右＝ランキング（切り替えてもボタンが入れ替わらない）
-  it('切替ボタンの並びは両画面とも「とびらバトル → ランキング」', () => {
-    const order = (src: string, cls: string) => {
-      const seg = src.slice(src.indexOf(cls), src.indexOf(cls) + 900);
-      return seg.indexOf('とびらバトル') < seg.indexOf('ランキング</button>');
-    };
-    expect(order(battleHome, 'arena-top-switch')).toBe(true);
-    expect(order(leaderboard, 'league-top-switch')).toBe(true);
+  // 2026-10-29 B5：ガチャの「装飾ガチャ／ショップ」と同じく、切替は両画面で同じ部品（並び・形が変わらない）。ランキングの上に ← は置かない
+  it('切替は共通部品で、並びは「とびらバトル → ランキング」・ランキングに ← なし', () => {
+    const sw = readFileSync('src/components/BattleRankSwitch.tsx', 'utf8');
+    expect(sw.indexOf('とびらバトル</button>')).toBeLessThan(sw.indexOf('ランキング</button>'));
+    expect(battleHome).not.toContain('arena-top-switch');
+    expect(leaderboard).not.toContain('league-top-switch');
+    const rankingBranch = leaderboard.slice(leaderboard.indexOf('{onBattle'), leaderboard.indexOf(': <header className="league-header">'));
+    expect(rankingBranch).not.toContain('ArrowLeft');
   });
 
   // 2026-10-20 30045bd「remove duplicate gacha shop switch」で上部の切替ボタンは重複として撤去した

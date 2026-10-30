@@ -35,6 +35,7 @@ import { GachaMultiResult, GachaSingleResult, type GachaDrawResult } from './gac
 import { GachaCollectionModal } from './gacha/GachaCollectionModal';
 import { GachaItemDetail, weekEndLabel, weeklyHero, weeklyPickup } from './gacha/GachaItemDetail';
 import { GachaPickupModal } from './gacha/GachaPickupModal';
+import { TobiraBuddy } from './TobiraBuddy';
 
 type GachaProps = {
   onBack: () => void;
@@ -240,6 +241,9 @@ function GachaRoomContent({
             onClick={() => openDetail(hero)}
             aria-label={`今週の目玉 ${hero.label} の詳細を見る`}
           >
+            {/* B5（2026-10-29）：光が走る・キラキラが舞う（目玉を派手に）。動きを減らす設定では止める */}
+            <span className="gacha-banner-shine" aria-hidden="true" />
+            <span className="gacha-banner-sparks" aria-hidden="true"><i /><i /><i /><i /><i /></span>
             <span className="gacha-banner-art"><ItemArt item={hero} progress={progress} size={76} /></span>
             <span className="gacha-banner-body">
               <span className="gacha-banner-top"><RarityTag rarity={gachaRarityOf(hero)} /><em>今週の目玉</em></span>
@@ -258,6 +262,10 @@ function GachaRoomContent({
               </li>
             ))}
           </ul>
+          {/* B5：あいていた下の余白に、とびら君がひとこと（目玉をすすめる） */}
+          <div className="gacha-banner-buddy">
+            <TobiraBuddy size="sm" input={{ screen: 'gacha', seed: featured.week }} line={`今週の目玉は「${hero.label}」！${gachaRarityOf(hero)}はめったに出ないよ`} />
+          </div>
           <nav className="gacha-banner-links" aria-label="ガチャの案内">
             <button type="button" className="gacha-chip" aria-haspopup="dialog" onClick={() => pickupDialog.current?.showModal()} data-gacha-pickup-open>ピックアップ一覧</button>
             <button type="button" className="gacha-chip gacha-odds-toggle" aria-haspopup="dialog" onClick={() => oddsDialog.current?.showModal()}>提供割合</button>

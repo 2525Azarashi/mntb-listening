@@ -11,7 +11,7 @@
  *
  * イラストの前処理
  *   第1セットの4枚には生成時の Genspark ロゴが右下に焼き込まれていたため、
- *   scripts/strip_genspark_logo.py（テンプレートマッチ＋インペイント）で除去した。
+ *   scripts/listening-data/strip_genspark_logo.py（テンプレートマッチ＋インペイント）で除去した。
  *   画像は public/listening_q1b/el1B_set<N>_q<M>.jpg として配置している。
  *
  * 第1問A との違い

@@ -1,4 +1,4 @@
-# コード地図（文字版）— 2026年10月時点・feat/kobe-yoso-lr @25a3cd1（2026-10-30）
+# コード地図（文字版）— 2026年10月時点・refactor/phase8-scripts @a8a8ffb（2026-10-29）
 
 tools/update.sh が cards.json から作る。1ファイル1行：`パス` — ひとことで（タグ・行数・使われる数）。
 【新】はカード未記入の新しいファイル、【変】は書いたあとに冒頭の説明か export が変わったファイル、【要確認】は役割を確かめきれていないファイル。
@@ -9,25 +9,33 @@ tools/update.sh が cards.json から作る。1ファイル1行：`パス` — �
 - `index.html` — アプリを開いたとき最初に読まれる、画面の土台のページの係（設定・36行・使われる0）
 - `message/index.html` — 宣伝用ページ「学びの扉」の土台となるページの係（画面・35行・使われる0）
 - `src/App.tsx` — 【変】18種類の画面を切り替え、アプリ全体の流れを決める係（画面・794行・使われる2）
-- `src/config/features.ts` — 【変】どの機能を公開し、どれを隠すかを1か所で切り替える係（設定・155行・使われる13）
+- `src/config/features.ts` — 【変】どの機能を公開し、どれを隠すかを1か所で切り替える係（設定・156行・使われる13）
 - `src/contexts/ThemeContext.tsx` — 明るい・暗い表示の好みを覚え、画面全体に反映する係（設定・81行・使われる1）
 - `src/main.tsx` — アプリの起動時に、古い端末向けの準備をしてから画面を出す係（設定・70行・使われる0）
 - `src/message.tsx` — 宣伝用の単独ページ「学びの扉」（/message）を出す係（画面・13行・使われる0）
 - `src/types.d.ts` — 画像や音声ファイルとビルド日時を、型として認識させる係（設定・9行・使われる0）
 
-## 画面と部品（208ファイル）
+## 画面と部品（210ファイル）
 
 - `src/assets/.keep` — 空の assets フォルダを消さずに残しておくための目印係（設定・0行・使われる0）
 - `src/components/AnswerPane.tsx` — 演習画面の右側（スマホでは下側）で答えを入力させる係（部品・657行・使われる1）
 - `src/components/AppToast.tsx` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（部品・45行・使われる1）
 - `src/components/AppWallpaper.tsx` — ガチャで当てた壁紙を、アプリ全体の背景に敷く係（部品・27行・使われる1）
-- `src/components/ChapterSelection.tsx` — 単元（章）の一覧を見せ、選んだ単元の演習へ進ませる画面の係（画面・561行・使われる2）
+- `src/components/BattleRankSwitch.tsx` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（部品・21行・使われる2）
+- `src/components/ChapterSelection.tsx` — 単元（章）の一覧を見せ、選んだ単元の演習へ進ませる画面の係（画面・563行・使われる2）
 - `src/components/CinematicClip.tsx` — 【変】とびら君の演出動画を、アプリ内のファイルから再生する係（音声・画像・135行・使われる8）
 - `src/components/ClassPanel.tsx` — 生徒が先生のクラスに参加するための画面の係（画面・333行・使われる1）
 - `src/components/ComingSoon.tsx` — まだ公開していない機能に「準備中」の札を出す係（部品・15行・使われる2）
 - `src/components/DoorMascot.tsx` — とびら君が科目ごとのミニ豆知識を吹き出しで話す係（部品・126行・使われる4）
 - `src/components/ErrorBoundary.tsx` — 画面の一部が壊れても、アプリ全体を止めずに戻り道を出す係（部品・94行・使われる1）
-- `src/components/Explanation.tsx` — 解き終えた問題の採点結果と解答・解説を見せる画面の係（画面・770行・使われる2）
+- `src/components/Explanation.tsx` — 解き終えた問題の採点結果と解答・解説を見せる画面の係（画面・774行・使われる2）
+- `src/components/toeic/ToeicPageQuiz.tsx` — 【新】TOEIC Part 5 の演習画面（1ページ6問・マーク式・ページ単位の採点と解説）の係（画面・416行・使われる1）
+- `src/components/toeic/toeicPageModel.ts` — 【新】TOEIC Part 5 のページ分け・採点キー・解説の引き当ての計算の係（データ・208行・使われる2）
+- `src/components/toeic/ToeicExplanationPanel.tsx` — 【新】TOEIC Part 5 の採点後の解説（役割ごとの札・手がかりのマーカー・空所の下線枠）の係（部品・使われる1）
+- `src/components/toeic/ToeicTimer.tsx` — 【新】TOEIC Part 5 の演習画面の控えめな時間表示の係（QuizTimerBar の TOEIC 用の複製）（部品・使われる1）
+- `src/components/toeic/toeicNote.ts` — 【新】TOEIC Part 5 の1問ずつの「ノートに保存」（同じ問題は1件だけ）の係（データ・使われる1）
+- `src/data/toeic/toeicPart5Notes.ts`・`toeicPart5NoteTypes.ts`・`toeicPart5NotesRound01〜15.ts` — 【新】TOEIC Part 5 の解説の追加項目（着眼点・ポイント・TOEICでのコツ・手がかり）の係（データ）
+- `src/components/toeic/toeic-page.css` — 【新】TOEIC Part 5 のページ式演習の見た目の係（部品・197行・使われる1）
 - `src/components/ExplanationBody.tsx` — 【変】解説の本文を、見出しや表つきで読みやすく描く係（部品・341行・使われる5）
 - `src/components/ExplanationScreen.tsx` — 演習画面から切り替わって解答・解説の画面を出す係（画面・97行・使われる1）
 - `src/components/FeedbackAdminPanel.tsx` — 届いた「ご意見・ご要望」を運営が見て返信する画面の係（画面・333行・使われる1）
@@ -42,14 +50,14 @@ tools/update.sh が cards.json から作る。1ファイル1行：`パス` — �
 - `src/components/FriendPanel.tsx` — フレンドの一覧と、公開されたプロフィールを見せる係（部品・290行・使われる1）
 - `src/components/GachaParts.tsx` — ガチャ画面で使う小さな表示部品と整形の関数を持つ係（部品・119行・使われる7）
 - `src/components/GachaReveal.tsx` — ガチャを引いたとき、光の色でレア度を明かす演出の係（部品・57行・使われる2）
-- `src/components/GachaRoom.tsx` — 【変】ガチャを引き、当たったアイテムを部位ごとに見せる画面の係（画面・379行・使われる2）
+- `src/components/GachaRoom.tsx` — 【変】ガチャを引き、当たったアイテムを部位ごとに見せる画面の係（画面・387行・使われる2）
 - `src/components/GoogleLinkBanner.tsx` — ゲスト利用の人にGoogleアカウント連携をすすめる帯の係（部品・212行・使われる3）
-- `src/components/GrowthHub.tsx` — ミッション・持ちもの・レベルの道をまとめて見せる画面の係（画面・73行・使われる2）
+- `src/components/GrowthHub.tsx` — ミッション・持ちもの・レベルの道をまとめて見せる画面の係（画面・78行・使われる2）
 - `src/components/Home.tsx` — ホーム画面で、演習・対戦・復習ノートへの入口を並べる係（画面・449行・使われる1）
 - `src/components/InlineAdSlot.tsx` — 解説画面のいちばん下に、広告を置く場所を用意する係（部品・38行・使われる1）
 - `src/components/Intro.tsx` — はじめての人に、アプリの使い方を順に説明する画面の係（画面・108行・使われる1）
 - `src/components/LaunchScreen.tsx` — 【変】アプリを開いたとき最初に出るタイトル画面の係（画面・184行・使われる1）
-- `src/components/Leaderboard.tsx` — 対戦レートと学習時間の2つのランキングを見せる画面の係（画面・135行・使われる2）
+- `src/components/Leaderboard.tsx` — 対戦レートと学習時間の2つのランキングを見せる画面の係（画面・138行・使われる2）
 - `src/components/LevelRewards.tsx` — レベルを上げるともらえるものを「レベルの道」で見せる係（部品・35行・使われる1）
 - `src/components/ListeningAudioPlayer.tsx` — リスニング音源を、すぐ押せる場所で再生・停止させる係（音声・画像・659行・使われる6）
 - `src/components/ListeningBriefing.tsx` — 【変】リスニング問題を解く前に、問題の説明ページを見せる係（画面・130行・使われる1）
@@ -59,13 +67,13 @@ tools/update.sh が cards.json から作る。1ファイル1行：`パス` — �
 - `src/components/ListeningSubjectSelection.tsx` — リスニング版で、演習・単語・文法・対戦の入口を選ばせる画面の係（画面・86行・使われる1）
 - `src/components/ListeningSupport.tsx` — 聞き取りに必要な単語と文法を、カードで練習させる画面の係（画面・94行・使われる1）
 - `src/components/ManaClan.tsx` — マナクラン（チーム）の様子と入口を見せる画面の係（画面・143行・使われる1）
-- `src/components/ManaRush.tsx` — 60秒で何問解けるかに挑むひとりミニゲームの画面の係（画面・328行・使われる1）
+- `src/components/ManaRush.tsx` — 60秒で何問解けるかに挑むひとりミニゲームの画面の係（画面・319行・使われる1）
 - `src/components/MissionToast.tsx` — ミッションを達成したとき、アプリ全体で1つの演出を出す係（部品・109行・使われる1）
 - `src/components/MobileFloatingBar.tsx` — スマホの画面下に固定する2本の操作バーを出す係（部品・210行・使われる1）
 - `src/components/ModeSelection.tsx` — 選んだ科目で、どの学び方をするかを選ばせる画面の係（画面・96行・使われる1）
 - `src/components/MultipleChoiceControl.tsx` — 選択式の問題で、1つまたは複数の答えを選ばせる係（部品・457行・使われる1）
-- `src/components/MyCollection.tsx` — 持ちものの一覧から着せかえと学習プリントを使わせる係（部品・77行・使われる1）
-- `src/components/MyProfileCard.tsx` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（部品・234行・使われる1）
+- `src/components/MyCollection.tsx` — 【変】持ちものの一覧から着せかえと学習プリントを使わせる係（部品・112行・使われる1）
+- `src/components/MyProfileCard.tsx` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（部品・216行・使われる1）
 - `src/components/NoteDetail.tsx` — 保存した学習ノート1件を開き、関連する問題へ移らせる係（画面・266行・使われる1）
 - `src/components/Onboarding.tsx` — 【変】初めて開いた人に、ログインとプロフィール設定をさせる画面の係（画面・329行・使われる1）
 - `src/components/PdfViewer.tsx` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（部品・148行・使われる1）
@@ -73,7 +81,7 @@ tools/update.sh が cards.json から作る。1ファイル1行：`パス` — �
 - `src/components/ProblemPane.tsx` — 演習画面の左側（スマホでは上側）に問題文を見せる係（部品・723行・使われる1）
 - `src/components/ProfileModal.tsx` — 【変】設定画面で、プロフィール・フレンド・アカウントを扱う係（画面・271行・使われる1）
 - `src/components/QuestionFigure.tsx` — 問題や解説についている図やイラストを表示する係（音声・画像・374行・使われる2）
-- `src/components/Quiz.tsx` — 1つの単元の問題を出し、答えさせて採点へ進ませる演習画面の係（画面・964行・使われる1）
+- `src/components/Quiz.tsx` — 1つの単元の問題を出し、答えさせて採点へ進ませる演習画面の係（画面・922行・使われる1）
 - `src/components/QuizEmptyState.tsx` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（部品・31行・使われる1）
 - `src/components/QuizHeader.tsx` — 演習画面の上に、単元名・点数・順位・進み具合を出す係（部品・183行・使われる1）
 - `src/components/QuizScreens.tsx` — 演習画面と結果・解説画面のどちらを出すかをまとめる係（画面・249行・使われる2）
@@ -89,12 +97,13 @@ tools/update.sh が cards.json から作る。1ファイル1行：`パス` — �
 - `src/components/StudyHub.tsx` — ノートと復習リストを1画面にまとめ、今日の復習を示す係（画面・583行・使われる1）
 - `src/components/StudyRecord.tsx` — 直近3日に解いた問題とまちがえた所を記録として見せる係（部品・96行・使われる2）
 - `src/components/TeacherDashboard.tsx` — 先生がクラスの生徒の様子を見て、CSVに書き出す画面の係（画面・476行・使われる1）
-- `src/components/TobiraBuddy.tsx` — 画面の状態に合わせた表情のとびら君を住人として出す係（部品・49行・使われる8）
+- `src/components/TobiraBuddy.tsx` — 画面の状態に合わせた表情のとびら君を住人として出す係（部品・49行・使われる9）
 - `src/components/TobiraMotion.tsx` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（部品・113行・使われる5）
 - `src/components/UnitCard.tsx` — 単元一覧などで使う、1つの単元を表すカードの係（部品・80行・使われる1）
 - `src/components/UpdateNoticeModal.tsx` — アプリのお知らせ（更新履歴）を窓で見せる係（部品・183行・使われる2）
 - `src/components/UsageMeterPanel.tsx` — 運営向けに、Firebaseの使用量をメーターで見せる係（画面・157行・使われる1）
 - `src/components/VocabQuiz.tsx` — 【変】英単語の範囲を選び、4択で意味を答えさせる画面の係（画面・262行・使われる1）
+- `src/components/battle-rank-switch.css` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（部品・11行・使われる1）
 - `src/components/cinematic-celebration.css` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（部品・13行・使われる1）
 - `src/components/classroom/StudentAssignments.tsx` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（部品・111行・使われる1）
 - `src/components/explanation/BottomBars.tsx` — 【変】解答・解説画面の下に固定する2種類の操作バーの係（部品・52行・使われる1）
@@ -120,7 +129,7 @@ tools/update.sh が cards.json から作る。1ファイル1行：`パス` — �
 - `src/components/foundationShared.tsx` — 【変】「固める」ページで共通に使う読み上げなどの部品の係（部品・69行・使われる3）
 - `src/components/fx/CorrectBurst.tsx` — 正解した瞬間に、画面いっぱいの祝いの演出を出す係（部品・65行・使われる4）
 - `src/components/fx/correct-burst.css` — 正解の演出を、短く操作のじゃまをしない見た目にする係（部品・64行・使われる1）
-- `src/components/gacha.css` — 【変】ガチャ画面と、引いたときの演出の見た目を決める係（部品・396行・使われる1）
+- `src/components/gacha.css` — 【変】ガチャ画面と、引いたときの演出の見た目を決める係（部品・418行・使われる1）
 - `src/components/gacha/GachaCollectionModal.tsx` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（部品・148行・使われる1）
 - `src/components/gacha/GachaItemDetail.tsx` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（部品・87行・使われる2）
 - `src/components/gacha/GachaPickupModal.tsx` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（部品・95行・使われる2）
@@ -128,7 +137,7 @@ tools/update.sh が cards.json から作る。1ファイル1行：`パス` — �
 - `src/components/gacha/GachaSetsPanel.tsx` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（部品・97行・使われる1）
 - `src/components/gacha/KyotsuAudioPlayer.tsx` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（部品・69行・使われる1）
 - `src/components/gachaRevealSteps.ts` — 【変】ガチャの演出で、光の色が上がっていく段取りを決める係（データ・46行・使われる4）
-- `src/components/growth-hub.css` — 【変】ミッションや持ちものの画面の見た目と並びを決める係（部品・347行・使われる1）
+- `src/components/growth-hub.css` — 【変】ミッションや持ちものの画面の見た目と並びを決める係（部品・457行・使われる1）
 - `src/components/home-legibility.css` — ホーム画面の色と配置は変えずに、文字を読みやすくする係（部品・119行・使われる1）
 - `src/components/home-mascot-idle.css` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（部品・39行・使われる1）
 - `src/components/home-pillars.css` — ホームの「演習する」「対戦する」を同じ大きさで並べる係（部品・59行・使われる1）
@@ -162,8 +171,8 @@ tools/update.sh が cards.json から作る。1ファイル1行：`パス` — �
 - `src/components/teacher/teacherTheme.ts` — 先生画面で使う配色の形（型）だけを決めておく係（データ・4行・使われる4）
 - `src/components/tobira-buddy.css` — 住人のとびら君が呼吸し、まばたきする動きの見た目の係（部品・36行・使われる1）
 - `src/components/tobira-motion.css` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（部品・7行・使われる1）
-- `src/components/toeic/ToeicPageQuiz.tsx` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（部品・365行・使われる1）
-- `src/components/toeic/toeic-page.css` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（部品・122行・使われる1）
+- `src/components/toeic/ToeicPageQuiz.tsx` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（部品・378行・使われる1）
+- `src/components/toeic/toeic-page.css` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（部品・132行・使われる1）
 - `src/components/toeic/toeicPageModel.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・112行・使われる3）
 - `src/components/ui/BottomNavigation.tsx` — スマホの下部ナビとPCのサイドバーを1つで出す係（部品・44行・使われる2）
 - `src/components/ui/CountUp.tsx` — 【変】数字が増えたとき、前の値から数えあげて見せる係（部品・55行・使われる4）
@@ -188,14 +197,14 @@ tools/update.sh が cards.json から作る。1ファイル1行：`パス` — �
 - `src/features/readAlong/ScriptReading.tsx` — 解答・解説のスクリプトに読み方をつけて見せる係（部品・158行・使われる1）
 - `src/features/readAlong/read-along.css` — 音読・ディクテーション画面を1画面に収める見た目の係（部品・204行・使われる2）
 - `src/features/safety/UserSafetyMenu.tsx` — 他の人の名前の横に、通報とブロックのメニューを出す係（部品・129行・使われる4）
-- `src/features/studylog/CalendarTab.tsx` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・66行・使われる1）
-- `src/features/studylog/MyStudyCard.tsx` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・125行・使われる1）
+- `src/features/studylog/CalendarTab.tsx` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・131行・使われる2）
+- `src/features/studylog/MyStudyCard.tsx` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・127行・使われる1）
 - `src/features/studylog/RecordDialog.tsx` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・174行・使われる2）
-- `src/features/studylog/StudyLogPage.tsx` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・30行・使われる1）
+- `src/features/studylog/StudyLogPage.tsx` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・31行・使われる1）
 - `src/features/studylog/manualLogCore.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・457行・使われる11）
-- `src/features/studylog/manualLogStore.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・50行・使われる3）
+- `src/features/studylog/manualLogStore.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・51行・使われる3）
 - `src/features/studylog/studyFeed.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・186行・使われる5）
-- `src/features/studylog/studylog.css` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（部品・240行・使われる2）
+- `src/features/studylog/studylog.css` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（部品・279行・使われる2）
 - `src/features/studylog/ui.tsx` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・33行・使われる3）
 - `src/features/toeic/catalog.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・40行・使われる2）
 - `src/features/toeic/format.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・62行・使われる3）
@@ -226,11 +235,11 @@ tools/update.sh が cards.json から作る。1ファイル1行：`パス` — �
 - `src/styles/tokens.css` — 色・文字の大きさ・余白など、見た目の基本の値を持つ係（設定・187行・使われる0）
 - `src/styles/world.css` — 整った画面に、マナトビの世界観の飾りを重ねる係（部品・281行・使われる1）
 
-## 対戦のしくみ（110ファイル）
+## 対戦のしくみ（112ファイル）
 
 - `src/battle/audio/audioPlatform.ts` — 端末がAndroidかを見分け、音の鳴らし方を変える係（音声・画像・31行・使われる2）
 - `src/battle/audio/audioPreferences.ts` — 対戦の効果音と音量の設定を端末に保存し、読み出す係（設定・33行・使われる5）
-- `src/battle/audio/battleAudio.ts` — 対戦中のBGMと効果音を音源ファイルから鳴らす係（音声・画像・378行・使われる8）
+- `src/battle/audio/battleAudio.ts` — 対戦中のBGMと効果音を音源ファイルから鳴らす係（音声・画像・379行・使われる8）
 - `src/battle/audio/bgmFiles.ts` — 対戦BGMの音源ファイルを場面ごとに登録しておく係（音声・画像・120行・使われる4）
 - `src/battle/audio/bgmLoudness.ts` — すべてのBGMの音の大きさをそろえる数値を持つ係（音声・画像・34行・使われる5）
 - `src/battle/audio/launchSfx.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・100行・使われる2）
@@ -238,12 +247,12 @@ tools/update.sh が cards.json から作る。1ファイル1行：`パス` — �
 - `src/battle/audio/sharedAudioContext.ts` — アプリ全体で1つだけの音の再生装置をまとめて管理する係（音声・画像・84行・使われる8）
 - `src/battle/audio/titleMediaAudio.ts` — タイトル画面の曲の音量をiPhoneでも調整できるようにする係（音声・画像・50行・使われる3）
 - `src/battle/authoring/README.md` — 対戦問題を作るときだけ使うコードの説明書きの係（文書・14行・使われる0）
-- `src/battle/authoring/authoredConvert.ts` — 手で書いた対戦問題を、対戦用の1問の形に変換する係（データ・375行・使われる1）
+- `src/battle/authoring/authoredConvert.ts` — 手で書いた対戦問題を、対戦用の1問の形に変換する係（データ・365行・使われる1）
 - `src/battle/authoring/authoredTypes.ts` — 手で書き起こす対戦問題のデータの形を決める係（データ・171行・使われる2）
 - `src/battle/authoring/battleTiming.ts` — 対戦問題1問ごとの制限時間（秒）を見積もる係（データ・67行・使われる1）
 - `src/battle/authoring/questionPrompt.ts` — 対戦で出す問題文を、表示用の形に整える係（データ・123行・使われる1）
-- `src/battle/core/aiOpponent.ts` — AI対戦相手の強さと、いつ何を答えるかを決める係（データ・329行・使われる6）
-- `src/battle/core/arenaEconomy.ts` — 【変】ガチャの値段や重複時に返すコインなどの決まりを持つ係（データ・104行・使われる18）
+- `src/battle/core/aiOpponent.ts` — 【変】AI対戦相手の強さと、いつ何を答えるかを決める係（データ・364行・使われる6）
+- `src/battle/core/arenaEconomy.ts` — 【変】ガチャの値段や重複時に返すコインなどの決まりを持つ係（データ・104行・使われる16）
 - `src/battle/core/arenaRules.ts` — 新しい対戦部屋の点数の付け方と制限時間を決める係（データ・30行・使われる9）
 - `src/battle/core/audioSettings.ts` — 対戦の音の設定の初期値と保存の形を決める係（設定・84行・使われる6）
 - `src/battle/core/battleCore.ts` — 【変】対戦の正誤・得点・勝ち負けを判定する計算の係（データ・601行・使われる11）
@@ -257,9 +266,9 @@ tools/update.sh が cards.json から作る。1ファイル1行：`パス` — �
 - `src/battle/core/friendModes.ts` — フレンド対戦で選べる遊び方の種類を決める係（設定・39行・使われる2）
 - `src/battle/core/gachaFeatured.ts` — ガチャの「今回の注目アイテム」を週ごとに選ぶ係（データ・68行・使われる2）
 - `src/battle/core/gachaSets.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・58行・使われる5）
-- `src/battle/core/growth.ts` — 成長のしくみの入口として、記録の更新をまとめて行う係（データ・768行・使われる50）
+- `src/battle/core/growth.ts` — 成長のしくみの入口として、記録の更新をまとめて行う係（データ・768行・使われる47）
 - `src/battle/core/growthBadges.ts` — バッジ（称号）の一覧と、もらえる条件を判定する係（データ・70行・使われる3）
-- `src/battle/core/growthItems.ts` — 【変】とびら君の装備・ガチャ景品の一覧と、解放や購入を扱う係（データ・353行・使われる1）
+- `src/battle/core/growthItems.ts` — 【変】とびら君の装備・ガチャ景品の一覧と、解放や購入を扱う係（データ・346行・使われる1）
 - `src/battle/core/growthLevel.ts` — 対戦でもらえる経験値の量と、レベルの計算を決める係（データ・107行・使われる4）
 - `src/battle/core/growthMissions.ts` — その日のミッションを選び、達成の進み具合を数える係（データ・273行・使われる1）
 - `src/battle/core/growthTypes.ts` — 成長の記録（教科別成績・日ごとの記録）の形だけを決める係（データ・105行・使われる4）
@@ -269,40 +278,42 @@ tools/update.sh が cards.json から作る。1ファイル1行：`パス` — �
 - `src/battle/core/preload.ts` — 対戦の音源と絵を問題が出る前に先読みしておく係（音声・画像・44行・使われる3）
 - `src/battle/core/serverClock.ts` — 端末の時計のずれを吸収し、サーバーの時刻を推定する係（通信・247行・使われる7）
 - `src/battle/core/tobiraParts.ts` — とびら君の帽子やメガネなど着せかえの部位を決める係（データ・81行・使われる7）
-- `src/battle/core/types.ts` — 対戦で使う問題・部屋・ルールなどの型をまとめる係（データ・503行・使われる38）
+- `src/battle/core/types.ts` — 対戦で使う問題・部屋・ルールなどの型をまとめる係（データ・503行・使われる40）
 - `src/battle/core/vocabRanges.ts` — 英単語の出題範囲を表す名前を作り、範囲内か調べる係（データ・21行・使われる3）
 - `src/battle/data/battle.ts` — 対戦のデータ保存先とのやりとりの入口をまとめる係（通信・88行・使われる17）
 - `src/battle/data/battleFriendRoom.ts` — 合言葉の部屋を作る・入る・再戦用の部屋を用意する係（通信・285行・使われる2）
 - `src/battle/data/battleHistory.ts` — 自分の対戦履歴をサーバーに保存し、読み出す係（通信・61行・使われる1）
 - `src/battle/data/battleMatchmaking.ts` — 全国ランダム対戦の待ち列に入り、相手が決まるのを待つ係（通信・381行・使われる1）
 - `src/battle/data/battlePool.ts` — 対戦で出す問題の一覧を教科ごとに読み込む係（データ・262行・使われる11）
-- `src/battle/data/battleRanking.ts` — 対戦の強さの点数（レート）とランキングを扱う係（通信・299行・使われる12）
-- `src/battle/data/battleRoomActions.ts` — 試合の開始・解答・問題送り・結果確認を書き込む係（通信・298行・使われる1）
+- `src/battle/data/battleRanking.ts` — 対戦の強さの点数（レート）とランキングを扱う係（通信・299行・使われる13）
+- `src/battle/data/battleRoomActions.ts` — 試合の開始・解答・問題送り・結果確認を書き込む係（通信・298行・使われる2）
 - `src/battle/data/battleRuleOverrides.ts` — 運営が変えた対戦ルールを起動時に1回だけ読み込む係（通信・58行・使われる3）
 - `src/battle/data/battleShared.ts` — 対戦の保存先名やログイン確認など共通の土台を持つ係（通信・169行・使われる5）
 - `src/battle/data/battleTransport.ts` — 対戦の書き込みの待ち時間上限と失敗時の再送を担う係（通信・147行・使われる3）
 - `src/battle/data/connectionProbe.ts` — 通信チェックで実際に読み取りを試して結果を測る係（通信・74行・使われる1）
+- `src/battle/data/ghostRating.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・25行・使われる1）
 - `src/battle/data/growthStore.ts` — 【変】成長の記録を端末の中に、アカウントごとに保存する係（データ・345行・使われる22）
 - `src/battle/data/localBattleLog.ts` — 対戦の記録を端末の中に残し、部屋の画面で見せる係（データ・66行・使われる2）
+- `src/battle/data/pendingRating.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・33行・使われる1）
 - `src/battle/data/serverHealth.ts` — サーバーの調子や無料枠の上限到達を端末に覚えておく係（通信・40行・使われる3）
 - `src/battle/hooks/battleRoomSelectors.ts` — 対戦部屋の状態から、不戦勝や勝敗の結果を割り出す係（データ・129行・使われる2）
 - `src/battle/hooks/battleRoomTypes.ts` — 対戦画面が使う「部屋の状態」と「操作」の形を決める係（データ・116行・使われる1）
 - `src/battle/hooks/useAiBattle.ts` — AI対戦の1試合を端末の中だけで進める係（データ・466行・使われる1）
 - `src/battle/hooks/useBattleAudio.ts` — 対戦の音の設定と再生を、画面の動きにつなぐ係（音声・画像・96行・使われる9）
 - `src/battle/hooks/useBattleLive.ts` — 対戦中の実況・演出・効果音を1か所で動かす係（部品・217行・使われる2）
-- `src/battle/hooks/useBattlePostMatch.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・111行・使われる1）
+- `src/battle/hooks/useBattlePostMatch.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・122行・使われる1）
 - `src/battle/hooks/useBattleRoom.ts` — 人どうしの対戦で、部屋の様子を見張り試合を進める係（通信・689行・使われる1）
 - `src/battle/hooks/useBattleRoomConnection.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・123行・使われる1）
 - `src/battle/hooks/useBattleRoomLifecycle.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・156行・使われる1）
 - `src/battle/ui/ArenaFighters.tsx` — 対戦画面で自分と相手のとびら君を向かい合わせて見せる係（部品・23行・使われる4）
-- `src/battle/ui/BattleAiRoomScreen.tsx` — AI対戦の準備・対戦・結果を1つの画面で見せる係（画面・368行・使われる1）
+- `src/battle/ui/BattleAiRoomScreen.tsx` — AI対戦の準備・対戦・結果を1つの画面で見せる係（画面・383行・使われる1）
 - `src/battle/ui/BattleAiSelect.tsx` — AI対戦相手の強さを4段階から選ぶ画面の係（画面・122行・使われる1）
 - `src/battle/ui/BattleAnswerControls.tsx` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・472行・使われる1）
 - `src/battle/ui/BattleFriendJoin.tsx` — フレンド対戦の合言葉を入力して部屋に入る画面の係（画面・103行・使われる1）
 - `src/battle/ui/BattleGrowthCard.tsx` — 試合結果に「この試合で得たもの」を見せるカードの係（部品・188行・使われる2）
 - `src/battle/ui/BattleGrowthReward.tsx` — 試合で受け取ったコインなどの報酬を表示する係（部品・71行・使われる1）
 - `src/battle/ui/BattleHistory.tsx` — これまでの対戦履歴を一覧で見せる画面の係（画面・216行・使われる1）
-- `src/battle/ui/BattleHome.tsx` — 対戦モードの入口で、遊び方を選ばせる画面の係（画面・197行・使われる1）
+- `src/battle/ui/BattleHome.tsx` — 対戦モードの入口で、遊び方を選ばせる画面の係（画面・200行・使われる1）
 - `src/battle/ui/BattleLiveParts.tsx` — 得点表など「相手の存在を感じる」画面部品を持つ係（部品・416行・使われる2）
 - `src/battle/ui/BattleLiveStage.tsx` — 対戦中の画面を臨場感つきで組み立てる共通部品の係（部品・286行・使われる2）
 - `src/battle/ui/BattleLobby.tsx` — 合言葉を大きく見せて対戦相手を待つ画面の係（画面・370行・使われる1）
@@ -312,7 +323,7 @@ tools/update.sh が cards.json から作る。1ファイル1行：`パス` — �
 - `src/battle/ui/BattleMode.tsx` — 対戦モード内の画面をまとめて切り替える入口の係（画面・497行・使われる1）
 - `src/battle/ui/BattleParts.tsx` — 対戦の複数画面で使う色やボタンなど共通部品の係（部品・422行・使われる24）
 - `src/battle/ui/BattleProfile.tsx` — 【変】とびら君・称号・バッジ・教科別成績を見せる画面の係（画面・256行・使われる3）
-- `src/battle/ui/BattleProfileTabs.tsx` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・364行・使われる1）
+- `src/battle/ui/BattleProfileTabs.tsx` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・380行・使われる1）
 - `src/battle/ui/BattleQuestionView.tsx` — 【変】対戦の問題を出し、4択や入力で答えさせる画面の係（画面・423行・使われる1）
 - `src/battle/ui/BattleQuitControl.tsx` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・49行・使われる1）
 - `src/battle/ui/BattleRanking.tsx` — 対戦のランキングを、共通のランキング画面に任せて出す係（画面・5行・使われる1）
@@ -339,7 +350,7 @@ tools/update.sh が cards.json から作る。1ファイル1行：`パス` — �
 - `src/battle/ui/opponent-card.css` — 対戦相手のプロフィールカードの枠と余白を決める係（部品・16行・使われる1）
 - `src/battle/ui/review-picture-grid.css` — 答え合わせの絵を小さく1列に並べる見た目の係（部品・9行・使われる1）
 
-## 採点・記録の計算（126ファイル）
+## 採点・記録の計算（131ファイル）
 
 - `src/features/readAlong/readAlong.ts` — 音読用の単語ごとの時刻データを読み、計算する係（データ・239行・使われる5）
 - `src/features/safety/avatarUrl.ts` — 他の人のアイコン画像を表示してよいかを判定する係（部品・28行・使われる3）
@@ -354,7 +365,7 @@ tools/update.sh が cards.json から作る。1ファイル1行：`パス` — �
 - `src/hooks/useElimination.ts` — 消去法のために、選択肢に斜線を引けるようにする係（部品・195行・使われる1）
 - `src/hooks/useFitPager.ts` — スクロールさせず、入る数だけ並べてページでめくらせる係（部品・87行・使われる3）
 - `src/hooks/useGlobalClickSound.ts` — アプリ全体で、押したときのクリック音を鳴らす係（音声・画像・56行・使われる1）
-- `src/hooks/useGrowthProgress.ts` — いまのアカウントの成長の記録を、画面に渡す係（データ・25行・使われる14）
+- `src/hooks/useGrowthProgress.ts` — いまのアカウントの成長の記録を、画面に渡す係（データ・25行・使われる13）
 - `src/hooks/useIdleReset.ts` — しばらく操作がないとき、決めた処理を呼び出す係（部品・103行・使われる1）
 - `src/hooks/useLatest.ts` — 毎回作り直される関数も、いつでも最新の値で読ませる係（部品・19行・使われる3）
 - `src/hooks/useMasonrySpans.ts` — 高さがまちまちなカードを、列ごとに詰めて並べる係（部品・51行・使われる1）
@@ -388,11 +399,13 @@ tools/update.sh が cards.json から作る。1ファイル1行：`パス` — �
 - `src/utils/dialog.ts` — 利用者への「お知らせ」と「確認」を出す、ただ1つの窓口の係（部品・38行・使われる15）
 - `src/utils/errorLike.ts` — 中身の分からない例外を、安全に読むための型を渡す係（データ・24行・使われる7）
 - `src/utils/examCountdown.ts` — 共通テストなどの試験日までの残り日数を計算する係（データ・28行・使われる3）
-- `src/utils/explanationFormat.ts` — 【変】アプリ中の解答・解説を、同じ書式に整えて組む係（データ・996行・使われる7）
-- `src/utils/explanationMarkers.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・353行・使われる1）
-- `src/utils/explanationShapes.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・20行・使われる2）
-- `src/utils/explanationSlices.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・133行・使われる1）
-- `src/utils/explanationSupplement.ts` — フローチャート問題の解説に、補足の手順を組み立てる係（データ・79行・使われる2）
+- `src/utils/explanationFormat.ts` — 【変】アプリ中の解答・解説を、同じ書式に整えて組む係（データ・462行・使われる7）
+- `src/utils/explanationMarkers.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・353行・使われる2）
+- `src/utils/explanationSections.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・429行・使われる1）
+- `src/utils/explanationShapes.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・20行・使われる4）
+- `src/utils/explanationSlices.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・133行・使われる2）
+- `src/utils/explanationSteps.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・144行・使われる2）
+- `src/utils/explanationSupplement.ts` — フローチャート問題の解説に、補足の手順を組み立てる係（データ・79行・使われる4）
 - `src/utils/feedbackPayload.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・297行・使われる2）
 - `src/utils/feedbackQueue.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・98行・使われる2）
 - `src/utils/feedbackTransports.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・338行・使われる1）
@@ -406,10 +419,11 @@ tools/update.sh が cards.json から作る。1ファイル1行：`パス` — �
 - `src/utils/listeningOptions.ts` — 【変】リスニングの選択肢と解答欄を、同じ場所に並べるため切り出す係（データ・355行・使われる6）
 - `src/utils/listeningRounds.ts` — リスニングの大問から「第N回演習」を取り出して分ける係（データ・95行・使われる2）
 - `src/utils/listeningSpeech.ts` — 音源ファイルが無いとき、端末の読み上げで英語を流す係（音声・画像・261行・使われる7）
-- `src/utils/listeningSteps.ts` — リスニングを「1画面に1問」で進めるための区切りを作る係（データ・225行・使われる7）
+- `src/utils/listeningSteps.ts` — リスニングを「1画面に1問」で進めるための区切りを作る係（データ・225行・使われる8）
 - `src/utils/mathChemTypeset.ts` — 化学式を見つけ出し、数式組版の形に直して渡す係（データ・178行・使われる3）
 - `src/utils/mathExpression.ts` — 数式の書き方の違いを吸収し、同じ式かどうかを判定する係（データ・566行・使われる1）
 - `src/utils/mathHtmlTypeset.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・228行・使われる1）
+- `src/utils/mathNotation.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・223行・使われる1）
 - `src/utils/mathTypeset.ts` — 【変】KaTeXを使って、数式をきれいに組んで表示する係（データ・172行・使われる2）
 - `src/utils/mathTypesetCore.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・575行・使われる2）
 - `src/utils/nicknamePrivacy.ts` — 全国ランキングで、名前を一部隠して見せる係（データ・49行・使われる4）
@@ -418,7 +432,7 @@ tools/update.sh が cards.json から作る。1ファイル1行：`パス` — �
 - `src/utils/pdfViewer.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・69行・使われる4）
 - `src/utils/polyfills.ts` — 古いiPhoneやAndroidでも落ちないよう、足りない機能を補う係（設定・65行・使われる3）
 - `src/utils/problemVersion.ts` — 問題の版を判定し、登録されていない古い問題を見分ける係（データ・199行・使われる1）
-- `src/utils/progress.ts` — どの大問を解いたかという学習の進み具合を記録する係（データ・376行・使われる13）
+- `src/utils/progress.ts` — どの大問を解いたかという学習の進み具合を記録する係（データ・376行・使われる12）
 - `src/utils/publicProfileCore.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・106行・使われる5）
 - `src/utils/questionDisplay.ts` — 【変】問題文と解答欄に、何をどう表示するかの決まりを持つ係（データ・173行・使われる10）
 - `src/utils/questionLabel.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・234行・使われる2）
@@ -428,11 +442,12 @@ tools/update.sh が cards.json から作る。1ファイル1行：`パス` — �
 - `src/utils/quizInputScroll.ts` — 画面のキーボードで入力欄が隠れないよう動かす係（部品・73行・使われる2）
 - `src/utils/quizNavigationActions.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・264行・使われる2）
 - `src/utils/quizPaletteRules.ts` — 記号を入力する補助キーボードを、その問題に出すか決める係（データ・72行・使われる1）
-- `src/utils/quizRange.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・46行・使われる3）
+- `src/utils/quizRange.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・46行・使われる4）
 - `src/utils/quizRunState.ts` — 1回の演習の途中の点数・連続正解・時間を覚えておく係（データ・117行・使われる7）
 - `src/utils/quizScoring.ts` — 「解答と解説を見る」を押した瞬間に採点を行う係（データ・281行・使われる2）
+- `src/utils/quizStepState.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・114行・使われる2）
 - `src/utils/quizStorageKeys.ts` — 解いている途中の状態を端末に保存するときの名前を決める係（設定・97行・使われる9）
-- `src/utils/reportError.ts` — 失敗しても画面は止めず、その失敗を黙って捨てずに記録する係（データ・82行・使われる26）
+- `src/utils/reportError.ts` — 失敗しても画面は止めず、その失敗を黙って捨てずに記録する係（データ・82行・使われる30）
 - `src/utils/reviewFocus.ts` — 「間違えた問題だけ解き直す」の対象を決めて渡す係（データ・57行・使われる5）
 - `src/utils/reviewList.ts` — 間違えた問題を集め、忘却曲線に沿って復習日を決める係（データ・427行・使われる15）
 - `src/utils/reviewProgress.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・87行・使われる3）
@@ -441,8 +456,9 @@ tools/update.sh が cards.json から作る。1ファイル1行：`パス` — �
 - `src/utils/safeLocalStorage.ts` — 【変】端末の保存領域から、壊れていても安全に値を取り出す係（データ・176行・使われる67）
 - `src/utils/sanitizeHtml.ts` — 表示する文章から危ない記述を除き、許可した書式だけ残す係（データ・355行・使われる9）
 - `src/utils/scoring.ts` — 小問ごとの点数と、解答の制限時間を計算する係（データ・271行・使われる7）
+- `src/utils/shuffle.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・36行・使われる5）
 - `src/utils/stagePlay.ts` — ステージへの挑戦を記録し、ログイン中なら同期を予約する係（データ・25行・使われる2）
-- `src/utils/stageRecords.ts` — ひとりで学ぶステージの挑戦記録と、クリアの条件を持つ係（データ・122行・使われる8）
+- `src/utils/stageRecords.ts` — ひとりで学ぶステージの挑戦記録と、クリアの条件を持つ係（データ・123行・使われる8）
 - `src/utils/storageGuard.ts` — 端末の保存領域が満杯でも、アプリが落ちないよう守る係（データ・78行・使われる16）
 - `src/utils/storageKeysCatalog.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・53行・使われる4）
 - `src/utils/studyLog.ts` — 直近3日にどの問題を解き、どこを間違えたかを記録する係（データ・92行・使われる4）
@@ -454,26 +470,26 @@ tools/update.sh が cards.json から作る。1ファイル1行：`パス` — �
 - `src/utils/studySummaryCsv.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・112行・使われる1）
 - `src/utils/studySummaryTypes.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・57行・使われる2）
 - `src/utils/studySyncCore.ts` — 学習データの同期で、2つの記録を合わせる計算をする係（データ・285行・使われる7）
-- `src/utils/studyTime.ts` — 学習時間を日ごとに記録し、操作が無い時間は数えない係（データ・63行・使われる11）
-- `src/utils/textFormatter.tsx` — 本文の太字や数式を、表示用の形に置き換える係（部品・749行・使われる14）
+- `src/utils/studyTime.ts` — 学習時間を日ごとに記録し、操作が無い時間は数えない係（データ・64行・使われる11）
+- `src/utils/textFormatter.tsx` — 【変】本文の太字や数式を、表示用の形に置き換える係（部品・557行・使われる14）
 - `src/utils/tipRotation.ts` — まだ読んでいない豆知識を優先して、順に出していく係（データ・120行・使われる1）
-- `src/utils/unitStats.ts` — 単元ごとの正解率を端末に記録しておく台帳の係（データ・65行・使われる3）
+- `src/utils/unitStats.ts` — 単元ごとの正解率を端末に記録しておく台帳の係（データ・66行・使われる3）
 - `src/utils/updateNotices.ts` — お知らせのうち、どれを読んだかを覚えておく係（データ・177行・使われる3）
 - `src/utils/userDataSync.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・158行・使われる3）
 - `src/utils/userDataSyncCore.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・610行・使われる5）
 - `src/utils/userDataSyncEvent.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・7行・使われる3）
-- `src/utils/userStorageKeys.ts` — 利用者ごとに端末へ保存するときの名前を決める係（設定・71行・使われる15）
+- `src/utils/userStorageKeys.ts` — 【変】利用者ごとに端末へ保存するときの名前を決める係（設定・79行・使われる21）
 - `src/utils/viewportControl.ts` — 解答・解説ページを俯瞰できるよう、表示の幅を調整する係（部品・59行・使われる1）
 - `src/utils/vocabAudio.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・103行・使われる5）
 - `src/utils/vocabGoal.ts` — 志望校と、単語帳の目標（出題範囲）を保存する係（データ・41行・使われる3）
 - `src/utils/webSignInCore.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・239行・使われる3）
 
-## 問題と教材のデータ（77ファイル）
+## 問題と教材のデータ（75ファイル）
 
 - `listening_audio_ledger.json` — リスニング音源374件の出どころと状態を記録する台帳の係（データ・5,612行・使われる0）
 - `public/data/listeningTranslations.json` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（設定・0行・使われる0）
 - `public/data/listeningVocabulary.json` — 単語帳と対戦で使う英単語データを、まとめて持つ係（データ・0行・使われる0）
-- `src/data/allChapters.ts` — 教科ごとの単元の一覧を集め、単元を探せるようにする入口の係（データ・184行・使われる26）
+- `src/data/allChapters.ts` — 教科ごとの単元の一覧を集め、単元を探せるようにする入口の係（データ・184行・使われる27）
 - `src/data/chapterCatalog.ts` — 科目ごとに、どんな単元があるかの一覧表を作る係（データ・158行・使われる3）
 - `src/data/egProblemsExpr1.ts` — 英文法⑲「動詞を含む熟語・群動詞」の問題を持つ係（データ・212行・使われる1）
 - `src/data/egProblemsExpr2.ts` — 英文法⑳「会話表現と多義語・語い」の問題を持つ係（データ・210行・使われる1）
@@ -487,20 +503,18 @@ tools/update.sh が cards.json から作る。1ファイル1行：`パス` — �
 - `src/data/englishGrammarProblems.ts` — 英文法の問題データをいくつかのファイルから集めて渡す係（データ・59行・使われる1）
 - `src/data/englishListeningData.ts` — 共通テスト英語リスニングの単元の並びと中身を持つ係（データ・364行・使われる18）
 - `src/data/englishListeningQ1AProblems.ts` — リスニング第1問Aの演習問題と、問題データの形を持つ係（データ・377行・使われる15）
-- `src/data/englishListeningQ1ASets.ts` — リスニング第1問Aの類題集（第2回〜第14回）を持つ係（データ・2,532行・使われる6）
-- `src/data/englishListeningQ1BProblems.ts` — リスニング第1問B（イラスト選択）の類題集を持つ係（データ・2,961行・使われる6）
-- `src/data/englishListeningQ2Problems.ts` — リスニング第2問（短い対話・イラスト選択）の類題集を持つ係（データ・3,409行・使われる3）
-- `src/data/englishListeningQ3Problems.ts` — リスニング第3問（短い対話・1回読み）の類題集を持つ係（データ・5,694行・使われる3）
+- `src/data/englishListeningQ1ASets.ts` — 【変】リスニング第1問Aの類題集（第2回〜第14回）を持つ係（データ・2,532行・使われる6）
+- `src/data/englishListeningQ1BProblems.ts` — 【変】リスニング第1問B（イラスト選択）の類題集を持つ係（データ・2,961行・使われる6）
+- `src/data/englishListeningQ2Problems.ts` — 【変】リスニング第2問（短い対話・イラスト選択）の類題集を持つ係（データ・3,409行・使われる3）
+- `src/data/englishListeningQ3Problems.ts` — 【変】リスニング第3問（短い対話・1回読み）の類題集を持つ係（データ・5,694行・使われる3）
 - `src/data/englishListeningQ4to6Problems.ts` — リスニング第4問〜第6問の類題集をまとめて持つ係（データ・1,029行・使われる4）
 - `src/data/externalSubjects.ts` — 本体に問題データを持たない外部の教科を登録しておく係（データ・142行・使われる8）
-- `src/data/kobeMockPrints.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・36行・使われる3）
 - `src/data/kyotsuMockAudio.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・55行・使われる4）
 - `src/data/kyotsuMockPrints.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・38行・使われる3）
 - `src/data/listeningPictureAspect.ts` — リスニングのイラストのうち、正方形でない絵の縦横比を持つ係（データ・19行・使われる2）
 - `src/data/listeningPostProcess.ts` — 英語2教科の解説の後処理を、共通の手順で行う係（データ・74行・使われる4）
-- `src/data/listeningSupport.ts` — 聞き取り練習用の単語の形と、8つの文法レッスンを持つ係（データ・28行・使われる6）
+- `src/data/listeningSupport.ts` — 聞き取り練習用の単語の形と、8つの文法レッスンを持つ係（データ・29行・使われる6）
 - `src/data/mascotTips.ts` — とびら君が話す「ミニ豆知識」の文を持つ係（データ・180行・使われる1）
-- `src/data/osakaMockPrints.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・36行・使われる3）
 - `src/data/philosophy.ts` — 理念ページ「学びの扉」に載せる本文を段落ごとに持つ係（データ・68行・使われる1）
 - `src/data/problemCount.ts` — 1つの単元に大問が何問入っているかを数える共通の係（データ・66行・使われる3）
 - `src/data/reading/index.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・163行・使われる4）
@@ -521,7 +535,7 @@ tools/update.sh が cards.json から作る。1ファイル1行：`パス` — �
 - `src/data/subjectLabels.ts` — 教科のIDと教科名の対応を持ち、正しいIDか判定する係（データ・27行・使われる10）
 - `src/data/subjectTheme.ts` — 科目ごとの配色を、画面で使いやすい形で渡す係（データ・58行・使われる19）
 - `src/data/subjects.ts` — アプリで扱う教科の登録簿で、教科を足すときに書き換える係（設定・195行・使われる16）
-- `src/data/teachingTypes.ts` — 指導テンプレートなどに使うデータの形だけを決める係（データ・110行・使われる1）
+- `src/data/teachingTypes.ts` — 指導テンプレートなどに使うデータの形だけを決める係（データ・110行・使われる2）
 - `src/data/tobiraMood.ts` — 連続日数などの状態から、とびら君の「きもち」を決める係（データ・125行・使われる4）
 - `src/data/toeic/toeicPart5Data.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・92行・使われる4）
 - `src/data/toeic/toeicPart5Kit.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・238行・使われる20）
@@ -544,15 +558,15 @@ tools/update.sh が cards.json から作る。1ファイル1行：`パス` — �
 - `src/data/unitSections.ts` — 単元一覧を、見出しつきの小さなまとまりに分ける係（データ・74行・使われる1）
 - `src/data/updateNotices.ts` — アプリの更新履歴（お知らせ）の中身を持つ係（データ・333行・使われる3）
 - `src/data/vocabChapters.ts` — 5,700語あまりの英単語を、レベル・100語・20語に分ける係（データ・68行・使われる2）
-- `src/data/vocabQuiz.ts` — 【変】英単語の4択演習で、10問の出し方を決める係（データ・199行・使われる4）
-- `src/types/curriculum.ts` — 単元・大問・小問・音源など、教材データの共通の形を決める係（データ・193行・使われる59）
+- `src/data/vocabQuiz.ts` — 【変】英単語の4択演習で、10問の出し方を決める係（データ・201行・使われる5）
+- `src/types/curriculum.ts` — 単元・大問・小問・音源など、教材データの共通の形を決める係（データ・193行・使われる61）
 - `src/types/studyNote.ts` — 端末に保存する学習ノート1件の形を決める係（データ・29行・使われる3）
 
 ## ログインと同期（18ファイル）
 
 - `src/features/account/accountDeletion.ts` — 【変】アカウント削除のとき、サーバーと端末のデータを消す係（通信・117行・使われる1）
 - `src/features/safety/userSafety.ts` — 他の利用者の通報とブロックを記録し、一覧を読む係（通信・141行・使われる6）
-- `src/firebase.ts` — 【変】ログインとデータ保存に使うFirebaseへの接続を用意する係（通信・91行・使われる81）
+- `src/firebase.ts` — 【変】ログインとデータ保存に使うFirebaseへの接続を用意する係（通信・91行・使われる82）
 - `src/utils/achievementsSync.ts` — 達成ステージやレベルを、別の端末でも同じにする係（通信・55行・使われる3）
 - `src/utils/classroom.ts` — 【変】先生がクラスを作り生徒が参加するデータを保存先とやりとりする係（通信・291行・使われる6）
 - `src/utils/feedback.ts` — 【変】利用者からのご意見・ご要望を集めて送り届ける係（通信・130行・使われる8）
@@ -560,10 +574,10 @@ tools/update.sh が cards.json から作る。1ファイル1行：`パス` — �
 - `src/utils/firestoreErrors.ts` — 保存先（Firestore）のエラーを、日本語の文に直す係（通信・31行・使われる4）
 - `src/utils/firestoreMetered.ts` — データ保存先の読み書きの回数を数え、使用量を記録する係（通信・176行・使われる24）
 - `src/utils/friendPresence.ts` — 画面を開いている間だけ、フレンドにオンラインを知らせる係（通信・35行・使われる1）
-- `src/utils/friends.ts` — フレンドの申請・承認・一覧などを、保存先とやりとりする係（通信・554行・使われる4）
+- `src/utils/friends.ts` — フレンドの申請・承認・一覧などを、保存先とやりとりする係（通信・555行・使われる4）
 - `src/utils/googleAuth.ts` — 【変】Googleアカウントでのログインと、その失敗理由を扱う係（通信・255行・使われる5）
 - `src/utils/httpTimeout.ts` — 外部への送信に、待ち時間の上限をつけて行う共通の係（通信・63行・使われる2）
-- `src/utils/leaderboard.ts` — ランキングの点数を、データ保存先と同期させる係（通信・361行・使われる9）
+- `src/utils/leaderboard.ts` — ランキングの点数を、データ保存先と同期させる係（通信・362行・使われる9）
 - `src/utils/manaClan.ts` — マナクランの操作をサーバーの関数に頼み、結果を受け取る係（通信・23行・使われる4）
 - `src/utils/publicStudyProfile.ts` — 【変】本人が公開を選んだ学習プロフィールだけを保存・表示する係（通信・221行・使われる12）
 - `src/utils/studySync.ts` — 端末の学習データを、サーバー側の保存先と同期させる係（通信・286行・使われる4）
@@ -572,17 +586,16 @@ tools/update.sh が cards.json から作る。1ファイル1行：`パス` — �
 ## サーバーとルール（8ファイル）
 
 - `.firebaserc` — どのFirebaseプロジェクトに反映するかを指定する設定の係（設定・4行・使われる0）
-- `docs/deploy-firestore-rules.workflow.yml` — ルール変更を本番へ自動反映する、GitHubの作業手順の見本の係（設定・49行・使われる0）
+- `docs/deploy-firestore-rules.workflow.yml` — 【変】ルール変更を本番へ自動反映する、GitHubの作業手順の見本の係（設定・49行・使われる0）
 - `firebase.json` — Firebaseの公開場所・ルール・サーバー関数の設定をまとめる係（設定・125行・使われる0）
 - `firestore.indexes.json` — データ保存先で、並べ替えや絞り込みに使う索引を決める係（設定・114行・使われる0）
-- `firestore.rules` — データ保存先で、誰がどのデータを読み書きできるかを決める係（設定・2,382行・使われる0）
-- `functions/core.mjs` — マナクランとリーグの集計に使う、サーバー専用の計算の係（通信・109行・使われる3）
-- `functions/index.mjs` — クラン・レート・定期集計などのサーバー処理を用意する係（通信・241行・使われる1）
+- `firestore.rules` — データ保存先で、誰がどのデータを読み書きできるかを決める係（設定・2,384行・使われる0）
+- `functions/core.mjs` — 【変】マナクランとリーグの集計に使う、サーバー専用の計算の係（通信・136行・使われる3）
+- `functions/index.mjs` — 【変】クラン・レート・定期集計などのサーバー処理を用意する係（通信・279行・使われる1）
 - `functions/package.json` — サーバー関数が使う部品とNode.jsの版を決める係（設定・10行・使われる0）
 
-## スマホアプリ版（15ファイル）
+## スマホアプリ版（14ファイル）
 
-- `APP_CAPACITOR_README.md` — スマホアプリ版（Capacitor）の作り方と、Web版との違いを説明する係（文書・138行・使われる0）
 - `android/app/src/main/java/com/manatobi/listening/MainActivity.java` — Androidアプリの起動時に、音声配信を直す仕組みを差し込む係（設定・16行・使われる0）
 - `android/app/src/main/java/com/manatobi/listening/RangeAwareWebViewClient.java` — Androidアプリで音声の途中から再生を正しく返し、音割れを防ぐ係（音声・画像・214行・使われる0）
 - `capacitor.config.ts` — スマホアプリ版の名前やWeb画面の置き場所を決める設定の係（設定・44行・使われる0）
@@ -596,7 +609,7 @@ tools/update.sh が cards.json から作る。1ファイル1行：`パス` — �
 - `src/native/nativeAuthError.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・112行・使われる2）
 - `src/native/platform.ts` — いまiOS・Androidのアプリの中で動いているかを判定する係（設定・19行・使われる5）
 - `src/utils/adConfig.ts` — 【変】アプリ内広告（AdMob）の使う・使わないの設定をまとめる係（設定・152行・使われる3）
-- `src/utils/adService.ts` — アプリ起動時に広告のしくみ（AdMob）を準備する係（通信・231行・使われる4）
+- `src/utils/adService.ts` — アプリ起動時に広告のしくみ（AdMob）を準備する係（通信・232行・使われる4）
 
 ## 音声・絵・プリント（13ファイル）
 
@@ -614,22 +627,18 @@ tools/update.sh が cards.json から作る。1ファイル1行：`パス` — �
 - `public/化学基礎_フローチャート集.html` — 【要確認】化学基礎のフローチャート集を見せる単体ページだが、使い道が未確認の係（文書・2,561行・使われる0）
 - `public/化学基礎_フローチャート集_v2.html` — 【要確認】化学基礎のフローチャート集の第2版の単体ページだが、使い道が未確認の係（文書・2,561行・使われる0）
 
-## 作る道具（337ファイル）
+## 作る道具（292ファイル）
 
-- `scripts/apply-android-assets.py` — Android版のアイコンと起動画面の画像を差し替える係（音声・画像・79行・使われる0）
-- `scripts/apply-new-icon.py` — 新しいアプリアイコンを、iOS・Web・Androidに配る係（音声・画像・100行・使われる0）
-- `scripts/build-listening-prompts-pdf.py` — リスニング音源を作るための台本をPDFにまとめる係（文書・143行・使われる0）
-- `scripts/build-q2-rerecord-pdf.py` — リスニング第2問を録り直すための台本PDFを作る係（文書・186行・使われる0）
+- `scripts/README.md` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（文書・49行・使われる0）
 - `scripts/build.sh` — ビルドの前にメモリ不足を見つけ、理由と対処を先に示す係（設定・49行・使われる0）
 - `scripts/check-firebase-setup.mjs` — 新しいFirebaseプロジェクトにつなぐ設定が済んだかを確かめる係（設定・37行・使われる0）
+- `scripts/check-toeic-notes.mts` — 【新】TOEIC Part 5 の追加解説が英文法の解説やほかの文章と5語続けて一致していないかを調べる係（`npm run check:toeic-notes`）
 - `scripts/check-release.mjs` — 本番でゲスト専用の版が黙って公開されないよう止める係（設定・17行・使われる0）
-- `scripts/concat_listening_audio.sh` — 古い配布ZIPの、分かれたリスニング音声をつなげる係（音声・画像・57行・使われる0）
 - `scripts/data/grammar_v3/build_ts.py` — そろえた英文法データから、アプリ用の問題ファイルを作る係（データ・81行・使われる0）
 - `scripts/data/grammar_v3/exam_tips.py` — 英文法の解説に「入試ではここ」のひと言を足すための表の係（データ・176行・使われる0）
 - `scripts/data/grammar_v3/ja_gloss.py` — 英語だけだった英文法の解説に、日本語を添える対訳表の係（データ・101行・使われる0）
 - `scripts/data/grammar_v3/normalize.py` — 何回かに分けて届いた英文法の問題を、1つの形にそろえる係（データ・108行・使われる0）
 - `scripts/export-listening-audio-prompts.mts` — リスニング音源の生成の指示文だけを書き出す係（文書・97行・使われる0）
-- `scripts/extract_q2_illustrations.py` — 配布PDFから第2問のイラストを取り出し、正しい名前で置く係（音声・画像・225行・使われる0）
 - `scripts/firefly-kit/build_kit.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・316行・使われる0）
 - `scripts/firefly-kit/build_reading_media.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・112行・使われる0）
 - `scripts/firefly-kit/import-cinematic.sh` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・20行・使われる0）
@@ -637,8 +646,7 @@ tools/update.sh が cards.json から作る。1ファイル1行：`パス` — �
 - `scripts/firefly-kit/unify_background.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・253行・使われる0）
 - `scripts/firefly-kit/videos.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・368行・使われる0）
 - `scripts/fix-vocab-meanings.py` — 英単語の意味に残った「第／の」などの表記くずれを直す係（データ・70行・使われる0）
-- `scripts/fix_q2_text_to_figures.py` — 第2問の選択肢の文を、配布PDFのイラストに合わせて直す係（データ・159行・使われる0）
-- `scripts/gacha-prints/README.md` — 【変】ガチャで当たる学習プリントの作り直し方を説明する係（文書・172行・使われる0）
+- `scripts/gacha-prints/README.md` — 【変】ガチャで当たる学習プリントの作り直し方を説明する係（文書・101行・使われる0）
 - `scripts/gacha-prints/analysis_data.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・36行・使われる0）
 - `scripts/gacha-prints/analysis_subjects1.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・58行・使われる0）
 - `scripts/gacha-prints/analysis_subjects2.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・63行・使われる0）
@@ -648,7 +656,7 @@ tools/update.sh が cards.json から作る。1ファイル1行：`パス` — �
 - `scripts/gacha-prints/build-grammar-ur.py` — 学習プリント「英文法 全20単元 総合100題」を作る係（文書・305行・使われる0）
 - `scripts/gacha-prints/build-level-ur.py` — レベル報酬の学習プリント「リスニングの聞き方」を作る係（文書・70行・使われる0）
 - `scripts/gacha-prints/build-listening-book.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・306行・使われる0）
-- `scripts/gacha-prints/build-previews.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・96行・使われる0）
+- `scripts/gacha-prints/build-previews.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・87行・使われる0）
 - `scripts/gacha-prints/build-reading-mock.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・159行・使われる0）
 - `scripts/gacha-prints/build-science-ur.py` — 化学・数学・理科の学習プリント3冊を作り直す係（文書・315行・使われる0）
 - `scripts/gacha-prints/build-vocab-book.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・329行・使われる0）
@@ -661,28 +669,6 @@ tools/update.sh が cards.json から作る。1ファイル1行：`パス` — �
 - `scripts/gacha-prints/idiom_reading/build.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・182行・使われる0）
 - `scripts/gacha-prints/idiom_reading/dump.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・19行・使われる0）
 - `scripts/gacha-prints/idiom_reading/publish.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・45行・使われる0）
-- `scripts/gacha-prints/kobe_mock/check_orig.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・137行・使われる0）
-- `scripts/gacha-prints/kobe_mock/check_quality.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・85行・使われる0）
-- `scripts/gacha-prints/kobe_mock/logo_gray.png` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（音声・画像・430行・使われる0）
-- `scripts/gacha-prints/kobe_mock/logs/originality.json` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（設定・226行・使われる0）
-- `scripts/gacha-prints/kobe_mock/logs/quality.json` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（設定・9行・使われる0）
-- `scripts/gacha-prints/kobe_mock/logs/verify_r1.json` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（設定・114行・使われる0）
-- `scripts/gacha-prints/kobe_mock/logs/verify_r2.json` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（設定・114行・使われる0）
-- `scripts/gacha-prints/kobe_mock/logs/verify_r3.json` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（設定・114行・使われる0）
-- `scripts/gacha-prints/kobe_mock/r1_I.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・194行・使われる0）
-- `scripts/gacha-prints/kobe_mock/r1_II.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・183行・使われる0）
-- `scripts/gacha-prints/kobe_mock/r1_III.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・179行・使われる0）
-- `scripts/gacha-prints/kobe_mock/r1_IV.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・31行・使われる0）
-- `scripts/gacha-prints/kobe_mock/r2_I.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・187行・使われる0）
-- `scripts/gacha-prints/kobe_mock/r2_II.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・184行・使われる0）
-- `scripts/gacha-prints/kobe_mock/r2_III.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・168行・使われる0）
-- `scripts/gacha-prints/kobe_mock/r2_IV.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・31行・使われる0）
-- `scripts/gacha-prints/kobe_mock/r3_I.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・192行・使われる0）
-- `scripts/gacha-prints/kobe_mock/r3_II.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・181行・使われる0）
-- `scripts/gacha-prints/kobe_mock/r3_III.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・181行・使われる0）
-- `scripts/gacha-prints/kobe_mock/r3_IV.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・31行・使われる0）
-- `scripts/gacha-prints/kobe_mock/render.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・454行・使われる0）
-- `scripts/gacha-prints/kobe_mock/verify.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・70行・使われる0）
 - `scripts/gacha-prints/kyotsu_mock/assets/img/kyotsu_l1_q05_pics.jpg` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（音声・画像・728行・使われる0）
 - `scripts/gacha-prints/kyotsu_mock/assets/img/kyotsu_l1_q06_pics.jpg` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（音声・画像・1,020行・使われる0）
 - `scripts/gacha-prints/kyotsu_mock/assets/img/kyotsu_l1_q07_pics.jpg` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（音声・画像・1,013行・使われる0）
@@ -780,32 +766,6 @@ tools/update.sh が cards.json から作る。1ファイル1行：`パス` — �
 - `scripts/gacha-prints/kyotsu_mock/set5_r1.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・138行・使われる0）
 - `scripts/gacha-prints/kyotsu_mock/set5_r2.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・226行・使われる0）
 - `scripts/gacha-prints/listening_guide.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・66行・使われる0）
-- `scripts/gacha-prints/osaka_mock/check.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・128行・使われる0）
-- `scripts/gacha-prints/osaka_mock/logo_gray.png` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（音声・画像・430行・使われる0）
-- `scripts/gacha-prints/osaka_mock/logs/check.json` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（設定・103行・使われる0）
-- `scripts/gacha-prints/osaka_mock/logs/verify_r1.json` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（設定・86行・使われる0）
-- `scripts/gacha-prints/osaka_mock/logs/verify_r2.json` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（設定・86行・使われる0）
-- `scripts/gacha-prints/osaka_mock/logs/verify_r3.json` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（設定・86行・使われる0）
-- `scripts/gacha-prints/osaka_mock/o1.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・7行・使われる0）
-- `scripts/gacha-prints/osaka_mock/o1_I.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・32行・使われる0）
-- `scripts/gacha-prints/osaka_mock/o1_II.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・90行・使われる0）
-- `scripts/gacha-prints/osaka_mock/o1_III.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・12行・使われる0）
-- `scripts/gacha-prints/osaka_mock/o1_II_ja.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・16行・使われる0）
-- `scripts/gacha-prints/osaka_mock/o1_IV.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・33行・使われる0）
-- `scripts/gacha-prints/osaka_mock/o2.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・7行・使われる0）
-- `scripts/gacha-prints/osaka_mock/o2_I.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・32行・使われる0）
-- `scripts/gacha-prints/osaka_mock/o2_II.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・90行・使われる0）
-- `scripts/gacha-prints/osaka_mock/o2_III.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・12行・使われる0）
-- `scripts/gacha-prints/osaka_mock/o2_II_ja.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・17行・使われる0）
-- `scripts/gacha-prints/osaka_mock/o2_IV.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・34行・使われる0）
-- `scripts/gacha-prints/osaka_mock/o3.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・7行・使われる0）
-- `scripts/gacha-prints/osaka_mock/o3_I.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・34行・使われる0）
-- `scripts/gacha-prints/osaka_mock/o3_II.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・91行・使われる0）
-- `scripts/gacha-prints/osaka_mock/o3_III.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・12行・使われる0）
-- `scripts/gacha-prints/osaka_mock/o3_II_ja.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・17行・使われる0）
-- `scripts/gacha-prints/osaka_mock/o3_IV.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・34行・使われる0）
-- `scripts/gacha-prints/osaka_mock/render.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・299行・使われる0）
-- `scripts/gacha-prints/osaka_mock/verify.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・47行・使われる0）
 - `scripts/gacha-prints/reading_guide.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・52行・使われる0）
 - `scripts/gacha-prints/reading_mock_a.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・301行・使われる0）
 - `scripts/gacha-prints/reading_mock_b1.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・106行・使われる0）
@@ -817,30 +777,39 @@ tools/update.sh が cards.json から作る。1ファイル1行：`パス` — �
 - `scripts/gen-battle-pool.mts` — 教科のデータから、対戦で出す問題の一覧を作る係（データ・2,434行・使われる0）
 - `scripts/gen-chapter-index.mts` — 単元の軽い索引ファイルを、問題データから作る係（データ・370行・使われる0）
 - `scripts/gen-listening-vocabulary.mts` — リスニングの台本から、単語帳用の英単語データを作る係（データ・27行・使われる0）
-- `scripts/gen_listening_data.py` — PDFから取り出した第1問A・Bの中身を、アプリのデータにする係（データ・430行・使われる0）
-- `scripts/gen_listening_q2_data.py` — PDFから取り出した第2問の中身を、アプリのデータにする係（データ・564行・使われる0）
-- `scripts/gen_listening_q3_data.py` — PDFから取り出した第3問の中身を、アプリのデータにする係（データ・344行・使われる0）
+- `scripts/icons/apply-android-assets.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・79行・使われる0）
+- `scripts/icons/apply-new-icon.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・100行・使われる0）
+- `scripts/icons/make-icons.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・72行・使われる0）
 - `scripts/kasa-diff.sh` — 協力者に送る、前回からの差分だけのZIPを作る係（設定・20行・使われる0）
 - `scripts/listening-audio.mts` — リスニング音源の一覧・検査・取り込みを1つで行う道具の係（音声・画像・675行・使われる0）
+- `scripts/listening-data/build-listening-prompts-pdf.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・143行・使われる0）
+- `scripts/listening-data/build-q2-rerecord-pdf.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・186行・使われる0）
+- `scripts/listening-data/concat_listening_audio.sh` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・57行・使われる0）
+- `scripts/listening-data/extract_q2_illustrations.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・225行・使われる0）
+- `scripts/listening-data/fix_q2_text_to_figures.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・159行・使われる0）
+- `scripts/listening-data/gen_listening_data.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・430行・使われる0）
+- `scripts/listening-data/gen_listening_q2_data.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・564行・使われる0）
+- `scripts/listening-data/gen_listening_q3_data.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・344行・使われる0）
+- `scripts/listening-data/parse_listening_pdf.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・199行・使われる0）
+- `scripts/listening-data/parse_listening_q2_pdf.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・484行・使われる0）
+- `scripts/listening-data/parse_listening_q3_pdf.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・318行・使われる0）
+- `scripts/listening-data/q2_figure_fixes.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・273行・使われる0）
+- `scripts/listening-data/q2_img_to_public.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・57行・使われる0）
+- `scripts/listening-data/shuffle_listening_q2_options.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・570行・使われる0）
+- `scripts/listening-data/shuffle_listening_q3_options.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・197行・使われる0）
+- `scripts/listening-data/shuffle_q1b_options.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・373行・使われる0）
+- `scripts/listening-data/strip_genspark_logo.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・113行・使われる0）
+- `scripts/listening-data/verify_q2_single_gender.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・189行・使われる0）
+- `scripts/listening-data/verify_q2_tts_speakers.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・149行・使われる0）
 - `scripts/listening-split.py` — まとめて録ったリスニング音声を、1問1ファイルに切り出す係（音声・画像・190行・使われる0）
 - `scripts/listening-translation/make.mjs` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・33行・使われる0）
-- `scripts/make-icons.py` — もとの正方形の絵から、アプリのアイコン一式を作る係（音声・画像・72行・使われる0）
-- `scripts/parse_listening_pdf.py` — 第1問A・Bの類題集PDFを、整理されたJSONに変える係（データ・199行・使われる0）
-- `scripts/parse_listening_q2_pdf.py` — 第2問の類題集PDFを、突き合わせつきでJSONに変える係（データ・484行・使われる0）
-- `scripts/parse_listening_q3_pdf.py` — 第3問の類題集PDFを、突き合わせつきでJSONに変える係（データ・318行・使われる0）
 - `scripts/pr/pr.mts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・126行・使われる0）
 - `scripts/pr/prCore.mts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・178行・使われる2）
 - `scripts/purge-legacy-listening-audio.mjs` — 商用の根拠がない古い音源を一掃し、残りを確かめる係（音声・画像・87行・使われる0）
-- `scripts/q2_figure_fixes.py` — 第2問をイラストに合わせて直す中身を、1問ずつ根拠つきで持つ係（データ・273行・使われる0）
-- `scripts/q2_img_to_public.py` — 第2問のイラストを、縦横比を変えずに配信用に整える係（音声・画像・57行・使われる0）
 - `scripts/readalong/add_prosody.py` — 音源から各語の強弱を測り、音読用データに足す係（音声・画像・133行・使われる0）
 - `scripts/readalong/align_readalong.py` — 音読・ディクテーション用に、単語ごとの時刻を作る係（音声・画像・175行・使われる0）
 - `scripts/readalong/dump_tracks.ts` — 音読データ作りのために、リスニングの音源一覧を書き出す係（データ・7行・使われる0）
 - `scripts/release-guard.sh` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・57行・使われる0）
-- `scripts/shuffle_listening_q2_options.py` — 第2問の正解の位置が偏らないよう、選択肢の並びを入れ替える係（データ・570行・使われる0）
-- `scripts/shuffle_listening_q3_options.py` — 第3問の正解の位置が偏らないよう、選択肢の並びを入れ替える係（データ・197行・使われる0）
-- `scripts/shuffle_q1b_options.py` — 第1問Bで正解が①に偏った回の、選択肢を入れ替える係（データ・373行・使われる0）
-- `scripts/strip_genspark_logo.py` — 第1問Bのイラストから、右下に入ったロゴを取り除く係（音声・画像・113行・使われる0）
 - `scripts/tobira-motion/import.sh` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・32行・使われる0）
 - `scripts/vocab-audio/cut.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・283行・使われる0）
 - `scripts/vocab-audio/make_pdf.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・190行・使われる0）
@@ -954,22 +923,20 @@ tools/update.sh が cards.json から作る。1ファイル1行：`パス` — �
 - `store-assets/youtube/CHAPTERS.txt` — YouTube 動画の見出し（チャプター）の時刻を並べた係（文書・7行・使われる0）
 - `store-assets/youtube/youtube_16x9.mp4` — YouTube に載せる横長（16:9）の宣伝動画の係（音声・画像・236,072行・使われる0）
 
-## 自動テスト（141ファイル）
+## 自動テスト（142ファイル）
 
-- `functions/core.test.mjs` — サーバー側のクラン集計の計算が正しいかを確かめる係（テスト・57行・使われる0）
+- `functions/core.test.mjs` — サーバー側のクラン集計の計算が正しいかを確かめる係（テスト・72行・使われる0）
 - `functions/integration.test.mjs` — 試験用の環境で、サーバー処理の流れを通して確かめる係（テスト・146行・使われる0）
 - `scripts/android-range-check/Check.java` — Androidの音声の途中再生の修正を、端末なしで確かめる係（テスト・16行・使われる0）
 - `scripts/android-range-check/Javac.java` — 上の検査用Javaを、Android SDKなしで組み立てる小さな係（テスト・1行・使われる0）
 - `scripts/android-range-check/run.sh` — Androidの音声配信の修正の検査を、まとめて実行する係（テスト・11行・使われる0）
-- `scripts/verify_q2_single_gender.py` — 第2問の音源で、先に話す人の性別が台本どおりか測る係（テスト・189行・使われる0）
-- `scripts/verify_q2_tts_speakers.py` — まとめ録りの音声が、ちゃんと3人の声になっているか測る係（テスト・149行・使われる0）
 - `store-assets/_tools/peek.py` — 宣伝素材の下見用に、主な画面をスマホの大きさで撮る係（テスト・27行・使われる0）
 - `tests/__snapshots__/sharedHash.test.ts.snap` — 日付ごとのミッションの組を、比べる用に記録しておく係（テスト・9行・使われる0）
-- `tests/ai-no-rating.test.ts` — AIやボットとの対戦では、レートが変わらないことを確かめる係（テスト・22行・使われる0）
+- `tests/ai-no-rating.test.ts` — AIやボットとの対戦では、レートが変わらないことを確かめる係（テスト・25行・使われる0）
 - `tests/androidAudioFixPresent.test.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（テスト・45行・使われる0）
 - `tests/androidBgmCrackle.test.ts` — AndroidでBGMが音割れしないための設定を確かめる係（テスト・85行・使われる0）
 - `tests/androidRangeServer.test.ts` — Androidで音声の指定した位置から正しく返すかを確かめる係（テスト・23行・使われる0）
-- `tests/answerStability.test.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（テスト・38行・使われる0）
+- `tests/answerStability.test.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（テスト・40行・使われる0）
 - `tests/appPersistence.test.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（テスト・121行・使われる0）
 - `tests/appToastSkeleton.test.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（テスト・48行・使われる0）
 - `tests/architectureFitness.test.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（テスト・198行・使われる0）
@@ -981,6 +948,7 @@ tools/update.sh が cards.json から作る。1ファイル1行：`パス` — �
 - `tests/battlePictureListening.test.ts` — 対戦画面が問題の絵を表示し、先読みしているかを確かめる係（テスト・31行・使われる0）
 - `tests/bgmPlayError.test.ts` — タイトルBGMの再生失敗時のログと無音切替を確かめる係（テスト・70行・使われる0）
 - `tests/bgmUnify.test.ts` — すべてのBGMの音量と、1つのスイッチの決まりを確かめる係（テスト・98行・使われる0）
+- `tests/calendarCompare.test.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（テスト・29行・使われる0）
 - `tests/chunkRecovery.test.ts` — 新しい版の配信直後の読み込み失敗を、正しく見分けるか確かめる係（テスト・19行・使われる0）
 - `tests/cinematicClips.test.ts` — 【変】とびら君の演出動画が置かれていて、1MB未満かを確かめる係（テスト・71行・使われる0）
 - `tests/cinematics.browser.mjs` — 実際のブラウザで、演出動画とタイトルが正しく出るかを確かめる係（テスト・108行・使われる0）
@@ -988,6 +956,7 @@ tools/update.sh が cards.json から作る。1ファイル1行：`パス` — �
 - `tests/classroom.rules.test.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（テスト・219行・使われる0）
 - `tests/classroomPreview.test.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（テスト・29行・使われる0）
 - `tests/coin-display.test.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（テスト・11行・使われる0）
+- `tests/collectionTiles.test.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（テスト・25行・使われる0）
 - `tests/connectionCheck.test.ts` — 通信チェックが、止まっている場所を正しく示すかを確かめる係（テスト・54行・使われる0）
 - `tests/dialog.test.ts` — お知らせと確認の窓口が、決まりどおり動くかを確かめる係（テスト・44行・使われる0）
 - `tests/englishGrammarV3.test.ts` — 英文法の改訂版1,163問が、章ごとにそろっているかを確かめる係（テスト・112行・使われる0）
@@ -1017,9 +986,8 @@ tools/update.sh が cards.json から作る。1ファイル1行：`パス` — �
 - `tests/homeBattleRankingPolish.test.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（テスト・39行・使われる0）
 - `tests/homeMascotIdle.test.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（テスト・25行・使われる0）
 - `tests/hookDepsReasons.test.ts` — フックの依存の抑制が増えておらず、理由つきか確かめる係（テスト・34行・使われる0）
-- `tests/kobeMockPrints.test.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（テスト・51行・使われる0）
 - `tests/kyotsuMockAudio.test.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（テスト・46行・使われる0）
-- `tests/kyotsuMockPrints.test.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（テスト・70行・使われる0）
+- `tests/kyotsuMockPrints.test.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（テスト・67行・使われる0）
 - `tests/leaderboard.rules.test.ts` — ランキングのデータを誰が読み書きできるかのルールを確かめる係（テスト・330行・使われる0）
 - `tests/listeningAudioLedger.test.ts` — リスニング音源台帳が374行で重複なく、正しく分かれているか確かめる係（テスト・114行・使われる0）
 - `tests/listeningExplanation.test.ts` — リスニングの解説でスクリプトが最初に出るかなどを確かめる係（テスト・368行・使われる0）
@@ -1028,11 +996,11 @@ tools/update.sh が cards.json から作る。1ファイル1行：`パス` — �
 - `tests/listeningOptions.test.ts` — 問題文から選択肢①〜④の本文を、正しく取り出せるか確かめる係（テスト・349行・使われる0）
 - `tests/listeningPostProcess.test.ts` — 英語2教科の解説の後処理を共通にしても、結果が同じか確かめる係（テスト・354行・使われる0）
 - `tests/listeningRounds.test.ts` — 大問の中から「第N回」の番号と内容を正しく読み取るか確かめる係（テスト・108行・使われる0）
-- `tests/listeningSteps.test.ts` — リスニングが「1画面に1問」で正しく進むかを確かめる係（テスト・893行・使われる0）
+- `tests/listeningSteps.test.ts` — リスニングが「1画面に1問」で正しく進むかを確かめる係（テスト・900行・使われる0）
 - `tests/listeningTranslation.test.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（テスト・54行・使われる0）
 - `tests/lowSpecMotion.test.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（テスト・211行・使われる0）
 - `tests/manualLogCore.test.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（テスト・181行・使われる0）
-- `tests/matchFallback.test.ts` — 相手がいない・サーバーが使えないとき、AIに切り替わるか確かめる係（テスト・89行・使われる0）
+- `tests/matchFallback.test.ts` — 相手がいない・サーバーが使えないとき、AIに切り替わるか確かめる係（テスト・102行・使われる0）
 - `tests/mission-claim.test.ts` — 達成したミッションの報酬は、1回だけ受け取れるかを確かめる係（テスト・16行・使われる0）
 - `tests/moduleGraph.test.ts` — ファイルどうしの読み込みに、ぐるぐる回る参照が無いか確かめる係（テスト・85行・使われる0）
 - `tests/motion.test.ts` — 文字の分け方と、動きを減らす設定の決まりを確かめる係（テスト・45行・使われる0）
@@ -1041,7 +1009,6 @@ tools/update.sh が cards.json から作る。1ファイル1行：`パス` — �
 - `tests/nativeAuthError.test.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（テスト・33行・使われる0）
 - `tests/noExplicitAny.test.ts` — 手書きのコードに any 型が増えていないかを見張る係（テスト・56行・使われる0）
 - `tests/noSilentCatch.test.ts` — 理由を書かずに失敗を握りつぶしている箇所が無いか確かめる係（テスト・48行・使われる0）
-- `tests/osakaMockPrints.test.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（テスト・51行・使われる0）
 - `tests/pdfViewer.test.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（テスト・93行・使われる0）
 - `tests/polyfills.test.ts` — 古い端末に足りない機能を、正しく補っているかを確かめる係（テスト・37行・使われる0）
 - `tests/prTool.test.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（テスト・89行・使われる0）
@@ -1051,11 +1018,12 @@ tools/update.sh が cards.json から作る。1ファイル1行：`パス` — �
 - `tests/questionNote.test.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（テスト・28行・使われる0）
 - `tests/quizHookOrder.test.ts` — 演習画面の内部の呼び出し順が、問題0件でも崩れないか確かめる係（テスト・32行・使われる0）
 - `tests/quizRange.test.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（テスト・28行・使われる0）
+- `tests/quizStepState.test.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（テスト・105行・使われる0）
 - `tests/quotaGhost.test.ts` — サーバーの無料枠を使い切ったとき、AI対戦に切り替わるか確かめる係（テスト・46行・使われる0）
 - `tests/readAlong.test.ts` — 音読・ディクテーションの時刻データが正しく扱われるか確かめる係（テスト・102行・使われる0）
 - `tests/reading.test.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（テスト・143行・使われる0）
 - `tests/readingTranslation.test.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（テスト・66行・使われる0）
-- `tests/recordNaming.test.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（テスト・28行・使われる0）
+- `tests/recordNaming.test.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（テスト・29行・使われる0）
 - `tests/remindersAnalytics.test.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（テスト・74行・使われる0）
 - `tests/reportError.test.ts` — 握りつぶしていた失敗が、場所と時刻つきで記録されるか確かめる係（テスト・53行・使われる0）
 - `tests/retention.test.ts` — 「あと少し」の目標や積み上げの記録が、正しく出るか確かめる係（テスト・90行・使われる0）
@@ -1068,10 +1036,12 @@ tools/update.sh が cards.json から作る。1ファイル1行：`パス` — �
 - `tests/rewarded-ad.test.ts` — 広告が初期状態では出ず、ガチャがアプリ内の動画を使うか確かめる係（テスト・23行・使われる0）
 - `tests/security.test.ts` — ご意見の連続送信を止めるなど、安全の決まりを確かめる係（テスト・63行・使われる0）
 - `tests/sharedHash.test.ts` — 共通化したハッシュ関数の結果が、以前と同じか確かめる係（テスト・44行・使われる0）
+- `tests/shuffle.test.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（テスト・33行・使われる0）
 - `tests/stagePlay.test.ts` — ステージの挑戦の記録と、送信の予約が正しく分かれているか確かめる係（テスト・23行・使われる0）
 - `tests/standalone-online.rules.test.ts` — リスニング版で2人が対戦部屋を使えるか、ルール込みで確かめる係（テスト・114行・使われる0）
 - `tests/standalone.browser.mjs` — 実際のブラウザで、ホームの3本柱と導線が正しいかを確かめる係（テスト・74行・使われる0）
 - `tests/standalone.test.ts` — リスニング版で、リスニングが主役になっているかを確かめる係（テスト・113行・使われる0）
+- `tests/startupImportGraph.test.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（テスト・143行・使われる0）
 - `tests/storageGuard.test.ts` — 端末の保存領域が満杯でも、アプリが落ちないかを確かめる係（テスト・38行・使われる0）
 - `tests/strip-script-box.test.ts` — 英語の解説から、重複したスクリプトの枠だけを消すか確かめる係（テスト・17行・使われる0）
 - `tests/study-log.test.ts` — 学習記録が、同じ問題をまとめて直近3日だけ残すか確かめる係（テスト・22行・使われる0）
@@ -1098,18 +1068,18 @@ tools/update.sh が cards.json から作る。1ファイル1行：`パス` — �
 - `tests/webLoginResolver.test.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（テスト・112行・使われる0）
 - `tests/webSignInCore.test.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（テスト・238行・使われる0）
 
-## 資料と全体の設定（266ファイル）
+## 資料と全体の設定（267ファイル）
 
 - `.env.example` — 接続先の設定値を入れる欄の見本を示す、中身が空の雛形の係（設定・19行・使われる0）
 - `.gitattributes` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・2行・使われる0）
 - `.gitignore` — Gitに入れないファイル（依存部品・ビルド結果・秘密）を決める係（設定・55行・使われる0）
 - `CLAUDE.md` — 画面を作るときに守るUIの決まりを、AIの作業者向けに書いた係（文書・21行・使われる0）
-- `COMMERCIAL_AUDIO_MIGRATION.md` — リスニング音源を商用で使える音声へ移した経緯を記録する係（文書・123行・使われる0）
 - `COMMERCIAL_AUDIO_STATUS.json` — 商用音源への置き換えが何曲済んだかの状況を持つ係（データ・22行・使われる0）
 - `DERIVATIVE_HANDOFF.md` — 統合版からリスニング版を分けたときの引き継ぎを記録する係（文書・106行・使われる0）
 - `EXPORT_MANIFEST.json` — 統合版から書き出したときの元の版と、含めたファイルの一覧を持つ係（データ・1,217行・使われる0）
 - `README.md` — マナトビ リスニングの中身と、手元で試す手順を説明する係（文書・158行・使われる0）
 - `docs/ADDING_SUBJECT.md` — 新しい教科を追加するときの手順を、順番に説明する係（文書・73行・使われる0）
+- `docs/APP_CAPACITOR_README.md` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（文書・138行・使われる0）
 - `docs/APP_STORE.md` — App Storeへ申請する前に確かめる項目を表にまとめる係（文書・53行・使われる0）
 - `docs/APP_SYNC.md` — Web版とアプリ版の中身をそろえるための決まりを書く係（文書・27行・使われる0）
 - `docs/BATTLE.md` — 対戦モードの設計と、なぜそうしたかを詳しく説明する係（文書・1,856行・使われる0）
@@ -1118,27 +1088,28 @@ tools/update.sh が cards.json から作る。1ファイル1行：`パス` — �
 - `docs/BUILD.md` — ビルドがメモリ不足で止まる理由と、その対処法を説明する係（文書・190行・使われる0）
 - `docs/CINEMATICS.md` — とびら君の演出動画が何本あり、どう点検したかを記録する台帳の係（文書・56行・使われる0）
 - `docs/CINEMATICS_PROMPTS.md` — とびら君の演出動画を作るときに使った指示文を集めた係（文書・42行・使われる0）
-- `docs/DEPLOY_FIRESTORE_RULES.md` — データ保存先の利用ルールを本番に反映する手順を説明する係（文書・86行・使われる0）
+- `docs/COMMERCIAL_AUDIO_MIGRATION.md` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（文書・123行・使われる0）
 - `docs/FEEDBACK_SETUP.md` — ご意見を表計算シートで受け取るしくみの準備手順を説明する係（文書・460行・使われる0）
 - `docs/FIREFLY_KIT.md` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（文書・59行・使われる0）
-- `docs/FIRESTORE_RULES_DEPLOY.md` — 管理者向けに、データ保存先のルールを反映する手順を書いた係（文書・161行・使われる0）
-- `docs/FIX_2026-10-21_coin_sync_web_login.md` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（文書・51行・使われる0）
+- `docs/FIRESTORE_RULES_DEPLOY.md` — 管理者向けに、データ保存先のルールを反映する手順を書いた係（文書・180行・使われる0）
 - `docs/FRIEND_SYSTEM.md` — フレンド機能のデータの形と設計の理由を説明する係（文書・168行・使われる0）
 - `docs/JUKU_PLAN.md` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（文書・61行・使われる0）
-- `docs/KASANIMARO_2026-10-19.md` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（文書・86行・使われる0）
 - `docs/LISTENING_AS_PRODUCT.md` — 英語リスニングを「売れる教材」として扱うための考えを整理した係（文書・222行・使われる0）
 - `docs/LISTENING_AUDIO_REPLACE.md` — 録り直したリスニング音源を差し替える手順を説明する係（文書・233行・使われる0）
 - `docs/LISTENING_AUDIO_VS_SPEECH.md` — 作った音源ファイルとブラウザの読み上げの違いを説明する係（文書・186行・使われる0）
 - `docs/LISTENING_DERIVATIVE.md` — 統合版とリスニング版の分岐と引き継ぎを記録した控えの係（文書・106行・使われる0）
-- `docs/RELEASE_STEPS_2026-10-05.md` — 公開とApp Store申請までに残った作業をまとめた係（文書・217行・使われる0）
 - `docs/TOBIRA_MOTION.md` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（文書・32行・使われる0）
 - `docs/TOBIRA_MOTION_PROMPTS.md` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（文書・113行・使われる0）
 - `docs/TOEIC_DESIGN.md` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（文書・126行・使われる0）
-- `docs/UI_CHANGELOG.md` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（文書・432行・使われる0）
-- `docs/UI_REVAMP_2026-09-30.md` — 2026年9月30日のUI見直しで決めたことを記録する係（文書・287行・使われる0）
+- `docs/UI_CHANGELOG.md` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（文書・422行・使われる0）
 - `docs/UI参考_画面と導線.md` — ホームや科目選択の画面と導線の参考をまとめた係（文書・77行・使われる0）
 - `docs/WEB_LOGIN_SAME_ORIGIN.md` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（文書・89行・使われる0）
 - `docs/app_review/BLOCK_FEATURE_FOR_APPLE.md` — Appleの審査に、通報・ブロック機能の場所を答える資料の係（文書・74行・使われる0）
+- `docs/archive/DEPLOY_FIRESTORE_RULES.md` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（文書・86行・使われる0）
+- `docs/archive/FIX_2026-10-21_coin_sync_web_login.md` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（文書・51行・使われる0）
+- `docs/archive/KASANIMARO_2026-10-19.md` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（文書・86行・使われる0）
+- `docs/archive/RELEASE_STEPS_2026-10-05.md` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（文書・217行・使われる0）
+- `docs/archive/UI_REVAMP_2026-09-30.md` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（文書・287行・使われる0）
 - `docs/business_overview/index.html` — 事業の概要をスライド形式で見せる、単体のWebページの係（文書・757行・使われる0）
 - `docs/elevenlabs_vocab/ALL_PROMPTS.md` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（文書・7,074行・使われる0）
 - `docs/elevenlabs_vocab/ElevenLabs_英単語_原稿.pdf` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・33,478行・使われる0）
@@ -1354,6 +1325,7 @@ tools/update.sh が cards.json から作る。1ファイル1行：`パス` — �
 - `docs/tobira_motion_refs/ref_basic_green.png` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（音声・画像・1,776行・使われる0）
 - `docs/tobira_motion_refs/ref_sleeping_green.png` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（音声・画像・1,142行・使われる0）
 - `docs/tobira_motion_refs/ref_thinking_green.png` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（音声・画像・1,687行・使われる0）
+- `docs/リスニングの部屋へ_これ1つで全部.md` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（文書・59行・使われる0）
 - `license_evidence/README.md` — 音声サービスの有料契約の証拠が何かを説明する係（文書・18行・使われる0）
 - `metadata.json` — アプリの名前と短い説明文を持つ、3行の情報の係（設定・3行・使われる0）
 - `package.json` — アプリが使う部品と、ビルドやテストの命令を決める係（設定・80行・使われる0）
@@ -1365,7 +1337,6 @@ tools/update.sh が cards.json から作る。1ファイル1行：`パス` — �
 - `vercel.json` — Vercelで公開するときのビルド・行き先・ヘッダーを決める係（設定・114行・使われる0）
 - `vite.config.ts` — アプリを組み立てる道具の設定と、安全の決まりの埋め込みを持つ係（設定・481行・使われる0）
 - `vitest.config.ts` — 自動テストの対象ファイルと待ち時間の上限を決める係（設定・2行・使われる0）
-- `リスニングの部屋へ_これ1つで全部.md` — リスニング版の全部入りZIPに、何が入っているかを説明する係（文書・59行・使われる0）
 
 ## 束ねたファイル（28群）
 
@@ -1379,7 +1350,7 @@ tools/update.sh が cards.json から作る。1ファイル1行：`パス` — �
 - リスニング第4〜6問の音源と図：`public/listening_q4/、public/listening_q5/、public/listening_q6/` — リスニング第4〜6問の音声と、問題に添える図を持つ係（255ファイル）
 - リスニングのイラスト（第1問B・第2問）：`public/listening_q1b/、public/listening_q2/` — 絵を選ぶ問題（第1問B・第2問）のイラストを持つ係（108ファイル）
 - 音読用の時刻データ群：`public/read_along/listening_audio/、public/read_along/listening_q4/、public/read_along/listening_q5/、public/read_along/listening_q6/` — 音読・ディクテーション用に、単語ごとの時刻を持つ係（374ファイル）
-- ガチャの学習プリント（PDFと縮小画像）：`public/prints/、public/prints/kyotsu_assets/audio/、public/prints/previews/、public/prints/thumbs/` — ガチャで当たる学習プリントのPDFと、その縮小画像を持つ係（264ファイル）
+- ガチャの学習プリント（PDFと縮小画像）：`public/prints/、public/prints/kyotsu_assets/audio/、public/prints/previews/、public/prints/thumbs/` — ガチャで当たる学習プリントのPDFと、その縮小画像を持つ係（216ファイル）
 - 対戦の効果音：`public/sfx/battle/` — 対戦中の正解・不正解などの効果音を、1音1ファイルで持つ係（26ファイル）
 - 対戦BGM：`public/bgm/battle/` — 対戦の待合室と試合中に流すBGMの音源を持つ係（3ファイル）
 - タイトル曲：`public/tanjou.mp3` — アプリ全体で流れるタイトル曲の音源を持つ係（1ファイル）
@@ -1394,6 +1365,6 @@ tools/update.sh が cards.json から作る。1ファイル1行：`パス` — �
 - 作業用スクリプトの素材：`scripts/assets/、scripts/assets/q1b_original/` — アイコン作りや画像修正に使う、もとの画像を持つ係（38ファイル）
 - 作業用スクリプトのデータ：`scripts/data/、scripts/data/grammar_v3/、scripts/data/q2_prompts/` — 問題データを作る途中の中間ファイルと、指示文を持つ係（55ファイル）
 - 資料用の画像・動画：`docs/ 以下 8か所` — 審査資料や説明資料に使う、画面写真や動画の原本を持つ係（48ファイル）
-- 資料の補足テキスト：`docs/、docs/listening_q4-6/、docs/listening_q4-6/q5/` — ルールの控えや、素材一式の「はじめに」などの補足の係（3ファイル）
+- 資料の補足テキスト：`docs/listening_q4-6/、docs/listening_q4-6/q5/` — ルールの控えや、素材一式の「はじめに」などの補足の係（2ファイル）
 - 有料契約の証拠画像：`license_evidence/` — 音声サービスの有料契約の領収画像を保管する係（3ファイル）
 - Instagram用の完成動画：`store-assets/instagram/` — 宣伝用に書き出したInstagram動画を持つ係（3ファイル）

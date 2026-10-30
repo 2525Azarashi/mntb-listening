@@ -105,7 +105,7 @@ describe('F1 第3問：PDF の15セット（90問）が入っている', () => {
 
   it('正解の位置が偏っていない（音を聞かずに②③を塗れば当たる状態を避ける）', () => {
     // PDF 原文のままだと ①5 / ②40 / ③37 / ④8 と極端に偏っていた。
-    // scripts/shuffle_listening_q3_options.py で並べ替えて均している。
+    // scripts/listening-data/shuffle_listening_q3_options.py で並べ替えて均している。
     const counts = new Map<string, number>(MARKS.map((m) => [m, 0]));
     EL3_PROBLEMS.forEach((p) => {
       p.subQuestions.forEach((sq) => {

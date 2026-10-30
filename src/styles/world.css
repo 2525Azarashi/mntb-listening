@@ -23,7 +23,7 @@
 
 /* ---------- 進捗バー（共通）：0% でも枠＋アクセント色 ---------- */
 .mt-progress { position: relative; height: 10px; border-radius: 999px; background: #fff; box-shadow: inset 0 0 0 1.5px #e3d3b0; overflow: hidden; }
-.mt-progress > i { display: block; height: 100%; min-width: 10px; border-radius: inherit; background: linear-gradient(90deg, var(--w-gold), var(--mt-accent, #f29a1f)); box-shadow: inset 0 -2px 0 #0000001a; transition: width .6s ease-out; }
+.mt-progress > i { display: block; height: 100%; min-width: 10px; border-radius: inherit; background: linear-gradient(90deg, var(--w-gold), var(--mt-accent, var(--mt-accent))); box-shadow: inset 0 -2px 0 #0000001a; transition: width .6s ease-out; }
 
 /* ---------- ホーム：夕暮れのステージ（濃い面＝重心） ---------- */
 .game-home .game-mascot-stage { border-radius: 26px; overflow: hidden; background:
@@ -57,7 +57,7 @@
 .game-home .home-pillar-solo small { color: #6b4300 !important; }
 .game-home .home-pillar-solo .home-pillar-icon { background: #fff8e1 !important; color: #8a5200; }
 /* 対戦する＝濃い青のベタ＋白文字 */
-.game-home .home-pillar-battle { background: linear-gradient(180deg, #3d6fc4, var(--mt-brand, #2458a6) 60%, #1c4687) !important; color: #fff !important; border-color: #b9d0f2 !important; box-shadow: 0 5px 0 #14315f, 0 8px 16px #14315f33 !important; }
+.game-home .home-pillar-battle { background: linear-gradient(180deg, #3d6fc4, var(--mt-brand, var(--mt-brand)) 60%, var(--mt-brand-strong)) !important; color: #fff !important; border-color: #b9d0f2 !important; box-shadow: 0 5px 0 #14315f, 0 8px 16px #14315f33 !important; }
 .game-home .home-pillar-battle strong { color: #fff !important; text-shadow: 0 2px 0 #0f2a55 !important; }
 .game-home .home-pillar-battle small { color: #dce8fb !important; }
 .game-home .home-pillar-battle .home-pillar-icon { background: #ffffff26 !important; color: #fff; box-shadow: inset 0 0 0 1.5px #ffffff55 !important; }
@@ -66,13 +66,13 @@
 
 /* ---------- PC：STUDY DESK（重なり・暗いバーの修正） ---------- */
 @media (min-width: 1100px) {
-  .game-home .desktop-study-summary { align-self: stretch !important; justify-content: center; gap: 8px !important; padding: 16px 20px !important; margin-bottom: 4px; min-height: 0; overflow: hidden; background: #fffdf6 !important; box-shadow: 0 3px 0 #e6d7b8; }
+  .game-home .desktop-study-summary { align-self: stretch !important; justify-content: center; gap: 8px !important; padding: 16px 20px !important; margin-bottom: 4px; min-height: 0; overflow: hidden; background: var(--mt-bg-card) !important; box-shadow: 0 3px 0 #e6d7b8; }
   .game-home .desktop-study-summary > p:first-child { font-size: 12px !important; color: #8a7556 !important; }
   .game-home .desktop-study-summary > div > span { font-size: 12px !important; }
   .game-home .desktop-study-summary strong small, .game-home .desktop-study-summary label { font-size: 12px !important; }
-  .game-home .desktop-study-summary h2 { font-family: var(--mt-font-display); color: var(--mt-ink-warm, #3d3222) !important; }
-  .game-home .desktop-study-summary strong { color: var(--mt-brand, #2458a6) !important; font-family: var(--mt-font-display); }
-  .game-home .desktop-study-summary > button { min-height: 44px; margin-top: 0 !important; color: var(--mt-brand, #2458a6) !important; font-weight: 700; }
+  .game-home .desktop-study-summary h2 { font-family: var(--mt-font-display); color: var(--mt-ink-warm, var(--mt-ink-warm)) !important; }
+  .game-home .desktop-study-summary strong { color: var(--mt-brand, var(--mt-brand)) !important; font-family: var(--mt-font-display); }
+  .game-home .desktop-study-summary > button { min-height: 44px; margin-top: 0 !important; color: var(--mt-brand, var(--mt-brand)) !important; font-weight: 700; }
   .game-home .home-review-wide { align-self: end; }
   .game-home .game-mascot-stage { min-height: 260px; }
 }
@@ -84,8 +84,8 @@
 }
 .study-doors { display: flex; align-items: flex-end; gap: 4px; margin: 0; }
 .study-doors i { width: 14px; height: 20px; border-radius: 7px 7px 2px 2px; background: #efe6d4; box-shadow: inset 0 0 0 1.5px #dccdaf; }
-.study-doors i[data-open] { background: linear-gradient(90deg, #ffe4a3 0 55%, var(--mt-brand, #2458a6) 55%); box-shadow: inset 0 0 0 1.5px var(--mt-brand, #2458a6), 0 0 8px #f6b93b88; }
-.study-doors b { font-size: 12px; color: var(--mt-brand, #2458a6); margin-left: 2px; }
+.study-doors i[data-open] { background: linear-gradient(90deg, #ffe4a3 0 55%, var(--mt-brand, var(--mt-brand)) 55%); box-shadow: inset 0 0 0 1.5px var(--mt-brand, var(--mt-brand)), 0 0 8px #f6b93b88; }
+.study-doors b { font-size: 12px; color: var(--mt-brand, var(--mt-brand)); margin-left: 2px; }
 .study-next { margin: 0; font-size: 12px; font-weight: 700; color: #8a5200; }
 
 /* ---------- 動きを減らす ---------- */
@@ -130,24 +130,24 @@
 
 /* ルール：アイコン＋ひとこと */
 .arena-rule-chips { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; margin: 2px 0 0; padding: 0; list-style: none; }
-.arena-rule-chips li { display: inline-flex; align-items: center; gap: 4px; min-height: 28px; padding: 3px 10px; border-radius: 999px; background: #fff; box-shadow: inset 0 0 0 1.5px #e6d7b8; font-size: 12px; font-weight: 800; color: var(--mt-ink-warm, #3d3222); white-space: nowrap; }
+.arena-rule-chips li { display: inline-flex; align-items: center; gap: 4px; min-height: 28px; padding: 3px 10px; border-radius: 999px; background: #fff; box-shadow: inset 0 0 0 1.5px #e6d7b8; font-size: 12px; font-weight: 800; color: var(--mt-ink-warm, var(--mt-ink-warm)); white-space: nowrap; }
 .arena-rule-chips svg { width: 14px; height: 14px; color: var(--w-gold-deep); }
 
 /* 3つのモード：同じ高さ・同じ幅の3列。AI＝濃い青で最強調、他2つは同格 */
 .arena-menu .arena-lobby-grid { display: grid !important; grid-template-columns: repeat(3, minmax(0, 1fr)) !important; align-items: stretch !important; gap: 8px !important; margin: 0 !important; }
-.arena-menu .arena-lobby-card { --card-bg: #fff; --card-line: #e6d7b8; --card-shadow: #d9c8a3; --card-ink: var(--mt-ink-warm, #3d3222); --card-sub: #6b5a43;
+.arena-menu .arena-lobby-card { --card-bg: #fff; --card-line: #e6d7b8; --card-shadow: #d9c8a3; --card-ink: var(--mt-ink-warm, var(--mt-ink-warm)); --card-sub: #6b5a43;
   position: relative; display: flex !important; flex-direction: column; align-items: center; justify-content: flex-start; gap: 4px; min-width: 0; width: auto !important; height: auto !important; min-height: 176px; padding: 12px 8px 10px !important;
   border-radius: 20px !important; background: var(--card-bg) !important; box-shadow: inset 0 0 0 2px var(--card-line), 0 4px 0 var(--card-shadow) !important; color: var(--card-ink) !important; text-align: center; }
 .arena-menu .arena-lobby-card[data-tone=friend] { --card-bg: linear-gradient(180deg, #fff7e2, #fbe7b5); --card-line: #e9c97c; --card-shadow: #cfa64a; }
 .arena-menu .arena-lobby-card[data-tone=national] { --card-bg: linear-gradient(180deg, #e8f0fd, #cfdff7); --card-line: #9fbbe6; --card-shadow: #7a9bd0; --card-ink: #1c3e73; --card-sub: #3b5b8c; }
-.arena-menu .arena-lobby-card[data-tone=ai] { --card-bg: linear-gradient(180deg, #3d6fc4, var(--mt-brand, #2458a6) 55%, #1c4687); --card-line: #b9d0f2; --card-shadow: #14315f; --card-ink: #fff; --card-sub: #dce8fb; }
+.arena-menu .arena-lobby-card[data-tone=ai] { --card-bg: linear-gradient(180deg, #3d6fc4, var(--mt-brand, var(--mt-brand)) 55%, var(--mt-brand-strong)); --card-line: #b9d0f2; --card-shadow: #14315f; --card-ink: #fff; --card-sub: #dce8fb; }
 .arena-menu .arena-lobby-card .arena-lobby-icon { width: 40px; height: 40px; border-radius: 50%; background: #ffffffcc; color: var(--card-ink); }
 .arena-menu .arena-lobby-card[data-tone=ai] .arena-lobby-icon { background: #ffffff26; color: #fff; box-shadow: inset 0 0 0 1.5px #ffffff66; }
 .arena-menu .arena-lobby-card .arena-lobby-icon svg { width: 22px; height: 22px; }
 .arena-menu .arena-lobby-card strong { font: 900 17px/1.2 var(--mt-font-display) !important; color: var(--card-ink) !important; white-space: nowrap; }
 .arena-menu .arena-lobby-card small { font-size: 12px !important; font-weight: 700; line-height: 1.3; color: var(--card-sub) !important; text-wrap: balance; }
 .arena-lobby-actions { display: flex; flex-direction: column; gap: 6px; width: 100%; margin-top: auto; }
-.arena-menu .arena-lobby-card .arena-lobby-actions button { display: inline-flex; align-items: center; justify-content: center; gap: 3px; width: 100%; min-width: 0; min-height: 44px; margin: 0; padding: 4px 6px; border-radius: 12px !important; background: #fffdf6; box-shadow: inset 0 0 0 1.5px var(--card-line), 0 2px 0 var(--card-shadow); color: var(--card-ink); font-size: 13px; font-weight: 800; line-height: 1.2; white-space: normal; text-wrap: balance; }
+.arena-menu .arena-lobby-card .arena-lobby-actions button { display: inline-flex; align-items: center; justify-content: center; gap: 3px; width: 100%; min-width: 0; min-height: 44px; margin: 0; padding: 4px 6px; border-radius: 12px !important; background: var(--mt-bg-card); box-shadow: inset 0 0 0 1.5px var(--card-line), 0 2px 0 var(--card-shadow); color: var(--card-ink); font-size: 13px; font-weight: 800; line-height: 1.2; white-space: normal; text-wrap: balance; }
 .arena-menu .arena-lobby-card .arena-lobby-actions button:active { transform: translateY(2px); box-shadow: inset 0 0 0 1.5px var(--card-line); }
 .arena-lobby-cta { display: inline-flex; align-items: center; justify-content: center; gap: 4px; width: 100%; min-height: 44px; margin-top: auto; border-radius: 12px; background: var(--w-gold); color: var(--w-gold-ink); font: 900 15px/1 var(--mt-font-display); box-shadow: 0 3px 0 var(--w-gold-deep); }
 /* 主役：少しだけ大きく（同じ列幅のまま、上にせり出す） */
@@ -159,7 +159,7 @@
 
 /* 下の補助：通信チェックとルールは並べて、ナビの上に独立して置く（文言と重ならない） */
 .arena-lobby-help { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
-.arena-lobby-help > details { min-width: 0; border-radius: 12px; background: #fffdf6; box-shadow: inset 0 0 0 1.5px #e6dac3; }
+.arena-lobby-help > details { min-width: 0; border-radius: 12px; background: var(--mt-bg-card); box-shadow: inset 0 0 0 1.5px #e6dac3; }
 .arena-lobby-help > details[open] { grid-column: 1 / -1; }
 .arena-lobby-help summary { display: flex; align-items: center; justify-content: center; gap: 4px; min-height: 44px; padding: 0 8px; font-size: 12px !important; font-weight: 800; color: #5e5040; cursor: pointer; list-style: none; }
 .arena-lobby-help summary::-webkit-details-marker { display: none; }
@@ -233,12 +233,12 @@
   .arena-lobby-actions { gap: 4px; }
 }
 @media (max-width: 899px) { .arena-vs-buddy .tb-bubble::before { left: 50%; top: -8px; translate: -50% 0; rotate: 135deg; } .arena-vs-buddy .tb-bubble { text-align: center; } }
-.battle-result-buddy { margin: -6px 0 12px; padding: 6px 10px; border-radius: 18px; background: #fffdf6; box-shadow: inset 0 0 0 1.5px #ecdcb9; }
+.battle-result-buddy { margin: -6px 0 12px; padding: 6px 10px; border-radius: 18px; background: var(--mt-bg-card); box-shadow: inset 0 0 0 1.5px #ecdcb9; }
 
 /* ---------- ホームのとびら君：ドラッグで回す（2026-10-01 D） ---------- */
 .spin-mascot { position: relative; display: block; width: 100%; height: 100%; perspective: 900px; cursor: grab; touch-action: pan-y; user-select: none; -webkit-user-select: none; outline: none; }
 .spin-mascot:active { cursor: grabbing; }
-.spin-mascot:focus-visible { box-shadow: 0 0 0 3px #fff, 0 0 0 5px var(--mt-brand, #2458a6); border-radius: 30%; }
+.spin-mascot:focus-visible { box-shadow: 0 0 0 3px #fff, 0 0 0 5px var(--mt-brand, var(--mt-brand)); border-radius: 30%; }
 .spin-mascot-stage { position: absolute; inset: 0; display: block; transform-style: preserve-3d; will-change: transform; }
 .spin-mascot[data-settling] .spin-mascot-stage { transition: transform .5s cubic-bezier(.3, 1.7, .5, 1); }
 .spin-mascot-face { position: absolute; inset: 0; display: block; backface-visibility: hidden; -webkit-backface-visibility: hidden; }

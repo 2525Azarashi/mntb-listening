@@ -65,6 +65,9 @@ const ROOT = path.resolve(__dirname, '..');
 const read = (p: string) => fs.readFileSync(path.join(ROOT, p), 'utf-8');
 
 const QUIZ = read('src/components/Quiz.tsx');
+// 「いまどの問か」の式は Phase 5 / A2 で Quiz.tsx から utils/quizStepState.ts へ移した。
+// Quiz.tsx がそれを呼んでいること＋式がそちらにあることを両方確かめる。
+const STEP = read('src/utils/quizStepState.ts');
 // 問題文ペイン（左58%／スマホ上）の JSX は components/ProblemPane.tsx へ切り出した。
 const PROBLEM = read('src/components/ProblemPane.tsx');
 // 解答ペイン（右42%／スマホ下）の JSX は components/AnswerPane.tsx へ切り出した。
@@ -192,18 +195,22 @@ describe('D1: 1画面＝1問（問1で1つの進捗、問2で1つの進捗）', 
     expect(buildProgressPill({ perStep: false, steps, stepIndex: 1, rangeCount: 9, rangePosition: 4 }))
       .toEqual({ position: 4, positionEnd: undefined, total: 9 });
     // Quiz が実際にこの関数で進捗ピルを作っている（書いただけで未配線を防ぐ）
-    expect(QUIZ).toContain('buildProgressPill(');
+    expect(QUIZ).toContain('deriveQuizStepState(');
+    expect(STEP).toContain('buildProgressPill(');
   });
 
   it('最後の問を解き終えるまで結果画面に進まない', () => {
-    expect(QUIZ).toContain('const isLastStep = !perStep || safeStepIndex >= listeningSteps.length - 1');
-    expect(QUIZ).toContain('const isLastQuestion = currentQuestionIndex >= rangeEnd && isLastStep');
+    expect(QUIZ).toContain('deriveQuizStepState(');
+    expect(STEP).toContain('const isLastStep = !perStep || safeStepIndex >= listeningSteps.length - 1');
+    expect(STEP).toContain('const isLastQuestion = currentQuestionIndex >= rangeEnd && isLastStep');
   });
 
   it('「前へ」で回の先頭からでも前の回へ戻れる（押せないボタンを残さない）', () => {
-    expect(QUIZ).toContain('const canGoPrevious');
+    expect(STEP).toContain('const canGoPrevious');
+    expect(QUIZ).toContain('canGoPrevious');
     // 旧実装の「大問インデックスが0か」だけの判定は残っていない
     expect(QUIZ).not.toContain('currentQuestionIndex === 0');
+    expect(STEP).not.toContain('currentQuestionIndex === 0');
   });
 
   it('解答欄には「いま解いている問」だけを描画する', () => {

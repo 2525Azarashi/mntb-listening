@@ -14,7 +14,10 @@ it('AI 対戦の画面はレートを書き込まない（applyRatingResult を�
   for (const f of ['src/battle/hooks/useAiBattle.ts', 'src/battle/ui/BattleAiRoomScreen.tsx']) {
     expect(readFileSync(f, 'utf8')).not.toContain('applyRatingResult');
   }
-  expect(readFileSync('src/battle/ui/BattleAiRoomScreen.tsx', 'utf8')).toContain('rating={null}');
+  // B7（2026-10-29）：全国対戦のボット戦（ghost）だけサーバー関数でレートを動かす。AI対戦は null のまま
+  const aiRoom = readFileSync('src/battle/ui/BattleAiRoomScreen.tsx', 'utf8');
+  expect(aiRoom).toContain('rating={ghost ? ghostRating : null}');
+  expect(aiRoom).toContain('if (!ghost ||');
   // オンライン対戦のレート反映は useBattleRoom.ts から useBattlePostMatch.ts へ移した（C-07）。両方を連結して見る
   const online = readFileSync('src/battle/hooks/useBattleRoom.ts', 'utf8') + readFileSync('src/battle/hooks/useBattlePostMatch.ts', 'utf8');
   expect(online).toContain('forfeit, opponentUid)');

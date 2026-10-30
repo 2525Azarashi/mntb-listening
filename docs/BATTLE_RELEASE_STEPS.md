@@ -385,7 +385,7 @@ npm run build
 
 毎回 Console に貼るのが面倒なら、GitHub Actions で自動化できる。
 雛形は `docs/deploy-firestore-rules.workflow.yml` にある。
-設定手順は `docs/DEPLOY_FIRESTORE_RULES.md` の「方法3」に書いてある。
+設定手順は `docs/FIRESTORE_RULES_DEPLOY.md` の「9.2」に書いてある。
 
 一度設定すれば、`firestore.rules` を変更して main にマージするだけで
 自動でデプロイされる。

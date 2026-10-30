@@ -4,11 +4,11 @@
 .result-review-bar { display: flex; align-items: center; gap: 6px; margin-bottom: 8px; }
 .result-review-chips { flex: 1; min-width: 0; display: flex; gap: 6px; overflow-x: auto; padding: 4px 2px; scrollbar-width: none; scroll-behavior: smooth; }
 .result-review-chips::-webkit-scrollbar { display: none; }
-.result-review-chips button { flex: 0 0 44px; height: 44px; border-radius: 12px; border: 2px solid #f0b8b3; background: #fdf0ee; color: #b3261e; font-size: 14px; font-weight: 900; }
-.result-review-chips button[data-ok] { border-color: #9fd8c3; background: #eef9f3; color: #1f7a4d; }
+.result-review-chips button { flex: 0 0 44px; height: 44px; border-radius: 12px; border: 2px solid #f0b8b3; background: #fdf0ee; color: var(--mt-danger); font-size: 14px; font-weight: 900; }
+.result-review-chips button[data-ok] { border-color: #9fd8c3; background: #eef9f3; color: var(--mt-done); }
 .result-review-chips button[data-none] { border-color: #ddd5c8; background: #f6f3ee; color: #6b7280; }
 .result-review-chips button[aria-current] { outline: 3px solid #E5B93C; outline-offset: 1px; }
-.result-review-arrow { flex: 0 0 44px; height: 44px; display: grid; place-items: center; border-radius: 12px; border: 1.5px solid #d9cdbb; background: #fffdf6; color: #2c3e50; }
+.result-review-arrow { flex: 0 0 44px; height: 44px; display: grid; place-items: center; border-radius: 12px; border: 1.5px solid #d9cdbb; background: var(--mt-bg-card); color: #2c3e50; }
 .result-review-arrow:disabled { opacity: .3; }
 .result-review-stage { display: block; touch-action: pan-y; }
 .result-review-card { animation: result-review-in .18s ease-out; }
@@ -74,7 +74,7 @@
 
 /* 詳しい結果の見出し：左に「勝敗にもどる」 */
 .result-detail-head { position: relative; display: flex; align-items: center; justify-content: center; min-height: 44px; margin-bottom: 10px; }
-.result-detail-back { position: absolute; left: 0; width: 44px; height: 44px; display: grid; place-items: center; border-radius: 999px; border: 1.5px solid #e2d6bf; background: #fffdf6; color: #5e5040; }
+.result-detail-back { position: absolute; left: 0; width: 44px; height: 44px; display: grid; place-items: center; border-radius: 999px; border: 1.5px solid #e2d6bf; background: var(--mt-bg-card); color: #5e5040; }
 
 /* 部屋（教科を選ぶ画面）の「さいきんの対戦」 */
 .battle-recent { padding: 8px 10px; border-radius: 16px; background: #fffaf0; border: 1.5px solid #ecdcb9; }
@@ -82,7 +82,7 @@
 .battle-recent ul { display: grid; gap: 6px; margin: 0; padding: 0; list-style: none; }
 .battle-recent li { display: flex; gap: 6px; }
 .battle-recent-main { flex: 1; min-width: 0; min-height: 44px; display: flex; align-items: center; gap: 8px; padding: 4px 10px; border-radius: 12px; border: 1.5px solid #e6dac3; background: #fff; text-align: left; }
-.battle-recent-mark { flex-shrink: 0; width: 26px; height: 26px; display: grid; place-items: center; border-radius: 8px; font-size: 12px; font-weight: 900; background: #eef0f2; color: #5a6470; }
+.battle-recent-mark { flex-shrink: 0; width: 26px; height: 26px; display: grid; place-items: center; border-radius: 8px; font-size: 12px; font-weight: 900; background: var(--mt-todo-soft); color: #5a6470; }
 .battle-recent-mark[data-outcome=win] { background: #fff1c7; color: #9a6a00; }
 .battle-recent-body { flex: 1; min-width: 0; display: flex; flex-direction: column; line-height: 1.25; }
 .battle-recent-body b { font-size: 12px; font-weight: 900; }

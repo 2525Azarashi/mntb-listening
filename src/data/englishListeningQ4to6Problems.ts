@@ -19,7 +19,7 @@
  *   例外は「複数の発話を1つの設問で聞く」2か所で、本番どおり1本に連結した：
  *     ・第4問B 問26 … set NN_4B_s1〜s4 → setNN_4B.mp3
  *     ・第5問 問32  … q5setNN_q32_A/B  → q5setNN_q32.mp3
- *   （scripts/concat_listening_audio.sh。元の個別ファイルは配布 ZIP 側に残る）
+ *   （scripts/listening-data/concat_listening_audio.sh。元の個別ファイルは配布 ZIP 側に残る）
  *
  * ■ アプリの形への対応づけ（重要な設計判断）
  *
@@ -1001,7 +1001,7 @@ function buildQ6B(set: Q6Set): ListeningProblem {
 // 第5問の講義（約2分）では音声が終わる前にタイマーが切れてしまう。
 // そこで、この大問群だけは
 //   音声の合計秒数 ＋ 事前に問題文・図表を読む時間 ＋ 1空欄あたりの解答時間
-// を制限時間にする。音声の秒数は scripts/concat_listening_audio.sh が
+// を制限時間にする。音声の秒数は scripts/listening-data/concat_listening_audio.sh が
 // ffprobe で書き出した listening-q4-6-durations.json から取る。
 
 const AUDIO_DURATIONS: Record<string, number> = durationsRaw as Record<string, number>;

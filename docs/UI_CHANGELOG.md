@@ -5,6 +5,61 @@
 
 ---
 
+## 2026-10-29 ご指摘C7〜C14：英文法の回の終わり方・2列の選択肢・解くカギ/大問の流れを外す・セットで覚える・章の称号・お知らせ（PR: feat/grammar-c7-c14、#132 を取り込み済み）
+
+| # | 何を | どう変えた | ファイル |
+|---|---|---|---|
+| C7 | 英文法の回の終わり | #132 の結果画面（次の回へ／単元選択に戻る／ホームに戻る・詳しい結果は控えめ）を採用。回の一覧に「回を選んで始める」見出し、「第N回」が二重にならないように | `ChapterSelection.tsx`・`unit-select.css` |
+| C8 | 選択肢 | 4択でどれも16文字以下なら2列×2。英文法・TOEIC の選択肢を問題文と同じ英文の書体（prose）に | `MultipleChoiceControl.tsx`・`hooks/useQuestionDerived.ts` |
+| C9 | 英文法の解説 | 問題にできなかった仲間の表現を【セットで覚える】（太字・紫）で1行。解説で触れていないものだけ | `data/grammarMemorizeSets.ts`・`data/englishGrammarKit.ts`・`utils/listeningExplanation.ts` |
+| C10 | 英文法・TOEIC の解説 | 「解くカギ」の一覧と英文の番号を外す（黄色いマーカーは残す） | `utils/listeningExplanation.ts`・`data/listeningPostProcess.ts`・`englishGrammarData.ts`・`toeicPart5Data.ts` |
+| C11 | 解説の右側 | 「大問全体の流れ・共通ポイント」を出さない（`SharedExplanation.tsx` を削除） | `explanation/ExplanationAnswerItem.tsx` |
+| C12 | 章の称号 | 英文法の章を全部の回で満点 →「○○マスター」を画面全体のお祝いで渡す。その場で称号をつけられる | `battle/core/chapterTitles.ts`・`growthBadges.ts`・`growthStore.ts`・`utils/chapterTitleAward.ts`・`ChapterTitleCelebration.tsx` |
+| C13 | 起動 | 「学ぶ入口を、もっと快適に。」のお知らせ画面を削除（はじめる → ホーム） | `LaunchScreen.tsx`・`launch-screen.css` |
+| C14 | お知らせ | 各お知らせに「✓ 反映しました」。C7〜C13 をお知らせに追加 | `UpdateNoticeModal.tsx`・`data/updateNotices.ts` |
+| ほか | ガチャの目玉の枠の光 | box-shadow のアニメ → ::after の opacity（見た目同じ・軽い） | `gacha.css` |
+
+**戻し方**：C7〜C14 はそれぞれ別コミットなので、その1コミットを revert すれば戻る。C11 を戻すときは `SharedExplanation.tsx` も戻る。
+
+---
+
+## 2026-10-29 ご指摘C1〜C7：アイテム詳細の拡大・マイPDFの保存・設定を短く・公開の赤い印・カレンダーの「何を何分」・ミッションの←・英文法の回の終わり（PR: fix/mypage-c）
+
+| # | 何を | どう変えた | ファイル |
+|---|---|---|---|
+| C1 | マイPDFの詳細 | 消えていた「保存する」を詳細の窓に戻した（音声つきは再生ボタンも） | `src/components/MyCollection.tsx` |
+| C2 | アイテムの詳細 | 上に大きな絵（きせかえ＝拡大した姿・PDF＝表紙ページ）、レア度/種類/状態のチップ、名前と短い説明 | `MyCollection.tsx`・`growth-hub.css` |
+| C3 | 設定 | 空の列を削除、「通知・記録」を1枚に、「切り替え／ログアウト」を横並び、余白を詰め行は44px、560px以上は2列。見出し「その他・データ」→「安全・データ」 | `src/components/ProfileModal.tsx`・`profile-settings.css`・`legalText.ts`・`docs/APP_STORE.md`・`docs/app_review/BLOCK_FEATURE_FOR_APPLE.md` |
+| C4 | マイページの「編集」の赤い点 | サーバーに保存された公開状態を見て、非公開のときだけ出す。編集画面の「プロフィールを公開」の行にも赤い印と「いまは非公開です」 | `src/features/studylog/MyStudyCard.tsx`・`src/components/MyProfileCard.tsx`・`growth-hub.css` |
+| C5 | カレンダーの下 | マイページと同じ「教材ごとの色の棒」＋「教材×選んだ日」の何分の表。自分の記録のマスは押すと直せる。改訂前の記録リストは削除 | `src/features/studylog/CalendarTab.tsx`・`manualLogCore.ts`・`studylog.css` |
+| C6 | きょうのミッション | 上に ←（ホームのミッション・ガチャの「コインをためる」から来ても戻れる）。「マナラッシュ／対戦／復習でミッションを進める」と下のもどるを削除 | `src/battle/ui/BattleMissions.tsx`・`growth-hub.css` |
+| C7 | 英文法の演習 | 5問（1回）終わると結果のまとめに「次の回へ（第N回）」「単元選択に戻る」「ホームに戻る」をはっきり出す（「詳しい結果を確認する」は下に控えめに）。一覧から選んだ回もその回だけで終わる。「続きから」は前にやっていた回のNo.1から。一覧は「第N回 …」と「達成」の印 | `src/components/explanation/ResultSummary.tsx`・`Explanation.tsx`・`step-explanation.css`・`ChapterSelection.tsx`・`unit-select.css` |
+
+**戻し方**：C6・C1/C2/C4・C5・C3・C7 は別コミットなので、その1コミットを revert すれば戻る。
+
+---
+
+## 2026-10-29 ご指摘B1〜B10：ミッション単独画面・プロフィール1画面・称号/持ちものタイル・カレンダーで7日比較・対戦レート ほか（PR: fix/mypage-b10）
+
+| # | 何を | どう変えた | ファイル |
+|---|---|---|---|
+| B1 | ミッション | それだけの画面に（マイページの見出し・5つのタブを出さない）。もどるは来た画面へ（ガチャから来たらガチャ） | `src/components/GrowthHub.tsx`・`src/App.tsx`・`growth-hub.css` |
+| B2 | マイページのカード | 「連続・解いた大問・バッジ・対戦」の行を削除、上を詰めて教材の表を広く | `src/features/studylog/MyStudyCard.tsx`・`studylog.css` |
+| B3 | プロフィールを編集 | 1画面に。項目名を枠の中に出して枠を大きく（56px）、連続/学習時間/バッジ（重複）を削除、公開と保存を下にそろえた。非公開ならマイページの「編集」に赤い点 | `src/components/MyProfileCard.tsx`・`MyStudyCard.tsx`・`growth-hub.css` |
+| B4 | 称号・もっているもの・マイPDF・ショップ | 小さなタイルの一覧に（押すと詳細の窓・装備/保存/購入は窓の中）。種類はアプリ風のチップ、所有状況は3つの切替（ネイティブの select をやめた）。称号は達成を色と「達成」の印でひと目で、つけている称号は太い枠 | `src/components/MyCollection.tsx`・`src/battle/ui/BattleProfileTabs.tsx`・`growth-hub.css` |
+| B5 | ガチャの目玉 | 光の帯・キラキラ・枠の光・絵がふわっと動く。下の余白にとびら君のひとこと（動きを減らす設定では止める） | `src/components/GachaRoom.tsx`・`gacha.css` |
+| B5 | とびらバトル／ランキングの切替 | ガチャの「装飾ガチャ／ショップ」と同じ形の共通部品にして、両画面で同じ位置・同じ並び（押されている方だけ変わる）。ランキング上の ← を削除 | `src/components/BattleRankSwitch.tsx`（新）・`battle-rank-switch.css`（新）・`Leaderboard.tsx`・`src/battle/ui/BattleHome.tsx` |
+| B6 | フレンド戦のレート | 結果画面からすぐ「部屋に戻る」を押すと、相手の申告を待つ処理が消えてレートが動かなかった。画面を閉じても裏で最大2分待って反映する | `src/battle/data/pendingRating.ts`（新）・`src/battle/hooks/useBattlePostMatch.ts` |
+| B7 | 全国対戦のボット戦 | レートが動く（サーバー関数 ghostMatch：1試合1回・1日30試合まで・K=16）。強さの幅を ±90 → ±320 に（近い相手が多い）。答える間を人間らしく（即答・長考・考えるテンポ） | `src/battle/core/aiOpponent.ts`・`src/battle/data/ghostRating.ts`（新）・`BattleAiRoomScreen.tsx`・`functions/index.mjs`・`functions/core.mjs`・`firestore.rules` |
+| B8 | カレンダー | 日付を押すと黒くなり、すぐ下のグラフに加わる（最大7日・もう一度押すと外す）。教科色の積み上げ棒＋合計・平均・最長 | `src/features/studylog/CalendarTab.tsx`・`studylog.css` |
+| B9 | タブ名 | 「記録」→「カレンダー」。5つのタブにアイコン | `src/components/GrowthHub.tsx`・`growth-hub.css` |
+| B10 | 7日のグラフ | 左右の矢印で前の週へ（最大12週前・前の週は日付と合計） | `MyStudyCard.tsx`・`studylog.css` |
+
+**戻し方**：B1・B2/B10・B3・B8/B9・B5（切替）・B5（ガチャ）・B6/B7・B4 は別コミットなので、その1コミットを revert すれば戻る。
+**B7 の反映**：サーバー関数とルールの反映（`firebase deploy --only functions:ghostMatch,firestore:rules`）が要る。反映前はボット戦の結果に「レートに反映されませんでした」と出るだけ（対戦はできる）。
+
+---
+
 ## 2026-10-28 TOEIC Part 5 の演習を「1ページ6問・マーク式」に・回の一覧の内訳行を外す（PR: feat/toeic-part5）
 
 | 何を | どう変えた | ファイル |
@@ -16,9 +71,12 @@
 | 上と下の帯 | 上：戻る・演習・ページ位置（2/5）・回答済み（12/30）・残り時間（10分）。下：前のページ・未回答数・採点する／次のページ／結果を見る | 同上 |
 | 中断と再開 | ページ位置・選んだ答え・採点済みのページを復元（保存先は今までと同じキー）。TOEIC だけ、途中で戻っても採点前の答えを消さない | 同上 |
 | ご指摘5点（同日） | ①開いた直後は「未回答」の印もオレンジの左線も出さない（中立の灰色）。印は採点ボタンを押したあとだけ未回答の問に出す。答えた問は左線を紺に ②番号を小さな丸にして英文の先頭へ（右のバッジも外し、問題文の幅を広げた。390px で6問中5問が2行） ③空所 ______ を太い下線の枠にし、選んだ語を空所に入れて見せる（採点後は正解=緑・誤り=赤の取り消し線） ④上の帯を「📄 1/5ページ」「☑ 0/30問」とアイコン＋単位で区別 ⑤選んだ選択肢は丸を塗る＋行全体を淡い紺で塗る＋紺の枠＋チェック印（色だけに頼らない） | `ToeicPageQuiz.tsx`、`toeic-page.css` |
+| ご指摘3点（同日） | ①採点後に長い選択肢が「hav/e/rec/eiv/ed」と1文字ずつ折れて縦に伸びた → 単語の途中では折らない（`overflow-wrap: break-word`）、「正解」「あなたの答え」は選択肢の横でなく下の行へ ②回の一覧（単元選択）は見出しを「TOEIC」だけにし、「1章 Part 5」のタブ1枚と「TOEIC Part 5 短文穴埋め」の小見出しを出さない ③採点後、一覧の上に「このページの正解 3/6問」、下の帯に「正解 3/6問」を出す（全問正解なら緑） | `ToeicPageQuiz.tsx`、`toeic-page.css`、`ChapterSelection.tsx`（`isToeic` の分岐3か所） |
+| 確認・満点表示を外す（10/29） | ①「このページを採点する」を押したとき、未回答があっても「未回答が◯問あります。採点しますか？」の確認を出さずに採点する（未回答は不正解として数えるのは同じ） ②回の一覧で TOEIC だけ「満点 0/3」を出さない（達成の表示・リスニングは同じ） | `ToeicPageQuiz.tsx`（`confirmAction` の1行）、`ChapterSelection.tsx`（`tried && !isToeic`） |
+| 採点後の解説を英文法と同じ水準に（10/29） | ①解説の見出しを役割ごとの札に（正解の理由＝紺・いちばん目立つ／着眼点 #2F7C74／ポイント #B0464F／選択肢 #5A6573／TOEICでのコツ #1F5FA8＝英文法と同じ色。アイコン＋文言つき） ②各問に正誤・分野タグ・「ノートに保存」（1問ずつ、同じ問題は1件だけ） ③「正解」「あなたの答え」を英文法と同じ「あなた・正解」バッジに ④ページ上部に結果の帯（このページ n/6問正解・6問の ○× を押すとその問題へ・分野別）。下の帯の「正解 n/6問」は外した ⑤誤答・未回答の解説は最初から開く、正解は閉じる。解説の先頭に問題文を再掲 ⑥PC は採点後だけ1列（右列の下の空白をなくす）。入れ子の枠を減らした ⑦時間の線を 2px の紺に。目安を過ぎても赤・点滅は出さず灰色で「目安を過ぎました」（続けて解ける仕様はそのまま） ⑧手がかりの黄色いマーカー（データがある問題だけ） | `ToeicPageQuiz.tsx`、新規 `ToeicExplanationPanel.tsx`・`ToeicTimer.tsx`・`toeicNote.ts`、`toeic-page.css`。英文法・リスニングの部品（`QuizTimerBar`・`SubQuestionCard` など）は変えていない |
 
 リスニング・英文法の演習画面と共有部品（`ProblemPane`・`AnswerPane`・`MultipleChoiceControl`・`QuizHeader`）は変えていない。`Quiz.tsx` は入口で TOEIC のときだけ専用画面に渡す分岐を足しただけ（本体は `QuizBody` に名前を変えただけで中身は同じ）。
-**戻し方**：`Quiz.tsx` の `Quiz` を元の1関数に戻す（`isToeicPageChapter` の分岐と2行の import を消し、`QuizBody` を `export function Quiz` に戻す）。一覧の内訳行は `ChapterSelection.tsx` の `&& !isToeic` を2か所消す。
+**戻し方**：`Quiz.tsx` の `Quiz` を元の1関数に戻す（`isToeicPageChapter` の分岐と2行の import を消し、`QuizBody` を `export function Quiz` に戻す）。一覧の内訳行は `ChapterSelection.tsx` の `&& !isToeic` を2か所消す。解説の札・結果の帯・時間の表示は、`ToeicPageQuiz.tsx` を `git revert` で1つ前に戻す（新規3ファイルは読まれなくなる）。タブ・小見出しは `ChapterSelection.tsx` の `!isToeic &&` と `isToeic ? 'TOEIC'`・`aria-label` の分岐を消す。
 
 ## 2026-10-28 TOEIC Part 5（短文穴埋め・全15回×30問）を追加（PR: feat/toeic-part5）
 
@@ -280,7 +338,7 @@
 
 見た目の変更はほぼ無し。Web 版でログインの準備に失敗したとき（`auth/argument-error`）の文を
 「Firebase: Error (auth/argument-error).」→「ログインの準備に失敗しました。ページを再読み込みしてから、もう一度お試しください。」に。
-原因の修正と、マナコイン・XP（レベル）の同期の修正の詳細は `docs/FIX_2026-10-21_coin_sync_web_login.md`。
+原因の修正と、マナコイン・XP（レベル）の同期の修正の詳細は `docs/archive/FIX_2026-10-21_coin_sync_web_login.md`。
 
 **戻し方**：`src/utils/googleAuth.ts` の `describeAuthError` の `argument-error` の3行を消す。
 

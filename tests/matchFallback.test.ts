@@ -7,7 +7,7 @@ import {
   isStaleQueueTicket,
   quotaBlockedUntil,
 } from '../src/battle/core/matchFallback';
-import { ghostProfileFor, decideAiMove } from '../src/battle/core/aiOpponent';
+import { ghostProfileFor, decideAiMove, GHOST_RATING_SPREAD } from '../src/battle/core/aiOpponent';
 
 const base = { elapsedSec: 0, failures: 0, lastErrorCode: null, online: true, quotaBlocked: false };
 
@@ -60,22 +60,35 @@ describe('AI プレイヤーの強さ・名前', () => {
   it('同じ種なら同じ相手（試合中に名前や強さが変わらない）', () => {
     expect(ghostProfileFor(1500, 'x')).toEqual(ghostProfileFor(1500, 'x'));
   });
-  it('レートは自分の ±90 以内、名前は毎回いろいろ', () => {
+  // B7（2026-10-29）：弱い人〜強い人まで出るよう ±90 → ±320 に広げた（近い相手ほど出やすい三角分布）
+  it('レートは自分の ±320 以内・近い相手が多い・名前は毎回いろいろ', () => {
     const names = new Set<string>();
-    for (let i = 0; i < 200; i += 1) {
+    const diffs: number[] = [];
+    for (let i = 0; i < 400; i += 1) {
       const p = ghostProfileFor(1600, `s${i}`);
-      expect(Math.abs(p.displayRating - 1600)).toBeLessThanOrEqual(90);
+      const d = Math.abs(p.displayRating - 1600);
+      expect(d).toBeLessThanOrEqual(GHOST_RATING_SPREAD);
       expect(p.speedRange[0]).toBeLessThanOrEqual(p.speedRange[1]);
+      expect(p.human).toBeTruthy();
+      diffs.push(d);
       names.add(p.name);
     }
     expect(names.size).toBeGreaterThan(30);
+    expect(diffs.filter(d => d > 200).length).toBeGreaterThan(5);          // たまに格上・格下
+    expect(diffs.filter(d => d <= 120).length).toBeGreaterThan(diffs.length / 3); // 近い相手が多い
   });
-  it('レートが高い相手ほど正解率が高い', () => {
+  it('レートが高い相手ほど正解率が高い（0.30〜0.97）', () => {
     const avg = (r: number) => Array.from({ length: 100 }, (_, i) => ghostProfileFor(r, `a${i}`).accuracy).reduce((a, b) => a + b) / 100;
     expect(avg(1100)).toBeLessThan(avg(1500));
     expect(avg(1500)).toBeLessThan(avg(2000));
-    expect(avg(1100)).toBeGreaterThanOrEqual(0.4);
-    expect(avg(2500)).toBeLessThanOrEqual(0.95);
+    expect(avg(900)).toBeGreaterThanOrEqual(0.3);
+    expect(avg(2600)).toBeLessThanOrEqual(0.97);
+  });
+  it('人間らしい間：同じ相手でも問題ごとに答える時間がばらつく', () => {
+    const p = ghostProfileFor(1500, 'human');
+    const q = { id: 'q1', format: 'choice', prompt: 'apple の意味は？', options: ['りんご', 'みかん', 'ぶどう', 'もも'], answerIndex: 0, panelOrder: [] } as never;
+    const ms = Array.from({ length: 30 }, (_, i) => decideAiMove(p, q, 20, 'seed', i).delayMs);
+    expect(Math.max(...ms) - Math.min(...ms)).toBeGreaterThan(3000);
   });
   it('AI プレイヤーの解答は制限時間内', () => {
     const p = ghostProfileFor(1500, 'q');

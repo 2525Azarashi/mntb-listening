@@ -219,7 +219,7 @@ const EG_PROBLEMS: Record<string, GrammarProblem[]> = {
  *   ★化学の後処理とは分岐が違うので、化学用とは別の関数のままにしている★
  */
 (() => {
-  applyListeningPostProcess(englishGrammarData);
+  applyListeningPostProcess(englishGrammarData, { decisive: false }); // C10：「解くカギ」の一覧は出さない（黄色いマーカーだけ残す）
   // Keep prepared explanations/translations, but never expose answer-bearing narration.
   for (const c of englishGrammarData.parts.flatMap(p => p.chapters)) {
     for (const problem of [...c.practiceProblems, ...c.miniTest]) {
@@ -234,8 +234,6 @@ const EG_PROBLEMS: Record<string, GrammarProblem[]> = {
       if (typeof problem.explanation === 'string') {
         problem.explanation = problem.explanation
           .replace(/SCRIPT ／ 実際に流れた英文/g, 'ANSWER ／ 完成した英文')
-          .replace(/聞き取りの決め手/g, '解くカギ')
-          .replace(/スクリプト内の黄色いマーカー/g, '英文の黄色いマーカー')
           .replace(/解答の道すじ/g, '解説');
       }
     }

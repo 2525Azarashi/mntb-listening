@@ -37,15 +37,15 @@
 "links": [
 {
 "dir": "ref",
+"path": "scripts/README.md"
+},
+{
+"dir": "ref",
 "path": "scripts/android-range-check/run.sh"
 },
 {
 "dir": "ref",
 "path": "src/battle/audio/audioPlatform.ts"
-},
-{
-"dir": "ref",
-"path": "tests/androidAudioFixPresent.test.ts"
 }
 ],
 "lines": 214,
@@ -215,11 +215,11 @@
 "links": [
 {
 "dir": "ref",
-"path": "APP_CAPACITOR_README.md"
+"path": "README.md"
 },
 {
 "dir": "ref",
-"path": "README.md"
+"path": "docs/APP_CAPACITOR_README.md"
 },
 {
 "dir": "ref",
@@ -255,7 +255,7 @@
 },
 {
 "dir": "ref",
-"path": "docs/KASANIMARO_2026-10-19.md"
+"path": "docs/archive/KASANIMARO_2026-10-19.md"
 }
 ],
 "lines": 4,
@@ -302,25 +302,6 @@
 "flow": []
 },
 {
-"id": "APP_CAPACITOR_README.md",
-"path": "APP_CAPACITOR_README.md",
-"name": "APP_CAPACITOR_README.md",
-"folder": "(ルート)",
-"one": "スマホアプリ版（Capacitor）の作り方と、Web版との違いを説明する係",
-"detail": "主な見出し：まなとび アプリ版（Capacitor）キット — はじめに／1. Flutter 版との違い（判断材料）／2. このキットで足したもの（Web 版の動きは変わりません）。",
-"links": [],
-"lines": 138,
-"tag": "文書",
-"conf": "高",
-"kind": "file",
-"exports": [],
-"nImports": 0,
-"nBy": 0,
-"draft": false,
-"sys": "native",
-"flow": []
-},
-{
 "id": "CLAUDE.md",
 "path": "CLAUDE.md",
 "name": "CLAUDE.md",
@@ -334,7 +315,7 @@
 },
 {
 "dir": "ref",
-"path": "docs/UI_REVAMP_2026-09-30.md"
+"path": "docs/archive/UI_REVAMP_2026-09-30.md"
 },
 {
 "dir": "ref",
@@ -342,34 +323,6 @@
 }
 ],
 "lines": 21,
-"tag": "文書",
-"conf": "高",
-"kind": "file",
-"exports": [],
-"nImports": 0,
-"nBy": 0,
-"draft": false,
-"sys": "docs",
-"flow": []
-},
-{
-"id": "COMMERCIAL_AUDIO_MIGRATION.md",
-"path": "COMMERCIAL_AUDIO_MIGRATION.md",
-"name": "COMMERCIAL_AUDIO_MIGRATION.md",
-"folder": "(ルート)",
-"one": "リスニング音源を商用で使える音声へ移した経緯を記録する係",
-"detail": "主な見出し：商用音声への移行記録（2026-09-18）／PDF納品と追加の商用利用調査（2026-09-18）／新しく検討した候補（未生成・未採用）。",
-"links": [
-{
-"dir": "ref",
-"path": "docs/LISTENING_AUDIO_REPLACE.md"
-},
-{
-"dir": "ref",
-"path": "scripts/check-release.mjs"
-}
-],
-"lines": 123,
 "tag": "文書",
 "conf": "高",
 "kind": "file",
@@ -426,7 +379,7 @@
 },
 {
 "dir": "ref",
-"path": "docs/UI_REVAMP_2026-09-30.md"
+"path": "docs/archive/UI_REVAMP_2026-09-30.md"
 }
 ],
 "lines": 106,
@@ -506,7 +459,7 @@
 "links": [
 {
 "dir": "ref",
-"path": "APP_CAPACITOR_README.md"
+"path": "docs/APP_CAPACITOR_README.md"
 },
 {
 "dir": "ref",
@@ -514,7 +467,7 @@
 },
 {
 "dir": "ref",
-"path": "docs/KASANIMARO_2026-10-19.md"
+"path": "docs/UI_CHANGELOG.md"
 }
 ],
 "lines": 44,
@@ -568,15 +521,15 @@
 "links": [
 {
 "dir": "ref",
-"path": "docs/RELEASE_STEPS_2026-10-05.md"
+"path": "README.md"
+},
+{
+"dir": "ref",
+"path": "docs/archive/RELEASE_STEPS_2026-10-05.md"
 },
 {
 "dir": "ref",
 "path": "src/utils/googleAuth.ts"
-},
-{
-"dir": "ref",
-"path": "store-assets/instagram/README.md"
 }
 ],
 "lines": 53,
@@ -664,7 +617,7 @@
 },
 {
 "dir": "ref",
-"path": "src/battle/audio/battleAudio.ts"
+"path": "docs/リスニングの部屋へ_これ1つで全部.md"
 }
 ],
 "lines": 32,
@@ -707,15 +660,15 @@
 "links": [
 {
 "dir": "ref",
-"path": "scripts/build.sh"
+"path": "README.md"
 },
 {
 "dir": "ref",
-"path": "src/data/problemCount.ts"
+"path": "docs/リスニングの部屋へ_これ1つで全部.md"
 },
 {
 "dir": "ref",
-"path": "vite.config.ts"
+"path": "scripts/README.md"
 }
 ],
 "lines": 190,
@@ -781,38 +734,6 @@
 "flow": []
 },
 {
-"id": "docs/DEPLOY_FIRESTORE_RULES.md",
-"path": "docs/DEPLOY_FIRESTORE_RULES.md",
-"name": "DEPLOY_FIRESTORE_RULES.md",
-"folder": "docs",
-"one": "データ保存先の利用ルールを本番に反映する手順を説明する係",
-"detail": "主な見出し：Firestore ルールのデプロイ手順（必読）／方法 1: Firebase Console から貼り付ける（最速・CLI 不要）⭐推奨／動作確認（任意）。",
-"links": [
-{
-"dir": "ref",
-"path": "docs/BATTLE_RELEASE_STEPS.md"
-},
-{
-"dir": "ref",
-"path": "docs/deploy-firestore-rules.workflow.yml"
-},
-{
-"dir": "ref",
-"path": "src/utils/classroomShared.ts"
-}
-],
-"lines": 86,
-"tag": "文書",
-"conf": "高",
-"kind": "file",
-"exports": [],
-"nImports": 0,
-"nBy": 0,
-"draft": false,
-"sys": "docs",
-"flow": []
-},
-{
 "id": "docs/FEEDBACK_SETUP.md",
 "path": "docs/FEEDBACK_SETUP.md",
 "name": "FEEDBACK_SETUP.md",
@@ -841,10 +762,18 @@
 "links": [
 {
 "dir": "ref",
+"path": "README.md"
+},
+{
+"dir": "ref",
+"path": "docs/BATTLE_RELEASE_STEPS.md"
+},
+{
+"dir": "ref",
 "path": "docs/JUKU_PLAN.md"
 }
 ],
-"lines": 161,
+"lines": 180,
 "tag": "文書",
 "conf": "高",
 "kind": "file",
@@ -903,15 +832,15 @@
 "links": [
 {
 "dir": "ref",
-"path": "COMMERCIAL_AUDIO_MIGRATION.md"
-},
-{
-"dir": "ref",
 "path": "audio_sources/README.md"
 },
 {
 "dir": "ref",
-"path": "scripts/concat_listening_audio.sh"
+"path": "docs/COMMERCIAL_AUDIO_MIGRATION.md"
+},
+{
+"dir": "ref",
+"path": "scripts/README.md"
 }
 ],
 "lines": 233,
@@ -969,49 +898,6 @@
 "flow": []
 },
 {
-"id": "docs/RELEASE_STEPS_2026-10-05.md",
-"path": "docs/RELEASE_STEPS_2026-10-05.md",
-"name": "RELEASE_STEPS_2026-10-05.md",
-"folder": "docs",
-"one": "公開とApp Store申請までに残った作業をまとめた係",
-"detail": "主な見出し：公開・App Store 申請までの残り作業（2026-10-05 版）／0. 全体の順番（ここだけ見ればよい）／1. Firebase プロジェクトと .env.local。",
-"links": [
-{
-"dir": "ref",
-"path": "README.md"
-}
-],
-"lines": 217,
-"tag": "文書",
-"conf": "高",
-"kind": "file",
-"exports": [],
-"nImports": 0,
-"nBy": 0,
-"draft": false,
-"sys": "docs",
-"flow": []
-},
-{
-"id": "docs/UI_REVAMP_2026-09-30.md",
-"path": "docs/UI_REVAMP_2026-09-30.md",
-"name": "UI_REVAMP_2026-09-30.md",
-"folder": "docs",
-"one": "2026年9月30日のUI見直しで決めたことを記録する係",
-"detail": "主な見出し：UI 見直し（2026-09-30）／★決めたUIの決まり★（CLAUDE.md「UI principles」・src/styles/tokens.css の先頭にも記載）／Before / After。",
-"links": [],
-"lines": 287,
-"tag": "文書",
-"conf": "高",
-"kind": "file",
-"exports": [],
-"nImports": 0,
-"nBy": 0,
-"draft": false,
-"sys": "docs",
-"flow": []
-},
-{
 "id": "docs/UI参考_画面と導線.md",
 "path": "docs/UI参考_画面と導線.md",
 "name": "UI参考_画面と導線.md",
@@ -1021,7 +907,7 @@
 "links": [
 {
 "dir": "ref",
-"path": "リスニングの部屋へ_これ1つで全部.md"
+"path": "docs/リスニングの部屋へ_これ1つで全部.md"
 }
 ],
 "lines": 77,
@@ -1100,7 +986,11 @@
 },
 {
 "dir": "ref",
-"path": "docs/DEPLOY_FIRESTORE_RULES.md"
+"path": "docs/FIRESTORE_RULES_DEPLOY.md"
+},
+{
+"dir": "ref",
+"path": "docs/archive/DEPLOY_FIRESTORE_RULES.md"
 }
 ],
 "lines": 49,
@@ -1111,6 +1001,7 @@
 "nImports": 0,
 "nBy": 0,
 "draft": false,
+"changed": true,
 "sys": "server",
 "flow": []
 },
@@ -1497,15 +1388,15 @@
 "links": [
 {
 "dir": "ref",
-"path": "APP_CAPACITOR_README.md"
-},
-{
-"dir": "ref",
 "path": "EXPORT_MANIFEST.json"
 },
 {
 "dir": "ref",
 "path": "README.md"
+},
+{
+"dir": "ref",
+"path": "android/app/capacitor.build.gradle"
 }
 ],
 "lines": 125,
@@ -1572,7 +1463,7 @@
 "path": "docs/APP_STORE.md"
 }
 ],
-"lines": 2382,
+"lines": 2384,
 "tag": "設定",
 "conf": "高",
 "kind": "file",
@@ -1589,7 +1480,7 @@
 "name": "core.mjs",
 "folder": "functions",
 "one": "マナクランとリーグの集計に使う、サーバー専用の計算の係",
-"detail": "冒頭の説明：「SERVER ONLY.」EPOCH・PERIOD・REWARD_ITEM など18個を公開する。core.test.mjs・index.mjs など3ファイルから読み込まれる。",
+"detail": "冒頭の説明：「SERVER ONLY.」EPOCH・PERIOD・REWARD_ITEM など23個を公開する。core.test.mjs・index.mjs など3ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -1600,7 +1491,7 @@
 "path": "functions/index.mjs"
 }
 ],
-"lines": 109,
+"lines": 136,
 "tag": "通信",
 "conf": "高",
 "kind": "file",
@@ -1617,6 +1508,7 @@
 "nImports": 0,
 "nBy": 3,
 "draft": false,
+"changed": true,
 "sys": "server",
 "flow": [
 "compete"
@@ -1628,14 +1520,14 @@
 "name": "core.test.mjs",
 "folder": "functions",
 "one": "サーバー側のクラン集計の計算が正しいかを確かめる係",
-"detail": "12件の確認（it）を持つ。対象：core.mjs。",
+"detail": "14件の確認（it）を持つ。対象：core.mjs。",
 "links": [
 {
 "dir": "to",
 "path": "functions/core.mjs"
 }
 ],
-"lines": 57,
+"lines": 72,
 "tag": "テスト",
 "conf": "高",
 "kind": "file",
@@ -1663,7 +1555,7 @@
 "path": "functions/core.mjs"
 }
 ],
-"lines": 241,
+"lines": 279,
 "tag": "通信",
 "conf": "高",
 "kind": "file",
@@ -1680,6 +1572,7 @@
 "nImports": 1,
 "nBy": 1,
 "draft": false,
+"changed": true,
 "sys": "server",
 "flow": [
 "compete"
@@ -1723,15 +1616,15 @@
 "links": [
 {
 "dir": "ref",
-"path": "APP_CAPACITOR_README.md"
-},
-{
-"dir": "ref",
 "path": "EXPORT_MANIFEST.json"
 },
 {
 "dir": "ref",
 "path": "android/app/build.gradle"
+},
+{
+"dir": "ref",
+"path": "android/app/src/androidTest/java/com/getcapacitor/myapp/ExampleInstrumentedTest.java"
 }
 ],
 "lines": 10,
@@ -1821,15 +1714,15 @@
 "links": [
 {
 "dir": "ref",
-"path": "COMMERCIAL_AUDIO_MIGRATION.md"
-},
-{
-"dir": "ref",
 "path": "COMMERCIAL_AUDIO_STATUS.json"
 },
 {
 "dir": "ref",
 "path": "DERIVATIVE_HANDOFF.md"
+},
+{
+"dir": "ref",
+"path": "README.md"
 }
 ],
 "lines": 5612,
@@ -1917,15 +1810,15 @@
 "links": [
 {
 "dir": "ref",
-"path": "APP_CAPACITOR_README.md"
-},
-{
-"dir": "ref",
 "path": "EXPORT_MANIFEST.json"
 },
 {
 "dir": "ref",
 "path": "android/app/build.gradle"
+},
+{
+"dir": "ref",
+"path": "android/app/src/androidTest/java/com/getcapacitor/myapp/ExampleInstrumentedTest.java"
 }
 ],
 "lines": 80,
@@ -1981,7 +1874,7 @@
 },
 {
 "dir": "ref",
-"path": "docs/RELEASE_STEPS_2026-10-05.md"
+"path": "docs/archive/RELEASE_STEPS_2026-10-05.md"
 }
 ],
 "lines": 37,
@@ -2005,7 +1898,7 @@
 "links": [
 {
 "dir": "ref",
-"path": "docs/UI_REVAMP_2026-09-30.md"
+"path": "docs/archive/UI_REVAMP_2026-09-30.md"
 },
 {
 "dir": "ref",
@@ -2137,7 +2030,7 @@
 },
 {
 "dir": "ref",
-"path": "firebase.json"
+"path": "docs/リスニングの部屋へ_これ1つで全部.md"
 }
 ],
 "lines": 129,
@@ -2273,82 +2166,6 @@
 "flow": []
 },
 {
-"id": "scripts/apply-android-assets.py",
-"path": "scripts/apply-android-assets.py",
-"name": "apply-android-assets.py",
-"folder": "scripts",
-"one": "Android版のアイコンと起動画面の画像を差し替える係",
-"detail": "冒頭の説明：「Apply Android icon and splash assets from original/public/まなとびandroid.png」",
-"links": [],
-"lines": 79,
-"tag": "音声・画像",
-"conf": "高",
-"kind": "file",
-"exports": [],
-"nImports": 0,
-"nBy": 0,
-"draft": false,
-"sys": "tools",
-"flow": []
-},
-{
-"id": "scripts/apply-new-icon.py",
-"path": "scripts/apply-new-icon.py",
-"name": "apply-new-icon.py",
-"folder": "scripts",
-"one": "新しいアプリアイコンを、iOS・Web・Androidに配る係",
-"detail": "冒頭の説明：「Apply new app icon from user download to iOS, Web, and Android icon assets.」",
-"links": [],
-"lines": 100,
-"tag": "音声・画像",
-"conf": "高",
-"kind": "file",
-"exports": [],
-"nImports": 0,
-"nBy": 0,
-"draft": false,
-"sys": "tools",
-"flow": []
-},
-{
-"id": "scripts/build-listening-prompts-pdf.py",
-"path": "scripts/build-listening-prompts-pdf.py",
-"name": "build-listening-prompts-pdf.py",
-"folder": "scripts",
-"one": "リスニング音源を作るための台本をPDFにまとめる係",
-"detail": "冒頭の説明：「Build searchable Japanese PDF guides and all MiniMax scripts; no API calls.」",
-"links": [],
-"lines": 143,
-"tag": "文書",
-"conf": "高",
-"kind": "file",
-"exports": [],
-"nImports": 0,
-"nBy": 0,
-"draft": false,
-"sys": "tools",
-"flow": []
-},
-{
-"id": "scripts/build-q2-rerecord-pdf.py",
-"path": "scripts/build-q2-rerecord-pdf.py",
-"name": "build-q2-rerecord-pdf.py",
-"folder": "scripts",
-"one": "リスニング第2問を録り直すための台本PDFを作る係",
-"detail": "冒頭の説明：「第2問（48問＝16回×3問）の「録り直し用」台本 PDF を作る（ElevenLabs Eleven v3 向け・クレジット不要）。」",
-"links": [],
-"lines": 186,
-"tag": "文書",
-"conf": "高",
-"kind": "file",
-"exports": [],
-"nImports": 0,
-"nBy": 0,
-"draft": false,
-"sys": "tools",
-"flow": []
-},
-{
 "id": "scripts/build.sh",
 "path": "scripts/build.sh",
 "name": "build.sh",
@@ -2359,6 +2176,10 @@
 {
 "dir": "ref",
 "path": "docs/BUILD.md"
+},
+{
+"dir": "ref",
+"path": "scripts/README.md"
 }
 ],
 "lines": 49,
@@ -2387,6 +2208,10 @@
 {
 "dir": "ref",
 "path": "package.json"
+},
+{
+"dir": "ref",
+"path": "scripts/README.md"
 }
 ],
 "lines": 37,
@@ -2414,43 +2239,15 @@
 },
 {
 "dir": "ref",
+"path": "scripts/README.md"
+},
+{
+"dir": "ref",
 "path": "tests/standalone.test.ts"
 }
 ],
 "lines": 17,
 "tag": "設定",
-"conf": "高",
-"kind": "file",
-"exports": [],
-"nImports": 0,
-"nBy": 0,
-"draft": false,
-"sys": "tools",
-"flow": []
-},
-{
-"id": "scripts/concat_listening_audio.sh",
-"path": "scripts/concat_listening_audio.sh",
-"name": "concat_listening_audio.sh",
-"folder": "scripts",
-"one": "古い配布ZIPの、分かれたリスニング音声をつなげる係",
-"detail": "冒頭の説明：「※ 新しい音源の取り込みは scripts/listening-audio.mts（docs/LISTENING_AUDIO_REPLACE.md）を使う。」",
-"links": [
-{
-"dir": "ref",
-"path": "docs/LISTENING_AUDIO_REPLACE.md"
-},
-{
-"dir": "ref",
-"path": "scripts/listening-audio.mts"
-},
-{
-"dir": "ref",
-"path": "src/data/englishListeningQ4to6Problems.ts"
-}
-],
-"lines": 57,
-"tag": "音声・画像",
 "conf": "高",
 "kind": "file",
 "exports": [],
@@ -2485,30 +2282,6 @@
 "flow": []
 },
 {
-"id": "scripts/extract_q2_illustrations.py",
-"path": "scripts/extract_q2_illustrations.py",
-"name": "extract_q2_illustrations.py",
-"folder": "scripts",
-"one": "配布PDFから第2問のイラストを取り出し、正しい名前で置く係",
-"detail": "冒頭の説明：「配布 PDF「第２問.pdf」から第2問のイラストを取り出し、 public/listening_q2/ に正式な名前（el2_set<N>_q<M>.jpg）で置く。」",
-"links": [
-{
-"dir": "ref",
-"path": "src/data/englishListeningData.ts"
-}
-],
-"lines": 225,
-"tag": "音声・画像",
-"conf": "高",
-"kind": "file",
-"exports": [],
-"nImports": 0,
-"nBy": 0,
-"draft": false,
-"sys": "tools",
-"flow": []
-},
-{
 "id": "scripts/fix-vocab-meanings.py",
 "path": "scripts/fix-vocab-meanings.py",
 "name": "fix-vocab-meanings.py",
@@ -2517,38 +2290,6 @@
 "detail": "冒頭の説明：「英単語の意味の表記くずれを直す（2026-10-05）。」",
 "links": [],
 "lines": 70,
-"tag": "データ",
-"conf": "高",
-"kind": "file",
-"exports": [],
-"nImports": 0,
-"nBy": 0,
-"draft": false,
-"sys": "tools",
-"flow": []
-},
-{
-"id": "scripts/fix_q2_text_to_figures.py",
-"path": "scripts/fix_q2_text_to_figures.py",
-"name": "fix_q2_text_to_figures.py",
-"folder": "scripts",
-"one": "第2問の選択肢の文を、配布PDFのイラストに合わせて直す係",
-"detail": "冒頭の説明：「第2問：配布 PDF のイラストに合わせて「テキストの側」を書き直す。」",
-"links": [
-{
-"dir": "ref",
-"path": "scripts/data/q2_figure_audit.md"
-},
-{
-"dir": "ref",
-"path": "scripts/q2_figure_fixes.py"
-},
-{
-"dir": "ref",
-"path": "scripts/shuffle_listening_q2_options.py"
-}
-],
-"lines": 159,
 "tag": "データ",
 "conf": "高",
 "kind": "file",
@@ -2580,7 +2321,7 @@
 "path": "README.md"
 }
 ],
-"lines": 172,
+"lines": 101,
 "tag": "文書",
 "conf": "高",
 "kind": "file",
@@ -2908,90 +2649,6 @@
 "flow": []
 },
 {
-"id": "scripts/gen_listening_data.py",
-"path": "scripts/gen_listening_data.py",
-"name": "gen_listening_data.py",
-"folder": "scripts",
-"one": "PDFから取り出した第1問A・Bの中身を、アプリのデータにする係",
-"detail": "冒頭の説明：「parse_listening_pdf.py が作った JSON から、アプリの TypeScript データを生成する。」",
-"links": [
-{
-"dir": "ref",
-"path": "scripts/shuffle_q1b_options.py"
-},
-{
-"dir": "ref",
-"path": "src/data/englishListeningQ1ASets.ts"
-}
-],
-"lines": 430,
-"tag": "データ",
-"conf": "高",
-"kind": "file",
-"exports": [],
-"nImports": 0,
-"nBy": 0,
-"draft": false,
-"sys": "tools",
-"flow": []
-},
-{
-"id": "scripts/gen_listening_q2_data.py",
-"path": "scripts/gen_listening_q2_data.py",
-"name": "gen_listening_q2_data.py",
-"folder": "scripts",
-"one": "PDFから取り出した第2問の中身を、アプリのデータにする係",
-"detail": "冒頭の説明：「第2問（短い対話・2回読み・イラスト選択・3問）の TypeScript データを生成する。」",
-"links": [
-{
-"dir": "ref",
-"path": "scripts/fix_q2_text_to_figures.py"
-},
-{
-"dir": "ref",
-"path": "src/data/englishListeningData.ts"
-},
-{
-"dir": "ref",
-"path": "src/data/englishListeningQ2Problems.ts"
-}
-],
-"lines": 564,
-"tag": "データ",
-"conf": "高",
-"kind": "file",
-"exports": [],
-"nImports": 0,
-"nBy": 0,
-"draft": false,
-"sys": "tools",
-"flow": []
-},
-{
-"id": "scripts/gen_listening_q3_data.py",
-"path": "scripts/gen_listening_q3_data.py",
-"name": "gen_listening_q3_data.py",
-"folder": "scripts",
-"one": "PDFから取り出した第3問の中身を、アプリのデータにする係",
-"detail": "冒頭の説明：「第3問（短い対話・1回読み・6問）の TypeScript データを生成する。」",
-"links": [
-{
-"dir": "ref",
-"path": "src/data/englishListeningQ3Problems.ts"
-}
-],
-"lines": 344,
-"tag": "データ",
-"conf": "高",
-"kind": "file",
-"exports": [],
-"nImports": 0,
-"nBy": 0,
-"draft": false,
-"sys": "tools",
-"flow": []
-},
-{
 "id": "scripts/kasa-diff.sh",
 "path": "scripts/kasa-diff.sh",
 "name": "kasa-diff.sh",
@@ -3002,6 +2659,10 @@
 {
 "dir": "ref",
 "path": "docs/APP_SYNC.md"
+},
+{
+"dir": "ref",
+"path": "scripts/README.md"
 }
 ],
 "lines": 20,
@@ -3057,127 +2718,11 @@
 },
 {
 "dir": "ref",
-"path": "scripts/listening-audio.mts"
+"path": "scripts/README.md"
 }
 ],
 "lines": 190,
 "tag": "音声・画像",
-"conf": "高",
-"kind": "file",
-"exports": [],
-"nImports": 0,
-"nBy": 0,
-"draft": false,
-"sys": "tools",
-"flow": []
-},
-{
-"id": "scripts/make-icons.py",
-"path": "scripts/make-icons.py",
-"name": "make-icons.py",
-"folder": "scripts",
-"one": "もとの正方形の絵から、アプリのアイコン一式を作る係",
-"detail": "冒頭の説明：「Generate app icons from the user-supplied square artwork.」",
-"links": [
-{
-"dir": "ref",
-"path": "index.html"
-}
-],
-"lines": 72,
-"tag": "音声・画像",
-"conf": "高",
-"kind": "file",
-"exports": [],
-"nImports": 0,
-"nBy": 0,
-"draft": false,
-"sys": "tools",
-"flow": []
-},
-{
-"id": "scripts/parse_listening_pdf.py",
-"path": "scripts/parse_listening_pdf.py",
-"name": "parse_listening_pdf.py",
-"folder": "scripts",
-"one": "第1問A・Bの類題集PDFを、整理されたJSONに変える係",
-"detail": "冒頭の説明：「共通テスト英語リスニング 第1問A / 第1問B の類題集 PDF を構造化 JSON に変換する。」",
-"links": [
-{
-"dir": "ref",
-"path": "scripts/gen_listening_data.py"
-},
-{
-"dir": "ref",
-"path": "scripts/parse_listening_q2_pdf.py"
-},
-{
-"dir": "ref",
-"path": "scripts/parse_listening_q3_pdf.py"
-}
-],
-"lines": 199,
-"tag": "データ",
-"conf": "高",
-"kind": "file",
-"exports": [],
-"nImports": 0,
-"nBy": 0,
-"draft": false,
-"sys": "tools",
-"flow": []
-},
-{
-"id": "scripts/parse_listening_q2_pdf.py",
-"path": "scripts/parse_listening_q2_pdf.py",
-"name": "parse_listening_q2_pdf.py",
-"folder": "scripts",
-"one": "第2問の類題集PDFを、突き合わせつきでJSONに変える係",
-"detail": "冒頭の説明：「共通テスト 英語リスニング「第2問」類題集 PDF を JSON 化する。」",
-"links": [
-{
-"dir": "ref",
-"path": "scripts/gen_listening_q2_data.py"
-},
-{
-"dir": "ref",
-"path": "src/data/englishListeningQ2Problems.ts"
-}
-],
-"lines": 484,
-"tag": "データ",
-"conf": "高",
-"kind": "file",
-"exports": [],
-"nImports": 0,
-"nBy": 0,
-"draft": false,
-"sys": "tools",
-"flow": []
-},
-{
-"id": "scripts/parse_listening_q3_pdf.py",
-"path": "scripts/parse_listening_q3_pdf.py",
-"name": "parse_listening_q3_pdf.py",
-"folder": "scripts",
-"one": "第3問の類題集PDFを、突き合わせつきでJSONに変える係",
-"detail": "冒頭の説明：「共通テスト 英語リスニング「第3問」類題集 PDF を JSON 化する。」",
-"links": [
-{
-"dir": "ref",
-"path": "scripts/gen_listening_q3_data.py"
-},
-{
-"dir": "ref",
-"path": "scripts/parse_listening_q2_pdf.py"
-},
-{
-"dir": "ref",
-"path": "src/data/englishListeningQ3Problems.ts"
-}
-],
-"lines": 318,
-"tag": "データ",
 "conf": "高",
 "kind": "file",
 "exports": [],
@@ -3197,70 +2742,18 @@
 "links": [
 {
 "dir": "ref",
+"path": "docs/リスニングの部屋へ_これ1つで全部.md"
+},
+{
+"dir": "ref",
 "path": "package.json"
 },
 {
 "dir": "ref",
-"path": "リスニングの部屋へ_これ1つで全部.md"
+"path": "scripts/README.md"
 }
 ],
 "lines": 87,
-"tag": "音声・画像",
-"conf": "高",
-"kind": "file",
-"exports": [],
-"nImports": 0,
-"nBy": 0,
-"draft": false,
-"sys": "tools",
-"flow": []
-},
-{
-"id": "scripts/q2_figure_fixes.py",
-"path": "scripts/q2_figure_fixes.py",
-"name": "q2_figure_fixes.py",
-"folder": "scripts",
-"one": "第2問をイラストに合わせて直す中身を、1問ずつ根拠つきで持つ係",
-"detail": "冒頭の説明：「第2問：配布 PDF のイラストに合わせて書き直す中身（1問ずつの根拠つき）。」",
-"links": [
-{
-"dir": "ref",
-"path": "scripts/data/q2_figure_audit.md"
-},
-{
-"dir": "ref",
-"path": "scripts/fix_q2_text_to_figures.py"
-},
-{
-"dir": "ref",
-"path": "scripts/shuffle_listening_q2_options.py"
-}
-],
-"lines": 273,
-"tag": "データ",
-"conf": "高",
-"kind": "file",
-"exports": [],
-"nImports": 0,
-"nBy": 0,
-"draft": false,
-"sys": "tools",
-"flow": []
-},
-{
-"id": "scripts/q2_img_to_public.py",
-"path": "scripts/q2_img_to_public.py",
-"name": "q2_img_to_public.py",
-"folder": "scripts",
-"one": "第2問のイラストを、縦横比を変えずに配信用に整える係",
-"detail": "冒頭の説明：「第2問のイラストを public/listening_q2/ 用に整える。」",
-"links": [
-{
-"dir": "ref",
-"path": "scripts/extract_q2_illustrations.py"
-}
-],
-"lines": 57,
 "tag": "音声・画像",
 "conf": "高",
 "kind": "file",
@@ -3336,173 +2829,6 @@
 "nBy": 0,
 "draft": false,
 "sys": "tools",
-"flow": []
-},
-{
-"id": "scripts/shuffle_listening_q2_options.py",
-"path": "scripts/shuffle_listening_q2_options.py",
-"name": "shuffle_listening_q2_options.py",
-"folder": "scripts",
-"one": "第2問の正解の位置が偏らないよう、選択肢の並びを入れ替える係",
-"detail": "冒頭の説明：「第2問の正解位置の偏りを均す（選択肢の並び順だけを入れ替える）。」",
-"links": [
-{
-"dir": "ref",
-"path": "scripts/extract_q2_illustrations.py"
-},
-{
-"dir": "ref",
-"path": "scripts/fix_q2_text_to_figures.py"
-},
-{
-"dir": "ref",
-"path": "scripts/gen_listening_q2_data.py"
-}
-],
-"lines": 570,
-"tag": "データ",
-"conf": "高",
-"kind": "file",
-"exports": [],
-"nImports": 0,
-"nBy": 0,
-"draft": false,
-"sys": "tools",
-"flow": []
-},
-{
-"id": "scripts/shuffle_listening_q3_options.py",
-"path": "scripts/shuffle_listening_q3_options.py",
-"name": "shuffle_listening_q3_options.py",
-"folder": "scripts",
-"one": "第3問の正解の位置が偏らないよう、選択肢の並びを入れ替える係",
-"detail": "冒頭の説明：「第3問 類題集の「正解の位置」の偏りを直す。」",
-"links": [
-{
-"dir": "ref",
-"path": "scripts/gen_listening_q3_data.py"
-},
-{
-"dir": "ref",
-"path": "scripts/shuffle_listening_q2_options.py"
-},
-{
-"dir": "ref",
-"path": "src/data/englishListeningQ3Problems.ts"
-}
-],
-"lines": 197,
-"tag": "データ",
-"conf": "高",
-"kind": "file",
-"exports": [],
-"nImports": 0,
-"nBy": 0,
-"draft": false,
-"sys": "tools",
-"flow": []
-},
-{
-"id": "scripts/shuffle_q1b_options.py",
-"path": "scripts/shuffle_q1b_options.py",
-"name": "shuffle_q1b_options.py",
-"folder": "scripts",
-"one": "第1問Bで正解が①に偏った回の、選択肢を入れ替える係",
-"detail": "冒頭の説明：「第1問B セット7〜15 の選択肢をシャッフルする。」",
-"links": [
-{
-"dir": "ref",
-"path": "scripts/shuffle_listening_q2_options.py"
-},
-{
-"dir": "ref",
-"path": "tests/englishListeningQ1Sets.test.ts"
-}
-],
-"lines": 373,
-"tag": "データ",
-"conf": "高",
-"kind": "file",
-"exports": [],
-"nImports": 0,
-"nBy": 0,
-"draft": false,
-"sys": "tools",
-"flow": []
-},
-{
-"id": "scripts/strip_genspark_logo.py",
-"path": "scripts/strip_genspark_logo.py",
-"name": "strip_genspark_logo.py",
-"folder": "scripts",
-"one": "第1問Bのイラストから、右下に入ったロゴを取り除く係",
-"detail": "冒頭の説明：「第1問B のイラスト画像から Genspark ロゴ（右下のグレーのバッジ）を取り除く。」",
-"links": [
-{
-"dir": "ref",
-"path": "scripts/gen_listening_data.py"
-},
-{
-"dir": "ref",
-"path": "src/data/englishListeningQ1BProblems.ts"
-},
-{
-"dir": "ref",
-"path": "tests/englishListeningQ1Sets.test.ts"
-}
-],
-"lines": 113,
-"tag": "音声・画像",
-"conf": "高",
-"kind": "file",
-"exports": [],
-"nImports": 0,
-"nBy": 0,
-"draft": false,
-"sys": "tools",
-"flow": []
-},
-{
-"id": "scripts/verify_q2_single_gender.py",
-"path": "scripts/verify_q2_single_gender.py",
-"name": "verify_q2_single_gender.py",
-"folder": "scripts",
-"one": "第2問の音源で、先に話す人の性別が台本どおりか測る係",
-"detail": "冒頭の説明：「第2問の音源で「先に話す人の性別」が台本どおりかを実測で確かめる。」",
-"links": [
-{
-"dir": "ref",
-"path": "docs/LISTENING_AUDIO_VS_SPEECH.md"
-}
-],
-"lines": 189,
-"tag": "テスト",
-"conf": "高",
-"kind": "file",
-"exports": [],
-"nImports": 0,
-"nBy": 0,
-"draft": false,
-"sys": "test",
-"flow": []
-},
-{
-"id": "scripts/verify_q2_tts_speakers.py",
-"path": "scripts/verify_q2_tts_speakers.py",
-"name": "verify_q2_tts_speakers.py",
-"folder": "scripts",
-"one": "まとめ録りの音声が、ちゃんと3人の声になっているか測る係",
-"detail": "冒頭の説明：「まとめ録りの音声が「ちゃんと3人の声になっているか」を実測で判定する。」",
-"links": [],
-"lines": 149,
-"tag": "テスト",
-"conf": "高",
-"kind": "file",
-"exports": [],
-"nImports": 0,
-"nBy": 0,
-"draft": false,
-"sys": "test",
 "flow": []
 },
 {
@@ -3733,7 +3059,7 @@
 },
 {
 "dir": "ref",
-"path": "docs/RELEASE_STEPS_2026-10-05.md"
+"path": "docs/UI_CHANGELOG.md"
 }
 ],
 "lines": 114,
@@ -3757,15 +3083,15 @@
 "links": [
 {
 "dir": "ref",
-"path": "APP_CAPACITOR_README.md"
-},
-{
-"dir": "ref",
 "path": "EXPORT_MANIFEST.json"
 },
 {
 "dir": "ref",
 "path": "docs/ADDING_SUBJECT.md"
+},
+{
+"dir": "ref",
+"path": "docs/APP_CAPACITOR_README.md"
 }
 ],
 "lines": 481,
@@ -3796,25 +3122,6 @@
 "exports": [
 "default"
 ],
-"nImports": 0,
-"nBy": 0,
-"draft": false,
-"sys": "docs",
-"flow": []
-},
-{
-"id": "リスニングの部屋へ_これ1つで全部.md",
-"path": "リスニングの部屋へ_これ1つで全部.md",
-"name": "リスニングの部屋へ_これ1つで全部.md",
-"folder": "(ルート)",
-"one": "リスニング版の全部入りZIPに、何が入っているかを説明する係",
-"detail": "主な見出し：まなとび リスニング版 — 全部入りZIP（2026-09-29）／1. 中身／2. 前回「1件スキップ」だったもの。",
-"links": [],
-"lines": 59,
-"tag": "文書",
-"conf": "高",
-"kind": "file",
-"exports": [],
 "nImports": 0,
 "nBy": 0,
 "draft": false,
@@ -4340,7 +3647,7 @@
 "name": "battleAudio.ts",
 "folder": "src",
 "one": "対戦中のBGMと効果音を音源ファイルから鳴らす係",
-"detail": "冒頭の説明：「battleAudio — 対戦専用の BGM と効果音（音源ファイル MP3 再生） ■ 音源について BGM（waiting, battle, battle2）および効果音（p…」BattleSfx・BattleAudioEngine・battleAudioを公開する。読み込むもの：sharedAudioContext.ts・audioSettings.ts・bgmLoudness.ts など5ファイル。App.tsx・useBattleAudio.ts など8ファイルから読み込まれる。",
+"detail": "冒頭の説明：「battleAudio — 対戦専用の BGM と効果音（音源ファイル MP3 再生） ■ 音源について BGM（waiting, battle, battle2）および効果音（p…」BattleSfx・BattleAudioEngine・battleAudioを公開する。読み込むもの：reportError.ts・sharedAudioContext.ts・audioSettings.ts など6ファイル。App.tsx・useBattleAudio.ts など8ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -4352,10 +3659,10 @@
 },
 {
 "dir": "to",
-"path": "src/battle/audio/sharedAudioContext.ts"
+"path": "src/utils/reportError.ts"
 }
 ],
-"lines": 378,
+"lines": 379,
 "tag": "音声・画像",
 "conf": "高",
 "kind": "file",
@@ -4364,7 +3671,7 @@
 "BattleAudioEngine",
 "battleAudio"
 ],
-"nImports": 5,
+"nImports": 6,
 "nBy": 8,
 "draft": false,
 "sys": "battle",
@@ -4605,7 +3912,7 @@
 "name": "authoredConvert.ts",
 "folder": "src",
 "one": "手で書いた対戦問題を、対戦用の1問の形に変換する係",
-"detail": "冒頭の説明：「手書き問題（authored）→ 対戦の1問 への変換 ■ なぜ生成スクリプトの中ではなく、ここに置くのか この変換は「別の作業場が丸一日かけて書いた JSON」が 対戦画面に出る…」AUTHORED_TIME_MIN・AUTHORED_TIME_MAX・AUTHORED_MIN_OPTIONS など11個を公開する。読み込むもの：battleCore.ts・answerJudge.ts・kanaKeyboard.ts など4ファイル。gen-battle-pool.mtsから読み込まれる。",
+"detail": "冒頭の説明：「手書き問題（authored）→ 対戦の1問 への変換 ■ なぜ生成スクリプトの中ではなく、ここに置くのか この変換は「別の作業場が丸一日かけて書いた JSON」が 対戦画面に出る…」AUTHORED_TIME_MIN・AUTHORED_TIME_MAX・AUTHORED_MIN_OPTIONS など11個を公開する。読み込むもの：battleCore.ts・answerJudge.ts・kanaKeyboard.ts など5ファイル。gen-battle-pool.mtsから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -4620,7 +3927,7 @@
 "path": "src/utils/answerJudge.ts"
 }
 ],
-"lines": 375,
+"lines": 365,
 "tag": "データ",
 "conf": "高",
 "kind": "file",
@@ -4634,7 +3941,7 @@
 "AuthoredConverted",
 "AuthoredRejectReason"
 ],
-"nImports": 4,
+"nImports": 5,
 "nBy": 1,
 "draft": false,
 "sys": "battle",
@@ -4752,7 +4059,7 @@
 "name": "aiOpponent.ts",
 "folder": "src",
 "one": "AI対戦相手の強さと、いつ何を答えるかを決める係",
-"detail": "冒頭の説明：「AI 対戦相手 — 強さのプリセットと「いつ・何を答えるか」の決定 ★この葉モジュールは Firebase も React も import しない★ 対戦の点数計算（battle…」AiLevel・AI_LEVELS・AiProfile など13個を公開する。読み込むもの：types.ts・battleCore.ts・kanaKeyboard.ts。useAiBattle.ts・BattleAiRoomScreen.tsx など6ファイルから読み込まれる。",
+"detail": "冒頭の説明：「AI 対戦相手 — 強さのプリセットと「いつ・何を答えるか」の決定 ★この葉モジュールは Firebase も React も import しない★ 対戦の点数計算（battle…」AiLevel・AI_LEVELS・AiProfile など16個を公開する。読み込むもの：types.ts・battleCore.ts・kanaKeyboard.ts。useAiBattle.ts・BattleAiRoomScreen.tsx など6ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -4767,7 +4074,7 @@
 "path": "src/battle/core/types.ts"
 }
 ],
-"lines": 329,
+"lines": 364,
 "tag": "データ",
 "conf": "高",
 "kind": "file",
@@ -4784,6 +4091,7 @@
 "nImports": 3,
 "nBy": 6,
 "draft": false,
+"changed": true,
 "sys": "battle",
 "flow": [
 "compete"
@@ -4795,7 +4103,7 @@
 "name": "arenaEconomy.ts",
 "folder": "src",
 "one": "ガチャの値段や重複時に返すコインなどの決まりを持つ係",
-"detail": "GACHA_COST・GACHA_MULTI_COST・GACHA_MULTI_COUNT など17個を公開する。読み込むもの：growth.ts・gachaSets.ts。gachaFeatured.ts・growthStore.ts など18ファイルから読み込まれる。",
+"detail": "GACHA_COST・GACHA_MULTI_COST・GACHA_MULTI_COUNT など17個を公開する。読み込むもの：growth.ts・gachaSets.ts。gachaFeatured.ts・growthStore.ts など16ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -4825,7 +4133,7 @@
 "GACHA_RARITY_RATES"
 ],
 "nImports": 2,
-"nBy": 18,
+"nBy": 16,
 "draft": false,
 "changed": true,
 "sys": "battle",
@@ -5266,7 +4574,7 @@
 "RUSH_COMBO_MISSION"
 ],
 "nImports": 5,
-"nBy": 50,
+"nBy": 47,
 "draft": false,
 "sys": "battle",
 "flow": [
@@ -5507,7 +4815,7 @@
 "name": "types.ts",
 "folder": "src",
 "one": "対戦で使う問題・部屋・ルールなどの型をまとめる係",
-"detail": "冒頭の説明：「対戦モード — 型定義（葉モジュール・依存ゼロ） ★このファイルは他の src を一切 import しない。★ 理由: 対戦の型は「純粋ロジック（core/）」「Firestor…」BattleAnswerFormat・BattleQuestion・BattleTiebreak など16個を公開する。aiOpponent.ts・arenaRules.ts など38ファイルから読み込まれる。",
+"detail": "冒頭の説明：「対戦モード — 型定義（葉モジュール・依存ゼロ） ★このファイルは他の src を一切 import しない。★ 理由: 対戦の型は「純粋ロジック（core/）」「Firestor…」BattleAnswerFormat・BattleQuestion・BattleTiebreak など16個を公開する。aiOpponent.ts・arenaRules.ts など40ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -5533,7 +4841,7 @@
 "answerKeyOf"
 ],
 "nImports": 0,
-"nBy": 38,
+"nBy": 40,
 "draft": false,
 "sys": "battle",
 "flow": [
@@ -5789,7 +5097,7 @@
 "name": "battleRanking.ts",
 "folder": "src",
 "one": "対戦の強さの点数（レート）とランキングを扱う係",
-"detail": "冒頭の説明：「対戦モード: レート（Elo）と対戦ランキング ■ 既存のランキングとは完全に別のコレクションにしている 既存の leaderboard_* は「学習で稼いだポイント」の集計であり…」RATING_MAX_DELTA・BattleRankingRow・RatingChange など11個を公開する。読み込むもの：firebase.ts・types.ts・firestoreMetered.ts など7ファイル。BattleAiRoomScreen.tsx・BattleHome.tsx など12ファイルから読み込まれる。",
+"detail": "冒頭の説明：「対戦モード: レート（Elo）と対戦ランキング ■ 既存のランキングとは完全に別のコレクションにしている 既存の leaderboard_* は「学習で稼いだポイント」の集計であり…」RATING_MAX_DELTA・BattleRankingRow・RatingChange など11個を公開する。読み込むもの：firebase.ts・types.ts・firestoreMetered.ts など7ファイル。BattleAiRoomScreen.tsx・BattleHome.tsx など13ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -5819,7 +5127,7 @@
 "fetchBattleRanking"
 ],
 "nImports": 7,
-"nBy": 12,
+"nBy": 13,
 "draft": false,
 "sys": "battle",
 "flow": [
@@ -5832,19 +5140,19 @@
 "name": "battleRoomActions.ts",
 "folder": "src",
 "one": "試合の開始・解答・問題送り・結果確認を書き込む係",
-"detail": "冒頭の説明：「試合の進行（開始・解答・問題送り・結果の相互確認・購読・中断）。」startBattle・submitAnswer・advanceQuestion など6個を公開する。読み込むもの：firebase.ts・types.ts・firestoreMetered.ts など7ファイル。battle.tsから読み込まれる。",
+"detail": "冒頭の説明：「試合の進行（開始・解答・問題送り・結果の相互確認・購読・中断）。」startBattle・submitAnswer・advanceQuestion など6個を公開する。読み込むもの：firebase.ts・types.ts・firestoreMetered.ts など7ファイル。battle.ts・pendingRating.tsから読み込まれる。",
 "links": [
 {
 "dir": "from",
 "path": "src/battle/data/battle.ts"
 },
 {
-"dir": "to",
-"path": "src/firebase.ts"
+"dir": "from",
+"path": "src/battle/data/pendingRating.ts"
 },
 {
 "dir": "to",
-"path": "src/battle/core/types.ts"
+"path": "src/firebase.ts"
 }
 ],
 "lines": 298,
@@ -5860,7 +5168,7 @@
 "abortRoom"
 ],
 "nImports": 7,
-"nBy": 1,
+"nBy": 2,
 "draft": false,
 "sys": "battle",
 "flow": [
@@ -6345,7 +5653,7 @@
 "name": "BattleAiRoomScreen.tsx",
 "folder": "src",
 "one": "AI対戦の準備・対戦・結果を1つの画面で見せる係",
-"detail": "冒頭の説明：「BattleAiRoomScreen — AI 対戦の1試合（準備 → 対戦 → 結果） 人間どうしの BattleRoomScreen と同じ部品（BattleQuestionV…」BattleAiRoomScreenを公開する。読み込むもの：firebase.ts・allChapters.ts・reportError.ts など14ファイル、外部部品 lucide-react・react。BattleMode.tsxから読み込まれる。",
+"detail": "冒頭の説明：「BattleAiRoomScreen — AI 対戦の1試合（準備 → 対戦 → 結果） 人間どうしの BattleRoomScreen と同じ部品（BattleQuestionV…」BattleAiRoomScreenを公開する。読み込むもの：firebase.ts・reportError.ts・allChapters.ts など15ファイル、外部部品 lucide-react・react。BattleMode.tsxから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -6357,17 +5665,17 @@
 },
 {
 "dir": "to",
-"path": "src/data/allChapters.ts"
+"path": "src/utils/reportError.ts"
 }
 ],
-"lines": 368,
+"lines": 383,
 "tag": "画面",
 "conf": "高",
 "kind": "file",
 "exports": [
 "BattleAiRoomScreen"
 ],
-"nImports": 14,
+"nImports": 15,
 "nBy": 1,
 "draft": false,
 "sys": "battle",
@@ -6563,7 +5871,7 @@
 "name": "BattleHome.tsx",
 "folder": "src",
 "one": "対戦モードの入口で、遊び方を選ばせる画面の係",
-"detail": "冒頭の説明：「BattleHome — 対戦モードの入口 ★2026-08 に作り直した★ 利用者から 「マッチングのところがやっぱりフレンドと全国で少しわかんないので もっとわかりやすくして…」BattleHomeChoice・BattleHomeを公開する。読み込むもの：firebase.ts・reportError.ts・BattleParts.tsx など14ファイル、外部部品 lucide-react・react。BattleMode.tsxから読み込まれる。",
+"detail": "冒頭の説明：「BattleHome — 対戦モードの入口 ★2026-08 に作り直した★ 利用者から 「マッチングのところがやっぱりフレンドと全国で少しわかんないので もっとわかりやすくして…」BattleHomeChoice・BattleHomeを公開する。読み込むもの：firebase.ts・reportError.ts・BattleParts.tsx など15ファイル、外部部品 lucide-react・react。BattleMode.tsxから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -6578,7 +5886,7 @@
 "path": "src/utils/reportError.ts"
 }
 ],
-"lines": 197,
+"lines": 200,
 "tag": "画面",
 "conf": "高",
 "kind": "file",
@@ -6586,7 +5894,7 @@
 "BattleHomeChoice",
 "BattleHome"
 ],
-"nImports": 14,
+"nImports": 15,
 "nBy": 1,
 "draft": false,
 "sys": "battle",
@@ -7715,7 +7023,7 @@
 "name": "growthItems.ts",
 "folder": "src",
 "one": "とびら君の装備・ガチャ景品の一覧と、解放や購入を扱う係",
-"detail": "冒頭の説明：「growth.ts から分割（growthItems）。外部からは従来どおり growth.ts 経由で import できる。」DEFAULT_POSE・DEFAULT_FRAME・ItemKind など26個を公開する。読み込むもの：tobiraParts.ts・growthLevel.ts・growthTypes.ts など9ファイル。growth.tsから読み込まれる。",
+"detail": "冒頭の説明：「growth.ts から分割（growthItems）。外部からは従来どおり growth.ts 経由で import できる。」DEFAULT_POSE・DEFAULT_FRAME・ItemKind など26個を公開する。読み込むもの：tobiraParts.ts・growthLevel.ts・growthTypes.ts など6ファイル。growth.tsから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -7730,7 +7038,7 @@
 "path": "src/battle/core/growthLevel.ts"
 }
 ],
-"lines": 353,
+"lines": 346,
 "tag": "データ",
 "conf": "高",
 "kind": "file",
@@ -7744,7 +7052,7 @@
 "ItemDef",
 "LEVEL_PRINTS"
 ],
-"nImports": 9,
+"nImports": 6,
 "nBy": 1,
 "draft": false,
 "changed": true,
@@ -8263,7 +7571,7 @@
 "path": "src/firebase.ts"
 }
 ],
-"lines": 561,
+"lines": 563,
 "tag": "画面",
 "conf": "高",
 "kind": "file",
@@ -8968,14 +8276,14 @@
 "path": "src/battle/core/growth.ts"
 }
 ],
-"lines": 379,
+"lines": 387,
 "tag": "画面",
 "conf": "高",
 "kind": "file",
 "exports": [
 "GachaRoom"
 ],
-"nImports": 16,
+"nImports": 17,
 "nBy": 2,
 "draft": false,
 "changed": true,
@@ -9038,7 +8346,7 @@
 "path": "src/battle/core/growth.ts"
 }
 ],
-"lines": 73,
+"lines": 78,
 "tag": "画面",
 "conf": "高",
 "kind": "file",
@@ -9192,7 +8500,7 @@
 "name": "Leaderboard.tsx",
 "folder": "src",
 "one": "対戦レートと学習時間の2つのランキングを見せる画面の係",
-"detail": "Leaderboardを公開する。読み込むもの：firebase.ts・reportError.ts・features.ts など19ファイル、外部部品 firebase・lucide-react・react。App.tsx・BattleRanking.tsxから読み込まれる。",
+"detail": "Leaderboardを公開する。読み込むもの：firebase.ts・reportError.ts・battleRanking.ts など20ファイル、外部部品 firebase・lucide-react・react。App.tsx・BattleRanking.tsxから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -9207,14 +8515,14 @@
 "path": "src/firebase.ts"
 }
 ],
-"lines": 135,
+"lines": 138,
 "tag": "画面",
 "conf": "高",
 "kind": "file",
 "exports": [
 "Leaderboard"
 ],
-"nImports": 19,
+"nImports": 20,
 "nBy": 2,
 "draft": false,
 "sys": "screen",
@@ -9511,7 +8819,7 @@
 "name": "ManaRush.tsx",
 "folder": "src",
 "one": "60秒で何問解けるかに挑むひとりミニゲームの画面の係",
-"detail": "冒頭の説明：「マナラッシュ — 60秒のひとりチャレンジ（ミニゲーム） ■ ルール ・制限時間60秒、ライフ3。まちがえるとライフが1減る。」RUSH_DURATION_MS・RUSH_MAX_MS・RUSH_LIVES など9個を公開する。読み込むもの：safeLocalStorage.ts・growth.ts・types.ts など15ファイル、外部部品 lucide-react・react。GrowthHub.tsxから読み込まれる。",
+"detail": "冒頭の説明：「マナラッシュ — 60秒のひとりチャレンジ（ミニゲーム） ■ ルール ・制限時間60秒、ライフ3。まちがえるとライフが1減る。」RUSH_DURATION_MS・RUSH_MAX_MS・RUSH_LIVES など9個を公開する。読み込むもの：safeLocalStorage.ts・growth.ts・types.ts など16ファイル、外部部品 lucide-react・react。GrowthHub.tsxから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -9526,7 +8834,7 @@
 "path": "src/battle/core/growth.ts"
 }
 ],
-"lines": 328,
+"lines": 319,
 "tag": "画面",
 "conf": "高",
 "kind": "file",
@@ -9540,7 +8848,7 @@
 "rushPointsFor",
 "rushSubjects"
 ],
-"nImports": 15,
+"nImports": 16,
 "nBy": 1,
 "draft": false,
 "sys": "screen",
@@ -9711,7 +9019,7 @@
 "path": "src/battle/core/growth.ts"
 }
 ],
-"lines": 77,
+"lines": 112,
 "tag": "部品",
 "conf": "高",
 "kind": "file",
@@ -9721,6 +9029,7 @@
 "nImports": 12,
 "nBy": 1,
 "draft": false,
+"changed": true,
 "sys": "screen",
 "flow": []
 },
@@ -9954,7 +9263,7 @@
 "path": "src/types/curriculum.ts"
 }
 ],
-"lines": 964,
+"lines": 922,
 "tag": "画面",
 "conf": "高",
 "kind": "file",
@@ -10378,7 +9687,7 @@
 "name": "TobiraBuddy.tsx",
 "folder": "src",
 "one": "画面の状態に合わせた表情のとびら君を住人として出す係",
-"detail": "冒頭の説明：「とびら君（住人）— 2026-10-01 状態に合わせた表情（ポーズ）＋しっぽ付きの吹き出し＋軽いアイドル動き（呼吸・まばたき・ときどき揺れる）。」TobiraBuddyを公開する。読み込むもの：tobiraParts.ts・tobiraMood.ts・tobira-buddy.css、外部部品 react。BattleHome.tsx・BattleResult.tsx など8ファイルから読み込まれる。",
+"detail": "冒頭の説明：「とびら君（住人）— 2026-10-01 状態に合わせた表情（ポーズ）＋しっぽ付きの吹き出し＋軽いアイドル動き（呼吸・まばたき・ときどき揺れる）。」TobiraBuddyを公開する。読み込むもの：tobiraParts.ts・tobiraMood.ts・tobira-buddy.css、外部部品 react。BattleHome.tsx・BattleResult.tsx など9ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -10401,7 +9710,7 @@
 "TobiraBuddy"
 ],
 "nImports": 3,
-"nBy": 8,
+"nBy": 9,
 "draft": false,
 "sys": "screen",
 "flow": []
@@ -11231,7 +10540,7 @@
 "path": "src/components/GachaRoom.tsx"
 }
 ],
-"lines": 396,
+"lines": 418,
 "tag": "部品",
 "conf": "高",
 "kind": "file",
@@ -11297,7 +10606,7 @@
 "path": "src/components/GrowthHub.tsx"
 }
 ],
-"lines": 347,
+"lines": 457,
 "tag": "部品",
 "conf": "高",
 "kind": "file",
@@ -12240,7 +11549,7 @@
 "path": "src/data/subjects.ts"
 }
 ],
-"lines": 155,
+"lines": 156,
 "tag": "設定",
 "conf": "高",
 "kind": "file",
@@ -12302,7 +11611,7 @@
 "name": "allChapters.ts",
 "folder": "src",
 "one": "教科ごとの単元の一覧を集め、単元を探せるようにする入口の係",
-"detail": "冒頭の説明：「教科データの入口（章の一覧・章の検索） 画面は教科データ本体（parts / chapters のネスト）を直接触らず、ここを通して章を引く。」SUBJECTS・getChaptersOfSubject・getPartsOfSubject など5個を公開する。読み込むもの：curriculum.ts・englishListeningData.ts・subjects.ts など5ファイル。gen-battle-pool.mts・gen-chapter-index.mts など26ファイルから読み込まれる。",
+"detail": "冒頭の説明：「教科データの入口（章の一覧・章の検索） 画面は教科データ本体（parts / chapters のネスト）を直接触らず、ここを通して章を引く。」SUBJECTS・getChaptersOfSubject・getPartsOfSubject など5個を公開する。読み込むもの：curriculum.ts・englishListeningData.ts・subjects.ts など5ファイル。gen-battle-pool.mts・gen-chapter-index.mts など27ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -12329,7 +11638,7 @@
 "miniTestProblemsOf"
 ],
 "nImports": 5,
-"nBy": 26,
+"nBy": 27,
 "draft": false,
 "sys": "content",
 "flow": [
@@ -12842,6 +12151,7 @@
 "nImports": 1,
 "nBy": 6,
 "draft": false,
+"changed": true,
 "sys": "content",
 "flow": [
 "solve"
@@ -12878,6 +12188,7 @@
 "nImports": 1,
 "nBy": 6,
 "draft": false,
+"changed": true,
 "sys": "content",
 "flow": [
 "solve"
@@ -12914,6 +12225,7 @@
 "nImports": 1,
 "nBy": 3,
 "draft": false,
+"changed": true,
 "sys": "content",
 "flow": [
 "solve"
@@ -12950,6 +12262,7 @@
 "nImports": 1,
 "nBy": 3,
 "draft": false,
+"changed": true,
 "sys": "content",
 "flow": [
 "solve"
@@ -13115,9 +12428,13 @@
 {
 "dir": "from",
 "path": "src/components/ListeningSupport.tsx"
+},
+{
+"dir": "to",
+"path": "src/utils/userStorageKeys.ts"
 }
 ],
-"lines": 28,
+"lines": 29,
 "tag": "データ",
 "conf": "高",
 "kind": "file",
@@ -13131,7 +12448,7 @@
 "supportStorageKey",
 "parseSupportProgress"
 ],
-"nImports": 0,
+"nImports": 1,
 "nBy": 6,
 "draft": false,
 "sys": "content",
@@ -13398,11 +12715,15 @@
 "name": "teachingTypes.ts",
 "folder": "src",
 "one": "指導テンプレートなどに使うデータの形だけを決める係",
-"detail": "冒頭の説明：「指導テンプレート・単位変換の「データの形」 ■ なぜ型だけを src/data 側に置くのか これらの型はもともと utils/explanationFormat.ts で定義され…」ThinkingStep・TrendInsight・UnitTeaching など5個を公開する。explanationFormat.tsから読み込まれる。",
+"detail": "冒頭の説明：「指導テンプレート・単位変換の「データの形」 ■ なぜ型だけを src/data 側に置くのか これらの型はもともと utils/explanationFormat.ts で定義され…」ThinkingStep・TrendInsight・UnitTeaching など5個を公開する。explanationFormat.ts・explanationSteps.tsから読み込まれる。",
 "links": [
 {
 "dir": "from",
 "path": "src/utils/explanationFormat.ts"
+},
+{
+"dir": "from",
+"path": "src/utils/explanationSteps.ts"
 }
 ],
 "lines": 110,
@@ -13417,7 +12738,7 @@
 "UnitConversionWalk"
 ],
 "nImports": 0,
-"nBy": 1,
+"nBy": 2,
 "draft": false,
 "sys": "content",
 "flow": []
@@ -13565,7 +12886,7 @@
 "name": "vocabQuiz.ts",
 "folder": "src",
 "one": "英単語の4択演習で、10問の出し方を決める係",
-"detail": "冒頭の説明：「英単語の4択演習（2026-10-01 D／2026-10-17 市販の単語アプリと同じ出題設定に） 単語帳（覚える）とは別に、英文法・リスニングと同じ「4択の問題」として解く。」QUIZ_SIZE・BLOCK_SIZE・QuizDirection など28個を公開する。読み込むもの：safeLocalStorage.ts・listeningSupport.ts。FoundationWords.tsx・VocabQuiz.tsx など4ファイルから読み込まれる。",
+"detail": "冒頭の説明：「英単語の4択演習（2026-10-01 D／2026-10-17 市販の単語アプリと同じ出題設定に） 単語帳（覚える）とは別に、英文法・リスニングと同じ「4択の問題」として解く。」QUIZ_SIZE・BLOCK_SIZE・QuizDirection など28個を公開する。読み込むもの：safeLocalStorage.ts・userStorageKeys.ts・listeningSupport.ts など4ファイル。FoundationWords.tsx・VocabQuiz.tsx など5ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -13580,7 +12901,7 @@
 "path": "src/utils/safeLocalStorage.ts"
 }
 ],
-"lines": 199,
+"lines": 201,
 "tag": "データ",
 "conf": "高",
 "kind": "file",
@@ -13594,8 +12915,8 @@
 "blockWords",
 "blockCount"
 ],
-"nImports": 2,
-"nBy": 4,
+"nImports": 4,
+"nBy": 5,
 "draft": false,
 "changed": true,
 "sys": "content",
@@ -14142,7 +13463,7 @@
 "name": "firebase.ts",
 "folder": "src",
 "one": "ログインとデータ保存に使うFirebaseへの接続を用意する係",
-"detail": "冒頭の説明：「authDomain を「同じドメイン」にするかの判定（Firebase を初期化せずにテストできるよう別ファイル。説明もそちら）」FIREBASE_CONFIGURED・USE_EMULATORS・AUTH_SAME_ORIGIN_ACTIVE など7個を公開する。読み込むもの：authDomainPolicy.ts、外部部品 firebase。App.tsx・battleFriendRoom.ts など81ファイルから読み込まれる。",
+"detail": "冒頭の説明：「authDomain を「同じドメイン」にするかの判定（Firebase を初期化せずにテストできるよう別ファイル。説明もそちら）」FIREBASE_CONFIGURED・USE_EMULATORS・AUTH_SAME_ORIGIN_ACTIVE など7個を公開する。読み込むもの：authDomainPolicy.ts、外部部品 firebase。App.tsx・battleFriendRoom.ts など82ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -14171,7 +13492,7 @@
 "db"
 ],
 "nImports": 1,
-"nBy": 81,
+"nBy": 82,
 "draft": false,
 "changed": true,
 "sys": "net",
@@ -14309,7 +13630,7 @@
 "name": "useGrowthProgress.ts",
 "folder": "src",
 "one": "いまのアカウントの成長の記録を、画面に渡す係",
-"detail": "冒頭の説明：「One wallet, scoped to the current account.」useGrowthProgressを公開する。読み込むもの：firebase.ts・growth.ts・growthStore.ts、外部部品 firebase・react。ArenaFighters.tsx・BattleHome.tsx など14ファイルから読み込まれる。",
+"detail": "冒頭の説明：「One wallet, scoped to the current account.」useGrowthProgressを公開する。読み込むもの：firebase.ts・growth.ts・growthStore.ts、外部部品 firebase・react。ArenaFighters.tsx・BattleHome.tsx など13ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -14332,7 +13653,7 @@
 "useGrowthProgress"
 ],
 "nImports": 3,
-"nBy": 14,
+"nBy": 13,
 "draft": false,
 "sys": "logic",
 "flow": []
@@ -14761,7 +14082,7 @@
 },
 {
 "dir": "ref",
-"path": "docs/UI_REVAMP_2026-09-30.md"
+"path": "docs/archive/UI_REVAMP_2026-09-30.md"
 }
 ],
 "lines": 187,
@@ -14829,7 +14150,7 @@
 "name": "curriculum.ts",
 "folder": "src",
 "one": "単元・大問・小問・音源など、教材データの共通の形を決める係",
-"detail": "冒頭の説明：「教材データ（単元・大問・小問・音源）の共通の型。」DetailedExplanation・Distractor・SubQuestion など12個を公開する。BattleReviewDetails.tsx・AnswerPane.tsx など59ファイルから読み込まれる。",
+"detail": "冒頭の説明：「教材データ（単元・大問・小問・音源）の共通の型。」DetailedExplanation・Distractor・SubQuestion など12個を公開する。BattleReviewDetails.tsx・AnswerPane.tsx など61ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -14855,7 +14176,7 @@
 "Problem"
 ],
 "nImports": 0,
-"nBy": 59,
+"nBy": 61,
 "draft": false,
 "sys": "content",
 "flow": []
@@ -14977,7 +14298,7 @@
 "name": "adService.ts",
 "folder": "src",
 "one": "アプリ起動時に広告のしくみ（AdMob）を準備する係",
-"detail": "initializeAdMob・getInterstitialUnitId・isDemoAdId など8個を公開する。読み込むもの：safeLocalStorage.ts・rewardedAd.ts・adConfig.ts、外部部品 @capacitor-community/admob・@capacitor/core。AdBannerSlot.tsx・BattleResult.tsx など4ファイルから読み込まれる。",
+"detail": "initializeAdMob・getInterstitialUnitId・isDemoAdId など8個を公開する。読み込むもの：safeLocalStorage.ts・reportError.ts・rewardedAd.ts など4ファイル、外部部品 @capacitor-community/admob・@capacitor/core。AdBannerSlot.tsx・BattleResult.tsx など4ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -14992,7 +14313,7 @@
 "path": "src/utils/safeLocalStorage.ts"
 }
 ],
-"lines": 231,
+"lines": 232,
 "tag": "通信",
 "conf": "高",
 "kind": "file",
@@ -15006,7 +14327,7 @@
 "showNativeBottomBanner",
 "hideNativeBottomBanner"
 ],
-"nImports": 3,
+"nImports": 4,
 "nBy": 4,
 "draft": false,
 "sys": "native",
@@ -15392,7 +14713,7 @@
 "name": "explanationFormat.ts",
 "folder": "src",
 "one": "アプリ中の解答・解説を、同じ書式に整えて組む係",
-"detail": "冒頭の説明：「解答・解説の統一フォーマット・エンジン ■ 目的 アプリ内すべての問題の「解答・解説」を、次の3つの要件を満たす形に 機械的かつ確実に整形する。手作業の書き換えでは必ず抜け漏れが出…」ENHANCED_MARK・isEnhanced・buildAnswerBlock など30個を公開する。読み込むもの：explanationShapes.ts・explanationSupplement.ts・teachingTypes.ts など5ファイル。Explanation.tsx・explanationSlices.ts など7ファイルから読み込まれる。",
+"detail": "冒頭の説明：「解答・解説の統一フォーマット・エンジン ■ 目的 アプリ内すべての問題の「解答・解説」を、次の3つの要件を満たす形に 機械的かつ確実に整形する。手作業の書き換えでは必ず抜け漏れが出…」ENHANCED_MARK・isEnhanced・buildAnswerBlock など30個を公開する。読み込むもの：explanationShapes.ts・explanationSupplement.ts・teachingTypes.ts など7ファイル。Explanation.tsx・explanationSlices.ts など7ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -15407,7 +14728,7 @@
 "path": "src/utils/explanationShapes.ts"
 }
 ],
-"lines": 996,
+"lines": 462,
 "tag": "データ",
 "conf": "高",
 "kind": "file",
@@ -15416,12 +14737,12 @@
 "isEnhanced",
 "buildAnswerBlock",
 "buildUnitConversionBlock",
-"STEPS_TITLE",
-"DETAIL_TITLE",
-"UNIT_KATA_TITLE",
-"buildStepsBlock"
+"buildTrendBox",
+"normalizeLegacyBody",
+"qualifyStepReferences",
+"isStructuredExplanation"
 ],
-"nImports": 5,
+"nImports": 7,
 "nBy": 7,
 "draft": false,
 "changed": true,
@@ -15660,7 +14981,7 @@
 "name": "friends.ts",
 "folder": "src",
 "one": "フレンドの申請・承認・一覧などを、保存先とやりとりする係",
-"detail": "冒頭の説明：「フレンド機能（Google認証 + Firestore） ▼ コレクション設計 friend_codes/{friendCode} ← コード → uid の逆引きインデックス {…」FriendProfile・FriendRequestStatus・FriendRequest など17個を公開する。読み込むもの：firebase.ts・firestoreMetered.ts・leaderboard.ts など4ファイル。FriendPanel.tsx・Leaderboard.tsx など4ファイルから読み込まれる。",
+"detail": "冒頭の説明：「フレンド機能（Google認証 + Firestore） ▼ コレクション設計 friend_codes/{friendCode} ← コード → uid の逆引きインデックス {…」FriendProfile・FriendRequestStatus・FriendRequest など17個を公開する。読み込むもの：firebase.ts・reportError.ts・firestoreMetered.ts など5ファイル。FriendPanel.tsx・Leaderboard.tsx など4ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -15675,7 +14996,7 @@
 "path": "src/firebase.ts"
 }
 ],
-"lines": 554,
+"lines": 555,
 "tag": "通信",
 "conf": "高",
 "kind": "file",
@@ -15689,7 +15010,7 @@
 "sendFriendRequest",
 "fetchFriendRequests"
 ],
-"nImports": 4,
+"nImports": 5,
 "nBy": 4,
 "draft": false,
 "sys": "net",
@@ -15817,7 +15138,7 @@
 "name": "leaderboard.ts",
 "folder": "src",
 "one": "ランキングの点数を、データ保存先と同期させる係",
-"detail": "冒頭の説明：「Firestore を使ったランキング同期ロジック コレクション設計: leaderboard_chapter / {chapterId}_{uid} - uid, nicknam…」LeaderboardEventDoc・ChapterScoreEntry・TotalScoreEntry など15個を公開する。読み込むもの：firebase.ts・safeLocalStorage.ts・firestoreMetered.ts など6ファイル。battleRanking.ts・battleShared.ts など9ファイルから読み込まれる。",
+"detail": "冒頭の説明：「Firestore を使ったランキング同期ロジック コレクション設計: leaderboard_chapter / {chapterId}_{uid} - uid, nicknam…」LeaderboardEventDoc・ChapterScoreEntry・TotalScoreEntry など15個を公開する。読み込むもの：firebase.ts・safeLocalStorage.ts・reportError.ts など7ファイル。battleRanking.ts・battleShared.ts など9ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -15832,7 +15153,7 @@
 "path": "src/firebase.ts"
 }
 ],
-"lines": 361,
+"lines": 362,
 "tag": "通信",
 "conf": "高",
 "kind": "file",
@@ -15846,7 +15167,7 @@
 "ensureRankingEntry",
 "SubmitChapterScoreInput"
 ],
-"nImports": 6,
+"nImports": 7,
 "nBy": 9,
 "draft": false,
 "sys": "net",
@@ -16029,7 +15350,7 @@
 "name": "listeningSteps.ts",
 "folder": "src",
 "one": "リスニングを「1画面に1問」で進めるための区切りを作る係",
-"detail": "冒頭の説明：「英語リスニング：「問1で1つの進捗、問2で1つの進捗」にするための道具 ■ なぜこのファイルが必要なのか（ご要望そのもの） > 今リスニングは、第1問Aだったらどの回も問1〜問4を…」ListeningStep・isPerSubQuestionListening・stepLabelOf など8個を公開する。読み込むもの：curriculum.ts。ProblemPane.tsx・Quiz.tsx など7ファイルから読み込まれる。",
+"detail": "冒頭の説明：「英語リスニング：「問1で1つの進捗、問2で1つの進捗」にするための道具 ■ なぜこのファイルが必要なのか（ご要望そのもの） > 今リスニングは、第1問Aだったらどの回も問1〜問4を…」ListeningStep・isPerSubQuestionListening・stepLabelOf など8個を公開する。読み込むもの：curriculum.ts。ProblemPane.tsx・quizScoring.ts など8ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -16037,7 +15358,7 @@
 },
 {
 "dir": "from",
-"path": "src/components/Quiz.tsx"
+"path": "src/utils/quizScoring.ts"
 },
 {
 "dir": "to",
@@ -16059,7 +15380,7 @@
 "buildProgressPill"
 ],
 "nImports": 1,
-"nBy": 7,
+"nBy": 8,
 "draft": false,
 "sys": "logic",
 "flow": [
@@ -16278,7 +15599,7 @@
 "name": "progress.ts",
 "folder": "src",
 "one": "どの大問を解いたかという学習の進み具合を記録する係",
-"detail": "冒頭の説明：「学習進捗の記録（大問ベース・1点でも取れば「解いた」とみなす） ■ なぜ専用の仕組みが必要だったのか（元の不具合） タイトル画面（ホーム）の「学習進捗」は、以前は localSto…」SOLVED_KEY_PREFIX・isPlainRecord・parseStoredStringRecord など11個を公開する。読み込むもの：safeLocalStorage.ts・curriculum.ts・userStorageKeys.ts など4ファイル。App.tsx・ChapterSelection.tsx など13ファイルから読み込まれる。",
+"detail": "冒頭の説明：「学習進捗の記録（大問ベース・1点でも取れば「解いた」とみなす） ■ なぜ専用の仕組みが必要だったのか（元の不具合） タイトル画面（ホーム）の「学習進捗」は、以前は localSto…」SOLVED_KEY_PREFIX・isPlainRecord・parseStoredStringRecord など11個を公開する。読み込むもの：safeLocalStorage.ts・curriculum.ts・userStorageKeys.ts など4ファイル。App.tsx・ChapterSelection.tsx など12ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -16308,7 +15629,7 @@
 "markProblemSolved"
 ],
 "nImports": 4,
-"nBy": 13,
+"nBy": 12,
 "draft": false,
 "sys": "logic",
 "flow": [
@@ -16633,15 +15954,15 @@
 "name": "reportError.ts",
 "folder": "src",
 "one": "失敗しても画面は止めず、その失敗を黙って捨てずに記録する係",
-"detail": "冒頭の説明：「「失敗しても画面は止めない」処理の例外を、黙って捨てずに記録する。」RecordedError・MAX_RECENT・reportError など6個を公開する。battleMatchmaking.ts・BattleAiRoomScreen.tsx など26ファイルから読み込まれる。",
+"detail": "冒頭の説明：「「失敗しても画面は止めない」処理の例外を、黙って捨てずに記録する。」RecordedError・MAX_RECENT・reportError など6個を公開する。battleAudio.ts・battleMatchmaking.ts など30ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
-"path": "src/battle/data/battleMatchmaking.ts"
+"path": "src/battle/audio/battleAudio.ts"
 },
 {
 "dir": "from",
-"path": "src/battle/ui/BattleAiRoomScreen.tsx"
+"path": "src/battle/data/battleMatchmaking.ts"
 }
 ],
 "lines": 82,
@@ -16657,7 +15978,7 @@
 "clearRecentErrors"
 ],
 "nImports": 0,
-"nBy": 26,
+"nBy": 30,
 "draft": false,
 "sys": "logic",
 "flow": []
@@ -16985,7 +16306,7 @@
 "name": "stageRecords.ts",
 "folder": "src",
 "one": "ひとりで学ぶステージの挑戦記録と、クリアの条件を持つ係",
-"detail": "冒頭の説明：「ステージ（一人で学ぶ）の挑戦記録（2026-10-04）。」STAGE_CLEAR_PERFECTS・StageRecord・StageHistoryEntry など11個を公開する。読み込むもの：safeLocalStorage.ts。ChapterSelection.tsx・UnitCard.tsx など8ファイルから読み込まれる。",
+"detail": "冒頭の説明：「ステージ（一人で学ぶ）の挑戦記録（2026-10-04）。」STAGE_CLEAR_PERFECTS・StageRecord・StageHistoryEntry など11個を公開する。読み込むもの：safeLocalStorage.ts・userStorageKeys.ts。ChapterSelection.tsx・UnitCard.tsx など8ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -17000,7 +16321,7 @@
 "path": "src/utils/safeLocalStorage.ts"
 }
 ],
-"lines": 122,
+"lines": 123,
 "tag": "データ",
 "conf": "高",
 "kind": "file",
@@ -17014,7 +16335,7 @@
 "writeOtherDeviceStages",
 "readStageHistory"
 ],
-"nImports": 1,
+"nImports": 2,
 "nBy": 8,
 "draft": false,
 "sys": "logic",
@@ -17265,7 +16586,7 @@
 "name": "studyTime.ts",
 "folder": "src",
 "one": "学習時間を日ごとに記録し、操作が無い時間は数えない係",
-"detail": "冒頭の説明：「学習時間の記録（2026-09-30・設定のプロフィールカード A14）。」StudyTimeLog・studyTimeKey・STUDY_IDLE_MS など7個を公開する。読み込むもの：safeLocalStorage.ts。OpponentCard.tsx・FriendPanel.tsx など11ファイルから読み込まれる。",
+"detail": "冒頭の説明：「学習時間の記録（2026-09-30・設定のプロフィールカード A14）。」StudyTimeLog・studyTimeKey・STUDY_IDLE_MS など7個を公開する。読み込むもの：safeLocalStorage.ts・userStorageKeys.ts。OpponentCard.tsx・FriendPanel.tsx など11ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -17280,7 +16601,7 @@
 "path": "src/utils/safeLocalStorage.ts"
 }
 ],
-"lines": 63,
+"lines": 64,
 "tag": "データ",
 "conf": "高",
 "kind": "file",
@@ -17293,7 +16614,7 @@
 "addStudySeconds",
 "formatStudyTime"
 ],
-"nImports": 1,
+"nImports": 2,
 "nBy": 11,
 "draft": false,
 "sys": "logic",
@@ -17307,7 +16628,7 @@
 "name": "textFormatter.tsx",
 "folder": "src",
 "one": "本文の太字や数式を、表示用の形に置き換える係",
-"detail": "冒頭の説明：「数式を KaTeX で組む（本文中の数式領域だけを差し替える） ■ 背景 以前は数式も「正規表現で組んだ自作 HTML」で描画していたため、 分数の横線・根号・∫ の大きさやベース…」convertBoldMarkdown・convertMathNotation・FormatTextOptions など6個を公開する。読み込むもの：sanitizeHtml.ts・mathTypeset.ts、外部部品 react。BattleText.tsx・AnswerPane.tsx など14ファイルから読み込まれる。",
+"detail": "冒頭の説明：「数学記法エンジンは mathNotation.ts へ移した。外向きの名前は変えない。」convertBoldMarkdown・FormatTextOptions・setFormatMathContext など6個を公開する。読み込むもの：sanitizeHtml.ts・mathTypeset.ts・mathNotation.ts、外部部品 react。BattleText.tsx・AnswerPane.tsx など14ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -17322,21 +16643,22 @@
 "path": "src/utils/sanitizeHtml.ts"
 }
 ],
-"lines": 749,
+"lines": 557,
 "tag": "部品",
 "conf": "高",
 "kind": "file",
 "exports": [
 "convertBoldMarkdown",
-"convertMathNotation",
 "FormatTextOptions",
 "setFormatMathContext",
 "isFormatMathContext",
-"formatText"
+"formatText",
+"convertMathNotation"
 ],
-"nImports": 2,
+"nImports": 3,
 "nBy": 14,
 "draft": false,
+"changed": true,
 "sys": "logic",
 "flow": [
 "learn"
@@ -17385,7 +16707,7 @@
 "name": "unitStats.ts",
 "folder": "src",
 "one": "単元ごとの正解率を端末に記録しておく台帳の係",
-"detail": "冒頭の説明：「単元（章）ごとの正解率の台帳（2026-09-30）。」UNIT_STATS_PREFIX・UnitStat・UnitStatsMap など9個を公開する。読み込むもの：safeLocalStorage.ts。ChapterSelection.tsx・UnitCard.tsx など3ファイルから読み込まれる。",
+"detail": "冒頭の説明：「単元（章）ごとの正解率の台帳（2026-09-30）。」UNIT_STATS_PREFIX・UnitStat・UnitStatsMap など9個を公開する。読み込むもの：safeLocalStorage.ts・userStorageKeys.ts。ChapterSelection.tsx・UnitCard.tsx など3ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -17400,7 +16722,7 @@
 "path": "src/utils/safeLocalStorage.ts"
 }
 ],
-"lines": 65,
+"lines": 66,
 "tag": "データ",
 "conf": "高",
 "kind": "file",
@@ -17414,7 +16736,7 @@
 "UNIT_STATUS_LABEL",
 "accuracyOf"
 ],
-"nImports": 1,
+"nImports": 2,
 "nBy": 3,
 "draft": false,
 "sys": "logic",
@@ -17506,7 +16828,7 @@
 "name": "userStorageKeys.ts",
 "folder": "src",
 "one": "利用者ごとに端末へ保存するときの名前を決める係",
-"detail": "冒頭の説明：「ユーザーごとの localStorage キー名 ■ なぜこのファイルがあるのか 次の4つは「ユーザー1人につき1つ」の値で、uid をキーに含めて保存している。」PROFILE_KEY_PREFIX・STREAK_KEY_PREFIX・LAST_ACTIVE_KEY_PREFIX など8個を公開する。Home.tsx・Onboarding.tsx など15ファイルから読み込まれる。",
+"detail": "冒頭の説明：「ユーザーごとの localStorage キー名 ■ なぜこのファイルがあるのか 次の4つは「ユーザー1人につき1つ」の値で、uid をキーに含めて保存している。」PROFILE_KEY_PREFIX・STREAK_KEY_PREFIX・LAST_ACTIVE_KEY_PREFIX など9個を公開する。Home.tsx・Onboarding.tsx など21ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -17517,7 +16839,7 @@
 "path": "src/components/Onboarding.tsx"
 }
 ],
-"lines": 71,
+"lines": 79,
 "tag": "設定",
 "conf": "高",
 "kind": "file",
@@ -17532,8 +16854,9 @@
 "completedKey"
 ],
 "nImports": 0,
-"nBy": 15,
+"nBy": 21,
 "draft": false,
+"changed": true,
 "sys": "logic",
 "flow": []
 },
@@ -17641,7 +16964,7 @@
 "name": "explanationSupplement.ts",
 "folder": "src",
 "one": "フローチャート問題の解説に、補足の手順を組み立てる係",
-"detail": "冒頭の説明：「フローチャート（logic_thought JSON）問題の補足ステップ抽出・組み立て（#27: explanationFormat.ts から分離） 循環参照を作らないよう、基本…」ANS_STYLE・ANS・KEY_STYLE など10個を公開する。explanationFormat.ts・explanationMarkers.tsから読み込まれる。",
+"detail": "冒頭の説明：「フローチャート（logic_thought JSON）問題の補足ステップ抽出・組み立て（#27: explanationFormat.ts から分離） 循環参照を作らないよう、基本…」ANS_STYLE・ANS・KEY_STYLE など10個を公開する。explanationFormat.ts・explanationMarkers.ts など4ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -17667,7 +16990,7 @@
 "FlowchartStepLike"
 ],
 "nImports": 0,
-"nBy": 2,
+"nBy": 4,
 "draft": false,
 "sys": "logic",
 "flow": []
@@ -17815,7 +17138,7 @@
 "path": "src/battle/data/battleRanking.ts"
 }
 ],
-"lines": 22,
+"lines": 25,
 "tag": "テスト",
 "conf": "高",
 "kind": "file",
@@ -18829,7 +18152,7 @@
 "path": "src/utils/quizStorageKeys.ts"
 }
 ],
-"lines": 893,
+"lines": 900,
 "tag": "テスト",
 "conf": "高",
 "kind": "file",
@@ -18846,7 +18169,7 @@
 "name": "matchFallback.test.ts",
 "folder": "tests",
 "one": "相手がいない・サーバーが使えないとき、AIに切り替わるか確かめる係",
-"detail": "10件の確認（it）を持つ。主な確認：「全国対戦：相手がいない／サーバーが使えないときは AI プレイヤー」「人を待つのは GHOST_AFTER_SEC 秒まで」。対象：aiOpponent.ts・matchFallback.ts。",
+"detail": "11件の確認（it）を持つ。主な確認：「全国対戦：相手がいない／サーバーが使えないときは AI プレイヤー」「人を待つのは GHOST_AFTER_SEC 秒まで」。対象：aiOpponent.ts・matchFallback.ts。",
 "links": [
 {
 "dir": "to",
@@ -18857,7 +18180,7 @@
 "path": "src/battle/core/aiOpponent.ts"
 }
 ],
-"lines": 89,
+"lines": 102,
 "tag": "テスト",
 "conf": "高",
 "kind": "file",
@@ -19341,7 +18664,7 @@
 "links": [
 {
 "dir": "ref",
-"path": "docs/UI_REVAMP_2026-09-30.md"
+"path": "docs/archive/UI_REVAMP_2026-09-30.md"
 },
 {
 "dir": "ref",
@@ -19664,11 +18987,11 @@
 },
 {
 "dir": "to",
-"path": "src/data/tobiraMood.ts"
+"path": "src/data/vocabQuiz.ts"
 },
 {
 "dir": "to",
-"path": "src/data/vocabQuiz.ts"
+"path": "src/data/tobiraMood.ts"
 }
 ],
 "lines": 109,
@@ -19903,6 +19226,53 @@
 "flow": []
 },
 {
+"id": "docs/APP_CAPACITOR_README.md",
+"path": "docs/APP_CAPACITOR_README.md",
+"name": "APP_CAPACITOR_README.md",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "主な見出し：まなとび アプリ版（Capacitor）キット — はじめに／1. Flutter 版との違い（判断材料）／2. このキットで足したもの（Web 版の動きは変わりません）。",
+"links": [],
+"lines": 138,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/COMMERCIAL_AUDIO_MIGRATION.md",
+"path": "docs/COMMERCIAL_AUDIO_MIGRATION.md",
+"name": "COMMERCIAL_AUDIO_MIGRATION.md",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "主な見出し：商用音声への移行記録（2026-09-18）／PDF納品と追加の商用利用調査（2026-09-18）／新しく検討した候補（未生成・未採用）。",
+"links": [
+{
+"dir": "ref",
+"path": "docs/LISTENING_AUDIO_REPLACE.md"
+},
+{
+"dir": "ref",
+"path": "scripts/check-release.mjs"
+}
+],
+"lines": 123,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
 "id": "docs/FIREFLY_KIT.md",
 "path": "docs/FIREFLY_KIT.md",
 "name": "FIREFLY_KIT.md",
@@ -19935,30 +19305,6 @@
 "flow": []
 },
 {
-"id": "docs/FIX_2026-10-21_coin_sync_web_login.md",
-"path": "docs/FIX_2026-10-21_coin_sync_web_login.md",
-"name": "FIX_2026-10-21_coin_sync_web_login.md",
-"folder": "docs",
-"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "主な見出し：2026-10-21 マナコイン・XP の増殖対策 と Web ログイン（auth/argument-error）の修正／① マナコイン・XP が同期のたびに増える件／原因（再現できたもの）。",
-"links": [
-{
-"dir": "ref",
-"path": "docs/UI_CHANGELOG.md"
-}
-],
-"lines": 51,
-"tag": "文書",
-"conf": "低",
-"kind": "file",
-"exports": [],
-"nImports": 0,
-"nBy": 0,
-"draft": true,
-"sys": "docs",
-"flow": []
-},
-{
 "id": "docs/JUKU_PLAN.md",
 "path": "docs/JUKU_PLAN.md",
 "name": "JUKU_PLAN.md",
@@ -19972,25 +19318,6 @@
 }
 ],
 "lines": 61,
-"tag": "文書",
-"conf": "低",
-"kind": "file",
-"exports": [],
-"nImports": 0,
-"nBy": 0,
-"draft": true,
-"sys": "docs",
-"flow": []
-},
-{
-"id": "docs/KASANIMARO_2026-10-19.md",
-"path": "docs/KASANIMARO_2026-10-19.md",
-"name": "KASANIMARO_2026-10-19.md",
-"folder": "docs",
-"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "主な見出し：カサニマロさんへ（2026-10-19）Google Play のログインエラーと、今回の更新で端末側に必要な作業／A. Google Play 版のログインエラー（最優先）／こちらで直したこと（このプルリクに入っています）。",
-"links": [],
-"lines": 86,
 "tag": "文書",
 "conf": "低",
 "kind": "file",
@@ -20090,7 +19417,7 @@
 "name": "UI_CHANGELOG.md",
 "folder": "docs",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "主な見出し：UI 変更記録（元に戻すとき用）／2026-10-28 TOEIC Part 5 の演習を「1ページ6問・マーク式」に・回の一覧の内訳行を外す（PR: feat/toeic-part5）／2026-10-28 TOEIC Part 5（短文穴埋め・全15回×30問）を追加（PR: feat/toeic-part5）。",
+"detail": "主な見出し：UI 変更記録（元に戻すとき用）／2026-10-29 ご指摘B1〜B10：ミッション単独画面・プロフィール1画面・称号/持ちものタイル・カレンダーで7日比較・対戦レート ほか（PR: fix/mypage-b10）／2026-10-28 TOEIC Part 5 の演習を「1ページ6問・マーク式」に・回の一覧の内訳行を外す（PR: feat/toeic-part5）。",
 "links": [
 {
 "dir": "ref",
@@ -20105,7 +19432,7 @@
 "path": "scripts/pr/prCore.mts"
 }
 ],
-"lines": 432,
+"lines": 422,
 "tag": "文書",
 "conf": "低",
 "kind": "file",
@@ -20138,6 +19465,111 @@
 }
 ],
 "lines": 89,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/archive/DEPLOY_FIRESTORE_RULES.md",
+"path": "docs/archive/DEPLOY_FIRESTORE_RULES.md",
+"name": "DEPLOY_FIRESTORE_RULES.md",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "主な見出し：Firestore ルールのデプロイ手順（必読）／方法 1: Firebase Console から貼り付ける（最速・CLI 不要）⭐推奨／動作確認（任意）。",
+"links": [
+{
+"dir": "ref",
+"path": "docs/FIRESTORE_RULES_DEPLOY.md"
+}
+],
+"lines": 86,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/archive/FIX_2026-10-21_coin_sync_web_login.md",
+"path": "docs/archive/FIX_2026-10-21_coin_sync_web_login.md",
+"name": "FIX_2026-10-21_coin_sync_web_login.md",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "主な見出し：2026-10-21 マナコイン・XP の増殖対策 と Web ログイン（auth/argument-error）の修正／① マナコイン・XP が同期のたびに増える件／原因（再現できたもの）。",
+"links": [
+{
+"dir": "ref",
+"path": "docs/UI_CHANGELOG.md"
+}
+],
+"lines": 51,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/archive/KASANIMARO_2026-10-19.md",
+"path": "docs/archive/KASANIMARO_2026-10-19.md",
+"name": "KASANIMARO_2026-10-19.md",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "主な見出し：カサニマロさんへ（2026-10-19）Google Play のログインエラーと、今回の更新で端末側に必要な作業／A. Google Play 版のログインエラー（最優先）／こちらで直したこと（このプルリクに入っています）。",
+"links": [],
+"lines": 86,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/archive/RELEASE_STEPS_2026-10-05.md",
+"path": "docs/archive/RELEASE_STEPS_2026-10-05.md",
+"name": "RELEASE_STEPS_2026-10-05.md",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "主な見出し：公開・App Store 申請までの残り作業（2026-10-05 版）／0. 全体の順番（ここだけ見ればよい）／1. Firebase プロジェクトと .env.local。",
+"links": [],
+"lines": 217,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/archive/UI_REVAMP_2026-09-30.md",
+"path": "docs/archive/UI_REVAMP_2026-09-30.md",
+"name": "UI_REVAMP_2026-09-30.md",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "主な見出し：UI 見直し（2026-09-30）／★決めたUIの決まり★（CLAUDE.md「UI principles」・src/styles/tokens.css の先頭にも記載）／Before / After。",
+"links": [],
+"lines": 287,
 "tag": "文書",
 "conf": "低",
 "kind": "file",
@@ -24027,6 +23459,25 @@
 "flow": []
 },
 {
+"id": "docs/リスニングの部屋へ_これ1つで全部.md",
+"path": "docs/リスニングの部屋へ_これ1つで全部.md",
+"name": "リスニングの部屋へ_これ1つで全部.md",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "主な見出し：まなとび リスニング版 — 全部入りZIP（2026-09-29）／1. 中身／2. 前回「1件スキップ」だったもの。",
+"links": [],
+"lines": 59,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
 "id": "public/data/listeningTranslations.json",
 "path": "public/data/listeningTranslations.json",
 "name": "listeningTranslations.json",
@@ -24203,6 +23654,38 @@
 "flow": [
 "compete"
 ]
+},
+{
+"id": "scripts/README.md",
+"path": "scripts/README.md",
+"name": "README.md",
+"folder": "scripts",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "主な見出し：scripts/ の案内／よく使う（package.json から呼ぶ）／フォルダ。",
+"links": [
+{
+"dir": "ref",
+"path": "CLAUDE.md"
+},
+{
+"dir": "ref",
+"path": "DERIVATIVE_HANDOFF.md"
+},
+{
+"dir": "ref",
+"path": "README.md"
+}
+],
+"lines": 49,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "tools",
+"flow": []
 },
 {
 "id": "scripts/firefly-kit/build_kit.py",
@@ -24593,7 +24076,7 @@
 "path": "src/components/gacha/GachaPickupModal.tsx"
 }
 ],
-"lines": 96,
+"lines": 87,
 "tag": "データ",
 "conf": "低",
 "kind": "file",
@@ -24798,7 +24281,7 @@
 "links": [
 {
 "dir": "ref",
-"path": "COMMERCIAL_AUDIO_MIGRATION.md"
+"path": "docs/COMMERCIAL_AUDIO_MIGRATION.md"
 },
 {
 "dir": "ref",
@@ -24810,499 +24293,6 @@
 }
 ],
 "lines": 45,
-"tag": "データ",
-"conf": "低",
-"kind": "file",
-"exports": [],
-"nImports": 0,
-"nBy": 0,
-"draft": true,
-"sys": "tools",
-"flow": []
-},
-{
-"id": "scripts/gacha-prints/kobe_mock/check_orig.py",
-"path": "scripts/gacha-prints/kobe_mock/check_orig.py",
-"name": "check_orig.py",
-"folder": "scripts",
-"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「オリジナル性の監査（商用利用向けの強化版）。」",
-"links": [
-{
-"dir": "ref",
-"path": "docs/UI_CHANGELOG.md"
-},
-{
-"dir": "ref",
-"path": "scripts/gacha-prints/README.md"
-}
-],
-"lines": 137,
-"tag": "データ",
-"conf": "低",
-"kind": "file",
-"exports": [],
-"nImports": 0,
-"nBy": 0,
-"draft": true,
-"sys": "tools",
-"flow": []
-},
-{
-"id": "scripts/gacha-prints/kobe_mock/check_quality.py",
-"path": "scripts/gacha-prints/kobe_mock/check_quality.py",
-"name": "check_quality.py",
-"folder": "scripts",
-"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「設問の質の自動監査（3回分）。」",
-"links": [
-{
-"dir": "ref",
-"path": "docs/UI_CHANGELOG.md"
-},
-{
-"dir": "ref",
-"path": "scripts/gacha-prints/README.md"
-}
-],
-"lines": 85,
-"tag": "データ",
-"conf": "低",
-"kind": "file",
-"exports": [],
-"nImports": 0,
-"nBy": 0,
-"draft": true,
-"sys": "tools",
-"flow": []
-},
-{
-"id": "scripts/gacha-prints/kobe_mock/logo_gray.png",
-"path": "scripts/gacha-prints/kobe_mock/logo_gray.png",
-"name": "logo_gray.png",
-"folder": "scripts",
-"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
-"links": [
-{
-"dir": "ref",
-"path": "scripts/gacha-prints/kobe_mock/render.py"
-},
-{
-"dir": "ref",
-"path": "scripts/gacha-prints/osaka_mock/render.py"
-}
-],
-"lines": 430,
-"tag": "音声・画像",
-"conf": "低",
-"kind": "file",
-"exports": [],
-"nImports": 0,
-"nBy": 0,
-"draft": true,
-"sys": "tools",
-"flow": []
-},
-{
-"id": "scripts/gacha-prints/kobe_mock/logs/originality.json",
-"path": "scripts/gacha-prints/kobe_mock/logs/originality.json",
-"name": "originality.json",
-"folder": "scripts",
-"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "主な項目：r1・r2・r3・topic_similarity・marked_phrases_found_in_past。",
-"links": [
-{
-"dir": "ref",
-"path": "scripts/gacha-prints/README.md"
-},
-{
-"dir": "ref",
-"path": "scripts/gacha-prints/kobe_mock/check_orig.py"
-}
-],
-"lines": 226,
-"tag": "設定",
-"conf": "低",
-"kind": "file",
-"exports": [],
-"nImports": 0,
-"nBy": 0,
-"draft": true,
-"sys": "tools",
-"flow": []
-},
-{
-"id": "scripts/gacha-prints/kobe_mock/logs/quality.json",
-"path": "scripts/gacha-prints/kobe_mock/logs/quality.json",
-"name": "quality.json",
-"folder": "scripts",
-"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "主な項目：answer_position・correct_is_unique_longest・ng。",
-"links": [
-{
-"dir": "ref",
-"path": "COMMERCIAL_AUDIO_MIGRATION.md"
-},
-{
-"dir": "ref",
-"path": "docs/UI_CHANGELOG.md"
-},
-{
-"dir": "ref",
-"path": "docs/elevenlabs_vocab/ALL_PROMPTS.md"
-}
-],
-"lines": 9,
-"tag": "設定",
-"conf": "低",
-"kind": "file",
-"exports": [],
-"nImports": 0,
-"nBy": 0,
-"draft": true,
-"sys": "tools",
-"flow": []
-},
-{
-"id": "scripts/gacha-prints/kobe_mock/logs/verify_r1.json",
-"path": "scripts/gacha-prints/kobe_mock/logs/verify_r1.json",
-"name": "verify_r1.json",
-"folder": "scripts",
-"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "主な項目：I・II・III・ja_limits・en_models。",
-"links": [],
-"lines": 114,
-"tag": "設定",
-"conf": "低",
-"kind": "file",
-"exports": [],
-"nImports": 0,
-"nBy": 0,
-"draft": true,
-"sys": "tools",
-"flow": []
-},
-{
-"id": "scripts/gacha-prints/kobe_mock/logs/verify_r2.json",
-"path": "scripts/gacha-prints/kobe_mock/logs/verify_r2.json",
-"name": "verify_r2.json",
-"folder": "scripts",
-"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "主な項目：I・II・III・ja_limits・en_models。",
-"links": [],
-"lines": 114,
-"tag": "設定",
-"conf": "低",
-"kind": "file",
-"exports": [],
-"nImports": 0,
-"nBy": 0,
-"draft": true,
-"sys": "tools",
-"flow": []
-},
-{
-"id": "scripts/gacha-prints/kobe_mock/logs/verify_r3.json",
-"path": "scripts/gacha-prints/kobe_mock/logs/verify_r3.json",
-"name": "verify_r3.json",
-"folder": "scripts",
-"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "主な項目：I・II・III・ja_limits・en_models。",
-"links": [],
-"lines": 114,
-"tag": "設定",
-"conf": "低",
-"kind": "file",
-"exports": [],
-"nImports": 0,
-"nBy": 0,
-"draft": true,
-"sys": "tools",
-"flow": []
-},
-{
-"id": "scripts/gacha-prints/kobe_mock/r1_I.py",
-"path": "scripts/gacha-prints/kobe_mock/r1_I.py",
-"name": "r1_I.py",
-"folder": "scripts",
-"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「*- coding: utf-8 -*- 第1回 大問I（社会科学：ゆるやかな人間関係＝弱い絆） マークアップ：{u1|…} 下線(1) {ua|…} 下線(a) {wa|…} 波…」",
-"links": [],
-"lines": 194,
-"tag": "データ",
-"conf": "低",
-"kind": "file",
-"exports": [],
-"nImports": 0,
-"nBy": 0,
-"draft": true,
-"sys": "tools",
-"flow": []
-},
-{
-"id": "scripts/gacha-prints/kobe_mock/r1_II.py",
-"path": "scripts/gacha-prints/kobe_mock/r1_II.py",
-"name": "r1_II.py",
-"folder": "scripts",
-"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「*- coding: utf-8 -*- 第1回 大問II（科学：都市のヒートアイランドと樹木）」",
-"links": [],
-"lines": 183,
-"tag": "データ",
-"conf": "低",
-"kind": "file",
-"exports": [],
-"nImports": 0,
-"nBy": 0,
-"draft": true,
-"sys": "tools",
-"flow": []
-},
-{
-"id": "scripts/gacha-prints/kobe_mock/r1_III.py",
-"path": "scripts/gacha-prints/kobe_mock/r1_III.py",
-"name": "r1_III.py",
-"folder": "scripts",
-"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「*- coding: utf-8 -*- 第1回 大問III（小説：大学に進まずパン屋で働く息子と父）」",
-"links": [],
-"lines": 179,
-"tag": "データ",
-"conf": "低",
-"kind": "file",
-"exports": [],
-"nImports": 0,
-"nBy": 0,
-"draft": true,
-"sys": "tools",
-"flow": []
-},
-{
-"id": "scripts/gacha-prints/kobe_mock/r1_IV.py",
-"path": "scripts/gacha-prints/kobe_mock/r1_IV.py",
-"name": "r1_IV.py",
-"folder": "scripts",
-"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「*- coding: utf-8 -*- 第1回 大問IV（英作文：棒グラフ・架空データ）」",
-"links": [],
-"lines": 31,
-"tag": "データ",
-"conf": "低",
-"kind": "file",
-"exports": [],
-"nImports": 0,
-"nBy": 0,
-"draft": true,
-"sys": "tools",
-"flow": []
-},
-{
-"id": "scripts/gacha-prints/kobe_mock/r2_I.py",
-"path": "scripts/gacha-prints/kobe_mock/r2_I.py",
-"name": "r2_I.py",
-"folder": "scripts",
-"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「*- coding: utf-8 -*- 第2回 大問I（科学：睡眠と記憶の定着）」",
-"links": [],
-"lines": 187,
-"tag": "データ",
-"conf": "低",
-"kind": "file",
-"exports": [],
-"nImports": 0,
-"nBy": 0,
-"draft": true,
-"sys": "tools",
-"flow": []
-},
-{
-"id": "scripts/gacha-prints/kobe_mock/r2_II.py",
-"path": "scripts/gacha-prints/kobe_mock/r2_II.py",
-"name": "r2_II.py",
-"folder": "scripts",
-"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「*- coding: utf-8 -*- 第2回 大問II（社会科学：「初期設定」が選択を左右する）」",
-"links": [],
-"lines": 184,
-"tag": "データ",
-"conf": "低",
-"kind": "file",
-"exports": [],
-"nImports": 0,
-"nBy": 0,
-"draft": true,
-"sys": "tools",
-"flow": []
-},
-{
-"id": "scripts/gacha-prints/kobe_mock/r2_III.py",
-"path": "scripts/gacha-prints/kobe_mock/r2_III.py",
-"name": "r2_III.py",
-"folder": "scripts",
-"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「*- coding: utf-8 -*- 第2回 大問III（小説：祖母の家を片づける姉妹）」",
-"links": [],
-"lines": 168,
-"tag": "データ",
-"conf": "低",
-"kind": "file",
-"exports": [],
-"nImports": 0,
-"nBy": 0,
-"draft": true,
-"sys": "tools",
-"flow": []
-},
-{
-"id": "scripts/gacha-prints/kobe_mock/r2_IV.py",
-"path": "scripts/gacha-prints/kobe_mock/r2_IV.py",
-"name": "r2_IV.py",
-"folder": "scripts",
-"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「*- coding: utf-8 -*- 第2回 大問IV（英作文：棒グラフ・架空データ）」",
-"links": [],
-"lines": 31,
-"tag": "データ",
-"conf": "低",
-"kind": "file",
-"exports": [],
-"nImports": 0,
-"nBy": 0,
-"draft": true,
-"sys": "tools",
-"flow": []
-},
-{
-"id": "scripts/gacha-prints/kobe_mock/r3_I.py",
-"path": "scripts/gacha-prints/kobe_mock/r3_I.py",
-"name": "r3_I.py",
-"folder": "scripts",
-"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「*- coding: utf-8 -*- 第3回 大問I（技術と社会：道案内アプリと空間の感覚）」",
-"links": [],
-"lines": 192,
-"tag": "データ",
-"conf": "低",
-"kind": "file",
-"exports": [],
-"nImports": 0,
-"nBy": 0,
-"draft": true,
-"sys": "tools",
-"flow": []
-},
-{
-"id": "scripts/gacha-prints/kobe_mock/r3_II.py",
-"path": "scripts/gacha-prints/kobe_mock/r3_II.py",
-"name": "r3_II.py",
-"folder": "scripts",
-"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「*- coding: utf-8 -*- 第3回 大問II（科学：発酵と微生物）」",
-"links": [],
-"lines": 181,
-"tag": "データ",
-"conf": "低",
-"kind": "file",
-"exports": [],
-"nImports": 0,
-"nBy": 0,
-"draft": true,
-"sys": "tools",
-"flow": []
-},
-{
-"id": "scripts/gacha-prints/kobe_mock/r3_III.py",
-"path": "scripts/gacha-prints/kobe_mock/r3_III.py",
-"name": "r3_III.py",
-"folder": "scripts",
-"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「*- coding: utf-8 -*- 第3回 大問III（小説：退職する部活の顧問と部長）」",
-"links": [],
-"lines": 181,
-"tag": "データ",
-"conf": "低",
-"kind": "file",
-"exports": [],
-"nImports": 0,
-"nBy": 0,
-"draft": true,
-"sys": "tools",
-"flow": []
-},
-{
-"id": "scripts/gacha-prints/kobe_mock/r3_IV.py",
-"path": "scripts/gacha-prints/kobe_mock/r3_IV.py",
-"name": "r3_IV.py",
-"folder": "scripts",
-"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「*- coding: utf-8 -*- 第3回 大問IV（英作文：棒グラフ・架空データ）」",
-"links": [],
-"lines": 31,
-"tag": "データ",
-"conf": "低",
-"kind": "file",
-"exports": [],
-"nImports": 0,
-"nBy": 0,
-"draft": true,
-"sys": "tools",
-"flow": []
-},
-{
-"id": "scripts/gacha-prints/kobe_mock/render.py",
-"path": "scripts/gacha-prints/kobe_mock/render.py",
-"name": "render.py",
-"folder": "scripts",
-"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「予想問題PDF（問題／解答・解説）を作る。WeasyPrint（フォントはサブセット埋め込み）。」",
-"links": [
-{
-"dir": "ref",
-"path": "docs/UI_CHANGELOG.md"
-},
-{
-"dir": "ref",
-"path": "docs/elevenlabs_vocab/ALL_PROMPTS.md"
-},
-{
-"dir": "ref",
-"path": "docs/elevenlabs_vocab/batches/ilv2_0140-0166.txt"
-}
-],
-"lines": 454,
-"tag": "データ",
-"conf": "低",
-"kind": "file",
-"exports": [],
-"nImports": 0,
-"nBy": 0,
-"draft": true,
-"sys": "tools",
-"flow": []
-},
-{
-"id": "scripts/gacha-prints/kobe_mock/verify.py",
-"path": "scripts/gacha-prints/kobe_mock/verify.py",
-"name": "verify.py",
-"folder": "scripts",
-"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
-"links": [
-{
-"dir": "ref",
-"path": "docs/LISTENING_AUDIO_VS_SPEECH.md"
-},
-{
-"dir": "ref",
-"path": "docs/UI_CHANGELOG.md"
-},
-{
-"dir": "ref",
-"path": "docs/elevenlabs_vocab/ALL_PROMPTS.md"
-}
-],
-"lines": 70,
 "tag": "データ",
 "conf": "低",
 "kind": "file",
@@ -27327,579 +26317,6 @@
 "flow": []
 },
 {
-"id": "scripts/gacha-prints/osaka_mock/check.py",
-"path": "scripts/gacha-prints/osaka_mock/check.py",
-"name": "check.py",
-"folder": "scripts",
-"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「大阪大 予想問題の検査（商用利用のため毎回実行）。」",
-"links": [
-{
-"dir": "ref",
-"path": "scripts/gacha-prints/README.md"
-}
-],
-"lines": 128,
-"tag": "データ",
-"conf": "低",
-"kind": "file",
-"exports": [],
-"nImports": 0,
-"nBy": 0,
-"draft": true,
-"sys": "tools",
-"flow": []
-},
-{
-"id": "scripts/gacha-prints/osaka_mock/logo_gray.png",
-"path": "scripts/gacha-prints/osaka_mock/logo_gray.png",
-"name": "logo_gray.png",
-"folder": "scripts",
-"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
-"links": [
-{
-"dir": "ref",
-"path": "scripts/gacha-prints/kobe_mock/render.py"
-},
-{
-"dir": "ref",
-"path": "scripts/gacha-prints/osaka_mock/render.py"
-}
-],
-"lines": 430,
-"tag": "音声・画像",
-"conf": "低",
-"kind": "file",
-"exports": [],
-"nImports": 0,
-"nBy": 0,
-"draft": true,
-"sys": "tools",
-"flow": []
-},
-{
-"id": "scripts/gacha-prints/osaka_mock/logs/check.json",
-"path": "scripts/gacha-prints/osaka_mock/logs/check.json",
-"name": "check.json",
-"folder": "scripts",
-"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "主な項目：r1-I・r1-II・r1-III・r1-IV・r2-I。",
-"links": [
-{
-"dir": "ref",
-"path": "scripts/gacha-prints/README.md"
-},
-{
-"dir": "ref",
-"path": "scripts/gacha-prints/osaka_mock/check.py"
-}
-],
-"lines": 103,
-"tag": "設定",
-"conf": "低",
-"kind": "file",
-"exports": [],
-"nImports": 0,
-"nBy": 0,
-"draft": true,
-"sys": "tools",
-"flow": []
-},
-{
-"id": "scripts/gacha-prints/osaka_mock/logs/verify_r1.json",
-"path": "scripts/gacha-prints/osaka_mock/logs/verify_r1.json",
-"name": "verify_r1.json",
-"folder": "scripts",
-"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "主な項目：I-A・I-B・II・lengths・ng。",
-"links": [],
-"lines": 86,
-"tag": "設定",
-"conf": "低",
-"kind": "file",
-"exports": [],
-"nImports": 0,
-"nBy": 0,
-"draft": true,
-"sys": "tools",
-"flow": []
-},
-{
-"id": "scripts/gacha-prints/osaka_mock/logs/verify_r2.json",
-"path": "scripts/gacha-prints/osaka_mock/logs/verify_r2.json",
-"name": "verify_r2.json",
-"folder": "scripts",
-"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "主な項目：I-A・I-B・II・lengths・ng。",
-"links": [],
-"lines": 86,
-"tag": "設定",
-"conf": "低",
-"kind": "file",
-"exports": [],
-"nImports": 0,
-"nBy": 0,
-"draft": true,
-"sys": "tools",
-"flow": []
-},
-{
-"id": "scripts/gacha-prints/osaka_mock/logs/verify_r3.json",
-"path": "scripts/gacha-prints/osaka_mock/logs/verify_r3.json",
-"name": "verify_r3.json",
-"folder": "scripts",
-"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "主な項目：I-A・I-B・II・lengths・ng。",
-"links": [],
-"lines": 86,
-"tag": "設定",
-"conf": "低",
-"kind": "file",
-"exports": [],
-"nImports": 0,
-"nBy": 0,
-"draft": true,
-"sys": "tools",
-"flow": []
-},
-{
-"id": "scripts/gacha-prints/osaka_mock/o1.py",
-"path": "scripts/gacha-prints/osaka_mock/o1.py",
-"name": "o1.py",
-"folder": "scripts",
-"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「*- coding: utf-8 -*- 大阪大学 前期 英語 予想問題 第1回（すべて書き下ろし）。大問ごとのデータを集める。」",
-"links": [],
-"lines": 7,
-"tag": "データ",
-"conf": "低",
-"kind": "file",
-"exports": [],
-"nImports": 0,
-"nBy": 0,
-"draft": true,
-"sys": "tools",
-"flow": []
-},
-{
-"id": "scripts/gacha-prints/osaka_mock/o1_I.py",
-"path": "scripts/gacha-prints/osaka_mock/o1_I.py",
-"name": "o1_I.py",
-"folder": "scripts",
-"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「*- coding: utf-8 -*- 第1回 I 英文和訳（書き下ろし）。{u|…} は下線。」",
-"links": [],
-"lines": 32,
-"tag": "データ",
-"conf": "低",
-"kind": "file",
-"exports": [],
-"nImports": 0,
-"nBy": 0,
-"draft": true,
-"sys": "tools",
-"flow": []
-},
-{
-"id": "scripts/gacha-prints/osaka_mock/o1_II.py",
-"path": "scripts/gacha-prints/osaka_mock/o1_II.py",
-"name": "o1_II.py",
-"folder": "scripts",
-"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「*- coding: utf-8 -*- 第1回 II 長文読解（論説・書き下ろし）。{ui|…} 下線(i) {uA|…} 下線(A) {u1|…} 下線(1) * 注」",
-"links": [],
-"lines": 90,
-"tag": "データ",
-"conf": "低",
-"kind": "file",
-"exports": [],
-"nImports": 0,
-"nBy": 0,
-"draft": true,
-"sys": "tools",
-"flow": []
-},
-{
-"id": "scripts/gacha-prints/osaka_mock/o1_III.py",
-"path": "scripts/gacha-prints/osaka_mock/o1_III.py",
-"name": "o1_III.py",
-"folder": "scripts",
-"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「*- coding: utf-8 -*- 第1回 III 自由英作文（書き下ろし）」",
-"links": [
-{
-"dir": "ref",
-"path": "scripts/gacha-prints/osaka_mock/o1.py"
-}
-],
-"lines": 12,
-"tag": "データ",
-"conf": "低",
-"kind": "file",
-"exports": [],
-"nImports": 0,
-"nBy": 0,
-"draft": true,
-"sys": "tools",
-"flow": []
-},
-{
-"id": "scripts/gacha-prints/osaka_mock/o1_II_ja.py",
-"path": "scripts/gacha-prints/osaka_mock/o1_II_ja.py",
-"name": "o1_II_ja.py",
-"folder": "scripts",
-"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「*- coding: utf-8 -*- 第1回 II の全訳・重要語句（書き下ろし）」",
-"links": [
-{
-"dir": "ref",
-"path": "scripts/gacha-prints/osaka_mock/o1_II.py"
-}
-],
-"lines": 16,
-"tag": "データ",
-"conf": "低",
-"kind": "file",
-"exports": [],
-"nImports": 0,
-"nBy": 0,
-"draft": true,
-"sys": "tools",
-"flow": []
-},
-{
-"id": "scripts/gacha-prints/osaka_mock/o1_IV.py",
-"path": "scripts/gacha-prints/osaka_mock/o1_IV.py",
-"name": "o1_IV.py",
-"folder": "scripts",
-"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「*- coding: utf-8 -*- 第1回 IV 和文英訳（日本文も書き下ろし）。{u|…} は下線。」",
-"links": [],
-"lines": 33,
-"tag": "データ",
-"conf": "低",
-"kind": "file",
-"exports": [],
-"nImports": 0,
-"nBy": 0,
-"draft": true,
-"sys": "tools",
-"flow": []
-},
-{
-"id": "scripts/gacha-prints/osaka_mock/o2.py",
-"path": "scripts/gacha-prints/osaka_mock/o2.py",
-"name": "o2.py",
-"folder": "scripts",
-"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「*- coding: utf-8 -*- 大阪大学 前期 英語 予想問題 第2回（すべて書き下ろし）。大問ごとのデータを集める。」",
-"links": [],
-"lines": 7,
-"tag": "データ",
-"conf": "低",
-"kind": "file",
-"exports": [],
-"nImports": 0,
-"nBy": 0,
-"draft": true,
-"sys": "tools",
-"flow": []
-},
-{
-"id": "scripts/gacha-prints/osaka_mock/o2_I.py",
-"path": "scripts/gacha-prints/osaka_mock/o2_I.py",
-"name": "o2_I.py",
-"folder": "scripts",
-"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「*- coding: utf-8 -*- 第2回 I 英文和訳（書き下ろし）。{u|…} は下線。」",
-"links": [],
-"lines": 32,
-"tag": "データ",
-"conf": "低",
-"kind": "file",
-"exports": [],
-"nImports": 0,
-"nBy": 0,
-"draft": true,
-"sys": "tools",
-"flow": []
-},
-{
-"id": "scripts/gacha-prints/osaka_mock/o2_II.py",
-"path": "scripts/gacha-prints/osaka_mock/o2_II.py",
-"name": "o2_II.py",
-"folder": "scripts",
-"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「*- coding: utf-8 -*- 第2回 II 長文読解（論説・書き下ろし）。{ui|…} 下線(i) {uA|…} 下線(A) {u1|…} 下線(1) * 注」",
-"links": [],
-"lines": 90,
-"tag": "データ",
-"conf": "低",
-"kind": "file",
-"exports": [],
-"nImports": 0,
-"nBy": 0,
-"draft": true,
-"sys": "tools",
-"flow": []
-},
-{
-"id": "scripts/gacha-prints/osaka_mock/o2_III.py",
-"path": "scripts/gacha-prints/osaka_mock/o2_III.py",
-"name": "o2_III.py",
-"folder": "scripts",
-"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「*- coding: utf-8 -*- 第2回 III 自由英作文（書き下ろし）」",
-"links": [
-{
-"dir": "ref",
-"path": "scripts/gacha-prints/osaka_mock/o2.py"
-}
-],
-"lines": 12,
-"tag": "データ",
-"conf": "低",
-"kind": "file",
-"exports": [],
-"nImports": 0,
-"nBy": 0,
-"draft": true,
-"sys": "tools",
-"flow": []
-},
-{
-"id": "scripts/gacha-prints/osaka_mock/o2_II_ja.py",
-"path": "scripts/gacha-prints/osaka_mock/o2_II_ja.py",
-"name": "o2_II_ja.py",
-"folder": "scripts",
-"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「*- coding: utf-8 -*- 第2回 II の全訳・重要語句（書き下ろし）」",
-"links": [
-{
-"dir": "ref",
-"path": "scripts/gacha-prints/osaka_mock/o2_II.py"
-}
-],
-"lines": 17,
-"tag": "データ",
-"conf": "低",
-"kind": "file",
-"exports": [],
-"nImports": 0,
-"nBy": 0,
-"draft": true,
-"sys": "tools",
-"flow": []
-},
-{
-"id": "scripts/gacha-prints/osaka_mock/o2_IV.py",
-"path": "scripts/gacha-prints/osaka_mock/o2_IV.py",
-"name": "o2_IV.py",
-"folder": "scripts",
-"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「*- coding: utf-8 -*- 第2回 IV 和文英訳（日本文も書き下ろし）。{u|…} は下線。」",
-"links": [],
-"lines": 34,
-"tag": "データ",
-"conf": "低",
-"kind": "file",
-"exports": [],
-"nImports": 0,
-"nBy": 0,
-"draft": true,
-"sys": "tools",
-"flow": []
-},
-{
-"id": "scripts/gacha-prints/osaka_mock/o3.py",
-"path": "scripts/gacha-prints/osaka_mock/o3.py",
-"name": "o3.py",
-"folder": "scripts",
-"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「*- coding: utf-8 -*- 大阪大学 前期 英語 予想問題 第3回（すべて書き下ろし）。大問ごとのデータを集める。」",
-"links": [],
-"lines": 7,
-"tag": "データ",
-"conf": "低",
-"kind": "file",
-"exports": [],
-"nImports": 0,
-"nBy": 0,
-"draft": true,
-"sys": "tools",
-"flow": []
-},
-{
-"id": "scripts/gacha-prints/osaka_mock/o3_I.py",
-"path": "scripts/gacha-prints/osaka_mock/o3_I.py",
-"name": "o3_I.py",
-"folder": "scripts",
-"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「*- coding: utf-8 -*- 第3回 I 英文和訳（書き下ろし）。{u|…} は下線。」",
-"links": [],
-"lines": 34,
-"tag": "データ",
-"conf": "低",
-"kind": "file",
-"exports": [],
-"nImports": 0,
-"nBy": 0,
-"draft": true,
-"sys": "tools",
-"flow": []
-},
-{
-"id": "scripts/gacha-prints/osaka_mock/o3_II.py",
-"path": "scripts/gacha-prints/osaka_mock/o3_II.py",
-"name": "o3_II.py",
-"folder": "scripts",
-"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「*- coding: utf-8 -*- 第3回 II 長文読解（論説・書き下ろし）。{ui|…} 下線(i) {uA|…} 下線(A) {u1|…} 下線(1)」",
-"links": [],
-"lines": 91,
-"tag": "データ",
-"conf": "低",
-"kind": "file",
-"exports": [],
-"nImports": 0,
-"nBy": 0,
-"draft": true,
-"sys": "tools",
-"flow": []
-},
-{
-"id": "scripts/gacha-prints/osaka_mock/o3_III.py",
-"path": "scripts/gacha-prints/osaka_mock/o3_III.py",
-"name": "o3_III.py",
-"folder": "scripts",
-"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「*- coding: utf-8 -*- 第3回 III 自由英作文（書き下ろし）」",
-"links": [
-{
-"dir": "ref",
-"path": "scripts/gacha-prints/osaka_mock/o3.py"
-}
-],
-"lines": 12,
-"tag": "データ",
-"conf": "低",
-"kind": "file",
-"exports": [],
-"nImports": 0,
-"nBy": 0,
-"draft": true,
-"sys": "tools",
-"flow": []
-},
-{
-"id": "scripts/gacha-prints/osaka_mock/o3_II_ja.py",
-"path": "scripts/gacha-prints/osaka_mock/o3_II_ja.py",
-"name": "o3_II_ja.py",
-"folder": "scripts",
-"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「*- coding: utf-8 -*- 第3回 II の全訳・重要語句（書き下ろし）」",
-"links": [
-{
-"dir": "ref",
-"path": "scripts/gacha-prints/osaka_mock/o3_II.py"
-}
-],
-"lines": 17,
-"tag": "データ",
-"conf": "低",
-"kind": "file",
-"exports": [],
-"nImports": 0,
-"nBy": 0,
-"draft": true,
-"sys": "tools",
-"flow": []
-},
-{
-"id": "scripts/gacha-prints/osaka_mock/o3_IV.py",
-"path": "scripts/gacha-prints/osaka_mock/o3_IV.py",
-"name": "o3_IV.py",
-"folder": "scripts",
-"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「*- coding: utf-8 -*- 第3回 IV 和文英訳（日本文も書き下ろし）。{u|…} は下線。」",
-"links": [],
-"lines": 34,
-"tag": "データ",
-"conf": "低",
-"kind": "file",
-"exports": [],
-"nImports": 0,
-"nBy": 0,
-"draft": true,
-"sys": "tools",
-"flow": []
-},
-{
-"id": "scripts/gacha-prints/osaka_mock/render.py",
-"path": "scripts/gacha-prints/osaka_mock/render.py",
-"name": "render.py",
-"folder": "scripts",
-"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「大阪大学 前期 英語（外国語学部以外）予想問題の PDF（問題／解答・解説）を作る。白黒・A4縦。」",
-"links": [
-{
-"dir": "ref",
-"path": "docs/UI_CHANGELOG.md"
-},
-{
-"dir": "ref",
-"path": "docs/elevenlabs_vocab/ALL_PROMPTS.md"
-},
-{
-"dir": "ref",
-"path": "docs/elevenlabs_vocab/batches/ilv2_0140-0166.txt"
-}
-],
-"lines": 299,
-"tag": "データ",
-"conf": "低",
-"kind": "file",
-"exports": [],
-"nImports": 0,
-"nBy": 0,
-"draft": true,
-"sys": "tools",
-"flow": []
-},
-{
-"id": "scripts/gacha-prints/osaka_mock/verify.py",
-"path": "scripts/gacha-prints/osaka_mock/verify.py",
-"name": "verify.py",
-"folder": "scripts",
-"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「大阪大 予想問題の難易度・形式チェック：語数・平均文長・難語率を 2022〜2026年度の範囲と比べる。」",
-"links": [
-{
-"dir": "ref",
-"path": "docs/LISTENING_AUDIO_VS_SPEECH.md"
-},
-{
-"dir": "ref",
-"path": "docs/UI_CHANGELOG.md"
-},
-{
-"dir": "ref",
-"path": "docs/elevenlabs_vocab/ALL_PROMPTS.md"
-}
-],
-"lines": 47,
-"tag": "データ",
-"conf": "低",
-"kind": "file",
-"exports": [],
-"nImports": 0,
-"nBy": 0,
-"draft": true,
-"sys": "tools",
-"flow": []
-},
-{
 "id": "scripts/gacha-prints/reading_guide.py",
 "path": "scripts/gacha-prints/reading_guide.py",
 "name": "reading_guide.py",
@@ -28084,6 +26501,593 @@
 "flow": []
 },
 {
+"id": "scripts/icons/apply-android-assets.py",
+"path": "scripts/icons/apply-android-assets.py",
+"name": "apply-android-assets.py",
+"folder": "scripts",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「Apply Android icon and splash assets from original/public/まなとびandroid.png」",
+"links": [],
+"lines": 79,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "tools",
+"flow": []
+},
+{
+"id": "scripts/icons/apply-new-icon.py",
+"path": "scripts/icons/apply-new-icon.py",
+"name": "apply-new-icon.py",
+"folder": "scripts",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「Apply new app icon from user download to iOS, Web, and Android icon assets.」",
+"links": [],
+"lines": 100,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "tools",
+"flow": []
+},
+{
+"id": "scripts/icons/make-icons.py",
+"path": "scripts/icons/make-icons.py",
+"name": "make-icons.py",
+"folder": "scripts",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「Generate app icons from the user-supplied square artwork.」",
+"links": [
+{
+"dir": "ref",
+"path": "index.html"
+}
+],
+"lines": 72,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "tools",
+"flow": []
+},
+{
+"id": "scripts/listening-data/build-listening-prompts-pdf.py",
+"path": "scripts/listening-data/build-listening-prompts-pdf.py",
+"name": "build-listening-prompts-pdf.py",
+"folder": "scripts",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「Build searchable Japanese PDF guides and all MiniMax scripts; no API calls.」",
+"links": [],
+"lines": 143,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "tools",
+"flow": []
+},
+{
+"id": "scripts/listening-data/build-q2-rerecord-pdf.py",
+"path": "scripts/listening-data/build-q2-rerecord-pdf.py",
+"name": "build-q2-rerecord-pdf.py",
+"folder": "scripts",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「第2問（48問＝16回×3問）の「録り直し用」台本 PDF を作る（ElevenLabs Eleven v3 向け・クレジット不要）。」",
+"links": [],
+"lines": 186,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "tools",
+"flow": []
+},
+{
+"id": "scripts/listening-data/concat_listening_audio.sh",
+"path": "scripts/listening-data/concat_listening_audio.sh",
+"name": "concat_listening_audio.sh",
+"folder": "scripts",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「※ 新しい音源の取り込みは scripts/listening-audio.mts（docs/LISTENING_AUDIO_REPLACE.md）を使う。」",
+"links": [
+{
+"dir": "ref",
+"path": "docs/LISTENING_AUDIO_REPLACE.md"
+},
+{
+"dir": "ref",
+"path": "scripts/listening-audio.mts"
+},
+{
+"dir": "ref",
+"path": "src/data/englishListeningQ4to6Problems.ts"
+}
+],
+"lines": 57,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "tools",
+"flow": []
+},
+{
+"id": "scripts/listening-data/extract_q2_illustrations.py",
+"path": "scripts/listening-data/extract_q2_illustrations.py",
+"name": "extract_q2_illustrations.py",
+"folder": "scripts",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「配布 PDF「第２問.pdf」から第2問のイラストを取り出し、 public/listening_q2/ に正式な名前（el2_set<N>_q<M>.jpg）で置く。」",
+"links": [
+{
+"dir": "ref",
+"path": "src/data/englishListeningData.ts"
+}
+],
+"lines": 225,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "tools",
+"flow": []
+},
+{
+"id": "scripts/listening-data/fix_q2_text_to_figures.py",
+"path": "scripts/listening-data/fix_q2_text_to_figures.py",
+"name": "fix_q2_text_to_figures.py",
+"folder": "scripts",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「第2問：配布 PDF のイラストに合わせて「テキストの側」を書き直す。」",
+"links": [
+{
+"dir": "ref",
+"path": "scripts/data/q2_figure_audit.md"
+},
+{
+"dir": "ref",
+"path": "scripts/listening-data/q2_figure_fixes.py"
+},
+{
+"dir": "ref",
+"path": "scripts/listening-data/shuffle_listening_q2_options.py"
+}
+],
+"lines": 159,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "tools",
+"flow": []
+},
+{
+"id": "scripts/listening-data/gen_listening_data.py",
+"path": "scripts/listening-data/gen_listening_data.py",
+"name": "gen_listening_data.py",
+"folder": "scripts",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「parse_listening_pdf.py が作った JSON から、アプリの TypeScript データを生成する。」",
+"links": [
+{
+"dir": "ref",
+"path": "scripts/listening-data/shuffle_q1b_options.py"
+},
+{
+"dir": "ref",
+"path": "src/data/englishListeningQ1ASets.ts"
+}
+],
+"lines": 430,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "tools",
+"flow": []
+},
+{
+"id": "scripts/listening-data/gen_listening_q2_data.py",
+"path": "scripts/listening-data/gen_listening_q2_data.py",
+"name": "gen_listening_q2_data.py",
+"folder": "scripts",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「第2問（短い対話・2回読み・イラスト選択・3問）の TypeScript データを生成する。」",
+"links": [
+{
+"dir": "ref",
+"path": "scripts/listening-data/fix_q2_text_to_figures.py"
+},
+{
+"dir": "ref",
+"path": "src/data/englishListeningData.ts"
+},
+{
+"dir": "ref",
+"path": "src/data/englishListeningQ2Problems.ts"
+}
+],
+"lines": 564,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "tools",
+"flow": []
+},
+{
+"id": "scripts/listening-data/gen_listening_q3_data.py",
+"path": "scripts/listening-data/gen_listening_q3_data.py",
+"name": "gen_listening_q3_data.py",
+"folder": "scripts",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「第3問（短い対話・1回読み・6問）の TypeScript データを生成する。」",
+"links": [
+{
+"dir": "ref",
+"path": "src/data/englishListeningQ3Problems.ts"
+}
+],
+"lines": 344,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "tools",
+"flow": []
+},
+{
+"id": "scripts/listening-data/parse_listening_pdf.py",
+"path": "scripts/listening-data/parse_listening_pdf.py",
+"name": "parse_listening_pdf.py",
+"folder": "scripts",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「共通テスト英語リスニング 第1問A / 第1問B の類題集 PDF を構造化 JSON に変換する。」",
+"links": [
+{
+"dir": "ref",
+"path": "scripts/listening-data/gen_listening_data.py"
+},
+{
+"dir": "ref",
+"path": "scripts/listening-data/parse_listening_q2_pdf.py"
+},
+{
+"dir": "ref",
+"path": "scripts/listening-data/parse_listening_q3_pdf.py"
+}
+],
+"lines": 199,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "tools",
+"flow": []
+},
+{
+"id": "scripts/listening-data/parse_listening_q2_pdf.py",
+"path": "scripts/listening-data/parse_listening_q2_pdf.py",
+"name": "parse_listening_q2_pdf.py",
+"folder": "scripts",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「共通テスト 英語リスニング「第2問」類題集 PDF を JSON 化する。」",
+"links": [
+{
+"dir": "ref",
+"path": "scripts/listening-data/gen_listening_q2_data.py"
+},
+{
+"dir": "ref",
+"path": "src/data/englishListeningQ2Problems.ts"
+}
+],
+"lines": 484,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "tools",
+"flow": []
+},
+{
+"id": "scripts/listening-data/parse_listening_q3_pdf.py",
+"path": "scripts/listening-data/parse_listening_q3_pdf.py",
+"name": "parse_listening_q3_pdf.py",
+"folder": "scripts",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「共通テスト 英語リスニング「第3問」類題集 PDF を JSON 化する。」",
+"links": [
+{
+"dir": "ref",
+"path": "scripts/listening-data/gen_listening_q3_data.py"
+},
+{
+"dir": "ref",
+"path": "scripts/listening-data/parse_listening_q2_pdf.py"
+},
+{
+"dir": "ref",
+"path": "src/data/englishListeningQ3Problems.ts"
+}
+],
+"lines": 318,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "tools",
+"flow": []
+},
+{
+"id": "scripts/listening-data/q2_figure_fixes.py",
+"path": "scripts/listening-data/q2_figure_fixes.py",
+"name": "q2_figure_fixes.py",
+"folder": "scripts",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「第2問：配布 PDF のイラストに合わせて書き直す中身（1問ずつの根拠つき）。」",
+"links": [
+{
+"dir": "ref",
+"path": "scripts/data/q2_figure_audit.md"
+},
+{
+"dir": "ref",
+"path": "scripts/listening-data/fix_q2_text_to_figures.py"
+},
+{
+"dir": "ref",
+"path": "scripts/listening-data/shuffle_listening_q2_options.py"
+}
+],
+"lines": 273,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "tools",
+"flow": []
+},
+{
+"id": "scripts/listening-data/q2_img_to_public.py",
+"path": "scripts/listening-data/q2_img_to_public.py",
+"name": "q2_img_to_public.py",
+"folder": "scripts",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「第2問のイラストを public/listening_q2/ 用に整える。」",
+"links": [
+{
+"dir": "ref",
+"path": "scripts/listening-data/extract_q2_illustrations.py"
+}
+],
+"lines": 57,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "tools",
+"flow": []
+},
+{
+"id": "scripts/listening-data/shuffle_listening_q2_options.py",
+"path": "scripts/listening-data/shuffle_listening_q2_options.py",
+"name": "shuffle_listening_q2_options.py",
+"folder": "scripts",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「第2問の正解位置の偏りを均す（選択肢の並び順だけを入れ替える）。」",
+"links": [
+{
+"dir": "ref",
+"path": "scripts/listening-data/extract_q2_illustrations.py"
+},
+{
+"dir": "ref",
+"path": "scripts/listening-data/fix_q2_text_to_figures.py"
+},
+{
+"dir": "ref",
+"path": "scripts/listening-data/gen_listening_q2_data.py"
+}
+],
+"lines": 570,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "tools",
+"flow": []
+},
+{
+"id": "scripts/listening-data/shuffle_listening_q3_options.py",
+"path": "scripts/listening-data/shuffle_listening_q3_options.py",
+"name": "shuffle_listening_q3_options.py",
+"folder": "scripts",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「第3問 類題集の「正解の位置」の偏りを直す。」",
+"links": [
+{
+"dir": "ref",
+"path": "scripts/listening-data/gen_listening_q3_data.py"
+},
+{
+"dir": "ref",
+"path": "scripts/listening-data/shuffle_listening_q2_options.py"
+},
+{
+"dir": "ref",
+"path": "src/data/englishListeningQ3Problems.ts"
+}
+],
+"lines": 197,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "tools",
+"flow": []
+},
+{
+"id": "scripts/listening-data/shuffle_q1b_options.py",
+"path": "scripts/listening-data/shuffle_q1b_options.py",
+"name": "shuffle_q1b_options.py",
+"folder": "scripts",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「第1問B セット7〜15 の選択肢をシャッフルする。」",
+"links": [
+{
+"dir": "ref",
+"path": "scripts/listening-data/shuffle_listening_q2_options.py"
+},
+{
+"dir": "ref",
+"path": "tests/englishListeningQ1Sets.test.ts"
+}
+],
+"lines": 373,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "tools",
+"flow": []
+},
+{
+"id": "scripts/listening-data/strip_genspark_logo.py",
+"path": "scripts/listening-data/strip_genspark_logo.py",
+"name": "strip_genspark_logo.py",
+"folder": "scripts",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「第1問B のイラスト画像から Genspark ロゴ（右下のグレーのバッジ）を取り除く。」",
+"links": [
+{
+"dir": "ref",
+"path": "scripts/listening-data/gen_listening_data.py"
+},
+{
+"dir": "ref",
+"path": "src/data/englishListeningQ1BProblems.ts"
+},
+{
+"dir": "ref",
+"path": "tests/englishListeningQ1Sets.test.ts"
+}
+],
+"lines": 113,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "tools",
+"flow": []
+},
+{
+"id": "scripts/listening-data/verify_q2_single_gender.py",
+"path": "scripts/listening-data/verify_q2_single_gender.py",
+"name": "verify_q2_single_gender.py",
+"folder": "scripts",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「第2問の音源で「先に話す人の性別」が台本どおりかを実測で確かめる。」",
+"links": [
+{
+"dir": "ref",
+"path": "docs/LISTENING_AUDIO_VS_SPEECH.md"
+}
+],
+"lines": 189,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "tools",
+"flow": []
+},
+{
+"id": "scripts/listening-data/verify_q2_tts_speakers.py",
+"path": "scripts/listening-data/verify_q2_tts_speakers.py",
+"name": "verify_q2_tts_speakers.py",
+"folder": "scripts",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「まとめ録りの音声が「ちゃんと3人の声になっているか」を実測で判定する。」",
+"links": [],
+"lines": 149,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "tools",
+"flow": []
+},
+{
 "id": "scripts/listening-translation/make.mjs",
 "path": "scripts/listening-translation/make.mjs",
 "name": "make.mjs",
@@ -28179,6 +27183,10 @@
 {
 "dir": "ref",
 "path": "package.json"
+},
+{
+"dir": "ref",
+"path": "scripts/README.md"
 }
 ],
 "lines": 57,
@@ -28314,7 +27322,7 @@
 "links": [
 {
 "dir": "ref",
-"path": "COMMERCIAL_AUDIO_MIGRATION.md"
+"path": "docs/COMMERCIAL_AUDIO_MIGRATION.md"
 },
 {
 "dir": "ref",
@@ -28549,12 +27557,84 @@
 ]
 },
 {
+"id": "src/battle/data/ghostRating.ts",
+"path": "src/battle/data/ghostRating.ts",
+"name": "ghostRating.ts",
+"folder": "src",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「B7（2026-10-29）全国対戦のボット戦もレートを動かす（サーバー関数 ghostMatch に結果を送る）。」applyGhostRatingを公開する。読み込むもの：firebase.ts・types.ts、外部部品 firebase。BattleAiRoomScreen.tsxから読み込まれる。",
+"links": [
+{
+"dir": "from",
+"path": "src/battle/ui/BattleAiRoomScreen.tsx"
+},
+{
+"dir": "to",
+"path": "src/firebase.ts"
+},
+{
+"dir": "to",
+"path": "src/battle/core/types.ts"
+}
+],
+"lines": 25,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [
+"applyGhostRating"
+],
+"nImports": 2,
+"nBy": 1,
+"draft": true,
+"sys": "battle",
+"flow": [
+"compete"
+]
+},
+{
+"id": "src/battle/data/pendingRating.ts",
+"path": "src/battle/data/pendingRating.ts",
+"name": "pendingRating.ts",
+"folder": "src",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「B6（2026-10-29）フレンド戦・全国戦で「相手の申告が届く前に画面を閉じた」ときもレートを反映する。」settleRatingLaterを公開する。読み込むもの：types.ts・battleRanking.ts・battleRoomActions.ts。useBattlePostMatch.tsから読み込まれる。",
+"links": [
+{
+"dir": "from",
+"path": "src/battle/hooks/useBattlePostMatch.ts"
+},
+{
+"dir": "to",
+"path": "src/battle/core/types.ts"
+},
+{
+"dir": "to",
+"path": "src/battle/data/battleRanking.ts"
+}
+],
+"lines": 33,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [
+"settleRatingLater"
+],
+"nImports": 3,
+"nBy": 1,
+"draft": true,
+"sys": "battle",
+"flow": [
+"compete"
+]
+},
+{
 "id": "src/battle/hooks/useBattlePostMatch.ts",
 "path": "src/battle/hooks/useBattlePostMatch.ts",
 "name": "useBattlePostMatch.ts",
 "folder": "src",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「対戦の「試合後」：結果の申告・相互確認・レート反映（C-07: useBattleRoom.ts から分離） 1.」useBattlePostMatchを公開する。読み込むもの：types.ts・battle.ts・battleRanking.ts など4ファイル、外部部品 react。useBattleRoom.tsから読み込まれる。",
+"detail": "冒頭の説明：「対戦の「試合後」：結果の申告・相互確認・レート反映（C-07: useBattleRoom.ts から分離） 1.」useBattlePostMatchを公開する。読み込むもの：types.ts・battle.ts・battleRanking.ts など5ファイル、外部部品 react。useBattleRoom.tsから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -28569,14 +27649,14 @@
 "path": "src/battle/data/battle.ts"
 }
 ],
-"lines": 111,
+"lines": 122,
 "tag": "データ",
 "conf": "低",
 "kind": "file",
 "exports": [
 "useBattlePostMatch"
 ],
-"nImports": 4,
+"nImports": 5,
 "nBy": 1,
 "draft": true,
 "sys": "battle",
@@ -28736,7 +27816,7 @@
 "name": "BattleProfileTabs.tsx",
 "folder": "src",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「プロフィールのタブ（着せ替え・称号・戦績）。BattleProfile.tsx から分けた。中身は不変。」Runner・unlockLabel・OutfitTab など7個を公開する。読み込むもの：firebase.ts・growth.ts・BattleParts.tsx など11ファイル、外部部品 lucide-react・react。BattleProfile.tsxから読み込まれる。",
+"detail": "冒頭の説明：「プロフィールのタブ（着せ替え・称号・戦績）。BattleProfile.tsx から分けた。中身は不変。」Runner・unlockLabel・OutfitTab など7個を公開する。読み込むもの：firebase.ts・growth.ts・BattleParts.tsx など11ファイル、外部部品 lucide-react・react・react-dom。BattleProfile.tsxから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -28751,7 +27831,7 @@
 "path": "src/battle/core/growth.ts"
 }
 ],
-"lines": 364,
+"lines": 380,
 "tag": "データ",
 "conf": "低",
 "kind": "file",
@@ -28913,12 +27993,46 @@
 "flow": []
 },
 {
+"id": "src/components/BattleRankSwitch.tsx",
+"path": "src/components/BattleRankSwitch.tsx",
+"name": "BattleRankSwitch.tsx",
+"folder": "src",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「「とびらバトル／ランキング」の切替（2026-10-29 B5）。」BattleRankSwitchを公開する。読み込むもの：battle-rank-switch.css、外部部品 lucide-react・react。BattleHome.tsx・Leaderboard.tsxから読み込まれる。",
+"links": [
+{
+"dir": "from",
+"path": "src/battle/ui/BattleHome.tsx"
+},
+{
+"dir": "from",
+"path": "src/components/Leaderboard.tsx"
+},
+{
+"dir": "to",
+"path": "src/components/battle-rank-switch.css"
+}
+],
+"lines": 21,
+"tag": "部品",
+"conf": "低",
+"kind": "file",
+"exports": [
+"BattleRankSwitch"
+],
+"nImports": 1,
+"nBy": 2,
+"draft": true,
+"sys": "screen",
+"flow": []
+},
+{
 "id": "src/components/MyProfileCard.tsx",
 "path": "src/components/MyProfileCard.tsx",
 "name": "MyProfileCard.tsx",
 "folder": "src",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「マイページの「プロフィール」（2026-10-21） 以前は 設定 ＞ 基本設定 ＞「アカウント・プロフィール」にあった中身をマイページへ移した。」MyProfileCardを公開する。読み込むもの：firebase.ts・safeLocalStorage.ts・growth.ts など16ファイル、外部部品 lucide-react・react・react-dom。GrowthHub.tsxから読み込まれる。",
+"detail": "冒頭の説明：「マイページの「プロフィール」（2026-10-21） 以前は 設定 ＞ 基本設定 ＞「アカウント・プロフィール」にあった中身をマイページへ移した。」MyProfileCardを公開する。読み込むもの：firebase.ts・safeLocalStorage.ts・reportError.ts など14ファイル、外部部品 lucide-react・react・react-dom。GrowthHub.tsxから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -28933,14 +28047,14 @@
 "path": "src/utils/safeLocalStorage.ts"
 }
 ],
-"lines": 234,
+"lines": 216,
 "tag": "部品",
 "conf": "低",
 "kind": "file",
 "exports": [
 "MyProfileCard"
 ],
-"nImports": 16,
+"nImports": 14,
 "nBy": 1,
 "draft": true,
 "sys": "screen",
@@ -29114,6 +28228,32 @@
 "draft": true,
 "sys": "screen",
 "flow": []
+},
+{
+"id": "src/components/battle-rank-switch.css",
+"path": "src/components/battle-rank-switch.css",
+"name": "battle-rank-switch.css",
+"folder": "src",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「2026-10-29 B5：とびらバトル／ランキングの切替。ガチャの .gacha-page-switch と同じ見た目（どちらの画面でも同じ）」BattleRankSwitch.tsxから読み込まれる。",
+"links": [
+{
+"dir": "from",
+"path": "src/components/BattleRankSwitch.tsx"
+}
+],
+"lines": 11,
+"tag": "部品",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 1,
+"draft": true,
+"sys": "screen",
+"flow": [
+"compete"
+]
 },
 {
 "id": "src/components/cinematic-celebration.css",
@@ -29809,7 +28949,7 @@
 "path": "src/types/curriculum.ts"
 }
 ],
-"lines": 365,
+"lines": 378,
 "tag": "部品",
 "conf": "低",
 "kind": "file",
@@ -29836,7 +28976,7 @@
 "path": "src/components/toeic/ToeicPageQuiz.tsx"
 }
 ],
-"lines": 122,
+"lines": 132,
 "tag": "部品",
 "conf": "低",
 "kind": "file",
@@ -29983,40 +29123,6 @@
 "flow": []
 },
 {
-"id": "src/data/kobeMockPrints.ts",
-"path": "src/data/kobeMockPrints.ts",
-"name": "kobeMockPrints.ts",
-"folder": "src",
-"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「LR（レジェンドレア）：神戸大学 前期日程 外国語（英語）対策 予想問題（白黒・A4）。」KOBE_MOCK_PRINTSを公開する。読み込むもの：gachaPrints.generated.ts。growthItems.ts・kobeMockPrints.test.ts など3ファイルから読み込まれる。",
-"links": [
-{
-"dir": "from",
-"path": "src/battle/core/growthItems.ts"
-},
-{
-"dir": "from",
-"path": "tests/kobeMockPrints.test.ts"
-},
-{
-"dir": "to",
-"path": "src/data/gachaPrints.generated.ts"
-}
-],
-"lines": 36,
-"tag": "データ",
-"conf": "低",
-"kind": "file",
-"exports": [
-"KOBE_MOCK_PRINTS"
-],
-"nImports": 1,
-"nBy": 3,
-"draft": true,
-"sys": "content",
-"flow": []
-},
-{
 "id": "src/data/kyotsuMockAudio.ts",
 "path": "src/data/kyotsuMockAudio.ts",
 "name": "kyotsuMockAudio.ts",
@@ -30084,46 +29190,12 @@
 "flow": []
 },
 {
-"id": "src/data/osakaMockPrints.ts",
-"path": "src/data/osakaMockPrints.ts",
-"name": "osakaMockPrints.ts",
-"folder": "src",
-"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「LR（レジェンドレア）：大阪大学 前期日程 外国語（英語）対策 予想問題（白黒・A4）。」OSAKA_MOCK_PRINTSを公開する。読み込むもの：gachaPrints.generated.ts。growthItems.ts・kyotsuMockPrints.test.ts など3ファイルから読み込まれる。",
-"links": [
-{
-"dir": "from",
-"path": "src/battle/core/growthItems.ts"
-},
-{
-"dir": "from",
-"path": "tests/kyotsuMockPrints.test.ts"
-},
-{
-"dir": "to",
-"path": "src/data/gachaPrints.generated.ts"
-}
-],
-"lines": 36,
-"tag": "データ",
-"conf": "低",
-"kind": "file",
-"exports": [
-"OSAKA_MOCK_PRINTS"
-],
-"nImports": 1,
-"nBy": 3,
-"draft": true,
-"sys": "content",
-"flow": []
-},
-{
 "id": "src/data/reading/index.ts",
 "path": "src/data/reading/index.ts",
 "name": "index.ts",
 "folder": "src",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「英文解釈（段落ごとに読む・内容一致の4択）の問題集と記録（2026-10-21） - 全レベルの文章をまとめ、出題時の選択肢の並びを設問IDから決める（何度解いても同じ・正解位置が…」READING_PASSAGES・READING_LEVELS・passagesOf など22個を公開する。読み込むもの：safeLocalStorage.ts・storageGuard.ts・types.ts など8ファイル。dump.ts・ReadingQuiz.tsx など4ファイルから読み込まれる。",
+"detail": "冒頭の説明：「英文解釈（段落ごとに読む・内容一致の4択）の問題集と記録（2026-10-21） - 全レベルの文章をまとめ、出題時の選択肢の並びを設問IDから決める（何度解いても同じ・正解位置が…」READING_PASSAGES・READING_LEVELS・passagesOf など22個を公開する。読み込むもの：safeLocalStorage.ts・storageGuard.ts・types.ts など9ファイル。dump.ts・ReadingQuiz.tsx など4ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -30152,7 +29224,7 @@
 "ReadingStep",
 "stepsOf"
 ],
-"nImports": 8,
+"nImports": 9,
 "nBy": 4,
 "draft": true,
 "sys": "content",
@@ -31277,30 +30349,32 @@
 "name": "CalendarTab.tsx",
 "folder": "src",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「マイページの「記録」タブ＝カレンダーだけ（2026-10-28 作り直し・A1②）。」CalendarTabを公開する。読み込むもの：manualLogCore.ts・ui.tsx、外部部品 lucide-react・react。StudyLogPage.tsxから読み込まれる。",
+"detail": "冒頭の説明：「マイページの「カレンダー」タブ（2026-10-29 B8 作り直し・StudyPlus 風）。」PICK_MAX・togglePick・CalendarTabを公開する。読み込むもの：manualLogCore.ts・ui.tsx、外部部品 lucide-react・react。StudyLogPage.tsx・calendarCompare.test.tsから読み込まれる。",
 "links": [
 {
 "dir": "from",
 "path": "src/features/studylog/StudyLogPage.tsx"
 },
 {
-"dir": "to",
-"path": "src/features/studylog/manualLogCore.ts"
+"dir": "from",
+"path": "tests/calendarCompare.test.ts"
 },
 {
 "dir": "to",
-"path": "src/features/studylog/ui.tsx"
+"path": "src/features/studylog/manualLogCore.ts"
 }
 ],
-"lines": 66,
+"lines": 131,
 "tag": "データ",
 "conf": "低",
 "kind": "file",
 "exports": [
+"PICK_MAX",
+"togglePick",
 "CalendarTab"
 ],
 "nImports": 2,
-"nBy": 1,
+"nBy": 2,
 "draft": true,
 "sys": "screen",
 "flow": []
@@ -31311,7 +30385,7 @@
 "name": "MyStudyCard.tsx",
 "folder": "src",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「マイページの「マイページ」タブ＝今日の勉強記録（2026-10-28 作り直し・A1／A3）。」MyStudyCardを公開する。読み込むもの：firebase.ts・safeLocalStorage.ts・growth.ts など14ファイル、外部部品 lucide-react・react。GrowthHub.tsxから読み込まれる。",
+"detail": "冒頭の説明：「マイページの「マイページ」タブ＝今日の勉強記録（2026-10-28 作り直し・A1／A3）。」MyStudyCardを公開する。読み込むもの：firebase.ts・safeLocalStorage.ts・growth.ts など13ファイル、外部部品 lucide-react・react。GrowthHub.tsxから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -31326,14 +30400,14 @@
 "path": "src/utils/safeLocalStorage.ts"
 }
 ],
-"lines": 125,
+"lines": 127,
 "tag": "データ",
 "conf": "低",
 "kind": "file",
 "exports": [
 "MyStudyCard"
 ],
-"nImports": 14,
+"nImports": 13,
 "nBy": 1,
 "draft": true,
 "sys": "screen",
@@ -31381,7 +30455,7 @@
 "name": "StudyLogPage.tsx",
 "folder": "src",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「マイページの「記録」タブ（2026-10-28 作り直し・A1②）。」StudyLogPageを公開する。読み込むもの：manualLogCore.ts・studyTime.ts・manualLogStore.ts など6ファイル、外部部品 react。GrowthHub.tsxから読み込まれる。",
+"detail": "冒頭の説明：「マイページの「カレンダー」タブ（旧「記録」・2026-10-29 B9 で名前を変えた）。」StudyLogPageを公開する。読み込むもの：manualLogCore.ts・studyTime.ts・manualLogStore.ts など6ファイル、外部部品 react。GrowthHub.tsxから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -31396,7 +30470,7 @@
 "path": "src/utils/studyTime.ts"
 }
 ],
-"lines": 30,
+"lines": 31,
 "tag": "データ",
 "conf": "低",
 "kind": "file",
@@ -31452,7 +30526,7 @@
 "name": "manualLogStore.ts",
 "folder": "src",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「手動の学習記録の保存（端末 localStorage）。」manualLogKey・readManualLog・writeManualLog など5個を公開する。読み込むもの：firebase.ts・safeLocalStorage.ts・manualLogCore.ts など4ファイル、外部部品 react。MyStudyCard.tsx・RecordDialog.tsx など3ファイルから読み込まれる。",
+"detail": "冒頭の説明：「手動の学習記録の保存（端末 localStorage）。」manualLogKey・readManualLog・writeManualLog など5個を公開する。読み込むもの：firebase.ts・safeLocalStorage.ts・userStorageKeys.ts など5ファイル、外部部品 react。MyStudyCard.tsx・RecordDialog.tsx など3ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -31467,7 +30541,7 @@
 "path": "src/firebase.ts"
 }
 ],
-"lines": 50,
+"lines": 51,
 "tag": "データ",
 "conf": "低",
 "kind": "file",
@@ -31478,7 +30552,7 @@
 "updateManualLog",
 "useManualLog"
 ],
-"nImports": 4,
+"nImports": 5,
 "nBy": 3,
 "draft": true,
 "sys": "screen",
@@ -31542,7 +30616,7 @@
 "path": "src/features/studylog/StudyLogPage.tsx"
 }
 ],
-"lines": 240,
+"lines": 279,
 "tag": "部品",
 "conf": "低",
 "kind": "file",
@@ -32445,15 +31519,15 @@
 "links": [
 {
 "dir": "ref",
-"path": "scripts/gacha-prints/kobe_mock/r1_II.py"
-},
-{
-"dir": "ref",
 "path": "scripts/gacha-prints/kyotsu_mock/set3_r2.py"
 },
 {
 "dir": "ref",
 "path": "scripts/gacha-prints/kyotsu_mock/set4_r2.py"
+},
+{
+"dir": "ref",
+"path": "src/data/listeningSets/listening-q5.json"
 }
 ],
 "lines": 313,
@@ -32817,19 +31891,19 @@
 "name": "explanationMarkers.ts",
 "folder": "src",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「解説本文の小問マーカー検出・本文分割（C-11: explanationFormat.ts から分離） 解説エンジンの4段階パイプラインの2段目。」plainLine・subMarkerCandidates・splitBodyBySubQuestions など7個を公開する。読み込むもの：explanationShapes.ts・explanationSupplement.ts。explanationFormat.tsから読み込まれる。",
+"detail": "冒頭の説明：「解説本文の小問マーカー検出・本文分割（C-11: explanationFormat.ts から分離） 解説エンジンの4段階パイプラインの2段目。」plainLine・subMarkerCandidates・splitBodyBySubQuestions など7個を公開する。読み込むもの：explanationShapes.ts・explanationSupplement.ts。explanationFormat.ts・explanationSections.tsから読み込まれる。",
 "links": [
 {
 "dir": "from",
 "path": "src/utils/explanationFormat.ts"
 },
 {
-"dir": "to",
-"path": "src/utils/explanationShapes.ts"
+"dir": "from",
+"path": "src/utils/explanationSections.ts"
 },
 {
 "dir": "to",
-"path": "src/utils/explanationSupplement.ts"
+"path": "src/utils/explanationShapes.ts"
 }
 ],
 "lines": 353,
@@ -32846,6 +31920,44 @@
 "dedupeAgainstSteps"
 ],
 "nImports": 2,
+"nBy": 2,
+"draft": true,
+"sys": "logic",
+"flow": []
+},
+{
+"id": "src/utils/explanationSections.ts",
+"path": "src/utils/explanationSections.ts",
+"name": "explanationSections.ts",
+"folder": "src",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「小問・大問ごとに解説を区切って並べる処理（Phase 5 / A3 で explanationFormat.ts から移した）。」subQuestionCard・groupDivider・QuestionGroupParts など5個を公開する。読み込むもの：explanationShapes.ts・explanationSupplement.ts・explanationMarkers.ts など5ファイル。explanationFormat.tsから読み込まれる。",
+"links": [
+{
+"dir": "from",
+"path": "src/utils/explanationFormat.ts"
+},
+{
+"dir": "to",
+"path": "src/utils/explanationShapes.ts"
+},
+{
+"dir": "to",
+"path": "src/utils/explanationSupplement.ts"
+}
+],
+"lines": 429,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [
+"subQuestionCard",
+"groupDivider",
+"QuestionGroupParts",
+"buildQuestionGroupParts",
+"buildInterleavedSections"
+],
+"nImports": 5,
 "nBy": 1,
 "draft": true,
 "sys": "logic",
@@ -32857,7 +31969,7 @@
 "name": "explanationShapes.ts",
 "folder": "src",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「解説エンジンが読む「問題・小問の最小形」（C-11: explanationFormat.ts から分離）。」SubQuestionLike・QuestionLikeを公開する。explanationFormat.ts・explanationMarkers.tsから読み込まれる。",
+"detail": "冒頭の説明：「解説エンジンが読む「問題・小問の最小形」（C-11: explanationFormat.ts から分離）。」SubQuestionLike・QuestionLikeを公開する。explanationFormat.ts・explanationMarkers.ts など4ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -32877,7 +31989,7 @@
 "QuestionLike"
 ],
 "nImports": 0,
-"nBy": 2,
+"nBy": 4,
 "draft": true,
 "sys": "logic",
 "flow": []
@@ -32888,11 +32000,15 @@
 "name": "explanationSlices.ts",
 "folder": "src",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「整形済み解説の HTML コメント目印と、問・小問ごとの切り出し（C-11: explanationFormat.ts から分離） <!--grp:N--> / <!--sq:id…」GROUP_MARK・SQ_MARK・SQ_BODY_MARK など8個を公開する。explanationFormat.tsから読み込まれる。",
+"detail": "冒頭の説明：「整形済み解説の HTML コメント目印と、問・小問ごとの切り出し（C-11: explanationFormat.ts から分離） <!--grp:N--> / <!--sq:id…」GROUP_MARK・SQ_MARK・SQ_BODY_MARK など8個を公開する。explanationFormat.ts・explanationSections.tsから読み込まれる。",
 "links": [
 {
 "dir": "from",
 "path": "src/utils/explanationFormat.ts"
+},
+{
+"dir": "from",
+"path": "src/utils/explanationSections.ts"
 }
 ],
 "lines": 133,
@@ -32910,7 +32026,46 @@
 "sliceEnhancedByQuestion"
 ],
 "nImports": 0,
-"nBy": 1,
+"nBy": 2,
+"draft": true,
+"sys": "logic",
+"flow": []
+},
+{
+"id": "src/utils/explanationSteps.ts",
+"path": "src/utils/explanationSteps.ts",
+"name": "explanationSteps.ts",
+"folder": "src",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「解説の「解法の思考手順」ブロック（Phase 5 / A3 で explanationFormat.ts から移した）。」STEPS_TITLE・DETAIL_TITLE・UNIT_KATA_TITLE など6個を公開する。読み込むもの：explanationShapes.ts・explanationSupplement.ts・teachingTypes.ts。explanationFormat.ts・explanationSections.tsから読み込まれる。",
+"links": [
+{
+"dir": "from",
+"path": "src/utils/explanationFormat.ts"
+},
+{
+"dir": "from",
+"path": "src/utils/explanationSections.ts"
+},
+{
+"dir": "to",
+"path": "src/utils/explanationShapes.ts"
+}
+],
+"lines": 144,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [
+"STEPS_TITLE",
+"DETAIL_TITLE",
+"UNIT_KATA_TITLE",
+"formatSubSteps",
+"subsWithSteps",
+"buildStepsBlock"
+],
+"nImports": 3,
+"nBy": 2,
 "draft": true,
 "sys": "logic",
 "flow": []
@@ -33171,6 +32326,37 @@
 "typesetHtmlMath"
 ],
 "nImports": 3,
+"nBy": 1,
+"draft": true,
+"sys": "logic",
+"flow": []
+},
+{
+"id": "src/utils/mathNotation.ts",
+"path": "src/utils/mathNotation.ts",
+"name": "mathNotation.ts",
+"folder": "src",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「数学記法エンジンと、添字・分数の HTML 部品（Phase 5 / A3 で textFormatter.tsx から移した）。」buildFractionHtml・isUnitToken・SUBSCRIPT_CLASS など6個を公開する。textFormatter.tsxから読み込まれる。",
+"links": [
+{
+"dir": "from",
+"path": "src/utils/textFormatter.tsx"
+}
+],
+"lines": 223,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [
+"buildFractionHtml",
+"isUnitToken",
+"SUBSCRIPT_CLASS",
+"SUPERSCRIPT_CLASS",
+"normalizeScientificScripts",
+"convertMathNotation"
+],
+"nImports": 0,
 "nBy": 1,
 "draft": true,
 "sys": "logic",
@@ -33511,7 +32697,7 @@
 "name": "quizRange.ts",
 "folder": "src",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「演習で「今回解く範囲」を決める（C-02: Quiz.tsx から分離。計算は分離前と同じ）。」QuizRangeView・resolveQuizRangeを公開する。Quiz.tsx・ToeicPageQuiz.tsx など3ファイルから読み込まれる。",
+"detail": "冒頭の説明：「演習で「今回解く範囲」を決める（C-02: Quiz.tsx から分離。計算は分離前と同じ）。」QuizRangeView・resolveQuizRangeを公開する。Quiz.tsx・ToeicPageQuiz.tsx など4ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -33531,7 +32717,45 @@
 "resolveQuizRange"
 ],
 "nImports": 0,
-"nBy": 3,
+"nBy": 4,
+"draft": true,
+"sys": "logic",
+"flow": [
+"solve"
+]
+},
+{
+"id": "src/utils/quizStepState.ts",
+"path": "src/utils/quizStepState.ts",
+"name": "quizStepState.ts",
+"folder": "src",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「演習画面（Quiz.tsx）の「いまどの問を表示しているか」の計算（Phase 5 / A2 で Quiz.tsx から移した）。」QuizStepInput・QuizStepState・deriveQuizStepStateを公開する。読み込むもの：curriculum.ts・listeningSteps.ts。Quiz.tsx・quizStepState.test.tsから読み込まれる。",
+"links": [
+{
+"dir": "from",
+"path": "src/components/Quiz.tsx"
+},
+{
+"dir": "from",
+"path": "tests/quizStepState.test.ts"
+},
+{
+"dir": "to",
+"path": "src/types/curriculum.ts"
+}
+],
+"lines": 114,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [
+"QuizStepInput",
+"QuizStepState",
+"deriveQuizStepState"
+],
+"nImports": 2,
+"nBy": 2,
 "draft": true,
 "sys": "logic",
 "flow": [
@@ -33579,6 +32803,37 @@
 "flow": [
 "review"
 ]
+},
+{
+"id": "src/utils/shuffle.ts",
+"path": "src/utils/shuffle.ts",
+"name": "shuffle.ts",
+"folder": "src",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「配列を並べ替える（フィッシャー–イェーツ）。2026-10-28 リファクタリング A8 以前は vocabQuiz.ts・authoredConvert.ts・reading/i…」shuffleWith・shuffleSecureを公開する。authoredConvert.ts・ManaRush.tsx など5ファイルから読み込まれる。",
+"links": [
+{
+"dir": "from",
+"path": "src/battle/authoring/authoredConvert.ts"
+},
+{
+"dir": "from",
+"path": "src/components/ManaRush.tsx"
+}
+],
+"lines": 36,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [
+"shuffleWith",
+"shuffleSecure"
+],
+"nImports": 0,
+"nBy": 5,
+"draft": true,
+"sys": "logic",
+"flow": []
 },
 {
 "id": "src/utils/storageKeysCatalog.ts",
@@ -33695,7 +32950,7 @@
 "name": "studyRemindersRuntime.ts",
 "folder": "src",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「通知を実際に予約する層（studyReminders.ts の計画を、端末 or ブラウザへ渡す）。」ReminderPermission・reminderPermission・requestReminderPermission など7個を公開する。読み込むもの：firebase.ts・safeLocalStorage.ts・reviewList.ts など6ファイル、外部部品 @capacitor/local-notifications。ReminderSettings.tsx・useAppBackgroundSync.tsから読み込まれる。",
+"detail": "冒頭の説明：「通知を実際に予約する層（studyReminders.ts の計画を、端末 or ブラウザへ渡す）。」ReminderPermission・reminderPermission・requestReminderPermission など7個を公開する。読み込むもの：firebase.ts・safeLocalStorage.ts・userStorageKeys.ts など6ファイル、外部部品 @capacitor/local-notifications。ReminderSettings.tsx・useAppBackgroundSync.tsから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -34022,15 +33277,15 @@
 "links": [
 {
 "dir": "ref",
-"path": "APP_CAPACITOR_README.md"
-},
-{
-"dir": "ref",
 "path": "CLAUDE.md"
 },
 {
 "dir": "ref",
 "path": "DERIVATIVE_HANDOFF.md"
+},
+{
+"dir": "ref",
+"path": "EXPORT_MANIFEST.json"
 }
 ],
 "lines": 0,
@@ -34209,15 +33464,15 @@
 "links": [
 {
 "dir": "ref",
-"path": "APP_CAPACITOR_README.md"
-},
-{
-"dir": "ref",
 "path": "CLAUDE.md"
 },
 {
 "dir": "ref",
 "path": "DERIVATIVE_HANDOFF.md"
+},
+{
+"dir": "ref",
+"path": "EXPORT_MANIFEST.json"
 }
 ],
 "lines": 0,
@@ -34638,11 +33893,11 @@
 },
 {
 "dir": "ref",
-"path": "scripts/readalong/add_prosody.py"
+"path": "scripts/README.md"
 },
 {
 "dir": "ref",
-"path": "scripts/readalong/align_readalong.py"
+"path": "scripts/readalong/add_prosody.py"
 }
 ],
 "lines": 0,
@@ -35200,11 +34455,11 @@
 },
 {
 "dir": "ref",
-"path": "scripts/readalong/add_prosody.py"
+"path": "scripts/README.md"
 },
 {
 "dir": "ref",
-"path": "scripts/readalong/align_readalong.py"
+"path": "scripts/readalong/add_prosody.py"
 }
 ],
 "lines": 0,
@@ -35252,15 +34507,15 @@
 "links": [
 {
 "dir": "ref",
-"path": "APP_CAPACITOR_README.md"
-},
-{
-"dir": "ref",
 "path": "CLAUDE.md"
 },
 {
 "dir": "ref",
-"path": "COMMERCIAL_AUDIO_MIGRATION.md"
+"path": "EXPORT_MANIFEST.json"
+},
+{
+"dir": "ref",
+"path": "README.md"
 }
 ],
 "lines": 0,
@@ -35308,15 +34563,15 @@
 "links": [
 {
 "dir": "ref",
-"path": "APP_CAPACITOR_README.md"
-},
-{
-"dir": "ref",
 "path": "CLAUDE.md"
 },
 {
 "dir": "ref",
 "path": "DERIVATIVE_HANDOFF.md"
+},
+{
+"dir": "ref",
+"path": "EXPORT_MANIFEST.json"
 }
 ],
 "lines": 0,
@@ -35540,15 +34795,15 @@
 "links": [
 {
 "dir": "ref",
-"path": "APP_CAPACITOR_README.md"
-},
-{
-"dir": "ref",
 "path": "CLAUDE.md"
 },
 {
 "dir": "ref",
 "path": "DERIVATIVE_HANDOFF.md"
+},
+{
+"dir": "ref",
+"path": "EXPORT_MANIFEST.json"
 }
 ],
 "lines": 0,
@@ -36434,7 +35689,7 @@
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
 "detail": "4件の確認（it）を持つ。主な確認：「ご指摘3点の修正（2026-10-23）」「① 対戦：回答の赤/青表示で4択ボタンが上下に動かない（高さ固定の枠）」。ソースコードを文字として読み込んで検査する。",
 "links": [],
-"lines": 38,
+"lines": 40,
 "tag": "テスト",
 "conf": "低",
 "kind": "file",
@@ -36512,6 +35767,30 @@
 }
 ],
 "lines": 198,
+"tag": "テスト",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 1,
+"nBy": 0,
+"draft": true,
+"sys": "test",
+"flow": []
+},
+{
+"id": "tests/calendarCompare.test.ts",
+"path": "tests/calendarCompare.test.ts",
+"name": "calendarCompare.test.ts",
+"folder": "tests",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "3件の確認（it）を持つ。主な確認：「カレンダーの日付選び（最大7日）」「押すと加わり、もう一度押すと外れる」。対象：CalendarTab.tsx。",
+"links": [
+{
+"dir": "to",
+"path": "src/features/studylog/CalendarTab.tsx"
+}
+],
+"lines": 29,
 "tag": "テスト",
 "conf": "低",
 "kind": "file",
@@ -36607,6 +35886,25 @@
 "detail": "1件の確認（it）を持つ。主な確認：「マナコイン残高表示」「画面に戻るたび既存の残高を0から数え直さない」。ソースコードを文字として読み込んで検査する。",
 "links": [],
 "lines": 11,
+"tag": "テスト",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "test",
+"flow": []
+},
+{
+"id": "tests/collectionTiles.test.ts",
+"path": "tests/collectionTiles.test.ts",
+"name": "collectionTiles.test.ts",
+"folder": "tests",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "3件の確認（it）を持つ。主な確認：「B4 タイルと詳細の窓」「種類・所有状況はネイティブの select ではなくチップ／切替」。ソースコードを文字として読み込んで検査する。",
+"links": [],
+"lines": 25,
 "tag": "テスト",
 "conf": "低",
 "kind": "file",
@@ -36891,38 +36189,6 @@
 "flow": []
 },
 {
-"id": "tests/kobeMockPrints.test.ts",
-"path": "tests/kobeMockPrints.test.ts",
-"name": "kobeMockPrints.test.ts",
-"folder": "tests",
-"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "3件の確認（it）を持つ。主な確認：「LR：神戸大学 前期 英語 予想問題」「3回分 × 問題・解答解説の6種。ファイル・サムネイル・KB が実物と合う」。対象：arenaEconomy.ts・growth.ts・gachaPreviews.generated.ts。",
-"links": [
-{
-"dir": "to",
-"path": "src/battle/core/growth.ts"
-},
-{
-"dir": "to",
-"path": "src/battle/core/arenaEconomy.ts"
-},
-{
-"dir": "to",
-"path": "src/data/kobeMockPrints.ts"
-}
-],
-"lines": 51,
-"tag": "テスト",
-"conf": "低",
-"kind": "file",
-"exports": [],
-"nImports": 4,
-"nBy": 0,
-"draft": true,
-"sys": "test",
-"flow": []
-},
-{
 "id": "tests/kyotsuMockAudio.test.ts",
 "path": "tests/kyotsuMockAudio.test.ts",
 "name": "kyotsuMockAudio.test.ts",
@@ -36956,7 +36222,7 @@
 "name": "kyotsuMockPrints.test.ts",
 "folder": "tests",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "4件の確認（it）を持つ。主な確認：「LR：共通テスト 英語 予想問題」「台帳のページ数・ファイル・サムネイルが実物と合う」。対象：arenaEconomy.ts・growth.ts・kobeMockPrints.ts。",
+"detail": "4件の確認（it）を持つ。主な確認：「LR：共通テスト 英語 予想問題」「台帳のページ数・ファイル・サムネイルが実物と合う」。対象：arenaEconomy.ts・growth.ts・kyotsuMockPrints.ts。",
 "links": [
 {
 "dir": "to",
@@ -36968,15 +36234,15 @@
 },
 {
 "dir": "to",
-"path": "src/data/kobeMockPrints.ts"
+"path": "src/data/kyotsuMockPrints.ts"
 }
 ],
-"lines": 70,
+"lines": 67,
 "tag": "テスト",
 "conf": "低",
 "kind": "file",
 "exports": [],
-"nImports": 6,
+"nImports": 3,
 "nBy": 0,
 "draft": true,
 "sys": "test",
@@ -37135,38 +36401,6 @@
 "kind": "file",
 "exports": [],
 "nImports": 1,
-"nBy": 0,
-"draft": true,
-"sys": "test",
-"flow": []
-},
-{
-"id": "tests/osakaMockPrints.test.ts",
-"path": "tests/osakaMockPrints.test.ts",
-"name": "osakaMockPrints.test.ts",
-"folder": "tests",
-"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "3件の確認（it）を持つ。主な確認：「LR：大阪大学 前期 英語 予想問題」「3回分 × 問題・解答解説の6種。ファイル・サムネイル・KB が実物と合う」。対象：arenaEconomy.ts・growth.ts・gachaPreviews.generated.ts。",
-"links": [
-{
-"dir": "to",
-"path": "src/battle/core/growth.ts"
-},
-{
-"dir": "to",
-"path": "src/battle/core/arenaEconomy.ts"
-},
-{
-"dir": "to",
-"path": "src/data/osakaMockPrints.ts"
-}
-],
-"lines": 51,
-"tag": "テスト",
-"conf": "低",
-"kind": "file",
-"exports": [],
-"nImports": 4,
 "nBy": 0,
 "draft": true,
 "sys": "test",
@@ -37339,6 +36573,38 @@
 "flow": []
 },
 {
+"id": "tests/quizStepState.test.ts",
+"path": "tests/quizStepState.test.ts",
+"name": "quizStepState.test.ts",
+"folder": "tests",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "2件の確認（it）を持つ。主な確認：「deriveQuizStepState は移す前の Quiz.tsx の式と同じ結果を返す」「全教科・全大問・ステップ位置・範囲・解説表示の組み合わせで一致する」。対象：allChapters.ts・curriculum.ts・listeningSteps.ts。",
+"links": [
+{
+"dir": "to",
+"path": "src/types/curriculum.ts"
+},
+{
+"dir": "to",
+"path": "src/data/allChapters.ts"
+},
+{
+"dir": "to",
+"path": "src/utils/listeningSteps.ts"
+}
+],
+"lines": 105,
+"tag": "テスト",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 5,
+"nBy": 0,
+"draft": true,
+"sys": "test",
+"flow": []
+},
+{
 "id": "tests/reading.test.ts",
 "path": "tests/reading.test.ts",
 "name": "reading.test.ts",
@@ -37411,7 +36677,7 @@
 "path": "docs/UI_CHANGELOG.md"
 }
 ],
-"lines": 28,
+"lines": 29,
 "tag": "テスト",
 "conf": "低",
 "kind": "file",
@@ -37493,6 +36759,53 @@
 "kind": "file",
 "exports": [],
 "nImports": 1,
+"nBy": 0,
+"draft": true,
+"sys": "test",
+"flow": []
+},
+{
+"id": "tests/shuffle.test.ts",
+"path": "tests/shuffle.test.ts",
+"name": "shuffle.test.ts",
+"folder": "tests",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "3件の確認（it）を持つ。主な確認：「shuffle（共通化しても並びは変わらない）」「同じ乱数なら以前と同じ並び（seed を変えて100通り）」。対象：vocabQuiz.ts・shuffle.ts。",
+"links": [
+{
+"dir": "to",
+"path": "src/data/vocabQuiz.ts"
+},
+{
+"dir": "to",
+"path": "src/utils/shuffle.ts"
+}
+],
+"lines": 33,
+"tag": "テスト",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 2,
+"nBy": 0,
+"draft": true,
+"sys": "test",
+"flow": []
+},
+{
+"id": "tests/startupImportGraph.test.ts",
+"path": "tests/startupImportGraph.test.ts",
+"name": "startupImportGraph.test.ts",
+"folder": "tests",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "4件の確認（it）を持つ。主な確認：「起動時に読み込まれるファイル」「main.tsx から実際にたどれている（たどり方が壊れていない）」。ソースコードを文字として読み込んで検査する。",
+"links": [],
+"lines": 143,
+"tag": "テスト",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
 "nBy": 0,
 "draft": true,
 "sys": "test",
@@ -37899,12 +37212,12 @@
 "one": "単元の索引・英文法の問題・単語数などを生成して持つ係",
 "detail": "chapterIndex（gen-chapter-index.mts）、egV3Items（grammar_v3/build_ts.py）、listeningVocabularyMeta（gen-listening-vocabulary.mts）、gachaPrints の各生成物。手で編集しない。",
 "links": [],
-"lines": 1197,
+"lines": 1125,
 "tag": "データ",
 "conf": "高",
 "kind": "bundle",
 "count": 5,
-"bytes": 1631243,
+"bytes": 1628882,
 "exts": {
 ".ts": 5
 },
@@ -38133,11 +37446,11 @@
 "tag": "文書",
 "conf": "高",
 "kind": "bundle",
-"count": 264,
-"bytes": 65418025,
+"count": 216,
+"bytes": 55600844,
 "exts": {
-".webp": 152,
-".pdf": 88,
+".webp": 116,
+".pdf": 76,
 ".mp3": 24
 },
 "members": [
@@ -38529,7 +37842,7 @@
 "conf": "高",
 "kind": "bundle",
 "count": 55,
-"bytes": 2459575,
+"bytes": 2459605,
 "exts": {
 ".txt": 48,
 ".json": 6,
@@ -38581,24 +37894,23 @@
 },
 {
 "id": "b_docs_txt",
-"path": "docs/、docs/listening_q4-6/、docs/listening_q4-6/q5/",
-"tree": "docs",
+"path": "docs/listening_q4-6/、docs/listening_q4-6/q5/",
+"tree": "docs/listening_q4-6",
 "name": "資料の補足テキスト",
 "folder": "docs",
 "one": "ルールの控えや、素材一式の「はじめに」などの補足の係",
 "detail": "firestore.rules の控え（txt）と、第4〜6問の素材に添えた説明テキスト。",
 "links": [],
-"lines": 2148,
+"lines": 22,
 "tag": "文書",
 "conf": "高",
 "kind": "bundle",
-"count": 3,
-"bytes": 118653,
+"count": 2,
+"bytes": 2183,
 "exts": {
-".txt": 3
+".txt": 2
 },
 "members": [
-"docs/firestore.rules.copy.txt",
 "docs/listening_q4-6/q5/音声の確認事項.txt",
 "docs/listening_q4-6/はじめに.txt"
 ],

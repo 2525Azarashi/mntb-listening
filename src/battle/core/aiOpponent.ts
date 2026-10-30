@@ -82,6 +82,12 @@ export interface AiProfile {
   speedRange: readonly [number, number];
   /** 主色（UI 用） */
   color: string;
+  /**
+   * 人間らしい間（全国対戦の相手だけ。B7）。
+   *   tempo  … 考えるテンポ（1＝ふつう、大きいほどゆっくり）
+   *   wobble … 問題ごとのばらつき（0〜1）。大きいほど「即答」と「長考」がまざる
+   */
+  human?: { tempo: number; wobble: number };
 }
 
 export const AI_PROFILES: Readonly<Record<AiLevel, AiProfile>> = Object.freeze({
@@ -187,7 +193,19 @@ export function decideAiMove(
 
   // ---- 答えるタイミング ----
   const [minR, maxR] = profile.speedRange;
-  const ratio = minR + (maxR - minR) * random();
+  let ratio = minR + (maxR - minR) * random();
+  // ★B7 人間らしい間（全国対戦の相手）★ 問題ごとに「即答」「ふつう」「長考」がまざる。
+  //   さらに考えるテンポ（tempo）で全体を伸び縮みさせる。乱数は既存の順番のあとに引くので、
+  //   human を持たない AI（AI対戦）の動きは変わらない。
+  if (profile.human) {
+    const { tempo, wobble } = profile.human;
+    const roll = random();
+    const swing = random();
+    if (roll < 0.12 * wobble * 2) ratio *= 0.45 + swing * 0.25;          // 即答（わかる問題）
+    else if (roll > 1 - 0.14 * wobble * 2) ratio = ratio + (0.9 - ratio) * (0.4 + swing * 0.5); // 長考
+    else ratio *= 0.85 + swing * 0.3;                                     // ふつうのゆらぎ
+    ratio = Math.min(0.9, ratio * tempo);
+  }
   const readFloor = aiReadSeconds(question);
   // かな入力は文字数ぶん打つ時間もかかる（1文字 0.6 秒）
   const typeSec = isKana ? question.panelOrder.length * 0.6 : isPanel ? question.panelOrder.length * 0.4 : 0;
@@ -302,18 +320,34 @@ const GHOST_NAMES = [
 ] as const;
 const GHOST_SUFFIX = ['', '', '', '_jp', '0', '7', '23', '♪', '★', '（受験生）', '高2', '高3'] as const;
 
-/** 自分のレートから、近い強さの AI プレイヤーを作る（同じ seed なら同じ相手） */
+/** 全国対戦の相手のレートの幅（B7 2026-10-29：自分の上下この範囲。近い相手ほど出やすい） */
+export const GHOST_RATING_SPREAD = 320;
+export const GHOST_RATING_MIN = 800;
+export const GHOST_RATING_MAX = 2800;
+
+/**
+ * 自分のレートから、全国対戦の相手を作る（同じ seed なら同じ相手）。
+ * ★B7（2026-10-29）★ 強さの幅を広げた（弱い人〜強い人まで出る）。
+ *   ・レートは自分の ±320（三角分布＝近い相手ほど多い。たまにかなり格上・格下）
+ *   ・正解率 0.30〜0.97、速さはレートに合わせてなめらかに（個性のゆらぎつき）
+ *   ・tempo（考えるテンポ）と迷いやすさを人ごとに変える → decideAiMove で人間らしい間になる
+ */
 export function ghostProfileFor(myRating: number, seed: string): AiProfile {
   const random = createRandom(hashString(`ghost#${seed}`));
-  const rating = Math.round(Math.min(2600, Math.max(900, (Number.isFinite(myRating) ? myRating : 1500) + (random() * 180 - 90))));
+  const base0 = Number.isFinite(myRating) ? myRating : 1500;
+  const tri = (random() + random()) - 1; // -1〜1、0付近が多い
+  const rating = Math.round(Math.min(GHOST_RATING_MAX, Math.max(GHOST_RATING_MIN, base0 + tri * GHOST_RATING_SPREAD)));
   const level: AiLevel = rating < 1350 ? 'easy' : rating < 1700 ? 'normal' : rating < 2050 ? 'hard' : 'expert';
   const base = AI_PROFILES[level];
-  // レートに合わせて正解率をなめらかに（900 で 0.42、2600 で 0.93）
-  const accuracy = Math.min(0.95, Math.max(0.4, 0.42 + ((rating - 900) / 1700) * 0.51 + (random() * 0.08 - 0.04)));
-  const shift = random() * 0.1 - 0.05;
+  // レートに合わせて正解率をなめらかに（800 で 0.30、2800 で 0.97）＋個性
+  const t = (rating - GHOST_RATING_MIN) / (GHOST_RATING_MAX - GHOST_RATING_MIN);
+  const accuracy = Math.min(0.97, Math.max(0.3, 0.3 + t * 0.67 + (random() * 0.1 - 0.05)));
+  // 速さ：強いほど早い（0.62→0.12 が中心）。幅は人によって 0.18〜0.4
+  const center = 0.62 - t * 0.5 + (random() * 0.12 - 0.06);
+  const width = 0.18 + random() * 0.22;
   const speedRange: [number, number] = [
-    Math.min(0.8, Math.max(0.08, base.speedRange[0] + shift)),
-    Math.min(0.9, Math.max(0.2, base.speedRange[1] + shift)),
+    Math.min(0.8, Math.max(0.06, center - width / 2)),
+    Math.min(0.9, Math.max(0.18, center + width / 2)),
   ];
   const name = GHOST_NAMES[Math.floor(random() * GHOST_NAMES.length)] + GHOST_SUFFIX[Math.floor(random() * GHOST_SUFFIX.length)];
   return {
@@ -325,5 +359,6 @@ export function ghostProfileFor(myRating: number, seed: string): AiProfile {
     kanaPenalty: base.kanaPenalty,
     speedRange,
     color: base.color,
+    human: { tempo: 0.8 + random() * 0.5, wobble: 0.15 + random() * 0.25 },
   };
 }

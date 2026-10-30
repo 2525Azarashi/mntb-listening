@@ -69,3 +69,11 @@ export function lastActiveKey(uid: string): string {
 export function completedKey(uid: string): string {
   return `${COMPLETED_KEY_PREFIX}${uid}`;
 }
+
+/**
+ * uid ごとの保存キー：接頭辞 + encodeURIComponent(uid)。uid が空ならゲスト用の 'guest'（2026-10-28 リファクタリング A7）
+ *   以前は7つのファイルが同じ式をそれぞれ書いていた。計算はそのままなので、保存済みのデータはそのまま読める。
+ */
+export function perUserKey(prefix: string, uid: string | null | undefined): string {
+  return prefix + encodeURIComponent(uid || 'guest');
+}

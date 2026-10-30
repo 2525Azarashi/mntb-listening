@@ -211,8 +211,13 @@ export function useQuestionDerived({
    *   問題によっておかしくなる」を避けるため）。
    */
   const isEnglishProse = useMemo(() => {
+    // C8（2026-10-29）：英文法・TOEIC は答えが聞こえないよう audioTracks を外し、
+    //   英文を explanationTracks に移している。audioTracks だけを見ていたため英文と判定されず、
+    //   選択肢の英単語が化学式用のセリフ体で組まれ、問題文の英文（prose）と書体がずれていた。
+    //   解説側（Explanation.tsx の isEnglishChapter）と同じく両方を見る。
     const tracks = currentQuestion?.audioTracks;
-    return Array.isArray(tracks) && tracks.length > 0;
+    const textTracks = currentQuestion?.explanationTracks;
+    return (Array.isArray(tracks) && tracks.length > 0) || (Array.isArray(textTracks) && textTracks.length > 0);
   }, [currentQuestion]);
 
   // 現在フォーカス中の穴埋め設問に対応する、問題文中のハイライト候補文字列。

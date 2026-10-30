@@ -64,7 +64,7 @@ export interface AnswerPaneProps {
   /** ページャーのいまの位置（範囲外にならないよう丸めた値）。 */
   safeMobileAnsIdx: number;
   /** ページャーを1つ進める／戻す。 */
-  goMobileAns: (delta: number) => void;
+  goMobileAns: (dir: -1 | 1) => void;
   /** スマホのカードでキー操作したときの扱い。 */
   handleMobileCardKeyDown: (sq: SubQuestion) => (e: React.KeyboardEvent) => void;
   /** その設問が「入力の並びの最後」かどうか（Enter を done にするため）。 */

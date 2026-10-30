@@ -21,6 +21,7 @@ import { isShortAnswerType } from './quizBlanks';
 import { buildListeningSteps, isPerSubQuestionListening } from './listeningSteps';
 import { stageKey } from './stageRecords';
 import { recordStagePlayAndSync } from './stagePlay';
+import { maybeAwardChapterTitle } from './chapterTitleAward';
 import type { ScoreBreakdown } from './scoring';
 import type { Chapter, Problem, SubQuestion } from '../types/curriculum';
 
@@ -223,6 +224,11 @@ export function createQuizStepActions({
           recordStagePlayAndSync(auth.currentUser?.uid || 'guest', stageKey(chapter.id, single?.id),
             single ? `${unitTitle} ${single.title || `第${rangeStart + 1}回`}` : unitTitle,
             latest.totalCorrect, latest.totalJudgeable);
+          // C12：この回が満点で、章の全部の回がそろったら称号（英文法の章だけ）
+          if (single) {
+            maybeAwardChapterTitle(auth.currentUser?.uid || 'guest', chapter.id, questions.map((q) => String(q.id)),
+              latest.totalJudgeable > 0 && latest.totalCorrect === latest.totalJudgeable);
+          }
         } catch { /* 記録の失敗で学習を止めない */ }
         finalizeChapterRun(latest);
         // 新たな挑戦のためにラン状態リセット

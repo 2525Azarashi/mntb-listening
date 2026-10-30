@@ -55,3 +55,18 @@ test('achievements: devices are summed; 3 perfects across devices clear a stage'
   assert.equal(parseDeviceAchievements({ deviceId: 'abcdefgh12', xp: 1, stages: { a: { p: 2, n: 1 } } }), null);
   assert.ok(parseDeviceAchievements({ deviceId: 'abcdefgh12', xp: 1, stages: { 'eg6_1::q1': { p: 1, n: 2 } } }));
 });
+import { ghostNextRating, parseGhostMatch, GHOST_K } from './core.mjs';
+test('B7 ghost battles move rating a little and clamp the foe rating',()=>{
+  assert.equal(ghostNextRating(1500,1500,'win'),1500+GHOST_K/2);
+  assert.equal(ghostNextRating(1500,1500,'lose'),1500-GHOST_K/2);
+  assert.equal(ghostNextRating(1500,9999,'win'),ghostNextRating(1500,1820,'win'));
+  assert.ok(Math.abs(ghostNextRating(1500,800,'lose')-1500)<=GHOST_K);
+});
+test('B7 ghost results must agree with the scores',()=>{
+  const ok={matchId:'abcdef123456',ghostRating:1600,outcome:'win',myScore:300,opponentScore:200};
+  assert.ok(parseGhostMatch(ok));
+  assert.equal(parseGhostMatch({...ok,outcome:'lose'}),null);
+  assert.equal(parseGhostMatch({...ok,matchId:'x'}),null);
+  assert.equal(parseGhostMatch({...ok,myScore:-1}),null);
+  assert.ok(parseGhostMatch({...ok,myScore:200,opponentScore:200,outcome:'win'})); // 同点はタイム差で決まる
+});
