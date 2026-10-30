@@ -9,7 +9,7 @@
  *   ・目安の時間を過ぎても止めない（既存の仕様のまま）。赤や点滅は使わず、灰色で「目安を過ぎました ＋m:ss」と出す
  *   ・全ページを採点したら、かかった時間を灰色で出す
  */
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Clock } from 'lucide-react';
 import { useLatest } from '../../hooks/useLatest';
 
@@ -68,6 +68,10 @@ export function ToeicTimer({ timeLimit, running, finished, onTick, resetKey }: {
       ? `目安の${fmt(limit)}を過ぎました ＋${fmt(-remaining)}`
       : `残り ${fmt(remaining)}`;
 
+  // 棒の長さは ref で直接書き換える（JSX にインラインの style を直書きしない：cssTokens の見張り）
+  const fillRef = useRef<HTMLDivElement>(null);
+  useLayoutEffect(() => { if (fillRef.current) fillRef.current.style.width = `${pct}%`; }, [pct]);
+
   return (
     <div className="tp-timer" role="timer" aria-label={label} data-state={state} data-toeic-timer>
       <p className="tp-timer-text">
@@ -76,7 +80,7 @@ export function ToeicTimer({ timeLimit, running, finished, onTick, resetKey }: {
         {state !== 'done' && state !== 'over' && <span className="tp-timer-limit">／ {fmt(limit)}</span>}
       </p>
       <div className="tp-timer-track" aria-hidden="true">
-        <div className="tp-timer-fill" style={{ width: `${pct}%` }} />
+        <div className="tp-timer-fill" ref={fillRef} />
       </div>
     </div>
   );
