@@ -33,14 +33,14 @@
 .game-home .game-stage-backdrop { inset: 0; background: none; }
 .game-home .game-stage-backdrop::before { border-color: #ffffff30; background: radial-gradient(ellipse at 50% 30%, #ffffff1f, transparent 70%); box-shadow: 0 0 0 9px #ffffff0d, 0 0 0 10px #ffffff1c; }
 /* 星 */
-.game-home .game-stage-backdrop i { opacity: 1 !important; width: 3px !important; height: 3px !important; border: 0 !important; border-radius: 50% !important; background: #fff !important; transform: none !important;
+.game-home .game-stage-backdrop i { opacity: var(--stage-dot-op, 1) !important; width: 3px !important; height: 3px !important; border: var(--stage-dot-border, 0) !important; border-radius: 50% !important; background: var(--stage-dot, #fff) !important; transform: none !important;
   box-shadow: 40px 30px 0 #fff9, 120px 8px 0 #fffc, 210px 44px 0 #fff8, 260px 14px 0 #fff, 300px 70px 0 #fff7, 70px 90px 0 #fff6, 180px 110px 0 #fff5 !important; animation: w-twinkle 4s ease-in-out infinite; }
 .game-home .game-stage-backdrop i:nth-child(2) { left: 52% !important; top: 12% !important; animation-delay: 1.3s; }
 .game-home .game-stage-backdrop i:nth-child(3) { left: 6% !important; top: 18% !important; animation-delay: 2.4s; }
 @keyframes w-twinkle { 0%, 100% { opacity: .55; } 50% { opacity: 1; } }
 .game-home .game-stage-floor { filter: brightness(.95) saturate(1.1); }
-.game-home .game-mascot-button > span { color: #ffe9c2 !important; text-shadow: 0 1px 0 #0006 !important; font-size: 12px !important; }
-.game-home .game-mascot-button b { color: #fff !important; }
+.game-home .game-mascot-button > span { color: var(--stage-label, #ffe9c2) !important; text-shadow: var(--stage-label-shadow, 0 1px 0 #0006) !important; font-size: 12px !important; }
+.game-home .game-mascot-button b { color: var(--stage-label-b, #fff) !important; }
 .game-home .game-stage-caption { top: auto !important; bottom: 6px; background: #0d1a33aa !important; border-color: #ffffff33 !important; color: #ffe9c2 !important; }
 /* 吹き出し（ステージの上部中央） */
 .game-home .game-stage-say { position: absolute; z-index: 4; top: 8px; left: 50%; translate: -50% 0; width: max-content; max-width: min(92%, 420px); }

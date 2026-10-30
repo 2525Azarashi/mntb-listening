@@ -17,11 +17,11 @@ export const DEFAULT_FRAME = 'frame_paper';
  * pose / frame は扉くん本体、hat / glasses / cheek / aura は部位ごとのアクセサリ（重ねて描く）、
  * wallpaper はアプリの壁紙。print は大当たりの学習プリント（PDF・装備はしない）。
  */
-export type ItemKind = 'pose' | 'frame' | AccessorySlot | 'wallpaper' | 'print';
+export type ItemKind = 'pose' | 'frame' | AccessorySlot | 'wallpaper' | 'stage' | 'print';
 /** 装備できる種類（equipped のキー） */
 export type EquipKind = Exclude<ItemKind, 'print'>;
 /** 外せる種類（アクセサリと壁紙。ポーズと枠は常に何か1つ） */
-export const REMOVABLE_KINDS: readonly EquipKind[] = [...ACCESSORY_SLOTS, 'wallpaper'];
+export const REMOVABLE_KINDS: readonly EquipKind[] = [...ACCESSORY_SLOTS, 'wallpaper', 'stage'];
 /** ガチャのレア度：N（ノーマル）/ R（レア）/ SR（スーパーレア・学習プリント）/ UR（大当たり＝完全版の本）/ LR（レジェンドレア＝共通テスト予想問題） */
 export type GachaRarity = 'N' | 'R' | 'SR' | 'UR' | 'LR';
 
@@ -197,6 +197,15 @@ export const ITEMS: readonly ItemDef[] = [
   { id: 'wall_english', kind: 'wallpaper', gacha: true, rarity: 'N', label: '壁紙：ABC', value: 'english', unlock: { gacha: true } },
   { id: 'wall_sky', kind: 'wallpaper', gacha: true, rarity: 'N', label: '壁紙：青空', value: 'sky', unlock: { gacha: true } },
   { id: 'wall_candy', kind: 'wallpaper', gacha: true, rarity: 'N', label: '壁紙：キャンディ', value: 'candy', unlock: { gacha: true } },
+  // ── D7（2026-10-30）ホームの背景（とびら君のステージ）。ガチャで当てて、きせかえで選ぶ。何もつけなければ「宇宙」 ──
+  { id: 'stage_sunrise', kind: 'stage', gacha: true, rarity: 'N', label: 'ホーム背景：朝焼けの丘', value: 'sunrise', unlock: { gacha: true } },
+  { id: 'stage_forest', kind: 'stage', gacha: true, rarity: 'N', label: 'ホーム背景：森のこみち', value: 'forest', unlock: { gacha: true } },
+  { id: 'stage_ocean', kind: 'stage', gacha: true, rarity: 'R', label: 'ホーム背景：深い海', value: 'ocean', unlock: { gacha: true } },
+  { id: 'stage_sakura', kind: 'stage', gacha: true, rarity: 'R', label: 'ホーム背景：夜桜', value: 'sakura', unlock: { gacha: true } },
+  { id: 'stage_library', kind: 'stage', gacha: true, rarity: 'R', label: 'ホーム背景：夜の図書館', value: 'library', unlock: { gacha: true } },
+  { id: 'stage_candy', kind: 'stage', gacha: true, rarity: 'R', label: 'ホーム背景：おかしの国', value: 'candy', unlock: { gacha: true } },
+  { id: 'stage_aurora', kind: 'stage', gacha: true, rarity: 'SR', label: 'ホーム背景：オーロラ', value: 'aurora', unlock: { gacha: true } },
+  { id: 'stage_neon', kind: 'stage', gacha: true, rarity: 'SR', label: 'ホーム背景：ネオンの街', value: 'neon', unlock: { gacha: true } },
   // ── セット完成の報酬（ガチャ・ショップには出ない。セットの称号で解放）──
   { id: 'frame_set_sprout', kind: 'frame', rarity: 'SR', label: '芽ぶきフレーム（セット報酬）', value: '#51CF66', pattern: 'dots', unlock: { badge: 'b_set_sprout' } },
   { id: 'frame_set_listening', kind: 'frame', rarity: 'SR', label: '音の波フレーム（セット報酬）', value: '#2F9E8F', pattern: 'wave', unlock: { badge: 'b_set_listening' } },
@@ -313,6 +322,13 @@ export function equippedWallpaper(progress: GrowthProgress): string {
   const id = progress.equipped.wallpaper;
   const item = id ? itemById(id) : undefined;
   return item && item.kind === 'wallpaper' && progress.owned.includes(id) ? item.value : '';
+}
+
+/** D7：装備中のホームの背景のキー（STAGES）。無ければ ''（いつもの宇宙） */
+export function equippedStage(progress: GrowthProgress): string {
+  const id = progress.equipped.stage;
+  const item = id ? itemById(id) : undefined;
+  return item && item.kind === 'stage' && progress.owned.includes(id) ? item.value : '';
 }
 
 /** 称号を身につける（'' でレート称号に戻す。持っていないバッジは拒否） */

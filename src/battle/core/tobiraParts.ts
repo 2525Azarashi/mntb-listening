@@ -9,8 +9,8 @@
  */
 export type AccessorySlot = 'hat' | 'glasses' | 'cheek' | 'aura';
 export const ACCESSORY_SLOTS: readonly AccessorySlot[] = ['hat', 'glasses', 'cheek', 'aura'];
-export const SLOT_LABELS: Record<AccessorySlot | 'wallpaper', string> = {
-  hat: '頭（帽子）', glasses: '顔（メガネ）', cheek: 'ほっぺ', aura: 'オーラ', wallpaper: '壁紙',
+export const SLOT_LABELS: Record<AccessorySlot | 'wallpaper' | 'stage', string> = {
+  hat: '頭（帽子）', glasses: '顔（メガネ）', cheek: 'ほっぺ', aura: 'オーラ', wallpaper: '壁紙', stage: 'ホームの背景',
 };
 
 export interface PoseAnchor { w: number; h: number; head: readonly [number, number, number, number]; eyes: readonly [number, number, number, number] }
@@ -79,3 +79,20 @@ export const WALLPAPERS: Record<string, { label: string; css: string; dark?: boo
 };
 
 export function wallpaperOf(value: string) { return WALLPAPERS[value] ?? null; }
+
+/**
+ * D7（2026-10-30）ホームのステージの背景。value → 見本の色（一覧・ガチャの絵）と、明るさ。
+ *   色・星・光・動きは styles/home-stage.css（ホームは [data-stage=...]、一覧の見本は [data-stage-swatch=...]）。ここは名前だけ。
+ */
+export const STAGES: Record<string, { label: string; light?: boolean }> = {
+  cosmos: { label: '宇宙' },
+  sunrise: { label: '朝焼けの丘', light: true },
+  forest: { label: '森のこみち' },
+  ocean: { label: '深い海' },
+  sakura: { label: '夜桜' },
+  library: { label: '夜の図書館' },
+  candy: { label: 'おかしの国', light: true },
+  aurora: { label: 'オーロラ' },
+  neon: { label: 'ネオンの街' },
+};
+export function stageOf(value: string) { return STAGES[value] ?? null; }

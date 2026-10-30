@@ -87,6 +87,8 @@ export interface GrowthProgress {
     aura: string;
     /** アプリの壁紙（'' = いつもの背景） */
     wallpaper: string;
+    /** D7（2026-10-30）ホームのステージの背景（'' = いつもの宇宙）。古い記録には無い */
+    stage?: string;
   };
   /** 今日のミッション進捗 */
   daily: DailyRecord;
