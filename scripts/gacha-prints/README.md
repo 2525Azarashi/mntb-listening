@@ -103,7 +103,8 @@ python3 scripts/gacha-prints/idiom_reading/publish.py   # 上の6冊を public/p
 ## LR：国公立2次 英語 予想問題 名古屋大学 前期対策（2次試験ガチャ・2026-10-29）
 
 ```bash
-# PDF は別リポジトリ（webapp/pdf の build_round{1,2,3}_{q,a}.py・WeasyPrint）で作り、問題＋解答解説を1冊にまとめる
+# PDF は別リポジトリ（webapp/pdf）で作る：build_round{1,2,3}_{q,a}.py で中身の HTML → build_exam.py で試験冊子の紙面（白黒・解答用紙つき）に組んで PDF 化
+# 問題＋解答解説を1冊にまとめる
 pdfunite 予想問題_名古屋大学_英語_第N回_問題.pdf 予想問題_名古屋大学_英語_第N回_解答解説.pdf public/prints/print_lr_niji_nagoya_en_N.pdf
 # サムネ（thumbs）と「中身を少し見る」画像だけ作り直す（引数に id を渡すとその分だけ）
 python3 scripts/gacha-prints/build-previews.py print_lr_niji_nagoya_en_1 print_lr_niji_nagoya_en_2 print_lr_niji_nagoya_en_3

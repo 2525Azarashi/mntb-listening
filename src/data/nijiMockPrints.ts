@@ -20,9 +20,9 @@ const nagoya = (n: number, pages: number, kb: number): GachaPrintDef => ({
 });
 
 export const NIJI_MOCK_PRINTS: readonly GachaPrintDef[] = [
-  nagoya(1, 30, 1450),
-  nagoya(2, 30, 1439),
-  nagoya(3, 30, 1396),
+  nagoya(1, 28, 2026),
+  nagoya(2, 30, 2033),
+  nagoya(3, 30, 1983),
 ];
 
 /** 予想問題に必ず添える注意書き（ガチャの詳細・ピックアップでも同じ文を出す） */

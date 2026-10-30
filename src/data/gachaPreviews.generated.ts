@@ -43,7 +43,7 @@ export const GACHA_PREVIEWS: Readonly<Record<string, readonly string[]>> = {
   ],
   "print_lr_niji_nagoya_en_1": [
     "/prints/previews/print_lr_niji_nagoya_en_1_p2.webp",
-    "/prints/previews/print_lr_niji_nagoya_en_1_p15.webp"
+    "/prints/previews/print_lr_niji_nagoya_en_1_p14.webp"
   ],
   "print_lr_niji_nagoya_en_2": [
     "/prints/previews/print_lr_niji_nagoya_en_2_p2.webp",
