@@ -148,3 +148,25 @@ cd scripts/gacha-prints/osaka_mock
 python3 check.py 1 2 3     # 英語4語／日本語13字の一致・解説の英文引用の実在・選択肢の重複・○×と正解の一致・題材の近さ（TF-IDF）・正解位置の偏り・正解だけ長い選択肢 → logs/check.json（ng が空であること）
 for R in 1 2 3; do python3 verify.py $R; done   # 語数・平均文長・難語率が 2022〜2026年度の範囲内か、字数・語数の指定どおりか → logs/verify_rN.json（NG なら終了コード1）
 ```
+
+## LR：立命館大学 全学統一方式（文系）英語 予想問題（3回分・白黒・マーク式）2026-10-30
+
+```bash
+# 必要なもの・フォントは神戸大と同じ（ritsu_mock/render.py は kobe_mock/render.py の部品を読み込む。kobe 側を壊さないこと）
+cd scripts/gacha-prints/ritsu_mock && for R in 1 2 3; do python3 render.py $R; done
+# → .tmpwork/ritsu_mock/manatobi_ritsu_eng_yoso{n}_{mondai,kaitou}.pdf
+#   を public/prints/print_lr_ritsu_{q,a}_{n}.pdf にコピー → サムネイル（book_common.make_thumb と同じ作り方）
+#   → src/data/ritsuMockPrints.ts の pages / kb を合わせる → python3 scripts/gacha-prints/build-previews.py
+```
+- 形式：I 長文（英問4択・一致／不一致／判断できない・表題5択）／II 長文（空所補充 A〜H・下線部 あ〜お）／III 会話文2つ（10択）／IV 文法・語法 A〜H／V 語彙（空所・同意語）。80分・すべて選択式。独自配点 120点（I 26・II 34・III 24・IV 16・V 20）。
+- 問題データは `rmN_I.py`〜`rmN_V.py`（N＝回）。4択は `mk.mc()` で「正解を choices[0] に書き，解説では {c1}〜{c3} で他の選択肢を指す」形で書くと，正解位置が均等にずれて番号に置き換わる。
+- 表紙と奥付に「立命館大学の過去問・公式問題ではありません。予想問題であり，大学とは関係がありません」（`tests/ritsuMockPrints.test.ts` が確認）。2ページ目以降に注記ヘッダーは付けない。登場人物・団体・場所は架空。
+
+### 立命館 予想問題：品質・オリジナル性の検査（商用利用のため毎回実行）2026-10-30
+
+```bash
+# 照合用の過去問・解答の OCR と分析データを .tmpwork/ritsu_ref/{ocr,analysis} に置く（著作物なので git に入れない）。阪大・神戸大の ref も照合に使う
+cd scripts/gacha-prints/ritsu_mock
+python3 check.py 1 2 3     # 英語4語／日本語13字の一致・登場人物名の重複・解説の英文引用の実在・空所/下線の対応・会話10択・正解位置の偏り・正解だけ長い選択肢・題材の近さ → logs/check.json（ng が空であること）
+for R in 1 2 3; do python3 verify.py $R; done   # 長文の語数・平均文長・難語率が 2022〜2026年度の範囲内か、会話文の語数、語彙問題の難しさ → logs/verify_rN.json（NG なら終了コード1）
+```

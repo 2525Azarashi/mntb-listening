@@ -4,6 +4,7 @@ import { existsSync, statSync } from 'node:fs';
 import { KYOTSU_MOCK_PRINTS } from '../src/data/kyotsuMockPrints';
 import { KOBE_MOCK_PRINTS } from '../src/data/kobeMockPrints';
 import { OSAKA_MOCK_PRINTS } from '../src/data/osakaMockPrints';
+import { RITSU_MOCK_PRINTS } from '../src/data/ritsuMockPrints';
 import { GACHA_RARITY_ORDER, GACHA_RARITY_RATES, gachaItemsByRarity, gachaItemRate, pickGachaItem, exchangeShards } from '../src/battle/core/arenaEconomy';
 import { ITEMS, emptyProgress, gachaRarityOf, printOf } from '../src/battle/core/growth';
 
@@ -28,7 +29,7 @@ describe('LR：共通テスト 英語 予想問題', () => {
   it('ガチャでは LR として出る（UR より上・割合 1%・1種あたりは UR より低くない）', () => {
     const tiers = gachaItemsByRarity();
     expect(GACHA_RARITY_ORDER[0]).toBe('LR');
-    expect(tiers.LR.map(i => i.id).sort()).toEqual([...KYOTSU_MOCK_PRINTS, ...KOBE_MOCK_PRINTS, ...OSAKA_MOCK_PRINTS].map(p => p.id).sort());
+    expect(tiers.LR.map(i => i.id).sort()).toEqual([...KYOTSU_MOCK_PRINTS, ...KOBE_MOCK_PRINTS, ...OSAKA_MOCK_PRINTS, ...RITSU_MOCK_PRINTS].map(p => p.id).sort());
     for (const p of KYOTSU_MOCK_PRINTS) {
       const item = ITEMS.find(i => i.id === p.id)!;
       expect(gachaRarityOf(item)).toBe('LR');

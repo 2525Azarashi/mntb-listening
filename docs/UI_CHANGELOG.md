@@ -420,3 +420,13 @@
 | PDF | 白黒・A4縦・フォント埋め込み。解説は太字・下線・波下線で強調。表紙と奥付に「大阪大学の過去問・公式問題ではありません。予想問題であり，大学とは関係がありません」。過去問・解答との一致（英語4語・日本語13字）0、難易度は 2022〜2026年度の範囲内 | `public/prints/print_lr_osaka_{q,a}_{1,2,3}.pdf`、`scripts/gacha-prints/osaka_mock/` |
 
 **戻し方**：`growthItems.ts` の `OSAKA_MOCK_PRINTS`（import・ITEMS・printOf の3か所）を消し、`osakaMockPrints.ts`・`public/prints/*osaka*`・`tests/osakaMockPrints.test.ts` を消して `build-previews.py` を流し直す。`tests/kyotsuMockPrints.test.ts` の LR の一覧から `OSAKA_MOCK_PRINTS` を外す。
+
+## 2026-10-30 ガチャ LR に「立命館大学 全学統一（文系） 英語 予想問題」6種を追加
+
+| 何を | どう変えた | ファイル |
+|---|---|---|
+| ガチャの LR | 共通テスト10種・神戸大6種・阪大6種に、立命館大学 全学統一方式（文系）英語 予想問題（第1〜3回 × 問題／解答・解説）の6種を追加。LR の出る割合（1%）は同じで、LR の中で28種に等分 | `src/data/ritsuMockPrints.ts`（新規）、`src/battle/core/growthItems.ts` |
+| ピックアップの「中身を少し見る」 | 6種のちら見せ画像を追加 | `public/prints/previews/print_lr_ritsu_*`、`src/data/gachaPreviews.generated.ts`、`scripts/gacha-prints/build-previews.py` |
+| PDF | 白黒・A4縦・フォント埋め込み・マーク式解答用紙つき。解説は太字・下線・波下線で強調。表紙と奥付に「立命館大学の過去問・公式問題ではありません。予想問題であり，大学とは関係がありません」。過去問・解答との一致（英語4語・日本語13字）0、登場人物名の重複0、難易度は 2022〜2026年度の範囲内 | `public/prints/print_lr_ritsu_{q,a}_{1,2,3}.pdf`、`scripts/gacha-prints/ritsu_mock/` |
+
+**戻し方**：`growthItems.ts` の `RITSU_MOCK_PRINTS`（import・ITEMS・printOf の3か所）を消し、`ritsuMockPrints.ts`・`public/prints/*ritsu*`・`tests/ritsuMockPrints.test.ts` を消して `build-previews.py` を流し直す。`tests/kyotsuMockPrints.test.ts` の LR の一覧から `RITSU_MOCK_PRINTS` を外す。
