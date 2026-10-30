@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { execFileSync } from 'node:child_process';
 import { existsSync, readFileSync, statSync } from 'node:fs';
-import { NIJI_DISCLAIMER, NIJI_MOCK_PRINTS } from '../src/data/nijiMockPrints';
+import { NIJI_DISCLAIMER, NIJI_MOCK_PRINTS, NIJI_UNIVERSITIES, nijiDisclaimerFor, nijiUniversityOf } from '../src/data/nijiMockPrints';
 import { KYOTSU_MOCK_PRINTS } from '../src/data/kyotsuMockPrints';
 import {
   GACHA_RARITY_ORDER, GACHA_RARITY_RATES, gachaItemRate, gachaItems, gachaItemsByRarity, pickGachaItem, rollGacha, exchangeShards,
@@ -95,7 +95,8 @@ describe('2次試験ガチャ：抽選', () => {
 
 describe('2次試験の予想問題 PDF', () => {
   it('台帳のページ数・ファイル・サムネイルが実物と合う', () => {
-    expect(NIJI_MOCK_PRINTS.length).toBe(3);
+    expect(NIJI_MOCK_PRINTS.length).toBe(6); // 名古屋大学 3回・静岡大学 3回
+    for (const u of NIJI_UNIVERSITIES) expect(NIJI_MOCK_PRINTS.filter((p) => nijiUniversityOf(p.id)?.id === u.id).length, u.id).toBe(3);
     for (const p of NIJI_MOCK_PRINTS) {
       expect(existsSync(`public${p.file}`), p.id).toBe(true);
       expect(existsSync(`public${p.thumb}`), p.id).toBe(true);
@@ -110,12 +111,18 @@ describe('2次試験の予想問題 PDF', () => {
       const t = execFileSync('pdftotext', [`public${p.file}`, '-'], { encoding: 'utf8', maxBuffer: 64 << 20 }).replace(/\s+/g, '');
       expect((t.match(/過去問・公式問題ではありません/g) || []).length, p.id).toBeGreaterThanOrEqual(4); // 問題編・解答編の表紙と奥付
       expect(t, p.id).toContain('大学とは関係がありません');
+      // その大学の名前入りの注意書き（ほかの大学の名前と取り違えていない）
+      const u = nijiUniversityOf(p.id)!;
+      expect(t, p.id).toContain(nijiDisclaimerFor(u.name).replace(/\s+/g, ''));
       expect(t, p.id).not.toMatch(/的中|必ず出る|合格できる/);
     }
   });
   it('ガチャの詳細・ピックアップに注意書きを出す', () => {
     expect(NIJI_DISCLAIMER).toContain('過去問・公式問題ではありません');
-    expect(readFileSync('src/components/gacha/GachaItemDetail.tsx', 'utf8')).toContain('NIJI_DISCLAIMER');
+    expect(readFileSync('src/components/gacha/GachaItemDetail.tsx', 'utf8')).toContain('nijiDisclaimerFor(nijiUniv.name)');
+    for (const u of NIJI_UNIVERSITIES) expect(NIJI_DISCLAIMER).toContain(u.name);
+    expect(nijiUniversityOf('print_lr_niji_shizuoka_en_2')?.name).toBe('静岡大学');
+    expect(nijiUniversityOf('print_lr_kyotsu_r_1')).toBeUndefined();
     expect(readFileSync('src/components/gacha/GachaPickupModal.tsx', 'utf8')).toContain('NIJI_DISCLAIMER');
   });
 });

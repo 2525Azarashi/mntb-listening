@@ -32,8 +32,8 @@ def lr_ids() -> list[str]:
         out.append(f'print_lr_kyotsu_{kind}_{n}')
     # 2026-10-29：2次試験ガチャの LR（国公立2次 英語 予想問題）
     niji = (ROOT / 'src/data/nijiMockPrints.ts').read_text()
-    for n in re.findall(r'\bnagoya\((\d+), \d+, \d+\)', niji):
-        out.append(f'print_lr_niji_nagoya_en_{n}')
+    for univ, n in re.findall(r'\b(nagoya|shizuoka)\((\d+), \d+, \d+\)', niji):
+        out.append(f'print_lr_niji_{univ}_en_{n}')
     return out
 
 
