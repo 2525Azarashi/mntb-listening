@@ -2,6 +2,7 @@ import { Fragment, useEffect, useRef, useState } from 'react';
 import { ArrowLeft, Headphones, Share2 } from 'lucide-react';
 import { PHILOSOPHY_SECTIONS, PHILOSOPHY_SUBTITLE, PHILOSOPHY_TITLE } from '../data/philosophy';
 import './philosophy-page.css';
+import { useSuppressBannerAd } from '../utils/adSuppress';
 
 /**
  * 「学びの扉 ～私達に出来ることを～」（タイトル画面から開く理念ページ）。
@@ -48,6 +49,8 @@ export function PhilosophyPage({ onBack, backLabel = 'タイトルへ', standalo
     } catch { /* 閉じただけ */ }
   };
   useLetterFonts();
+  // D5：学びの扉を読んでいる間はバナー広告を出さない
+  useSuppressBannerAd();
   const ref = useRef<HTMLDivElement>(null);
   const bg = useRef<HTMLDivElement>(null);
   useEffect(() => {

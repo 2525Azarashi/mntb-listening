@@ -46,3 +46,13 @@ describe('C5 選んだ日ごとの「何を何分」', () => {
     expect(rows[rows.length - 1].seconds).toEqual([600, 0]);
   });
 });
+
+describe('D11：マイページの表も押すと直せる（2026-10-30）', () => {
+  it('自分で記録したマスはボタン（押すと直す・消す）、アプリの時間は押せない', async () => {
+    const { readFileSync } = await import('node:fs');
+    const src = readFileSync('src/features/studylog/MyStudyCard.tsx', 'utf8');
+    expect(src).toContain('onClick={() => editCell(ids)}');
+    expect(src).toContain('<RecordDialog record={editing}');
+    expect(src).toContain('data-editable={ids?.length ? true : undefined}');
+  });
+});

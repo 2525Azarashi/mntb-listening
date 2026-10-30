@@ -26,7 +26,7 @@ const FAQ = [
   { q: 'マナコインは何に使う？', a: 'ガチャ・ショップで、とびら君のきせかえや学習プリントと交換できます。課金はありません。' },
 ];
 
-export function Intro({ onBack, onBattle }: { onBack: () => void; onBattle?: () => void }) {
+export function Intro({ onBack }: { onBack: () => void }) {
   const [open, setOpen] = useState<number | null>(null);
   return <main className="intro-page pb-app-nav" data-intro>
     <header className="intro-head">
@@ -92,10 +92,7 @@ export function Intro({ onBack, onBattle }: { onBack: () => void; onBattle?: () 
       </dl>
     </section>
 
-    <div className="intro-cta">
-      {onBattle && <button type="button" className="intro-cta-battle" onClick={onBattle}><Swords size={18} aria-hidden="true" />対戦ロビーへ</button>}
-      <button type="button" className="intro-cta-home" onClick={onBack}>さっそく始める</button>
-    </div>
+    {/* D4（2026-10-30）：下の「対戦ロビーへ」「さっそく始める」は削除（上の ← ホームで戻る） */}
   </main>;
 }
 

@@ -1,9 +1,9 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { Gift, Coins, ArrowLeft, PlayCircle, Target, Info, Sparkles } from 'lucide-react';
+import { Gift, Coins, ArrowLeft, PlayCircle } from 'lucide-react';
 import { RewardVideo } from './RewardVideo';
 import { rewardedAdAvailable, preloadRewardedAd, showRewardedAd } from '../ads/rewardedAd';
 import { GachaReveal } from './GachaReveal';
-import { gachaFeatured } from '../battle/core/gachaFeatured';
+import { DEFAULT_GACHA_POOL, GACHA_POOLS, gachaPoolOf, type GachaPoolId } from '../battle/core/gachaPools';
 import './gacha.css';
 import { useGrowthProgress } from '../hooks/useGrowthProgress';
 import {
@@ -12,7 +12,6 @@ import {
   GACHA_MULTI_COST,
   gachaItems,
   gachaItemsByRarity,
-  gachaItemRate,
 } from '../battle/core/arenaEconomy';
 import {
   completedVideoToken,
@@ -22,20 +21,16 @@ import {
   drawGachaMulti,
   GACHA_MULTI_COUNT,
 } from '../battle/data/growthStore';
-import { gachaRarityOf, type ItemDef, type GachaRarity } from '../battle/core/growth';
+import { type ItemDef, type GachaRarity } from '../battle/core/growth';
 import { primeAudio } from '../battle/ui/feedback';
-import {
-  ItemArt,
-  RarityTag,
-  bestOf,
-  pct,
-} from './GachaParts';
+import { bestOf } from './GachaParts';
 import { trackEvent } from '../utils/analytics';
+import { safeGetItem, safeLocalStorage } from '../utils/safeLocalStorage';
 import { GachaMultiResult, GachaSingleResult, type GachaDrawResult } from './gacha/GachaResultStage';
 import { GachaCollectionModal } from './gacha/GachaCollectionModal';
-import { GachaItemDetail, weekEndLabel, weeklyHero, weeklyPickup } from './gacha/GachaItemDetail';
+import { GachaItemDetail } from './gacha/GachaItemDetail';
+import { GachaPoolCarousel } from './gacha/GachaPoolCarousel';
 import { GachaPickupModal } from './gacha/GachaPickupModal';
-import { TobiraBuddy } from './TobiraBuddy';
 
 type GachaProps = {
   onBack: () => void;
@@ -62,11 +57,15 @@ function GachaRoomContent({
   const oddsDialog = useRef<HTMLDialogElement>(null);
   const detailDialog = useRef<HTMLDialogElement>(null);
   const [detailItem, setDetailItem] = useState<ItemDef | null>(null);
-  const openDetail = (item: ItemDef) => { setDetailItem(item); requestAnimationFrame(() => detailDialog.current?.showModal()); };
   const pickupDialog = useRef<HTMLDialogElement>(null);
+  // ★2026-10-29 ガチャの種類（共通テスト／2次試験）。左右スワイプで切り替え、最後に見ていたものを覚えておく★
+  const [pool, setPoolState] = useState<GachaPoolId>(readPool);
+  const setPool = (next: GachaPoolId) => { setPoolState(next); writePool(next); };
+  const poolDef = gachaPoolOf(pool);
+  const openDetail = (item: ItemDef, from: GachaPoolId = pool) => { if (from !== pool) setPool(from); setDetailItem(item); requestAnimationFrame(() => detailDialog.current?.showModal()); };
 
-  const items = gachaItems();
-  const tiers = gachaItemsByRarity();
+  const items = useMemo(() => gachaItems(pool), [pool]);
+  const tiers = useMemo(() => gachaItemsByRarity(pool), [pool]);
   const ownedCount = items.filter((item) => progress?.owned.includes(item.id)).length;
 
   const [confirm, setConfirm] = useState(false);
@@ -99,7 +98,7 @@ function GachaRoomContent({
     lock.current = true;
     setBusy(true);
     try {
-      const r = await drawVideoGacha(token, owner);
+      const r = await drawVideoGacha(token, owner, pool);
       if (!r?.result) {
         setError('今日の上限に達したか、保存できませんでした。');
         return;
@@ -144,8 +143,8 @@ function GachaRoomContent({
     setConfirmMulti(false);
     primeAudio();
     try {
-      const r = await drawGachaMulti(crypto.randomUUID(), owner);
-      if (r) trackEvent('gacha_draw11');
+      const r = await drawGachaMulti(crypto.randomUUID(), owner, pool);
+      if (r) trackEvent(pool === 'niji' ? 'gacha_draw11_niji' : 'gacha_draw11');
       if (!r?.results) {
         setError('抽選できませんでした。残高や保存設定を確認してください。');
         return;
@@ -171,8 +170,8 @@ function GachaRoomContent({
     setConfirm(false);
     primeAudio();
     try {
-      const r = await drawGacha(crypto.randomUUID(), owner);
-      if (r) trackEvent('gacha_draw');
+      const r = await drawGacha(crypto.randomUUID(), owner, pool);
+      if (r) trackEvent(pool === 'niji' ? 'gacha_draw_niji' : 'gacha_draw');
       if (!r?.result) {
         setError('抽選できませんでした。残高や保存設定を確認してください。');
         return;
@@ -189,13 +188,6 @@ function GachaRoomContent({
     }
   };
 
-  const featured = useMemo(
-    () => gachaFeatured({ preferSubjects: ['english_listening', 'english_vocab', 'english_grammar'], srCount: 0, rCount: 0 }),
-    [],
-  );
-  // 目玉は週ごとに LR と UR を交互に（いつも UR にならない）。割合は本物の抽選表の値
-  const hero = useMemo(() => weeklyHero(items, featured.week, featured.hero?.item ?? null), [items, featured]);
-  const pickup = useMemo(() => weeklyPickup(items, featured.week, hero?.id), [items, featured, hero]);
   const busyView = revealing || !!result || !!multi;
   const collectionLine = (
     <span
@@ -225,53 +217,20 @@ function GachaRoomContent({
         </button>
       )}
       {/* ★2026-10-28 A10：モンストのガチャのように「バナー＋絵を押すと詳細」★
-          目玉（週がわり）を大きく、その下に今週のピックアップ（LR・URを週ごとに入れ替え）の絵。押すと「アイテムの詳細」。
+          ★2026-10-29：ガチャが2種類に（共通テスト／2次試験）。バナーを左右にスワイプして切り替える（縦には伸ばさない）★
+          目玉（週がわり）を大きく、その下に今週のピックアップの絵。押すと「アイテムの詳細」。
           ピックアップ一覧・提供割合・ミッションは小さいボタンにまとめた。セット・かけらはショップの「種類」へ移した。 */}
-      {!busyView && hero && (
-        <section className="gacha-banner" aria-labelledby="gacha-banner-title" data-gacha-featured>
-          <header className="gacha-banner-head">
-            <h1 id="gacha-banner-title"><Sparkles size={16} aria-hidden="true" />装飾ガチャ</h1>
-            <small>{weekEndLabel(featured.week)}</small>
-          </header>
-          <button
-            type="button"
-            className="gacha-banner-hero"
-            data-rarity={gachaRarityOf(hero)}
-            data-gacha-hero
-            onClick={() => openDetail(hero)}
-            aria-label={`今週の目玉 ${hero.label} の詳細を見る`}
-          >
-            {/* B5（2026-10-29）：光が走る・キラキラが舞う（目玉を派手に）。動きを減らす設定では止める */}
-            <span className="gacha-banner-shine" aria-hidden="true" />
-            <span className="gacha-banner-sparks" aria-hidden="true"><i /><i /><i /><i /><i /></span>
-            <span className="gacha-banner-art"><ItemArt item={hero} progress={progress} size={76} /></span>
-            <span className="gacha-banner-body">
-              <span className="gacha-banner-top"><RarityTag rarity={gachaRarityOf(hero)} /><em>今週の目玉</em></span>
-              <strong>{hero.label}</strong>
-              <small>1種あたり {pct(gachaItemRate(hero))}%{progress?.owned.includes(hero.id) ? ' · 所持済み' : ''}</small>
-              <span className="gacha-banner-tap"><Info size={13} aria-hidden="true" />タップで詳細</span>
-            </span>
-          </button>
-          <ul className="gacha-banner-picks" aria-label="今週のピックアップ（押すと詳細）">
-            {pickup.map((item) => (
-              <li key={item.id}>
-                <button type="button" onClick={() => openDetail(item)} data-gacha-pickup-item={item.id} data-rarity={gachaRarityOf(item)} aria-label={`${gachaRarityOf(item)} ${item.label} の詳細を見る`}>
-                  <ItemArt item={item} progress={progress} size={40} />
-                  <RarityTag rarity={gachaRarityOf(item)} />
-                </button>
-              </li>
-            ))}
-          </ul>
-          {/* B5：あいていた下の余白に、とびら君がひとこと（目玉をすすめる） */}
-          <div className="gacha-banner-buddy">
-            <TobiraBuddy size="sm" input={{ screen: 'gacha', seed: featured.week }} line={`今週の目玉は「${hero.label}」！${gachaRarityOf(hero)}はめったに出ないよ`} />
-          </div>
-          <nav className="gacha-banner-links" aria-label="ガチャの案内">
-            <button type="button" className="gacha-chip" aria-haspopup="dialog" onClick={() => pickupDialog.current?.showModal()} data-gacha-pickup-open>ピックアップ一覧</button>
-            <button type="button" className="gacha-chip gacha-odds-toggle" aria-haspopup="dialog" onClick={() => oddsDialog.current?.showModal()}>提供割合</button>
-            {progress && progress.coins < GACHA_COST && <button type="button" className="gacha-chip" onClick={onMissions}><Target size={13} aria-hidden="true" />コインをためる</button>}
-          </nav>
-        </section>
+      {!busyView && (
+        <GachaPoolCarousel
+          pool={pool}
+          onPool={setPool}
+          progress={progress}
+          onDetail={openDetail}
+          onPickup={() => pickupDialog.current?.showModal()}
+          onOdds={() => oddsDialog.current?.showModal()}
+          coinsLow={!!progress && progress.coins < GACHA_COST}
+          onMissions={onMissions}
+        />
       )}
 
       <div className="gacha-wallet" data-gacha-wallet>
@@ -300,7 +259,7 @@ function GachaRoomContent({
       ) : confirmMulti ? (
         <div className="gacha-confirm" role="group" aria-label="10＋1連ガチャ購入確認">
           <p>
-            {multiCost}マナコインを使って{GACHA_MULTI_COUNT}回まとめて引きますか？
+            {multiCost}マナコインを使って「{poolDef.title}」を{GACHA_MULTI_COUNT}回まとめて引きますか？
             <br />
             <small>10＋1連は R 以上が1つ以上確定</small>
           </p>
@@ -313,7 +272,7 @@ function GachaRoomContent({
         </div>
       ) : confirm ? (
         <div className="gacha-confirm" role="group" aria-label="ガチャ購入確認">
-          <p>{GACHA_COST}マナコインを使って1回引きますか？</p>
+          <p>{GACHA_COST}マナコインを使って「{poolDef.title}」を1回引きますか？</p>
           <button type="button" disabled={busy} onClick={() => void draw()}>
             {GACHA_COST}枚で確定する
           </button>
@@ -322,7 +281,7 @@ function GachaRoomContent({
           </button>
         </div>
       ) : (
-        <div className="gacha-pulls" data-gacha-pulls>
+        <div className="gacha-pulls" data-gacha-pulls data-pool={pool} aria-label={`${poolDef.title}を引く`}>
           <button
             type="button"
             className="gacha-pull"
@@ -379,9 +338,19 @@ function GachaRoomContent({
       <div className="gacha-collection-meter" aria-label={`コレクション ${ownedCount}/${items.length}種類`} hidden>
         <progress value={ownedCount} max={items.length} aria-label="装飾の収集状況" />
       </div>
-      <GachaCollectionModal oddsDialog={oddsDialog} items={items} tiers={tiers} progress={progress} />
-      <GachaItemDetail dialog={detailDialog} item={detailItem} progress={progress} />
-      <GachaPickupModal dialog={pickupDialog} items={items} progress={progress} />
+      <GachaCollectionModal oddsDialog={oddsDialog} items={items} tiers={tiers} progress={progress} pool={pool} />
+      <GachaItemDetail dialog={detailDialog} item={detailItem} progress={progress} pool={pool} />
+      <GachaPickupModal dialog={pickupDialog} items={items} progress={progress} pool={pool} />
     </section>
   );
+}
+
+/** 最後に見ていたガチャの種類（端末ごと。保存できない環境では共通テストガチャ） */
+const POOL_KEY = 'mntb:gachaPool';
+function readPool(): GachaPoolId {
+  const v = safeGetItem(POOL_KEY);
+  return GACHA_POOLS.some((p) => p.id === v) ? (v as GachaPoolId) : DEFAULT_GACHA_POOL;
+}
+function writePool(pool: GachaPoolId) {
+  try { safeLocalStorage()?.setItem(POOL_KEY, pool); } catch { /* 保存できなくても切り替えはできる */ }
 }

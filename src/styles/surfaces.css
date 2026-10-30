@@ -187,7 +187,7 @@
 }
 
 /* =========================================================
- * 11c. 桜の花びら（タイトル画面の装飾）
+ * 11c. 降るもの（ホームの装飾）。D9 で季節ごとに桜・若葉・紅葉・雪
  * ========================================================= */
 .sakura-container {
   position: absolute;
@@ -230,6 +230,29 @@
 @keyframes sakura-sway {
   0% { translate: 0 0; }
   100% { translate: var(--sway, 30px) 0; }
+}
+
+/* ★D9（2026-10-30）季節で降るものを変える（SakuraPetals.tsx の data-season）★
+ *   春＝桜の花びら（上の既定の形）／夏＝若葉／秋＝紅葉（もみじの形）／冬＝雪。
+ *   形は clip-path / border-radius だけ（動かすのは今までどおり transform と translate） */
+.sakura-container[data-season=summer] .sakura-petal { border-radius: 0 100% 0 100%; box-shadow: none; }
+.sakura-container[data-season=autumn] .sakura-petal {
+  border-radius: 0; box-shadow: none;
+  clip-path: polygon(50% 0%, 61% 24%, 82% 12%, 76% 38%, 100% 40%, 80% 56%, 90% 76%, 64% 70%, 55% 100%, 45% 100%, 36% 70%, 10% 76%, 20% 56%, 0% 40%, 24% 38%, 18% 12%, 39% 24%);
+}
+.sakura-container[data-season=winter] .sakura-petal { border-radius: 50%; box-shadow: 0 0 4px rgba(150, 180, 220, .55); }
+/* 雪はゆっくりまっすぐ落ちる（くるくる回らない） */
+.sakura-container[data-season=winter] .sakura-petal { animation-name: snow-fall, sakura-sway; }
+@keyframes snow-fall {
+  0% { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(0, calc(110vh + 24px), 0); }
+}
+@supports (height: 1cqh) {
+  .sakura-container[data-season=winter] .sakura-petal { animation-name: snow-fall-cq, sakura-sway; }
+  @keyframes snow-fall-cq {
+    0% { transform: translate3d(0, 0, 0); }
+    100% { transform: translate3d(0, calc(110cqh + 24px), 0); }
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

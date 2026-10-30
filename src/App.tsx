@@ -6,6 +6,7 @@
 import { AdBannerSlot } from './ads/AdBannerSlot';
 import { PdfViewerHost } from './components/PdfViewer';
 import { usePdfOpen } from './hooks/usePdfOpen';
+import { useBannerAdSuppressed } from './utils/adSuppress';
 import React, { useState, useEffect, useRef } from 'react';
 import { Capacitor } from '@capacitor/core';
 import { BottomNavigation } from './components/ui/BottomNavigation';
@@ -158,6 +159,7 @@ export { isAppState, isAppMode } from './appState';
 export type { AppState, AppMode } from './appState';
 const GrowthHub = React.lazy(() => import('./components/GrowthHub').then(m => ({ default: m.GrowthHub })));
 const MissionToast = React.lazy(() => import('./components/MissionToast').then(m => ({ default: m.MissionToast })));
+const CoinCelebration = React.lazy(() => import('./components/CoinCelebration').then(m => ({ default: m.CoinCelebration })));
 // C12：章の称号ゲットのお祝い（どの画面でも画面全体に出す）
 const ChapterTitleCelebration = React.lazy(() => import('./components/ChapterTitleCelebration').then(m => ({ default: m.ChapterTitleCelebration })));
 
@@ -221,6 +223,7 @@ export default function App() {
   const [foundationTab, setFoundationTab] = useState<'words' | 'quiz' | 'reading' | 'grammar' | 'more'>('words');
   /** アプリ内の PDF ビューが開いているか（開いている間は広告を出さない） */
   const pdfOpen = usePdfOpen();
+  const bannerAdSuppressed = useBannerAdSuppressed();
   const [foundationBackTo, setFoundationBackTo] = useState<'home' | 'study'>('home');
   // 演習する（科目→コンテンツ）。選んだ科目・前回のコンテンツは端末に覚えておく
   const [studyCatalogSubject, setStudyCatalogSubject] = useState<string | null>(() => safeGetItem(STORAGE_KEYS.studyCatalogSubject));
@@ -635,7 +638,7 @@ export default function App() {
               />
               </div>
             )}
-            {appState === 'intro' && <Intro onBack={() => setAppState('home')} onBattle={FEATURES.battle ? () => setAppState('battle') : undefined} />}
+            {appState === 'intro' && <Intro onBack={() => setAppState('home')} />}
             {appState === 'mode_selection' && <ModeSelection onSelectMode={handleSelectMode} onBack={() => setAppState('home')} onChangeSubject={handleChangeStudySubject} subject={selectedSubject} onBattle={FEATURES.battle ? () => setAppState('battle') : undefined} />}
             {appState === 'chapters' && (
               /*
@@ -781,7 +784,7 @@ export default function App() {
 
       {/* バナー広告の場所（今は OFF なので何も描かない。src/ads/adConfig.ts で有効にする） */}
       {/* PDF を開いている間は 'pdf'（広告を出さない画面）として扱う */}
-      <AdBannerSlot screen={pdfOpen ? 'pdf' : appState === 'battle' && battleActive ? 'battle_live' : appState} />
+      <AdBannerSlot screen={pdfOpen ? 'pdf' : bannerAdSuppressed ? 'philosophy' : appState === 'battle' && battleActive ? 'battle_live' : appState} />
       {/* アプリ内の PDF ビュー（どの画面からでも openPdf() で開く。戻るボタン・Esc で閉じる） */}
       <PdfViewerHost />
 
@@ -789,6 +792,8 @@ export default function App() {
       <React.Suspense fallback={null}>
         <MissionToast />
         <ChapterTitleCelebration />
+        {/* D10：マナコインを手に入れたら、どの画面でも上に「＋N マナコイン」の演出 */}
+        <CoinCelebration />
         <DoorTransition screen={appState} />
       </React.Suspense>
 

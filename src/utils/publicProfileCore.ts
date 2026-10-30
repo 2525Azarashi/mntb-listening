@@ -104,3 +104,57 @@ export function barPercents(week: readonly number[]): number[] {
   if (max <= 0) return week.map(() => 0);
   return week.map((s) => (s <= 0 ? 0 : Math.max(6, Math.round((s / max) * 100))));
 }
+
+// ===================================================================
+// D6（2026-10-30）：公開したら「その人のマイページ全体」を見せる
+//   カレンダー（直近28日の日ごとの時間・教科ごとの合計）・きせかえ（持っているアイテム）・称号・マイPDF。
+//   Firestore のルールで形を確かめやすいよう、どれも「決まった文字だけの文字列」にして載せる。
+//   教材名・ひとことは自由入力なので載せない（教科だけ）。
+// ===================================================================
+export const CAL_DAYS = 28;
+/** 1日の上限（アプリの計測12時間＋自分の記録12時間） */
+export const CAL_DAY_MAX = 86_400;
+export const SUBJECTS_MAX = 14;
+export const OWNED_IDS_MAX = 8000;
+export const BADGE_IDS_MAX = 3000;
+
+/** 直近28日（古い日→今日）の日付 */
+export function calDays(now: number = Date.now()): string[] {
+  const out: string[] = [];
+  for (let i = CAL_DAYS - 1; i >= 0; i -= 1) out.push(dayKey(now - i * 86_400_000));
+  return out;
+}
+export function encodeCal(secs: readonly number[]): string {
+  const list = secs.slice(-CAL_DAYS);
+  while (list.length < CAL_DAYS) list.unshift(0);
+  return list.map((s) => Math.max(0, Math.min(CAL_DAY_MAX, Math.floor(Number(s) || 0)))).join(',');
+}
+export function parseCal(v: unknown): number[] | null {
+  if (typeof v !== 'string' || !/^[0-9]{1,5}(,[0-9]{1,5}){27}$/.test(v)) return null;
+  const out = v.split(',').map(Number);
+  return out.every((n) => n <= CAL_DAY_MAX) ? out : null;
+}
+/** 教科ごとの合計秒（多い順に14まで）'eng:3600,math:120' */
+export function encodeSubjects(map: Record<string, number>): string {
+  return Object.entries(map)
+    .filter(([k, s]) => /^[a-z]{1,8}$/.test(k) && s >= 60)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, SUBJECTS_MAX)
+    .map(([k, s]) => `${k}:${Math.min(9_999_999, Math.floor(s))}`)
+    .join(',');
+}
+export function parseSubjects(v: unknown): { id: string; sec: number }[] {
+  if (typeof v !== 'string' || !/^([a-z]{1,8}:[0-9]{1,7}(,[a-z]{1,8}:[0-9]{1,7}){0,13})?$/.test(v) || !v) return [];
+  return v.split(',').map((p) => { const [id, sec] = p.split(':'); return { id, sec: Number(sec) }; });
+}
+/** アイテム・称号のID（英数字・_・-）をカンマでつなぐ。形の違うID・重なりは捨てる */
+export function encodeIds(ids: readonly string[], max: number): string {
+  const ok = [...new Set(ids)].filter((id) => /^[A-Za-z0-9_-]{1,40}$/.test(id));
+  let out = '';
+  for (const id of ok) { const next = out ? `${out},${id}` : id; if (next.length > max) break; out = next; }
+  return out;
+}
+export function parseIds(v: unknown, max: number): string[] {
+  if (typeof v !== 'string' || v.length > max || !/^[A-Za-z0-9_,-]*$/.test(v)) return [];
+  return v.split(',').filter((id) => /^[A-Za-z0-9_-]{1,40}$/.test(id));
+}

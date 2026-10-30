@@ -52,10 +52,11 @@ describe('復習の日誌 reviewProgress（2026-10-21）', () => {
 });
 
 describe('復習・記録の画面構成（2026-10-21）', () => {
-  it('達成の帯（今日のリング・今週の扉）と大きな切替（復習ノート／学習記録）', () => {
-    expect(hub).toContain('className="rr-hero"');
-    expect(hub).toContain('<TodayRing');
-    expect(hub).toContain('<WeekDoors');
+  it('大きな切替（復習ノート／学習記録）。上の「今日なおした」の帯は出さない（2026-10-30 D5）', () => {
+    expect(hub).not.toContain('className="rr-hero"');
+    expect(hub).not.toContain('今日なおした');
+    expect(hub).not.toContain('<TodayRing');
+    expect(hub).not.toContain('<WeekDoors');
     expect(hub).toContain('data-rr-section="review"');
     expect(hub).toContain('data-rr-section="record"');
   });
@@ -71,11 +72,10 @@ describe('復習・記録の画面構成（2026-10-21）', () => {
     expect(rrCss).toContain('.rr-page .study-record.is-embedded .sr-retry button { min-width: 0;');
   });
 
-  it('上の帯は小さく、スクロールは一覧（rr-scroll）だけ', () => {
+  it('スクロールは一覧（rr-scroll）だけ', () => {
     expect(hub).toContain('<ScrollArea key={`${tab}-${subjectTab}`}>');
     expect(hub).toContain('<ScrollArea key="record"><StudyRecord embedded onRetry={onRetry} /></ScrollArea>');
     expect(hub).toContain('className="rr-scroll" data-rr-scroll data-scrolled=');
-    expect(hub).toContain('const size = 56, stroke = 7');
     expect(rrCss).toContain('.rr-page > .rn-wrap > .rr-scroll { flex: 1 1 0; min-height: 120px; overflow-y: auto;');
   });
 

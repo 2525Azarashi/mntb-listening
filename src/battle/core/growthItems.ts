@@ -2,6 +2,7 @@
 import { GACHA_PRINTS } from '../../data/gachaPrints.generated';
 import type { GachaPrintDef } from '../../data/gachaPrints.generated';
 import { KYOTSU_MOCK_PRINTS } from '../../data/kyotsuMockPrints';
+import { NIJI_MOCK_PRINTS } from '../../data/nijiMockPrints';
 import { KOBE_MOCK_PRINTS } from '../../data/kobeMockPrints';
 import { OSAKA_MOCK_PRINTS } from '../../data/osakaMockPrints';
 import { RITSU_MOCK_PRINTS } from '../../data/ritsuMockPrints';
@@ -20,11 +21,11 @@ export const DEFAULT_FRAME = 'frame_paper';
  * pose / frame は扉くん本体、hat / glasses / cheek / aura は部位ごとのアクセサリ（重ねて描く）、
  * wallpaper はアプリの壁紙。print は大当たりの学習プリント（PDF・装備はしない）。
  */
-export type ItemKind = 'pose' | 'frame' | AccessorySlot | 'wallpaper' | 'print';
+export type ItemKind = 'pose' | 'frame' | AccessorySlot | 'wallpaper' | 'stage' | 'print';
 /** 装備できる種類（equipped のキー） */
 export type EquipKind = Exclude<ItemKind, 'print'>;
 /** 外せる種類（アクセサリと壁紙。ポーズと枠は常に何か1つ） */
-export const REMOVABLE_KINDS: readonly EquipKind[] = [...ACCESSORY_SLOTS, 'wallpaper'];
+export const REMOVABLE_KINDS: readonly EquipKind[] = [...ACCESSORY_SLOTS, 'wallpaper', 'stage'];
 /** ガチャのレア度：N（ノーマル）/ R（レア）/ SR（スーパーレア・学習プリント）/ UR（大当たり＝完全版の本）/ LR（レジェンドレア＝共通テスト予想問題） */
 export type GachaRarity = 'N' | 'R' | 'SR' | 'UR' | 'LR';
 
@@ -200,6 +201,15 @@ export const ITEMS: readonly ItemDef[] = [
   { id: 'wall_english', kind: 'wallpaper', gacha: true, rarity: 'N', label: '壁紙：ABC', value: 'english', unlock: { gacha: true } },
   { id: 'wall_sky', kind: 'wallpaper', gacha: true, rarity: 'N', label: '壁紙：青空', value: 'sky', unlock: { gacha: true } },
   { id: 'wall_candy', kind: 'wallpaper', gacha: true, rarity: 'N', label: '壁紙：キャンディ', value: 'candy', unlock: { gacha: true } },
+  // ── D7（2026-10-30）ホームの背景（とびら君のステージ）。ガチャで当てて、きせかえで選ぶ。何もつけなければ「宇宙」 ──
+  { id: 'stage_sunrise', kind: 'stage', gacha: true, rarity: 'N', label: 'ホーム背景：朝焼けの丘', value: 'sunrise', unlock: { gacha: true } },
+  { id: 'stage_forest', kind: 'stage', gacha: true, rarity: 'N', label: 'ホーム背景：森のこみち', value: 'forest', unlock: { gacha: true } },
+  { id: 'stage_ocean', kind: 'stage', gacha: true, rarity: 'R', label: 'ホーム背景：深い海', value: 'ocean', unlock: { gacha: true } },
+  { id: 'stage_sakura', kind: 'stage', gacha: true, rarity: 'R', label: 'ホーム背景：夜桜', value: 'sakura', unlock: { gacha: true } },
+  { id: 'stage_library', kind: 'stage', gacha: true, rarity: 'R', label: 'ホーム背景：夜の図書館', value: 'library', unlock: { gacha: true } },
+  { id: 'stage_candy', kind: 'stage', gacha: true, rarity: 'R', label: 'ホーム背景：おかしの国', value: 'candy', unlock: { gacha: true } },
+  { id: 'stage_aurora', kind: 'stage', gacha: true, rarity: 'SR', label: 'ホーム背景：オーロラ', value: 'aurora', unlock: { gacha: true } },
+  { id: 'stage_neon', kind: 'stage', gacha: true, rarity: 'SR', label: 'ホーム背景：ネオンの街', value: 'neon', unlock: { gacha: true } },
   // ── セット完成の報酬（ガチャ・ショップには出ない。セットの称号で解放）──
   { id: 'frame_set_sprout', kind: 'frame', rarity: 'SR', label: '芽ぶきフレーム（セット報酬）', value: '#51CF66', pattern: 'dots', unlock: { badge: 'b_set_sprout' } },
   { id: 'frame_set_listening', kind: 'frame', rarity: 'SR', label: '音の波フレーム（セット報酬）', value: '#2F9E8F', pattern: 'wave', unlock: { badge: 'b_set_listening' } },
@@ -213,7 +223,22 @@ export const ITEMS: readonly ItemDef[] = [
   ...GACHA_PRINTS.map((p): ItemDef => ({ id: p.id, kind: 'print', gacha: true, rarity: printRarity(p), label: p.label, value: p.file, unlock: { gacha: true } })),
   // ── LR（レジェンドレア）：共通テスト 英語 予想問題（リーディング・リスニング 5回分）。UR より上（一覧は kyotsuMockPrints.ts）──
   ...KYOTSU_MOCK_PRINTS.map((p): ItemDef => ({ id: p.id, kind: 'print', gacha: true, rarity: 'LR', label: p.label, value: p.file, unlock: { gacha: true } })),
-  // ── LR：神戸大学 前期 英語 予想問題（3回分 × 問題／解答・解説）。大学とは無関係のオリジナル（一覧は kobeMockPrints.ts）──
+  // ── 2026-10-29 2次試験ガチャ専用（共通テストガチャには出ない。gachaPools.ts の NIJI_NEW_ITEM_IDS）──
+  { id: 'hat_hachimaki_red', kind: 'hat', gacha: true, rarity: 'N', label: '必勝はちまき（あか）', value: 'hachimaki:#E03131', unlock: { gacha: true } },
+  { id: 'hat_hachimaki_navy', kind: 'hat', gacha: true, rarity: 'R', label: '必勝はちまき（こん）', value: 'hachimaki:#1D3557', unlock: { gacha: true } },
+  { id: 'hat_hachimaki_gold', kind: 'hat', gacha: true, rarity: 'SR', label: '合格祈願の金はちまき', value: 'hachimaki:#E0A800', unlock: { gacha: true } },
+  { id: 'aura_pencil', kind: 'aura', gacha: true, rarity: 'N', label: 'えんぴつ', value: 'pencil:#F4C542', unlock: { gacha: true } },
+  { id: 'aura_pencil_gold', kind: 'aura', gacha: true, rarity: 'SR', label: '金のえんぴつ', value: 'pencil:#D4A017', unlock: { gacha: true } },
+  { id: 'wall_campus', kind: 'wallpaper', gacha: true, rarity: 'N', label: '壁紙：キャンパスの並木', value: 'campus', unlock: { gacha: true } },
+  { id: 'wall_sheet', kind: 'wallpaper', gacha: true, rarity: 'N', label: '壁紙：答案用紙', value: 'sheet', unlock: { gacha: true } },
+  { id: 'wall_nightdesk', kind: 'wallpaper', gacha: true, rarity: 'R', label: '壁紙：夜の自習机', value: 'nightdesk', unlock: { gacha: true } },
+  { id: 'wall_dawn', kind: 'wallpaper', gacha: true, rarity: 'SR', label: '壁紙：試験の朝', value: 'dawn', unlock: { gacha: true } },
+  { id: 'frame_niji_ink', kind: 'frame', gacha: true, rarity: 'N', label: '墨のフレーム', value: '#3A3A3A', unlock: { gacha: true } },
+  { id: 'frame_niji_sakura', kind: 'frame', gacha: true, rarity: 'R', label: 'サクラサクフレーム', value: '#F28AB2', pattern: 'sparkle', unlock: { gacha: true } },
+  { id: 'frame_niji_midnight', kind: 'frame', gacha: true, rarity: 'SR', label: '深夜の追い込みフレーム', value: '#2B2D55', pattern: 'stars', unlock: { gacha: true } },
+  // ── LR（2次試験ガチャ）：国公立2次 英語 予想問題（書き下ろし・過去問ではない。一覧は nijiMockPrints.ts）──
+  ...NIJI_MOCK_PRINTS.map((p): ItemDef => ({ id: p.id, kind: 'print', gacha: true, rarity: 'LR', label: p.label, value: p.file, unlock: { gacha: true } })),
+  // ── LR（2次試験ガチャ）：大学別 英語 予想問題（神戸大・阪大・立命館。問題／解答・解説が別冊。一覧は kobe/osaka/ritsuMockPrints.ts）──
   ...KOBE_MOCK_PRINTS.map((p): ItemDef => ({ id: p.id, kind: 'print', gacha: true, rarity: 'LR', label: p.label, value: p.file, unlock: { gacha: true } })),
   ...OSAKA_MOCK_PRINTS.map((p): ItemDef => ({ id: p.id, kind: 'print', gacha: true, rarity: 'LR', label: p.label, value: p.file, unlock: { gacha: true } })),
   ...RITSU_MOCK_PRINTS.map((p): ItemDef => ({ id: p.id, kind: 'print', gacha: true, rarity: 'LR', label: p.label, value: p.file, unlock: { gacha: true } })),
@@ -223,7 +248,7 @@ export const ITEMS: readonly ItemDef[] = [
 
 /** 学習プリント（UR）の詳細（サムネイル・ページ数など）。プリントでなければ undefined */
 export function printOf(id: string): GachaPrintDef | undefined {
-  return GACHA_PRINTS.find((p) => p.id === id) ?? KYOTSU_MOCK_PRINTS.find((p) => p.id === id) ?? KOBE_MOCK_PRINTS.find((p) => p.id === id) ?? OSAKA_MOCK_PRINTS.find((p) => p.id === id) ?? RITSU_MOCK_PRINTS.find((p) => p.id === id) ?? LEVEL_PRINTS.find((p) => p.id === id);
+  return GACHA_PRINTS.find((p) => p.id === id) ?? KYOTSU_MOCK_PRINTS.find((p) => p.id === id) ?? NIJI_MOCK_PRINTS.find((p) => p.id === id) ?? KOBE_MOCK_PRINTS.find((p) => p.id === id) ?? OSAKA_MOCK_PRINTS.find((p) => p.id === id) ?? RITSU_MOCK_PRINTS.find((p) => p.id === id) ?? LEVEL_PRINTS.find((p) => p.id === id);
 }
 
 /**
@@ -320,6 +345,13 @@ export function equippedWallpaper(progress: GrowthProgress): string {
   const id = progress.equipped.wallpaper;
   const item = id ? itemById(id) : undefined;
   return item && item.kind === 'wallpaper' && progress.owned.includes(id) ? item.value : '';
+}
+
+/** D7：装備中のホームの背景のキー（STAGES）。無ければ ''（いつもの宇宙） */
+export function equippedStage(progress: GrowthProgress): string {
+  const id = progress.equipped.stage;
+  const item = id ? itemById(id) : undefined;
+  return item && item.kind === 'stage' && progress.owned.includes(id) ? item.value : '';
 }
 
 /** 称号を身につける（'' でレート称号に戻す。持っていないバッジは拒否） */

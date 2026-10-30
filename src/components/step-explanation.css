@@ -135,11 +135,8 @@
 @media (prefers-reduced-motion: reduce) { .practice-stage-tobira, .practice-stage-bubble { animation: none; } }
 @media (max-height: 700px) { .practice-stage { min-height: 0; } .practice-stage-tobira { width: 100px; } }
 
-/* C7（2026-10-29）結果まとめの下：次の回へ／単元選択に戻る／ホームに戻る＋控えめな「詳しい結果」 */
-.practice-bottom-bar.is-nav { display: grid; gap: 8px; }
-.practice-bottom-bar.is-nav > * { max-width: 720px; width: 100%; margin-inline: auto; }
-.practice-summary-nav { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-.practice-summary-sub { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; gap: 6px; border-radius: 12px; border: 2px solid #d8cdb5; background: #fff; color: #2c3e50; font-weight: 800; font-size: 14px; }
-.practice-summary-sub:active { transform: translateY(1px); }
-.practice-summary-detail { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; gap: 6px; border: 0; background: transparent; color: #5b6b7c; font-weight: 700; font-size: 13px; text-decoration: underline; text-underline-offset: 3px; }
-.practice-bottom-spacer.is-nav { height: calc(170px + env(safe-area-inset-bottom)); }
+
+/* D2（2026-10-30）詳しい解説の下：次の回へ（主）＋単元選択／ホーム＋控えめな「間違えた問題だけ解き直す」 */
+.pbb-retry { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; gap: 6px; border: 0; background: transparent; color: var(--mt-ink-3); font-weight: 700; font-size: 13px; text-decoration: underline; text-underline-offset: 3px; }
+.practice-bottom-bar.is-review:has(.pbb-retry) { gap: 4px; }
+.practice-bottom-spacer.is-review:has(+ .practice-bottom-bar .pbb-retry) { height: calc(186px + env(safe-area-inset-bottom)); }

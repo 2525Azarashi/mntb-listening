@@ -5,6 +5,39 @@
 
 ---
 
+## 2026-10-30 ご指摘D1〜D11：結果画面の作り直し・英文法の回の選び方・カレンダー・公開マイページ・ホーム背景ガチャ・季節・コイン演出（PR: fix/revision-d）
+
+| # | 何を | どう変えた | ファイル |
+|---|---|---|---|
+| D1 | 英文法の単元カード | 「続きから／最初から／回を選ぶ」を整理。次にやる回が一目で分かる回の一覧（`.grammar-rounds`） | `UnitCard.tsx`・`ChapterSelection.tsx`・`unit-select.css` |
+| D2 | 結果画面 | 切れていたトビラを横並びに。次の回へ／単元選択／ホーム／ご意見を外し、正答率の輪・前回・最高・目標・回ごとの棒グラフを動きつきで表示。「詳しい解説を見る」1つで詳細へ。詳細の下に 次の回へ／単元選択に戻る／ホームに戻る | `explanation/ResultInsight.tsx`（新規）・`result-insight.css`（新規）・`ResultSummary.tsx`・`Explanation.tsx`・`BottomBars.tsx`・`step-explanation.css` |
+| D3 | カレンダー | マス・棒グラフ・教材の行を詰めて、全部の教科が見えるように（押せる大きさは残す） | `studylog.css` |
+| D4 | 使い方 | 「対戦ロビーへ」「さっそく始める」を削除 | `Intro.tsx`・`intro.css`・`App.tsx` |
+| D5 | 学びの扉／ふくしゅう | 学びの扉ではバナー広告を出さない。ふくしゅうの「今日なおした」帯を削除 | `utils/adSuppress.ts`（新規）・`PhilosophyPage.tsx`・`ads/adConfig.ts`・`StudyHub.tsx`・`review-record.css` |
+| D6 | 公開プロフィール | 公開中は マイページ・カレンダー・きせかえ・称号・マイPDF の5タブを他の人も見られる | `features/profile/PublicProfileTabs.tsx`（新規）・`PublicProfileView.tsx`・`public-profile.css`・`utils/publicProfileCore.ts`・`publicStudyProfile.ts`・`firestore.rules` |
+| D7 | ホームの背景 | 宇宙だけ → ガチャで「ホーム背景」8種（朝焼け・森・海・夜桜・図書館・おかしの国・オーロラ・ネオン）。きせかえ・持ち物で付け外し、外すと宇宙 | `battle/core/growthItems.ts`・`growth.ts`・`growthTypes.ts`・`tobiraParts.ts`・`Home.tsx`・`GachaParts.tsx`・`MyCollection.tsx`・`BattleProfileTabs.tsx`・`styles/home-stage.css`（新規）・`styles/world.css`（星と文字の色を変数で受ける） |
+| D8 | マイページのグラフ | 今日〜累計が0から数え上がる・7日の棒が順に伸びる・一番長い日に印・教材の行が順に出る（動きを減らす設定／軽量モードでは止まる） | `MyStudyCard.tsx`・`studylog.css` |
+| D9 | ホームに降るもの | 季節で切り替え（春＝桜・夏＝若葉・秋＝紅葉・冬＝雪） | `SakuraPetals.tsx`・`styles/surfaces.css` |
+| D10 | マナコイン | 増えたらどの画面でも「＋N マナコイン」の演出（10枚以上は光の輪とコインがはじける） | `CoinCelebration.tsx`（新規）・`coin-celebration.css`（新規）・`battle/data/growthStore.ts`・`App.tsx` |
+| D11 | マイページの表 | 自分で記録したマスを押すと直す・消す（カレンダーと同じ）。アプリで計った時間は押せない | `MyStudyCard.tsx`・`studylog.css` |
+
+**戻し方**：D1〜D11 はそれぞれ別コミット（D7 は背景とグラフの2コミット）なので、その1コミットを revert すれば戻る。D6 を戻すときは `firestore.rules` も戻して再デプロイ。
+
+---
+
+## 2026-10-29 2次試験ガチャを追加・ガチャは左右スワイプで切りかえ（PR: feat/niji-gacha）
+
+| # | 何を | どう変えた | ファイル |
+|---|---|---|---|
+| 1 | ガチャの種類 | 「共通テストガチャ」に加えて「2次試験ガチャ」を追加。上のタブ（共通テスト／2次試験）か、目玉の帯を**左右にスワイプ**して切りかえ（上下スクロールはしない）。下の点と「左右にスワイプで切りかえ」で今どちらかを表示。←→キーでも切りかえ。最後に見ていた方を覚える（`mntb:gachaPool`） | `src/components/gacha/GachaPoolCarousel.tsx`（新）・`GachaRoom.tsx`・`gacha.css` |
+| 2 | 2次試験ガチャの中身 | 大当たり（LR）＝国公立2次 英語 予想問題 名古屋大学 前期対策 第1〜3回（問題＋解答・解説 PDF）。ほかは新作12点（はちまき3色・えんぴつオーラ2種・壁紙4種・2次用フレーム3種）＋既存の単語帳・熟語・文法プリントやポーズ・帽子などを使い回し。共通テストガチャの中身と確率は変えていない | `src/battle/core/gachaPools.ts`（新）・`src/data/nijiMockPrints.ts`（新）・`growthItems.ts`・`tobiraParts.ts`・`TobiraAccessories.tsx`・`arenaEconomy.ts`・`growthStore.ts` |
+| 3 | 色 | 2次試験ガチャは紺、共通テストは今までの金色 | `gacha.css` |
+| 4 | 詳細・ピックアップ・提供割合 | 選んでいるガチャ名を見出しに出し、確率もそのガチャの分を表示。2次の予想問題には「名古屋大学の過去問・公式問題ではありません。予想問題であり、大学とは関係がありません。」を表示 | `GachaItemDetail.tsx`・`GachaPickupModal.tsx`・`GachaCollectionModal.tsx` |
+| 5 | 小さい文字 | 帯の中の「提供割合」（11px）を12pxに、サムネの帯ラベル（8px）は題名が横にあるので帯の中では出さない | `gacha.css`（末尾） |
+
+**戻し方**：このPRのコミットを revert すれば元の1種類のガチャに戻る（引いた2次のアイテムは持ちものに残る）。
+---
+
 ## 2026-10-29 ご指摘C7〜C14：英文法の回の終わり方・2列の選択肢・解くカギ/大問の流れを外す・セットで覚える・章の称号・お知らせ（PR: feat/grammar-c7-c14、#132 を取り込み済み）
 
 | # | 何を | どう変えた | ファイル |
@@ -461,7 +494,7 @@
 
 | 何を | どう変えた | ファイル |
 |---|---|---|
-| ガチャの LR | 共通テスト予想問題10種に、神戸大学 前期 英語 予想問題（第1〜3回 × 問題／解答・解説）の6種を追加。LR の出る割合（1%）は同じで、LR の中で16種に等分 | `src/data/kobeMockPrints.ts`（新規）、`src/battle/core/growthItems.ts` |
+| ガチャの LR | 2次試験ガチャの LR に、神戸大学 前期 英語 予想問題（第1〜3回 × 問題／解答・解説）の6種を追加（共通テストガチャには出ない）。LR の出る割合（1%）は同じ | `src/data/kobeMockPrints.ts`（新規）、`src/battle/core/growthItems.ts` |
 | ピックアップの「中身を少し見る」 | 6種のちら見せ画像を追加 | `public/prints/previews/print_lr_kobe_*`、`src/data/gachaPreviews.generated.ts`、`scripts/gacha-prints/build-previews.py` |
 | PDF | 白黒・A4縦。解説は太字・下線・波下線で強調。表紙と奥付に「神戸大学の過去問・公式問題ではありません。予想問題であり，大学とは関係がありません」 | `public/prints/print_lr_kobe_{q,a}_{1,2,3}.pdf`、`scripts/gacha-prints/kobe_mock/` |
 
@@ -473,7 +506,7 @@
 
 | 何を | どう変えた | ファイル |
 |---|---|---|
-| ガチャの LR | 共通テスト10種・神戸大6種に、大阪大学 前期 英語 予想問題（第1〜3回 × 問題／解答・解説）の6種を追加。LR の出る割合（1%）は同じで、LR の中で22種に等分 | `src/data/osakaMockPrints.ts`（新規）、`src/battle/core/growthItems.ts` |
+| ガチャの LR | 2次試験ガチャの LR に、大阪大学 前期 英語 予想問題（第1〜3回 × 問題／解答・解説）の6種を追加（共通テストガチャには出ない）。LR の出る割合（1%）は同じ | `src/data/osakaMockPrints.ts`（新規）、`src/battle/core/growthItems.ts` |
 | ピックアップの「中身を少し見る」 | 6種のちら見せ画像を追加 | `public/prints/previews/print_lr_osaka_*`、`src/data/gachaPreviews.generated.ts`、`scripts/gacha-prints/build-previews.py` |
 | PDF | 白黒・A4縦・フォント埋め込み。解説は太字・下線・波下線で強調。表紙と奥付に「大阪大学の過去問・公式問題ではありません。予想問題であり，大学とは関係がありません」。過去問・解答との一致（英語4語・日本語13字）0、難易度は 2022〜2026年度の範囲内 | `public/prints/print_lr_osaka_{q,a}_{1,2,3}.pdf`、`scripts/gacha-prints/osaka_mock/` |
 
@@ -483,7 +516,8 @@
 
 | 何を | どう変えた | ファイル |
 |---|---|---|
-| ガチャの LR | 共通テスト10種・神戸大6種・阪大6種に、立命館大学 全学統一方式（文系）英語 予想問題（第1〜3回 × 問題／解答・解説）の6種を追加。LR の出る割合（1%）は同じで、LR の中で28種に等分 | `src/data/ritsuMockPrints.ts`（新規）、`src/battle/core/growthItems.ts` |
+| ガチャの LR | 2次試験ガチャの LR に、立命館大学 全学統一方式（文系）英語 予想問題（第1〜3回 × 問題／解答・解説）の6種を追加。2次試験ガチャの LR は 名古屋大6・静岡大6・神戸大6・阪大6・立命館6 の30種に等分（LR の割合 1% は同じ）。共通テストガチャの LR は共通テスト予想問題だけのまま | `src/data/ritsuMockPrints.ts`（新規）、`src/battle/core/growthItems.ts`、`src/battle/core/gachaPools.ts` |
+| 2次試験ガチャの表示 | LR の見出しを「大学別 英語 予想問題（2次・個別試験）」に、説明文とピックアップの注意書きに神戸大学・大阪大学・立命館大学を追加。神戸大・阪大・立命館の景品の詳細にも、その大学の名前入りの「過去問・公式問題ではありません」の注意書きを出す | `src/battle/core/gachaPools.ts`、`src/data/nijiMockPrints.ts`、`src/components/gacha/GachaItemDetail.tsx` |
 | ピックアップの「中身を少し見る」 | 6種のちら見せ画像を追加 | `public/prints/previews/print_lr_ritsu_*`、`src/data/gachaPreviews.generated.ts`、`scripts/gacha-prints/build-previews.py` |
 | PDF | 白黒・A4縦・フォント埋め込み・マーク式解答用紙つき。解説は太字・下線・波下線で強調。表紙と奥付に「立命館大学の過去問・公式問題ではありません。予想問題であり，大学とは関係がありません」。過去問・解答との一致（英語4語・日本語13字）0、登場人物名の重複0、難易度は 2022〜2026年度の範囲内 | `public/prints/print_lr_ritsu_{q,a}_{1,2,3}.pdf`、`scripts/gacha-prints/ritsu_mock/` |
 

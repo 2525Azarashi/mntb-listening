@@ -33,7 +33,9 @@ service cloud.firestore {
         && request.resource.data.keys().hasOnly(['public', 'targetSchool', 'studySeconds', 'updatedAt', 'motto', 'stagesCleared', 'level',
              // 2026-10-26 プロフィールの充実（どれも任意。本人が公開を選んだときだけ）
              'nickname', 'grade', 'bio', 'week', 'weekEnd', 'streak', 'solved', 'badges', 'title',
-             'lookPose', 'lookFrame', 'lookHat', 'lookGlasses'])
+             'lookPose', 'lookFrame', 'lookHat', 'lookGlasses',
+             // 2026-10-30 D6：公開したらマイページ全体（カレンダー28日・教科の合計・持ち物・称号）
+             'cal', 'calEnd', 'subj', 'ownedIds', 'badgeIds'])
         && request.resource.data.keys().hasAll(['public', 'targetSchool', 'studySeconds', 'updatedAt'])
         // 2026-10-04：志（ひとこと）・達成ステージ数・レベル（任意。古い文書には無い）
         && (!('motto' in request.resource.data) || (request.resource.data.motto is string && request.resource.data.motto.size() <= 40))
@@ -63,7 +65,13 @@ service cloud.firestore {
               && pspDay(d.week[4]) && pspDay(d.week[5]) && pspDay(d.week[6])))
         && (!('weekEnd' in d) || (d.weekEnd is string && d.weekEnd.matches('^[0-9]{4}-[0-9]{2}-[0-9]{2}$')))
         && pspInt(d, 'streak', 10000) && pspInt(d, 'solved', 1000000) && pspInt(d, 'badges', 1000)
-        && pspId(d, 'title') && pspId(d, 'lookPose') && pspId(d, 'lookFrame') && pspId(d, 'lookHat') && pspId(d, 'lookGlasses'); }
+        && pspId(d, 'title') && pspId(d, 'lookPose') && pspId(d, 'lookFrame') && pspId(d, 'lookHat') && pspId(d, 'lookGlasses')
+        // D6：どれも決まった文字だけの文字列（自由入力の文章は入らない）
+        && (!('cal' in d) || (d.cal is string && d.cal.size() <= 200 && d.cal.matches('^[0-9]{1,5}(,[0-9]{1,5}){27}$')))
+        && (!('calEnd' in d) || (d.calEnd is string && d.calEnd.matches('^[0-9]{4}-[0-9]{2}-[0-9]{2}$')))
+        && (!('subj' in d) || (d.subj is string && d.subj.size() <= 300 && d.subj.matches('^([a-z]{1,8}:[0-9]{1,7}(,[a-z]{1,8}:[0-9]{1,7}){0,13})?$')))
+        && (!('ownedIds' in d) || (d.ownedIds is string && d.ownedIds.size() <= 8000 && d.ownedIds.matches('^[A-Za-z0-9_,-]*$')))
+        && (!('badgeIds' in d) || (d.badgeIds is string && d.badgeIds.size() <= 3000 && d.badgeIds.matches('^[A-Za-z0-9_,-]*$'))); }
     }
     // 積み上げの集計（サーバー専用）。本人は合算結果だけ読める
     match /user_achievements/{uid} { allow get: if isOwner(uid); allow list, write: if false; }

@@ -7,7 +7,8 @@ import { createPortal } from 'react-dom';
 const PhilosophyPage = React.lazy(() => import('./PhilosophyPage').then(m => ({ default: m.PhilosophyPage })));
 import { auth } from '../firebase';
 import { useGrowthProgress } from '../hooks/useGrowthProgress';
-import { equippedPoseSrc, equippedFrameColor, equippedFramePattern, levelOf } from '../battle/core/growth';
+import { equippedPoseSrc, equippedFrameColor, equippedFramePattern, equippedStage, levelOf } from '../battle/core/growth';
+import '../styles/home-stage.css';
 import { TobiraAccessories } from '../battle/ui/TobiraAccessories';
 import type { GrowthPage } from './GrowthHub';
 const GrowthHomeStrip = React.lazy(() => import('../battle/ui/GrowthHomeStrip').then(m => ({ default: m.GrowthHomeStrip })));
@@ -362,7 +363,7 @@ export function Home({ onPractice, onPickSubject, onStudyMode, onGrowth, onStart
   return (
     <div className="home-lobby home-v2 arena-home game-home h-full min-h-0 relative">
       <div className="home-lobby-lines" aria-hidden="true" />
-      {/* 背景に桜を降らせる（2026-10-04 復活。操作の邪魔をしないよう最背面・pointer-events なし） */}
+      {/* 背景に季節のものを降らせる（D9 2026-10-30：春＝桜・夏＝若葉・秋＝紅葉・冬＝雪。最背面・pointer-events なし） */}
       <SakuraPetals count={14} className="home-sakura" />
       <div className="game-home-viewport">
         <header className="game-home-header">
@@ -381,7 +382,8 @@ export function Home({ onPractice, onPickSubject, onStudyMode, onGrowth, onStart
           <GrowthHomeStrip expanded homeLayout onProfile={() => onGrowth('outfit')} onShop={() => onGrowth('gacha-shop')} onGacha={() => onGrowth('gacha')}
             onBadges={() => onGrowth('badges')} onMissions={() => onGrowth('missions')} onWallet={() => onGrowth('overview')} />
         </React.Suspense>}
-        <section className="game-mascot-stage" aria-label="とびら君のホームステージ" ref={stageRef}>
+        {/* D7（2026-10-30）ホームの背景はガチャで当てて、きせかえで選べる（何もつけなければいつもの宇宙） */}
+        <section className="game-mascot-stage" aria-label="とびら君のホームステージ" ref={stageRef} data-stage={(growth && equippedStage(growth)) || 'cosmos'}>
           <div className="game-stage-backdrop" aria-hidden="true"><i /><i /><i /></div>
           {/* ★とびら君は「住人」（2026-10-01）★ 状態（はじめて・久しぶり・復習待ち・連続）で言うことが変わる。しっぽ付きの吹き出し */}
           <TobiraBuddy className="game-stage-say" figure={false} bubble="top" input={{ screen: 'home', streak, dueCount: reviewDueCount, solved: solvedQuestions, daysAway: Math.max(0, daysAway), firstVisit: (daysAway < 0 || (streak <= 1 && solvedQuestions === 0 && !completedIds.length)) && growth.loginDays <= 1 && growth.matches === 0 && growth.studySolved === 0 && growth.rushPlays === 0, isGuest, loginDays: growth.loginDays, seed: new Date().getDate() }} />

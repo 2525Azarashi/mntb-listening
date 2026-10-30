@@ -10,7 +10,8 @@ import { ReasonBox } from './explanation/ReasonBox';
 import { MobileAnswerNav, ReviewBottomBar } from './explanation/BottomBars';
 
 
-import { ResultScoreCard, ResultStage, ResultSummaryActions, WeakAreasPanel, ResultPager } from './explanation/ResultSummary';
+import { ResultStage, ResultSummaryActions, WeakAreasPanel, ResultPager } from './explanation/ResultSummary';
+import { ResultInsight } from './explanation/ResultInsight';
 import { renderExplanationAnswerItem } from './explanation/ExplanationAnswerItem';
 import { ExplanationHeader } from './explanation/ExplanationHeader';
 import { ProblemStatement } from './explanation/ProblemStatement';
@@ -18,7 +19,6 @@ import { ProblemStatement } from './explanation/ProblemStatement';
 
 import { ReviewTopNav } from './explanation/ReviewTopNav';
 
-import { CompactWeakAreas } from './explanation/CompactWeakAreas';
 import { computeQuestionScore, computeWeakAreas, buildResultPages, scopeQuestionsToFocus } from './explanation/explanationLogic';
 // 画面に依存しない小さな関数（isAttempted / textTracksOf / formatResultTime / pictureCellOf）
 import { isAttempted, textTracksOf } from './explanation/helpers';
@@ -96,7 +96,6 @@ interface ExplanationProps {
 }
 
 import { saveQuestionNote } from '../utils/questionNote';
-import { useGrowthProgress } from '../hooks/useGrowthProgress';
 import { logRejection } from '../utils/reportError';
 import { notify } from '../utils/dialog';
 import type { ReviewTargetItem } from '../utils/reviewFocus';
@@ -106,7 +105,6 @@ import type { Chapter, Problem, SubQuestion } from '../types/curriculum';
 
 export function Explanation({ mode: initialMode, chapter, answers, onBack, onReturnToBattle, isGuest, singleQuestionIndex, onNextQuestion, isLastQuestion, isMobileView, totalScore, resultTotalScore, resultTotalCorrect, resultTotalJudgeable, resultTotalTimeSec, questionRange, onRetryWrong, onNextChapter, nextChapterTitle, focusSubQuestionId, onHome, reviewNav }: ExplanationProps) {
   const isPracticeMode = initialMode === 'practice';
-  const { progress: growth } = useGrowthProgress();
 
   const [openExplanationBySq, setOpenExplanationBySq] = useState<Record<string, boolean>>({});
   const [openThinkingBySq, setOpenThinkingBySq] = useState<Record<string, boolean>>({});
@@ -445,8 +443,6 @@ export function Explanation({ mode: initialMode, chapter, answers, onBack, onRet
   // 2026-10-04：PCもスマホと同じく「成績・弱点・解き直し」を1枚のカードにまとめる（結果を1画面で見渡す）
   const compactResult = isResultView;
 
-  // スマホ結果画面用：復習推奨エリアのコンパクト表示（1行＝カテゴリ名＋％＋細いバー）
-  const compactWeakAreas = compactResult && weakAreas.length > 0 ? <CompactWeakAreas weakAreas={weakAreas} /> : null;
 
   // ★詳しい結果（2026-10-04 ご指摘）★ 1問ずつの答え合わせと「同じ画面」を使う（問題・スクリプト・解説が1画面に揃う）。
   //   独自のレイアウトを作らず、解いた直後の解答・解説画面をそのまま再利用して UI を一貫させる。
@@ -547,34 +543,31 @@ export function Explanation({ mode: initialMode, chapter, answers, onBack, onRet
       <ExplanationHeader chapter={chapter} questions={questions} singleQuestionIndex={singleQuestionIndex} reorderMobile={reorderMobile} isResultView={isResultView} savingNote={savingNote} handleSaveNote={handleSaveNote} calculateScore={calculateScore} onBack={onBack} onNextQuestion={onNextQuestion} isLastQuestion={isLastQuestion} />
       )}
 
+      {/* ★D2（2026-10-30）演習の結果★ 今回の正答率の輪・前回から・自己ベスト・満点の目標・この単元の回の棒グラフ。
+          「この単元にご意見」と「次の回へ／単元選択／ホーム」はここに出さない（詳しい解説の画面の下にまとめる）。 */}
       {isResultView && displayTotalScore != null && resultStep === 'summary' && (
-        <ResultScoreCard
-          compactResult={compactResult}
-          resultTotalCorrect={resultTotalCorrect}
-          resultTotalJudgeable={resultTotalJudgeable}
-          resultTotalTimeSec={resultTotalTimeSec}
-          growth={growth}
-          compactWeakAreas={compactWeakAreas}
-          chapter={chapter}
-         
-          displayTotalScore={displayTotalScore}
-        />
+        <div className="ri-wrap">
+          <ResultInsight
+            chapterId={chapter.id}
+            allQuestions={allQuestions}
+            singleIndex={questionRange && questionRange.startIndex === questionRange.endIndex ? rangeOffset : null}
+            correct={resultTotalCorrect ?? 0}
+            judgeable={resultTotalJudgeable ?? 0}
+            timeSec={resultTotalTimeSec ?? 0}
+          />
+        </div>
       )}
 
-      {/* ★結果のステージ（2026-10-04 ご要望）★ カードと下のボタンの間の空きに、とびらくんと今回もらったマナコインを大きく出す */}
+      {/* とびら君のひとこと＋今回のマナコイン（とびら君が下のボタンに切れないよう横並びの小さめに） */}
       {isResultView && resultStep === 'summary' && (
         <ResultStage resultTotalJudgeable={resultTotalJudgeable} resultTotalCorrect={resultTotalCorrect} studyReward={studyReward} isGuest={isGuest} />
       )}
 
-      {/* ★結果（1画面目）の下のバー：主操作は「詳しい結果を確認する」1つだけ。親指の届く画面の下に置く★ */}
+      {/* ★結果（1画面目）の下のバー：「詳しい解説を見る」1つだけ（必ず詳しい解説へ）★ */}
       {isResultView && resultStep === 'summary' && (
         <ResultSummaryActions
           onOpenDetail={() => { setResultStep('detail'); setResultPage(firstWrongPage >= 0 ? firstWrongPage : 0); }}
           wrongCount={wrongCount}
-          onNext={onNextChapter}
-          nextLabel={nextChapterTitle ? (/^第\d+回$/.test(nextChapterTitle) ? `次の回へ（${nextChapterTitle}）` : `次の単元へ`) : undefined}
-          onChapters={onBack}
-          onHome={onHome}
         />
       )}
 

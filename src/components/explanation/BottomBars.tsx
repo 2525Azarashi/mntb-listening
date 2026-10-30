@@ -35,17 +35,25 @@ export function MobileAnswerNav({ onNextQuestion, isLastQuestion }: { onBack?: (
  * 元は2つの兄弟要素（下の余白 div とバー本体）だったので、Fragment で同じ並びのまま返す。
  */
 export function ReviewBottomBar({ reviewNav }: { reviewNav: ReviewNav }) {
+  // D2（2026-10-30）：詳しい解説の画面の下に「次の回へ／単元選択に戻る／ホームに戻る」をそろえる。
+  //   次の回があれば必ず主ボタンにする。「間違えた問題だけ解き直す」は消さずに控えめな文字ボタンで残す。
+  const main = reviewNav.onNext
+    ? <button type="button" className="pbb-main" data-review-next onClick={reviewNav.onNext}>{reviewNav.nextLabel}<ChevronRight size={17} aria-hidden="true" /></button>
+    : reviewNav.onRetryWrong
+      ? <button type="button" className="pbb-main" onClick={reviewNav.onRetryWrong}><Target size={17} aria-hidden="true" />{reviewNav.retryLabel}</button>
+      : null;
   return (
     <>
         <div className="practice-bottom-spacer is-review" aria-hidden="true" />
           <div className="practice-bottom-bar is-review" data-review-actions>
-            {reviewNav.onRetryWrong
-              ? <button type="button" className="pbb-main" onClick={reviewNav.onRetryWrong}><Target size={17} aria-hidden="true" />{reviewNav.retryLabel}</button>
-              : reviewNav.onNext && <button type="button" className="pbb-main" onClick={reviewNav.onNext}><ChevronRight size={17} aria-hidden="true" />{reviewNav.nextLabel}</button>}
+            {main}
             <div className="pbb-sub">
-              <button type="button" onClick={reviewNav.onChapters}><ListOrdered size={16} aria-hidden="true" />単元選択に戻る</button>
-              {reviewNav.onHome && <button type="button" onClick={reviewNav.onHome}><Home size={16} aria-hidden="true" />ホームに戻る</button>}
+              <button type="button" data-review-chapters onClick={reviewNav.onChapters}><ListOrdered size={16} aria-hidden="true" />単元選択に戻る</button>
+              {reviewNav.onHome && <button type="button" data-review-home onClick={reviewNav.onHome}><Home size={16} aria-hidden="true" />ホームに戻る</button>}
             </div>
+            {reviewNav.onNext && reviewNav.onRetryWrong && (
+              <button type="button" className="pbb-retry" data-review-retry onClick={reviewNav.onRetryWrong}><Target size={15} aria-hidden="true" />{reviewNav.retryLabel}</button>
+            )}
           </div>
     </>
   );

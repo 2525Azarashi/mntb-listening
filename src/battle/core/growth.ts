@@ -17,7 +17,7 @@ export { localDateKey, rolloverDaily, MISSION_POOL, missionDestination, MISSION_
 export type { MatchSummaryForGrowth, MissionKind, MissionDef, MissionDestination } from './growthMissions';
 export { BADGES, badgeById, evaluateBadges, badgeTierColor } from './growthBadges';
 export type { BadgeDef } from './growthBadges';
-export { DEFAULT_POSE, DEFAULT_FRAME, REMOVABLE_KINDS, LEVEL_PRINTS, LEVEL_REWARD_ITEMS, ITEMS, printOf, printRarity, gachaRarityOf, itemById, evaluateUnlocks, purchaseItem, equipItem, unequipKind, canUnequip, equippedAccessory, equippedWallpaper, equipTitle, equippedPoseSrc, equippedFramePattern, equippedFrameColor, equippedTitleLabel } from './growthItems';
+export { DEFAULT_POSE, DEFAULT_FRAME, REMOVABLE_KINDS, LEVEL_PRINTS, LEVEL_REWARD_ITEMS, ITEMS, printOf, printRarity, gachaRarityOf, itemById, evaluateUnlocks, purchaseItem, equipItem, unequipKind, canUnequip, equippedAccessory, equippedWallpaper, equippedStage, equipTitle, equippedPoseSrc, equippedFramePattern, equippedFrameColor, equippedTitleLabel } from './growthItems';
 export type { ItemKind, EquipKind, GachaRarity, ItemDef } from './growthItems';
 
 // ============================================================
@@ -54,7 +54,7 @@ export function emptyProgress(uid: string): GrowthProgress {
     subjects: {},
     badges: {},
     owned: [DEFAULT_POSE, DEFAULT_FRAME],
-    equipped: { title: '', pose: DEFAULT_POSE, frame: DEFAULT_FRAME, hat: '', glasses: '', cheek: '', aura: '', wallpaper: '' },
+    equipped: { title: '', pose: DEFAULT_POSE, frame: DEFAULT_FRAME, hat: '', glasses: '', cheek: '', aura: '', wallpaper: '', stage: '' },
     daily: { date: '', progress: {}, claimed: [] },
     lastRoomId: '',
     studySolved: 0,
@@ -140,6 +140,7 @@ export function normalizeProgress(uid: string, raw: unknown): GrowthProgress {
       cheek: str(eq.cheek, ''),
       aura: str(eq.aura, ''),
       wallpaper: str(eq.wallpaper, ''),
+      stage: str(eq.stage, ''),
     },
     daily: {
       date: str(daily.date, ''),

@@ -22,7 +22,7 @@ describe('LR：立命館大学 全学統一（文系） 英語 予想問題', ()
     }
   });
   it('ガチャでは LR として出る', () => {
-    const lr = gachaItemsByRarity().LR.map(i => i.id);
+    const lr = gachaItemsByRarity('niji').LR.map(i => i.id);
     for (const p of RITSU_MOCK_PRINTS) {
       const item = ITEMS.find(i => i.id === p.id)!;
       expect(item.kind).toBe('print');

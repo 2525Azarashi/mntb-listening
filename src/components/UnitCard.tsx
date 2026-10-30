@@ -36,9 +36,15 @@ export interface UnitCardProps {
   perfects?: number;
   /** 状態の文字を差し替える（英文法の「達成 1/4回」など） */
   progressLabel?: string;
+  /** D1：主ボタンの文字を差し替える（英文法の「第2回の続き」「第3回を始める」など。どこをやるかを明確にする） */
+  primaryLabel?: string;
+  /** D1：開いた中身を回の一覧だけにする（英文法：文法項目の箇条書き・「最初から」を出さない。一覧に同じ内容がある） */
+  roundsMode?: boolean;
+  /** D1：「演習 N 大問」の代わりに出す文字 */
+  countLabel?: string;
 }
 
-export function UnitCard({ index, title, topics, questionCount, status, accuracy, hasSavedProgress, expanded, onToggle, onStart, onResume, onAudio, audioOpen, children, accent, perfects, progressLabel }: UnitCardProps) {
+export function UnitCard({ index, title, topics, questionCount, status, accuracy, hasSavedProgress, expanded, onToggle, onStart, onResume, onAudio, audioOpen, children, accent, perfects, progressLabel, primaryLabel, roundsMode, countLabel }: UnitCardProps) {
   const ready = questionCount > 0;
   const number = String(index + 1).padStart(2, '0');
   const name = stripCircledNumber(title);
@@ -58,17 +64,17 @@ export function UnitCard({ index, title, topics, questionCount, status, accuracy
         </button>
         {ready && (
           <button type="button" className="unit-card-primary" onClick={hasSavedProgress && onResume ? onResume : onStart}>
-            <Play size={15} aria-hidden="true" />{hasSavedProgress && onResume ? '続きから' : '学習開始'}
+            <Play size={15} aria-hidden="true" />{primaryLabel ?? (hasSavedProgress && onResume ? '続きから' : '学習開始')}
           </button>
         )}
       </div>
       {expanded && (
         <div className="unit-card-panel" id={panelId}>
-          {topics && topics.length > 0 && <ul className="unit-card-topics">{topics.map(t => <li key={t}>{t}</li>)}</ul>}
-          <p className="unit-card-count">{ready ? `演習 ${questionCount} 大問` : '問題を準備中です'}</p>
-          {ready && (onAudio || (hasSavedProgress && onResume)) && (
+          {!roundsMode && topics && topics.length > 0 && <ul className="unit-card-topics">{topics.map(t => <li key={t}>{t}</li>)}</ul>}
+          {!roundsMode && <p className="unit-card-count">{ready ? countLabel ?? `演習 ${questionCount} 大問` : '問題を準備中です'}</p>}
+          {ready && (onAudio || (!roundsMode && hasSavedProgress && onResume)) && (
             <div className="unit-card-secondary">
-              {hasSavedProgress && onResume && <button type="button" onClick={onStart}><RotateCcw size={15} aria-hidden="true" />最初から</button>}
+              {!roundsMode && hasSavedProgress && onResume && <button type="button" onClick={onStart}><RotateCcw size={15} aria-hidden="true" />最初から</button>}
               {onAudio && <button type="button" onClick={onAudio} aria-pressed={!!audioOpen} title="復習用の音源を聞く（問題を解かずに音声だけ再生）"><Headphones size={15} aria-hidden="true" />音源</button>}
             </div>
           )}

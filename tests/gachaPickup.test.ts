@@ -30,7 +30,11 @@ describe('ガチャのピックアップ（中身を少し見る）', () => {
   });
   it('ガチャ画面は下のボタンからダイアログで開く（画面に一覧を並べない）', () => {
     const room = readFileSync('src/components/GachaRoom.tsx', 'utf8');
-    expect(room).toContain('data-gacha-pickup-open');
+    // 2026-10-29：バナー（ピックアップ一覧のボタンを含む）は左右スワイプの部品 GachaPoolCarousel に移した
+    const banner = readFileSync('src/components/gacha/GachaPoolCarousel.tsx', 'utf8');
+    expect(room).toContain('<GachaPoolCarousel');
+    expect(banner).toContain('data-gacha-pickup-open');
+    expect(banner).not.toContain('data-gacha-featured-item');
     expect(room).toContain('<GachaPickupModal');
     expect(room).not.toContain('data-gacha-featured-item');
   });

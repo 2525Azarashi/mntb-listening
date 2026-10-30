@@ -1,12 +1,8 @@
 import React from 'react';
-import { AlertTriangle, ChevronLeft, ChevronRight, Coins, Home, ListOrdered, TrendingUp } from 'lucide-react';
-import { FeedbackButton } from '../FeedbackButton';
-import { NextBadgeHint } from '../../battle/ui/GrowthParts';
-import { formatResultTime } from './helpers';
-import type { Chapter, SubQuestion } from '../../types/curriculum';
-import type { GrowthProgress } from '../../battle/core/growth';
+import { AlertTriangle, BookOpen, ChevronLeft, ChevronRight, Coins, TrendingUp } from 'lucide-react';
+import type { SubQuestion } from '../../types/curriculum';
 import type { ResultPage } from './explanationLogic';
-import { KineticText, ScoreRing } from '../../motion';
+import { KineticText } from '../../motion';
 import { CountUp } from '../ui/CountUp';
 import { CinematicClip, CINEMATIC_CLIPS } from '../CinematicClip';
 
@@ -15,87 +11,12 @@ import { CinematicClip, CINEMATIC_CLIPS } from '../CinematicClip';
  * 2026-10-13 のリファクタリングで Explanation.tsx から切り出した。JSX・クラス名・文言・並び順は元のまま。
  * 「いつ出すか」（isResultView && resultStep === 'summary' など）の条件は、元どおり呼び出し側に残している。
  *
- *   ResultScoreCard      … 演習の結果（正解数・正答率・時間）＋あと少しの称号＋復習推奨（スマホ版）＋ご意見
- *   ResultStage          … とびらくんと今回もらったマナコイン
- *   ResultSummaryActions … 下のバー「詳しい結果を確認する」
+ *   （演習の結果のカードは D2 で ResultInsight.tsx へ。前回・自己ベスト・目標・回の棒グラフ）
+ *   ResultStage          … とびらくんと今回もらったマナコイン（D2：横並びの小さめ）
+ *   ResultSummaryActions … 下のバー「詳しい解説を見る」1つだけ
  *   WeakAreasPanel       … 大きな「分析結果：復習推奨エリア」（スマホ以外）
  *   ResultPager          … 詳しい結果の「1問ずつの答え合わせ」ページ送り
  */
-
-/** 正答率（0〜1）。判定できる問が0なら0 */
-const rateOf = (correct?: number, judgeable?: number) => (judgeable ? (correct ?? 0) / judgeable : 0);
-
-export function ResultScoreCard({ compactResult, resultTotalCorrect, resultTotalJudgeable, resultTotalTimeSec, growth, compactWeakAreas, chapter, displayTotalScore }: {
-  compactResult: boolean;
-  resultTotalCorrect?: number;
-  resultTotalJudgeable?: number;
-  resultTotalTimeSec?: number;
-  growth: GrowthProgress | null;
-  compactWeakAreas: React.ReactNode;
-  chapter: Chapter;
-  displayTotalScore: number | null | undefined;
-}) {
-  return (
-        <div className={`relative z-10 ${compactResult ? 'px-3 pt-3' : 'px-4 md:px-6 pt-4'}`}>
-          <div className={`bg-gradient-to-br from-[#FFF8E1] via-white to-[#E8F4FD] border border-[#F4D03F]/60 shadow-lg ${
-            compactResult ? 'rounded-2xl p-3' : 'rounded-3xl p-5 md:p-6'
-          }`}>
-            {/* スマホ（compactResult）ではスコアと Correct/Rate/Time を1行に圧縮して、
-                直下の「復習推奨エリア」まで同じ画面に収める。 */}
-            {/* 2026-10-02：演習ではポイントを出さない（対戦と分ける）。正解数・正答率・時間だけ */}
-            <div className="practice-result-summary" data-practice-result>
-              <div className="practice-result-main">
-                <span className="practice-result-badge"><KineticText text="演習の結果" step={45} variant="pop" /></span>
-                <p><strong><CountUp value={resultTotalCorrect ?? 0} fromZero duration={900} delay={250} /></strong><span>/ {resultTotalJudgeable ?? 0} 問 正解</span></p>
-              </div>
-              <dl className="practice-result-stats">
-                <div><dt>正答率</dt><dd className="mo-rate"><ScoreRing rate={rateOf(resultTotalCorrect, resultTotalJudgeable)} size={22} stroke={4} tone={rateOf(resultTotalCorrect, resultTotalJudgeable) >= 1 ? 'done' : 'brand'} /><span><CountUp value={resultTotalJudgeable ? Math.round(((resultTotalCorrect ?? 0) / resultTotalJudgeable) * 100) : 0} fromZero duration={1100} delay={350} />%</span></dd></div>
-                <div><dt>時間</dt><dd>{formatResultTime(resultTotalTimeSec ?? 0)}</dd></div>
-              </dl>
-            </div>
-            {/* あと少し：演習でもらえる称号のうち近いもの（無ければ出さない） */}
-            <NextBadgeHint progress={growth} prefer="b_study" className="mt-2" />
-
-            {/* ===== 次にすること =====
-                点数の直下に主操作を1つ置く。間違いがあれば「間違えた問題を解き直す」、
-                全問正解なら「次の単元へ」。どちらも無ければ何も出さない
-                （従来どおりヘッダーの「単元選択に戻る」を使う）。 */}
-            {/* 「間違えた問題を解き直す／次の回へ」は詳しい結果の下へ移した（2026-10-04 ご指摘） */}
-
-            {/* ★スマホ：スコアの直下に復習推奨エリア（コンパクト版）を出し、
-                1画面で「点数」と「どこを復習すべきか」が同時に見えるようにする。 */}
-            {compactWeakAreas}
-
-
-
-            {/* ===== この単元についてのご意見（結果画面の意見収集入口）=====
-                解いた直後は「ここが分かりにくい」が一番鮮明なタイミングなので、
-                スコアカードの直下に常設する。単元ID・スコア・正答数を自動で添付する。 */}
-            <div className="mt-4 pt-4 border-t border-[#F4D03F]/40 flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3">
-              <p className="text-xs text-[#4B5563]/80 font-modern leading-snug flex-1">
-                この単元の問題文・解説で気づいたこと（分かりにくい、誘導が欲しい、誤字・表示崩れなど）をお寄せください。
-              </p>
-              <FeedbackButton
-                screen="chapter_result"
-                variant="inline"
-                label="この単元にご意見"
-                description={`${chapter.title || chapter.id}の問題・解説についてのご意見をお聞かせください`}
-                context={{
-                  chapterId: chapter.id,
-                  chapterTitle: chapter.title || '',
-                  mode: 'mini_test',
-                  totalScore: displayTotalScore,
-                  correct: resultTotalCorrect ?? 0,
-                  judgeable: resultTotalJudgeable ?? 0,
-                  timeSec: resultTotalTimeSec ?? 0,
-                }}
-                className="shrink-0 self-start sm:self-auto"
-              />
-            </div>
-          </div>
-        </div>
-  );
-}
 
 /** ★結果のステージ（2026-10-04 ご要望）★ カードと下のボタンの間の空きに、とびらくんと今回もらったマナコインを大きく出す */
 export function ResultStage({ resultTotalJudgeable, resultTotalCorrect, studyReward, isGuest }: {
@@ -107,13 +28,13 @@ export function ResultStage({ resultTotalJudgeable, resultTotalCorrect, studyRew
         const judge = resultTotalJudgeable ?? 0; const correct = resultTotalCorrect ?? 0;
         const rate = judge ? correct / judge : 0;
         const pose = judge > 0 && correct === judge ? 'trophy' : rate >= 0.6 ? 'happy' : rate > 0 ? 'cheering' : 'thinking';
-        const line = judge > 0 && correct === judge ? '全問正解！この調子で次の回へ行こう！'
+        const line = judge > 0 && correct === judge ? '全問正解！解説で考え方も確かめよう'
           : rate >= 0.6 ? 'いい感じ！まちがえた所だけ見直せば完ぺき！'
           : rate > 0 ? 'ナイスチャレンジ！解説で「解くカギ」を確認しよう'
-          : 'ここからが伸びしろ！詳しい結果で1問ずつ確かめよう';
+          : 'ここからが伸びしろ！解説で1問ずつ確かめよう';
         const coins = studyReward?.coins ?? 0;
         return (
-          <section className="practice-stage" aria-label="とびらくんと今回のごほうび" data-practice-stage data-pose={pose}>
+          <section className="practice-stage is-row" aria-label="とびらくんと今回のごほうび" data-practice-stage data-pose={pose}>
             <div className="practice-stage-bubble" role="status"><KineticText text={line} delay={500} step={28} max={40} /></div>
             {pose === 'trophy'
               // ★2026-10-26★ 全問正解は、とびら君がトロフィーを掲げる動画（最後のコマを残す。再生できなければ絵のまま）
@@ -133,38 +54,17 @@ export function ResultStage({ resultTotalJudgeable, resultTotalCorrect, studyRew
 
 /**
  * ★結果（1画面目）の下のバー★
- * C7（2026-10-29 ご要望）：5問終わったら「次の回へ／単元選択に戻る／ホームに戻る」の3つをはっきり出す
- * （続きからの時と同じ並び）。「詳しい結果を確認する」は消さずに、その下の控えめなボタンとして残す。
+ * D2（2026-10-30 ご要望）：ここは「詳しい解説を見る」1つだけ。必ず詳しい解説の画面へ行く。
+ *   「次の回へ／単元選択に戻る／ホームに戻る」は詳しい解説の画面の下（ReviewBottomBar）にまとめる。
  * 元は2つの兄弟要素（下の余白 div とバー本体）だったので、Fragment で同じ並びのまま返す。
  */
-export function ResultSummaryActions({ onOpenDetail, wrongCount, onNext, nextLabel, onChapters, onHome }: {
-  onOpenDetail: () => void;
-  wrongCount: number;
-  onNext?: () => void;
-  nextLabel?: string;
-  onChapters?: () => void;
-  onHome?: () => void;
-}) {
-  const hasNav = !!(onNext || onChapters || onHome);
-  const detailLabel = `詳しい結果を確認する${wrongCount > 0 ? `（まちがい${wrongCount}問）` : ''}`;
+export function ResultSummaryActions({ onOpenDetail, wrongCount }: { onOpenDetail: () => void; wrongCount: number }) {
   return (
     <>
-      <div className={`practice-bottom-spacer${hasNav ? ' is-nav' : ''}`} aria-hidden="true" />
-        <div className={`practice-bottom-bar${hasNav ? ' is-nav' : ''}`} data-practice-summary-actions>
-          {onNext && (
-            <button type="button" className="practice-detail-open" data-practice-next onClick={onNext}>
-              {nextLabel ?? '次の回へ'}<ChevronRight size={18} aria-hidden="true" />
-            </button>
-          )}
-          {(onChapters || onHome) && (
-            <div className="practice-summary-nav">
-              {onChapters && <button type="button" className="practice-summary-sub" data-practice-chapters onClick={onChapters}><ChevronLeft size={16} aria-hidden="true" />単元選択に戻る</button>}
-              {onHome && <button type="button" className="practice-summary-sub" data-practice-home onClick={onHome}><Home size={16} aria-hidden="true" />ホームに戻る</button>}
-            </div>
-          )}
-          <button type="button" className={hasNav ? 'practice-summary-detail' : 'practice-detail-open'} data-practice-open-detail
-            onClick={onOpenDetail}>
-            <ListOrdered size={hasNav ? 16 : 18} aria-hidden="true" />{detailLabel}
+      <div className="practice-bottom-spacer" aria-hidden="true" />
+        <div className="practice-bottom-bar" data-practice-summary-actions>
+          <button type="button" className="practice-detail-open" data-practice-open-detail onClick={onOpenDetail}>
+            <BookOpen size={18} aria-hidden="true" />詳しい解説を見る{wrongCount > 0 ? `（まちがい${wrongCount}問）` : ''}<ChevronRight size={18} aria-hidden="true" />
           </button>
         </div>
     </>

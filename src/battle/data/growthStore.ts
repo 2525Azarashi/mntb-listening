@@ -13,6 +13,7 @@ import { applyHolesFilled, applyLoginWithBonus, applyMatchToProgress, applyRushR
 
 import { GACHA_MULTI_COUNT, GACHA_MULTI_COST, VIDEO_GACHA_DAILY_LIMIT, exchangeShards, matchCoins, rollGacha } from '../core/arenaEconomy';
 import { GACHA_SETS, setProgress } from '../core/gachaSets';
+import { DEFAULT_GACHA_POOL, type GachaPoolId } from '../core/gachaPools';
 import { chapterTitleBadgeId, chapterTitleOf } from '../core/chapterTitles';
 
 /** 抽選の前後で新しく完成したセット（結果画面で「セット完成！」を出す） */
@@ -56,6 +57,15 @@ const missionListeners = new Set<(m: MissionAnnouncement[]) => void>();
 function announceMissions(ms: MissionDef[]) {
   const list = ms.map((m) => ({ id: m.id, label: m.label, rewardXp: m.rewardXp, rewardCoins: m.rewardCoins }));
   for (const fn of missionListeners) { try { fn(list); } catch { /* isolate */ } }
+}
+/** D10（2026-10-30）：マナコインを手に入れたときの演出（CoinCelebration.tsx）へ知らせる */
+const coinListeners = new Set<(gained: number) => void>();
+function announceCoinGain(gained: number) {
+  for (const fn of coinListeners) { try { fn(gained); } catch { /* isolate */ } }
+}
+export function subscribeCoinGain(fn: (gained: number) => void): () => void {
+  coinListeners.add(fn);
+  return () => { coinListeners.delete(fn); };
 }
 export function subscribeMissionComplete(fn: (m: MissionAnnouncement[]) => void): () => void {
   missionListeners.add(fn);
@@ -128,6 +138,9 @@ async function mutate<T>(fn: (p: GrowthProgress, today: string, seen: Set<string
       if (result.next !== current.progress) {
         const done = newlyCompletedMissions(current.progress, result.next, today);
         if (done.length) announceMissions(done);
+        // D10：この端末でマナコインが増えたときだけ演出に知らせる（使ったとき・同期・別タブでは出さない）
+        const gained = result.next.coins - current.progress.coins;
+        if (gained > 0) announceCoinGain(gained);
       }
       return result;
     } catch { return null; } // Do not report a reward if persistence failed, or overwrite corrupt data.
@@ -268,13 +281,13 @@ export async function buyItem(id: string) {
 }
 
 /** One receipt and one atomic write for each confirmed draw. */
-export async function drawGacha(requestId: string, expectedUid = scope()) {
+export async function drawGacha(requestId: string, expectedUid = scope(), pool: GachaPoolId = DEFAULT_GACHA_POOL) {
   if (!requestId || requestId.length > 100) return null;
   const out = await mutate((p, today, seen) => {
     const receipt = `gacha:${requestId}`;
     if (seen.has(receipt)) return { next: p, extra: null };
     const values = new Uint32Array(1); crypto.getRandomValues(values);
-    const r = rollGacha(p, values[0] / 4294967296);
+    const r = rollGacha(p, values[0] / 4294967296, 'N', { pool });
     if (!r) return { next: p, extra: null };
     seen.add(receipt);
     const s = settle(p, r.next);
@@ -285,7 +298,7 @@ export async function drawGacha(requestId: string, expectedUid = scope()) {
 
 /** 10 + 1 pulls: debit the full price once, with a single atomic persistence. */
 export { GACHA_MULTI_COUNT } from '../core/arenaEconomy';
-export async function drawGachaMulti(requestId: string, expectedUid = scope()) {
+export async function drawGachaMulti(requestId: string, expectedUid = scope(), pool: GachaPoolId = DEFAULT_GACHA_POOL) {
   if (!requestId || requestId.length > 100) return null;
   const out = await mutate((p, today, seen) => {
     const receipt = `gacha11:${requestId}`;
@@ -296,7 +309,7 @@ export async function drawGachaMulti(requestId: string, expectedUid = scope()) {
       // 最後の1回は、それまでに R 以上が1つも出ていなければ「R以上確定」
       const last = i === GACHA_MULTI_COUNT - 1;
       const guaranteed = last && results.every(x => x.rarity === 'N');
-      const r = rollGacha(cur, values[i] / 4294967296, guaranteed ? 'R' : 'N', { cost: 0 });
+      const r = rollGacha(cur, values[i] / 4294967296, guaranteed ? 'R' : 'N', { cost: 0, pool });
       if (!r) break;
       cur = r.next; results.push({ item: r.item, rarity: r.rarity, duplicate: r.duplicate, refund: r.refund, shards: r.shards });
     }
@@ -326,14 +339,14 @@ export function videoGachaPlaysLeft(): number {
     return Math.max(0, VIDEO_GACHA_DAILY_LIMIT - e.receipts.filter(k => k.startsWith(`video:${today}:`)).length);
   } catch { return 0; }
 }
-export async function drawVideoGacha(token: object, expectedUid = scope()) {
+export async function drawVideoGacha(token: object, expectedUid = scope(), pool: GachaPoolId = DEFAULT_GACHA_POOL) {
   if (!videoTokens.has(token)) return null;
   videoTokens.delete(token);
   const out = await mutate((p, today, seen) => {
     const used = [...seen].filter(k => k.startsWith(`video:${today}:`)).length;
     if (used >= VIDEO_GACHA_DAILY_LIMIT) return { next: p, extra: null };
     const values = new Uint32Array(1); crypto.getRandomValues(values);
-    const r = rollGacha(p, values[0] / 4294967296, 'N', { cost: 0, refundDuplicates: false });
+    const r = rollGacha(p, values[0] / 4294967296, 'N', { cost: 0, refundDuplicates: false, pool });
     if (!r) return { next: p, extra: null };
     seen.add(`video:${today}:${used + 1}`);
     const s = settle(p, r.next);

@@ -22,7 +22,7 @@ describe('LR：大阪大学 前期 英語 予想問題', () => {
     }
   });
   it('ガチャでは LR として出る', () => {
-    const lr = gachaItemsByRarity().LR.map(i => i.id);
+    const lr = gachaItemsByRarity('niji').LR.map(i => i.id);
     for (const p of OSAKA_MOCK_PRINTS) {
       const item = ITEMS.find(i => i.id === p.id)!;
       expect(item.kind).toBe('print');

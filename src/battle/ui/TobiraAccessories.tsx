@@ -46,6 +46,7 @@ function Hat({ style, c }: { style: string; c: string }) {
     case 'tiara': return <g><path d="M-0.4 0 Q0 -0.14 0.4 0" stroke={c} strokeWidth={0.05} fill="none" /><path d="M-0.28 -0.06 L-0.2 -0.24 L-0.1 -0.1 L0 -0.34 L0.1 -0.1 L0.2 -0.24 L0.28 -0.06" stroke={c} strokeWidth={0.04} fill="none" strokeLinejoin="round" /><circle cy={-0.36} r={0.05} fill="#ff6b9d" /><circle cx={-0.2} cy={-0.26} r={0.03} fill="#74c0fc" /><circle cx={0.2} cy={-0.26} r={0.03} fill="#74c0fc" /></g>;
     case 'headphones': return <g><path d="M-0.46 0.1 Q-0.5 -0.6 0 -0.62 Q0.5 -0.6 0.46 0.1" stroke={c} strokeWidth={0.07} fill="none" strokeLinecap="round" /><rect x={-0.58} y={-0.04} width={0.18} height={0.3} rx={0.08} fill={c} {...ol} /><rect x={0.4} y={-0.04} width={0.18} height={0.3} rx={0.08} fill={c} {...ol} /><circle cx={-0.49} cy={0.11} r={0.05} fill="#fff" opacity={0.7} /><circle cx={0.49} cy={0.11} r={0.05} fill="#fff" opacity={0.7} /></g>;
     case 'sprout': return <g><path d="M0 0 Q0.02 -0.22 0 -0.34" stroke="#2f9e44" strokeWidth={0.045} fill="none" strokeLinecap="round" /><path d="M0 -0.3 Q-0.24 -0.44 -0.3 -0.26 Q-0.14 -0.18 0 -0.3Z" fill={c} {...ol} /><path d="M0 -0.32 Q0.22 -0.5 0.3 -0.32 Q0.14 -0.22 0 -0.32Z" fill={c} {...ol} /></g>;
+    case 'hachimaki': return <g><path d="M-0.47 -0.02 Q0 -0.16 0.47 -0.02 L0.47 0.08 Q0 -0.06 -0.47 0.08Z" fill={c} {...ol} /><circle cx={0} cy={-0.035} r={0.055} fill="#ffffff" stroke={dark} strokeWidth={0.012} /><path d="M0.44 0.0 Q0.6 0.05 0.72 0.2 L0.62 0.22 Q0.56 0.1 0.44 0.06Z" fill={c} {...ol} /><path d="M0.44 0.03 Q0.52 0.16 0.56 0.32 L0.47 0.3 Q0.46 0.16 0.42 0.06Z" fill={dark} {...ol} /></g>;
     default: return null;
   }
 }
@@ -104,6 +105,7 @@ function Aura({ style, c, w, h }: { style: string; c: string; w: number; h: numb
       case 'snow': el = <g stroke={c} strokeWidth={r * 0.14} strokeLinecap="round">{[0, 60, 120].map((a) => <path key={a} d={`M${x} ${y - r * 0.8} V${y + r * 0.8}`} transform={`rotate(${a} ${x} ${y})`} />)}</g>; break;
       case 'abc': el = <text x={x} y={y} fontSize={r * 1.5} textAnchor="middle" fill={c} fontWeight={900}>{['A', 'b', 'C', 'e', 'S', 'w', '?'][i]}</text>; break;
       case 'bolt': el = <path d={`M${x + r * 0.2} ${y - r} L${x - r * 0.5} ${y + r * 0.1} H${x} L${x - r * 0.2} ${y + r} L${x + r * 0.5} ${y - r * 0.1} H${x}Z`} fill={c} />; break;
+      case 'pencil': el = <g transform={`rotate(${i * 47 - 60} ${x} ${y})`}><rect x={x - r * 0.22} y={y - r} width={r * 0.44} height={r * 1.3} rx={r * 0.06} fill={c} /><rect x={x - r * 0.22} y={y - r} width={r * 0.44} height={r * 0.22} fill="#f28aa0" /><polygon points={`${x - r * 0.22},${y + r * 0.3} ${x + r * 0.22},${y + r * 0.3} ${x},${y + r}`} fill="#f5d6a8" /><polygon points={`${x - r * 0.07},${y + r * 0.76} ${x + r * 0.07},${y + r * 0.76} ${x},${y + r}`} fill="#333333" /></g>; break;
       default: return null;
     }
     return <g key={key} className="tobira-aura-bit" style={delay}>{el}</g>;
