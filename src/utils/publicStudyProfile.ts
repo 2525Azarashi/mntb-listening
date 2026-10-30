@@ -7,7 +7,7 @@ import { profileKey } from './userStorageKeys';
 import { readStudyTime } from './studyTime';
 import { logRejection } from './reportError';
 import { requireLocalStorage } from './safeLocalStorage';
-import { buildWeek, intOrNull, lookIdOrEmpty, normalizeBio, normalizeGrade, parseWeek, type PublicGrade } from './publicProfileCore';
+import { BADGE_IDS_MAX, OWNED_IDS_MAX, buildWeek, encodeCal, encodeIds, encodeSubjects, intOrNull, lookIdOrEmpty, normalizeBio, normalizeGrade, parseCal, parseIds, parseSubjects, parseWeek, type PublicGrade } from './publicProfileCore';
 export const PUBLIC_STUDY_PROFILES = 'public_study_profiles';
 export const MOTTO_MAX = 40;
 export interface PublicStudyProfile {
@@ -33,6 +33,16 @@ export interface PublicStudyProfile {
   /** 身につけている称号の ID */
   title: string;
   look: { pose: string; frame: string; hat: string; glasses: string };
+  // ---- D6（2026-10-30）その人のマイページ全体（どれも任意・古い文書には無い） ----
+  /** 直近28日の日ごとの学習秒（古い日→calEnd）。無ければ null */
+  cal: number[] | null;
+  calEnd: string;
+  /** 直近28日の教科ごとの合計（'app'＝アプリで計った時間） */
+  subjects: { id: string; sec: number }[];
+  /** 持っているアイテムのID（きせかえ・マイPDF） */
+  owned: string[];
+  /** 取った称号のID */
+  badgeIds: string[];
 }
 
 /** 本人が公開プロフィールに載せる「自分で書く」項目 */
@@ -51,7 +61,15 @@ export interface PublicProfileStats {
   badges?: number;
   title?: string;
   look?: { pose?: string; frame?: string; hat?: string; glasses?: string };
+  /** D6：直近28日の日ごとの学習秒（古い日→今日）・教科ごとの合計秒・持ち物・取った称号 */
+  cal?: number[];
+  subjects?: Record<string, number>;
+  owned?: string[];
+  badgeIds?: string[];
 }
+/** D6 で足した項目（古い Firestore ルールで拒否されたら、これを外してもう一度保存する） */
+const D6_FIELDS = ['cal', 'calEnd', 'subj', 'ownedIds', 'badgeIds'] as const;
+const withoutD6 = (o: Record<string, unknown>) => { const c = { ...o }; for (const k of D6_FIELDS) delete c[k]; return c; };
 const intIn = (v: unknown, lo: number, hi: number) => typeof v === 'number' && Number.isInteger(v) && v >= lo && v <= hi;
 export const normalizeMotto = (v: string) => v.replace(/\s+/g, ' ').trim().slice(0, MOTTO_MAX);
 export function parsePublicStudyProfile(value: unknown): PublicStudyProfile | null {
@@ -72,6 +90,11 @@ export function parsePublicStudyProfile(value: unknown): PublicStudyProfile | nu
     badges: intOrNull(p.badges, 1000),
     title: lookIdOrEmpty(p.title),
     look: { pose: lookIdOrEmpty(p.lookPose), frame: lookIdOrEmpty(p.lookFrame), hat: lookIdOrEmpty(p.lookHat), glasses: lookIdOrEmpty(p.lookGlasses) },
+    cal: parseCal(p.cal),
+    calEnd: typeof p.calEnd === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(p.calEnd) ? p.calEnd : '',
+    subjects: parseSubjects(p.subj),
+    owned: parseIds(p.ownedIds, OWNED_IDS_MAX),
+    badgeIds: parseIds(p.badgeIds, BADGE_IDS_MAX),
   };
 }
 
@@ -94,6 +117,10 @@ function statsFields(uid: string, stats?: PublicProfileStats, now: number = Date
     out.lookHat = lookIdOrEmpty(stats.look.hat);
     out.lookGlasses = lookIdOrEmpty(stats.look.glasses);
   }
+  if (stats.cal) { out.cal = encodeCal(stats.cal); out.calEnd = localDay(now); }
+  if (stats.subjects) out.subj = encodeSubjects(stats.subjects);
+  if (stats.owned) out.ownedIds = encodeIds(stats.owned, OWNED_IDS_MAX);
+  if (stats.badgeIds) out.badgeIds = encodeIds(stats.badgeIds, BADGE_IDS_MAX);
   return out;
 }
 function localDay(t: number): string {
@@ -128,17 +155,18 @@ export async function savePublicStudyProfile(published: boolean, targetSchool: s
   if (input.nickname !== undefined) rich.nickname = input.nickname.trim().slice(0, 24);
   if (input.grade !== undefined) rich.grade = normalizeGrade(input.grade);
   if (input.bio !== undefined) rich.bio = normalizeBio(input.bio);
-  try {
-    await setDoc(ref, { ...base, motto: normalizeMotto(input.motto), ...rich }, { merge: true });
-  } catch (e) {
-    // 本番の Firestore ルールが古い（志・プロフィール拡張の前）と、新しい項目付きの保存は拒否される。
-    // 公開設定そのものは保存できるよう、段階的に項目を減らしてもう一度だけ試す。
-    if ((e as { code?: string })?.code !== 'permission-denied') throw e;
-    try { await setDoc(ref, { ...base, motto: normalizeMotto(input.motto) }, { merge: true }); }
-    catch (e2) {
-      if ((e2 as { code?: string })?.code !== 'permission-denied') throw e2;
-      await setDoc(ref, base, { merge: true });
-    }
+  // 本番の Firestore ルールが古いと、新しい項目付きの保存は拒否される。
+  // 公開設定そのものは保存できるよう、段階的に項目を減らして試す（D6 の項目 → プロフィール拡張 → 志）。
+  const denied = (e: unknown) => (e as { code?: string })?.code === 'permission-denied';
+  const tries: Record<string, unknown>[] = [
+    { ...base, motto: normalizeMotto(input.motto), ...rich },
+    { ...base, motto: normalizeMotto(input.motto), ...withoutD6(rich) },
+    { ...base, motto: normalizeMotto(input.motto) },
+    base,
+  ];
+  for (let i = 0; i < tries.length; i += 1) {
+    try { await setDoc(ref, tries[i], { merge: true }); break; }
+    catch (e) { if (!denied(e) || i === tries.length - 1) throw e; }
   }
   syncLater();
 }
@@ -153,12 +181,18 @@ export async function refreshPublicStudyTime(): Promise<void> {
   // Updates cannot recreate a missing document; the owner must opt in explicitly.
   const { updateDoc } = await import('./firestoreMetered');
   const ref = doc(db, PUBLIC_STUDY_PROFILES, uid);
+  const fields = statsFields(uid, currentStats());
+  const denied = (e: unknown) => (e as { code?: string })?.code === 'permission-denied';
   try {
-    await updateDoc(ref, { ...statsFields(uid, currentStats()), updatedAt: serverTimestamp() });
+    await updateDoc(ref, { ...fields, updatedAt: serverTimestamp() });
   } catch (e) {
-    // ルールが古いと週の記録などは拒否される。学習時間だけは今までどおり更新する
-    if ((e as { code?: string })?.code !== 'permission-denied') throw e;
-    await updateDoc(ref, { studySeconds: Math.min(315360000, readStudyTime(uid).total), updatedAt: serverTimestamp() });
+    // ルールが古いと D6 の項目・週の記録などは拒否される。減らしてもう一度、最後は学習時間だけ
+    if (!denied(e)) throw e;
+    try { await updateDoc(ref, { ...withoutD6(fields), updatedAt: serverTimestamp() }); }
+    catch (e2) {
+      if (!denied(e2)) throw e2;
+      await updateDoc(ref, { studySeconds: Math.min(315360000, readStudyTime(uid).total), updatedAt: serverTimestamp() });
+    }
   }
   syncLater();
 }

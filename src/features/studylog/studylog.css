@@ -291,3 +291,76 @@
 .slog-what-row li[data-zero] > span { background: var(--mt-bg-sunken); color: var(--mt-ink-3); font-weight: 600; }
 .slog-what-edit { justify-self: end; min-height: 44px; padding: 0 14px; border: 1px solid var(--mt-line); border-radius: 999px; background: var(--mt-bg-card); color: var(--mt-ink-2); font: 800 13px/1 var(--mt-font-body); }
 .slog-bars li[data-today] span { color: var(--mt-brand); font-weight: 900; }
+
+/* ★D3（2026-10-30）カレンダー：教科が1つしか見えなかった★
+   - カレンダーのマスを 44px → 38px（押しやすさは残す）、曜日の行も詰める
+   - 棒グラフを低く（118px → 72px）
+   - 教材の行を「名前と合計｜選んだ日のマス」の1行に（行の高さが半分）。表の中だけスクロール */
+.slog-cal { row-gap: 3px; }
+.slog-cal > li > span { line-height: 1.2; }
+.slog-cal .slog-cell { min-height: 38px; }
+.slog-month { min-height: 40px; }
+.slog-compare { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; gap: 4px; }
+.slog-bars { height: 72px; flex-shrink: 0; }
+.slog-what { flex: 1 1 auto; min-height: 96px; overflow-y: auto; gap: 0; }
+.slog-what-row { grid-template-columns: minmax(92px, 32%) minmax(0, 1fr); align-items: center; column-gap: 8px; padding: 4px 0; }
+.slog-what-row h4 { display: grid; grid-template-columns: 10px minmax(0, 1fr); grid-template-areas: "dot name" "dot total"; column-gap: 6px; row-gap: 0; align-items: center; }
+.slog-what-row h4 > i { grid-area: dot; }
+.slog-what-row h4 > span { grid-area: name; }
+.slog-what-row h4 > small { display: none; }
+.slog-what-row h4 > b { grid-area: total; margin-left: 0; font-size: 12px; color: var(--mt-ink-2); }
+.slog-what-row > ol { gap: 3px; }
+.slog-what-row li > span { min-height: 30px; }
+.slog-what-row li > button { min-height: 36px; }
+/* 1日だけ選んだとき：右に「直す」を並べる */
+.slog-what-row:not(:has(> ol)) { grid-template-columns: minmax(0, 1fr) auto; }
+.slog-what-row .slog-what-edit { min-height: 36px; padding: 0 12px; }
+@media (max-height: 700px) { .slog-cal .slog-cell { min-height: 34px; } .slog-bars { height: 60px; } }
+@media (max-height: 600px) { .slog-bars { height: 48px; } }
+@media (prefers-reduced-motion: no-preference) {
+  .slog-bar-track > i { animation: slog-grow .6s var(--mo-ease-out, ease-out) backwards; transform-origin: 50% 100%; }
+  .slog-what-row { animation: slog-row-in .35s ease-out backwards; }
+  .slog-what-row:nth-child(2) { animation-delay: .05s; }
+  .slog-what-row:nth-child(3) { animation-delay: .1s; }
+  .slog-what-row:nth-child(n+4) { animation-delay: .15s; }
+  @keyframes slog-grow { from { scale: 1 0; } }
+  @keyframes slog-row-in { from { opacity: 0; translate: 0 4px; } }
+}
+
+/* ★D11（2026-10-30）マイページの表：自分で記録したマスは押すと直す・消す（カレンダーと同じ）★
+   押せるマスはオレンジの枠と鉛筆の印。アプリで計った時間（マナトビ）は直せないので押せない */
+.mystudy-row li[data-editable] { padding: 0; background: none; box-shadow: none; }
+.mystudy-row li > span { display: contents; }
+.mystudy-row li > button { position: relative; width: 100%; height: 100%; min-height: 44px; display: grid; place-items: center; padding: 0; border: 0; border-radius: 6px; background: #fff; box-shadow: inset 0 0 0 1.5px var(--mt-accent-strong); font: inherit; color: var(--mt-ink); text-align: center; cursor: pointer; }
+.mystudy-row li > button::after { content: ''; position: absolute; right: 3px; top: 3px; width: 6px; height: 6px; border-radius: 50%; background: var(--mt-accent-strong); }
+.mystudy-row li > button:active { transform: translateY(1px); }
+
+/* ★D7（2026-10-30）マイページのグラフに動き★
+   - 今日・今週・今月・累計は 0 から数え上がる（CountUp、少しずつずらして）
+   - 7日の棒は下から順に伸びる。週を切り替えると伸び直す（key={weekOffset}）
+   - 一番長く勉強した日は棒の上に小さな王冠の点＋数字を強調
+   - 教材の行は上から順にふわっと出る */
+.mystudy-bars li[data-best] small { color: var(--mt-accent-strong); font-weight: 900; }
+.mystudy-bars li[data-best] .bar { position: relative; overflow: visible; box-shadow: 0 0 0 2px var(--mt-accent-soft); }
+.mystudy-bars li[data-best] .bar::before { content: ''; position: absolute; left: 50%; top: -9px; width: 7px; height: 7px; translate: -50% 0; rotate: 45deg; border-radius: 1px; background: var(--mt-accent-strong); }
+.mystudy-bars li[data-best] .bar > i:first-child { border-radius: 0 0 2px 2px; }
+.mystudy-bars li[data-best] .bar > i:last-child { border-radius: 4px 4px 0 0; }
+@media (prefers-reduced-motion: no-preference) {
+  .mystudy-bars .bar { animation: mystudy-grow .7s var(--mo-ease-out, ease-out) backwards; transform-origin: 50% 100%; }
+  .mystudy-bars li:nth-child(2) .bar { animation-delay: .04s; }
+  .mystudy-bars li:nth-child(3) .bar { animation-delay: .08s; }
+  .mystudy-bars li:nth-child(4) .bar { animation-delay: .12s; }
+  .mystudy-bars li:nth-child(5) .bar { animation-delay: .16s; }
+  .mystudy-bars li:nth-child(6) .bar { animation-delay: .2s; }
+  .mystudy-bars li:nth-child(7) .bar { animation-delay: .24s; }
+  .mystudy-bars small { animation: mystudy-fade .4s ease-out .45s backwards; }
+  .mystudy-bars li[data-best] .bar::before { animation: mystudy-pop .5s var(--mo-ease-out, ease-out) .7s backwards; }
+  .mystudy-row { animation: slog-row-in .35s ease-out backwards; }
+  .mystudy-row:nth-child(2) { animation-delay: .05s; }
+  .mystudy-row:nth-child(3) { animation-delay: .1s; }
+  .mystudy-row:nth-child(n+4) { animation-delay: .15s; }
+  @keyframes mystudy-grow { from { scale: 1 0; } }
+  @keyframes mystudy-fade { from { opacity: 0; } }
+  @keyframes mystudy-pop { from { scale: 0; opacity: 0; } }
+}
+html[data-perf=lite] .mystudy-bars .bar, html[data-perf=lite] .mystudy-row, html[data-perf=lite] .mystudy-bars small { animation: none; }

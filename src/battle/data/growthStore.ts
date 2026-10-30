@@ -58,6 +58,15 @@ function announceMissions(ms: MissionDef[]) {
   const list = ms.map((m) => ({ id: m.id, label: m.label, rewardXp: m.rewardXp, rewardCoins: m.rewardCoins }));
   for (const fn of missionListeners) { try { fn(list); } catch { /* isolate */ } }
 }
+/** D10（2026-10-30）：マナコインを手に入れたときの演出（CoinCelebration.tsx）へ知らせる */
+const coinListeners = new Set<(gained: number) => void>();
+function announceCoinGain(gained: number) {
+  for (const fn of coinListeners) { try { fn(gained); } catch { /* isolate */ } }
+}
+export function subscribeCoinGain(fn: (gained: number) => void): () => void {
+  coinListeners.add(fn);
+  return () => { coinListeners.delete(fn); };
+}
 export function subscribeMissionComplete(fn: (m: MissionAnnouncement[]) => void): () => void {
   missionListeners.add(fn);
   return () => { missionListeners.delete(fn); };
@@ -129,6 +138,9 @@ async function mutate<T>(fn: (p: GrowthProgress, today: string, seen: Set<string
       if (result.next !== current.progress) {
         const done = newlyCompletedMissions(current.progress, result.next, today);
         if (done.length) announceMissions(done);
+        // D10：この端末でマナコインが増えたときだけ演出に知らせる（使ったとき・同期・別タブでは出さない）
+        const gained = result.next.coins - current.progress.coins;
+        if (gained > 0) announceCoinGain(gained);
       }
       return result;
     } catch { return null; } // Do not report a reward if persistence failed, or overwrite corrupt data.

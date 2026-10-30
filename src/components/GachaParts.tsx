@@ -3,7 +3,8 @@ import { RarityBadge } from './ui';
 import { GACHA_RARITY_LABELS, GACHA_RARITY_ORDER } from '../battle/core/arenaEconomy';
 import { GrowthAvatar } from '../battle/ui/GrowthParts';
 import { printOf, type ItemDef, type GachaRarity, type GrowthProgress } from '../battle/core/growth';
-import { wallpaperOf } from '../battle/core/tobiraParts';
+import { stageOf, wallpaperOf } from '../battle/core/tobiraParts';
+import '../styles/home-stage.css';
 import { savePdf } from '../utils/pdfShare';
 import { notify } from '../utils/dialog';
 
@@ -18,7 +19,7 @@ import { notify } from '../utils/dialog';
 export const COLLECTION_KINDS = [
   { id: 'body', label: 'ポーズ・わく', match: (i: ItemDef) => i.kind === 'pose' || i.kind === 'frame' },
   { id: 'parts', label: '帽子・メガネほか', match: (i: ItemDef) => ['hat', 'glasses', 'cheek', 'aura'].includes(i.kind) },
-  { id: 'wallpaper', label: '壁紙', match: (i: ItemDef) => i.kind === 'wallpaper' },
+  { id: 'wallpaper', label: '壁紙・ホーム背景', match: (i: ItemDef) => i.kind === 'wallpaper' || i.kind === 'stage' },
   { id: 'print', label: '学習プリント', match: (i: ItemDef) => i.kind === 'print' },
 ] as const;
 
@@ -64,6 +65,14 @@ export function ItemArt({
   size: number;
 }) {
   const print = item.kind === 'print' ? printOf(item.id) : undefined;
+  if (item.kind === 'stage') {
+    return (
+      <svg className="gacha-stage-art" data-stage-swatch={stageOf(item.value) ? item.value : 'cosmos'} width={size} height={Math.round(size * 1.3)} viewBox="0 0 10 13" role="img" aria-label={stageOf(item.value)?.label ?? 'ホームの背景'}>
+        <rect className="stage-swatch-fill" width="10" height="13" rx="1.2" />
+        <image href="/mascots/basic.webp" x="2.5" y="5.5" width="5" height="5" />
+      </svg>
+    );
+  }
   if (item.kind === 'wallpaper') {
     return (
       <span

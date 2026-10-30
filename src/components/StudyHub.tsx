@@ -17,7 +17,6 @@ import {
   PenLine,
   TrendingUp,
   Medal,
-  Check,
   CalendarDays,
 } from 'lucide-react';
 import { auth } from '../firebase';
@@ -34,7 +33,7 @@ import { ForgettingCurveChart } from './ForgettingCurveChart';
 import { StudyRecord, type StudyRetry } from './StudyRecord';
 import './review-note.css';
 import './review-record.css';
-import { loadReviewDone, summarizeReviewDone, type ReviewDay, type ReviewDone } from '../utils/reviewProgress';
+import { loadReviewDone, summarizeReviewDone, type ReviewDone } from '../utils/reviewProgress';
 import { stripHtmlToText } from '../utils/sanitizeHtml';
 import { KineticText } from '../motion';
 import {
@@ -314,45 +313,10 @@ const NoteCard: React.FC<{ note: StudyNote; onSelect: (note: StudyNote) => void 
 //   「復習・記録」を変に融合したせいで UI のバグと使い勝手が悪い。思いきり作り直して、
 //   どちらの役割も果たし、復習したものが目に見えて喜べる形に。
 // ■ 形
-//   ① 上：達成の帯「今日なおした ○問」＋今日の輪（なおした / 今日の分）＋7日の扉グラフ＋連続日数
-//   ② 今日の分がないときだけ、次の予定と「演習する」（「復習を始める」は 2026-10-21 に削除。一覧から直接解く）
+//   ①② 上の達成の帯（今日の輪・連続日数・7日の扉・次の予定）は 2026-10-30 D5 のご要望で削除
 //   ③ 大きな2つの切り替え：［復習ノート］［学習記録］。復習ノートの中に 今日・苦手・習得・ノート の小タブ
 //   ④ 習得済みは「金のメダルの棚」に並べる（集めたものが見えると嬉しい）
 //   ⑤ 学習記録は直近3日の時系列（StudyRecord をそのまま中に置く。見出しの重複は消す）
-
-/** 今日の輪：なおした数 / （なおした数 + まだの数） */
-function TodayRing({ done, left }: { done: number; left: number }) {
-  const total = done + left;
-  const rate = total === 0 ? 0 : done / total;
-  const size = 56, stroke = 7, r = (size - stroke) / 2;
-  const complete = left === 0 && done > 0;
-  return (
-    <div className="rr-ring" data-complete={complete || undefined} aria-hidden="true">
-      <svg width="100%" height="100%" viewBox={`0 0 ${size} ${size}`}>
-        <defs><linearGradient id="rr-ring-grad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stopColor="#ffc94a" /><stop offset="1" stopColor="#2fa86b" /></linearGradient></defs>
-        <circle cx={size / 2} cy={size / 2} r={r} fill="none" stroke="var(--rr-ring-bg)" strokeWidth={stroke} />
-        <circle className="rr-ring-fg" cx={size / 2} cy={size / 2} r={r} fill="none" stroke="url(#rr-ring-grad)" strokeWidth={stroke} strokeLinecap="round"
-          pathLength={1} strokeDasharray="1 1" strokeDashoffset={1 - rate} transform={`rotate(-90 ${size / 2} ${size / 2})`} />
-      </svg>
-      <span className="rr-ring-label">{complete ? <Check size={22} strokeWidth={3.4} /> : <><b>{done}</b><small>/{total}</small></>}</span>
-    </div>
-  );
-}
-
-/** 7日の扉グラフ（小さく）：その日なおした数だけ扉が高くなる。今日は金。数字は今日と最大の日だけ */
-function WeekDoors({ week }: { week: ReviewDay[] }) {
-  const max = Math.max(3, ...week.map(d => d.count));
-  return (
-    <ol className="rr-week" aria-label={`この7日でなおした数：${week.map(d => `${d.label}${d.count}問`).join('、')}`}>
-      {week.map((d, i) => (
-        <li key={d.date} data-today={d.isToday || undefined} data-zero={d.count === 0 || undefined} title={`${d.label} ${d.count}問`}
-          style={{ ['--h' as string]: `${Math.max(14, Math.round(d.count / max * 100))}%`, ['--i' as string]: i } as React.CSSProperties}>
-          <i />
-        </li>
-      ))}
-    </ol>
-  );
-}
 
 /** 一覧だけスクロールする枠。上に影（スクロール済み）・下にうすいフェード（続きあり）を出して、どこまで見たか分かるように */
 function ScrollArea({ children }: { children: React.ReactNode; key?: React.Key }) {
@@ -404,7 +368,7 @@ function MasteredShelf({ items, onRemove }: { items: ReviewItem[]; onRemove: (ke
 type Section = 'review' | 'record';
 type ReviewTab = 'today' | 'all' | 'mastered' | 'notes';
 
-export function StudyHub({ onBack, isGuest, onSelectNote, onReview, onPractice, onRetry, view, onViewChange }: StudyHubProps) {
+export function StudyHub({ onBack, isGuest, onSelectNote, onReview, onRetry, view, onViewChange }: StudyHubProps) {
   const uid = auth.currentUser?.uid || (isGuest ? 'guest' : null);
 
   const [reviewItems, setReviewItems] = useState<ReviewItem[]>(() => getAllReviewItems(uid));
@@ -416,7 +380,6 @@ export function StudyHub({ onBack, isGuest, onSelectNote, onReview, onPractice, 
   const [section, setSection] = useState<Section>(initial === 'record' ? 'record' : 'review');
   const [tab, setTab] = useState<ReviewTab>(initial === 'all' ? 'all' : initial === 'mastered' ? 'mastered' : initial === 'notes' || initial === 'important' ? 'notes' : 'today');
   /** 「できた」を押した直後だけ出す小さなお祝い（+1） */
-  const [cheer, setCheer] = useState(0);
 
   const loadNotes = () => {
     try {
@@ -464,10 +427,9 @@ export function StudyHub({ onBack, isGuest, onSelectNote, onReview, onPractice, 
   const dueItems = useMemo(() => getDueReviewItems(uid, now).filter(it => !isMastered(it)), [reviewItems, now, uid]);
   const masteredCount = useMemo(() => reviewItems.filter(isMastered).length, [reviewItems]);
   const summary = useMemo(() => summarizeReviewDone(doneLog, now), [doneLog, now]);
-  const nextUpcoming = useMemo(() => reviewItems.filter(it => it.dueAt > now && !isMastered(it)).sort((a, b) => a.dueAt - b.dueAt)[0], [reviewItems, now]);
 
   const actions = createReviewActions(uid, refresh);
-  const handleCorrect = (key: string) => { actions.handleCorrect(key); setCheer(n => n + 1); };
+  const handleCorrect = (key: string) => { actions.handleCorrect(key); };
   const { handleWrong, handleRemove } = actions;
 
   const reviewTabs: { id: ReviewTab; label: string; count: number }[] = [
@@ -477,8 +439,6 @@ export function StudyHub({ onBack, isGuest, onSelectNote, onReview, onPractice, 
     { id: 'notes', label: 'ノート', count: notes.length },
   ];
   const showSubjectFilter = section === 'review' && tab !== 'notes' && subjectSummaries.length > 1;
-  const first = scopedDueItems[0];
-  const allDone = dueItems.length === 0 && summary.today > 0;
 
   return (
     <div className="review-note rr-page" data-review-note data-section={section}>
@@ -489,27 +449,7 @@ export function StudyHub({ onBack, isGuest, onSelectNote, onReview, onPractice, 
           <button type="button" className="rn-header-stat rr-medal-pill" onClick={() => { setSection('review'); setTab('mastered'); }} aria-label={`メダル（習得済み） ${masteredCount}問を見る`}><Medal size={16} aria-hidden="true" /><b>{masteredCount}</b></button>
         </header>
 
-        {/* ① 達成の帯 */}
-        <section className="rr-hero" aria-label="今日の復習の達成" data-all-done={allDone || undefined} data-no-cta={first ? true : undefined}>
-          <TodayRing done={summary.today} left={dueItems.length} />
-          <div className="rr-hero-main">
-            <p className="rr-hero-big"><span>今日なおした</span><b key={summary.today} className="rr-pop">{summary.today}</b><span>問</span>
-              {cheer > 0 && <i key={cheer} className="rr-plus" aria-hidden="true">+1</i>}</p>
-            <p className="rr-hero-sub">
-              <span className="rr-hero-left">{allDone ? '今日は完了！' : dueItems.length > 0 ? `あと${dueItems.length}問` : '今日の分なし'}</span>
-              <span className="rr-streak" aria-label={`${summary.streak}日連続`}><Flame size={14} aria-hidden="true" />{summary.streak}<small>日</small></span>
-            </p>
-          </div>
-          <div className="rr-hero-week"><WeekDoors week={summary.week} /><small>今週 {summary.weekTotal}問</small></div>
-          {/* 2026-10-21：オレンジの「復習を始める」は削除（一覧から直接解ける）。その分、一覧を広く */}
-          {!first && (
-            <div className="rr-hero-next">
-              <p>{nextUpcoming ? `次の復習は${formatDue(nextUpcoming.dueAt, now)}` : '新しく解いて、苦手を集めよう'}</p>
-              {onPractice && <button type="button" className="mt-btn mt-btn-secondary" onClick={onPractice}><PenLine size={16} aria-hidden="true" />演習する</button>}
-            </div>
-          )}
-        </section>
-
+        {/* D5（2026-10-30）：上の達成の帯（今日の輪・あと◯問・連続日数・今週の扉）はご要望で削除。一覧を広く */}
         {/* ② 大きな2つの切り替え */}
         <div className="rr-switch" role="tablist" aria-label="復習ノートと解いた問題の切り替え" data-active={section}>
           <button type="button" role="tab" aria-selected={section === 'review'} onClick={() => setSection('review')} data-rr-section="review">
