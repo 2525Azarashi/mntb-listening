@@ -54,9 +54,11 @@
 | 中断と再開 | ページ位置・選んだ答え・採点済みのページを復元（保存先は今までと同じキー）。TOEIC だけ、途中で戻っても採点前の答えを消さない | 同上 |
 | ご指摘5点（同日） | ①開いた直後は「未回答」の印もオレンジの左線も出さない（中立の灰色）。印は採点ボタンを押したあとだけ未回答の問に出す。答えた問は左線を紺に ②番号を小さな丸にして英文の先頭へ（右のバッジも外し、問題文の幅を広げた。390px で6問中5問が2行） ③空所 ______ を太い下線の枠にし、選んだ語を空所に入れて見せる（採点後は正解=緑・誤り=赤の取り消し線） ④上の帯を「📄 1/5ページ」「☑ 0/30問」とアイコン＋単位で区別 ⑤選んだ選択肢は丸を塗る＋行全体を淡い紺で塗る＋紺の枠＋チェック印（色だけに頼らない） | `ToeicPageQuiz.tsx`、`toeic-page.css` |
 | ご指摘3点（同日） | ①採点後に長い選択肢が「hav/e/rec/eiv/ed」と1文字ずつ折れて縦に伸びた → 単語の途中では折らない（`overflow-wrap: break-word`）、「正解」「あなたの答え」は選択肢の横でなく下の行へ ②回の一覧（単元選択）は見出しを「TOEIC」だけにし、「1章 Part 5」のタブ1枚と「TOEIC Part 5 短文穴埋め」の小見出しを出さない ③採点後、一覧の上に「このページの正解 3/6問」、下の帯に「正解 3/6問」を出す（全問正解なら緑） | `ToeicPageQuiz.tsx`、`toeic-page.css`、`ChapterSelection.tsx`（`isToeic` の分岐3か所） |
+| 確認・満点表示を外す（10/29） | ①「このページを採点する」を押したとき、未回答があっても「未回答が◯問あります。採点しますか？」の確認を出さずに採点する（未回答は不正解として数えるのは同じ） ②回の一覧で TOEIC だけ「満点 0/3」を出さない（達成の表示・リスニングは同じ） | `ToeicPageQuiz.tsx`（`confirmAction` の1行）、`ChapterSelection.tsx`（`tried && !isToeic`） |
+| 採点後の解説を英文法と同じ水準に（10/29） | ①解説の見出しを役割ごとの札に（正解の理由＝紺・いちばん目立つ／着眼点 #2F7C74／ポイント #B0464F／選択肢 #5A6573／TOEICでのコツ #1F5FA8＝英文法と同じ色。アイコン＋文言つき） ②各問に正誤・分野タグ・「ノートに保存」（1問ずつ、同じ問題は1件だけ） ③「正解」「あなたの答え」を英文法と同じ「あなた・正解」バッジに ④ページ上部に結果の帯（このページ n/6問正解・6問の ○× を押すとその問題へ・分野別）。下の帯の「正解 n/6問」は外した ⑤誤答・未回答の解説は最初から開く、正解は閉じる。解説の先頭に問題文を再掲 ⑥PC は採点後だけ1列（右列の下の空白をなくす）。入れ子の枠を減らした ⑦時間の線を 2px の紺に。目安を過ぎても赤・点滅は出さず灰色で「目安を過ぎました」（続けて解ける仕様はそのまま） ⑧手がかりの黄色いマーカー（データがある問題だけ） | `ToeicPageQuiz.tsx`、新規 `ToeicExplanationPanel.tsx`・`ToeicTimer.tsx`・`toeicNote.ts`、`toeic-page.css`。英文法・リスニングの部品（`QuizTimerBar`・`SubQuestionCard` など）は変えていない |
 
 リスニング・英文法の演習画面と共有部品（`ProblemPane`・`AnswerPane`・`MultipleChoiceControl`・`QuizHeader`）は変えていない。`Quiz.tsx` は入口で TOEIC のときだけ専用画面に渡す分岐を足しただけ（本体は `QuizBody` に名前を変えただけで中身は同じ）。
-**戻し方**：`Quiz.tsx` の `Quiz` を元の1関数に戻す（`isToeicPageChapter` の分岐と2行の import を消し、`QuizBody` を `export function Quiz` に戻す）。一覧の内訳行は `ChapterSelection.tsx` の `&& !isToeic` を2か所消す。タブ・小見出しは `ChapterSelection.tsx` の `!isToeic &&` と `isToeic ? 'TOEIC'`・`aria-label` の分岐を消す。
+**戻し方**：`Quiz.tsx` の `Quiz` を元の1関数に戻す（`isToeicPageChapter` の分岐と2行の import を消し、`QuizBody` を `export function Quiz` に戻す）。一覧の内訳行は `ChapterSelection.tsx` の `&& !isToeic` を2か所消す。解説の札・結果の帯・時間の表示は、`ToeicPageQuiz.tsx` を `git revert` で1つ前に戻す（新規3ファイルは読まれなくなる）。タブ・小見出しは `ChapterSelection.tsx` の `!isToeic &&` と `isToeic ? 'TOEIC'`・`aria-label` の分岐を消す。
 
 ## 2026-10-28 TOEIC Part 5（短文穴埋め・全15回×30問）を追加（PR: feat/toeic-part5）
 

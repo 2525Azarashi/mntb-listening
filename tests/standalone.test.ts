@@ -11,9 +11,10 @@ import { arenaRule } from '../src/battle/core/arenaRules';
 import { EXTERNAL_SUBJECTS } from '../src/data/externalSubjects';
 const subject = 'english_listening';
 it('exposes listening first, with English grammar and vocabulary as sub-features only', () => {
-  expect(SUBJECTS.map(s=>s.id)).toEqual([subject,'english_grammar']);
-  expect(SUBJECT_INDEX.map(s=>s.id)).toEqual([subject,'english_grammar']);
-  expect(Object.keys(SUBJECT_STATS)).toEqual([subject,'english_grammar']);
+  // TOEIC Part 5（#126・2026-10-28）は演習の教材として加わった。対戦の問題プールには入れていない（下の POOL_COUNTS は従来どおり）
+  expect(SUBJECTS.map(s=>s.id)).toEqual([subject,'english_grammar','toeic_part5']);
+  expect(SUBJECT_INDEX.map(s=>s.id)).toEqual([subject,'english_grammar','toeic_part5']);
+  expect(Object.keys(SUBJECT_STATS)).toEqual([subject,'english_grammar','toeic_part5']);
   expect(Object.keys(POOL_COUNTS)).toEqual([subject,'english_grammar','english_vocab']);
   expect(defaultEnabledSubjects()).toEqual([subject,'english_grammar','english_vocab']);
   expect(EXTERNAL_SUBJECTS.map(s=>s.id)).toEqual(['english_vocab']);
