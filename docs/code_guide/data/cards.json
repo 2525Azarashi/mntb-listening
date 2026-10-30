@@ -315,11 +315,11 @@
 },
 {
 "dir": "ref",
-"path": "docs/archive/UI_REVAMP_2026-09-30.md"
+"path": "docs/TOEIC_DESIGN.md"
 },
 {
 "dir": "ref",
-"path": "scripts/pr/pr.mts"
+"path": "docs/archive/UI_REVAMP_2026-09-30.md"
 }
 ],
 "lines": 21,
@@ -1468,7 +1468,7 @@
 "path": "docs/APP_STORE.md"
 }
 ],
-"lines": 2384,
+"lines": 2392,
 "tag": "設定",
 "conf": "高",
 "kind": "file",
@@ -2326,7 +2326,7 @@
 "path": "README.md"
 }
 ],
-"lines": 172,
+"lines": 198,
 "tag": "文書",
 "conf": "高",
 "kind": "file",
@@ -3387,7 +3387,7 @@
 "name": "App.tsx",
 "folder": "src",
 "one": "18種類の画面を切り替え、アプリ全体の流れを決める係",
-"detail": "App・isAppState・isAppMode など4個を公開する。読み込むもの：firebase.ts・safeLocalStorage.ts・storageGuard.ts など58ファイル、外部部品 @capacitor/core・react。main.tsx・appPersistence.test.tsから読み込まれる。",
+"detail": "App・isAppState・isAppMode など4個を公開する。読み込むもの：firebase.ts・safeLocalStorage.ts・storageGuard.ts など60ファイル、外部部品 @capacitor/core・react。main.tsx・appPersistence.test.tsから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -3402,7 +3402,7 @@
 "path": "src/firebase.ts"
 }
 ],
-"lines": 797,
+"lines": 802,
 "tag": "画面",
 "conf": "高",
 "kind": "file",
@@ -3412,7 +3412,7 @@
 "isAppMode",
 "default"
 ],
-"nImports": 58,
+"nImports": 60,
 "nBy": 2,
 "draft": false,
 "changed": true,
@@ -3475,7 +3475,7 @@
 "path": "src/utils/adConfig.ts"
 }
 ],
-"lines": 37,
+"lines": 38,
 "tag": "設定",
 "conf": "高",
 "kind": "file",
@@ -4108,7 +4108,7 @@
 "name": "arenaEconomy.ts",
 "folder": "src",
 "one": "ガチャの値段や重複時に返すコインなどの決まりを持つ係",
-"detail": "GACHA_COST・GACHA_MULTI_COST・GACHA_MULTI_COUNT など17個を公開する。読み込むもの：growth.ts・gachaSets.ts。gachaFeatured.ts・growthStore.ts など19ファイルから読み込まれる。",
+"detail": "GACHA_COST・GACHA_MULTI_COST・GACHA_MULTI_COUNT など17個を公開する。読み込むもの：growth.ts・gachaPools.ts・gachaSets.ts。gachaFeatured.ts・growthStore.ts など21ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -4123,7 +4123,7 @@
 "path": "src/battle/core/growth.ts"
 }
 ],
-"lines": 104,
+"lines": 110,
 "tag": "データ",
 "conf": "高",
 "kind": "file",
@@ -4137,8 +4137,8 @@
 "gachaItems",
 "GACHA_RARITY_RATES"
 ],
-"nImports": 2,
-"nBy": 19,
+"nImports": 3,
+"nBy": 21,
 "draft": false,
 "changed": true,
 "sys": "battle",
@@ -4510,22 +4510,22 @@
 "name": "gachaFeatured.ts",
 "folder": "src",
 "one": "ガチャの「今回の注目アイテム」を週ごとに選ぶ係",
-"detail": "冒頭の説明：「ガチャの「今回の注目アイテム」（2026-10-01 C6・C8・C23） ★アイテム名はここにも画面にも書かない★ 既存のガチャデータ（gachaItemsByRarity）から…」FeaturedEntry・GachaFeatured・featuredWeek など4個を公開する。読み込むもの：growth.ts・arenaEconomy.ts。GachaRoom.tsx・gachaFeatured.test.tsから読み込まれる。",
+"detail": "冒頭の説明：「ガチャの「今回の注目アイテム」（2026-10-01 C6・C8・C23） ★アイテム名はここにも画面にも書かない★ 既存のガチャデータ（gachaItemsByRarity）から…」FeaturedEntry・GachaFeatured・featuredWeek など4個を公開する。読み込むもの：growth.ts・arenaEconomy.ts・gachaPools.ts。gachaFeatured.test.ts・GachaPoolCarousel.tsxから読み込まれる。",
 "links": [
 {
 "dir": "from",
-"path": "src/components/GachaRoom.tsx"
+"path": "tests/gachaFeatured.test.ts"
 },
 {
 "dir": "from",
-"path": "tests/gachaFeatured.test.ts"
+"path": "src/components/gacha/GachaPoolCarousel.tsx"
 },
 {
 "dir": "to",
 "path": "src/battle/core/growth.ts"
 }
 ],
-"lines": 68,
+"lines": 69,
 "tag": "データ",
 "conf": "高",
 "kind": "file",
@@ -4535,7 +4535,7 @@
 "featuredWeek",
 "gachaFeatured"
 ],
-"nImports": 2,
+"nImports": 3,
 "nBy": 2,
 "draft": false,
 "sys": "battle",
@@ -4561,10 +4561,10 @@
 },
 {
 "dir": "to",
-"path": "src/battle/core/growthLevel.ts"
+"path": "src/battle/core/growthBadges.ts"
 }
 ],
-"lines": 768,
+"lines": 769,
 "tag": "データ",
 "conf": "高",
 "kind": "file",
@@ -4579,7 +4579,7 @@
 "RUSH_COMBO_MISSION"
 ],
 "nImports": 5,
-"nBy": 51,
+"nBy": 54,
 "draft": false,
 "sys": "battle",
 "flow": [
@@ -4781,7 +4781,7 @@
 "name": "tobiraParts.ts",
 "folder": "src",
 "one": "とびら君の帽子やメガネなど着せかえの部位を決める係",
-"detail": "冒頭の説明：「とびら君の「部位ごと」のきせかえ（帽子・メガネ・ほっぺ・オーラ）と、アプリの壁紙。」AccessorySlot・ACCESSORY_SLOTS・SLOT_LABELS など13個を公開する。TobiraAccessories.tsx・growthItems.ts など7ファイルから読み込まれる。",
+"detail": "冒頭の説明：「とびら君の「部位ごと」のきせかえ（帽子・メガネ・ほっぺ・オーラ）と、アプリの壁紙。」AccessorySlot・ACCESSORY_SLOTS・SLOT_LABELS など15個を公開する。TobiraAccessories.tsx・growthItems.ts など10ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -4792,7 +4792,7 @@
 "path": "src/battle/core/growthItems.ts"
 }
 ],
-"lines": 81,
+"lines": 103,
 "tag": "データ",
 "conf": "高",
 "kind": "file",
@@ -4807,8 +4807,9 @@
 "GLASSES_STYLES"
 ],
 "nImports": 0,
-"nBy": 7,
+"nBy": 10,
 "draft": false,
+"changed": true,
 "sys": "battle",
 "flow": [
 "compete"
@@ -5348,7 +5349,7 @@
 "name": "growthStore.ts",
 "folder": "src",
 "one": "成長の記録を端末の中に、アカウントごとに保存する係",
-"detail": "冒頭の説明：「Device-local, account-scoped personal progression.」GROWTH_STORAGE_PREFIX・MissionAnnouncement・subscribeMissionComplete など30個を公開する。読み込むもの：firebase.ts・safeLocalStorage.ts・growth.ts など7ファイル。BattleGrowthReward.tsx・BattleMissions.tsx など24ファイルから読み込まれる。",
+"detail": "冒頭の説明：「Device-local, account-scoped personal progression.」GROWTH_STORAGE_PREFIX・MissionAnnouncement・subscribeCoinGain など30個を公開する。読み込むもの：firebase.ts・safeLocalStorage.ts・growth.ts など8ファイル。BattleGrowthReward.tsx・BattleMissions.tsx など25ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -5363,22 +5364,22 @@
 "path": "src/firebase.ts"
 }
 ],
-"lines": 371,
+"lines": 384,
 "tag": "データ",
 "conf": "高",
 "kind": "file",
 "exports": [
 "GROWTH_STORAGE_PREFIX",
 "MissionAnnouncement",
+"subscribeCoinGain",
 "subscribeMissionComplete",
 "ChapterTitleAnnouncement",
 "subscribeChapterTitle",
 "awardChapterTitle",
-"subscribeGrowth",
-"cachedGrowth"
+"subscribeGrowth"
 ],
-"nImports": 7,
-"nBy": 24,
+"nImports": 8,
+"nBy": 25,
 "draft": false,
 "changed": true,
 "sys": "battle",
@@ -6704,7 +6705,7 @@
 "name": "OpponentCard.tsx",
 "folder": "src",
 "one": "マッチングした相手のプロフィールを見せるカードの係",
-"detail": "冒頭の説明：「マッチングした相手のプロフィール（2026-10-02）。」OpponentCardを公開する。読み込むもの：firebase.ts・publicStudyProfile.ts・nicknameFilter.ts など8ファイル、外部部品 lucide-react・react。BattleAiRoomScreen.tsx・BattleLobby.tsx など3ファイルから読み込まれる。",
+"detail": "冒頭の説明：「マッチングした相手のプロフィール（2026-10-02）。」OpponentCardを公開する。読み込むもの：firebase.ts・publicStudyProfile.ts・studyTime.ts など8ファイル、外部部品 lucide-react・react。BattleAiRoomScreen.tsx・BattleLobby.tsx など3ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -6792,7 +6793,7 @@
 "path": "src/battle/core/growth.ts"
 }
 ],
-"lines": 141,
+"lines": 143,
 "tag": "部品",
 "conf": "高",
 "kind": "file",
@@ -6988,7 +6989,7 @@
 "name": "growthBadges.ts",
 "folder": "src",
 "one": "バッジ（称号）の一覧と、もらえる条件を判定する係",
-"detail": "冒頭の説明：「growth.ts から分割（growthBadges）。外部からは従来どおり growth.ts 経由で import できる。」BadgeDef・BADGES・badgeById など5個を公開する。読み込むもの：gachaSets.ts・chapterTitles.ts・growthLevel.ts など4ファイル。growth.ts・growthItems.ts など3ファイルから読み込まれる。",
+"detail": "冒頭の説明：「growth.ts から分割（growthBadges）。外部からは従来どおり growth.ts 経由で import できる。」BadgeDef・BADGES・badgeById など5個を公開する。読み込むもの：gachaSets.ts・chapterTitles.ts・growthLevel.ts など4ファイル。growth.ts・growthItems.ts など4ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -7015,7 +7016,7 @@
 "badgeTierColor"
 ],
 "nImports": 4,
-"nBy": 3,
+"nBy": 4,
 "draft": false,
 "sys": "battle",
 "flow": [
@@ -7028,7 +7029,7 @@
 "name": "growthItems.ts",
 "folder": "src",
 "one": "とびら君の装備・ガチャ景品の一覧と、解放や購入を扱う係",
-"detail": "冒頭の説明：「growth.ts から分割（growthItems）。外部からは従来どおり growth.ts 経由で import できる。」DEFAULT_POSE・DEFAULT_FRAME・ItemKind など26個を公開する。読み込むもの：tobiraParts.ts・growthLevel.ts・growthTypes.ts など9ファイル。growth.tsから読み込まれる。",
+"detail": "冒頭の説明：「growth.ts から分割（growthItems）。外部からは従来どおり growth.ts 経由で import できる。」DEFAULT_POSE・DEFAULT_FRAME・ItemKind など27個を公開する。読み込むもの：tobiraParts.ts・nijiMockPrints.ts・growthBadges.ts など10ファイル。growth.tsから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -7040,10 +7041,10 @@
 },
 {
 "dir": "to",
-"path": "src/battle/core/growthLevel.ts"
+"path": "src/data/nijiMockPrints.ts"
 }
 ],
-"lines": 353,
+"lines": 385,
 "tag": "データ",
 "conf": "高",
 "kind": "file",
@@ -7057,7 +7058,7 @@
 "ItemDef",
 "LEVEL_PRINTS"
 ],
-"nImports": 9,
+"nImports": 10,
 "nBy": 1,
 "draft": false,
 "changed": true,
@@ -7169,7 +7170,7 @@
 "path": "src/battle/core/growthBadges.ts"
 }
 ],
-"lines": 105,
+"lines": 107,
 "tag": "データ",
 "conf": "高",
 "kind": "file",
@@ -7428,7 +7429,7 @@
 "name": "index.ts",
 "folder": "src",
 "one": "動きの部品（文字・輪・波紋）をまとめて渡す入口の係",
-"detail": "冒頭の説明：「モーション層の入口（2026-10-16）。見た目のルールは ./motion.css の冒頭を参照。」KineticText・splitKinetic・ScoreRing など4個を公開する。読み込むもの：KineticText.tsx・MoRipple.ts・ScoreRing.tsx など4ファイル。BattleHome.tsx・GrowthHub.tsx など12ファイルから読み込まれる。",
+"detail": "冒頭の説明：「モーション層の入口（2026-10-16）。見た目のルールは ./motion.css の冒頭を参照。」KineticText・splitKinetic・ScoreRing など4個を公開する。読み込むもの：KineticText.tsx・MoRipple.ts・ScoreRing.tsx など4ファイル。BattleHome.tsx・GrowthHub.tsx など13ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -7454,7 +7455,7 @@
 "installRipple"
 ],
 "nImports": 4,
-"nBy": 12,
+"nBy": 13,
 "draft": false,
 "sys": "screen",
 "flow": []
@@ -7576,7 +7577,7 @@
 "path": "src/firebase.ts"
 }
 ],
-"lines": 576,
+"lines": 609,
 "tag": "画面",
 "conf": "高",
 "kind": "file",
@@ -7766,7 +7767,7 @@
 "name": "Explanation.tsx",
 "folder": "src",
 "one": "解き終えた問題の採点結果と解答・解説を見せる画面の係",
-"detail": "冒頭の説明：「画面に依存しない小さな関数（isAttempted / textTracksOf / formatResultTime / pictureCellOf）」Explanationを公開する。読み込むもの：firebase.ts・curriculum.ts・reportError.ts など27ファイル、外部部品 lucide-react・react・react-dom。ExplanationScreen.tsx・QuizScreens.tsxから読み込まれる。",
+"detail": "冒頭の説明：「画面に依存しない小さな関数（isAttempted / textTracksOf / formatResultTime / pictureCellOf）」Explanationを公開する。読み込むもの：firebase.ts・curriculum.ts・reportError.ts など26ファイル、外部部品 lucide-react・react・react-dom。ExplanationScreen.tsx・QuizScreens.tsxから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -7781,14 +7782,14 @@
 "path": "src/firebase.ts"
 }
 ],
-"lines": 774,
+"lines": 767,
 "tag": "画面",
 "conf": "高",
 "kind": "file",
 "exports": [
 "Explanation"
 ],
-"nImports": 27,
+"nImports": 26,
 "nBy": 2,
 "draft": false,
 "sys": "screen",
@@ -7912,19 +7913,19 @@
 "name": "FeedbackButton.tsx",
 "folder": "src",
 "one": "どの画面にも置ける「ご意見を送る」ボタンと窓を開く係",
-"detail": "冒頭の説明：「フィードバック入口ボタン（モーダル開閉つき） 「どの画面でも1行差し込むだけで意見を集められる」ようにした共通部品。」FeedbackButtonを公開する。読み込むもの：feedback.ts・FeedbackModal.tsx、外部部品 lucide-react・react。Home.tsx・ResultSummary.tsxから読み込まれる。",
+"detail": "冒頭の説明：「フィードバック入口ボタン（モーダル開閉つき） 「どの画面でも1行差し込むだけで意見を集められる」ようにした共通部品。」FeedbackButtonを公開する。読み込むもの：feedback.ts・FeedbackModal.tsx、外部部品 lucide-react・react。Home.tsxから読み込まれる。",
 "links": [
 {
 "dir": "from",
 "path": "src/components/Home.tsx"
 },
 {
-"dir": "from",
-"path": "src/components/explanation/ResultSummary.tsx"
+"dir": "to",
+"path": "src/utils/feedback.ts"
 },
 {
 "dir": "to",
-"path": "src/utils/feedback.ts"
+"path": "src/components/FeedbackModal.tsx"
 }
 ],
 "lines": 106,
@@ -7935,7 +7936,7 @@
 "FeedbackButton"
 ],
 "nImports": 2,
-"nBy": 2,
+"nBy": 1,
 "draft": false,
 "sys": "screen",
 "flow": []
@@ -8278,17 +8279,17 @@
 },
 {
 "dir": "to",
-"path": "src/battle/core/growth.ts"
+"path": "src/utils/safeLocalStorage.ts"
 }
 ],
-"lines": 387,
+"lines": 356,
 "tag": "画面",
 "conf": "高",
 "kind": "file",
 "exports": [
 "GachaRoom"
 ],
-"nImports": 17,
+"nImports": 18,
 "nBy": 2,
 "draft": false,
 "changed": true,
@@ -8336,7 +8337,7 @@
 "name": "GrowthHub.tsx",
 "folder": "src",
 "one": "ミッション・持ちもの・レベルの道をまとめて見せる画面の係",
-"detail": "GrowthPage・GrowthHubを公開する。読み込むもの：growth.ts・useGrowthProgress.ts・index.ts など14ファイル、外部部品 lucide-react・react。App.tsx・Home.tsxから読み込まれる。",
+"detail": "GrowthPage・GrowthHubを公開する。読み込むもの：growth.ts・index.ts・useGrowthProgress.ts など14ファイル、外部部品 lucide-react・react。App.tsx・Home.tsxから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -8371,7 +8372,7 @@
 "name": "Home.tsx",
 "folder": "src",
 "one": "ホーム画面で、演習・対戦・復習ノートへの入口を並べる係",
-"detail": "Homeを公開する。読み込むもの：firebase.ts・safeLocalStorage.ts・growth.ts など32ファイル、外部部品 lucide-react・react・react-dom。ListeningHome.tsxから読み込まれる。",
+"detail": "Homeを公開する。読み込むもの：firebase.ts・safeLocalStorage.ts・growth.ts など33ファイル、外部部品 lucide-react・react・react-dom。ListeningHome.tsxから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -8386,14 +8387,14 @@
 "path": "src/utils/safeLocalStorage.ts"
 }
 ],
-"lines": 449,
+"lines": 451,
 "tag": "画面",
 "conf": "高",
 "kind": "file",
 "exports": [
 "Home"
 ],
-"nImports": 32,
+"nImports": 33,
 "nBy": 1,
 "draft": false,
 "sys": "screen",
@@ -8450,7 +8451,7 @@
 "path": "src/components/TobiraBuddy.tsx"
 }
 ],
-"lines": 108,
+"lines": 105,
 "tag": "画面",
 "conf": "高",
 "kind": "file",
@@ -8505,7 +8506,7 @@
 "name": "Leaderboard.tsx",
 "folder": "src",
 "one": "対戦レートと学習時間の2つのランキングを見せる画面の係",
-"detail": "Leaderboardを公開する。読み込むもの：firebase.ts・reportError.ts・battleRanking.ts など20ファイル、外部部品 firebase・lucide-react・react。App.tsx・BattleRanking.tsxから読み込まれる。",
+"detail": "Leaderboardを公開する。読み込むもの：firebase.ts・reportError.ts・publicStudyProfile.ts など20ファイル、外部部品 firebase・lucide-react・react。App.tsx・BattleRanking.tsxから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -9024,14 +9025,14 @@
 "path": "src/battle/core/growth.ts"
 }
 ],
-"lines": 144,
+"lines": 147,
 "tag": "部品",
 "conf": "高",
 "kind": "file",
 "exports": [
 "MyCollection"
 ],
-"nImports": 12,
+"nImports": 14,
 "nBy": 1,
 "draft": false,
 "changed": true,
@@ -9115,7 +9116,7 @@
 "name": "PhilosophyPage.tsx",
 "folder": "src",
 "one": "タイトル画面から開く理念のページ「学びの扉」を見せる係",
-"detail": "冒頭の説明：「「学びの扉 ～私達に出来ることを～」（タイトル画面から開く理念ページ）。」PhilosophyPageを公開する。読み込むもの：philosophy.ts・philosophy-page.css、外部部品 lucide-react・react。Home.tsx・LaunchScreen.tsx など3ファイルから読み込まれる。",
+"detail": "冒頭の説明：「「学びの扉 ～私達に出来ることを～」（タイトル画面から開く理念ページ）。」PhilosophyPageを公開する。読み込むもの：adSuppress.ts・philosophy.ts・philosophy-page.css、外部部品 lucide-react・react。Home.tsx・LaunchScreen.tsx など3ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -9127,17 +9128,17 @@
 },
 {
 "dir": "to",
-"path": "src/data/philosophy.ts"
+"path": "src/utils/adSuppress.ts"
 }
 ],
-"lines": 118,
+"lines": 121,
 "tag": "画面",
 "conf": "高",
 "kind": "file",
 "exports": [
 "PhilosophyPage"
 ],
-"nImports": 2,
+"nImports": 3,
 "nBy": 3,
 "draft": false,
 "sys": "screen",
@@ -9416,23 +9417,30 @@
 "name": "SakuraPetals.tsx",
 "folder": "src",
 "one": "ホーム画面に桜の花びらが舞う演出を重ねる係",
-"detail": "SakuraPetalsを公開する。読み込むもの：外部部品 react。Home.tsxから読み込まれる。",
+"detail": "冒頭の説明：「D9（2026-10-30）季節で降るものが変わる★ 春（3〜5月）＝桜の花びら／夏（6〜8月）＝若葉／秋（9〜11月）＝紅葉／冬（12〜2月）＝雪。」Season・seasonOf・SakuraPetalsを公開する。読み込むもの：外部部品 react。Home.tsx・seasonFall.test.tsから読み込まれる。",
 "links": [
 {
 "dir": "from",
 "path": "src/components/Home.tsx"
+},
+{
+"dir": "from",
+"path": "tests/seasonFall.test.ts"
 }
 ],
-"lines": 52,
+"lines": 80,
 "tag": "部品",
 "conf": "高",
 "kind": "file",
 "exports": [
+"Season",
+"seasonOf",
 "SakuraPetals"
 ],
 "nImports": 0,
-"nBy": 1,
+"nBy": 2,
 "draft": false,
+"changed": true,
 "sys": "screen",
 "flow": []
 },
@@ -9595,7 +9603,7 @@
 "path": "src/utils/safeLocalStorage.ts"
 }
 ],
-"lines": 583,
+"lines": 523,
 "tag": "画面",
 "conf": "高",
 "kind": "file",
@@ -9737,7 +9745,7 @@
 "path": "src/utils/unitStats.ts"
 }
 ],
-"lines": 80,
+"lines": 86,
 "tag": "部品",
 "conf": "高",
 "kind": "file",
@@ -9876,7 +9884,7 @@
 "path": "src/components/explanation/types.ts"
 }
 ],
-"lines": 52,
+"lines": 60,
 "tag": "部品",
 "conf": "高",
 "kind": "file",
@@ -10078,7 +10086,7 @@
 "name": "ResultSummary.tsx",
 "folder": "src",
 "one": "全問を解き終えたあとの点数と結果のまとめを見せる係",
-"detail": "冒頭の説明：「結果画面（全問を解き終えたあと）の部品。」ResultScoreCard・ResultStage・ResultSummaryActions など5個を公開する。読み込むもの：curriculum.ts・growth.ts・GrowthParts.tsx など9ファイル、外部部品 lucide-react・react。Explanation.tsxから読み込まれる。",
+"detail": "冒頭の説明：「結果画面（全問を解き終えたあと）の部品。」ResultStage・ResultSummaryActions・WeakAreasPanel など4個を公開する。読み込むもの：curriculum.ts・index.ts・CinematicClip.tsx など5ファイル、外部部品 lucide-react・react。Explanation.tsxから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -10090,23 +10098,23 @@
 },
 {
 "dir": "to",
-"path": "src/battle/core/growth.ts"
+"path": "src/motion/index.ts"
 }
 ],
-"lines": 287,
+"lines": 187,
 "tag": "部品",
 "conf": "高",
 "kind": "file",
 "exports": [
-"ResultScoreCard",
 "ResultStage",
 "ResultSummaryActions",
 "WeakAreasPanel",
 "ResultPager"
 ],
-"nImports": 9,
+"nImports": 5,
 "nBy": 1,
 "draft": false,
+"changed": true,
 "sys": "screen",
 "flow": [
 "learn"
@@ -10504,7 +10512,7 @@
 "path": "src/components/GachaRoom.tsx"
 }
 ],
-"lines": 422,
+"lines": 453,
 "tag": "部品",
 "conf": "高",
 "kind": "file",
@@ -10643,7 +10651,7 @@
 "path": "src/components/Intro.tsx"
 }
 ],
-"lines": 62,
+"lines": 55,
 "tag": "部品",
 "conf": "高",
 "kind": "file",
@@ -10909,7 +10917,7 @@
 "path": "src/components/Explanation.tsx"
 }
 ],
-"lines": 145,
+"lines": 142,
 "tag": "部品",
 "conf": "高",
 "kind": "file",
@@ -11036,7 +11044,7 @@
 "name": "CountUp.tsx",
 "folder": "src",
 "one": "数字が増えたとき、前の値から数えあげて見せる係",
-"detail": "冒頭の説明：「数字のカウントアップ（2026-10-01、2026-10-16 拡張、2026-10-17 L-02 軽量化）。」CountUpを公開する。読み込むもの：外部部品 react。GrowthHomeStrip.tsx・Home.tsx など4ファイルから読み込まれる。",
+"detail": "冒頭の説明：「数字のカウントアップ（2026-10-01、2026-10-16 拡張、2026-10-17 L-02 軽量化）。」CountUpを公開する。読み込むもの：外部部品 react。GrowthHomeStrip.tsx・Home.tsx など7ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -11055,7 +11063,7 @@
 "CountUp"
 ],
 "nImports": 0,
-"nBy": 4,
+"nBy": 7,
 "draft": false,
 "changed": true,
 "sys": "screen",
@@ -11176,7 +11184,7 @@
 "path": "src/components/ChapterSelection.tsx"
 }
 ],
-"lines": 90,
+"lines": 122,
 "tag": "部品",
 "conf": "高",
 "kind": "file",
@@ -11184,6 +11192,7 @@
 "nImports": 0,
 "nBy": 1,
 "draft": false,
+"changed": true,
 "sys": "screen",
 "flow": [
 "solve"
@@ -11195,7 +11204,7 @@
 "name": "GachaParts.tsx",
 "folder": "src",
 "one": "ガチャ画面で使う小さな表示部品と整形の関数を持つ係",
-"detail": "冒頭の説明：「GachaParts ガチャ画面（GachaRoom.tsx）で使われる共通の定数・整形関数・表示用サブコンポーネント。」COLLECTION_KINDS・CollectionKind・FEATURED_UR_IDS など8個を公開する。読み込むもの：growth.ts・arenaEconomy.ts・GrowthParts.tsx など7ファイル、外部部品 lucide-react。GachaRoom.tsx・GachaCollectionModal.tsx など7ファイルから読み込まれる。",
+"detail": "冒頭の説明：「GachaParts ガチャ画面（GachaRoom.tsx）で使われる共通の定数・整形関数・表示用サブコンポーネント。」COLLECTION_KINDS・CollectionKind・FEATURED_UR_IDS など8個を公開する。読み込むもの：growth.ts・arenaEconomy.ts・GrowthParts.tsx など8ファイル、外部部品 lucide-react。GachaRoom.tsx・GachaCollectionModal.tsx など8ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -11210,7 +11219,7 @@
 "path": "src/battle/core/growth.ts"
 }
 ],
-"lines": 119,
+"lines": 128,
 "tag": "部品",
 "conf": "高",
 "kind": "file",
@@ -11224,8 +11233,8 @@
 "ItemArt",
 "PrintLinks"
 ],
-"nImports": 7,
-"nBy": 7,
+"nImports": 8,
+"nBy": 8,
 "draft": false,
 "sys": "screen",
 "flow": []
@@ -12496,7 +12505,7 @@
 "name": "problemCount.ts",
 "folder": "src",
 "one": "1つの単元に大問が何問入っているかを数える共通の係",
-"detail": "冒頭の説明：「「章に大問が何問入っているか」を数えるための共通関数 アプリの中では「1つの章に含まれる大問の数」を、 (c.miniTest?.length || 0) + (c.practic…」countChapterProblems・countProblemsInChaptersを公開する。englishGrammarData.ts・englishListeningData.ts など3ファイルから読み込まれる。",
+"detail": "冒頭の説明：「「章に大問が何問入っているか」を数えるための共通関数 アプリの中では「1つの章に含まれる大問の数」を、 (c.miniTest?.length || 0) + (c.practic…」countChapterProblems・countProblemsInChaptersを公開する。englishGrammarData.ts・englishListeningData.ts など4ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -12516,7 +12525,7 @@
 "countProblemsInChapters"
 ],
 "nImports": 0,
-"nBy": 3,
+"nBy": 4,
 "draft": false,
 "sys": "content",
 "flow": [
@@ -12644,7 +12653,7 @@
 "name": "subjects.ts",
 "folder": "src",
 "one": "アプリで扱う教科の登録簿で、教科を足すときに書き換える係",
-"detail": "冒頭の説明：「教科の登録簿（教科を足すときに書き換えるのは、原則ここと教科データだけ） 教科の「名前・公開状態・章IDの形・入口・配色・復習タブの色」をここに集める。」SubjectTheme・ReviewSubjectStyle・SubjectDefinition など10個を公開する。gen-chapter-index.mts・DoorMascot.tsx など16ファイルから読み込まれる。",
+"detail": "冒頭の説明：「教科の登録簿（教科を足すときに書き換えるのは、原則ここと教科データだけ） 教科の「名前・公開状態・章IDの形・入口・配色・復習タブの色」をここに集める。」SubjectTheme・ReviewSubjectStyle・SubjectDefinition など10個を公開する。gen-chapter-index.mts・DoorMascot.tsx など17ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -12670,7 +12679,7 @@
 "isSubjectKey"
 ],
 "nImports": 0,
-"nBy": 16,
+"nBy": 17,
 "draft": false,
 "sys": "content",
 "flow": [
@@ -13431,7 +13440,7 @@
 "name": "firebase.ts",
 "folder": "src",
 "one": "ログインとデータ保存に使うFirebaseへの接続を用意する係",
-"detail": "冒頭の説明：「authDomain を「同じドメイン」にするかの判定（Firebase を初期化せずにテストできるよう別ファイル。説明もそちら）」FIREBASE_CONFIGURED・USE_EMULATORS・AUTH_SAME_ORIGIN_ACTIVE など7個を公開する。読み込むもの：authDomainPolicy.ts、外部部品 firebase。App.tsx・battleFriendRoom.ts など83ファイルから読み込まれる。",
+"detail": "冒頭の説明：「authDomain を「同じドメイン」にするかの判定（Firebase を初期化せずにテストできるよう別ファイル。説明もそちら）」FIREBASE_CONFIGURED・USE_EMULATORS・AUTH_SAME_ORIGIN_ACTIVE など7個を公開する。読み込むもの：authDomainPolicy.ts、外部部品 firebase。App.tsx・battleFriendRoom.ts など84ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -13460,7 +13469,7 @@
 "db"
 ],
 "nImports": 1,
-"nBy": 83,
+"nBy": 84,
 "draft": false,
 "changed": true,
 "sys": "net",
@@ -13598,7 +13607,7 @@
 "name": "useGrowthProgress.ts",
 "folder": "src",
 "one": "いまのアカウントの成長の記録を、画面に渡す係",
-"detail": "冒頭の説明：「One wallet, scoped to the current account.」useGrowthProgressを公開する。読み込むもの：firebase.ts・growth.ts・growthStore.ts、外部部品 firebase・react。ArenaFighters.tsx・BattleHome.tsx など13ファイルから読み込まれる。",
+"detail": "冒頭の説明：「One wallet, scoped to the current account.」useGrowthProgressを公開する。読み込むもの：firebase.ts・growth.ts・growthStore.ts、外部部品 firebase・react。ArenaFighters.tsx・BattleHome.tsx など12ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -13621,7 +13630,7 @@
 "useGrowthProgress"
 ],
 "nImports": 3,
-"nBy": 13,
+"nBy": 12,
 "draft": false,
 "sys": "logic",
 "flow": []
@@ -14118,7 +14127,7 @@
 "name": "curriculum.ts",
 "folder": "src",
 "one": "単元・大問・小問・音源など、教材データの共通の形を決める係",
-"detail": "冒頭の説明：「教材データ（単元・大問・小問・音源）の共通の型。」DetailedExplanation・Distractor・SubQuestion など12個を公開する。BattleReviewDetails.tsx・AnswerPane.tsx など61ファイルから読み込まれる。",
+"detail": "冒頭の説明：「教材データ（単元・大問・小問・音源）の共通の型。」DetailedExplanation・Distractor・SubQuestion など12個を公開する。BattleReviewDetails.tsx・AnswerPane.tsx など64ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -14144,7 +14153,7 @@
 "Problem"
 ],
 "nImports": 0,
-"nBy": 61,
+"nBy": 64,
 "draft": false,
 "sys": "content",
 "flow": []
@@ -15610,7 +15619,7 @@
 "name": "publicStudyProfile.ts",
 "folder": "src",
 "one": "本人が公開を選んだ学習プロフィールだけを保存・表示する係",
-"detail": "冒頭の説明：「Explicitly opted-in ranking metadata only.」PUBLIC_STUDY_PROFILES・MOTTO_MAX・PublicStudyProfile など15個を公開する。読み込むもの：firebase.ts・safeLocalStorage.ts・reportError.ts など9ファイル。OpponentCard.tsx・FriendPanel.tsx など13ファイルから読み込まれる。",
+"detail": "冒頭の説明：「Explicitly opted-in ranking metadata only.」PUBLIC_STUDY_PROFILES・MOTTO_MAX・PublicStudyProfile など15個を公開する。読み込むもの：firebase.ts・safeLocalStorage.ts・reportError.ts など9ファイル。OpponentCard.tsx・FriendPanel.tsx など14ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -15625,7 +15634,7 @@
 "path": "src/firebase.ts"
 }
 ],
-"lines": 221,
+"lines": 255,
 "tag": "通信",
 "conf": "高",
 "kind": "file",
@@ -15640,7 +15649,7 @@
 "setPublicProfileStatsProvider"
 ],
 "nImports": 9,
-"nBy": 13,
+"nBy": 14,
 "draft": false,
 "changed": true,
 "sys": "net",
@@ -16122,7 +16131,7 @@
 "name": "safeLocalStorage.ts",
 "folder": "src",
 "one": "端末の保存領域から、壊れていても安全に値を取り出す係",
-"detail": "冒頭の説明：「localStorage の安全な取り出し口 ■ なぜこのファイルがあるのか このアプリは進捗・既読・再送キューなどを localStorage に置いている。」safeLocalStorage・readJsonArray・safeGetItem など9個を公開する。App.tsx・audioPreferences.ts など68ファイルから読み込まれる。",
+"detail": "冒頭の説明：「localStorage の安全な取り出し口 ■ なぜこのファイルがあるのか このアプリは進捗・既読・再送キューなどを localStorage に置いている。」safeLocalStorage・readJsonArray・safeGetItem など9個を公開する。App.tsx・audioPreferences.ts など69ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -16148,7 +16157,7 @@
 "readStoredJson"
 ],
 "nImports": 0,
-"nBy": 68,
+"nBy": 69,
 "draft": false,
 "changed": true,
 "sys": "logic",
@@ -16274,7 +16283,7 @@
 "name": "stageRecords.ts",
 "folder": "src",
 "one": "ひとりで学ぶステージの挑戦記録と、クリアの条件を持つ係",
-"detail": "冒頭の説明：「ステージ（一人で学ぶ）の挑戦記録（2026-10-04）。」STAGE_CLEAR_PERFECTS・StageRecord・StageHistoryEntry など11個を公開する。読み込むもの：safeLocalStorage.ts・userStorageKeys.ts。ChapterSelection.tsx・UnitCard.tsx など10ファイルから読み込まれる。",
+"detail": "冒頭の説明：「ステージ（一人で学ぶ）の挑戦記録（2026-10-04）。」STAGE_CLEAR_PERFECTS・StageRecord・StageHistoryEntry など11個を公開する。読み込むもの：safeLocalStorage.ts・userStorageKeys.ts。ChapterSelection.tsx・UnitCard.tsx など11ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -16304,7 +16313,7 @@
 "readStageHistory"
 ],
 "nImports": 2,
-"nBy": 10,
+"nBy": 11,
 "draft": false,
 "sys": "logic",
 "flow": [
@@ -16554,7 +16563,7 @@
 "name": "studyTime.ts",
 "folder": "src",
 "one": "学習時間を日ごとに記録し、操作が無い時間は数えない係",
-"detail": "冒頭の説明：「学習時間の記録（2026-09-30・設定のプロフィールカード A14）。」StudyTimeLog・studyTimeKey・STUDY_IDLE_MS など7個を公開する。読み込むもの：safeLocalStorage.ts・userStorageKeys.ts。OpponentCard.tsx・FriendPanel.tsx など11ファイルから読み込まれる。",
+"detail": "冒頭の説明：「学習時間の記録（2026-09-30・設定のプロフィールカード A14）。」StudyTimeLog・studyTimeKey・STUDY_IDLE_MS など7個を公開する。読み込むもの：safeLocalStorage.ts・userStorageKeys.ts。OpponentCard.tsx・FriendPanel.tsx など13ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -16583,7 +16592,7 @@
 "formatStudyTime"
 ],
 "nImports": 2,
-"nBy": 11,
+"nBy": 13,
 "draft": false,
 "sys": "logic",
 "flow": [
@@ -18480,7 +18489,7 @@
 "path": "src/battle/core/arenaEconomy.ts"
 }
 ],
-"lines": 72,
+"lines": 74,
 "tag": "テスト",
 "conf": "高",
 "kind": "file",
@@ -19367,8 +19376,17 @@
 "folder": "docs",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
 "detail": "主な見出し：TOEIC 拡張 設計書（2026-10-25 たたき台）／1. 共通テストとの対応／2. データの単位：「セット」。",
-"links": [],
-"lines": 126,
+"links": [
+{
+"dir": "ref",
+"path": "src/data/toeic/toeicPart6Data.ts"
+},
+{
+"dir": "ref",
+"path": "src/data/toeic/toeicPart6Kit.ts"
+}
+],
+"lines": 159,
 "tag": "文書",
 "conf": "低",
 "kind": "file",
@@ -19413,7 +19431,7 @@
 "name": "UI_CHANGELOG.md",
 "folder": "docs",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "主な見出し：UI 変更記録（元に戻すとき用）／2026-10-29 ご指摘C7〜C14：英文法の回の終わり方・2列の選択肢・解くカギ/大問の流れを外す・セットで覚える・章の称号・お知らせ（PR: feat/grammar-c7-c14、132 を取り込み済み）／2026-10-29 ご指摘C1〜C7：アイテム詳細の拡大・マイPDFの保存・設定を短く・公開の赤い印・カレンダーの「何を何分」・ミッションの←・英文法の回の終わり（PR: fix/mypage-c）。",
+"detail": "主な見出し：UI 変更記録（元に戻すとき用）／2026-10-30 ご指摘D1〜D11：結果画面の作り直し・英文法の回の選び方・カレンダー・公開マイページ・ホーム背景ガチャ・季節・コイン演出（PR: fix/revision-d）／2026-10-29 2次試験ガチャを追加・ガチャは左右スワイプで切りかえ（PR: feat/niji-gacha）。",
 "links": [
 {
 "dir": "ref",
@@ -19428,7 +19446,7 @@
 "path": "scripts/pr/prCore.mts"
 }
 ],
-"lines": 490,
+"lines": 524,
 "tag": "文書",
 "conf": "低",
 "kind": "file",
@@ -24104,7 +24122,7 @@
 "path": "src/components/gacha/GachaPickupModal.tsx"
 }
 ],
-"lines": 96,
+"lines": 112,
 "tag": "データ",
 "conf": "低",
 "kind": "file",
@@ -29297,12 +29315,55 @@
 ]
 },
 {
+"id": "src/battle/core/gachaPools.ts",
+"path": "src/battle/core/gachaPools.ts",
+"name": "gachaPools.ts",
+"folder": "src",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「ガチャの種類（2026-10-29 追加）：共通テストガチャ（これまでの1つ）と、2次試験ガチャ。」GachaPoolId・GachaPoolDef・GACHA_POOLS など10個を公開する。読み込むもの：nijiMockPrints.ts・kobeMockPrints.ts・osakaMockPrints.ts など4ファイル。arenaEconomy.ts・gachaFeatured.ts など9ファイルから読み込まれる。",
+"links": [
+{
+"dir": "from",
+"path": "src/battle/core/arenaEconomy.ts"
+},
+{
+"dir": "from",
+"path": "src/battle/core/gachaFeatured.ts"
+},
+{
+"dir": "to",
+"path": "src/data/nijiMockPrints.ts"
+}
+],
+"lines": 90,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [
+"GachaPoolId",
+"GachaPoolDef",
+"GACHA_POOLS",
+"DEFAULT_GACHA_POOL",
+"gachaPoolOf",
+"NIJI_NEW_ITEM_IDS",
+"UNIV_MOCK_PRINT_IDS",
+"NIJI_ONLY_IDS"
+],
+"nImports": 4,
+"nBy": 9,
+"draft": true,
+"sys": "battle",
+"flow": [
+"compete"
+]
+},
+{
 "id": "src/battle/core/gachaSets.ts",
 "path": "src/battle/core/gachaSets.ts",
 "name": "gachaSets.ts",
 "folder": "src",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「ガチャの「セット収集」と「かけら交換」（2026-10-23 やり込み強化） ★なぜ入れたか★ 景品を増やすだけだと「ダブりが増えてつまらない」「欲しい物が永遠に出ない」になる。」GachaSetDef・GACHA_SETS・SETS_FOR_COLLECTOR など8個を公開する。arenaEconomy.ts・growthStore.ts など5ファイルから読み込まれる。",
+"detail": "冒頭の説明：「ガチャの「セット収集」と「かけら交換」（2026-10-23 やり込み強化） ★なぜ入れたか★ 景品を増やすだけだと「ダブりが増えてつまらない」「欲しい物が永遠に出ない」になる。」GachaSetDef・GACHA_SETS・SETS_FOR_COLLECTOR など8個を公開する。arenaEconomy.ts・growthStore.ts など6ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -29328,7 +29389,7 @@
 "SHARD_EXCHANGE_COST"
 ],
 "nImports": 0,
-"nBy": 5,
+"nBy": 6,
 "draft": true,
 "sys": "battle",
 "flow": [
@@ -29595,7 +29656,7 @@
 "name": "BattleProfileTabs.tsx",
 "folder": "src",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「プロフィールのタブ（着せ替え・称号・戦績）。BattleProfile.tsx から分けた。中身は不変。」Runner・unlockLabel・OutfitTab など7個を公開する。読み込むもの：firebase.ts・growth.ts・growthStore.ts など11ファイル、外部部品 lucide-react・react・react-dom。BattleProfile.tsxから読み込まれる。",
+"detail": "冒頭の説明：「プロフィールのタブ（着せ替え・称号・戦績）。BattleProfile.tsx から分けた。中身は不変。」Runner・unlockLabel・OutfitTab など7個を公開する。読み込むもの：firebase.ts・growth.ts・growthStore.ts など12ファイル、外部部品 lucide-react・react・react-dom。BattleProfile.tsxから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -29610,7 +29671,7 @@
 "path": "src/battle/core/growth.ts"
 }
 ],
-"lines": 380,
+"lines": 383,
 "tag": "データ",
 "conf": "低",
 "kind": "file",
@@ -29623,7 +29684,7 @@
 "StageHistory",
 "StatsTab"
 ],
-"nImports": 11,
+"nImports": 12,
 "nBy": 1,
 "draft": true,
 "sys": "battle",
@@ -29834,6 +29895,40 @@
 "ChapterTitleCelebration"
 ],
 "nImports": 4,
+"nBy": 1,
+"draft": true,
+"sys": "screen",
+"flow": []
+},
+{
+"id": "src/components/CoinCelebration.tsx",
+"path": "src/components/CoinCelebration.tsx",
+"name": "CoinCelebration.tsx",
+"folder": "src",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「D10（2026-10-30）マナコインを手に入れたときの演出★ どの画面でも、この端末でコインが増えた瞬間に画面の上へ「＋N マナコイン」を出す。」CoinCelebrationを公開する。読み込むもの：growthStore.ts・CountUp.tsx・coin-celebration.css、外部部品 lucide-react・react。App.tsxから読み込まれる。",
+"links": [
+{
+"dir": "from",
+"path": "src/App.tsx"
+},
+{
+"dir": "to",
+"path": "src/battle/data/growthStore.ts"
+},
+{
+"dir": "to",
+"path": "src/components/ui/CountUp.tsx"
+}
+],
+"lines": 58,
+"tag": "部品",
+"conf": "低",
+"kind": "file",
+"exports": [
+"CoinCelebration"
+],
+"nImports": 3,
 "nBy": 1,
 "draft": true,
 "sys": "screen",
@@ -30151,17 +30246,37 @@
 "flow": []
 },
 {
+"id": "src/components/coin-celebration.css",
+"path": "src/components/coin-celebration.css",
+"name": "coin-celebration.css",
+"folder": "src",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「D10（2026-10-30）マナコインを手に入れたときの演出（CoinCelebration.tsx）。」CoinCelebration.tsxから読み込まれる。",
+"links": [
+{
+"dir": "from",
+"path": "src/components/CoinCelebration.tsx"
+}
+],
+"lines": 48,
+"tag": "部品",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 1,
+"draft": true,
+"sys": "screen",
+"flow": []
+},
+{
 "id": "src/components/explanation/CompactWeakAreas.tsx",
 "path": "src/components/explanation/CompactWeakAreas.tsx",
 "name": "CompactWeakAreas.tsx",
 "folder": "src",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「スマホの結果画面（compactResult）に出す「分析結果：復習推奨エリア」。」CompactWeakAreasを公開する。読み込むもの：explanationLogic.ts、外部部品 lucide-react。Explanation.tsxから読み込まれる。",
+"detail": "冒頭の説明：「スマホの結果画面（compactResult）に出す「分析結果：復習推奨エリア」。」CompactWeakAreasを公開する。読み込むもの：explanationLogic.ts、外部部品 lucide-react。",
 "links": [
-{
-"dir": "from",
-"path": "src/components/Explanation.tsx"
-},
 {
 "dir": "to",
 "path": "src/components/explanation/explanationLogic.ts"
@@ -30175,7 +30290,7 @@
 "CompactWeakAreas"
 ],
 "nImports": 1,
-"nBy": 1,
+"nBy": 0,
 "draft": true,
 "sys": "screen",
 "flow": []
@@ -30252,6 +30367,65 @@
 "flow": []
 },
 {
+"id": "src/components/explanation/ResultInsight.tsx",
+"path": "src/components/explanation/ResultInsight.tsx",
+"name": "ResultInsight.tsx",
+"folder": "src",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「演習の結果（D2・2026-10-30 ご要望）★ 「何を伝えたいのか分からない」→ 見るものを3つに絞って、動きのあるグラフで見せる。」ResultInsightProps・ResultInsightを公開する。読み込むもの：firebase.ts・curriculum.ts・index.ts など7ファイル、外部部品 lucide-react・react。Explanation.tsxから読み込まれる。",
+"links": [
+{
+"dir": "from",
+"path": "src/components/Explanation.tsx"
+},
+{
+"dir": "to",
+"path": "src/firebase.ts"
+},
+{
+"dir": "to",
+"path": "src/types/curriculum.ts"
+}
+],
+"lines": 138,
+"tag": "部品",
+"conf": "低",
+"kind": "file",
+"exports": [
+"ResultInsightProps",
+"ResultInsight"
+],
+"nImports": 7,
+"nBy": 1,
+"draft": true,
+"sys": "screen",
+"flow": []
+},
+{
+"id": "src/components/explanation/result-insight.css",
+"path": "src/components/explanation/result-insight.css",
+"name": "result-insight.css",
+"folder": "src",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「D2（2026-10-30）演習の結果カード（ResultInsight.tsx）。」ResultInsight.tsxから読み込まれる。",
+"links": [
+{
+"dir": "from",
+"path": "src/components/explanation/ResultInsight.tsx"
+}
+],
+"lines": 98,
+"tag": "部品",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 1,
+"draft": true,
+"sys": "screen",
+"flow": []
+},
+{
 "id": "src/components/explanationBlocks.ts",
 "path": "src/components/explanationBlocks.ts",
 "name": "explanationBlocks.ts",
@@ -30289,7 +30463,7 @@
 "name": "GachaCollectionModal.tsx",
 "folder": "src",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「「装飾コレクション・提供割合」のダイアログ（C-06）。」GachaCollectionModalを公開する。読み込むもの：growth.ts・arenaEconomy.ts・GachaParts.tsx、外部部品 react。GachaRoom.tsxから読み込まれる。",
+"detail": "冒頭の説明：「「装飾コレクション・提供割合」のダイアログ（C-06）。」GachaCollectionModalを公開する。読み込むもの：growth.ts・arenaEconomy.ts・gachaPools.ts など4ファイル、外部部品 react。GachaRoom.tsxから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -30304,14 +30478,14 @@
 "path": "src/battle/core/arenaEconomy.ts"
 }
 ],
-"lines": 148,
+"lines": 151,
 "tag": "部品",
 "conf": "低",
 "kind": "file",
 "exports": [
 "GachaCollectionModal"
 ],
-"nImports": 3,
+"nImports": 4,
 "nBy": 1,
 "draft": true,
 "sys": "screen",
@@ -30323,7 +30497,7 @@
 "name": "GachaItemDetail.tsx",
 "folder": "src",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「ガチャの「アイテムの詳細」窓（2026-10-28 A10・モンストのガチャのように、絵を押すと中身が出る）。」weeklyHero・weeklyPickup・weekEndLabel など4個を公開する。読み込むもの：growth.ts・arenaEconomy.ts・GachaParts.tsx など5ファイル、外部部品 react。GachaRoom.tsx・gachaBanner.test.tsから読み込まれる。",
+"detail": "冒頭の説明：「ガチャの「アイテムの詳細」窓（2026-10-28 A10・モンストのガチャのように、絵を押すと中身が出る）。」weeklyHero・weeklyPickup・weekEndLabel など4個を公開する。読み込むもの：growth.ts・arenaEconomy.ts・gachaPools.ts など7ファイル、外部部品 react。GachaRoom.tsx・GachaPoolCarousel.tsx など3ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -30331,14 +30505,14 @@
 },
 {
 "dir": "from",
-"path": "tests/gachaBanner.test.ts"
+"path": "src/components/gacha/GachaPoolCarousel.tsx"
 },
 {
 "dir": "to",
 "path": "src/battle/core/growth.ts"
 }
 ],
-"lines": 87,
+"lines": 92,
 "tag": "部品",
 "conf": "低",
 "kind": "file",
@@ -30348,8 +30522,8 @@
 "weekEndLabel",
 "GachaItemDetail"
 ],
-"nImports": 5,
-"nBy": 2,
+"nImports": 7,
+"nBy": 3,
 "draft": true,
 "sys": "screen",
 "flow": []
@@ -30360,7 +30534,7 @@
 "name": "GachaPickupModal.tsx",
 "folder": "src",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「「ピックアップ」ダイアログ（2026-10-27）。」pickupItems・GachaPickupModalを公開する。読み込むもの：growth.ts・arenaEconomy.ts・GachaParts.tsx など5ファイル、外部部品 react。GachaRoom.tsx・gachaPickup.test.tsから読み込まれる。",
+"detail": "冒頭の説明：「「ピックアップ」ダイアログ（2026-10-27）。」pickupItems・GachaPickupModalを公開する。読み込むもの：growth.ts・arenaEconomy.ts・gachaPools.ts など7ファイル、外部部品 react。GachaRoom.tsx・gachaPickup.test.tsから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -30375,7 +30549,7 @@
 "path": "src/battle/core/growth.ts"
 }
 ],
-"lines": 95,
+"lines": 100,
 "tag": "部品",
 "conf": "低",
 "kind": "file",
@@ -30383,8 +30557,42 @@
 "pickupItems",
 "GachaPickupModal"
 ],
-"nImports": 5,
+"nImports": 7,
 "nBy": 2,
+"draft": true,
+"sys": "screen",
+"flow": []
+},
+{
+"id": "src/components/gacha/GachaPoolCarousel.tsx",
+"path": "src/components/gacha/GachaPoolCarousel.tsx",
+"name": "GachaPoolCarousel.tsx",
+"folder": "src",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「ガチャの種類を左右スワイプで切り替えるバナー（2026-10-29 追加：共通テストガチャ／2次試験ガチャ）。」GachaPoolCarouselを公開する。読み込むもの：growth.ts・arenaEconomy.ts・gachaPools.ts など7ファイル、外部部品 lucide-react・react。GachaRoom.tsxから読み込まれる。",
+"links": [
+{
+"dir": "from",
+"path": "src/components/GachaRoom.tsx"
+},
+{
+"dir": "to",
+"path": "src/battle/core/growth.ts"
+},
+{
+"dir": "to",
+"path": "src/battle/core/arenaEconomy.ts"
+}
+],
+"lines": 188,
+"tag": "部品",
+"conf": "低",
+"kind": "file",
+"exports": [
+"GachaPoolCarousel"
+],
+"nImports": 7,
+"nBy": 1,
 "draft": true,
 "sys": "screen",
 "flow": []
@@ -30665,14 +30873,14 @@
 "name": "review-record.css",
 "folder": "src",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「復習・記録（StudyHub.tsx）2026-10-21 作り直し ① 達成の帯（今日の輪・今日なおした数・連続日数・7日の扉グラフ・主ボタン） ② 大きな2つの切り替え［復習ノ…」StudyHub.tsxから読み込まれる。",
+"detail": "冒頭の説明：「復習・記録（StudyHub.tsx）2026-10-21 作り直し ① 達成の帯（今日なおした）は 2026-10-30 D5 で削除 ② 大きな2つの切り替え［復習ノート］［学…」StudyHub.tsxから読み込まれる。",
 "links": [
 {
 "dir": "from",
 "path": "src/components/StudyHub.tsx"
 }
 ],
-"lines": 252,
+"lines": 138,
 "tag": "部品",
 "conf": "低",
 "kind": "file",
@@ -31101,7 +31309,7 @@
 "name": "kobeMockPrints.ts",
 "folder": "src",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「LR（レジェンドレア）：神戸大学 前期日程 外国語（英語）対策 予想問題（白黒・A4）。」KOBE_MOCK_PRINTSを公開する。読み込むもの：gachaPrints.generated.ts。growthItems.ts・kobeMockPrints.test.ts など3ファイルから読み込まれる。",
+"detail": "冒頭の説明：「LR（レジェンドレア）：神戸大学 前期日程 外国語（英語）対策 予想問題（白黒・A4）。」KOBE_MOCK_PRINTSを公開する。読み込むもの：gachaPrints.generated.ts。growthItems.ts・gachaPools.ts など3ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -31109,7 +31317,7 @@
 },
 {
 "dir": "from",
-"path": "tests/kobeMockPrints.test.ts"
+"path": "src/battle/core/gachaPools.ts"
 },
 {
 "dir": "to",
@@ -31168,7 +31376,7 @@
 "name": "kyotsuMockPrints.ts",
 "folder": "src",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「LR（レジェンドレア）：共通テスト 英語 予想問題（2025年度〜 新課程の形式）。」KYOTSU_MOCK_PRINTSを公開する。読み込むもの：gachaPrints.generated.ts。growthItems.ts・kyotsuMockAudio.test.ts など3ファイルから読み込まれる。",
+"detail": "冒頭の説明：「LR（レジェンドレア）：共通テスト 英語 予想問題（2025年度〜 新課程の形式）。」KYOTSU_MOCK_PRINTSを公開する。読み込むもの：gachaPrints.generated.ts。growthItems.ts・kyotsuMockAudio.test.ts など4ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -31191,7 +31399,48 @@
 "KYOTSU_MOCK_PRINTS"
 ],
 "nImports": 1,
-"nBy": 3,
+"nBy": 4,
+"draft": true,
+"sys": "content",
+"flow": []
+},
+{
+"id": "src/data/nijiMockPrints.ts",
+"path": "src/data/nijiMockPrints.ts",
+"name": "nijiMockPrints.ts",
+"folder": "src",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「LR（レジェンドレア）：2次試験ガチャの大当たり＝国公立2次 英語 予想問題（各大学 前期の形式に沿った書き下ろし）。」NIJI_UNIVERSITIES・NijiUniversityId・NIJI_MOCK_PRINTS など8個を公開する。読み込むもの：gachaPrints.generated.ts。growthItems.ts・gachaPools.ts など5ファイルから読み込まれる。",
+"links": [
+{
+"dir": "from",
+"path": "src/battle/core/growthItems.ts"
+},
+{
+"dir": "from",
+"path": "src/battle/core/gachaPools.ts"
+},
+{
+"dir": "to",
+"path": "src/data/gachaPrints.generated.ts"
+}
+],
+"lines": 73,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [
+"NIJI_UNIVERSITIES",
+"NijiUniversityId",
+"NIJI_MOCK_PRINTS",
+"nijiDisclaimerFor",
+"OTHER_MOCK_UNIVERSITIES",
+"mockUniversityOf",
+"nijiUniversityOf",
+"NIJI_DISCLAIMER"
+],
+"nImports": 1,
+"nBy": 5,
 "draft": true,
 "sys": "content",
 "flow": []
@@ -31202,7 +31451,7 @@
 "name": "osakaMockPrints.ts",
 "folder": "src",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「LR（レジェンドレア）：大阪大学 前期日程 外国語（英語）対策 予想問題（白黒・A4）。」OSAKA_MOCK_PRINTSを公開する。読み込むもの：gachaPrints.generated.ts。growthItems.ts・kyotsuMockPrints.test.ts など3ファイルから読み込まれる。",
+"detail": "冒頭の説明：「LR（レジェンドレア）：大阪大学 前期日程 外国語（英語）対策 予想問題（白黒・A4）。」OSAKA_MOCK_PRINTSを公開する。読み込むもの：gachaPrints.generated.ts。growthItems.ts・gachaPools.ts など3ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -31210,7 +31459,7 @@
 },
 {
 "dir": "from",
-"path": "tests/kyotsuMockPrints.test.ts"
+"path": "src/battle/core/gachaPools.ts"
 },
 {
 "dir": "to",
@@ -31657,7 +31906,7 @@
 "name": "ritsuMockPrints.ts",
 "folder": "src",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「LR（レジェンドレア）：立命館大学 全学統一方式（文系）英語 対策 予想問題（白黒・A4・マーク式）。」RITSU_MOCK_PRINTSを公開する。読み込むもの：gachaPrints.generated.ts。growthItems.ts・kyotsuMockPrints.test.ts など3ファイルから読み込まれる。",
+"detail": "冒頭の説明：「LR（レジェンドレア）：立命館大学 全学統一方式（文系）英語 対策 予想問題（白黒・A4・マーク式）。」RITSU_MOCK_PRINTSを公開する。読み込むもの：gachaPrints.generated.ts。growthItems.ts・gachaPools.ts など3ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -31665,7 +31914,7 @@
 },
 {
 "dir": "from",
-"path": "tests/kyotsuMockPrints.test.ts"
+"path": "src/battle/core/gachaPools.ts"
 },
 {
 "dir": "to",
@@ -31691,7 +31940,7 @@
 "name": "toeicPart5Data.ts",
 "folder": "src",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「TOEIC® L&R Part 5（短文穴埋め）データ（2026-10-28） 英文法（englishGrammarData.ts）・英語リスニングと同じ「parts → chap…」ToeicChapter・ToeicPart・toeicPart5Data など5個を公開する。読み込むもの：curriculum.ts・toeicPart5Kit.ts・toeicPart5Rounds.ts など5ファイル。gen-chapter-index.mts・allChapters.ts など5ファイルから読み込まれる。",
+"detail": "冒頭の説明：「TOEIC® L&R Part 5（短文穴埋め）データ（2026-10-28） 英文法（englishGrammarData.ts）・英語リスニングと同じ「parts → chap…」ToeicChapter・ToeicPart・toeicPart5Data など5個を公開する。読み込むもの：curriculum.ts・toeicPart5Kit.ts・toeicPart5Rounds.ts など5ファイル。gen-chapter-index.mts・allChapters.ts など6ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -31718,7 +31967,7 @@
 "getToeicPart5Stats"
 ],
 "nImports": 5,
-"nBy": 5,
+"nBy": 6,
 "draft": true,
 "sys": "content",
 "flow": []
@@ -31729,7 +31978,7 @@
 "name": "toeicPart5Kit.ts",
 "folder": "src",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「TOEIC® L&R Part 5（短文穴埋め） 1回30問の型と組み立て道具（2026-10-28） ■ 位置づけ 英文法（englishGrammarKit.ts）と同じ「手書…」ToeicSkill・ToeicScene・ToeicLevel など18個を公開する。読み込むもの：curriculum.ts。ChapterSelection.tsx・toeicPageModel.ts など21ファイルから読み込まれる。",
+"detail": "冒頭の説明：「TOEIC® L&R Part 5（短文穴埋め） 1回30問の型と組み立て道具（2026-10-28） ■ 位置づけ 英文法（englishGrammarKit.ts）と同じ「手書…」ToeicSkill・ToeicScene・ToeicLevel など18個を公開する。読み込むもの：curriculum.ts。ChapterSelection.tsx・toeicPageModel.ts など23ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -31759,7 +32008,7 @@
 "TOEIC_P5_QUESTIONS_PER_ROUND"
 ],
 "nImports": 1,
-"nBy": 21,
+"nBy": 23,
 "draft": true,
 "sys": "content",
 "flow": []
@@ -32765,6 +33014,117 @@
 "flow": []
 },
 {
+"id": "src/data/toeic/toeicPart6Data.ts",
+"path": "src/data/toeic/toeicPart6Data.ts",
+"name": "toeicPart6Data.ts",
+"folder": "src",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「TOEIC® L&R Part 6（長文穴埋め）データ（2026-10-30 準備） Part 5（toeicPart5Data.ts）と同じ「parts → chapters →…」toeicPart6Data・getAllToeicPart6Chapters・getToeicPart6Statsを公開する。読み込むもの：curriculum.ts・toeicPart5Data.ts・problemCount.ts など5ファイル。toeicPart6Kit.test.tsから読み込まれる。",
+"links": [
+{
+"dir": "from",
+"path": "tests/toeicPart6Kit.test.ts"
+},
+{
+"dir": "to",
+"path": "src/types/curriculum.ts"
+},
+{
+"dir": "to",
+"path": "src/data/toeic/toeicPart5Data.ts"
+}
+],
+"lines": 64,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [
+"toeicPart6Data",
+"getAllToeicPart6Chapters",
+"getToeicPart6Stats"
+],
+"nImports": 5,
+"nBy": 1,
+"draft": true,
+"sys": "content",
+"flow": []
+},
+{
+"id": "src/data/toeic/toeicPart6Kit.ts",
+"path": "src/data/toeic/toeicPart6Kit.ts",
+"name": "toeicPart6Kit.ts",
+"folder": "src",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「TOEIC® L&R Part 6（長文穴埋め） 1セット＝文書1つ＋空所4つ の型と組み立て道具（2026-10-30 準備） ■ 位置づけ Part 5（toeicPart5K…」ToeicP6Skill・ToeicP6Genre・ToeicP6Blank など24個を公開する。読み込むもの：curriculum.ts・toeicPart5Kit.ts。toeicPart6Data.ts・toeicPart6Rounds.ts など3ファイルから読み込まれる。",
+"links": [
+{
+"dir": "from",
+"path": "src/data/toeic/toeicPart6Data.ts"
+},
+{
+"dir": "from",
+"path": "src/data/toeic/toeicPart6Rounds.ts"
+},
+{
+"dir": "to",
+"path": "src/types/curriculum.ts"
+}
+],
+"lines": 300,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [
+"ToeicP6Skill",
+"ToeicP6Genre",
+"ToeicP6Blank",
+"ToeicP6Set",
+"TOEIC_P6_CHAPTER_ID",
+"TOEIC_P6_SETS_PER_ROUND",
+"TOEIC_P6_BLANKS_PER_SET",
+"TOEIC_P6_QUESTIONS_PER_ROUND"
+],
+"nImports": 2,
+"nBy": 3,
+"draft": true,
+"sys": "content",
+"flow": []
+},
+{
+"id": "src/data/toeic/toeicPart6Rounds.ts",
+"path": "src/data/toeic/toeicPart6Rounds.ts",
+"name": "toeicPart6Rounds.ts",
+"folder": "src",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「TOEIC Part 6 の回の並び（第1回〜）。1回＝文書4つ（ToeicP6Set を4つ）。」TOEIC_P6_ROUNDSを公開する。読み込むもの：toeicPart6Kit.ts。toeicPart6Data.ts・toeicPart6Kit.test.tsから読み込まれる。",
+"links": [
+{
+"dir": "from",
+"path": "src/data/toeic/toeicPart6Data.ts"
+},
+{
+"dir": "from",
+"path": "tests/toeicPart6Kit.test.ts"
+},
+{
+"dir": "to",
+"path": "src/data/toeic/toeicPart6Kit.ts"
+}
+],
+"lines": 9,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [
+"TOEIC_P6_ROUNDS"
+],
+"nImports": 1,
+"nBy": 2,
+"draft": true,
+"sys": "content",
+"flow": []
+},
+{
 "id": "src/features/listeningTranslation/segments.ts",
 "path": "src/features/listeningTranslation/segments.ts",
 "name": "segments.ts",
@@ -32801,12 +33161,49 @@
 "flow": []
 },
 {
+"id": "src/features/profile/PublicProfileTabs.tsx",
+"path": "src/features/profile/PublicProfileTabs.tsx",
+"name": "PublicProfileTabs.tsx",
+"folder": "src",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「D6（2026-10-30）公開プロフィール＝「その人のマイページ全体」のタブの中身。」PublicCalendar・PublicOutfit・PublicBadges など4個を公開する。読み込むもの：growth.ts・GrowthParts.tsx・publicStudyProfile.ts など6ファイル、外部部品 lucide-react・react。PublicProfileView.tsxから読み込まれる。",
+"links": [
+{
+"dir": "from",
+"path": "src/features/profile/PublicProfileView.tsx"
+},
+{
+"dir": "to",
+"path": "src/battle/core/growth.ts"
+},
+{
+"dir": "to",
+"path": "src/battle/ui/GrowthParts.tsx"
+}
+],
+"lines": 151,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [
+"PublicCalendar",
+"PublicOutfit",
+"PublicBadges",
+"PublicPrints"
+],
+"nImports": 6,
+"nBy": 1,
+"draft": true,
+"sys": "screen",
+"flow": []
+},
+{
 "id": "src/features/profile/PublicProfileView.tsx",
 "path": "src/features/profile/PublicProfileView.tsx",
 "name": "PublicProfileView.tsx",
 "folder": "src",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「公開プロフィール（ほかの人から見えるページ）2026-10-26 ・ランキング／フレンド一覧の名前を押すと開く（UserProfileDialog） ・マイページの「ほかの人からの…」PublicBattleStats・lookToProgress・PublicProfileViewを公開する。読み込むもの：growth.ts・GrowthParts.tsx・publicStudyProfile.ts など11ファイル、外部部品 lucide-react・react。MyProfileCard.tsx・UserProfileDialog.tsxから読み込まれる。",
+"detail": "冒頭の説明：「公開プロフィール（ほかの人から見えるページ）2026-10-26 ・ランキング／フレンド一覧の名前を押すと開く（UserProfileDialog） ・マイページの「ほかの人からの…」PublicBattleStats・lookToProgress・PublicProfileViewを公開する。読み込むもの：growth.ts・GrowthParts.tsx・publicStudyProfile.ts など12ファイル、外部部品 lucide-react・react。MyProfileCard.tsx・UserProfileDialog.tsxから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -32821,7 +33218,7 @@
 "path": "src/battle/core/growth.ts"
 }
 ],
-"lines": 160,
+"lines": 170,
 "tag": "データ",
 "conf": "低",
 "kind": "file",
@@ -32830,7 +33227,7 @@
 "lookToProgress",
 "PublicProfileView"
 ],
-"nImports": 11,
+"nImports": 12,
 "nBy": 2,
 "draft": true,
 "sys": "screen",
@@ -32842,7 +33239,7 @@
 "name": "UserProfileDialog.tsx",
 "folder": "src",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「ほかの人の公開プロフィールを開く窓（2026-10-26）。」ProfileTarget・UserProfileDialogを公開する。読み込むもの：battleRanking.ts・publicStudyProfile.ts・nicknameFilter.ts など7ファイル、外部部品 lucide-react・react。FriendPanel.tsx・Leaderboard.tsxから読み込まれる。",
+"detail": "冒頭の説明：「ほかの人の公開プロフィールを開く窓（2026-10-26）。」ProfileTarget・UserProfileDialogを公開する。読み込むもの：publicStudyProfile.ts・battleRanking.ts・nicknameFilter.ts など7ファイル、外部部品 lucide-react・react。FriendPanel.tsx・Leaderboard.tsxから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -32854,7 +33251,7 @@
 },
 {
 "dir": "to",
-"path": "src/battle/data/battleRanking.ts"
+"path": "src/utils/publicStudyProfile.ts"
 }
 ],
 "lines": 93,
@@ -32877,7 +33274,7 @@
 "name": "profileStats.ts",
 "folder": "src",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「公開プロフィールに載せる「記録」を端末から集める（2026-10-26）。」collectProfileStats・installProfileStatsProviderを公開する。読み込むもの：firebase.ts・safeLocalStorage.ts・growth.ts など7ファイル。main.tsx・MyProfileCard.tsxから読み込まれる。",
+"detail": "冒頭の説明：「公開プロフィールに載せる「記録」を端末から集める（2026-10-26）。」collectProfileStats・installProfileStatsProviderを公開する。読み込むもの：firebase.ts・safeLocalStorage.ts・growth.ts など10ファイル。main.tsx・MyProfileCard.tsxから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -32892,7 +33289,7 @@
 "path": "src/firebase.ts"
 }
 ],
-"lines": 44,
+"lines": 67,
 "tag": "データ",
 "conf": "低",
 "kind": "file",
@@ -32900,7 +33297,7 @@
 "collectProfileStats",
 "installProfileStatsProvider"
 ],
-"nImports": 7,
+"nImports": 10,
 "nBy": 2,
 "draft": true,
 "sys": "screen",
@@ -32923,7 +33320,7 @@
 "path": "src/components/Leaderboard.tsx"
 }
 ],
-"lines": 77,
+"lines": 167,
 "tag": "部品",
 "conf": "低",
 "kind": "file",
@@ -32976,7 +33373,7 @@
 "name": "MyStudyCard.tsx",
 "folder": "src",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「マイページの「マイページ」タブ＝今日の勉強記録（2026-10-28 作り直し・A1／A3）。」MyStudyCardを公開する。読み込むもの：firebase.ts・safeLocalStorage.ts・growth.ts など14ファイル、外部部品 lucide-react・react。GrowthHub.tsxから読み込まれる。",
+"detail": "冒頭の説明：「マイページの「マイページ」タブ＝今日の勉強記録（2026-10-28 作り直し・A1／A3）。」MyStudyCardを公開する。読み込むもの：firebase.ts・safeLocalStorage.ts・growth.ts など15ファイル、外部部品 lucide-react・react。GrowthHub.tsxから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -32991,14 +33388,14 @@
 "path": "src/utils/safeLocalStorage.ts"
 }
 ],
-"lines": 136,
+"lines": 157,
 "tag": "データ",
 "conf": "低",
 "kind": "file",
 "exports": [
 "MyStudyCard"
 ],
-"nImports": 14,
+"nImports": 15,
 "nBy": 1,
 "draft": true,
 "sys": "screen",
@@ -33080,15 +33477,15 @@
 "name": "manualLogCore.ts",
 "folder": "src",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「手動の学習記録・教材・目標・集計（2026-10-27「学習コミュニティ」第2・3段階） Firebase に依存しない純粋ロジック（テストで直接呼ぶ・端末どうしの合わせ方にも使う…」RECORD_MINUTES_MAX・DAY_MINUTES_MAX・MATERIAL_NAME_MAX など30個を公開する。PublicProfileView.tsx・CalendarTab.tsx など12ファイルから読み込まれる。",
+"detail": "冒頭の説明：「手動の学習記録・教材・目標・集計（2026-10-27「学習コミュニティ」第2・3段階） Firebase に依存しない純粋ロジック（テストで直接呼ぶ・端末どうしの合わせ方にも使う…」RECORD_MINUTES_MAX・DAY_MINUTES_MAX・MATERIAL_NAME_MAX など30個を公開する。PublicProfileTabs.tsx・PublicProfileView.tsx など13ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
-"path": "src/features/profile/PublicProfileView.tsx"
+"path": "src/features/profile/PublicProfileTabs.tsx"
 },
 {
 "dir": "from",
-"path": "src/features/studylog/CalendarTab.tsx"
+"path": "src/features/profile/PublicProfileView.tsx"
 }
 ],
 "lines": 468,
@@ -33106,7 +33503,7 @@
 "RECORDS_KEEP"
 ],
 "nImports": 0,
-"nBy": 12,
+"nBy": 13,
 "draft": true,
 "sys": "screen",
 "flow": []
@@ -33117,15 +33514,15 @@
 "name": "manualLogStore.ts",
 "folder": "src",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「手動の学習記録の保存（端末 localStorage）。」manualLogKey・readManualLog・writeManualLog など5個を公開する。読み込むもの：firebase.ts・safeLocalStorage.ts・userStorageKeys.ts など5ファイル、外部部品 react。MyStudyCard.tsx・RecordDialog.tsx など3ファイルから読み込まれる。",
+"detail": "冒頭の説明：「手動の学習記録の保存（端末 localStorage）。」manualLogKey・readManualLog・writeManualLog など5個を公開する。読み込むもの：firebase.ts・safeLocalStorage.ts・userStorageKeys.ts など5ファイル、外部部品 react。profileStats.ts・MyStudyCard.tsx など4ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
-"path": "src/features/studylog/MyStudyCard.tsx"
+"path": "src/features/profile/profileStats.ts"
 },
 {
 "dir": "from",
-"path": "src/features/studylog/RecordDialog.tsx"
+"path": "src/features/studylog/MyStudyCard.tsx"
 },
 {
 "dir": "to",
@@ -33144,7 +33541,7 @@
 "useManualLog"
 ],
 "nImports": 5,
-"nBy": 3,
+"nBy": 4,
 "draft": true,
 "sys": "screen",
 "flow": []
@@ -33155,7 +33552,7 @@
 "name": "studyFeed.ts",
 "folder": "src",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「学習記録の共有（フレンドの学習フィード）とリアクション（2026-10-27 第5段階） ■ 保存先（Firestore） study_posts/{uid}_{recordId}…」STUDY_POSTS・FEED_PAGE・ReactionType など18個を公開する。読み込むもの：firebase.ts・firestoreMetered.ts・nicknameFilter.ts など5ファイル。accountDeletion.ts・PublicProfileView.tsx など5ファイルから読み込まれる。",
+"detail": "冒頭の説明：「学習記録の共有（フレンドの学習フィード）とリアクション（2026-10-27 第5段階） ■ 保存先（Firestore） study_posts/{uid}_{recordId}…」STUDY_POSTS・FEED_PAGE・ReactionType など18個を公開する。読み込むもの：firebase.ts・firestoreMetered.ts・manualLogCore.ts など5ファイル。accountDeletion.ts・PublicProfileView.tsx など5ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -33207,7 +33604,7 @@
 "path": "src/features/studylog/StudyLogPage.tsx"
 }
 ],
-"lines": 293,
+"lines": 366,
 "tag": "部品",
 "conf": "低",
 "kind": "file",
@@ -34005,6 +34402,34 @@
 "flow": []
 },
 {
+"id": "src/styles/home-stage.css",
+"path": "src/styles/home-stage.css",
+"name": "home-stage.css",
+"folder": "src",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「D7（2026-10-30）ホームの背景（とびら君のステージ）をガチャで当てて選べる★ ホーム：.game-home .game-mascot-stage[data-stage=……」Home.tsx・MyCollection.tsx など4ファイルから読み込まれる。",
+"links": [
+{
+"dir": "from",
+"path": "src/components/Home.tsx"
+},
+{
+"dir": "from",
+"path": "src/components/MyCollection.tsx"
+}
+],
+"lines": 68,
+"tag": "部品",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 4,
+"draft": true,
+"sys": "screen",
+"flow": []
+},
+{
 "id": "src/styles/math-typeset.css",
 "path": "src/styles/math-typeset.css",
 "name": "math-typeset.css",
@@ -34110,18 +34535,18 @@
 "links": [
 {
 "dir": "ref",
+"path": "docs/UI_CHANGELOG.md"
+},
+{
+"dir": "ref",
 "path": "scripts/gacha-prints/kobe_mock/r1_II.py"
 },
 {
 "dir": "ref",
 "path": "scripts/gacha-prints/kyotsu_mock/set3_r2.py"
-},
-{
-"dir": "ref",
-"path": "scripts/gacha-prints/kyotsu_mock/set4_r2.py"
 }
 ],
-"lines": 313,
+"lines": 336,
 "tag": "部品",
 "conf": "低",
 "kind": "file",
@@ -34158,6 +34583,38 @@
 "nBy": 0,
 "draft": true,
 "sys": "screen",
+"flow": []
+},
+{
+"id": "src/utils/adSuppress.ts",
+"path": "src/utils/adSuppress.ts",
+"name": "adSuppress.ts",
+"folder": "src",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「D5（2026-10-30）：画面の上に重ねて開くページ（学びの扉など）を開いている間だけ、バナー広告を止める。」adSuppressStore・useSuppressBannerAd・useBannerAdSuppressedを公開する。読み込むもの：外部部品 react。App.tsx・PhilosophyPage.tsxから読み込まれる。",
+"links": [
+{
+"dir": "from",
+"path": "src/App.tsx"
+},
+{
+"dir": "from",
+"path": "src/components/PhilosophyPage.tsx"
+}
+],
+"lines": 30,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [
+"adSuppressStore",
+"useSuppressBannerAd",
+"useBannerAdSuppressed"
+],
+"nImports": 0,
+"nBy": 2,
+"draft": true,
+"sys": "logic",
 "flow": []
 },
 {
@@ -35134,7 +35591,7 @@
 "name": "publicProfileCore.ts",
 "folder": "src",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「公開プロフィール（スタディプラス級）の純粋ロジック（2026-10-26） public_study_profiles/{uid} に「本人が公開を選んだときだけ」載せる項目の 形…」BIO_MAX・WEEK_DAYS・DAY_SECONDS_MAX など17個を公開する。publicStudyProfile.ts・MyProfileCard.tsx など5ファイルから読み込まれる。",
+"detail": "冒頭の説明：「公開プロフィール（スタディプラス級）の純粋ロジック（2026-10-26） public_study_profiles/{uid} に「本人が公開を選んだときだけ」載せる項目の 形…」BIO_MAX・WEEK_DAYS・DAY_SECONDS_MAX など29個を公開する。publicStudyProfile.ts・MyProfileCard.tsx など6ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -35145,7 +35602,7 @@
 "path": "src/components/MyProfileCard.tsx"
 }
 ],
-"lines": 106,
+"lines": 160,
 "tag": "データ",
 "conf": "低",
 "kind": "file",
@@ -35160,7 +35617,7 @@
 "normalizeGrade"
 ],
 "nImports": 0,
-"nBy": 5,
+"nBy": 6,
 "draft": true,
 "sys": "logic",
 "flow": []
@@ -38409,7 +38866,7 @@
 "name": "calendarCompare.test.ts",
 "folder": "tests",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "4件の確認（it）を持つ。主な確認：「カレンダーの日付選び（最大7日）」「押すと加わり、もう一度押すと外れる」。対象：CalendarTab.tsx・manualLogCore.ts。",
+"detail": "5件の確認（it）を持つ。主な確認：「カレンダーの日付選び（最大7日）」「押すと加わり、もう一度押すと外れる」。対象：CalendarTab.tsx・manualLogCore.ts。",
 "links": [
 {
 "dir": "to",
@@ -38420,7 +38877,7 @@
 "path": "src/features/studylog/CalendarTab.tsx"
 }
 ],
-"lines": 48,
+"lines": 58,
 "tag": "テスト",
 "conf": "低",
 "kind": "file",
@@ -38559,6 +39016,27 @@
 "flow": []
 },
 {
+"id": "tests/coinCelebration.test.ts",
+"path": "tests/coinCelebration.test.ts",
+"name": "coinCelebration.test.ts",
+"folder": "tests",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "2件の確認（it）を持つ。主な確認：「D10：マナコインを手に入れたら派手な演出（2026-10-30）」「増えたときだけ知らせる（使ったとき・同期では知らせない）」。ソースコードを文字として読み込んで検査する。",
+"links": [],
+"lines": 18,
+"tag": "テスト",
+"conf": "低",
+"kind": "file",
+"exports": [
+"subscribeCoinGain"
+],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "test",
+"flow": []
+},
+{
 "id": "tests/collectionTiles.test.ts",
 "path": "tests/collectionTiles.test.ts",
 "name": "collectionTiles.test.ts",
@@ -38567,6 +39045,25 @@
 "detail": "3件の確認（it）を持つ。主な確認：「B4 タイルと詳細の窓」「種類・所有状況はネイティブの select ではなくチップ／切替」。ソースコードを文字として読み込んで検査する。",
 "links": [],
 "lines": 25,
+"tag": "テスト",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "test",
+"flow": []
+},
+{
+"id": "tests/cssBraces.test.ts",
+"path": "tests/cssBraces.test.ts",
+"name": "cssBraces.test.ts",
+"folder": "tests",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "1件の確認（it）を持つ。主な確認：「src の CSS は { と } の数がそろっている」。ソースコードを文字として読み込んで検査する。",
+"links": [],
+"lines": 29,
 "tag": "テスト",
 "conf": "低",
 "kind": "file",
@@ -38724,7 +39221,7 @@
 "path": "src/components/GachaParts.tsx"
 }
 ],
-"lines": 37,
+"lines": 41,
 "tag": "テスト",
 "conf": "低",
 "kind": "file",
@@ -38894,6 +39391,34 @@
 "flow": []
 },
 {
+"id": "tests/homeStage.test.ts",
+"path": "tests/homeStage.test.ts",
+"name": "homeStage.test.ts",
+"folder": "tests",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "4件の確認（it）を持つ。主な確認：「ホーム背景はガチャに入っていて、どれも見た目の定義がある」「持っていて付けている背景だけが反映され、外すと宇宙（空文字）に戻る」。対象：growth.ts・tobiraParts.ts。",
+"links": [
+{
+"dir": "to",
+"path": "src/battle/core/growth.ts"
+},
+{
+"dir": "to",
+"path": "src/battle/core/tobiraParts.ts"
+}
+],
+"lines": 38,
+"tag": "テスト",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 2,
+"nBy": 0,
+"draft": true,
+"sys": "test",
+"flow": []
+},
+{
 "id": "tests/kobeMockPrints.test.ts",
 "path": "tests/kobeMockPrints.test.ts",
 "name": "kobeMockPrints.test.ts",
@@ -38959,7 +39484,7 @@
 "name": "kyotsuMockPrints.test.ts",
 "folder": "tests",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "4件の確認（it）を持つ。主な確認：「LR：共通テスト 英語 予想問題」「台帳のページ数・ファイル・サムネイルが実物と合う」。対象：arenaEconomy.ts・growth.ts・kobeMockPrints.ts。",
+"detail": "4件の確認（it）を持つ。主な確認：「LR：共通テスト 英語 予想問題」「台帳のページ数・ファイル・サムネイルが実物と合う」。対象：arenaEconomy.ts・growth.ts・kyotsuMockPrints.ts。",
 "links": [
 {
 "dir": "to",
@@ -38971,15 +39496,15 @@
 },
 {
 "dir": "to",
-"path": "src/data/kobeMockPrints.ts"
+"path": "src/data/kyotsuMockPrints.ts"
 }
 ],
-"lines": 70,
+"lines": 67,
 "tag": "テスト",
 "conf": "低",
 "kind": "file",
 "exports": [],
-"nImports": 6,
+"nImports": 3,
 "nBy": 0,
 "draft": true,
 "sys": "test",
@@ -39144,6 +39669,38 @@
 "flow": []
 },
 {
+"id": "tests/nijiGacha.test.ts",
+"path": "tests/nijiGacha.test.ts",
+"name": "nijiGacha.test.ts",
+"folder": "tests",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "16件の確認（it）を持つ。主な確認：「2次試験ガチャ：景品」「ガチャは2種類（共通テスト→2次試験の順）」。対象：arenaEconomy.ts・gachaPools.ts・gachaSets.ts。",
+"links": [
+{
+"dir": "to",
+"path": "src/battle/core/growth.ts"
+},
+{
+"dir": "to",
+"path": "src/battle/core/arenaEconomy.ts"
+},
+{
+"dir": "to",
+"path": "src/battle/core/tobiraParts.ts"
+}
+],
+"lines": 151,
+"tag": "テスト",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 7,
+"nBy": 0,
+"draft": true,
+"sys": "test",
+"flow": []
+},
+{
 "id": "tests/osakaMockPrints.test.ts",
 "path": "tests/osakaMockPrints.test.ts",
 "name": "osakaMockPrints.test.ts",
@@ -39235,14 +39792,14 @@
 "name": "publicProfile.rules.test.ts",
 "folder": "tests",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "12件の確認（it）を持つ。主な確認：「public_study_profiles（プロフィール拡張）」「本人は新しい項目つきで公開できる・ほかの人は読める」。ソースコードを文字として読み込んで検査する。",
+"detail": "13件の確認（it）を持つ。主な確認：「public_study_profiles（プロフィール拡張）」「本人は新しい項目つきで公開できる・ほかの人は読める」。ソースコードを文字として読み込んで検査する。",
 "links": [
 {
 "dir": "ref",
 "path": "package.json"
 }
 ],
-"lines": 95,
+"lines": 104,
 "tag": "テスト",
 "conf": "低",
 "kind": "file",
@@ -39259,7 +39816,7 @@
 "name": "publicProfileCore.test.ts",
 "folder": "tests",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "8件の確認（it）を持つ。主な確認：「週の記録」「古い日→今日の7日分。無い日は0、上限で切る」。対象：publicProfileCore.ts・publicStudyProfile.ts。",
+"detail": "12件の確認（it）を持つ。主な確認：「週の記録」「古い日→今日の7日分。無い日は0、上限で切る」。対象：publicProfileCore.ts・publicStudyProfile.ts。",
 "links": [
 {
 "dir": "to",
@@ -39270,7 +39827,7 @@
 "path": "src/utils/publicProfileCore.ts"
 }
 ],
-"lines": 61,
+"lines": 94,
 "tag": "テスト",
 "conf": "低",
 "kind": "file",
@@ -39566,6 +40123,30 @@
 "flow": []
 },
 {
+"id": "tests/seasonFall.test.ts",
+"path": "tests/seasonFall.test.ts",
+"name": "seasonFall.test.ts",
+"folder": "tests",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "2件の確認（it）を持つ。主な確認：「D9：季節で降るものが変わる（2026-10-30）」「月から季節を決める（秋＝9〜11月は紅葉）」。対象：SakuraPetals.tsx。",
+"links": [
+{
+"dir": "to",
+"path": "src/components/SakuraPetals.tsx"
+}
+],
+"lines": 18,
+"tag": "テスト",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 1,
+"nBy": 0,
+"draft": true,
+"sys": "test",
+"flow": []
+},
+{
 "id": "tests/shuffle.test.ts",
 "path": "tests/shuffle.test.ts",
 "name": "shuffle.test.ts",
@@ -39804,6 +40385,38 @@
 "textWidth"
 ],
 "nImports": 7,
+"nBy": 0,
+"draft": true,
+"sys": "test",
+"flow": []
+},
+{
+"id": "tests/toeicPart6Kit.test.ts",
+"path": "tests/toeicPart6Kit.test.ts",
+"name": "toeicPart6Kit.test.ts",
+"folder": "tests",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "13件の確認（it）を持つ。主な確認：「TOEIC Part 6：本文の表示」「[[n]] を回の中の通し番号つきの空所にする」。対象：subjects.ts・toeicPart5Kit.ts・toeicPart6Data.ts。",
+"links": [
+{
+"dir": "to",
+"path": "src/data/toeic/toeicPart5Kit.ts"
+},
+{
+"dir": "to",
+"path": "src/data/subjects.ts"
+},
+{
+"dir": "to",
+"path": "src/data/toeic/toeicPart6Kit.ts"
+}
+],
+"lines": 145,
+"tag": "テスト",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 5,
 "nBy": 0,
 "draft": true,
 "sys": "test",
@@ -40078,12 +40691,12 @@
 "one": "単元の索引・英文法の問題・単語数などを生成して持つ係",
 "detail": "chapterIndex（gen-chapter-index.mts）、egV3Items（grammar_v3/build_ts.py）、listeningVocabularyMeta（gen-listening-vocabulary.mts）、gachaPrints の各生成物。手で編集しない。",
 "links": [],
-"lines": 1197,
+"lines": 1221,
 "tag": "データ",
 "conf": "高",
 "kind": "bundle",
 "count": 5,
-"bytes": 1631243,
+"bytes": 1632185,
 "exts": {
 ".ts": 5
 },
@@ -40312,11 +40925,11 @@
 "tag": "文書",
 "conf": "高",
 "kind": "bundle",
-"count": 288,
-"bytes": 70391049,
+"count": 312,
+"bytes": 82388515,
 "exts": {
-".webp": 170,
-".pdf": 94,
+".webp": 188,
+".pdf": 100,
 ".mp3": 24
 },
 "members": [
