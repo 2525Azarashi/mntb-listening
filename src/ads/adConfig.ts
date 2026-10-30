@@ -30,7 +30,8 @@ export const AD_CONFIG = {
     height: 50,
     /** バナーを出さない画面（問題を解いている最中・対戦中・解説など）。学習の邪魔をしない */
     // 'pdf' … アプリ内の PDF ビューを開いている間（PDF の上に広告を重ねない・2026-10-17）
-    hiddenOn: ['quiz', 'explanation', 'battle_live', 'onboarding', 'launch', 'pdf'] as string[],
+    // 'philosophy' … 学びの扉（開発者の手紙）を読んでいる間（文章に広告を重ねない・2026-10-30 D5）
+    hiddenOn: ['quiz', 'explanation', 'battle_live', 'onboarding', 'launch', 'pdf', 'philosophy'] as string[],
   },
 } as const;
 
