@@ -5,6 +5,26 @@
 
 ---
 
+## 2026-10-30 ご指摘D1〜D11：結果画面の作り直し・英文法の回の選び方・カレンダー・公開マイページ・ホーム背景ガチャ・季節・コイン演出（PR: fix/revision-d）
+
+| # | 何を | どう変えた | ファイル |
+|---|---|---|---|
+| D1 | 英文法の単元カード | 「続きから／最初から／回を選ぶ」を整理。次にやる回が一目で分かる回の一覧（`.grammar-rounds`） | `UnitCard.tsx`・`ChapterSelection.tsx`・`unit-select.css` |
+| D2 | 結果画面 | 切れていたトビラを横並びに。次の回へ／単元選択／ホーム／ご意見を外し、正答率の輪・前回・最高・目標・回ごとの棒グラフを動きつきで表示。「詳しい解説を見る」1つで詳細へ。詳細の下に 次の回へ／単元選択に戻る／ホームに戻る | `explanation/ResultInsight.tsx`（新規）・`result-insight.css`（新規）・`ResultSummary.tsx`・`Explanation.tsx`・`BottomBars.tsx`・`step-explanation.css` |
+| D3 | カレンダー | マス・棒グラフ・教材の行を詰めて、全部の教科が見えるように（押せる大きさは残す） | `studylog.css` |
+| D4 | 使い方 | 「対戦ロビーへ」「さっそく始める」を削除 | `Intro.tsx`・`intro.css`・`App.tsx` |
+| D5 | 学びの扉／ふくしゅう | 学びの扉ではバナー広告を出さない。ふくしゅうの「今日なおした」帯を削除 | `utils/adSuppress.ts`（新規）・`PhilosophyPage.tsx`・`ads/adConfig.ts`・`StudyHub.tsx`・`review-record.css` |
+| D6 | 公開プロフィール | 公開中は マイページ・カレンダー・きせかえ・称号・マイPDF の5タブを他の人も見られる | `features/profile/PublicProfileTabs.tsx`（新規）・`PublicProfileView.tsx`・`public-profile.css`・`utils/publicProfileCore.ts`・`publicStudyProfile.ts`・`firestore.rules` |
+| D7 | ホームの背景 | 宇宙だけ → ガチャで「ホーム背景」8種（朝焼け・森・海・夜桜・図書館・おかしの国・オーロラ・ネオン）。きせかえ・持ち物で付け外し、外すと宇宙 | `battle/core/growthItems.ts`・`growth.ts`・`growthTypes.ts`・`tobiraParts.ts`・`Home.tsx`・`GachaParts.tsx`・`MyCollection.tsx`・`BattleProfileTabs.tsx`・`styles/home-stage.css`（新規）・`styles/world.css`（星と文字の色を変数で受ける） |
+| D7 | マイページのグラフ | 今日〜累計が0から数え上がる・7日の棒が順に伸びる・一番長い日に印・教材の行が順に出る（動きを減らす設定／軽量モードでは止まる） | `MyStudyCard.tsx`・`studylog.css` |
+| D9 | ホームに降るもの | 季節で切り替え（春＝桜・夏＝若葉・秋＝紅葉・冬＝雪） | `SakuraPetals.tsx`・`styles/surfaces.css` |
+| D10 | マナコイン | 増えたらどの画面でも「＋N マナコイン」の演出（10枚以上は光の輪とコインがはじける） | `CoinCelebration.tsx`（新規）・`coin-celebration.css`（新規）・`battle/data/growthStore.ts`・`App.tsx` |
+| D11 | マイページの表 | 自分で記録したマスを押すと直す・消す（カレンダーと同じ）。アプリで計った時間は押せない | `MyStudyCard.tsx`・`studylog.css` |
+
+**戻し方**：D1〜D11 はそれぞれ別コミット（D7 は背景とグラフの2コミット）なので、その1コミットを revert すれば戻る。D6 を戻すときは `firestore.rules` も戻して再デプロイ。
+
+---
+
 ## 2026-10-29 ご指摘C7〜C14：英文法の回の終わり方・2列の選択肢・解くカギ/大問の流れを外す・セットで覚える・章の称号・お知らせ（PR: feat/grammar-c7-c14、#132 を取り込み済み）
 
 | # | 何を | どう変えた | ファイル |
