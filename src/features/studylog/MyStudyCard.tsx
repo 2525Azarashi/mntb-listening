@@ -15,6 +15,7 @@ import { readStudyTime } from '../../utils/studyTime';
 import { profileKey } from '../../utils/userStorageKeys';
 import { safeLocalStorage } from '../../utils/safeLocalStorage';
 import { normalizeGrade } from '../../utils/publicProfileCore';
+import { readOwnPublicStudyProfile } from '../../utils/publicStudyProfile';
 import { dayOf, summarize, weekByMaterial } from './manualLogCore';
 import { useManualLog } from './manualLogStore';
 import { RecordDialog } from './RecordDialog';
@@ -60,7 +61,15 @@ export function MyStudyCard({ onEdit }: { onEdit: () => void }) {
   const dayTotals = week.days.map((_, d) => week.rows.reduce((n, r) => n + r.seconds[d], 0));
   const peak = Math.max(1800, ...dayTotals);
   const title = progress ? equippedTitleLabel(progress) : '';
-  const notPublic = !!auth.currentUser && !profile.isPublic;
+  // C4（2026-10-29）：赤い点は「プロフィールを公開」をオンにしていないときだけ。
+  //   端末の保存（profilePublic）は古いことがあるので、サーバーの公開状態を見て決める（読めないときは端末の値）
+  const [serverPublic, setServerPublic] = useState<boolean | null>(null);
+  useEffect(() => {
+    let alive = true;
+    if (auth.currentUser) void readOwnPublicStudyProfile().then(p => { if (alive) setServerPublic(!!p); }).catch(() => { /* 読めなければ端末の値で判断 */ });
+    return () => { alive = false; };
+  }, [uid]);
+  const notPublic = !!auth.currentUser && !(serverPublic ?? profile.isPublic);
 
   return (
     <section className="mt-card mystudy" aria-label="今日の勉強記録" data-my-study>

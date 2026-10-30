@@ -7,8 +7,6 @@ import { equippedPoseSrc } from '../battle/core/growth';
 import { TobiraAccessories } from '../battle/ui/TobiraAccessories';
 import { auth } from '../firebase';
 import './launch-screen.css';
-import { UpdateNoticeModal } from './UpdateNoticeModal';
-import { LATEST_NOTICE } from '../data/updateNotices';
 import { getDaysUntilExam, EXAM_DATE_LABEL } from '../utils/examCountdown';
 import { fadeOutLaunchSfx, launchCueSchedule, playLaunchSfx, preloadLaunchSfx, type LaunchSfx } from '../battle/audio/launchSfx';
 import { resumeSharedAudio } from '../battle/audio/sharedAudioContext';
@@ -43,11 +41,10 @@ export function LaunchScreen({ onStart, soundEnabled, onToggleSound }: {
 }) {
   const { progress } = useGrowthProgress();
   const [phase, setPhase] = useState<Phase>('intro');
-  const [gate, setGate] = useState<'emblem' | 'title' | 'announcement' | 'philosophy'>('emblem');
+  const [gate, setGate] = useState<'emblem' | 'title' | 'philosophy'>('emblem');
   /** エンブレムの段階：in（白からふわっと）→ hold（表示）→ out（白へ消える）→ タイトルへ */
   const [emblemPhase, setEmblemPhase] = useState<'in' | 'hold' | 'out'>('in');
   const [emblemSkipped, setEmblemSkipped] = useState(false);
-  const [notices, setNotices] = useState(false);
   /*
     起動エンブレム（市販アプリのスプラッシュと同じ間合い・2026-10-02 D2）
       0.0〜0.7秒  白からフェードイン
@@ -99,7 +96,7 @@ export function LaunchScreen({ onStart, soundEnabled, onToggleSound }: {
     cue('title_bloom');
   }, [gate]);
   // タイトルから先へ進んだら起動音はすっと消す（このあと鳴る「誕生」と重ねない）
-  useEffect(() => { if (gate === 'announcement' || gate === 'philosophy') fadeOutLaunchSfx(); }, [gate]);
+  useEffect(() => { if (gate === 'philosophy') fadeOutLaunchSfx(); }, [gate]);
   useEffect(() => () => fadeOutLaunchSfx(), []);
   useEffect(() => { if (!soundEnabled) fadeOutLaunchSfx(150); }, [soundEnabled]);
   const skipEmblem = () => {
@@ -119,16 +116,15 @@ export function LaunchScreen({ onStart, soundEnabled, onToggleSound }: {
   const finishIntro = () => setPhase(p => (p === 'intro' ? (played ? 'crossfade' : 'done') : p));
   // 動画を再生できなかった時だけ歩いて登場
   const walk = phase === 'done' && !played;
-  const announce = () => { setGate('announcement'); };
-  // PC：キーボードの Enter で進める（タイトル → お知らせ → 入る）。入力中・ボタンにフォーカス中は邪魔しない
+  // PC：キーボードの Enter で進める（タイトル → 入る）。入力中・ボタンにフォーカス中は邪魔しない
   useEffect(() => {
-    if (gate !== 'title' && gate !== 'announcement') return;
+    if (gate !== 'title') return;
     const onKey = (e: KeyboardEvent) => {
-      if (e.key !== 'Enter' || e.isComposing || notices) return;
+      if (e.key !== 'Enter' || e.isComposing) return;
       const t = e.target as HTMLElement | null;
       if (t && t.closest('button, a, input, textarea, select, [contenteditable]')) return;
       e.preventDefault();
-      if (gate === 'title') announce(); else enter();
+      enter();
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
@@ -136,7 +132,7 @@ export function LaunchScreen({ onStart, soundEnabled, onToggleSound }: {
   const enter = () => onStart();
   if (gate === 'emblem') return <main className="launch-emblem" data-phase={emblemPhase} data-skip={emblemSkipped || undefined} aria-label="マナトビ 起動エンブレム（タップで進む）" role="button" tabIndex={0} onClick={skipEmblem} onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); skipEmblem(); } }}><div className="launch-emblem-inner"><img className="launch-emblem-applogo" src="/brand/app-icon-logo.webp" alt="マナトビ" width={640} height={640}/><h1>聞いて、解いて、<br/>競って、<em>これ1本</em>で。</h1></div></main>;
   if (gate === 'philosophy') return <PhilosophyPage onBack={() => setGate('title')} />;
-  if (gate === 'announcement') return <main className="launch-announcement" aria-label="スタートのお知らせ"><section><p className="mt-kicker">WHAT’S NEW</p><h1>学ぶ入口を、もっと快適に。</h1><div className="launch-countdown"><Headphones size={24}/><span>共通テストまで<strong>{getDaysUntilExam()}<small>日</small></strong><small>{EXAM_DATE_LABEL}</small></span></div>{/* 最新のお知らせから自動で出す（固定文だと古い内容が残り続けるため） */}<p className="launch-announcement-latest">{LATEST_NOTICE?.title ?? '学習をもっと快適に整えました。'}</p><p>対戦の結果を復習につなげて、今日の「聞く力」を積み重ねよう。</p><div className="launch-announcement-actions"><button type="button" onClick={()=>setNotices(true)}>見てみる</button><button type="button" onClick={enter}>閉じる</button></div></section>{notices && <UpdateNoticeModal onClose={()=>setNotices(false)}/>}</main>;
+  // C13（2026-10-29）：「学ぶ入口を、もっと快適に。」のお知らせ画面は削除。共通テストまでの日数はホームにあるので、はじめる → そのままホームへ入る。
   return <main className="launch-screen" aria-label="マナトビ タイトル画面" data-launch-screen>
     <div className="launch-content">
       <header className="launch-top">
@@ -174,7 +170,7 @@ export function LaunchScreen({ onStart, soundEnabled, onToggleSound }: {
       </ul>
       <div className="launch-actions">
         <p className="launch-countdown-mini" aria-label={`共通テストまで${getDaysUntilExam()}日`}><Headphones size={16} aria-hidden="true" />共通テストまで <strong>{getDaysUntilExam()}</strong>日<small>{EXAM_DATE_LABEL}</small></p>
-        <button type="button" className="launch-start mt-btn mt-btn-accent" onClick={()=>announce()}><Headphones size={20} aria-hidden="true" />はじめる<ArrowRight size={20} aria-hidden="true" /></button>
+        <button type="button" className="launch-start mt-btn mt-btn-accent" onClick={() => { fadeOutLaunchSfx(); enter(); }}><Headphones size={20} aria-hidden="true" />はじめる<ArrowRight size={20} aria-hidden="true" /></button>
         <p className="launch-note">{auth.currentUser ? '学習のつづきから始まります' : 'Google か Apple でログインして始めます'}</p>
         <button type="button" className="launch-philosophy" data-open-philosophy onClick={() => setGate('philosophy')}><BookHeart size={16} aria-hidden="true" />学びの扉 ～私達に出来ることを～</button>
         <p className="launch-kbd" aria-hidden="true"><kbd>Enter</kbd> ではじめる</p>

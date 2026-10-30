@@ -97,7 +97,7 @@ const FFMPEG_OUTPUT_ARGS = ['-ar', '44100', '-ac', '1', '-codec:a', 'libmp3lame'
 
 /**
  * 発話ファイルを結合するときの「発話と発話のあいだの無音（秒）」。
- *   - el4_B（4人が順に話す）  … 1.2 秒（旧 scripts/concat_listening_audio.sh と同じ）
+ *   - el4_B（4人が順に話す）  … 1.2 秒（旧 scripts/listening-data/concat_listening_audio.sh と同じ）
  *   - 第5問 問32（A→B）       … 0.6 秒（同上）
  *   - それ以外の対話           … 0.35 秒（自然な会話の間）
  * --gap 0.5 のように指定すると全部その値になる。

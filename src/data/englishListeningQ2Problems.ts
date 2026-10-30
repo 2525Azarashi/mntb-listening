@@ -25,9 +25,9 @@
  * 生成方法（手打ちしていない理由）
  *   48問＝選択肢192個・対話192発話・画像プロンプト48本を手で書き写すと、
  *   選択肢と正解の対応ズレが必ず混入する。そこで
- *     scripts/parse_listening_q2_pdf.py        … PDF → JSON（突き合わせ検査つき）
- *     scripts/shuffle_listening_q2_options.py  … 正解位置の偏りを均す
- *     scripts/gen_listening_q2_data.py         … JSON → このファイル
+ *     scripts/listening-data/parse_listening_q2_pdf.py        … PDF → JSON（突き合わせ検査つき）
+ *     scripts/listening-data/shuffle_listening_q2_options.py  … 正解位置の偏りを均す
+ *     scripts/listening-data/gen_listening_q2_data.py         … JSON → このファイル
  *   の3段で機械的に生成している。
  *
  * 正解位置について

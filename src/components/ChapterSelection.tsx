@@ -357,7 +357,8 @@ export function ChapterSelection({ mode, onSelectChapter, onBack, subject = 'eng
                                       <span className="round-done mt-status shrink-0" data-status="done">
                                         達成
                                       </span>
-                                    ) : tried ? (
+                                    ) : tried && !isToeic ? (
+                                      // 2026-10-29 TOEIC は「満点 0/3」を出さない（ご要望）。達成の表示はそのまま
                                       <span className="round-done mt-status shrink-0" data-status="doing">
                                         満点 {roundStage?.p ?? 0}/{STAGE_CLEAR_PERFECTS}
                                       </span>
@@ -470,17 +471,29 @@ export function ChapterSelection({ mode, onSelectChapter, onBack, subject = 'eng
                     onStart={() => isGrammar
                       ? onSelectChapter(chapter.id, nextRound, false, { startIndex: nextRound, endIndex: nextRound })
                       : onSelectChapter(chapter.id, 0, false)}
+                    // C7：英文法の「続きから」は、前にやっていた回をその回の最初の問題（No.1）から始める
                     onResume={() => isGrammar
-                      ? onSelectChapter(chapter.id, savedIndex, true, { startIndex: savedIndex, endIndex: savedIndex })
+                      ? onSelectChapter(chapter.id, savedIndex, false, { startIndex: savedIndex, endIndex: savedIndex })
                       : onSelectChapter(chapter.id, savedIndex, true)}
                     onAudio={audioSets.length > 0 ? () => setOpenAudioSetId(openAudioSetId === audioSets[0].id ? null : audioSets[0].id) : undefined}
                     audioOpen={audioSets.length > 0 && openAudioSetId === audioSets[0].id}
                   >
                     {hasQuestions && questions.length > 1 && (
                       <div className="chapter-question-list unit-card-questions">
+                        {/* C7：英文法は「回を選んで始める」と見出しを付ける（続きから以外の入口が分かりにくかった） */}
+                        {isGrammar && <p className="unit-card-pick-label">回を選んで始める</p>}
+                        {/* C7：英文法の回は「その回だけ」を範囲として渡す。渡さないと単元の通しになり、
+                            5問解いても「次の問題へ」しか出ず結果画面に行けなかった（No.1〜5 → No.6〜 と続いてしまう） */}
                         {questions.map((question, questionIndex: number) => (
-                          <button key={question.id} type="button" onClick={() => onSelectChapter(chapter.id, questionIndex, false)}>
-                            <span>{question.category || `問 ${questionIndex + 1}`}</span>
+                          // C7（2026-10-29）：英文法は「1回（5問）＝1ステージ」。一覧から選んだときも、その回だけを範囲にして始める
+                          //   （範囲なしだと5問終わっても次の回へ進み続け、結果画面・「次の回へ／単元選択／ホーム」が出なかった）
+                          <button key={question.id} type="button" data-round={isGrammar ? questionIndex : undefined} data-cleared={isGrammar && roundCleared[questionIndex] || undefined}
+                            onClick={() => isGrammar
+                              ? onSelectChapter(chapter.id, questionIndex, false, { startIndex: questionIndex, endIndex: questionIndex })
+                              : onSelectChapter(chapter.id, questionIndex, false)}>
+                            {/* 英文法のデータの category は「第1回 No.1〜5 …」と回の番号から始まるので、そのときは「第N回」を足さない（二重表示を防ぐ） */}
+                            <span>{isGrammar && !/^第\d+回/.test(question.category || '') ? `第${questionIndex + 1}回${question.category ? ' ' : ''}` : ''}{question.category || (isGrammar ? '' : `問 ${questionIndex + 1}`)}</span>
+                            {isGrammar && roundCleared[questionIndex] ? <span className="unit-round-done">達成</span> : null}
                             <ChevronRight size={14} aria-hidden="true" />
                           </button>
                         ))}

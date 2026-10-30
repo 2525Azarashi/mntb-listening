@@ -12,9 +12,9 @@
  * 生成方法（手打ちしていない理由）
  *   90問＝選択肢360個・対話530発話を手で書き写すと、
  *   選択肢と正解の対応ズレが必ず混入する。そこで
- *     scripts/parse_listening_q3_pdf.py        … PDF → JSON（突き合わせ検査つき）
- *     scripts/shuffle_listening_q3_options.py  … 正解位置の偏りを均す
- *     scripts/gen_listening_q3_data.py         … JSON → このファイル
+ *     scripts/listening-data/parse_listening_q3_pdf.py        … PDF → JSON（突き合わせ検査つき）
+ *     scripts/listening-data/shuffle_listening_q3_options.py  … 正解位置の偏りを均す
+ *     scripts/listening-data/gen_listening_q3_data.py         … JSON → このファイル
  *   の3段で機械的に生成している。
  *
  * 正解位置を並べ替えている理由

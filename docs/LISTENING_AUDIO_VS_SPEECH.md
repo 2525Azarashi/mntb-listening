@@ -111,7 +111,7 @@ MP3 側は性別順（Speaker 1 = 女性 / Speaker 2 = 男性）に振り直し�
 
 なお TTS 側が指示を無視して入れ替える事故が実際に起きたため
 （`el2_set10_q1`）、録音後に必ず
-`scripts/verify_q2_single_gender.py` で実測確認している。
+`scripts/listening-data/verify_q2_single_gender.py` で実測確認している。
 
 ---
 
@@ -178,7 +178,7 @@ MP3 は全端末で同一。
 grep -c "Question" src/data/englishListeningQ2Problems.ts
 
 # 声の種類・長さの実測
-python3 scripts/verify_q2_single_gender.py
+python3 scripts/listening-data/verify_q2_single_gender.py
 
 # 音源の本数と容量
 ls public/listening_audio/el2_*.mp3 | wc -l

@@ -23,7 +23,14 @@
     },
     "allowImportingTsExtensions": true,
     "noEmit": true,
-    "noUnusedLocals": true
+    "noUnusedLocals": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitOverride": true,
+    "noImplicitThis": true,
+    "alwaysStrict": true,
+    "strictBindCallApply": true,
+    "strictFunctionTypes": true,
+    "useUnknownInCatchVariables": true
   },
   "include": [
     "src/**/*",

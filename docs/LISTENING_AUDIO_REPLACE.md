@@ -229,5 +229,5 @@ PR本文には CLAUDE.md の「リスニング配布判断」4項目が必須（
 `scripts/export-listening-audio-prompts.mts` が全台本・話者・保存名入りのパックを作る（出力は `.delivery/`）。
 その中の保存名（`segments/<chapterId>/<名前>/001.flac`）は、このツールの (B) 形式とそのまま一致する。
 
-**Q. 旧ツール `scripts/concat_listening_audio.sh` は？**
+**Q. 旧ツール `scripts/listening-data/concat_listening_audio.sh` は？**
 第4問B・第5問 問32 の旧配布ZIP専用。新しい音源は `listening-audio.mts` の (B) 形式で結合されるので使わなくてよい。

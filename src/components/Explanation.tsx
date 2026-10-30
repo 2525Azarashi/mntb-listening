@@ -571,6 +571,10 @@ export function Explanation({ mode: initialMode, chapter, answers, onBack, onRet
         <ResultSummaryActions
           onOpenDetail={() => { setResultStep('detail'); setResultPage(firstWrongPage >= 0 ? firstWrongPage : 0); }}
           wrongCount={wrongCount}
+          onNext={onNextChapter}
+          nextLabel={nextChapterTitle ? (/^第\d+回$/.test(nextChapterTitle) ? `次の回へ（${nextChapterTitle}）` : `次の単元へ`) : undefined}
+          onChapters={onBack}
+          onHome={onHome}
         />
       )}
 

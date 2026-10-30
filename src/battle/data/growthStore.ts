@@ -14,6 +14,7 @@ import { applyHolesFilled, applyLoginWithBonus, applyMatchToProgress, applyRushR
 import { GACHA_MULTI_COUNT, GACHA_MULTI_COST, VIDEO_GACHA_DAILY_LIMIT, exchangeShards, matchCoins, rollGacha } from '../core/arenaEconomy';
 import { GACHA_SETS, setProgress } from '../core/gachaSets';
 import { DEFAULT_GACHA_POOL, type GachaPoolId } from '../core/gachaPools';
+import { chapterTitleBadgeId, chapterTitleOf } from '../core/chapterTitles';
 
 /** 抽選の前後で新しく完成したセット（結果画面で「セット完成！」を出す） */
 function newlyCompletedSets(before: GrowthProgress, after: GrowthProgress): string[] {
@@ -60,6 +61,31 @@ function announceMissions(ms: MissionDef[]) {
 export function subscribeMissionComplete(fn: (m: MissionAnnouncement[]) => void): () => void {
   missionListeners.add(fn);
   return () => { missionListeners.delete(fn); };
+}
+
+/**
+ * 章の称号を手に入れたお知らせ（C12）。画面全体のお祝い（ChapterTitleCelebration）が受け取る。
+ */
+export type ChapterTitleAnnouncement = { badgeId: string; label: string; chapterTitle: string };
+const chapterTitleListeners = new Set<(a: ChapterTitleAnnouncement) => void>();
+export function subscribeChapterTitle(fn: (a: ChapterTitleAnnouncement) => void): () => void {
+  chapterTitleListeners.add(fn);
+  return () => { chapterTitleListeners.delete(fn); };
+}
+/** 章の称号を付ける。もう持っていれば何もしない（お祝いも出さない） */
+export async function awardChapterTitle(chapterId: string) {
+  const def = chapterTitleOf(chapterId);
+  if (!def) return null;
+  const badgeId = chapterTitleBadgeId(chapterId);
+  const out = await mutate((p) => {
+    if (badgeId in p.badges) return { next: p, extra: false };
+    return { next: { ...p, badges: { ...p.badges, [badgeId]: Date.now() } }, extra: true };
+  });
+  if (out?.extra) {
+    const a = { badgeId, label: def.label, chapterTitle: def.chapterTitle };
+    for (const fn of chapterTitleListeners) { try { fn(a); } catch { /* isolate */ } }
+  }
+  return out ? { progress: out.next, awarded: out.extra } : null;
 }
 export function subscribeGrowth(fn: (p: GrowthProgress) => void): () => void {
   const uid = scope();
