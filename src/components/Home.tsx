@@ -362,7 +362,7 @@ export function Home({ onPractice, onPickSubject, onStudyMode, onGrowth, onStart
   return (
     <div className="home-lobby home-v2 arena-home game-home h-full min-h-0 relative">
       <div className="home-lobby-lines" aria-hidden="true" />
-      {/* 背景に桜を降らせる（2026-10-04 復活。操作の邪魔をしないよう最背面・pointer-events なし） */}
+      {/* 背景に季節のものを降らせる（D9 2026-10-30：春＝桜・夏＝若葉・秋＝紅葉・冬＝雪。最背面・pointer-events なし） */}
       <SakuraPetals count={14} className="home-sakura" />
       <div className="game-home-viewport">
         <header className="game-home-header">
