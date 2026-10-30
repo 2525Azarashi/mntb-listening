@@ -59,3 +59,36 @@ describe('公開プロフィールの読み込み', () => {
     expect(parsePublicStudyProfile({ public: false, targetSchool: '', studySeconds: 0 })).toBeNull();
   });
 });
+
+import { calDays, encodeCal, parseCal, encodeSubjects, parseSubjects, encodeIds, parseIds, OWNED_IDS_MAX } from '../src/utils/publicProfileCore';
+describe('D6：公開したらマイページ全体（2026-10-30）', () => {
+  it('カレンダーは28日分。足りなければ前を0で埋め、上限で切る', () => {
+    expect(calDays(new Date('2026-10-30T12:00:00').getTime())).toHaveLength(28);
+    const enc = encodeCal([60, 999999]);
+    expect(enc.split(',')).toHaveLength(28);
+    expect(parseCal(enc)?.slice(-2)).toEqual([60, 86400]);
+    expect(parseCal('1,2,3')).toBeNull();
+    expect(parseCal('a'.repeat(5))).toBeNull();
+  });
+  it('教科は多い順・1分未満と形の違うキーは捨てる', () => {
+    const enc = encodeSubjects({ math: 120, eng: 3600, 'BAD KEY': 999, jpn: 30 });
+    expect(enc).toBe('eng:3600,math:120');
+    expect(parseSubjects(enc)).toEqual([{ id: 'eng', sec: 3600 }, { id: 'math', sec: 120 }]);
+    expect(parseSubjects('eng:1;drop')).toEqual([]);
+  });
+  it('IDは形の違うもの・重なりを捨て、上限の長さで止める', () => {
+    expect(encodeIds(['pose_basic', 'pose_basic', 'bad id!', 'frame_x'], 100)).toBe('pose_basic,frame_x');
+    expect(encodeIds(Array.from({ length: 2000 }, (_, i) => `item_${i}`), OWNED_IDS_MAX).length).toBeLessThanOrEqual(OWNED_IDS_MAX);
+    expect(parseIds('a,b_c,<x>', 100)).toEqual([]);
+    expect(parseIds('a,b_c', 100)).toEqual(['a', 'b_c']);
+  });
+  it('公開文書の新しい項目を読む・古い文書は空', () => {
+    const p = parsePublicStudyProfile({ public: true, targetSchool: 'A大', studySeconds: 60, cal: encodeCal([0, 60]), calEnd: '2026-10-30', subj: 'eng:600', ownedIds: 'pose_basic,frame_default', badgeIds: 'b_first_win' });
+    expect(p?.cal?.length).toBe(28);
+    expect(p?.subjects).toEqual([{ id: 'eng', sec: 600 }]);
+    expect(p?.owned).toEqual(['pose_basic', 'frame_default']);
+    expect(p?.badgeIds).toEqual(['b_first_win']);
+    const old = parsePublicStudyProfile({ public: true, targetSchool: 'A大', studySeconds: 60 });
+    expect(old).toMatchObject({ cal: null, subjects: [], owned: [], badgeIds: [] });
+  });
+});
