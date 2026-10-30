@@ -117,8 +117,8 @@
 
 ### 1. 文章側を書き直した6問
 
-`scripts/q2_figure_fixes.py` の `FIXES` に根拠つきで記録し、
-`scripts/fix_q2_text_to_figures.py` が `q2_parsed.json` へ冪等に適用する。
+`scripts/listening-data/q2_figure_fixes.py` の `FIXES` に根拠つきで記録し、
+`scripts/listening-data/fix_q2_text_to_figures.py` が `q2_parsed.json` へ冪等に適用する。
 
 | 問 | 新しい正解 | 書き換えた理由 |
 |---|---|---|

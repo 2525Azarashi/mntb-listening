@@ -11,8 +11,8 @@
  *
  * 生成方法（手打ちしていない理由）
  *   52問を手で書き写すと選択肢と正解の対応ズレが必ず混入する。
- *   scripts/parse_listening_pdf.py で PDF テキストを JSON 化し、
- *   scripts/gen_listening_data.py がこのファイルを生成している。
+ *   scripts/listening-data/parse_listening_pdf.py で PDF テキストを JSON 化し、
+ *   scripts/listening-data/gen_listening_data.py がこのファイルを生成している。
  *   問題文・選択肢・正解・スクリプト・解説はすべて PDF の原文どおり。
  *
  * 音源について
