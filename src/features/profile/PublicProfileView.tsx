@@ -6,15 +6,18 @@
  *   ・マイページの「ほかの人からの見え方」でも同じものを出す（プレビュー）
  *
  * ■ 見せるもの（本人が「プロフィールを公開」にしているときだけ）
+ *   D6（2026-10-30）：その人のマイページ全体＝マイページ・カレンダー・きせかえ・称号・マイPDF の5タブ
  *   とびら君（見た目・レベル）・名前・称号・学年・志望校・志・自己紹介
  *   学習時間（累計・この7日）・7日間の棒グラフ・連続学習・解いた大問・達成ステージ・称号の数
+ *   直近28日のカレンダーと教科ごとの合計（教材名・ひとことは出さない）・持っているアイテム・取った称号・持っているPDFの表紙
  * ■ 見せないもの
  *   実名・メール・在籍校・連絡先・答案の中身・成績
  *
  * 見た目は既存の部品だけで組む（mt-card・ps-stats の数字の札・GrowthAvatar・mt-dialog）。
  */
 import { useState } from 'react';
-import { Clock, Flame, BookOpen, Flag, Award, GraduationCap, School, CalendarDays, Swords } from 'lucide-react';
+import { Clock, Flame, BookOpen, Flag, Award, GraduationCap, School, CalendarDays, Swords, UserRound, Shirt, FileText, Share2 } from 'lucide-react';
+import { PublicBadges, PublicCalendar, PublicOutfit, PublicPrints } from './PublicProfileTabs';
 import { GrowthAvatar } from '../../battle/ui/GrowthParts';
 import { emptyProgress, xpRequiredForLevel, DEFAULT_FRAME, DEFAULT_POSE, itemById, type GrowthProgress } from '../../battle/core/growth';
 import { badgeById } from '../../battle/core/growthBadges';
@@ -81,18 +84,23 @@ export function PublicProfileView({
   const bars = week ? barPercents(week) : [];
   const labels = weekLabels(profile.weekEnd ? new Date(`${profile.weekEnd}T12:00:00`).getTime() : now);
   const progress = lookToProgress(profile, xpForLevel(profile.level));
-  // 低い画面では「プロフィール」「記録」の2枚に分けて、窓の中をスクロールさせない（背の高い画面では両方を並べ、切替は出さない）
-  const [page, setPage] = useState<'about' | 'record' | 'posts'>('about');
+  // ★D6（2026-10-30）公開したら「その人のマイページ全体」★ マイページと同じ5つのタブ（＋フレンドに共有した記録）
+  type Tab = 'about' | 'calendar' | 'outfit' | 'badges' | 'prints' | 'posts';
+  const [page, setPage] = useState<Tab>('about');
   const hasPosts = posts.length > 0;
+  const tabs: [Tab, string, typeof UserRound][] = [['about', 'マイページ', UserRound], ['calendar', 'カレンダー', CalendarDays], ['outfit', 'きせかえ', Shirt], ['badges', '称号', Award], ['prints', 'マイPDF', FileText]];
+  if (hasPosts) tabs.push(['posts', '共有', Share2]);
 
   return (
     <div className="pp-view" data-public-profile-view data-page={page} data-has-posts={hasPosts || undefined}>
-      <div className="pp-switch mt-tabs" role="tablist" aria-label="プロフィールの表示">
-        <button type="button" role="tab" aria-selected={page === 'about'} onClick={() => setPage('about')} data-pp-tab="about">プロフィール</button>
-        <button type="button" role="tab" aria-selected={page === 'record'} onClick={() => setPage('record')} data-pp-tab="record">学習の記録</button>
-        {hasPosts && <button type="button" role="tab" aria-selected={page === 'posts'} onClick={() => setPage('posts')} data-pp-tab="posts">共有した記録</button>}
-      </div>
-      <div className="pp-page" data-pp-page="about">
+      <nav className="pp-tabs" role="tablist" aria-label="プロフィールのタブ" data-pp-tabs={tabs.length}>
+        {tabs.map(([id, label, Icon]) => (
+          <button key={id} type="button" role="tab" aria-selected={page === id} onClick={() => setPage(id)} data-pp-tab={id}>
+            <Icon size={16} aria-hidden="true" /><span>{label}</span>
+          </button>
+        ))}
+      </nav>
+      {page === 'about' && <div className="pp-page pp-page-about" data-pp-page="about">
       <section className="pp-head mt-card" aria-label="プロフィール">
         <GrowthAvatar progress={progress} size={72} showLevel={profile.level != null} />
         <div className="pp-id">
@@ -108,8 +116,6 @@ export function PublicProfileView({
 
       {motto && <p className="pp-motto">「{motto}」</p>}
       {bio && <p className="pp-bio" data-public-bio>{bio}</p>}
-      </div>
-      <div className="pp-page" data-pp-page="record">
 
       <dl className="ps-stats pp-stats">
         <div><dt><Clock size={15} aria-hidden="true" />学習時間</dt><dd>{formatStudyTime(profile.studySeconds)}</dd></div>
@@ -144,8 +150,12 @@ export function PublicProfileView({
           ? 'ほかの人には、この内容が見えます。名前・志望校・志・自己紹介はマイページで直せます。'
           : '学習時間は本人の端末で記録した、演習・解説の時間です。成績や順位を表すものではありません。'}
       </p>
-      </div>
-      {hasPosts && <div className="pp-page" data-pp-page="posts">
+      </div>}
+      {page === 'calendar' && <div className="pp-page" data-pp-page="calendar"><PublicCalendar profile={profile} /></div>}
+      {page === 'outfit' && <div className="pp-page" data-pp-page="outfit"><PublicOutfit profile={profile} base={progress} /></div>}
+      {page === 'badges' && <div className="pp-page" data-pp-page="badges"><PublicBadges profile={profile} /></div>}
+      {page === 'prints' && <div className="pp-page" data-pp-page="prints"><PublicPrints profile={profile} /></div>}
+      {hasPosts && page === 'posts' && <div className="pp-page" data-pp-page="posts">
         <ul className="pp-posts" aria-label="フレンドに共有した学習記録">
           {posts.map(p => <li key={p.id}>
             <span><strong>{subjectLabel(p.subject)}{p.materialName ? `・${displaySafePublicText(p.materialName)}` : ''}</strong>

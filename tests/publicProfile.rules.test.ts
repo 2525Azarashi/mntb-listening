@@ -88,6 +88,15 @@ describe('public_study_profiles（プロフィール拡張）', () => {
     await assertSucceeds(deleteDoc(ref('alice')));
   });
 
+  it('D6：マイページ全体の項目（決まった文字だけ）を載せられる・形が違えば拒否', async () => {
+    const cal = Array.from({ length: 28 }, (_, i) => String(i * 60)).join(',');
+    await assertSucceeds(setDoc(ref('alice'), { ...rich(), cal, calEnd: '2026-10-30', subj: 'eng:600,app:120', ownedIds: 'pose_basic,frame_default', badgeIds: 'b_first_win' }));
+    await assertFails(setDoc(ref('alice'), { ...rich(), cal: '1,2,3' }));
+    await assertFails(setDoc(ref('alice'), { ...rich(), subj: '英語:600' }));
+    await assertFails(setDoc(ref('alice'), { ...rich(), ownedIds: 'https://example.com' }));
+    await assertFails(setDoc(ref('alice'), { ...rich(), badgeIds: 'a'.repeat(3001) }));
+  });
+
   it('ログインしていない人は読めない', async () => {
     await assertSucceeds(setDoc(ref('alice'), rich()));
     await assertFails(getDoc(doc(env.unauthenticatedContext().firestore(), 'public_study_profiles', 'alice')));

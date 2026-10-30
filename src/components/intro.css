@@ -41,16 +41,9 @@
 .intro-credit a { color: var(--mt-brand); text-decoration: underline; }
 @media (max-width: 400px) { .intro-credit dl > div { grid-template-columns: 1fr; gap: 0; } }
 
-.intro-cta { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-.intro-cta button { display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 52px; border-radius: 16px; font: 900 15px/1 var(--mt-font-display); }
-.intro-cta-battle { background: var(--mt-brand); color: #fff; box-shadow: 0 4px 0 #14315f; }
-.intro-cta-home { background: #f6b93b; color: #4a2c00; box-shadow: 0 4px 0 #c98512; }
-.intro-cta button:only-child { grid-column: 1 / -1; }
-.intro-cta button:active { transform: translateY(3px); box-shadow: none; }
-
 @media (max-width: 360px) { .intro-steps { grid-template-columns: 1fr; } }
 @media (min-width: 900px) { .intro-steps { grid-template-columns: repeat(4, minmax(0, 1fr)); } .intro-page { width: min(1000px, 100%); padding-inline: 24px; } }
-@media (prefers-reduced-motion: reduce) { .intro-faq-item > button svg { transition: none; } .intro-cta button:active { transform: none; } }
+@media (prefers-reduced-motion: reduce) { .intro-faq-item > button svg { transition: none; } }
 
 /* 応援してくださっている方（カサニマロさん） */
 .intro-support { padding: 12px 14px; border-radius: 16px; background: linear-gradient(180deg, #fff7e6, var(--mt-bg-card)); box-shadow: inset 0 0 0 1.5px #ecc879; }
