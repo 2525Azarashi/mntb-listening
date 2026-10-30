@@ -471,8 +471,9 @@ export function ChapterSelection({ mode, onSelectChapter, onBack, subject = 'eng
                     onStart={() => isGrammar
                       ? onSelectChapter(chapter.id, nextRound, false, { startIndex: nextRound, endIndex: nextRound })
                       : onSelectChapter(chapter.id, 0, false)}
+                    // C7：英文法の「続きから」は、前にやっていた回をその回の最初の問題（No.1）から始める
                     onResume={() => isGrammar
-                      ? onSelectChapter(chapter.id, savedIndex, true, { startIndex: savedIndex, endIndex: savedIndex })
+                      ? onSelectChapter(chapter.id, savedIndex, false, { startIndex: savedIndex, endIndex: savedIndex })
                       : onSelectChapter(chapter.id, savedIndex, true)}
                     onAudio={audioSets.length > 0 ? () => setOpenAudioSetId(openAudioSetId === audioSets[0].id ? null : audioSets[0].id) : undefined}
                     audioOpen={audioSets.length > 0 && openAudioSetId === audioSets[0].id}
@@ -480,8 +481,14 @@ export function ChapterSelection({ mode, onSelectChapter, onBack, subject = 'eng
                     {hasQuestions && questions.length > 1 && (
                       <div className="chapter-question-list unit-card-questions">
                         {questions.map((question, questionIndex: number) => (
-                          <button key={question.id} type="button" onClick={() => onSelectChapter(chapter.id, questionIndex, false)}>
-                            <span>{question.category || `問 ${questionIndex + 1}`}</span>
+                          // C7（2026-10-29）：英文法は「1回（5問）＝1ステージ」。一覧から選んだときも、その回だけを範囲にして始める
+                          //   （範囲なしだと5問終わっても次の回へ進み続け、結果画面・「次の回へ／単元選択／ホーム」が出なかった）
+                          <button key={question.id} type="button" data-round={isGrammar ? questionIndex : undefined} data-cleared={isGrammar && roundCleared[questionIndex] || undefined}
+                            onClick={() => isGrammar
+                              ? onSelectChapter(chapter.id, questionIndex, false, { startIndex: questionIndex, endIndex: questionIndex })
+                              : onSelectChapter(chapter.id, questionIndex, false)}>
+                            <span>{isGrammar ? `第${questionIndex + 1}回` : ''}{isGrammar && question.category ? ' ' : ''}{question.category || (isGrammar ? '' : `問 ${questionIndex + 1}`)}</span>
+                            {isGrammar && roundCleared[questionIndex] ? <span className="unit-round-done">達成</span> : null}
                             <ChevronRight size={14} aria-hidden="true" />
                           </button>
                         ))}

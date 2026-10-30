@@ -9,7 +9,7 @@
 .gacha-head > h1 { margin: 2px 0 0 !important; font: var(--mt-text-xl) !important; color: var(--mt-ink-warm); }
 .gacha-lead { margin: 2px 0 0; font: var(--mt-text-xs); font-weight: 500; color: var(--mt-ink-2); }
 .gacha-lead b { font-weight: 700; color: var(--mt-ink); }
-.gacha-lead .gacha-ur-lead { color: #7a3e00; }
+.gacha-lead .gacha-ur-lead { color: var(--mt-rare-ur-ink); }
 
 /* 番号つきの小見出し（流れが分かるように） */
 .gacha-step { display: flex; align-items: center; gap: 6px; margin: 0; font: var(--mt-text-md); font-weight: 800; color: var(--mt-ink-warm); }
@@ -17,14 +17,14 @@
 .gacha-step > small { margin-left: auto; font: var(--mt-text-xs); font-weight: 500; color: var(--mt-ink-3); }
 
 /* ① 今回の注目アイテム */
-.gacha-featured { display: flex; flex-direction: column; gap: 6px; padding: 10px; border: 1.5px solid #ead9b4; border-radius: var(--mt-radius-xl); background: linear-gradient(#fffdf6, #fdf3dc); box-shadow: var(--mt-shadow-card); }
+.gacha-featured { display: flex; flex-direction: column; gap: 6px; padding: 10px; border: 1.5px solid #ead9b4; border-radius: var(--mt-radius-xl); background: linear-gradient(var(--mt-bg-card), #fdf3dc); box-shadow: var(--mt-shadow-card); }
 /* UR の目玉：通常より大きく・虹のパステル・金の二重縁（でも動かさない） */
 .gacha-hero { display: flex; align-items: center; gap: 10px; min-height: 84px; padding: 8px 10px; border: 2px solid var(--mt-rare-ur-line); border-radius: var(--mt-radius-lg); background: var(--mt-rare-ur-grad); box-shadow: 0 0 0 3px #fff, 0 3px 0 4px #efd28d; }
 .gacha-hero-art { flex-shrink: 0; display: grid; place-items: center; width: 60px; height: 72px; border-radius: 12px; background: rgba(255, 255, 255, .7); overflow: hidden; }
 .gacha-hero-art .gacha-print-thumb { width: 50px !important; height: 70px !important; }
 .gacha-hero-body { flex: 1; min-width: 0; display: grid; gap: 2px; }
 .gacha-hero-top { display: flex; align-items: center; gap: 6px; }
-.gacha-hero-top > em { font: 800 13px/1.2 var(--mt-font-display); font-style: normal; color: #7a3e00; }
+.gacha-hero-top > em { font: 800 13px/1.2 var(--mt-font-display); font-style: normal; color: var(--mt-rare-ur-ink); }
 .gacha-hero-body > strong { font: 800 15px/1.3 var(--mt-font-display); color: var(--mt-ink-warm); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 .gacha-hero-body > small { font: var(--mt-text-xs); font-weight: 600; color: #6a4a1a; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .gacha-hero-spark { flex-shrink: 0; color: #c8891c; }
@@ -71,7 +71,7 @@
 
 /* ④ 結果：レア度 → アイテム → 名前 → コレクションに追加（C10・C11） */
 .gacha-room .gacha-result { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 14px 12px !important; border-radius: var(--mt-radius-xl); border: 1.5px solid var(--mt-line); background: var(--mt-bg-card); box-shadow: var(--mt-shadow-card); text-align: center; animation: gacha-pop .45s ease-out both; }
-.gacha-room .gacha-result[data-rarity=R] { border-color: var(--mt-rare-r-line); background: linear-gradient(#fffdf6, var(--mt-rare-r-bg)); }
+.gacha-room .gacha-result[data-rarity=R] { border-color: var(--mt-rare-r-line); background: linear-gradient(var(--mt-bg-card), var(--mt-rare-r-bg)); }
 .gacha-room .gacha-result[data-rarity=SR] { border: 2px solid var(--mt-rare-sr-line); background: linear-gradient(#fff, var(--mt-rare-sr-bg)); }
 .gacha-room .gacha-result[data-rarity=UR] { border: 2px solid var(--mt-rare-ur-line); background: var(--mt-rare-ur-grad); box-shadow: 0 0 0 4px #fff, 0 4px 0 6px #efd28d; animation: gacha-pop .45s ease-out both; }
 .gacha-reveal-rarity { display: flex; align-items: center; justify-content: center; gap: 8px; margin: 0; font: 800 18px/1.2 var(--mt-font-display); color: var(--mt-ink-warm); animation: gacha-rise .4s ease-out both; }
@@ -161,7 +161,7 @@
 }
 @media (max-width: 360px) {
   .gacha-hero-top > em { display: none; }
-  .gacha-hero-top::after { content: '今回の目玉'; font: 800 12px/1.2 var(--mt-font-display); color: #7a3e00; }
+  .gacha-hero-top::after { content: '今回の目玉'; font: 800 12px/1.2 var(--mt-font-display); color: var(--mt-rare-ur-ink); }
   .gacha-balance-word { display: none; }
   .gacha-collect-word { display: none; }
   .gacha-room .gacha-balance > b { font-size: 20px; }
@@ -303,7 +303,7 @@
 .gacha-set-list { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; }
 .gacha-set-list > li { display: grid; gap: 6px; padding: 10px 12px; border: 1px solid #e7decb; border-radius: 12px; background: #fffdf8; }
 .gacha-set-list > li[data-done=true] { background: #f1fbef; border-color: #9fd59a; }
-.gacha-set-list strong { display: flex; align-items: center; gap: 6px; color: #3d3222; font: 800 14px/1.3 var(--mt-font-body); }
+.gacha-set-list strong { display: flex; align-items: center; gap: 6px; color: var(--mt-ink-warm); font: 800 14px/1.3 var(--mt-font-body); }
 .gacha-set-list strong small { margin-left: auto; font-size: 12px; color: #6b5a3a; }
 .gacha-set-list em { font-style: normal; font-size: 12px; color: #6b5a3a; }
 .gacha-set-parts { display: flex; gap: 6px; }
@@ -362,7 +362,7 @@
 .gacha-banner-art .gacha-print-thumb { width: 60px !important; height: 82px !important; }
 .gacha-banner-body { flex: 1; min-width: 0; display: grid; gap: 2px; }
 .gacha-banner-top { display: flex; align-items: center; gap: 6px; }
-.gacha-banner-top > em { font: 800 13px/1.2 var(--mt-font-display); font-style: normal; color: #7a3e00; }
+.gacha-banner-top > em { font: 800 13px/1.2 var(--mt-font-display); font-style: normal; color: var(--mt-rare-ur-ink); }
 .gacha-banner-body > strong { font: 800 15px/1.3 var(--mt-font-display); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 .gacha-banner-body > small { font: 700 12px/1.3 var(--mt-font-body); color: #6a4a1a; }
 .gacha-banner-tap { display: inline-flex; align-items: center; gap: 3px; font: 800 12px/1.2 var(--mt-font-body); color: #245e7a; }

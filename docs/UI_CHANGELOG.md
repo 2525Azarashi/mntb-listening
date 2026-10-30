@@ -5,6 +5,22 @@
 
 ---
 
+## 2026-10-29 ご指摘C1〜C7：アイテム詳細の拡大・マイPDFの保存・設定を短く・公開の赤い印・カレンダーの「何を何分」・ミッションの←・英文法の回の終わり（PR: fix/mypage-c）
+
+| # | 何を | どう変えた | ファイル |
+|---|---|---|---|
+| C1 | マイPDFの詳細 | 消えていた「保存する」を詳細の窓に戻した（音声つきは再生ボタンも） | `src/components/MyCollection.tsx` |
+| C2 | アイテムの詳細 | 上に大きな絵（きせかえ＝拡大した姿・PDF＝表紙ページ）、レア度/種類/状態のチップ、名前と短い説明 | `MyCollection.tsx`・`growth-hub.css` |
+| C3 | 設定 | 空の列を削除、「通知・記録」を1枚に、「切り替え／ログアウト」を横並び、余白を詰め行は44px、560px以上は2列。見出し「その他・データ」→「安全・データ」 | `src/components/ProfileModal.tsx`・`profile-settings.css`・`legalText.ts`・`docs/APP_STORE.md`・`docs/app_review/BLOCK_FEATURE_FOR_APPLE.md` |
+| C4 | マイページの「編集」の赤い点 | サーバーに保存された公開状態を見て、非公開のときだけ出す。編集画面の「プロフィールを公開」の行にも赤い印と「いまは非公開です」 | `src/features/studylog/MyStudyCard.tsx`・`src/components/MyProfileCard.tsx`・`growth-hub.css` |
+| C5 | カレンダーの下 | マイページと同じ「教材ごとの色の棒」＋「教材×選んだ日」の何分の表。自分の記録のマスは押すと直せる。改訂前の記録リストは削除 | `src/features/studylog/CalendarTab.tsx`・`manualLogCore.ts`・`studylog.css` |
+| C6 | きょうのミッション | 上に ←（ホームのミッション・ガチャの「コインをためる」から来ても戻れる）。「マナラッシュ／対戦／復習でミッションを進める」と下のもどるを削除 | `src/battle/ui/BattleMissions.tsx`・`growth-hub.css` |
+| C7 | 英文法の演習 | 5問（1回）終わると結果のまとめに「次の回へ（第N回）」「単元選択に戻る」「ホームに戻る」をはっきり出す（「詳しい結果を確認する」は下に控えめに）。一覧から選んだ回もその回だけで終わる。「続きから」は前にやっていた回のNo.1から。一覧は「第N回 …」と「達成」の印 | `src/components/explanation/ResultSummary.tsx`・`Explanation.tsx`・`step-explanation.css`・`ChapterSelection.tsx`・`unit-select.css` |
+
+**戻し方**：C6・C1/C2/C4・C5・C3・C7 は別コミットなので、その1コミットを revert すれば戻る。
+
+---
+
 ## 2026-10-29 ご指摘B1〜B10：ミッション単独画面・プロフィール1画面・称号/持ちものタイル・カレンダーで7日比較・対戦レート ほか（PR: fix/mypage-b10）
 
 | # | 何を | どう変えた | ファイル |

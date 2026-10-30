@@ -98,8 +98,8 @@
 
 /* ===== ガチャのレア枠（N / R / SR） ===== */
 .gacha-rarity { display: inline-flex; align-items: center; justify-content: center; min-width: 26px; padding: 1px 6px; border-radius: 999px; font-size: 10px; font-weight: 900; letter-spacing: .04em; line-height: 1.5; vertical-align: middle; }
-.gacha-rarity[data-rarity=N] { background: #eef1f4; color: #5d6d7e; border: 1px solid #d5dbe1; }
-.gacha-rarity[data-rarity=R] { background: linear-gradient(135deg,#fff3c4,#f2c94c); color: #7a5200; border: 1px solid #d9a92a; }
+.gacha-rarity[data-rarity=N] { background: #eef1f4; color: #5d6d7e; border: 1px solid var(--mt-rare-n-line); }
+.gacha-rarity[data-rarity=R] { background: linear-gradient(135deg,#fff3c4,#f2c94c); color: #7a5200; border: 1px solid var(--mt-rare-r-line); }
 .gacha-rarity[data-rarity=SR] { background: linear-gradient(120deg,#ff6b9d,#ffd93d,#6bcbff,#c77dff); color: #fff; text-shadow: 0 1px 1px #0005; border: 1px solid #fff; box-shadow: 0 0 8px #c77dff99; }
 .gacha-rarity-rates { display: flex; justify-content: center; gap: 8px; margin: 6px 0 0; padding: 0; list-style: none; font-size: 12px; font-weight: 800; }
 .gacha-rarity-rates li { display: inline-flex; align-items: center; gap: 4px; padding: 3px 8px; border-radius: 12px; background: #fff; border: 1px solid #eadfc9; }
@@ -150,9 +150,9 @@
 
 /* ===== 数学の選び方（数ⅠA/ⅡB/ⅢC → 科目 → 分野） ===== */
 .math-nav-levels, .math-nav-courses { display: flex; gap: 6px; }
-.math-nav-levels button { flex: 1; min-height: 44px; border-radius: 14px; border: 2px solid #d5dbe1; background: #fff; font-weight: 900; font-size: 15px; color: #2C3E50; }
+.math-nav-levels button { flex: 1; min-height: 44px; border-radius: 14px; border: 2px solid var(--mt-rare-n-line); background: #fff; font-weight: 900; font-size: 15px; color: #2C3E50; }
 .math-nav-levels button[aria-pressed=true] { background: #2C3E50; border-color: #2C3E50; color: #fff; box-shadow: 0 3px 0 #1b2631; }
-.math-nav-courses button { flex: 1; min-height: 40px; display: flex; align-items: center; justify-content: center; gap: 6px; border-radius: 12px; border: 1px solid #d5dbe1; background: #f8fafc; font-weight: 800; font-size: 13px; color: #34495e; }
+.math-nav-courses button { flex: 1; min-height: 40px; display: flex; align-items: center; justify-content: center; gap: 6px; border-radius: 12px; border: 1px solid var(--mt-rare-n-line); background: #f8fafc; font-weight: 800; font-size: 13px; color: #34495e; }
 .math-nav-courses button small { font-size: 10px; font-weight: 700; color: #8b98a5; }
 .math-nav-courses button[aria-pressed=true] { background: #EAF2F8; border-color: #3498DB; color: #1f618d; }
 .math-nav-courses button[aria-pressed=true] small { color: #2980B9; }
@@ -230,7 +230,7 @@
 .math-stage-heading[data-stage="empty"] { border-color:#D5D8DC; color:#8895A0; }
 .chapter-route .chapter-route-list > .math-stage-heading { margin-left:-24px; padding-left:24px; background:linear-gradient(90deg,#fffdf9,#fffdf900); }
 .chapter-route-card[data-empty="true"] { opacity:.62; }
-.chapter-tab-status { margin-top:3px; align-self:flex-start; border-radius:9999px; padding:1px 6px; font-size:9px; font-weight:800; background:#EEF0F2; color:#7F8C8D; }
+.chapter-tab-status { margin-top:3px; align-self:flex-start; border-radius:9999px; padding:1px 6px; font-size:9px; font-weight:800; background:var(--mt-todo-soft); color:#7F8C8D; }
 .chapter-tab-status[data-ready="true"] { background:#FEF5E7; color:#B9770E; }
 [aria-selected="true"] .chapter-tab-status { background:rgba(255,255,255,.22); color:#fff; }
 

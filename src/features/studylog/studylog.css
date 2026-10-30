@@ -125,7 +125,7 @@
 .mystudy-who p { margin: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 2px 8px; font: 700 12px/1.4 var(--mt-font-body); color: var(--mt-ink-2); }
 .mystudy-who p span { display: inline-flex; align-items: center; gap: 3px; }
 .mystudy-who p b { font: 800 15px/1 var(--mt-font-display); color: var(--mt-ink-warm); }
-.mystudy-title { padding: 0 8px; border: 1px solid #e0c27a; border-radius: 999px; background: #fffdf6; color: #7a5212; font-weight: 800; }
+.mystudy-title { padding: 0 8px; border: 1px solid #e0c27a; border-radius: 999px; background: var(--mt-bg-card); color: #7a5212; font-weight: 800; }
 .mystudy-head > .mt-btn { flex-shrink: 0; align-self: flex-start; min-height: 44px; padding: 0 10px; font-size: 13px; }
 .mystudy-goal { flex-shrink: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 2px 10px; font: 700 12px/1.4 var(--mt-font-body); color: var(--mt-ink-3); }
 .mystudy-goal span { display: inline-flex; align-items: center; gap: 3px; min-width: 0; }
@@ -234,9 +234,6 @@
 /* 記録タブ：日付を押せるので、押せる大きさ（44px）を取る。7列が入るよう左右の余白を少し使う */
 .slog-cal { gap: 2px; margin-inline: -6px; }
 .slog-cal .slog-cell { width: 100%; height: auto; min-height: 44px; border-radius: 8px; font-size: 13px; }
-.slog-picked { display: grid; align-content: start; gap: 6px; padding-top: 4px; }
-.slog-picked > h4 { margin: 0; display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 8px; font: 800 14px/1.4 var(--mt-font-body); color: var(--mt-ink-warm); }
-.slog-picked > h4 small { font: 700 12px/1.4 var(--mt-font-body); color: var(--mt-ink-3); }
 .slog-row[data-app-row] { box-shadow: none; background: var(--mt-brand-soft); }
 /* 2026-10-28 B2：連続・大問・バッジ・対戦の行をやめ、上を詰めて教材の表を広く／B10：7日を左右の矢印で前の週へ */
 .mystudy { gap: 6px; }
@@ -277,3 +274,18 @@
 .slog-compare > .slog-note { margin: 0; font-size: 12px; }
 @media (max-height: 700px) { .slog-bars { height: 92px; } .slog-cal .slog-cell { min-height: 40px; } }
 @media (max-height: 600px) { .slog-bars { height: 74px; } .slog-compare-legend { display: none; } }
+/* 2026-10-29 C5：カレンダーの下＝マイページと同じ「何を何分」。教材ごとの行（色の点・名前・合計）×選んだ日の列。
+   改訂前の「その日の記録リスト（.slog-compare > .slog-bars { flex-shrink: 0; }
+.slog-what { flex: 1; min-height: 0; display: grid; align-content: start; gap: 2px; padding-top: 4px; border-top: 1px solid var(--mt-line); }
+.slog-what-row { position: relative; display: grid; gap: 3px; padding: 5px 0 6px; border-bottom: 1px solid var(--mt-line); }
+.slog-what-row h4 { margin: 0; display: flex; align-items: baseline; gap: 6px; min-width: 0; font: 800 13px/1.35 var(--mt-font-body); color: var(--mt-ink-warm); }
+.slog-what-row h4 > i { flex-shrink: 0; align-self: center; width: 10px; height: 10px; border-radius: 50%; }
+.slog-what-row h4 > span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.slog-what-row h4 > small { flex-shrink: 0; font: 600 12px/1.3 var(--mt-font-body); color: var(--mt-ink-3); }
+.slog-what-row h4 > b { margin-left: auto; flex-shrink: 0; font: 800 14px/1 var(--mt-font-display); color: var(--mt-ink); }
+.slog-what-row > ol { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(var(--cols, 1), minmax(0, 1fr)); gap: 4px; }
+.slog-what-row li > span, .slog-what-row li > button { width: 100%; min-height: 34px; display: grid; place-items: center; padding: 0; border: 0; border-radius: 6px; background: #fff; box-shadow: inset 0 0 0 1px var(--mt-line); font: 800 12px/1.1 var(--mt-font-body); color: var(--mt-ink); }
+.slog-what-row li > button { min-height: 44px; box-shadow: inset 0 0 0 1.5px var(--mt-accent-strong, #c98a1c); }
+.slog-what-row li[data-zero] > span { background: var(--mt-bg-sunken); color: var(--mt-ink-3); font-weight: 600; }
+.slog-what-edit { justify-self: end; min-height: 44px; padding: 0 14px; border: 1px solid var(--mt-line); border-radius: 999px; background: var(--mt-bg-card); color: var(--mt-ink-2); font: 800 13px/1 var(--mt-font-body); }
+.slog-bars li[data-today] span { color: var(--mt-brand); font-weight: 900; }

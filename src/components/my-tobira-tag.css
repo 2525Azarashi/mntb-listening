@@ -6,7 +6,7 @@
   display: inline-flex !important; align-items: center; gap: 6px;
   bottom: -26px; padding: 3px 4px 3px 12px !important;
   border: 1.5px solid #d9c18a; border-radius: 999px;
-  background: linear-gradient(180deg, #fffdf6, #fbefd2) !important;
+  background: linear-gradient(180deg, var(--mt-bg-card), #fbefd2) !important;
   box-shadow: 0 2px 0 #d8bf86, 0 4px 10px rgba(31, 51, 84, .14) !important;
   color: #1f3354 !important; text-shadow: none !important;
   font-size: 12px !important; font-weight: 800; letter-spacing: .06em; line-height: 1.2;
