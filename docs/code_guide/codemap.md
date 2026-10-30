@@ -1,4 +1,4 @@
-# コード地図（文字版）— 2026年10月時点・feat/kobe-yoso-lr @b0f98b4（2026-10-29）
+# コード地図（文字版）— 2026年10月時点・feat/kobe-yoso-lr @10aaab6（2026-10-29）
 
 tools/update.sh が cards.json から作る。1ファイル1行：`パス` — ひとことで（タグ・行数・使われる数）。
 【新】はカード未記入の新しいファイル、【変】は書いたあとに冒頭の説明か export が変わったファイル、【要確認】は役割を確かめきれていないファイル。
@@ -243,7 +243,7 @@ tools/update.sh が cards.json から作る。1ファイル1行：`パス` — �
 - `src/battle/authoring/battleTiming.ts` — 対戦問題1問ごとの制限時間（秒）を見積もる係（データ・67行・使われる1）
 - `src/battle/authoring/questionPrompt.ts` — 対戦で出す問題文を、表示用の形に整える係（データ・123行・使われる1）
 - `src/battle/core/aiOpponent.ts` — AI対戦相手の強さと、いつ何を答えるかを決める係（データ・329行・使われる6）
-- `src/battle/core/arenaEconomy.ts` — 【変】ガチャの値段や重複時に返すコインなどの決まりを持つ係（データ・104行・使われる16）
+- `src/battle/core/arenaEconomy.ts` — 【変】ガチャの値段や重複時に返すコインなどの決まりを持つ係（データ・104行・使われる17）
 - `src/battle/core/arenaRules.ts` — 新しい対戦部屋の点数の付け方と制限時間を決める係（データ・30行・使われる9）
 - `src/battle/core/audioSettings.ts` — 対戦の音の設定の初期値と保存の形を決める係（設定・84行・使われる6）
 - `src/battle/core/battleCore.ts` — 【変】対戦の正誤・得点・勝ち負けを判定する計算の係（データ・601行・使われる11）
@@ -257,9 +257,9 @@ tools/update.sh が cards.json から作る。1ファイル1行：`パス` — �
 - `src/battle/core/friendModes.ts` — フレンド対戦で選べる遊び方の種類を決める係（設定・39行・使われる2）
 - `src/battle/core/gachaFeatured.ts` — ガチャの「今回の注目アイテム」を週ごとに選ぶ係（データ・68行・使われる2）
 - `src/battle/core/gachaSets.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・58行・使われる5）
-- `src/battle/core/growth.ts` — 成長のしくみの入口として、記録の更新をまとめて行う係（データ・768行・使われる48）
+- `src/battle/core/growth.ts` — 成長のしくみの入口として、記録の更新をまとめて行う係（データ・768行・使われる49）
 - `src/battle/core/growthBadges.ts` — バッジ（称号）の一覧と、もらえる条件を判定する係（データ・70行・使われる3）
-- `src/battle/core/growthItems.ts` — 【変】とびら君の装備・ガチャ景品の一覧と、解放や購入を扱う係（データ・349行・使われる1）
+- `src/battle/core/growthItems.ts` — 【変】とびら君の装備・ガチャ景品の一覧と、解放や購入を扱う係（データ・351行・使われる1）
 - `src/battle/core/growthLevel.ts` — 対戦でもらえる経験値の量と、レベルの計算を決める係（データ・107行・使われる4）
 - `src/battle/core/growthMissions.ts` — その日のミッションを選び、達成の進み具合を数える係（データ・273行・使われる1）
 - `src/battle/core/growthTypes.ts` — 成長の記録（教科別成績・日ごとの記録）の形だけを決める係（データ・105行・使われる4）
@@ -468,7 +468,7 @@ tools/update.sh が cards.json から作る。1ファイル1行：`パス` — �
 - `src/utils/vocabGoal.ts` — 志望校と、単語帳の目標（出題範囲）を保存する係（データ・41行・使われる3）
 - `src/utils/webSignInCore.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・239行・使われる3）
 
-## 問題と教材のデータ（75ファイル）
+## 問題と教材のデータ（76ファイル）
 
 - `listening_audio_ledger.json` — リスニング音源374件の出どころと状態を記録する台帳の係（データ・5,612行・使われる0）
 - `public/data/listeningTranslations.json` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（設定・0行・使われる0）
@@ -493,6 +493,7 @@ tools/update.sh が cards.json から作る。1ファイル1行：`パス` — �
 - `src/data/englishListeningQ3Problems.ts` — リスニング第3問（短い対話・1回読み）の類題集を持つ係（データ・5,694行・使われる3）
 - `src/data/englishListeningQ4to6Problems.ts` — リスニング第4問〜第6問の類題集をまとめて持つ係（データ・1,029行・使われる4）
 - `src/data/externalSubjects.ts` — 本体に問題データを持たない外部の教科を登録しておく係（データ・142行・使われる8）
+- `src/data/kobeMockPrints.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・36行・使われる3）
 - `src/data/kyotsuMockAudio.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・55行・使われる4）
 - `src/data/kyotsuMockPrints.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・38行・使われる3）
 - `src/data/listeningPictureAspect.ts` — リスニングのイラストのうち、正方形でない絵の縦横比を持つ係（データ・19行・使われる2）
@@ -612,7 +613,7 @@ tools/update.sh が cards.json から作る。1ファイル1行：`パス` — �
 - `public/化学基礎_フローチャート集.html` — 【要確認】化学基礎のフローチャート集を見せる単体ページだが、使い道が未確認の係（文書・2,561行・使われる0）
 - `public/化学基礎_フローチャート集_v2.html` — 【要確認】化学基礎のフローチャート集の第2版の単体ページだが、使い道が未確認の係（文書・2,561行・使われる0）
 
-## 作る道具（289ファイル）
+## 作る道具（311ファイル）
 
 - `scripts/apply-android-assets.py` — Android版のアイコンと起動画面の画像を差し替える係（音声・画像・79行・使われる0）
 - `scripts/apply-new-icon.py` — 新しいアプリアイコンを、iOS・Web・Androidに配る係（音声・画像・100行・使われる0）
@@ -636,7 +637,7 @@ tools/update.sh が cards.json から作る。1ファイル1行：`パス` — �
 - `scripts/firefly-kit/videos.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・368行・使われる0）
 - `scripts/fix-vocab-meanings.py` — 英単語の意味に残った「第／の」などの表記くずれを直す係（データ・70行・使われる0）
 - `scripts/fix_q2_text_to_figures.py` — 第2問の選択肢の文を、配布PDFのイラストに合わせて直す係（データ・159行・使われる0）
-- `scripts/gacha-prints/README.md` — 【変】ガチャで当たる学習プリントの作り直し方を説明する係（文書・115行・使われる0）
+- `scripts/gacha-prints/README.md` — 【変】ガチャで当たる学習プリントの作り直し方を説明する係（文書・150行・使われる0）
 - `scripts/gacha-prints/analysis_data.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・36行・使われる0）
 - `scripts/gacha-prints/analysis_subjects1.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・58行・使われる0）
 - `scripts/gacha-prints/analysis_subjects2.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・63行・使われる0）
@@ -646,7 +647,7 @@ tools/update.sh が cards.json から作る。1ファイル1行：`パス` — �
 - `scripts/gacha-prints/build-grammar-ur.py` — 学習プリント「英文法 全20単元 総合100題」を作る係（文書・305行・使われる0）
 - `scripts/gacha-prints/build-level-ur.py` — レベル報酬の学習プリント「リスニングの聞き方」を作る係（文書・70行・使われる0）
 - `scripts/gacha-prints/build-listening-book.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・306行・使われる0）
-- `scripts/gacha-prints/build-previews.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・90行・使われる0）
+- `scripts/gacha-prints/build-previews.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・93行・使われる0）
 - `scripts/gacha-prints/build-reading-mock.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・159行・使われる0）
 - `scripts/gacha-prints/build-science-ur.py` — 化学・数学・理科の学習プリント3冊を作り直す係（文書・315行・使われる0）
 - `scripts/gacha-prints/build-vocab-book.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・329行・使われる0）
@@ -659,6 +660,28 @@ tools/update.sh が cards.json から作る。1ファイル1行：`パス` — �
 - `scripts/gacha-prints/idiom_reading/build.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・182行・使われる0）
 - `scripts/gacha-prints/idiom_reading/dump.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・19行・使われる0）
 - `scripts/gacha-prints/idiom_reading/publish.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・45行・使われる0）
+- `scripts/gacha-prints/kobe_mock/check_orig.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・137行・使われる0）
+- `scripts/gacha-prints/kobe_mock/check_quality.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・85行・使われる0）
+- `scripts/gacha-prints/kobe_mock/logo_gray.png` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（音声・画像・430行・使われる0）
+- `scripts/gacha-prints/kobe_mock/logs/originality.json` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（設定・226行・使われる0）
+- `scripts/gacha-prints/kobe_mock/logs/quality.json` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（設定・9行・使われる0）
+- `scripts/gacha-prints/kobe_mock/logs/verify_r1.json` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（設定・114行・使われる0）
+- `scripts/gacha-prints/kobe_mock/logs/verify_r2.json` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（設定・114行・使われる0）
+- `scripts/gacha-prints/kobe_mock/logs/verify_r3.json` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（設定・114行・使われる0）
+- `scripts/gacha-prints/kobe_mock/r1_I.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・194行・使われる0）
+- `scripts/gacha-prints/kobe_mock/r1_II.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・183行・使われる0）
+- `scripts/gacha-prints/kobe_mock/r1_III.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・179行・使われる0）
+- `scripts/gacha-prints/kobe_mock/r1_IV.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・31行・使われる0）
+- `scripts/gacha-prints/kobe_mock/r2_I.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・187行・使われる0）
+- `scripts/gacha-prints/kobe_mock/r2_II.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・184行・使われる0）
+- `scripts/gacha-prints/kobe_mock/r2_III.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・168行・使われる0）
+- `scripts/gacha-prints/kobe_mock/r2_IV.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・31行・使われる0）
+- `scripts/gacha-prints/kobe_mock/r3_I.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・192行・使われる0）
+- `scripts/gacha-prints/kobe_mock/r3_II.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・181行・使われる0）
+- `scripts/gacha-prints/kobe_mock/r3_III.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・181行・使われる0）
+- `scripts/gacha-prints/kobe_mock/r3_IV.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・31行・使われる0）
+- `scripts/gacha-prints/kobe_mock/render.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・454行・使われる0）
+- `scripts/gacha-prints/kobe_mock/verify.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・70行・使われる0）
 - `scripts/gacha-prints/kyotsu_mock/assets/img/kyotsu_l1_q05_pics.jpg` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（音声・画像・728行・使われる0）
 - `scripts/gacha-prints/kyotsu_mock/assets/img/kyotsu_l1_q06_pics.jpg` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（音声・画像・1,020行・使われる0）
 - `scripts/gacha-prints/kyotsu_mock/assets/img/kyotsu_l1_q07_pics.jpg` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（音声・画像・1,013行・使われる0）
@@ -904,7 +927,7 @@ tools/update.sh が cards.json から作る。1ファイル1行：`パス` — �
 - `store-assets/youtube/CHAPTERS.txt` — YouTube 動画の見出し（チャプター）の時刻を並べた係（文書・7行・使われる0）
 - `store-assets/youtube/youtube_16x9.mp4` — YouTube に載せる横長（16:9）の宣伝動画の係（音声・画像・236,072行・使われる0）
 
-## 自動テスト（139ファイル）
+## 自動テスト（140ファイル）
 
 - `functions/core.test.mjs` — サーバー側のクラン集計の計算が正しいかを確かめる係（テスト・57行・使われる0）
 - `functions/integration.test.mjs` — 試験用の環境で、サーバー処理の流れを通して確かめる係（テスト・146行・使われる0）
@@ -967,8 +990,9 @@ tools/update.sh が cards.json から作る。1ファイル1行：`パス` — �
 - `tests/homeBattleRankingPolish.test.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（テスト・39行・使われる0）
 - `tests/homeMascotIdle.test.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（テスト・25行・使われる0）
 - `tests/hookDepsReasons.test.ts` — フックの依存の抑制が増えておらず、理由つきか確かめる係（テスト・34行・使われる0）
+- `tests/kobeMockPrints.test.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（テスト・51行・使われる0）
 - `tests/kyotsuMockAudio.test.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（テスト・46行・使われる0）
-- `tests/kyotsuMockPrints.test.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（テスト・68行・使われる0）
+- `tests/kyotsuMockPrints.test.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（テスト・69行・使われる0）
 - `tests/leaderboard.rules.test.ts` — ランキングのデータを誰が読み書きできるかのルールを確かめる係（テスト・330行・使われる0）
 - `tests/listeningAudioLedger.test.ts` — リスニング音源台帳が374行で重複なく、正しく分かれているか確かめる係（テスト・114行・使われる0）
 - `tests/listeningExplanation.test.ts` — リスニングの解説でスクリプトが最初に出るかなどを確かめる係（テスト・368行・使われる0）
@@ -1082,7 +1106,7 @@ tools/update.sh が cards.json から作る。1ファイル1行：`パス` — �
 - `docs/TOBIRA_MOTION.md` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（文書・32行・使われる0）
 - `docs/TOBIRA_MOTION_PROMPTS.md` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（文書・113行・使われる0）
 - `docs/TOEIC_DESIGN.md` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（文書・126行・使われる0）
-- `docs/UI_CHANGELOG.md` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（文書・410行・使われる0）
+- `docs/UI_CHANGELOG.md` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（文書・422行・使われる0）
 - `docs/UI_REVAMP_2026-09-30.md` — 2026年9月30日のUI見直しで決めたことを記録する係（文書・287行・使われる0）
 - `docs/UI参考_画面と導線.md` — ホームや科目選択の画面と導線の参考をまとめた係（文書・77行・使われる0）
 - `docs/WEB_LOGIN_SAME_ORIGIN.md` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（文書・89行・使われる0）
@@ -1327,7 +1351,7 @@ tools/update.sh が cards.json から作る。1ファイル1行：`パス` — �
 - リスニング第4〜6問の音源と図：`public/listening_q4/、public/listening_q5/、public/listening_q6/` — リスニング第4〜6問の音声と、問題に添える図を持つ係（255ファイル）
 - リスニングのイラスト（第1問B・第2問）：`public/listening_q1b/、public/listening_q2/` — 絵を選ぶ問題（第1問B・第2問）のイラストを持つ係（108ファイル）
 - 音読用の時刻データ群：`public/read_along/listening_audio/、public/read_along/listening_q4/、public/read_along/listening_q5/、public/read_along/listening_q6/` — 音読・ディクテーション用に、単語ごとの時刻を持つ係（374ファイル）
-- ガチャの学習プリント（PDFと縮小画像）：`public/prints/、public/prints/kyotsu_assets/audio/、public/prints/previews/、public/prints/thumbs/` — ガチャで当たる学習プリントのPDFと、その縮小画像を持つ係（216ファイル）
+- ガチャの学習プリント（PDFと縮小画像）：`public/prints/、public/prints/kyotsu_assets/audio/、public/prints/previews/、public/prints/thumbs/` — ガチャで当たる学習プリントのPDFと、その縮小画像を持つ係（240ファイル）
 - 対戦の効果音：`public/sfx/battle/` — 対戦中の正解・不正解などの効果音を、1音1ファイルで持つ係（26ファイル）
 - 対戦BGM：`public/bgm/battle/` — 対戦の待合室と試合中に流すBGMの音源を持つ係（3ファイル）
 - タイトル曲：`public/tanjou.mp3` — アプリ全体で流れるタイトル曲の音源を持つ係（1ファイル）

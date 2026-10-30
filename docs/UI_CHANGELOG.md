@@ -410,3 +410,13 @@
 **戻し方**：`growthItems.ts` の `KOBE_MOCK_PRINTS` の2か所（import・ITEMS・printOf）を消し、`kobeMockPrints.ts`・`public/prints/*kobe*`・`tests/kobeMockPrints.test.ts` を消して `build-previews.py` を流し直す。`tests/kyotsuMockPrints.test.ts` の LR の一覧も共通テストだけに戻す。
 - 同日追記：神戸大 予想問題 PDF の2ページ目以降の上の注記（「マナトビ 予想問題 ／ 神戸大学の過去問・公式問題ではありません（大学とは無関係）」）を削除（表紙と奥付には残す）。表紙右上の「MANATOBI MOCK EXAM SERIES」も削除。`scripts/gacha-prints/kobe_mock/render.py`
 - 同日追記（品質）：神戸大 予想問題の問題データを見直し。過去問・解答との一致（英語4語・日本語13字）を0に、設問文の言い回しも独自のものへ。過去問と同じだった登場人物名（第2回 III）を変更。正解位置を（あ）〜（え）に均等化し、正解だけが長い選択肢を減らした。難語の割合を過去問の平均に近づけ、第3回 III の語数を範囲内に。検査スクリプトは `scripts/gacha-prints/kobe_mock/check_orig.py`・`check_quality.py`・`verify.py`。
+
+## 2026-10-30 ガチャ LR に「大阪大学 前期 英語 予想問題」6種を追加
+
+| 何を | どう変えた | ファイル |
+|---|---|---|
+| ガチャの LR | 共通テスト10種・神戸大6種に、大阪大学 前期 英語 予想問題（第1〜3回 × 問題／解答・解説）の6種を追加。LR の出る割合（1%）は同じで、LR の中で22種に等分 | `src/data/osakaMockPrints.ts`（新規）、`src/battle/core/growthItems.ts` |
+| ピックアップの「中身を少し見る」 | 6種のちら見せ画像を追加 | `public/prints/previews/print_lr_osaka_*`、`src/data/gachaPreviews.generated.ts`、`scripts/gacha-prints/build-previews.py` |
+| PDF | 白黒・A4縦・フォント埋め込み。解説は太字・下線・波下線で強調。表紙と奥付に「大阪大学の過去問・公式問題ではありません。予想問題であり，大学とは関係がありません」。過去問・解答との一致（英語4語・日本語13字）0、難易度は 2022〜2026年度の範囲内 | `public/prints/print_lr_osaka_{q,a}_{1,2,3}.pdf`、`scripts/gacha-prints/osaka_mock/` |
+
+**戻し方**：`growthItems.ts` の `OSAKA_MOCK_PRINTS`（import・ITEMS・printOf の3か所）を消し、`osakaMockPrints.ts`・`public/prints/*osaka*`・`tests/osakaMockPrints.test.ts` を消して `build-previews.py` を流し直す。`tests/kyotsuMockPrints.test.ts` の LR の一覧から `OSAKA_MOCK_PRINTS` を外す。

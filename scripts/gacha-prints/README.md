@@ -125,3 +125,26 @@ for R in 1 2 3; do python3 verify.py $R; done   # 語数・平均文長・難語
 ```
 - 合格の目安：4語以上の一致は（選択肢記号の並びなど意味のないもの以外）0、日本語13字一致 0、題材の近さは過去問どうしの最大値（0.18）未満。
 - 登場人物名も過去問と重ならないようにする（例：第2回 III は過去問の人物名と同じだったため Hazel に変更）。
+
+## LR：大阪大学 前期 英語 予想問題（3回分・白黒）2026-10-30
+
+```bash
+# 必要なもの・フォントは神戸大と同じ（osaka_mock/render.py は kobe_mock/render.py の部品を読み込む。kobe 側を壊さないこと）
+cd scripts/gacha-prints/osaka_mock && for R in 1 2 3; do python3 render.py $R; done
+# → .tmpwork/osaka_mock/manatobi_osaka_eng_yoso{n}_{mondai,kaitou}.pdf
+#   を public/prints/print_lr_osaka_{q,a}_{n}.pdf にコピー → サムネイル（book_common.make_thumb と同じ作り方）
+#   → src/data/osakaMockPrints.ts の pages / kb を合わせる → python3 scripts/gacha-prints/build-previews.py
+```
+- 形式：I 英文和訳(A)(B)／II 長文読解（語句4択・英問4択・字数制限の日本語説明・和訳・英語説明40〜50語・内容一致2つ）／III 自由英作文80語程度／IV 和文英訳(A)全員＋(B)(イ)文学部・(ロ)文学部以外。独自配点 150点（I 30・II 50・III 30・IV 40）。
+- 問題データは `oN_I.py`〜`oN_IV.py`・`oN_II_ja.py`（全訳・語句）（N＝回）。英文・日本文・設問はすべて書き下ろし。
+- 表紙と奥付に「大阪大学の過去問・公式問題ではありません。予想問題であり，大学とは関係がありません」（`tests/osakaMockPrints.test.ts` が確認）。2ページ目以降に注記ヘッダーは付けない。
+- 白黒・強調のルールは神戸大と同じ。
+
+### 阪大 予想問題：品質・オリジナル性の検査（商用利用のため毎回実行）2026-10-30
+
+```bash
+# 照合用の過去問・解答の OCR と分析データを .tmpwork/osaka_ref/{ocr,analysis} に置く（著作物なので git に入れない）。神戸大の .tmpwork/kobe_ref も照合に使う
+cd scripts/gacha-prints/osaka_mock
+python3 check.py 1 2 3     # 英語4語／日本語13字の一致・解説の英文引用の実在・選択肢の重複・○×と正解の一致・題材の近さ（TF-IDF）・正解位置の偏り・正解だけ長い選択肢 → logs/check.json（ng が空であること）
+for R in 1 2 3; do python3 verify.py $R; done   # 語数・平均文長・難語率が 2022〜2026年度の範囲内か、字数・語数の指定どおりか → logs/verify_rN.json（NG なら終了コード1）
+```
