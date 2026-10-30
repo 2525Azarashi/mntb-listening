@@ -99,3 +99,30 @@ python3 scripts/gacha-prints/idiom_reading/publish.py   # 上の6冊を public/p
 ```
 - id：`print_book_idiom_reading_{basic,standard,advanced}`・`print_book_grammar_b4_{bunpo,gohou,kaiwa}`。
 - `src/data/gachaPrints.generated.ts` の末尾（「2026-10-27 UR に追加」）に pages・kb を書く。作り直したら publish.py が出す pages・kb に合わせる（`tests/gachaDeluxe.test.ts` が照合）。
+
+## LR：国公立2次 英語 予想問題 名古屋大学 前期対策（2次試験ガチャ・2026-10-29）
+
+```bash
+# PDF は別リポジトリ（webapp/pdf）で作る：build_round{1,2,3}_{q,a}.py で中身の HTML → build_exam.py で試験冊子の紙面（白黒・解答用紙つき）に組んで PDF 化
+# 問題＋解答解説を1冊にまとめる
+pdfunite 予想問題_名古屋大学_英語_第N回_問題.pdf 予想問題_名古屋大学_英語_第N回_解答解説.pdf public/prints/print_lr_niji_nagoya_en_N.pdf
+# サムネ（thumbs）と「中身を少し見る」画像だけ作り直す（引数に id を渡すとその分だけ）
+python3 scripts/gacha-prints/build-previews.py print_lr_niji_nagoya_en_1 print_lr_niji_nagoya_en_2 print_lr_niji_nagoya_en_3
+# src/data/nijiMockPrints.ts の pages / kb を実物に合わせる（tests/nijiGacha.test.ts が検査）
+```
+
+- 過去問・公式解答・講評の文言は**一切引用しない**（商用アプリのため）。英5語・日12文字の n-gram で過去問OCRと照合して 0 件を確認してから入れる。
+- 表紙と奥付に「名古屋大学の過去問・公式問題ではありません。予想問題であり、大学とは関係がありません」を入れる。「的中」「必ず出る」「合格できる」は使わない。
+
+### 静岡大学 前期対策（2026-10-30 追加）
+
+```bash
+# 中身は webapp/pdf/shizuoka/r{1,2,3}.py（データ）、紙面は build.py（試験冊子・白黒・解答用紙3枚つき）
+python3 build.py            # → 予想問題_静岡大学_英語_第N回_{問題,解答解説}.pdf
+pdfunite 予想問題_静岡大学_英語_第N回_問題.pdf 予想問題_静岡大学_英語_第N回_解答解説.pdf public/prints/print_lr_niji_shizuoka_en_N.pdf
+python3 scripts/gacha-prints/build-previews.py print_lr_niji_shizuoka_en_1 print_lr_niji_shizuoka_en_2 print_lr_niji_shizuoka_en_3
+# src/data/nijiMockPrints.ts の shizuoka(n, pages, kb) を実物に合わせる
+```
+
+- 大問の型（物語文・誤り訂正・評論文・会話文・自由英作文／配点は%）だけを参考にし、英文・設問・解答・表紙の文言はすべて書き下ろし。過去問4年分のOCR文と照合して英5語・日12字の一致0件を確認。
+- 注意書きは大学ごとに出し分ける（`nijiDisclaimerFor(大学名)`）。ほかの大学を足すときは `NIJI_UNIVERSITIES` に1行足す。
