@@ -83,3 +83,26 @@ describe('画面の配線', () => {
     expect((src.match(/<PairedParagraph/g) ?? []).length).toBeGreaterThanOrEqual(2);
   });
 });
+
+describe('重要表現 ↔ 単語帳の番号', async () => {
+  const { READING_VOCAB_LINKS } = await import('../src/data/reading/vocabLinks.generated');
+  const { vocabLinkLabel } = await import('../src/data/reading/vocabLink');
+  const vocab = JSON.parse(readFileSync('public/data/listeningVocabulary.json', 'utf8')).words as { id: string; word: string; level: string }[];
+  it('番号は単語帳と同じ（レベルごとに1から）で、語も一致する', () => {
+    const no = new Map<string, number>(); const cnt: Record<string, number> = {};
+    for (const w of vocab) { cnt[w.level] = (cnt[w.level] ?? 0) + 1; no.set(w.id, cnt[w.level]); }
+    const bad = Object.entries(READING_VOCAB_LINKS).filter(([, l]) => no.get(l.id) !== l.no || vocab.find(w => w.id === l.id)?.word !== l.word);
+    expect(bad).toEqual([]);
+    expect(Object.keys(READING_VOCAB_LINKS).length).toBeGreaterThan(50);
+  });
+  it('意味の違う表現をつながない（take place ≠ take one\'s place）', () => {
+    expect(READING_VOCAB_LINKS['take place']?.word ?? 'take place').toBe('take place');
+    expect(READING_VOCAB_LINKS['without thinking']).toBeUndefined();
+  });
+  it('札は「熟語6割 No.693」の形', () => {
+    expect(vocabLinkLabel({ id: 'x', level: 'ilv1', no: 693, word: 'a great deal' })).toBe('熟語6割 No.693');
+  });
+  it('解説の重要表現に札を出す配線', () => {
+    expect(readFileSync('src/components/ReadingQuiz.tsx', 'utf8')).toContain('rq-vocab-no');
+  });
+});

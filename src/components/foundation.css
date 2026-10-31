@@ -589,3 +589,6 @@
 .rq-pair-hints b { display: inline-block; margin-right: 6px; padding: 0 6px; border-radius: 99px; background: #7a5bbf; color: #fff; font: 800 12px/1.6 'Inter', var(--mt-font-body); }
 .rq-pair-para { display: block; margin: 0 0 4px; font: 800 12px/1.4 var(--mt-font-body); color: #14315f; }
 .rq-ja-all ol.rq-pairs { padding: 0; }
+
+/* 2026-10-31 英文解釈の重要表現に、単語帳の番号（熟語6割 No.693 など）を添える */
+.rq-ex-phrases .rq-vocab-no { margin-left: 6px; padding: 0 7px; border-radius: 99px; background: var(--mt-done-soft); color: var(--mt-done); font: 800 12px/18px var(--mt-font-body); white-space: nowrap; }

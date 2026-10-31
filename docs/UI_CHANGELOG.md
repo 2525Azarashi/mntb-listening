@@ -19,6 +19,7 @@
 | E9 | 英文法の音声 | 画面は変更なし。音源が届いた問題だけ音声に合わせた表示になる下準備（名簿 `grammarAudioManifest.ts`。いまは空＝今までどおり音声合成） | `data/grammarAudioManifest.ts`（新規）・`data/englishGrammarKit.ts`・`scripts/readalong/dump_tracks.ts` |
 | E10 | 英文解釈の和訳 | 段落まるごとの全訳 → 英文→和訳→英文→和訳 の1文ずつ。入試頻出の構文（not A but B・so ~ that・非制限用法など）に札と読み方。根拠の文は黄色 | `utils/readingAlign.ts`（新規）・`ReadingQuiz.tsx`・`foundation.css` |
 | E11 | リスニングの回の一覧 | 第1回の上に、青系の「読み方・解き方のテクニック」（開閉式。どこを見る／先読み／できる人がやっていること／よくある悩み） | `data/listeningTechniques.ts`（新規）・`ListeningTechniqueCard.tsx`（新規）・`ChapterSelection.tsx`・`unit-select.css` |
+| E12 | 英文解釈の重要表現 | 単語帳にある表現（84件）に、単語帳と同じ番号の札（例「熟語6割 No.693」）を添える。語の並びが完全に同じものだけ | `data/reading/vocabLink.ts`（新規）・`data/reading/vocabLinks.generated.ts`（新規）・`scripts/reading/match_vocab.py`（新規）・`ReadingQuiz.tsx`・`foundation.css` |
 
 **戻し方**：E1〜E11 はそれぞれ別コミット（E5/E6 は1コミット）なので、その1コミットを revert すれば戻る。firestore.rules の変更はなし（再デプロイ不要）。
 

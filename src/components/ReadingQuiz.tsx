@@ -13,6 +13,7 @@ import {
 } from '../data/reading';
 import { paragraphJa } from '../data/reading/ja';
 import { pairParagraph, structureHints } from '../utils/readingAlign';
+import { vocabLinkLabel, vocabLinkOf } from '../data/reading/vocabLink';
 
 /**
  * 英文解釈（段落ごとに読む・内容一致の4択）2026-10-21
@@ -199,7 +200,7 @@ export function ReadingQuiz({ uid }: { uid: string }) {
             <p className="rq-ex-text">{q.explanation}</p>
             {q.point && <p className="rq-ex-point"><b>構文</b>{q.point}</p>}
             <p className="rq-ex-exam" data-reading-exam><GraduationCap size={15} aria-hidden="true" /><span><b>{note.where}</b>{note.tip}</span></p>
-            {phrases.length > 0 && <ul className="rq-ex-phrases" aria-label="この段落の重要表現">{phrases.map(([en, ja]) => <li key={en}><b lang="en">{en}</b>{ja}</li>)}</ul>}
+            {phrases.length > 0 && <ul className="rq-ex-phrases" aria-label="この段落の重要表現">{phrases.map(([en, ja]) => { const link = vocabLinkOf(en); return <li key={en}><b lang="en">{en}</b>{ja}{link && <span className="rq-vocab-no" data-vocab-link={link.id} title={`単語帳の ${link.word}`}>{vocabLinkLabel(link)}</span>}</li>; })}</ul>}
           </div>}
         </div>
       </div>
