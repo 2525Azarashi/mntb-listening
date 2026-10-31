@@ -462,3 +462,16 @@
 .gacha-reveal[data-tease] .gacha-reveal-rays { animation-duration: 1s; }
 @keyframes gacha-meter-tease { 0% { background: #ffffff33; box-shadow: none; } 100% { background: #ffffffcc; box-shadow: 0 0 10px #fff; } }
 @media (prefers-reduced-motion: reduce) { .gacha-reveal-meter li[data-tease] { animation: none; } }
+
+/* ★E2（2026-10-30）目玉の枠を順に回す★ 今週の目玉 → ピックアップの LR → UR。
+   見せる → .45秒でフェードアウト（少し沈む）→ 次の物が下からフェードイン。下に小さな点で今どれか */
+.gacha-banner-swap { position: relative; z-index: 1; display: flex; align-items: center; gap: 10px; flex: 1; min-width: 0; transition: opacity .45s ease, translate .45s ease, filter .45s ease; }
+.gacha-banner-hero[data-hero-fading] .gacha-banner-swap { opacity: 0; translate: 0 6px; filter: blur(2px); }
+.gacha-banner-dots { position: absolute; right: 10px; bottom: 6px; z-index: 3; display: flex; gap: 4px; pointer-events: none; }
+.gacha-banner-dots i { width: 6px; height: 6px; border-radius: 50%; background: #0000002b; transition: width .3s ease, background .3s ease; }
+.gacha-banner-dots i[data-on] { width: 14px; border-radius: 99px; background: var(--glow, #f2c14e); }
+@media (prefers-reduced-motion: no-preference) {
+  .gacha-banner-swap { animation: gacha-hero-in .55s var(--mo-ease-out, ease-out) both; }
+  @keyframes gacha-hero-in { from { opacity: 0; translate: 0 -8px; filter: blur(3px); } }
+}
+@media (prefers-reduced-motion: reduce) { .gacha-banner-swap { transition: none; } }
