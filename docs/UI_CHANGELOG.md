@@ -5,6 +5,17 @@
 
 ---
 
+## 2026-10-31 2次試験ガチャの大当たりに和歌山大学・岡山大学・広島大学を追加（PR: feat/niji-wakayama-okayama-hiroshima）
+
+| # | どこ | 変更 | ファイル |
+|---|---|---|---|
+| 1 | 2次試験ガチャの LR | 国公立2次 英語 予想問題 和歌山大学・岡山大学・広島大学 前期対策を各3回、計9冊追加（3大学とも全学部共通の問題なので学部別の出し分けなし） | `src/data/nijiMockPrints.ts`・`public/prints/print_lr_niji_{wakayama,okayama,hiroshima}_en_{1,2,3}.pdf`・thumbs・previews・`src/data/gachaPreviews.generated.ts` |
+| 2 | ピックアップの説明文 | 収録大学に3大学を追加 | `src/battle/core/gachaPools.ts`・`nijiMockPrints.ts`（`NIJI_DISCLAIMER` は自動で3大学を含む） |
+
+**戻し方**：`nijiMockPrints.ts` の `wakayama`/`okayama`/`hiroshima` の行（`NIJI_UNIVERSITIES` の3行・ヘルパー3行・台帳9行）を消し、`gachaPools.ts` の lrNote と `build-previews.py` の正規表現を元に戻す。PDF・画像は消してよい。
+
+---
+
 ## 2026-10-30 2次試験ガチャの大当たりに大阪公立大学（A・Bグループ）を追加（PR: feat/niji-osaka）
 
 | # | どこ | 変更 | ファイル |

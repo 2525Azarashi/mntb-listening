@@ -5,6 +5,9 @@
  *   - 静岡大学 前期対策（2026-10-30 追加）：大問1〜5（物語文・誤り訂正・評論文・会話文・自由英作文）・80分・配点は%。3回分。
  *   - 大阪公立大学 前期対策（2026-10-30 追加）：長文2題＋和文英訳・100分・100点。第1・2問は全学部共通、
  *     第3問（和文英訳）だけ学部・学域で2系統に分かれるため、Aグループ用・Bグループ用を各3回分（計6冊）。
+ *   - 和歌山大学 前期対策（2026-10-31 追加）：大問Ⅰ〜Ⅲ（長文2題＋グラフ英作文）・90分・100点。全学部共通。3回分。
+ *   - 岡山大学 前期対策（2026-10-31 追加）：問1〜問4（長文2題・会話文/和文英訳・自由英作文）・120分・200点。全学部共通。3回分。
+ *   - 広島大学 前期対策（2026-10-31 追加）：大問Ⅰ〜Ⅳ（段落要約・関連2文の長文・意見英作文・グラフ英作文）・120分・200点。全学部共通。3回分。
  *   ★過去問ではない★ 英文・設問・図表・解答はすべて書き下ろし。過去問・解答速報・講評の文章は引用していない
  *   （英語5語以上・日本語12字以上の連続一致がないことを機械で確認済み）。表紙と奥付に「大学とは関係がない」旨を明記。
  *
@@ -21,6 +24,9 @@ export const NIJI_UNIVERSITIES = [
   { id: 'shizuoka', name: '静岡大学', track: '' },
   { id: 'omua', name: '大阪公立大学', track: 'Aグループ（文・法・経済・商・獣医・医学科・生活科学）' },
   { id: 'omub', name: '大阪公立大学', track: 'Bグループ（現代システム科学域・理・工・農・リハビリ・看護）' },
+  { id: 'wakayama', name: '和歌山大学', track: '' },
+  { id: 'okayama', name: '岡山大学', track: '' },
+  { id: 'hiroshima', name: '広島大学', track: '' },
 ] as const;
 export type NijiUniversityId = (typeof NIJI_UNIVERSITIES)[number]['id'];
 
@@ -41,6 +47,9 @@ const nagoya = (n: number, pages: number, kb: number) => mock('nagoya', n, pages
 const shizuoka = (n: number, pages: number, kb: number) => mock('shizuoka', n, pages, kb);
 const omua = (n: number, pages: number, kb: number) => mock('omua', n, pages, kb);
 const omub = (n: number, pages: number, kb: number) => mock('omub', n, pages, kb);
+const wakayama = (n: number, pages: number, kb: number) => mock('wakayama', n, pages, kb);
+const okayama = (n: number, pages: number, kb: number) => mock('okayama', n, pages, kb);
+const hiroshima = (n: number, pages: number, kb: number) => mock('hiroshima', n, pages, kb);
 
 export const NIJI_MOCK_PRINTS: readonly GachaPrintDef[] = [
   nagoya(1, 28, 2026),
@@ -55,6 +64,15 @@ export const NIJI_MOCK_PRINTS: readonly GachaPrintDef[] = [
   omub(1, 26, 1971),
   omub(2, 24, 1968),
   omub(3, 25, 1992),
+  wakayama(1, 22, 1949),
+  wakayama(2, 22, 1930),
+  wakayama(3, 22, 1939),
+  okayama(1, 25, 1954),
+  okayama(2, 24, 1881),
+  okayama(3, 24, 1937),
+  hiroshima(1, 23, 1898),
+  hiroshima(2, 23, 1928),
+  hiroshima(3, 23, 1909),
 ];
 
 /** その大学の予想問題に必ず添える注意書き（PDF の表紙・奥付と同じ文） */
