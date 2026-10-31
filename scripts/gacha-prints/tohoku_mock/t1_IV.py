@@ -7,7 +7,7 @@ PASSAGE = [
 ]
 
 QUESTIONS = [
- {'no': 1, 'points': 24, 'kind': 'trans_en', 'stem': '下線部(1)を英語に訳しなさい。',
+ {'no': 1, 'points': 24, 'kind': 'trans_en', 'stem': '下線部(1)を英文にせよ。',
   'source': 'しかし，雑談がまったくない集団では，困ったことがあっても誰にも相談できず，小さな問題が大きくなるまで放っておかれることが少なくない。',
   'answer': 'However, in groups where there is no small talk at all, people often have no one to consult when they are in trouble, and small problems are frequently left alone until they become serious.',
   'alts': ['In a group whose members never chat with each other, however, people with difficulties often cannot ask anyone for advice, and minor problems are often ignored until they grow large.'],
@@ -20,7 +20,7 @@ QUESTIONS = [
               '「放っておかれる」は受動態 be left alone / be ignored / be neglected。until 節の中は現在形（become / grow）。',
               '「相談できない」は no one to consult（不定詞の形容詞的用法）が簡潔。consult with を使うなら have no one to consult with。']},
  {'no': 2, 'points': 13, 'kind': 'order_en',
-  'stem': '下線部(2)を次のように英語に訳すとき，最も適切な英文となるように，(A)〜(J)の中から8つを選んで並べ替え，空欄( ① )( ② )( ③ )に入るものを記号で答えなさい。同じ選択肢を二度使ってはならない。',
+  'stem': '下線部(2)を下のような英文で表すとき，(A)〜(J)から8つを選んで正しく並べ，空所( ① )( ② )( ③ )にくるものの記号を書け。各選択肢は一度ずつ用いること。',
   'pre': 'In fact,', 'post': 'every day is not that difficult.',
   'options': ['admitting', 'failures', 'people', 'talk', 'to', 'our', 'whom', 'we', 'which', 'with'],
   'correct': ['A', 'F', 'B', 'E', 'C', 'H', 'D', 'J'], 'marks': {'2': '①', '5': '②', '7': '③'},
@@ -29,7 +29,7 @@ QUESTIONS = [
               'whom を使うと9語必要になり，which は人を先行詞にとれないので，この2つが不要。',
               '① our (F)・② people (C)・③ talk (D)。']},
  {'no': 3, 'points': 13, 'kind': 'order_en',
-  'stem': '下線部(3)を次のように英語に訳すとき，最も適切な英文となるように，(A)〜(J)の中から8つを選んで並べ替え，空欄( ① )( ② )( ③ )に入るものを記号で答えなさい。同じ選択肢を二度使ってはならない。',
+  'stem': '下線部(3)を下のような英文で表すとき，(A)〜(J)から8つを選んで正しく並べ，空所( ① )( ② )( ③ )にくるものの記号を書け。各選択肢は一度ずつ用いること。',
   'pre': 'What matters is not making small talk an obligation but', 'post': 'to speak to others.',
   'options': ['an', 'anyone', 'atmosphere', 'feels', 'free', 'in', 'keeping', 'what', 'which', 'whom'],
   'correct': ['G', 'A', 'C', 'F', 'I', 'B', 'D', 'E'], 'marks': {'1': '①', '4': '②', '7': '③'},

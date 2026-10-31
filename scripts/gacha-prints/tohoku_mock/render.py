@@ -71,8 +71,8 @@ H_CSS = hk.H_CSS + """
 .opts10 { display: grid; grid-template-columns: repeat(5, 1fr); font-family: 'Noto Serif'; font-size: 10pt; line-height: 1.8; margin: 1mm 0 0 12mm; }
 .jpas p { font-family: 'Noto Serif CJK JP'; text-indent: 1em; font-size: 10.3pt; line-height: 1.95; margin: 0; }
 .ftab { border-collapse: collapse; margin: 1.5mm 0 1mm 12mm; font-size: 9.6pt; width: 150mm; }
-.ftab td, .conv .ln { grid-template-columns: 37mm 1fr; }
-.ftab th { border: .6pt solid #000; padding: 1.2mm 2mm; vertical-align: top; }
+.conv .ln { grid-template-columns: 37mm 1fr; }
+.ftab td, .ftab th { border: .6pt solid #000; padding: 1.2mm 2mm; vertical-align: top; }
 .ftab th { background: #eee; font-family: 'Noto Sans CJK JP'; font-weight: 700; }
 """
 
