@@ -196,3 +196,26 @@ cd scripts/gacha-prints/ritsu_mock
 python3 check.py 1 2 3     # 英語4語／日本語13字の一致・登場人物名の重複・解説の英文引用の実在・空所/下線の対応・会話10択・正解位置の偏り・正解だけ長い選択肢・題材の近さ → logs/check.json（ng が空であること）
 for R in 1 2 3; do python3 verify.py $R; done   # 長文の語数・平均文長・難語率が 2022〜2026年度の範囲内か、会話文の語数、語彙問題の難しさ → logs/verify_rN.json（NG なら終了コード1）
 ```
+
+## LR：北海道大学 前期日程 英語（全学部共通）予想問題（3回分・白黒）2026-10-31
+
+```bash
+# 必要なもの・フォントは神戸大と同じ（hokudai_mock/render.py は kobe_mock/render.py の部品を読み込む。kobe 側を壊さないこと）
+cd scripts/gacha-prints/hokudai_mock && for R in 1 2 3; do python3 render.py $R; done
+# → .tmpwork/hokudai_mock/manatobi_hokudai_eng_yoso{n}_{mondai,kaitou}.pdf
+#   を public/prints/print_lr_hokudai_{q,a}_{n}.pdf にコピー → サムネイル（book_common.make_thumb と同じ作り方）
+#   → src/data/hokudaiMockPrints.ts の pages / kb を合わせる → python3 scripts/gacha-prints/build-previews.py
+```
+- 形式：1・2 長文読解（下線部和訳・空所補充・内容説明（字数指定）・書き抜き・内容一致）／3 英文＋英語で答える問題（Question A・B 文の完成，C 意見 70〜100語）／4 会話文と要約文（空所12・語群21語）。90分。独自配点 150点（1 42・2 42・3 42・4 24）。
+- 問題データは `hN_P1.py`〜`hN_P4.py`（N＝回）。選択問題は `mk.mc1()` で「正解を choices[0] に書き，解説では {c1}〜 で他の選択肢を指す」形で書くと，回ごとに正解位置が均等にずれる（`mk.pos_for(N)`）。
+- 表紙と奥付に「北海道大学の過去問・公式問題ではありません。予想問題であり，大学とは関係がありません」（`tests/hokudaiMockPrints.test.ts` が確認）。2ページ目以降に注記ヘッダーは付けない。登場人物・団体・地名は架空。
+- 分析に使った過去問：2025・2026年度は大学公式サイトの公開分（問題・解答例・出題の意図），2022〜2024年度は公開PDF。どちらも照合用 OCR として `.tmpwork/hokudai_ref/` に置くだけで，本文・設問・解答は引用しない。
+
+### 北大 予想問題：品質・オリジナル性の検査（商用利用のため毎回実行）2026-10-31
+
+```bash
+# 照合用の過去問・解答例の OCR と分析データを .tmpwork/hokudai_ref/{ocr,analysis} に置く（著作物なので git に入れない）。神戸大・阪大・立命館の ref も照合に使う
+cd scripts/gacha-prints/hokudai_mock
+python3 check.py 1 2 3     # 英語4語／日本語13字の一致・登場人物名の重複・解説の英文引用の実在・下線/空所の番号と設問の対応・要約の空所と語群・○×と正解の一致・正解位置の偏り・正解だけ長い選択肢・題材の近さ・render.py の固定文言 → logs/check.json（ng が空であること）
+for R in 1 2 3; do python3 verify.py $R; done   # 大問ごとの語数・平均文長・難語率が 2022〜2026年度の範囲内か、字数制限・意見英作文の語数 → logs/verify_rN.json（NG なら終了コード1）
+```

@@ -137,6 +137,30 @@ export const GACHA_PREVIEWS: Readonly<Record<string, readonly string[]>> = {
     "/prints/previews/print_lr_ritsu_a_3_p2.webp",
     "/prints/previews/print_lr_ritsu_a_3_p8.webp"
   ],
+  "print_lr_hokudai_q_1": [
+    "/prints/previews/print_lr_hokudai_q_1_p2.webp",
+    "/prints/previews/print_lr_hokudai_q_1_p8.webp"
+  ],
+  "print_lr_hokudai_a_1": [
+    "/prints/previews/print_lr_hokudai_a_1_p2.webp",
+    "/prints/previews/print_lr_hokudai_a_1_p11.webp"
+  ],
+  "print_lr_hokudai_q_2": [
+    "/prints/previews/print_lr_hokudai_q_2_p2.webp",
+    "/prints/previews/print_lr_hokudai_q_2_p8.webp"
+  ],
+  "print_lr_hokudai_a_2": [
+    "/prints/previews/print_lr_hokudai_a_2_p2.webp",
+    "/prints/previews/print_lr_hokudai_a_2_p10.webp"
+  ],
+  "print_lr_hokudai_q_3": [
+    "/prints/previews/print_lr_hokudai_q_3_p2.webp",
+    "/prints/previews/print_lr_hokudai_q_3_p8.webp"
+  ],
+  "print_lr_hokudai_a_3": [
+    "/prints/previews/print_lr_hokudai_a_3_p2.webp",
+    "/prints/previews/print_lr_hokudai_a_3_p10.webp"
+  ],
   "print_book_listening_all": [
     "/prints/previews/print_book_listening_all_p2.webp",
     "/prints/previews/print_book_listening_all_p40.webp"

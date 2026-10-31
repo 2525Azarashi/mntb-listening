@@ -522,3 +522,10 @@
 | PDF | 白黒・A4縦・フォント埋め込み・マーク式解答用紙つき。解説は太字・下線・波下線で強調。表紙と奥付に「立命館大学の過去問・公式問題ではありません。予想問題であり，大学とは関係がありません」。過去問・解答との一致（英語4語・日本語13字）0、登場人物名の重複0、難易度は 2022〜2026年度の範囲内 | `public/prints/print_lr_ritsu_{q,a}_{1,2,3}.pdf`、`scripts/gacha-prints/ritsu_mock/` |
 
 **戻し方**：`growthItems.ts` の `RITSU_MOCK_PRINTS`（import・ITEMS・printOf の3か所）を消し、`ritsuMockPrints.ts`・`public/prints/*ritsu*`・`tests/ritsuMockPrints.test.ts` を消して `build-previews.py` を流し直す。`tests/kyotsuMockPrints.test.ts` の LR の一覧から `RITSU_MOCK_PRINTS` を外す。
+
+### 2026-10-31 2次試験ガチャ LR に北海道大学 前期 英語 予想問題を追加
+
+| 場所 | 変更 | ファイル |
+|---|---|---|
+| 2次試験ガチャの LR | 北海道大学 前期日程 英語（全学部共通）予想問題（第1〜3回 × 問題／解答・解説）の6種を追加。2次試験ガチャの LR は36種に等分（LR の割合 1% は同じ）。共通テストガチャには出ない | `src/data/hokudaiMockPrints.ts`（新規）、`src/battle/core/growthItems.ts`、`src/battle/core/gachaPools.ts` |
+| 2次試験ガチャの表示 | LR の説明文とピックアップの注意書きに北海道大学を追加。北大の景品の詳細にも大学名入りの「過去問・公式問題ではありません」の注意書きを出す | `src/battle/core/gachaPools.ts`、`src/data/nijiMockPrints.ts` |

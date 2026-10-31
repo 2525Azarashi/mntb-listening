@@ -43,6 +43,9 @@ def lr_ids() -> list[str]:
     src = (ROOT / 'src/data/ritsuMockPrints.ts').read_text()
     for kind, n in re.findall(r'\b([qa])\((\d), \d+, \d+\)', src):
         out.append(f'print_lr_ritsu_{kind}_{n}')
+    src = (ROOT / 'src/data/hokudaiMockPrints.ts').read_text()
+    for kind, n in re.findall(r'\b([qa])\((\d), \d+, \d+\)', src):
+        out.append(f'print_lr_hokudai_{kind}_{n}')
     return out
 
 
