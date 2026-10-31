@@ -312,13 +312,13 @@ export function ToeicPageQuiz({
 
   const forwardLabel = !pageScored ? 'このページを採点する' : !isLastPage ? '次のページ' : hasNextRound ? '次の回へ' : '結果を見る';
   const pageElapsedSec = Math.max(0, elapsedSec - Math.floor(pageStartRef.current));
-  const pagePaceStatus = pageElapsedSec < pageBudget.targetSec
-    ? `予定より ${formatToeicBudgetDelta(pageBudget.targetSec - pageElapsedSec)} 早い`
-    : pageElapsedSec === pageBudget.targetSec
-      ? '予定どおり'
-      : pageElapsedSec <= guidePageLimitSec
-        ? '余白を使用中'
-        : '少し遅れ';
+  const pagePaceStatus = pageElapsedSec > guidePageLimitSec
+    ? '少し遅れ'
+    : pageElapsedSec < pageBudget.targetSec
+      ? `予定より ${formatToeicBudgetDelta(pageBudget.targetSec - pageElapsedSec)} 早い`
+      : pageElapsedSec === pageBudget.targetSec
+        ? '予定どおり'
+        : '余白を使用中';
   const totalSlackSec = pageBudgets[pageBudgets.length - 1]?.targetRemainingSec ?? 0;
   const totalSlackLabel = totalSlackSec >= 0
     ? `全体の余白 ${formatToeicBudgetTime(totalSlackSec)}`
