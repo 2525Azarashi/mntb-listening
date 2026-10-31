@@ -451,3 +451,14 @@
 /* 2026-10-29 カルーセル内の文字を12px以上に（既存の .gacha-odds-toggle 11px / サムネ帯 8px を上書き） */
 .gacha-carousel-wrap .gacha-chip.gacha-odds-toggle, .gacha-slide .gacha-chip.gacha-odds-toggle { font-size: 12px; }
 .gacha-slide .gacha-print-thumb em { display: none; } /* 題名は横に全文あるので帯ラベルは省く */
+
+/* ★E1（2026-10-30）確定演出の溜め★
+   ・ゲージは毎回5本。まだ光っていない段は暗いまま（最初から結果が分からないように）
+   ・最後の段のあと、次の1本だけ白く点滅して「さらに上…？」と溜める。色は付けない（実際より上のレア度は見せない）
+   ・溜めの間はとびらが小刻みに震え、光の筋が速く回る */
+.gacha-reveal-meter li[data-tease] { background: #ffffff55; animation: gacha-meter-tease .18s steps(2, jump-none) infinite; }
+.gacha-reveal-caption[data-tease] { letter-spacing: .12em; }
+.gacha-reveal[data-tease] .gacha-reveal-orb { animation: gacha-orb-pulse .25s ease-in-out infinite, gacha-orb-shake .09s linear infinite; }
+.gacha-reveal[data-tease] .gacha-reveal-rays { animation-duration: 1s; }
+@keyframes gacha-meter-tease { 0% { background: #ffffff33; box-shadow: none; } 100% { background: #ffffffcc; box-shadow: 0 0 10px #fff; } }
+@media (prefers-reduced-motion: reduce) { .gacha-reveal-meter li[data-tease] { animation: none; } }
