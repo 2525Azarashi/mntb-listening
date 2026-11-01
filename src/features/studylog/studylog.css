@@ -342,7 +342,11 @@
    - 教材の行は上から順にふわっと出る */
 .mystudy-bars li[data-best] small { color: var(--mt-accent-strong); font-weight: 900; }
 .mystudy-bars li[data-best] .bar { position: relative; overflow: visible; box-shadow: 0 0 0 2px var(--mt-accent-soft); }
-.mystudy-bars li[data-best] .bar::before { content: ''; position: absolute; left: 50%; top: -9px; width: 7px; height: 7px; translate: -50% 0; rotate: 45deg; border-radius: 1px; background: var(--mt-accent-strong); }
+/* 2026-10-31 ♦ が上の数字（1時間39分など）と重なっていた → 棒に重ねず、数字のすぐ下に場所を取って置く */
+/*   ♦ の場所（12px）は全部の日で同じだけ空けておく。一番の日だけ高さが減ると、僅差の2位の棒より低く見えてしまうため */
+.mystudy-bars small { flex-direction: column; align-items: center; justify-content: flex-end; }
+.mystudy-bars small::after { content: ''; flex-shrink: 0; width: 7px; height: 7px; margin: 3px 0 2px; rotate: 45deg; border-radius: 1px; visibility: hidden; }
+.mystudy-bars li[data-best] small::after { visibility: visible; background: var(--mt-accent-strong); }
 .mystudy-bars li[data-best] .bar > i:first-child { border-radius: 0 0 2px 2px; }
 .mystudy-bars li[data-best] .bar > i:last-child { border-radius: 4px 4px 0 0; }
 @media (prefers-reduced-motion: no-preference) {
@@ -354,7 +358,7 @@
   .mystudy-bars li:nth-child(6) .bar { animation-delay: .2s; }
   .mystudy-bars li:nth-child(7) .bar { animation-delay: .24s; }
   .mystudy-bars small { animation: mystudy-fade .4s ease-out .45s backwards; }
-  .mystudy-bars li[data-best] .bar::before { animation: mystudy-pop .5s var(--mo-ease-out, ease-out) .7s backwards; }
+  .mystudy-bars li[data-best] small::after { animation: mystudy-pop .5s var(--mo-ease-out, ease-out) .7s backwards; }
   .mystudy-row { animation: slog-row-in .35s ease-out backwards; }
   .mystudy-row:nth-child(2) { animation-delay: .05s; }
   .mystudy-row:nth-child(3) { animation-delay: .1s; }
