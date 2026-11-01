@@ -104,7 +104,7 @@ def check_q(tag, q, pool, P):
         if sorted(c) != [L[i] for i in range(len(ws))]: ng.append((tag, 'order_not_perm'))
         built = ' '.join(ws[L.index(x)] for x in c)
         if built != q['sentence_part']: ng.append((tag, 'order_mismatch', built))
-        if q['sentence_part'] not in q['sentence']: ng.append((tag, 'order_sentence'))
+        if q['sentence_part'] not in q['sentence'].replace(',', ''): ng.append((tag, 'order_sentence'))
         if '{o%s}' % q['under'] not in ' '.join(P['passage']): ng.append((tag, 'order_slot_missing'))
         if f'下線部({q["under"]})' not in q['stem']: ng.append((tag, 'order_stem'))
         for p in q['ask']:
