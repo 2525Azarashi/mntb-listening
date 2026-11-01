@@ -3,7 +3,7 @@
  *   ガチャ画面で左右にスワイプして切り替える。抽選の仕組み（割合・10＋1連・ダブりの返還・かけら）は共通。
  *
  *   ・共通テストガチャ … これまでどおり（LR＝共通テスト英語 予想問題）。2次試験ガチャ専用の景品は出ない。
- *   ・2次試験ガチャ   … LR＝大学別 英語 予想問題（北海道大学・名古屋大学・静岡大学・神戸大学・大阪大学 前期、立命館大学 全学統一（文系）。書き下ろし）。
+ *   ・2次試験ガチャ   … LR＝大学別 英語 予想問題（北海道大学・東北大学・名古屋大学・静岡大学・神戸大学・大阪大学 前期、立命館大学 全学統一（文系）。書き下ろし）。
  *                        それ以外は「新しく作った2次試験向けの装飾」＋「今ある景品の使い回し」（難関向けの単語・熟語・文法の本など）。
  *
  * このファイルは ITEMS を import しない（growthItems → ここ の循環を避けるため、ID だけ持つ）。
@@ -13,6 +13,7 @@ import { KOBE_MOCK_PRINTS } from '../../data/kobeMockPrints';
 import { OSAKA_MOCK_PRINTS } from '../../data/osakaMockPrints';
 import { RITSU_MOCK_PRINTS } from '../../data/ritsuMockPrints';
 import { HOKUDAI_MOCK_PRINTS } from '../../data/hokudaiMockPrints';
+import { TOHOKU_MOCK_PRINTS } from '../../data/tohokuMockPrints';
 
 export type GachaPoolId = 'kyotsu' | 'niji';
 
@@ -43,7 +44,7 @@ export const GACHA_POOLS: readonly GachaPoolDef[] = [
     title: '2次試験ガチャ',
     short: '2次試験',
     lrName: '大学別 英語 予想問題（2次・個別試験）',
-    lrNote: '北海道大学・名古屋大学・静岡大学・神戸大学・大阪大学（前期）、立命館大学（全学統一・文系）の出題形式に沿った書き下ろしの予想問題（解答解説つき）各3回分。大学の過去問・公式問題ではありません。',
+    lrNote: '北海道大学・東北大学・名古屋大学・静岡大学・神戸大学・大阪大学（前期）、立命館大学（全学統一・文系）の出題形式に沿った書き下ろしの予想問題（解答解説つき）各3回分。大学の過去問・公式問題ではありません。',
     preferSubjects: ['english_vocab', 'english_grammar', 'english_reading'],
   },
 ];
@@ -63,7 +64,7 @@ export const NIJI_NEW_ITEM_IDS: readonly string[] = [
 ];
 
 /** 大学別の予想問題（LR）すべて */
-export const UNIV_MOCK_PRINT_IDS: readonly string[] = [...NIJI_MOCK_PRINTS, ...KOBE_MOCK_PRINTS, ...OSAKA_MOCK_PRINTS, ...RITSU_MOCK_PRINTS, ...HOKUDAI_MOCK_PRINTS].map((p) => p.id);
+export const UNIV_MOCK_PRINT_IDS: readonly string[] = [...NIJI_MOCK_PRINTS, ...KOBE_MOCK_PRINTS, ...OSAKA_MOCK_PRINTS, ...RITSU_MOCK_PRINTS, ...HOKUDAI_MOCK_PRINTS, ...TOHOKU_MOCK_PRINTS].map((p) => p.id);
 
 /** 2次試験ガチャだけで出るもの（新しい装飾＋LRの予想問題） */
 export const NIJI_ONLY_IDS: ReadonlySet<string> = new Set([...NIJI_NEW_ITEM_IDS, ...UNIV_MOCK_PRINT_IDS]);

@@ -219,3 +219,27 @@ cd scripts/gacha-prints/hokudai_mock
 python3 check.py 1 2 3     # 英語4語／日本語13字の一致・登場人物名の重複・解説の英文引用の実在・下線/空所の番号と設問の対応・要約の空所と語群・○×と正解の一致・正解位置の偏り・正解だけ長い選択肢・題材の近さ・render.py の固定文言 → logs/check.json（ng が空であること）
 for R in 1 2 3; do python3 verify.py $R; done   # 大問ごとの語数・平均文長・難語率が 2022〜2026年度の範囲内か、字数制限・意見英作文の語数 → logs/verify_rN.json（NG なら終了コード1）
 ```
+
+## LR：東北大学 前期日程 英語（全学部共通）予想問題（3回分・白黒）2026-11-01
+
+```bash
+# 必要なもの・フォントは神戸大と同じ（tohoku_mock/render.py は kobe_mock/render.py と hokudai_mock/render.py の部品を読み込む。両方を壊さないこと）
+cd scripts/gacha-prints/tohoku_mock && for R in 1 2 3; do python3 render.py $R; done
+# → .tmpwork/tohoku_mock/manatobi_tohoku_eng_yoso{n}_{mondai,kaitou}.pdf
+#   を public/prints/print_lr_tohoku_{q,a}_{n}.pdf にコピー → サムネイル（1ページ目・72dpi・幅360で上510pxを webp q82）
+#   → src/data/tohokuMockPrints.ts の pages / kb を合わせる → python3 scripts/gacha-prints/build-previews.py print_lr_tohoku_q_1 …
+```
+- 形式：Ⅰ・Ⅱ 長文読解（下線部和訳・内容説明・空所補充・文法正誤〈2つ〉・語句整序・内容一致・文挿入・図表の空所・語義）／Ⅲ 教授と学生の会話文（語義4つ＋意見論述 60〜80語）／Ⅳ 日本文（和文英訳1＋語句整序2〈10個から8個〉）。100分。独自配点 200点（Ⅰ 60・Ⅱ 50・Ⅲ 40・Ⅳ 50）。
+- 問題データは `tN_I.py`〜`tN_IV.py`（N＝回）。本文の記法：`{u1|…}` 下線部・`{gア|…}` 文法正誤の下線・`{wa|…}` 語義の下線・`{o3}` 並べ替え（設問の words / correct から組み立てる）・`[[I]]` 空所・`[[①]]` 文挿入・`[[あ]]` 図表の空所・`*word` 注。
+- 表紙と奥付に「東北大学の過去問・公式問題ではありません。予想問題であり，大学とは関係がありません」（`tests/tohokuMockPrints.test.ts` が確認）。2ページ目以降に注記ヘッダーは付けない。登場人物・団体・地名は架空。
+- 分析に使った資料：2025・2026年度は大学公式サイトの公開分（問題冊子・出題意図。長文本文は著作権のため非公開で，設問・会話文・Ⅳの設問は公開）。2024年度は公開分が見つからず（旧サイトのアーカイブも取得できなかった），予備校の公開分析（大問構成・語数・設問形式）で補った。2025年度は予備校公開の解答例も照合に使用。照合用 OCR は `.tmpwork/tohoku_ref/` に置くだけで，本文・設問・解答は引用しない。
+- 長文本文が非公開のため，Ⅰ・Ⅱの語数は公表語数（2023〜2026年度），平均文長・難語率は北大の長文（国立大の目安）で判定。Ⅲの会話文は 2025・2026年度の実測値で判定。
+
+### 東北大 予想問題：品質・オリジナル性の検査（商用利用のため毎回実行）2026-11-01
+
+```bash
+cd scripts/gacha-prints/tohoku_mock
+python3 check.py 1 2 3     # 英語4語／日本語13字の一致（東北大の公式PDF・出題意図・予備校解答例＋北大・神戸大・阪大・立命館）・人物名・禁止語・解説の英文引用の実在・下線/整序/語義/空所の番号と設問の対応・文法正誤の答え・整序の完成文・正解位置の偏り・題材の近さ・render.py の固定文言 → logs/check.json（ng が空であること）
+for R in 1 2 3; do python3 verify.py $R; done   # Ⅰ・Ⅱ・Ⅲの語数・平均文長・難語率，Ⅰ+Ⅱの合計語数，意見論述の語数，設問数・Ⅳの構成 → logs/verify_rN.json
+python3 probe.py '言い換え候補の文' …   # 書き直すときに，候補が過去問と重ならないかを先に試す
+```
