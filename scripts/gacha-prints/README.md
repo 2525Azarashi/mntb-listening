@@ -156,3 +156,19 @@ python3 scripts/gacha-prints/build-previews.py print_lr_niji_okayama_en_1 …   
   - 広島：Ⅰ〜Ⅳ（段落要約・関連2文の長文・意見英作文・グラフ英作文）・120分・200点
 - 照合：`python3 work/plag/niji_check.py wakayama okayama hiroshima`（各大学の過去問・公式解答のOCR文と照合）で英5語・日12字の一致0件を確認。
 - 大学名の入った問題指示の決まり文句も過去問と重なりやすいので、言い回しは独自のもの（例「以下の英文を読み、あとの問いに答えよ」）にしている。
+
+### 四国（香川・徳島・愛媛・高知）前期対策（2026-11-02 追加）
+
+```bash
+# 中身は scripts/gacha-prints/niji_shikoku/{slug}/r{1,2,3}.py、紙面は common.py、大学ごとの設定は cfg.py
+cd scripts/gacha-prints/niji_shikoku
+python3 run.py kochim 1        # → 問題＋解答解説を pdfunite して public/prints/print_lr_niji_kochim_en_1.pdf と thumbs を作り、ledger.json に pages/kb を記録
+python3 plag.py kochim         # 過去問・公式解答のテキストと照合（英5語・日12字）。TOTAL 0 であること
+python3 ../build-previews.py print_lr_niji_kochim_en_1 …   # previews
+```
+
+- 学部・コースで問題が違う大学は系統ごとに3回分（計27冊）。
+  - 香川（kagawa）・徳島（tokushima）：全学部共通
+  - 愛媛：法文学部・工学部〈文理型〉（ehimeh：物語文・評論・和文英訳）／教育学部（ehimee：長文2題・書き出し指定の英作文）／医学部医学科 総合問題〈英文〉（ehimem：医療英文の抜き出し・字数制限の日本語記述）
+  - 高知：人文社会 人文科学コース（kochij：長文・会話・整序）／同 国際社会コース（kochik：＋自由英作文100語）／教育学部（kochie：長文・文法・1語補充・整序・英作文）／医学部医学科（kochim：長文・会話・整序・医療長文）
+- 表紙・奥付に「{大学名}の過去問・公式問題ではありません。予想問題であり、大学とは関係がありません。」

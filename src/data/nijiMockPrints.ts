@@ -8,6 +8,10 @@
  *   - 和歌山大学 前期対策（2026-10-31 追加）：大問Ⅰ〜Ⅲ（長文2題＋グラフ英作文）・90分・100点。全学部共通。3回分。
  *   - 岡山大学 前期対策（2026-10-31 追加）：問1〜問4（長文2題・会話文/和文英訳・自由英作文）・120分・200点。全学部共通。3回分。
  *   - 広島大学 前期対策（2026-10-31 追加）：大問Ⅰ〜Ⅳ（段落要約・関連2文の長文・意見英作文・グラフ英作文）・120分・200点。全学部共通。3回分。
+ *   - 四国（2026-11-02 追加）：各大学・各系統の前期の形式に沿って3回分ずつ（計27冊）。
+ *     香川大学（全学部共通）／徳島大学（全学部共通）／
+ *     愛媛大学（法文学部・工学部〈文理型〉、教育学部、医学部医学科〈総合問題・英文〉）／
+ *     高知大学（人文社会科学部 人文科学コース、同 国際社会コース、教育学部、医学部医学科）。
  *   ★過去問ではない★ 英文・設問・図表・解答はすべて書き下ろし。過去問・解答速報・講評の文章は引用していない
  *   （英語5語以上・日本語12字以上の連続一致がないことを機械で確認済み）。表紙と奥付に「大学とは関係がない」旨を明記。
  *
@@ -27,6 +31,15 @@ export const NIJI_UNIVERSITIES = [
   { id: 'wakayama', name: '和歌山大学', track: '' },
   { id: 'okayama', name: '岡山大学', track: '' },
   { id: 'hiroshima', name: '広島大学', track: '' },
+  { id: 'kagawa', name: '香川大学', track: '' },
+  { id: 'tokushima', name: '徳島大学', track: '' },
+  { id: 'ehimeh', name: '愛媛大学', track: '法文学部・工学部（文理型）' },
+  { id: 'ehimee', name: '愛媛大学', track: '教育学部' },
+  { id: 'ehimem', name: '愛媛大学', track: '医学部医学科（総合問題）' },
+  { id: 'kochij', name: '高知大学', track: '人文社会科学部 人文科学コース' },
+  { id: 'kochik', name: '高知大学', track: '人文社会科学部 国際社会コース' },
+  { id: 'kochie', name: '高知大学', track: '教育学部' },
+  { id: 'kochim', name: '高知大学', track: '医学部医学科' },
 ] as const;
 export type NijiUniversityId = (typeof NIJI_UNIVERSITIES)[number]['id'];
 
@@ -50,6 +63,15 @@ const omub = (n: number, pages: number, kb: number) => mock('omub', n, pages, kb
 const wakayama = (n: number, pages: number, kb: number) => mock('wakayama', n, pages, kb);
 const okayama = (n: number, pages: number, kb: number) => mock('okayama', n, pages, kb);
 const hiroshima = (n: number, pages: number, kb: number) => mock('hiroshima', n, pages, kb);
+const kagawa = (n: number, pages: number, kb: number) => mock('kagawa', n, pages, kb);
+const tokushima = (n: number, pages: number, kb: number) => mock('tokushima', n, pages, kb);
+const ehimeh = (n: number, pages: number, kb: number) => mock('ehimeh', n, pages, kb);
+const ehimee = (n: number, pages: number, kb: number) => mock('ehimee', n, pages, kb);
+const ehimem = (n: number, pages: number, kb: number) => mock('ehimem', n, pages, kb);
+const kochij = (n: number, pages: number, kb: number) => mock('kochij', n, pages, kb);
+const kochik = (n: number, pages: number, kb: number) => mock('kochik', n, pages, kb);
+const kochie = (n: number, pages: number, kb: number) => mock('kochie', n, pages, kb);
+const kochim = (n: number, pages: number, kb: number) => mock('kochim', n, pages, kb);
 
 export const NIJI_MOCK_PRINTS: readonly GachaPrintDef[] = [
   nagoya(1, 28, 2026),
@@ -73,6 +95,33 @@ export const NIJI_MOCK_PRINTS: readonly GachaPrintDef[] = [
   hiroshima(1, 23, 1898),
   hiroshima(2, 23, 1928),
   hiroshima(3, 23, 1909),
+  kagawa(1, 16, 299),
+  kagawa(2, 16, 286),
+  kagawa(3, 16, 276),
+  tokushima(1, 15, 244),
+  tokushima(2, 15, 236),
+  tokushima(3, 15, 231),
+  ehimeh(1, 17, 301),
+  ehimeh(2, 17, 287),
+  ehimeh(3, 17, 297),
+  ehimee(1, 15, 277),
+  ehimee(2, 15, 275),
+  ehimee(3, 15, 277),
+  ehimem(1, 14, 317),
+  ehimem(2, 13, 310),
+  ehimem(3, 13, 307),
+  kochij(1, 15, 257),
+  kochij(2, 15, 263),
+  kochij(3, 15, 256),
+  kochik(1, 18, 287),
+  kochik(2, 18, 283),
+  kochik(3, 18, 285),
+  kochie(1, 21, 293),
+  kochie(2, 21, 287),
+  kochie(3, 21, 295),
+  kochim(1, 22, 318),
+  kochim(2, 22, 310),
+  kochim(3, 22, 335),
 ];
 
 /** その大学の予想問題に必ず添える注意書き（PDF の表紙・奥付と同じ文） */
