@@ -87,6 +87,8 @@ export function ToeicExplanationPanel({ ex, correctText, open, onToggle }: {
         <ChevronDown size={18} className="tp-ex-chev" aria-hidden="true" />
       </summary>
       <div className="tp-ex-body">
+        {/* Part 7（2026-11-02）：再掲は「根拠」の英文。どこを読めば答えが出るかを札で示す */}
+        {ex.prompt && <h4 className="tp-lbl" data-role="hint" data-toeic-evidence-label>{ICON.hint}<span>根拠（文書の英文）</span></h4>}
         <p className="tp-ex-recap" lang="en" data-toeic-recap>
           <StemWithBlank stem={ex.sentence} filled={correctText} result="right" cues={ex.cues} />
         </p>
