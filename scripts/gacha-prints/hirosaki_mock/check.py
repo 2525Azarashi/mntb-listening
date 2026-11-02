@@ -121,9 +121,6 @@ for R in rounds:
         if sum(p for _, p in w['criteria']) != w['points']: ng.append((tag, 'criteria_sum', w['label']))
     P4 = D['4']
     if sum(p for _, p in P4['criteria']) != 50: ng.append((f'r{R}-4', 'criteria_sum'))
-    for lab, m in P4['models']:
-        if not m.startswith(P4['opening']) or not m.rstrip().endswith(P4['closing'].rstrip(',')) and P4['closing'] not in m:
-            pass
 
 # 題材の近さ：弘前大の公開部分と，他大学の長文に対して
 try:
