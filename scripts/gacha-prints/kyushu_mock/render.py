@@ -342,7 +342,8 @@ def check_q(q, P):
     if t == 'blanks':
         assert len(q['answers']) == len(q['blanks']), ('blanks answers', lab)
         for i, (b, a) in enumerate(zip(q['blanks'], q['answers'])):
-            assert f'{{b{b}}}' in text, ('空所が本文にない', lab, b)
+            if q.get('in_text', True):   # 語句の言いかえ問題（本文に空所がない）は in_text=False
+                assert f'{{b{b}}}' in text, ('空所が本文にない', lab, b)
             assert a in choice_keys(q, i), ('答えが選択肢にない', lab, b, a)
         if q.get('distinct'):
             assert len(set(q['answers'])) == len(q['answers']), ('同じ記号を2回', lab)
