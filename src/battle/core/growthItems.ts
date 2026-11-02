@@ -8,6 +8,7 @@ import { OSAKA_MOCK_PRINTS } from '../../data/osakaMockPrints';
 import { RITSU_MOCK_PRINTS } from '../../data/ritsuMockPrints';
 import { HOKUDAI_MOCK_PRINTS } from '../../data/hokudaiMockPrints';
 import { TOHOKU_MOCK_PRINTS } from '../../data/tohokuMockPrints';
+import { HIROSAKI_MOCK_PRINTS } from '../../data/hirosakiMockPrints';
 import { ACCESSORY_SLOTS, type AccessorySlot } from './tobiraParts';
 import type { GrowthProgress } from './growthTypes';
 import { badgeById } from './growthBadges';
@@ -240,19 +241,20 @@ export const ITEMS: readonly ItemDef[] = [
   { id: 'frame_niji_midnight', kind: 'frame', gacha: true, rarity: 'SR', label: '深夜の追い込みフレーム', value: '#2B2D55', pattern: 'stars', unlock: { gacha: true } },
   // ── LR（2次試験ガチャ）：国公立2次 英語 予想問題（書き下ろし・過去問ではない。一覧は nijiMockPrints.ts）──
   ...NIJI_MOCK_PRINTS.map((p): ItemDef => ({ id: p.id, kind: 'print', gacha: true, rarity: 'LR', label: p.label, value: p.file, unlock: { gacha: true } })),
-  // ── LR（2次試験ガチャ）：大学別 英語 予想問題（北大・東北大・神戸大・阪大・立命館。問題／解答・解説が別冊。一覧は hokudai/tohoku/kobe/osaka/ritsuMockPrints.ts）──
+  // ── LR（2次試験ガチャ）：大学別 英語 予想問題（北大・東北大・弘前大・神戸大・阪大・立命館。問題／解答・解説が別冊。一覧は hokudai/tohoku/hirosaki/kobe/osaka/ritsuMockPrints.ts）──
   ...KOBE_MOCK_PRINTS.map((p): ItemDef => ({ id: p.id, kind: 'print', gacha: true, rarity: 'LR', label: p.label, value: p.file, unlock: { gacha: true } })),
   ...OSAKA_MOCK_PRINTS.map((p): ItemDef => ({ id: p.id, kind: 'print', gacha: true, rarity: 'LR', label: p.label, value: p.file, unlock: { gacha: true } })),
   ...RITSU_MOCK_PRINTS.map((p): ItemDef => ({ id: p.id, kind: 'print', gacha: true, rarity: 'LR', label: p.label, value: p.file, unlock: { gacha: true } })),
   ...HOKUDAI_MOCK_PRINTS.map((p): ItemDef => ({ id: p.id, kind: 'print', gacha: true, rarity: 'LR', label: p.label, value: p.file, unlock: { gacha: true } })),
   ...TOHOKU_MOCK_PRINTS.map((p): ItemDef => ({ id: p.id, kind: 'print', gacha: true, rarity: 'LR', label: p.label, value: p.file, unlock: { gacha: true } })),
+  ...HIROSAKI_MOCK_PRINTS.map((p): ItemDef => ({ id: p.id, kind: 'print', gacha: true, rarity: 'LR', label: p.label, value: p.file, unlock: { gacha: true } })),
   // ── レベル報酬（2026-10-04 ご要望「レベルを上げる意味」）：このレベルでしか手に入らないもの ──
   ...LEVEL_REWARD_ITEMS,
 ];
 
 /** 学習プリント（UR）の詳細（サムネイル・ページ数など）。プリントでなければ undefined */
 export function printOf(id: string): GachaPrintDef | undefined {
-  return GACHA_PRINTS.find((p) => p.id === id) ?? KYOTSU_MOCK_PRINTS.find((p) => p.id === id) ?? NIJI_MOCK_PRINTS.find((p) => p.id === id) ?? KOBE_MOCK_PRINTS.find((p) => p.id === id) ?? OSAKA_MOCK_PRINTS.find((p) => p.id === id) ?? RITSU_MOCK_PRINTS.find((p) => p.id === id) ?? HOKUDAI_MOCK_PRINTS.find((p) => p.id === id) ?? TOHOKU_MOCK_PRINTS.find((p) => p.id === id) ?? LEVEL_PRINTS.find((p) => p.id === id);
+  return GACHA_PRINTS.find((p) => p.id === id) ?? KYOTSU_MOCK_PRINTS.find((p) => p.id === id) ?? NIJI_MOCK_PRINTS.find((p) => p.id === id) ?? KOBE_MOCK_PRINTS.find((p) => p.id === id) ?? OSAKA_MOCK_PRINTS.find((p) => p.id === id) ?? RITSU_MOCK_PRINTS.find((p) => p.id === id) ?? HOKUDAI_MOCK_PRINTS.find((p) => p.id === id) ?? TOHOKU_MOCK_PRINTS.find((p) => p.id === id) ?? HIROSAKI_MOCK_PRINTS.find((p) => p.id === id) ?? LEVEL_PRINTS.find((p) => p.id === id);
 }
 
 /**

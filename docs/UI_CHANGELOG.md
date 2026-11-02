@@ -538,3 +538,12 @@
 | 2次試験ガチャの表示 | LR の説明文とピックアップの注意書きに東北大学を追加。東北大の景品の詳細にも大学名入りの「過去問・公式問題ではありません」の注意書きを出す | `src/battle/core/gachaPools.ts`、`src/data/nijiMockPrints.ts` |
 
 **戻し方**：`growthItems.ts` の `TOHOKU_MOCK_PRINTS`（import・ITEMS・printOf の3か所）と `gachaPools.ts` の import・`UNIV_MOCK_PRINT_IDS` から外し、`nijiMockPrints.ts` の `OTHER_MOCK_UNIVERSITIES` から tohoku を消す。`tohokuMockPrints.ts`・`public/prints/*tohoku*`・`tests/tohokuMockPrints.test.ts` を消して `build-previews.py` を流し直す。
+
+### 2026-11-02 2次試験ガチャ LR に弘前大学 前期 英語 予想問題を追加
+
+| 場所 | 変更 | ファイル |
+|---|---|---|
+| 2次試験ガチャの LR | 弘前大学 前期日程 英語（英語を課す学部で共通）予想問題（第1〜3回 × 問題／解答・解説）の6種を追加。2次試験ガチャの LR は48種に等分（LR の割合 1% は同じ）。共通テストガチャには出ない | `src/data/hirosakiMockPrints.ts`（新規）、`src/battle/core/growthItems.ts`、`src/battle/core/gachaPools.ts` |
+| 2次試験ガチャの表示 | LR の説明文とピックアップの注意書きに弘前大学を追加。弘前大の景品の詳細にも大学名入りの「過去問・公式問題ではありません」の注意書きを出す | `src/battle/core/gachaPools.ts`、`src/data/nijiMockPrints.ts` |
+
+**戻し方**：`growthItems.ts` の `HIROSAKI_MOCK_PRINTS`（import・ITEMS・printOf の3か所）と `gachaPools.ts` の import・`UNIV_MOCK_PRINT_IDS` から外し、`nijiMockPrints.ts` の `OTHER_MOCK_UNIVERSITIES` から hirosaki を消す。`hirosakiMockPrints.ts`・`public/prints/*hirosaki*`・`tests/hirosakiMockPrints.test.ts` を消して `build-previews.py` を流し直す。

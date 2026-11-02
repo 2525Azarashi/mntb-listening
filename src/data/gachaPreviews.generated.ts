@@ -185,6 +185,30 @@ export const GACHA_PREVIEWS: Readonly<Record<string, readonly string[]>> = {
     "/prints/previews/print_lr_tohoku_a_3_p2.webp",
     "/prints/previews/print_lr_tohoku_a_3_p11.webp"
   ],
+  "print_lr_hirosaki_q_1": [
+    "/prints/previews/print_lr_hirosaki_q_1_p2.webp",
+    "/prints/previews/print_lr_hirosaki_q_1_p6.webp"
+  ],
+  "print_lr_hirosaki_a_1": [
+    "/prints/previews/print_lr_hirosaki_a_1_p2.webp",
+    "/prints/previews/print_lr_hirosaki_a_1_p10.webp"
+  ],
+  "print_lr_hirosaki_q_2": [
+    "/prints/previews/print_lr_hirosaki_q_2_p2.webp",
+    "/prints/previews/print_lr_hirosaki_q_2_p6.webp"
+  ],
+  "print_lr_hirosaki_a_2": [
+    "/prints/previews/print_lr_hirosaki_a_2_p2.webp",
+    "/prints/previews/print_lr_hirosaki_a_2_p9.webp"
+  ],
+  "print_lr_hirosaki_q_3": [
+    "/prints/previews/print_lr_hirosaki_q_3_p2.webp",
+    "/prints/previews/print_lr_hirosaki_q_3_p6.webp"
+  ],
+  "print_lr_hirosaki_a_3": [
+    "/prints/previews/print_lr_hirosaki_a_3_p2.webp",
+    "/prints/previews/print_lr_hirosaki_a_3_p8.webp"
+  ],
   "print_book_listening_all": [
     "/prints/previews/print_book_listening_all_p2.webp",
     "/prints/previews/print_book_listening_all_p40.webp"

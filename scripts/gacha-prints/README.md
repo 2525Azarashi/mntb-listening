@@ -243,3 +243,27 @@ python3 check.py 1 2 3     # 英語4語／日本語13字の一致（東北大の
 for R in 1 2 3; do python3 verify.py $R; done   # Ⅰ・Ⅱ・Ⅲの語数・平均文長・難語率，Ⅰ+Ⅱの合計語数，意見論述の語数，設問数・Ⅳの構成 → logs/verify_rN.json
 python3 probe.py '言い換え候補の文' …   # 書き直すときに，候補が過去問と重ならないかを先に試す
 ```
+
+## LR：弘前大学 前期日程 英語（英語を課す学部で共通）予想問題（3回分・白黒）2026-11-02
+
+```bash
+# 必要なもの・フォントは神戸大と同じ（hirosaki_mock/render.py は kobe_mock/render.py と hokudai_mock/render.py の部品を読み込む。両方を壊さないこと）
+cd scripts/gacha-prints/hirosaki_mock && for R in 1 2 3; do python3 render.py $R; done
+# → .tmpwork/hirosaki_mock/manatobi_hirosaki_eng_yoso{n}_{mondai,kaitou}.pdf
+#   を public/prints/print_lr_hirosaki_{q,a}_{n}.pdf にコピー → サムネイル（1ページ目・72dpi・幅360で上510pxを webp q82）
+#   → src/data/hirosakiMockPrints.ts の pages / kb を合わせる → python3 scripts/gacha-prints/build-previews.py print_lr_hirosaki_q_1 …
+```
+- 形式：大問1・2 は年度によって形式が変わるので，回ごとに変えた（第1回＝会話文読解＋長文読解〈2026年度型〉，第2回＝長文読解＋英文要約400字程度〈2025年度型〉，第3回＝長文読解＋会話文の空所に入る英文を日本語 (a)〜(e) から書く〈2024年度型〉）。大問3 会話の最後の一言を完成（A・B）＋日本の事物を2〜3文の英語で説明（A・B）。大問4 約100語の英作文（e-mail で二択の一方を勧める／規則の利点と欠点／変化の利点と残る課題）。90分。独自配点 200点（各50点）。
+- 問題データは `hN_1.py`〜`hN_4.py`（N＝回）と `hN.py`。大問1・2 は `type`（reading / dialogue / summary / jaen）で形式を切り替える。本文の記法：`{u1|…}` 下線部・`((1))` 会話文の空所・`[...]` 完成させる部分・`word*` 注のある語。
+- 表紙と奥付に「弘前大学の過去問・公式問題ではありません。予想問題であり，大学とは関係がありません」（`tests/hirosakiMockPrints.test.ts` が確認）。2ページ目以降に注記ヘッダーは付けない。登場人物・団体・地名は架空。
+- 分析に使った資料：大学公式サイト（入試情報「過去の入試問題」）で公開されている 2024〜2026年度（R6〜R8）の問題冊子と解答例・出題意図。長文の一部は著作権のため黒塗り。照合用 OCR は `.tmpwork/hirosaki_ref/` に置くだけで，本文・設問・解答は引用しない。
+- 難易度の基準は公開部分の実測値（`verify.py` の冒頭に記載）。黒塗りの長文は，見えている部分の平均文長・難語率と紙面の分量から推定した語数で判定。
+
+### 弘前大 予想問題：品質・オリジナル性の検査（商用利用のため毎回実行）2026-11-02
+
+```bash
+cd scripts/gacha-prints/hirosaki_mock
+python3 check.py 1 2 3     # 英語4語／日本語13字の一致（弘前大の公式PDF・解答例・出題意図＋東北大・北大・神戸大・阪大・立命館）・人物名・禁止語・解説の英文引用の実在・下線部の番号と設問の対応・注の付け忘れ・和訳の行数/段落数・空所補充の記号の重複・配点の合計・題材の近さ・render.py の固定文言 → logs/check.json（ng が空であること）
+for R in 1 2 3; do python3 verify.py $R; done   # 大問1・2・3の語数・平均文長・難語率，設問数，日本語の解答の字数，要約の字数，事物の説明の文数，英作文の語数 → logs/verify_rN.json
+python3 probe.py '言い換え候補の文' …   # 書き直すときに，候補が過去問と重ならないかを先に試す
+```
