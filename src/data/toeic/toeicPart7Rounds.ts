@@ -8,9 +8,11 @@ import type { ToeicP7Set } from './toeicPart7Kit';
 import { P7_ROUND_01 } from './toeicPart7Round01';
 import { P7_ROUND_02 } from './toeicPart7Round02';
 import { P7_ROUND_03 } from './toeicPart7Round03';
+import { P7_ROUND_04 } from './toeicPart7Round04';
 
 export const TOEIC_P7_ROUNDS: readonly ToeicP7Set[][] = [
   P7_ROUND_01,
   P7_ROUND_02,
   P7_ROUND_03,
+  P7_ROUND_04,
 ];
