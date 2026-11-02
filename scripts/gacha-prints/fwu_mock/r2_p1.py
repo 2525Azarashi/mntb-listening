@@ -35,7 +35,8 @@ P1 = {
         "the nurse's office for headaches had fallen by almost a third.",
 
         "Experts caution that a single school's results cannot prove that the program works everywhere. The students who chose to join may "
-        "have been more motivated from the start, and there was no strict comparison group. Still, the findings match a growing body of "
+        "have been more motivated from the start, and there was no strict comparison group. It is also possible that the extra attention from teachers, rather than the rest "
+        "itself, made the difference. Still, the findings match a growing body of "
         "research suggesting that {bC}. Some school districts in other countries have gone further and moved the start of the school day "
         "later, with encouraging results.",
 
@@ -73,7 +74,7 @@ P1 = {
         '睡眠が減ったのではなく増えていた。出席状況はよくなり、頭痛で保健室を訪れる回数は 3 分の 1 近く減っていた。',
 
         '専門家たちは、1 つの学校の結果だけでは、この取り組みがどこでも効果があると証明することはできないと注意をうながしている。'
-        '参加を選んだ生徒は最初から意欲が高かったのかもしれないし、厳密な比較対象のグループもなかった。それでも、この結果は、10 代が'
+        '参加を選んだ生徒は最初から意欲が高かったのかもしれないし、厳密な比較対象のグループもなかった。また、休息そのものではなく、教師から余分に目をかけてもらったことが差を生んだ可能性もある。それでも、この結果は、10 代が'
         '十分な睡眠をとれるよう手助けすることは、健康だけでなく学習にもよい影響を与えることを示す、増えつつある研究と一致している。'
         'ほかの国の学区の中には、さらに進んで、学校の始業時刻を遅らせ、よい結果を得ているところもある。',
 
