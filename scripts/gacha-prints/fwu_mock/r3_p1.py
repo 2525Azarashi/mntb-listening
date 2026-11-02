@@ -17,7 +17,7 @@ P1 = {
 
         "One reason for the waste is confusion about dates printed on packages. Many shoppers believe that food becomes dangerous the moment "
         "its \"best before\" date has passed. In fact, this date usually refers to quality, not safety. A biscuit may be a little less crisp "
-        "after the date, but it is rarely harmful. A \"use by\" date, on the other hand, is about safety and should be taken seriously. "
+        "after the date, but it is rarely harmful. A \"use by\" date, by contrast, concerns safety and should be taken seriously. "
         "{ub|Because the two labels are so easily mixed up, people throw away a great deal of food that would have been perfectly safe to eat.} "
         "Some supermarkets in the region have now removed \"best before\" dates from fresh fruit and vegetables altogether, encouraging "
         "customers to use their eyes and noses instead.",
