@@ -8,6 +8,14 @@
  *   - 和歌山大学 前期対策（2026-10-31 追加）：大問Ⅰ〜Ⅲ（長文2題＋グラフ英作文）・90分・100点。全学部共通。3回分。
  *   - 岡山大学 前期対策（2026-10-31 追加）：問1〜問4（長文2題・会話文/和文英訳・自由英作文）・120分・200点。全学部共通。3回分。
  *   - 広島大学 前期対策（2026-10-31 追加）：大問Ⅰ〜Ⅳ（段落要約・関連2文の長文・意見英作文・グラフ英作文）・120分・200点。全学部共通。3回分。
+ *   - 東京学芸大学 前期対策（英語コース・2026-10-31 追加）：大問Ⅰ〜Ⅴ（長文読解・英文要約・和文英訳・200語の意見英作文・ディクテーション）
+ *     ・筆記90分＋ディクテーション約10分・配点は%。3回分。ディクテーションは音声なし（解答編の「読み上げ原稿」を人に読んでもらう）。
+ *   - 琉球大学 前期対策（2026-10-31 追加）：大問1〜4（論説の長文・物語文・会話文の空所10・グラフを読んで150語の英作文）
+ *     ・100分・100点（30・30・10・30）。3回分。グラフの数値は架空。
+ *   - 熊本大学 前期対策（2026-11-01 追加）：大問Ⅰ〜Ⅳ（日本語で答える長文・英語で答える長文・80〜100語の英作文・会話文の空所20）
+ *     ・120分・全学部共通。配点は大学非公表のため編集部の想定（32・32・16・20）。3回分。
+ *   - 佐賀大学 前期対策（2026-11-01 追加）：大問1〜4（英文の要旨を100字前後の日本語で・会話文の空所4・図つきの長文と約60語の記述
+ *     ・英文を読んで100語の英作文）・100分・100点（20・20・30・30）。教育・経済・医・農学部共通。3回分。図の数値は架空。
  *   - 四国（2026-11-02 追加）：各大学・各系統の前期の形式に沿って3回分ずつ（計27冊）。
  *     香川大学（全学部共通）／徳島大学（全学部共通）／
  *     愛媛大学（法文学部・工学部〈文理型〉、教育学部、医学部医学科〈総合問題・英文〉）／
@@ -31,6 +39,10 @@ export const NIJI_UNIVERSITIES = [
   { id: 'wakayama', name: '和歌山大学', track: '' },
   { id: 'okayama', name: '岡山大学', track: '' },
   { id: 'hiroshima', name: '広島大学', track: '' },
+  { id: 'gakugei', name: '東京学芸大学', track: '' },
+  { id: 'ryukyu', name: '琉球大学', track: '' },
+  { id: 'kumamoto', name: '熊本大学', track: '' },
+  { id: 'saga', name: '佐賀大学', track: '' },
   { id: 'kagawa', name: '香川大学', track: '' },
   { id: 'tokushima', name: '徳島大学', track: '' },
   { id: 'ehimeh', name: '愛媛大学', track: '法文学部・工学部（文理型）' },
@@ -63,6 +75,10 @@ const omub = (n: number, pages: number, kb: number) => mock('omub', n, pages, kb
 const wakayama = (n: number, pages: number, kb: number) => mock('wakayama', n, pages, kb);
 const okayama = (n: number, pages: number, kb: number) => mock('okayama', n, pages, kb);
 const hiroshima = (n: number, pages: number, kb: number) => mock('hiroshima', n, pages, kb);
+const gakugei = (n: number, pages: number, kb: number) => mock('gakugei', n, pages, kb);
+const ryukyu = (n: number, pages: number, kb: number) => mock('ryukyu', n, pages, kb);
+const kumamoto = (n: number, pages: number, kb: number) => mock('kumamoto', n, pages, kb);
+const saga = (n: number, pages: number, kb: number) => mock('saga', n, pages, kb);
 const kagawa = (n: number, pages: number, kb: number) => mock('kagawa', n, pages, kb);
 const tokushima = (n: number, pages: number, kb: number) => mock('tokushima', n, pages, kb);
 const ehimeh = (n: number, pages: number, kb: number) => mock('ehimeh', n, pages, kb);
@@ -95,6 +111,18 @@ export const NIJI_MOCK_PRINTS: readonly GachaPrintDef[] = [
   hiroshima(1, 23, 1898),
   hiroshima(2, 23, 1928),
   hiroshima(3, 23, 1909),
+  gakugei(1, 22, 1824),
+  gakugei(2, 22, 1796),
+  gakugei(3, 22, 1810),
+  ryukyu(1, 25, 1702),
+  ryukyu(2, 27, 1709),
+  ryukyu(3, 25, 1715),
+  kumamoto(1, 25, 1647),
+  kumamoto(2, 25, 1680),
+  kumamoto(3, 25, 1656),
+  saga(1, 20, 1559),
+  saga(2, 20, 1549),
+  saga(3, 20, 1566),
   kagawa(1, 16, 299),
   kagawa(2, 16, 286),
   kagawa(3, 16, 276),
