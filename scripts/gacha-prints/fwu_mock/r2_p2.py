@@ -40,7 +40,7 @@ P2 = {
         "None of this means that the problem has been solved. Bees still face many threats, and scientists are still learning how these threats "
         "work together. Yet the story of Dunmarrow offers some hope. It shows that the choices made by individual farmers, gardeners, and town "
         "councils can change the lives of insects in a short time. \"We tend to think of nature as something far away,\" Brandt says, \"something "
-        "in forests or on mountains. But some of the most important nature in our lives is buzzing quietly at the end of the garden.\" "
+        "in forests or on mountains. But some of the most important nature in our lives is buzzing quietly in a corner of our own gardens.\" "
         "{ud|If we take care of it, it will go on taking care of us.}",
     ],
     'notes': [('orchard', '果樹園'), ('pollen', '花粉'), ('colony', '（ミツバチの）群れ'),

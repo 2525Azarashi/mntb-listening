@@ -43,7 +43,7 @@ Q2 = [
     {'label': '問9', 'type': 'ja', 'ref': 'd', 'points': 4, 'kind': '指示内容と和訳', 'lines': 3,
      'stem': '下線部(d)の 2 つの it が指す内容を明らかにして、下線部を和訳せよ。',
      'answer': '私たちが身近な自然（庭の片隅にいるハチ）を大切にすれば、それは私たちを支え続けてくれるだろう。',
-     'expl': 'it は直前のブラントの言葉の some of the most important nature … buzzing quietly at the end of the garden、つまり身近にいるハチ（の自然）を指す。take care of「世話をする、大切にする」と go on ～ ing「～し続ける」。人が大切にすれば、受粉を通じて私たちの食べ物を支え続ける、という結論。',
+     'expl': 'it は直前のブラントの言葉の some of the most important nature … buzzing quietly in a corner of our own gardens、つまり身近にいるハチ（の自然）を指す。take care of「世話をする、大切にする」と go on ～ ing「～し続ける」。人が大切にすれば、受粉を通じて私たちの食べ物を支え続ける、という結論。',
      'criteria': [('it を「身近な自然（ハチ）」と明らかにしている', 2), ('go on taking care of を「～を支え（世話し）続ける」と訳している', 2)]},
     {'label': '問10', 'type': 'mcall', 'points': 3, 'kind': '内容一致（すべて選ぶ）',
      'stem': '本文の内容に一致する文を、ア〜カの中からすべて選び、記号で記せ。',
