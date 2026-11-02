@@ -152,9 +152,12 @@ def opts_html(opts, marks):
 
 def q_html(q, marks):
     s = f'<div class="q"><span class="qn">{esc(q["n"])}</span>{mk(q.get("q", ""))}'
+    marks = q.get('marks') or marks
     if q.get('opts'):
         s += opts_html(q['opts'], marks)
     for it in q.get('sub', []):
+        if not it[1] and not (len(it) > 2 and it[2]):
+            continue  # 解答欄だけに使うラベル（問題文には出さない）
         s += f'<div class="sub"><span class="qn">{esc(it[0])}</span>{mk(it[1])}'
         if len(it) > 2 and it[2]:
             s += opts_html(it[2], marks)
