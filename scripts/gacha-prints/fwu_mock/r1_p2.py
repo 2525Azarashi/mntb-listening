@@ -12,7 +12,8 @@ P2 = {
         "The problem these birds face is easy to understand. Traffic and machines produce a constant low rumble*. A bird that sings in "
         "the same low range as this noise is like a person trying to whisper at a rock concert: the message is {bA} before it reaches "
         "its listener. For small songbirds, this can be serious. Males sing to defend their territory and to attract a mate, and a song "
-        "that cannot be heard is almost as bad as no song at all.",
+        "that cannot be heard is almost as bad as no song at all. Females, too, may judge a male partly by how clearly and confidently he sings, so a weak or "
+        "broken song can cost him the chance to raise a family.",
 
         "One of the clearest studies was carried out by the ecologist Tomas Varga in the river city of Lindmoor. Over three spring "
         "seasons, his team recorded the songs of a common small bird in quiet parks and next to two major roads. The birds living beside "
@@ -37,7 +38,8 @@ P2 = {
 
         "What can people do? Some cities have begun to treat noise as a form of pollution that affects wildlife as well as humans. Quieter "
         "road surfaces, lower speed limits near parks, and belts of trees along busy streets can all reduce the low rumble that birds "
-        "struggle against. During periods when traffic suddenly falls, for example during long public holidays, recordings from several "
+        "struggle against. Such measures often cost little, and they make the streets more pleasant for the people who live and work "
+        "there as well. During periods when traffic suddenly falls, for example during long public holidays, recordings from several "
         "cities have shown birds singing more softly and in a lower, richer range almost immediately. That rapid response suggests that "
         "the birds have been working hard to be heard, and that a quieter city would be a {ud|kinder} place for them to live.",
     ],
@@ -51,7 +53,8 @@ P2 = {
         'こうした鳥が直面している問題は理解しやすい。車や機械は絶え間なく低いゴロゴロという音を出している。この騒音と同じ低い音域で'
         '歌う鳥は、ロックコンサートでささやこうとする人のようなものである。つまり、メッセージは聞き手に届く前にかき消されてしまうのだ。'
         '小さな鳴き鳥にとって、これは深刻な問題になりうる。雄はなわばりを守り、つがいの相手を引きつけるために歌うのであり、'
-        '聞こえない歌は歌がないのとほとんど同じくらいまずいのである。',
+        '聞こえない歌は歌がないのとほとんど同じくらいまずいのである。雌もまた、雄がどれだけはっきりと自信をもって歌うかで相手を判断することがあるので、'
+        '弱々しかったり途切れたりする歌のせいで、雄はひなを育てる機会を失うこともある。',
 
         'もっともはっきりした研究の一つは、川沿いの都市リンドムーアで生態学者トマス・ヴァルガが行ったものだ。3 回の春の季節にわたり、'
         '彼のチームは、静かな公園と 2 本の幹線道路のすぐそばで、ある身近な小鳥の歌を録音した。道路沿いに住む鳥は、公園の鳥に比べて、'
@@ -76,7 +79,8 @@ P2 = {
 
         '人間に何ができるだろうか。いくつかの都市では、騒音を、人間だけでなく野生生物にも影響を与える汚染の一種として扱い始めている。'
         '静かな路面、公園付近での速度制限の引き下げ、にぎやかな通りに沿った並木の帯は、どれも鳥たちが苦労して対抗している低い音を'
-        '減らすことができる。たとえば長い祝日の期間のように交通量が急に減ったときには、いくつかの都市の録音で、鳥たちがほとんどすぐに、'
+        '減らすことができる。こうした対策は費用があまりかからないことが多く、そこで暮らし働く人々にとっても通りをより快適にしてくれる。'
+        'たとえば長い祝日の期間のように交通量が急に減ったときには、いくつかの都市の録音で、鳥たちがほとんどすぐに、'
         'より穏やかに、より低く豊かな音域で歌うようになったことが示された。このすばやい反応は、鳥たちがこれまで聞いてもらうために'
         '懸命に努力してきたこと、そして静かな都市は鳥たちにとってより暮らしやすい場所になるだろうということを示している。',
     ],
