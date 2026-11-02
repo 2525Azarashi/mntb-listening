@@ -17,7 +17,8 @@ P2 = {
         "Some people worry that this convenience is making our memories weaker. In one well-known type of experiment, volunteers are asked "
         "to type a list of facts into a computer. Half of them are told that the computer will save what they type, and the other half are "
         "told that it will be deleted. Later, both groups are tested. Again and again, those who believed the information would be saved "
-        "remember less of it. {ub|It seems that when the brain knows it can find something again later, it does not bother to store it "
+        "remember less of it. The difference is not huge, but it appears in study after study, and it is found among both young and older "
+        "volunteers. {ub|It seems that when the brain knows it can find something again later, it does not bother to store it "
         "carefully.}",
 
         "The psychologist Leona Fairbairn, however, warns against drawing too gloomy* a conclusion. In her view, offloading is not a sign "
@@ -34,7 +35,8 @@ P2 = {
         "There is also a question of trust. When we offload a memory, we depend on the device being available and the information being "
         "accurate. A driver who has always followed the voice of a navigation app may be completely lost when the battery runs out. Several "
         "studies have suggested that people who rely heavily on such apps form a weaker mental map of the places they travel through. They "
-        "reach their destination, but they could not easily draw the route afterwards. For this reason, some teachers encourage students to "
+        "reach their destination, but they could not easily draw the route afterwards. People who find their own way, by contrast, tend to notice landmarks such as bridges, "
+        "churches, and unusual buildings, and these become anchors* for their memory. For this reason, some teachers encourage students to "
         "{bC} at least once before relying on technology to do it for them.",
 
         "So should we put our phones away and start memorizing again? Fairbairn thinks the answer lies somewhere in the middle. She suggests "
@@ -43,7 +45,7 @@ P2 = {
         "safely live in our pockets. {ud|Used wisely, our devices need not make us forgetful; they can give our memories room to do the work "
         "that only human minds can do.}",
     ],
-    'notes': [('cognitive offloading', '認知的オフロード（頭の負担を外部に移すこと）'), ('gloomy', '悲観的な')],
+    'notes': [('cognitive offloading', '認知的オフロード（頭の負担を外部に移すこと）'), ('gloomy', '悲観的な'), ('anchor', 'よりどころ（もとは「いかり」）')],
     'translation': [
         '最後に電話番号や友人の誕生日、一度しか行ったことのないレストランへの道順を思い出そうとしたときのことを考えてみてほしい。'
         'たぶん、あなたはそれほど懸命には思い出そうとしなかっただろう。ただスマートフォンに手を伸ばしたのだ。人類の歴史の大部分において、'
@@ -58,7 +60,7 @@ P2 = {
         'この便利さが私たちの記憶力を弱めているのではないかと心配する人もいる。よく知られたある種の実験では、ボランティアの人たちが'
         'いくつかの事実をコンピューターに打ちこむよう求められる。半数は、打ちこんだものをコンピューターが保存すると告げられ、残りの半数は'
         '消去されると告げられる。そのあと、両方のグループがテストを受ける。何度やっても、情報が保存されると信じていた人たちのほうが、'
-        'その情報を覚えている量が少ない。脳は、あとでまた見つけられるとわかっていると、わざわざそれをていねいに記憶しようとしないようだ。',
+        'その情報を覚えている量が少ない。その差は大きくはないが、研究を重ねるたびに現れ、若いボランティアにも年配のボランティアにも見られる。脳は、あとでまた見つけられるとわかっていると、わざわざそれをていねいに記憶しようとしないようだ。',
 
         'しかし、心理学者のレオナ・フェアベアンは、あまりにも悲観的な結論を出さないよう注意をうながしている。彼女の考えでは、オフロードは'
         '私たちの頭が怠けつつあるしるしではなく、限られた資源を使う賢明な方法である。私たちの作業記憶――情報を使っている間それを保持する'
@@ -74,7 +76,7 @@ P2 = {
         '信頼の問題もある。記憶をオフロードするとき、私たちは機器が使えることと、情報が正確であることに頼っている。いつもナビアプリの声に'
         '従ってきた運転者は、バッテリーが切れるとまったく道がわからなくなるかもしれない。いくつかの研究は、そうしたアプリに大きく頼る人は、'
         '通りすぎる場所について、頭の中の地図が弱くしか形づくられないことを示している。目的地には着くが、あとでその道順を簡単に描くことは'
-        'できないのだ。このため、技術に任せる前に、少なくとも一度は自分の力で道順を考えてみるよう生徒にすすめる教師もいる。',
+        'できないのだ。対照的に、自分で道を見つける人は、橋や教会、変わった建物のような目じるしに気づきやすく、それが記憶のよりどころになる。このため、技術に任せる前に、少なくとも一度は自分の力で道順を考えてみるよう生徒にすすめる教師もいる。',
 
         'では、スマートフォンをしまって、また暗記を始めるべきなのだろうか。フェアベアンは、答えはその中間のどこかにあると考えている。彼女は、'
         '機器に手を伸ばす前に「画面が暗いときにも、この知識が必要になるだろうか」という簡単な問いを自分にしてみることをすすめる。よく使う情報、'
