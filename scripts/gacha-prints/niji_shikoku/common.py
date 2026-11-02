@@ -215,14 +215,14 @@ def answer_sheets(cfg, R):
     out = ''
     for i, S in enumerate(R['sections']):
         out += (f'<section class="sheet"><h2>解答用紙　{secno(cfg, i)}</h2>'
-                f'<div class="who">{esc(cfg["univ"])} 英語 予想問題 第{R["no"]}回　　受験番号（　　　　　　　）　氏名（　　　　　　　　　　）</div>'
+                f'<div class="who">{esc(cfg["univ"])} {esc(cfg.get("label", "英語"))} 予想問題 第{R["no"]}回　　受験番号（　　　　　　　）　氏名（　　　　　　　　　　）</div>'
                 f'<div class="blk">' + ''.join(sheet_rows(q) for q in S['qs']) + '<div class="subtot">小計（　　　　）点</div></div></section>')
     return out
 
 
 def cover(cfg, R, kind):
     notes = cfg['notes_q'] if kind == '問　題' else cfg['notes_a']
-    return (f'<section class="cover"><div class="hd">{esc(cfg["univ"])} 英語 予想問題 第{R["no"]}回</div>'
+    return (f'<section class="cover"><div class="hd">{esc(cfg["univ"])} {esc(cfg.get("label", "英語"))} 予想問題 第{R["no"]}回</div>'
             f'<div class="top"><span>マナトビ　国公立2次 英語 予想問題</span><span>{esc(cfg["univ"])} 前期日程 対策</span></div>'
             f'<div class="kind">予想問題　第{R["no"]}回</div><h1>{esc(cfg.get("subject", "外国語"))}</h1><div class="sb">{esc(cfg.get("subject_sub", "英　語"))}</div>'
             f'<div class="tag"><span>{kind}</span></div>'
@@ -293,7 +293,7 @@ def build(cfg, R):
     pdfs = {}
     for tag, body in (('q', qb), ('a', ab)):
         hp = OUT / f'{slug}{n}_{tag}.html'
-        hp.write_text(doc(body, f'{cfg["univ"]} 英語 予想問題 第{n}回'))
+        hp.write_text(doc(body, f'{cfg["univ"]} {cfg.get("label", "英語")} 予想問題 第{n}回'))
         pp = OUT / f'{slug}{n}_{tag}.pdf'
         HTML(filename=str(hp)).write_pdf(str(pp))
         pdfs[tag] = pp
