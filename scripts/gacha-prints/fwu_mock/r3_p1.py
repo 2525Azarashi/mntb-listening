@@ -26,7 +26,7 @@ P1 = {
         "Farmers know that produce* which looks unusual will be hard to sell, so a considerable part of what they grow never leaves the farm. "
         "In recent years, a few shops have begun selling \"ugly\" fruit and vegetables at lower prices. {uc|The results have been encouraging, "
         "though not quite as successful as their supporters had hoped.} Many customers say they like the idea, but when they stand in front "
-        "of the shelves, they still reach for the better-looking items.",
+        "of the shelves, they still reach for the better-looking items. Old habits, it seems, are harder to change than opinions.",
 
         "Reyes's restaurant tries to change attitudes in a different way: by showing people how good \"rescued\" food can taste. Each evening, "
         "he writes on a board where the ingredients came from and why they were about to be thrown away. Diners are often surprised. \"People "
@@ -65,7 +65,7 @@ P1 = {
         '見た目もまた問題である。買い物客は、完全に丸いリンゴや完全にまっすぐなニンジンに慣れてしまった。農家は、見た目が変わった農産物は'
         '売りにくいとわかっているので、育てたもののかなりの部分が農場から出ることはない。ここ数年、「不ぞろいな」果物や野菜を安い値段で'
         '売り始めた店もいくつかある。その結果は、支持する人たちが期待していたほどではないものの、励みになるものだった。多くの客はその考えが'
-        '好きだと言うが、棚の前に立つと、やはり見た目のよい品物に手を伸ばしてしまうのである。',
+        '好きだと言うが、棚の前に立つと、やはり見た目のよい品物に手を伸ばしてしまうのである。どうやら、古い習慣は意見よりも変えにくいようだ。',
 
         'レイエスのレストランは、別の方法で人々の考え方を変えようとしている。「救い出された」食べ物がどれほどおいしくなりうるかを見せることに'
         'よってである。毎晩、彼は黒板に、材料がどこから来たのか、なぜ捨てられそうになっていたのかを書く。食事をする人たちはしばしば驚く。'
