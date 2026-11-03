@@ -1,0 +1,41 @@
+{
+ "r1-1": {
+  "en4": {},
+  "ja13": {}
+ },
+ "r1-2": {
+  "en4": {},
+  "ja13": {}
+ },
+ "r1-3": {
+  "en4": {},
+  "ja13": {}
+ },
+ "topic": {
+  "r1-1": [
+   0.09,
+   "hokudai_ref/2025-2"
+  ],
+  "r1-2": [
+   0.109,
+   "hokudai_ref/2026-4conv"
+  ]
+ },
+ "topic_past_ref": {
+  "n": 33,
+  "median": 0.049,
+  "max": 0.588
+ },
+ "render_fixed": {
+  "en4": [],
+  "ja13": []
+ },
+ "answer_positions": {
+  "A": 5,
+  "B": 5,
+  "C": 4,
+  "D": 6
+ },
+ "far_longest_answer": "3/20",
+ "ng": []
+}
