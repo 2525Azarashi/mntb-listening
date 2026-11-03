@@ -615,3 +615,12 @@
 | 2次試験ガチャの表示 | LR の説明文とピックアップの注意書きに岩手大学を追加。岩手大の景品の詳細にも大学名入りの「過去問・公式問題ではありません」の注意書きを出す | `src/battle/core/gachaPools.ts`、`src/data/nijiMockPrints.ts` |
 
 **戻し方**：`growthItems.ts` の `IWATE_MOCK_PRINTS`（import・ITEMS・printOf の3か所）と `gachaPools.ts` の import・`UNIV_MOCK_PRINT_IDS` から外し、`nijiMockPrints.ts` の `OTHER_MOCK_UNIVERSITIES` から iwate を消す。`iwateMockPrints.ts`・`public/prints/*iwate*`・`tests/iwateMockPrints.test.ts` を消して `build-previews.py` を流し直す。
+
+### 2026-11-03 2次試験ガチャ LR に秋田大学 前期 英語 予想問題を追加
+
+| 場所 | 変更 | ファイル |
+|---|---|---|
+| 2次試験ガチャの LR | 秋田大学 前期日程 英語（国際資源学部・教育文化学部・医学部保健学科・情報データ科学部 共通問題）予想問題（第1〜3回 × 問題／解答・解説）の6種を追加。2次試験ガチャの LR は69種に等分（LR の割合 1% は同じ）。共通テストガチャには出ない | `src/data/akitaMockPrints.ts`（新規）、`src/battle/core/growthItems.ts`、`src/battle/core/gachaPools.ts` |
+| 2次試験ガチャの表示 | LR の説明文とピックアップの注意書きに秋田大学を追加。秋田大の景品の詳細にも大学名入りの「過去問・公式問題ではありません」の注意書きを出す | `src/battle/core/gachaPools.ts`、`src/data/nijiMockPrints.ts` |
+
+**戻し方**：`growthItems.ts` の `AKITA_MOCK_PRINTS`（import・ITEMS・printOf の3か所）と `gachaPools.ts` の import・`UNIV_MOCK_PRINT_IDS` から外し、`nijiMockPrints.ts` の `OTHER_MOCK_UNIVERSITIES` から akita を消す。`akitaMockPrints.ts`・`public/prints/*akita*`・`tests/akitaMockPrints.test.ts` を消して `build-previews.py` を流し直す。
