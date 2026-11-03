@@ -103,10 +103,6 @@
    "カードがまだ書かれていない新しいファイル。役割は要確認の係"
   ],
   [
-   "docs/TOEIC_P5_GLOSSARY.md",
-   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
-  ],
-  [
    "docs/UI_CHANGELOG.md",
    "カードがまだ書かれていない新しいファイル。役割は要確認の係"
   ],
@@ -971,10 +967,6 @@
    "カードがまだ書かれていない新しいファイル。役割は要確認の係"
   ],
   [
-   "scripts/check-toeic-notes.mts",
-   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
-  ],
-  [
    "scripts/firefly-kit/build_kit.py",
    "カードがまだ書かれていない新しいファイル。役割は要確認の係"
   ],
@@ -1475,14 +1467,6 @@
    "カードがまだ書かれていない新しいファイル。役割は要確認の係"
   ],
   [
-   "scripts/grammar-readaloud/dump.mts",
-   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
-  ],
-  [
-   "scripts/grammar-readaloud/make_pdf.py",
-   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
-  ],
-  [
    "scripts/icons/apply-android-assets.py",
    "カードがまだ書かれていない新しいファイル。役割は要確認の係"
   ],
@@ -1583,14 +1567,6 @@
    "カードがまだ書かれていない新しいファイル。役割は要確認の係"
   ],
   [
-   "scripts/reading/dump_phrases.mts",
-   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
-  ],
-  [
-   "scripts/reading/match_vocab.py",
-   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
-  ],
-  [
    "scripts/release-guard.sh",
    "カードがまだ書かれていない新しいファイル。役割は要確認の係"
   ],
@@ -1632,14 +1608,6 @@
   ],
   [
    "src/battle/core/battleRating.ts",
-   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
-  ],
-  [
-   "src/battle/core/chapterTitles.ts",
-   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
-  ],
-  [
-   "src/battle/core/gachaPools.ts",
    "カードがまだ書かれていない新しいファイル。役割は要確認の係"
   ],
   [
@@ -1699,18 +1667,6 @@
    "カードがまだ書かれていない新しいファイル。役割は要確認の係"
   ],
   [
-   "src/components/ChapterTitleCelebration.tsx",
-   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
-  ],
-  [
-   "src/components/CoinCelebration.tsx",
-   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
-  ],
-  [
-   "src/components/ListeningTechniqueCard.tsx",
-   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
-  ],
-  [
    "src/components/MyProfileCard.tsx",
    "カードがまだ書かれていない新しいファイル。役割は要確認の係"
   ],
@@ -1739,19 +1695,11 @@
    "カードがまだ書かれていない新しいファイル。役割は要確認の係"
   ],
   [
-   "src/components/chapter-title-celebration.css",
-   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
-  ],
-  [
    "src/components/cinematic-celebration.css",
    "カードがまだ書かれていない新しいファイル。役割は要確認の係"
   ],
   [
    "src/components/classroom/StudentAssignments.tsx",
-   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
-  ],
-  [
-   "src/components/coin-celebration.css",
    "カードがまだ書かれていない新しいファイル。役割は要確認の係"
   ],
   [
@@ -1764,14 +1712,6 @@
   ],
   [
    "src/components/explanation/ReasonBox.tsx",
-   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
-  ],
-  [
-   "src/components/explanation/ResultInsight.tsx",
-   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
-  ],
-  [
-   "src/components/explanation/result-insight.css",
    "カードがまだ書かれていない新しいファイル。役割は要確認の係"
   ],
   [
@@ -1788,10 +1728,6 @@
   ],
   [
    "src/components/gacha/GachaPickupModal.tsx",
-   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
-  ],
-  [
-   "src/components/gacha/GachaPoolCarousel.tsx",
    "カードがまだ書かれていない新しいファイル。役割は要確認の係"
   ],
   [
@@ -1847,19 +1783,7 @@
    "カードがまだ書かれていない新しいファイル。役割は要確認の係"
   ],
   [
-   "src/components/toeic/ToeicExplanationPanel.tsx",
-   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
-  ],
-  [
-   "src/components/toeic/ToeicP6Passage.tsx",
-   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
-  ],
-  [
    "src/components/toeic/ToeicPageQuiz.tsx",
-   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
-  ],
-  [
-   "src/components/toeic/ToeicTimer.tsx",
    "カードがまだ書かれていない新しいファイル。役割は要確認の係"
   ],
   [
@@ -1867,15 +1791,7 @@
    "カードがまだ書かれていない新しいファイル。役割は要確認の係"
   ],
   [
-   "src/components/toeic/toeicNote.ts",
-   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
-  ],
-  [
    "src/components/toeic/toeicPageModel.ts",
-   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
-  ],
-  [
-   "src/components/toeic/toeicTimeBudget.ts",
    "カードがまだ書かれていない新しいファイル。役割は要確認の係"
   ],
   [
@@ -1891,27 +1807,11 @@
    "カードがまだ書かれていない新しいファイル。役割は要確認の係"
   ],
   [
-   "src/data/grammarAudioManifest.ts",
-   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
-  ],
-  [
-   "src/data/grammarMemorizeSets.ts",
-   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
-  ],
-  [
    "src/data/kyotsuMockAudio.ts",
    "カードがまだ書かれていない新しいファイル。役割は要確認の係"
   ],
   [
    "src/data/kyotsuMockPrints.ts",
-   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
-  ],
-  [
-   "src/data/listeningTechniques.ts",
-   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
-  ],
-  [
-   "src/data/nijiMockPrints.ts",
    "カードがまだ書かれていない新しいファイル。役割は要確認の係"
   ],
   [
@@ -1971,87 +1871,11 @@
    "カードがまだ書かれていない新しいファイル。役割は要確認の係"
   ],
   [
-   "src/data/reading/vocabLink.ts",
-   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
-  ],
-  [
-   "src/data/toeic/toeicData.ts",
-   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
-  ],
-  [
    "src/data/toeic/toeicPart5Data.ts",
    "カードがまだ書かれていない新しいファイル。役割は要確認の係"
   ],
   [
    "src/data/toeic/toeicPart5Kit.ts",
-   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
-  ],
-  [
-   "src/data/toeic/toeicPart5NoteTypes.ts",
-   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
-  ],
-  [
-   "src/data/toeic/toeicPart5Notes.ts",
-   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
-  ],
-  [
-   "src/data/toeic/toeicPart5NotesRound01.ts",
-   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
-  ],
-  [
-   "src/data/toeic/toeicPart5NotesRound02.ts",
-   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
-  ],
-  [
-   "src/data/toeic/toeicPart5NotesRound03.ts",
-   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
-  ],
-  [
-   "src/data/toeic/toeicPart5NotesRound04.ts",
-   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
-  ],
-  [
-   "src/data/toeic/toeicPart5NotesRound05.ts",
-   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
-  ],
-  [
-   "src/data/toeic/toeicPart5NotesRound06.ts",
-   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
-  ],
-  [
-   "src/data/toeic/toeicPart5NotesRound07.ts",
-   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
-  ],
-  [
-   "src/data/toeic/toeicPart5NotesRound08.ts",
-   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
-  ],
-  [
-   "src/data/toeic/toeicPart5NotesRound09.ts",
-   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
-  ],
-  [
-   "src/data/toeic/toeicPart5NotesRound10.ts",
-   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
-  ],
-  [
-   "src/data/toeic/toeicPart5NotesRound11.ts",
-   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
-  ],
-  [
-   "src/data/toeic/toeicPart5NotesRound12.ts",
-   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
-  ],
-  [
-   "src/data/toeic/toeicPart5NotesRound13.ts",
-   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
-  ],
-  [
-   "src/data/toeic/toeicPart5NotesRound14.ts",
-   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
-  ],
-  [
-   "src/data/toeic/toeicPart5NotesRound15.ts",
    "カードがまだ書かれていない新しいファイル。役割は要確認の係"
   ],
   [
@@ -2119,83 +1943,7 @@
    "カードがまだ書かれていない新しいファイル。役割は要確認の係"
   ],
   [
-   "src/data/toeic/toeicPart6Data.ts",
-   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
-  ],
-  [
-   "src/data/toeic/toeicPart6Kit.ts",
-   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
-  ],
-  [
-   "src/data/toeic/toeicPart6Round01.ts",
-   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
-  ],
-  [
-   "src/data/toeic/toeicPart6Round02.ts",
-   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
-  ],
-  [
-   "src/data/toeic/toeicPart6Round03.ts",
-   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
-  ],
-  [
-   "src/data/toeic/toeicPart6Round04.ts",
-   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
-  ],
-  [
-   "src/data/toeic/toeicPart6Round05.ts",
-   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
-  ],
-  [
-   "src/data/toeic/toeicPart6Round06.ts",
-   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
-  ],
-  [
-   "src/data/toeic/toeicPart6Round07.ts",
-   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
-  ],
-  [
-   "src/data/toeic/toeicPart6Round08.ts",
-   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
-  ],
-  [
-   "src/data/toeic/toeicPart6Round09.ts",
-   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
-  ],
-  [
-   "src/data/toeic/toeicPart6Round10.ts",
-   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
-  ],
-  [
-   "src/data/toeic/toeicPart6Round11.ts",
-   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
-  ],
-  [
-   "src/data/toeic/toeicPart6Round12.ts",
-   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
-  ],
-  [
-   "src/data/toeic/toeicPart6Round13.ts",
-   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
-  ],
-  [
-   "src/data/toeic/toeicPart6Round14.ts",
-   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
-  ],
-  [
-   "src/data/toeic/toeicPart6Round15.ts",
-   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
-  ],
-  [
-   "src/data/toeic/toeicPart6Rounds.ts",
-   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
-  ],
-  [
    "src/features/listeningTranslation/segments.ts",
-   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
-  ],
-  [
-   "src/features/profile/PublicProfileTabs.tsx",
    "カードがまだ書かれていない新しいファイル。役割は要確認の係"
   ],
   [
@@ -2343,10 +2091,6 @@
    "カードがまだ書かれていない新しいファイル。役割は要確認の係"
   ],
   [
-   "src/styles/home-stage.css",
-   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
-  ],
-  [
    "src/styles/math-typeset.css",
    "カードがまだ書かれていない新しいファイル。役割は要確認の係"
   ],
@@ -2371,10 +2115,6 @@
    "カードがまだ書かれていない新しいファイル。役割は要確認の係"
   ],
   [
-   "src/utils/adSuppress.ts",
-   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
-  ],
-  [
    "src/utils/analytics.ts",
    "カードがまだ書かれていない新しいファイル。役割は要確認の係"
   ],
@@ -2384,10 +2124,6 @@
   ],
   [
    "src/utils/chapterGroups.ts",
-   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
-  ],
-  [
-   "src/utils/chapterTitleAward.ts",
    "カードがまだ書かれていない新しいファイル。役割は要確認の係"
   ],
   [
@@ -2504,10 +2240,6 @@
   ],
   [
    "src/utils/quizStepState.ts",
-   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
-  ],
-  [
-   "src/utils/readingAlign.ts",
    "カードがまだ書かれていない新しいファイル。役割は要確認の係"
   ],
   [
@@ -2967,10 +2699,6 @@
    "カードがまだ書かれていない新しいファイル。役割は要確認の係"
   ],
   [
-   "tests/chapterTitles.test.ts",
-   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
-  ],
-  [
    "tests/classAssignmentsCore.test.ts",
    "カードがまだ書かれていない新しいファイル。役割は要確認の係"
   ],
@@ -2987,19 +2715,7 @@
    "カードがまだ書かれていない新しいファイル。役割は要確認の係"
   ],
   [
-   "tests/coinCelebration.test.ts",
-   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
-  ],
-  [
    "tests/collectionTiles.test.ts",
-   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
-  ],
-  [
-   "tests/cssBraces.test.ts",
-   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
-  ],
-  [
-   "tests/cssTokens.test.ts",
    "カードがまだ書かれていない新しいファイル。役割は要確認の係"
   ],
   [
@@ -3027,14 +2743,6 @@
    "カードがまだ書かれていない新しいファイル。役割は要確認の係"
   ],
   [
-   "tests/grammarAudioManifest.test.ts",
-   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
-  ],
-  [
-   "tests/grammarMemorizeSets.test.ts",
-   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
-  ],
-  [
    "tests/home-battle-shop-switch.test.ts",
    "カードがまだ書かれていない新しいファイル。役割は要確認の係"
   ],
@@ -3055,19 +2763,11 @@
    "カードがまだ書かれていない新しいファイル。役割は要確認の係"
   ],
   [
-   "tests/homeStage.test.ts",
-   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
-  ],
-  [
    "tests/kyotsuMockAudio.test.ts",
    "カードがまだ書かれていない新しいファイル。役割は要確認の係"
   ],
   [
    "tests/kyotsuMockPrints.test.ts",
-   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
-  ],
-  [
-   "tests/listeningTechniques.test.ts",
    "カードがまだ書かれていない新しいファイル。役割は要確認の係"
   ],
   [
@@ -3091,15 +2791,7 @@
    "カードがまだ書かれていない新しいファイル。役割は要確認の係"
   ],
   [
-   "tests/mypageDesktopWidth.test.ts",
-   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
-  ],
-  [
    "tests/nativeAuthError.test.ts",
-   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
-  ],
-  [
-   "tests/nijiGacha.test.ts",
    "カードがまだ書かれていない新しいファイル。役割は要確認の係"
   ],
   [
@@ -3108,10 +2800,6 @@
   ],
   [
    "tests/prTool.test.ts",
-   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
-  ],
-  [
-   "tests/profileEditScroll.test.ts",
    "カードがまだ書かれていない新しいファイル。役割は要確認の係"
   ],
   [
@@ -3139,10 +2827,6 @@
    "カードがまだ書かれていない新しいファイル。役割は要確認の係"
   ],
   [
-   "tests/readingAlign.test.ts",
-   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
-  ],
-  [
    "tests/readingTranslation.test.ts",
    "カードがまだ書かれていない新しいファイル。役割は要確認の係"
   ],
@@ -3163,19 +2847,11 @@
    "カードがまだ書かれていない新しいファイル。役割は要確認の係"
   ],
   [
-   "tests/seasonFall.test.ts",
-   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
-  ],
-  [
    "tests/shuffle.test.ts",
    "カードがまだ書かれていない新しいファイル。役割は要確認の係"
   ],
   [
    "tests/startupImportGraph.test.ts",
-   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
-  ],
-  [
-   "tests/studyCatalog.test.ts",
    "カードがまだ書かれていない新しいファイル。役割は要確認の係"
   ],
   [
@@ -3196,22 +2872,6 @@
   ],
   [
    "tests/toeicPart5Data.test.ts",
-   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
-  ],
-  [
-   "tests/toeicPart5Notes.test.ts",
-   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
-  ],
-  [
-   "tests/toeicPart6Kit.test.ts",
-   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
-  ],
-  [
-   "tests/toeicPart6Notes.test.ts",
-   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
-  ],
-  [
-   "tests/toeicTimeBudget.test.ts",
    "カードがまだ書かれていない新しいファイル。役割は要確認の係"
   ],
   [
@@ -3273,6 +2933,6 @@
    "英単語の出題範囲を表す名前を作り、範囲内か調べる係"
   ]
  ],
- "cards": 1402,
- "files": 3592
+ "cards": 1318,
+ "files": 3423
 }
