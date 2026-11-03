@@ -43,8 +43,8 @@ P2 = {
         "paper,\" she laughs. \"To me, that is still a kind of magic.\" What matters most to her, though, is not the shop but the sound "
         "she hears early in the morning: water splashing in the workshops next door, where people she has taught are already at work.",
     ],
-    'qlead': '空所 (1)〜(10) に入れるのにもっとも適当な語を下の語群から 1 つずつ選び、必要があれば適切な形に変えて解答用紙に書け。'
-             '語群の語はそれぞれ 1 回しか使えない。使わない語が 1 つある。',
+    'qlead': '空所 (1)〜(10) を補うのに最適な語を下の語群から選べ。語形の変化が必要なものは変化させた形で解答用紙に記入すること。'
+             '語群の各語は一度ずつしか使えず、1 語は余る。',
     'bank': ['abandon', 'attract', 'decline', 'depend', 'encourage', 'inherit', 'launch', 'recognize', 'reduce', 'survive', 'train'],
     'blanks': [
         {'n': 1, 'base': 'decline', 'answer': 'declined',

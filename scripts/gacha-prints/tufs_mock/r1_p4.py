@@ -4,8 +4,7 @@ P4 = {
     'points': 40,
     'title': 'An Interview with a Subtitle Translator',
     'lead': '次に流れる放送は、映画やドラマの字幕を翻訳しているレナ・ホルトが、ラジオ番組で自分の仕事について語ったインタビューである。'
-            '放送を聞いて、その内容に合うように次の 1〜8 の文を完成させるのにもっとも適当なものを、それぞれ a〜c から 1 つずつ選び、'
-            '記号を解答用紙に書け。放送は 1 回だけ流れる。',
+            '読まれるのは 1 回だけである。話された内容と一致するよう、1〜8 の英文の続きとして最適なものを a〜c から選び、記号で答えよ。',
     'script': [
         ('Host', "Welcome back to //Word for Word//. My guest today is Lena Holt, who has translated subtitles for more than two hundred films "
                  "and television series. Lena, thank you for coming in."),

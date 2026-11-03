@@ -3,8 +3,8 @@
 P3 = {
     'points': 40,
     'title': 'Why We Remember Some Days and Forget Others',
-    'lead': 'これから "Why We Remember Some Days and Forget Others" という題の講義を聞く。その内容に合うように、次の 1〜8 の文を完成させるのに'
-            'もっとも適当なものを、それぞれ a〜c から 1 つずつ選び、記号を解答用紙に書け。放送は 1 回だけ流れる。',
+    'lead': 'これから "Why We Remember Some Days and Forget Others" という題の講義が 1 回だけ読まれる。講義で述べられたことと一致するよう、'
+            '1〜8 の英文の続きとして最適なものを a〜c から選び、記号で答えよ。',
     'script': [
         "Good afternoon, everyone. Today I want to talk about a question that most of us have asked ourselves at some point: why do we "
         "remember certain days of our lives in great detail, while others vanish almost completely? If I asked you what you did on an "
