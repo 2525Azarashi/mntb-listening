@@ -548,7 +548,7 @@
 | 2 | ピックアップの説明文 | 収録大学に4大学を追加。長くなるので大学名は「〇〇・〇〇大学」の短い書き方にまとめた | `src/battle/core/gachaPools.ts`（`NIJI_DISCLAIMER` は自動で4大学を含む） |
 | 3 | 既存の予想問題の言い回し | 和歌山2・岡山1/3・広島1 の一部の言い回しを修正（金沢・福井の過去問を照合元に加えても一致0件にするため。見た目の変更なし） | `public/prints/print_lr_niji_{wakayama_en_2,okayama_en_1,okayama_en_3,hiroshima_en_1}.pdf` ほか |
 
-**戻し方**：`nijiMockPrints.ts` の北陸7系統の行（`NIJI_UNIVERSITIES` の7行・ヘルパー7行・台帳21行）を消し、`gachaPools.ts` の lrNote・`build-previews.py` の正規表現・`tests/nijiGacha.test.ts` の件数（42→21）を元に戻す。PDF・画像は消してよい。#3 は別コミットなので、そのコミットだけ revert すれば戻る。
+**戻し方**：`nijiMockPrints.ts` の北陸7系統の行（`NIJI_UNIVERSITIES` の7行・ヘルパー7行・台帳21行）を消し、`gachaPools.ts` の lrNote・`build-previews.py` の正規表現・`tests/nijiGacha.test.ts` の件数（54→33）を元に戻す。PDF・画像は消してよい。#3 は別コミットなので、そのコミットだけ revert すれば戻る。
 
 ---
 
