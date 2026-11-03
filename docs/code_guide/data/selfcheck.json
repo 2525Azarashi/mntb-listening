@@ -1043,6 +1043,94 @@
    "カードがまだ書かれていない新しいファイル。役割は要確認の係"
   ],
   [
+   "scripts/gacha-prints/fwu_mock/logo_gray.png",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "scripts/gacha-prints/fwu_mock/pdf.mjs",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "scripts/gacha-prints/fwu_mock/r1.py",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "scripts/gacha-prints/fwu_mock/r1_p1.py",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "scripts/gacha-prints/fwu_mock/r1_p1q.py",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "scripts/gacha-prints/fwu_mock/r1_p2.py",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "scripts/gacha-prints/fwu_mock/r1_p2q.py",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "scripts/gacha-prints/fwu_mock/r1_p3.py",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "scripts/gacha-prints/fwu_mock/r2.py",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "scripts/gacha-prints/fwu_mock/r2_p1.py",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "scripts/gacha-prints/fwu_mock/r2_p1q.py",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "scripts/gacha-prints/fwu_mock/r2_p2.py",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "scripts/gacha-prints/fwu_mock/r2_p2q.py",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "scripts/gacha-prints/fwu_mock/r2_p3.py",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "scripts/gacha-prints/fwu_mock/r3.py",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "scripts/gacha-prints/fwu_mock/r3_p1.py",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "scripts/gacha-prints/fwu_mock/r3_p1q.py",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "scripts/gacha-prints/fwu_mock/r3_p2.py",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "scripts/gacha-prints/fwu_mock/r3_p2q.py",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "scripts/gacha-prints/fwu_mock/r3_p3.py",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "scripts/gacha-prints/fwu_mock/render.py",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "scripts/gacha-prints/fwu_mock/style.css",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
    "scripts/gacha-prints/gakugei_mock/logo_gray.png",
    "カードがまだ書かれていない新しいファイル。役割は要確認の係"
   ],
@@ -2303,6 +2391,10 @@
    "カードがまだ書かれていない新しいファイル。役割は要確認の係"
   ],
   [
+   "src/components/toeic/ToeicP6Passage.tsx",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
    "src/components/toeic/ToeicPageQuiz.tsx",
    "カードがまだ書かれていない新しいファイル。役割は要確認の係"
   ],
@@ -2420,6 +2512,10 @@
   ],
   [
    "src/data/reading/vocabLink.ts",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "src/data/toeic/toeicData.ts",
    "カードがまだ書かれていない新しいファイル。役割は要確認の係"
   ],
   [
@@ -2568,6 +2664,66 @@
   ],
   [
    "src/data/toeic/toeicPart6Kit.ts",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "src/data/toeic/toeicPart6Round01.ts",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "src/data/toeic/toeicPart6Round02.ts",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "src/data/toeic/toeicPart6Round03.ts",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "src/data/toeic/toeicPart6Round04.ts",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "src/data/toeic/toeicPart6Round05.ts",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "src/data/toeic/toeicPart6Round06.ts",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "src/data/toeic/toeicPart6Round07.ts",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "src/data/toeic/toeicPart6Round08.ts",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "src/data/toeic/toeicPart6Round09.ts",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "src/data/toeic/toeicPart6Round10.ts",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "src/data/toeic/toeicPart6Round11.ts",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "src/data/toeic/toeicPart6Round12.ts",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "src/data/toeic/toeicPart6Round13.ts",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "src/data/toeic/toeicPart6Round14.ts",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "src/data/toeic/toeicPart6Round15.ts",
    "カードがまだ書かれていない新しいファイル。役割は要確認の係"
   ],
   [
@@ -3591,6 +3747,10 @@
    "カードがまだ書かれていない新しいファイル。役割は要確認の係"
   ],
   [
+   "tests/toeicPart6Notes.test.ts",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
    "tests/toeicTimeBudget.test.ts",
    "カードがまだ書かれていない新しいファイル。役割は要確認の係"
   ],
@@ -3653,6 +3813,6 @@
    "英単語の出題範囲を表す名前を作り、範囲内か調べる係"
   ]
  ],
- "cards": 1497,
- "files": 3735
+ "cards": 1537,
+ "files": 3790
 }

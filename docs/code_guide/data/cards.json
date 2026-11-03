@@ -315,11 +315,11 @@
 },
 {
 "dir": "ref",
-"path": "docs/TOEIC_DESIGN.md"
+"path": "docs/archive/UI_REVAMP_2026-09-30.md"
 },
 {
 "dir": "ref",
-"path": "docs/archive/UI_REVAMP_2026-09-30.md"
+"path": "scripts/pr/pr.mts"
 }
 ],
 "lines": 21,
@@ -2326,7 +2326,7 @@
 "path": "README.md"
 }
 ],
-"lines": 227,
+"lines": 241,
 "tag": "文書",
 "conf": "高",
 "kind": "file",
@@ -7585,7 +7585,7 @@
 "path": "src/firebase.ts"
 }
 ],
-"lines": 612,
+"lines": 618,
 "tag": "画面",
 "conf": "高",
 "kind": "file",
@@ -9053,7 +9053,7 @@
 "name": "NoteDetail.tsx",
 "folder": "src",
 "one": "保存した学習ノート1件を開き、関連する問題へ移らせる係",
-"detail": "NoteDetailを公開する。読み込むもの：firebase.ts・safeLocalStorage.ts・dialog.ts など5ファイル、外部部品 lucide-react・react。App.tsxから読み込まれる。",
+"detail": "NoteDetailを公開する。読み込むもの：firebase.ts・safeLocalStorage.ts・textFormatter.tsx など5ファイル、外部部品 lucide-react・react。App.tsxから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -9984,7 +9984,7 @@
 "name": "ListeningCompactAnswers.tsx",
 "folder": "src",
 "one": "リスニングの答え合わせを1画面に収めて見せる係",
-"detail": "冒頭の説明：「リスニング（と英文法の英文トラック）の答え合わせ：1画面で完結させる形。」ListeningCompactAnswersを公開する。読み込むもの：curriculum.ts・textFormatter.tsx・listeningExplanation.ts など8ファイル、外部部品 lucide-react・react。ExplanationAnswerItem.tsxから読み込まれる。",
+"detail": "冒頭の説明：「リスニング（と英文法の英文トラック）の答え合わせ：1画面で完結させる形。」ListeningCompactAnswersを公開する。読み込むもの：curriculum.ts・textFormatter.tsx・answerJudge.ts など8ファイル、外部部品 lucide-react・react。ExplanationAnswerItem.tsxから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -10236,7 +10236,7 @@
 "name": "explanationLogic.ts",
 "folder": "src",
 "one": "解答・解説画面で使う、点数などの計算をまとめる係",
-"detail": "冒頭の説明：「小問ID → 入力した解答」ResultPage・computeQuestionScore・computeWeakAreas など5個を公開する。読み込むもの：curriculum.ts・listeningExplanation.ts・answerJudge.ts など5ファイル。Explanation.tsx・ProblemStatement.tsx など5ファイルから読み込まれる。",
+"detail": "冒頭の説明：「小問ID → 入力した解答」ResultPage・computeQuestionScore・computeWeakAreas など5個を公開する。読み込むもの：curriculum.ts・answerJudge.ts・listeningExplanation.ts など5ファイル。Explanation.tsx・ProblemStatement.tsx など5ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -11597,7 +11597,7 @@
 "name": "allChapters.ts",
 "folder": "src",
 "one": "教科ごとの単元の一覧を集め、単元を探せるようにする入口の係",
-"detail": "冒頭の説明：「教科データの入口（章の一覧・章の検索） 画面は教科データ本体（parts / chapters のネスト）を直接触らず、ここを通して章を引く。」SUBJECTS・getChaptersOfSubject・getPartsOfSubject など5個を公開する。読み込むもの：curriculum.ts・englishListeningData.ts・subjects.ts など5ファイル。gen-battle-pool.mts・gen-chapter-index.mts など28ファイルから読み込まれる。",
+"detail": "冒頭の説明：「教科データの入口（章の一覧・章の検索） 画面は教科データ本体（parts / chapters のネスト）を直接触らず、ここを通して章を引く。」SUBJECTS・getChaptersOfSubject・getPartsOfSubject など5個を公開する。読み込むもの：curriculum.ts・englishListeningData.ts・subjects.ts など5ファイル。gen-battle-pool.mts・gen-chapter-index.mts など29ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -11624,7 +11624,7 @@
 "miniTestProblemsOf"
 ],
 "nImports": 5,
-"nBy": 28,
+"nBy": 29,
 "draft": false,
 "sys": "content",
 "flow": [
@@ -11905,7 +11905,7 @@
 "name": "englishGrammarData.ts",
 "folder": "src",
 "one": "英文法の単元（章）の並びと中身をまとめて持つ係",
-"detail": "冒頭の説明：「英文法（単元別・全網羅）データ ■ 位置づけ englishListeningData / biologyBasicData / mathData と同じ 「骨格＋問題流し込み」方…」GrammarChapter・GrammarPart・englishGrammarData など5個を公開する。読み込むもの：curriculum.ts・egV3Problems.ts・listeningPostProcess.ts など5ファイル。gen-chapter-index.mts・allChapters.ts など6ファイルから読み込まれる。",
+"detail": "冒頭の説明：「英文法（単元別・全網羅）データ ■ 位置づけ englishListeningData / biologyBasicData / mathData と同じ 「骨格＋問題流し込み」方…」GrammarChapter・GrammarPart・englishGrammarData など5個を公開する。読み込むもの：curriculum.ts・listeningPostProcess.ts・egV3Problems.ts など5ファイル。gen-chapter-index.mts・allChapters.ts など6ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -12369,7 +12369,7 @@
 "name": "listeningPostProcess.ts",
 "folder": "src",
 "one": "英語2教科の解説の後処理を、共通の手順で行う係",
-"detail": "冒頭の説明：「英語2教科（リスニング・英文法）の「解説の後処理」 ■ なぜこのファイルがあるか englishListeningData.ts と englishGrammarData.ts の…」applyListeningPostProcessを公開する。読み込むもの：curriculum.ts・listeningExplanation.ts・explanationFormat.ts。englishGrammarData.ts・englishListeningData.ts など4ファイルから読み込まれる。",
+"detail": "冒頭の説明：「英語2教科（リスニング・英文法）の「解説の後処理」 ■ なぜこのファイルがあるか englishListeningData.ts と englishGrammarData.ts の…」applyListeningPostProcessを公開する。読み込むもの：curriculum.ts・listeningExplanation.ts・explanationFormat.ts。englishGrammarData.ts・englishListeningData.ts など5ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -12392,7 +12392,7 @@
 "applyListeningPostProcess"
 ],
 "nImports": 3,
-"nBy": 4,
+"nBy": 5,
 "draft": false,
 "sys": "content",
 "flow": [
@@ -12562,7 +12562,7 @@
 "path": "src/data/reading/meta.ts"
 }
 ],
-"lines": 118,
+"lines": 119,
 "tag": "データ",
 "conf": "高",
 "kind": "file",
@@ -12673,7 +12673,7 @@
 "path": "src/components/DoorMascot.tsx"
 }
 ],
-"lines": 195,
+"lines": 196,
 "tag": "設定",
 "conf": "高",
 "kind": "file",
@@ -14136,7 +14136,7 @@
 "name": "curriculum.ts",
 "folder": "src",
 "one": "単元・大問・小問・音源など、教材データの共通の形を決める係",
-"detail": "冒頭の説明：「教材データ（単元・大問・小問・音源）の共通の型。」DetailedExplanation・Distractor・SubQuestion など12個を公開する。BattleReviewDetails.tsx・AnswerPane.tsx など65ファイルから読み込まれる。",
+"detail": "冒頭の説明：「教材データ（単元・大問・小問・音源）の共通の型。」DetailedExplanation・Distractor・SubQuestion など12個を公開する。BattleReviewDetails.tsx・AnswerPane.tsx など66ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -14162,7 +14162,7 @@
 "Problem"
 ],
 "nImports": 0,
-"nBy": 65,
+"nBy": 66,
 "draft": false,
 "sys": "content",
 "flow": []
@@ -14368,7 +14368,7 @@
 "name": "answerJudge.ts",
 "folder": "src",
 "one": "入力された答えが正しいかを判定する、ただ1つの係",
-"detail": "冒頭の説明：「answerJudge — 解答判定の単一の真実 (single source of truth) このモジュールは「ユーザーの解答が正解か」を判定するロジックを一箇所に集約する。」JudgeableSubQuestion・normalizeAnswer・isDescriptive など8個を公開する。読み込むもの：answerEquivalence.ts。gen-battle-pool.mts・authoredConvert.ts など10ファイルから読み込まれる。",
+"detail": "冒頭の説明：「answerJudge — 解答判定の単一の真実 (single source of truth) このモジュールは「ユーザーの解答が正解か」を判定するロジックを一箇所に集約する。」JudgeableSubQuestion・normalizeAnswer・isDescriptive など8個を公開する。読み込むもの：answerEquivalence.ts。gen-battle-pool.mts・authoredConvert.ts など11ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -14398,7 +14398,7 @@
 "JudgeResult"
 ],
 "nImports": 1,
-"nBy": 10,
+"nBy": 11,
 "draft": false,
 "sys": "logic",
 "flow": [
@@ -16607,7 +16607,7 @@
 "name": "textFormatter.tsx",
 "folder": "src",
 "one": "本文の太字や数式を、表示用の形に置き換える係",
-"detail": "冒頭の説明：「数学記法エンジンは mathNotation.ts へ移した。外向きの名前は変えない。」convertBoldMarkdown・FormatTextOptions・setFormatMathContext など6個を公開する。読み込むもの：sanitizeHtml.ts・mathTypeset.ts・mathNotation.ts、外部部品 react。BattleText.tsx・AnswerPane.tsx など15ファイルから読み込まれる。",
+"detail": "冒頭の説明：「数学記法エンジンは mathNotation.ts へ移した。外向きの名前は変えない。」convertBoldMarkdown・FormatTextOptions・setFormatMathContext など6個を公開する。読み込むもの：sanitizeHtml.ts・mathTypeset.ts・mathNotation.ts、外部部品 react。BattleText.tsx・AnswerPane.tsx など16ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -16635,7 +16635,7 @@
 "convertMathNotation"
 ],
 "nImports": 3,
-"nBy": 15,
+"nBy": 16,
 "draft": false,
 "changed": true,
 "sys": "logic",
@@ -19381,14 +19381,10 @@
 "links": [
 {
 "dir": "ref",
-"path": "src/data/toeic/toeicPart6Data.ts"
-},
-{
-"dir": "ref",
 "path": "src/data/toeic/toeicPart6Kit.ts"
 }
 ],
-"lines": 159,
+"lines": 165,
 "tag": "文書",
 "conf": "低",
 "kind": "file",
@@ -19433,7 +19429,7 @@
 "name": "UI_CHANGELOG.md",
 "folder": "docs",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "主な見出し：UI 変更記録（元に戻すとき用）／UI 変更記録（元に戻すとき用）／2026-11-01 2次試験ガチャの大当たりに九州大学 前期対策 英語 予想問題 第1〜3回（PR: feat/niji-kyushu）。",
+"detail": "主な見出し：UI 変更記録（元に戻すとき用）／UI 変更記録（元に戻すとき用）／2026-11-02 2次試験ガチャの大当たりに福岡女子大学 前期対策 英語 予想問題 第1〜3回（PR: feat/niji-fwu）。",
 "links": [
 {
 "dir": "ref",
@@ -19448,7 +19444,7 @@
 "path": "scripts/pr/prCore.mts"
 }
 ],
-"lines": 1073,
+"lines": 1097,
 "tag": "文書",
 "conf": "低",
 "kind": "file",
@@ -23709,7 +23705,7 @@
 "name": "check-toeic-notes.mts",
 "folder": "scripts",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「TOEIC Part 5 の追加解説（着眼点・ポイント・TOEICでのコツ）が、 英文法の解説やほかの文章を写していないかを確かめる。」読み込むもの：toeicPart5Rounds.ts・toeicPart5Notes.ts・egV3Items.generated.ts。",
+"detail": "冒頭の説明：「TOEIC Part 5 の追加解説（着眼点・ポイント・TOEICでのコツ）が、 英文法の解説やほかの文章を写していないかを確かめる。」読み込むもの：toeicPart5Rounds.ts・toeicPart6Rounds.ts・toeicPart5Notes.ts など4ファイル。",
 "links": [
 {
 "dir": "to",
@@ -23717,19 +23713,19 @@
 },
 {
 "dir": "to",
-"path": "src/data/toeic/toeicPart5Notes.ts"
+"path": "src/data/toeic/toeicPart6Rounds.ts"
 },
 {
 "dir": "to",
-"path": "src/data/egV3Items.generated.ts"
+"path": "src/data/toeic/toeicPart5Notes.ts"
 }
 ],
-"lines": 113,
+"lines": 152,
 "tag": "データ",
 "conf": "低",
 "kind": "file",
 "exports": [],
-"nImports": 3,
+"nImports": 4,
 "nBy": 0,
 "draft": true,
 "sys": "tools",
@@ -24224,6 +24220,576 @@
 "flow": []
 },
 {
+"id": "scripts/gacha-prints/fwu_mock/logo_gray.png",
+"path": "scripts/gacha-prints/fwu_mock/logo_gray.png",
+"name": "logo_gray.png",
+"folder": "scripts",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [
+{
+"dir": "ref",
+"path": "scripts/gacha-prints/fwu_mock/render.py"
+},
+{
+"dir": "ref",
+"path": "scripts/gacha-prints/gakugei_mock/render.py"
+},
+{
+"dir": "ref",
+"path": "scripts/gacha-prints/kumamoto_mock/render.py"
+}
+],
+"lines": 118,
+"tag": "音声・画像",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "tools",
+"flow": []
+},
+{
+"id": "scripts/gacha-prints/fwu_mock/pdf.mjs",
+"path": "scripts/gacha-prints/fwu_mock/pdf.mjs",
+"name": "pdf.mjs",
+"folder": "scripts",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「HTML → A4 PDF（Chromium）。render.py から呼ぶ：node pdf.mjs <in.html> <out.pdf> <ヘッダーの文字> Playwrig…」読み込むもの：。",
+"links": [
+{
+"dir": "ref",
+"path": "scripts/gacha-prints/fwu_mock/render.py"
+},
+{
+"dir": "ref",
+"path": "scripts/gacha-prints/gakugei_mock/pdf.mjs"
+},
+{
+"dir": "ref",
+"path": "scripts/gacha-prints/gakugei_mock/render.py"
+}
+],
+"lines": 30,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "tools",
+"flow": []
+},
+{
+"id": "scripts/gacha-prints/fwu_mock/r1.py",
+"path": "scripts/gacha-prints/fwu_mock/r1.py",
+"name": "r1.py",
+"folder": "scripts",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「*- coding: utf-8 -*- 第1回のデータをまとめる」",
+"links": [
+{
+"dir": "ref",
+"path": "docs/UI_CHANGELOG.md"
+},
+{
+"dir": "ref",
+"path": "scripts/gacha-prints/README.md"
+},
+{
+"dir": "ref",
+"path": "scripts/gacha-prints/fwu_mock/render.py"
+}
+],
+"lines": 9,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "tools",
+"flow": []
+},
+{
+"id": "scripts/gacha-prints/fwu_mock/r1_p1.py",
+"path": "scripts/gacha-prints/fwu_mock/r1_p1.py",
+"name": "r1_p1.py",
+"folder": "scripts",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「*- coding: utf-8 -*- 第1回 問題Ⅰ 本文（書き下ろし・人物と町は架空）」",
+"links": [],
+"lines": 99,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "tools",
+"flow": []
+},
+{
+"id": "scripts/gacha-prints/fwu_mock/r1_p1q.py",
+"path": "scripts/gacha-prints/fwu_mock/r1_p1q.py",
+"name": "r1_p1q.py",
+"folder": "scripts",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「*- coding: utf-8 -*- 第1回 問題Ⅰ 設問（書き下ろし）」",
+"links": [
+{
+"dir": "ref",
+"path": "scripts/gacha-prints/fwu_mock/r1.py"
+},
+{
+"dir": "ref",
+"path": "scripts/gacha-prints/kumamoto_mock/r1.py"
+},
+{
+"dir": "ref",
+"path": "scripts/gacha-prints/kumamoto_mock/r1_p1.py"
+}
+],
+"lines": 63,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "tools",
+"flow": []
+},
+{
+"id": "scripts/gacha-prints/fwu_mock/r1_p2.py",
+"path": "scripts/gacha-prints/fwu_mock/r1_p2.py",
+"name": "r1_p2.py",
+"folder": "scripts",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「*- coding: utf-8 -*- 第1回 問題Ⅱ 本文（書き下ろし・研究者と都市は架空）」",
+"links": [],
+"lines": 93,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "tools",
+"flow": []
+},
+{
+"id": "scripts/gacha-prints/fwu_mock/r1_p2q.py",
+"path": "scripts/gacha-prints/fwu_mock/r1_p2q.py",
+"name": "r1_p2q.py",
+"folder": "scripts",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「*- coding: utf-8 -*- 第1回 問題Ⅱ 設問（書き下ろし）」",
+"links": [
+{
+"dir": "ref",
+"path": "scripts/gacha-prints/fwu_mock/r1.py"
+},
+{
+"dir": "ref",
+"path": "scripts/gacha-prints/kyushu_mock/r1.py"
+},
+{
+"dir": "ref",
+"path": "scripts/gacha-prints/ryukyu_mock/r1.py"
+}
+],
+"lines": 53,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "tools",
+"flow": []
+},
+{
+"id": "scripts/gacha-prints/fwu_mock/r1_p3.py",
+"path": "scripts/gacha-prints/fwu_mock/r1_p3.py",
+"name": "r1_p3.py",
+"folder": "scripts",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「*- coding: utf-8 -*- 第1回 問題Ⅲ 和文英訳（書き下ろし）」",
+"links": [],
+"lines": 39,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "tools",
+"flow": []
+},
+{
+"id": "scripts/gacha-prints/fwu_mock/r2.py",
+"path": "scripts/gacha-prints/fwu_mock/r2.py",
+"name": "r2.py",
+"folder": "scripts",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「*- coding: utf-8 -*- 第2回のデータをまとめる」",
+"links": [
+{
+"dir": "ref",
+"path": "docs/UI_CHANGELOG.md"
+},
+{
+"dir": "ref",
+"path": "scripts/gacha-prints/README.md"
+}
+],
+"lines": 9,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "tools",
+"flow": []
+},
+{
+"id": "scripts/gacha-prints/fwu_mock/r2_p1.py",
+"path": "scripts/gacha-prints/fwu_mock/r2_p1.py",
+"name": "r2_p1.py",
+"folder": "scripts",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「*- coding: utf-8 -*- 第2回 問題Ⅰ 本文（書き下ろし・人物と学校は架空）」",
+"links": [],
+"lines": 92,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "tools",
+"flow": []
+},
+{
+"id": "scripts/gacha-prints/fwu_mock/r2_p1q.py",
+"path": "scripts/gacha-prints/fwu_mock/r2_p1q.py",
+"name": "r2_p1q.py",
+"folder": "scripts",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「*- coding: utf-8 -*- 第2回 問題Ⅰ 設問（書き下ろし）」",
+"links": [
+{
+"dir": "ref",
+"path": "scripts/gacha-prints/fwu_mock/r2.py"
+},
+{
+"dir": "ref",
+"path": "scripts/gacha-prints/kumamoto_mock/r2.py"
+},
+{
+"dir": "ref",
+"path": "scripts/gacha-prints/kumamoto_mock/r2_p1.py"
+}
+],
+"lines": 59,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "tools",
+"flow": []
+},
+{
+"id": "scripts/gacha-prints/fwu_mock/r2_p2.py",
+"path": "scripts/gacha-prints/fwu_mock/r2_p2.py",
+"name": "r2_p2.py",
+"folder": "scripts",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「*- coding: utf-8 -*- 第2回 問題Ⅱ 本文（書き下ろし・研究者と地名は架空）」",
+"links": [],
+"lines": 95,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "tools",
+"flow": []
+},
+{
+"id": "scripts/gacha-prints/fwu_mock/r2_p2q.py",
+"path": "scripts/gacha-prints/fwu_mock/r2_p2q.py",
+"name": "r2_p2q.py",
+"folder": "scripts",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「*- coding: utf-8 -*- 第2回 問題Ⅱ 設問（書き下ろし）」",
+"links": [
+{
+"dir": "ref",
+"path": "scripts/gacha-prints/fwu_mock/r2.py"
+},
+{
+"dir": "ref",
+"path": "scripts/gacha-prints/kyushu_mock/r2.py"
+},
+{
+"dir": "ref",
+"path": "scripts/gacha-prints/ryukyu_mock/r2.py"
+}
+],
+"lines": 58,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "tools",
+"flow": []
+},
+{
+"id": "scripts/gacha-prints/fwu_mock/r2_p3.py",
+"path": "scripts/gacha-prints/fwu_mock/r2_p3.py",
+"name": "r2_p3.py",
+"folder": "scripts",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「*- coding: utf-8 -*- 第2回 問題Ⅲ 和文英訳（書き下ろし）」",
+"links": [],
+"lines": 39,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "tools",
+"flow": []
+},
+{
+"id": "scripts/gacha-prints/fwu_mock/r3.py",
+"path": "scripts/gacha-prints/fwu_mock/r3.py",
+"name": "r3.py",
+"folder": "scripts",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「*- coding: utf-8 -*- 第3回のデータをまとめる」",
+"links": [],
+"lines": 9,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "tools",
+"flow": []
+},
+{
+"id": "scripts/gacha-prints/fwu_mock/r3_p1.py",
+"path": "scripts/gacha-prints/fwu_mock/r3_p1.py",
+"name": "r3_p1.py",
+"folder": "scripts",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「*- coding: utf-8 -*- 第3回 問題Ⅰ 本文（書き下ろし・人物と町は架空）」",
+"links": [],
+"lines": 92,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "tools",
+"flow": []
+},
+{
+"id": "scripts/gacha-prints/fwu_mock/r3_p1q.py",
+"path": "scripts/gacha-prints/fwu_mock/r3_p1q.py",
+"name": "r3_p1q.py",
+"folder": "scripts",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「*- coding: utf-8 -*- 第3回 問題Ⅰ 設問（書き下ろし）」",
+"links": [
+{
+"dir": "ref",
+"path": "scripts/gacha-prints/fwu_mock/r3.py"
+},
+{
+"dir": "ref",
+"path": "scripts/gacha-prints/kumamoto_mock/r3.py"
+},
+{
+"dir": "ref",
+"path": "scripts/gacha-prints/kumamoto_mock/r3_p1.py"
+}
+],
+"lines": 59,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "tools",
+"flow": []
+},
+{
+"id": "scripts/gacha-prints/fwu_mock/r3_p2.py",
+"path": "scripts/gacha-prints/fwu_mock/r3_p2.py",
+"name": "r3_p2.py",
+"folder": "scripts",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「*- coding: utf-8 -*- 第3回 問題Ⅱ 本文（書き下ろし・研究者と調査は架空）」",
+"links": [],
+"lines": 93,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "tools",
+"flow": []
+},
+{
+"id": "scripts/gacha-prints/fwu_mock/r3_p2q.py",
+"path": "scripts/gacha-prints/fwu_mock/r3_p2q.py",
+"name": "r3_p2q.py",
+"folder": "scripts",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「*- coding: utf-8 -*- 第3回 問題Ⅱ 設問（書き下ろし）」",
+"links": [
+{
+"dir": "ref",
+"path": "scripts/gacha-prints/fwu_mock/r3.py"
+},
+{
+"dir": "ref",
+"path": "scripts/gacha-prints/kyushu_mock/r3.py"
+},
+{
+"dir": "ref",
+"path": "scripts/gacha-prints/ryukyu_mock/r3.py"
+}
+],
+"lines": 62,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "tools",
+"flow": []
+},
+{
+"id": "scripts/gacha-prints/fwu_mock/r3_p3.py",
+"path": "scripts/gacha-prints/fwu_mock/r3_p3.py",
+"name": "r3_p3.py",
+"folder": "scripts",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「*- coding: utf-8 -*- 第3回 問題Ⅲ 和文英訳（書き下ろし）」",
+"links": [],
+"lines": 39,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "tools",
+"flow": []
+},
+{
+"id": "scripts/gacha-prints/fwu_mock/render.py",
+"path": "scripts/gacha-prints/fwu_mock/render.py",
+"name": "render.py",
+"folder": "scripts",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「福岡女子大学 一般選抜（前期日程）対策 英語 予想問題 — 紙面づくり（2026-11-02） python3 scripts/gacha-prints/fwu_mock/rend…」",
+"links": [
+{
+"dir": "ref",
+"path": "docs/UI_CHANGELOG.md"
+},
+{
+"dir": "ref",
+"path": "docs/elevenlabs_vocab/ALL_PROMPTS.md"
+},
+{
+"dir": "ref",
+"path": "docs/elevenlabs_vocab/batches/ilv2_0140-0166.txt"
+}
+],
+"lines": 382,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "tools",
+"flow": []
+},
+{
+"id": "scripts/gacha-prints/fwu_mock/style.css",
+"path": "scripts/gacha-prints/fwu_mock/style.css",
+"name": "style.css",
+"folder": "scripts",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「熊本大学 予想問題の紙面（ryukyu_mock/style.css と同じ。白黒の試験冊子）」",
+"links": [
+{
+"dir": "ref",
+"path": "docs/business_overview/index.html"
+},
+{
+"dir": "ref",
+"path": "scripts/gacha-prints/fwu_mock/render.py"
+},
+{
+"dir": "ref",
+"path": "scripts/gacha-prints/gakugei_mock/render.py"
+}
+],
+"lines": 166,
+"tag": "部品",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "tools",
+"flow": []
+},
+{
 "id": "scripts/gacha-prints/gakugei_mock/logo_gray.png",
 "path": "scripts/gacha-prints/gakugei_mock/logo_gray.png",
 "name": "logo_gray.png",
@@ -24233,15 +24799,15 @@
 "links": [
 {
 "dir": "ref",
+"path": "scripts/gacha-prints/fwu_mock/render.py"
+},
+{
+"dir": "ref",
 "path": "scripts/gacha-prints/gakugei_mock/render.py"
 },
 {
 "dir": "ref",
 "path": "scripts/gacha-prints/kumamoto_mock/render.py"
-},
-{
-"dir": "ref",
-"path": "scripts/gacha-prints/kyushu_mock/render.py"
 }
 ],
 "lines": 118,
@@ -24265,15 +24831,15 @@
 "links": [
 {
 "dir": "ref",
+"path": "scripts/gacha-prints/fwu_mock/pdf.mjs"
+},
+{
+"dir": "ref",
+"path": "scripts/gacha-prints/fwu_mock/render.py"
+},
+{
+"dir": "ref",
 "path": "scripts/gacha-prints/gakugei_mock/render.py"
-},
-{
-"dir": "ref",
-"path": "scripts/gacha-prints/kumamoto_mock/pdf.mjs"
-},
-{
-"dir": "ref",
-"path": "scripts/gacha-prints/kumamoto_mock/render.py"
 }
 ],
 "lines": 30,
@@ -24305,7 +24871,7 @@
 },
 {
 "dir": "ref",
-"path": "scripts/gacha-prints/gakugei_mock/render.py"
+"path": "scripts/gacha-prints/fwu_mock/render.py"
 }
 ],
 "lines": 7,
@@ -24598,11 +25164,11 @@
 },
 {
 "dir": "ref",
-"path": "scripts/gacha-prints/gakugei_mock/render.py"
+"path": "scripts/gacha-prints/fwu_mock/render.py"
 },
 {
 "dir": "ref",
-"path": "scripts/gacha-prints/kumamoto_mock/render.py"
+"path": "scripts/gacha-prints/fwu_mock/style.css"
 }
 ],
 "lines": 113,
@@ -24754,15 +25320,15 @@
 "links": [
 {
 "dir": "ref",
+"path": "scripts/gacha-prints/fwu_mock/render.py"
+},
+{
+"dir": "ref",
 "path": "scripts/gacha-prints/gakugei_mock/render.py"
 },
 {
 "dir": "ref",
 "path": "scripts/gacha-prints/kumamoto_mock/render.py"
-},
-{
-"dir": "ref",
-"path": "scripts/gacha-prints/kyushu_mock/render.py"
 }
 ],
 "lines": 118,
@@ -24786,15 +25352,15 @@
 "links": [
 {
 "dir": "ref",
+"path": "scripts/gacha-prints/fwu_mock/pdf.mjs"
+},
+{
+"dir": "ref",
+"path": "scripts/gacha-prints/fwu_mock/render.py"
+},
+{
+"dir": "ref",
 "path": "scripts/gacha-prints/gakugei_mock/pdf.mjs"
-},
-{
-"dir": "ref",
-"path": "scripts/gacha-prints/gakugei_mock/render.py"
-},
-{
-"dir": "ref",
-"path": "scripts/gacha-prints/kumamoto_mock/render.py"
 }
 ],
 "lines": 30,
@@ -24826,7 +25392,7 @@
 },
 {
 "dir": "ref",
-"path": "scripts/gacha-prints/gakugei_mock/render.py"
+"path": "scripts/gacha-prints/fwu_mock/render.py"
 }
 ],
 "lines": 9,
@@ -24869,15 +25435,15 @@
 "links": [
 {
 "dir": "ref",
+"path": "scripts/gacha-prints/fwu_mock/r1.py"
+},
+{
+"dir": "ref",
 "path": "scripts/gacha-prints/kumamoto_mock/r1.py"
 },
 {
 "dir": "ref",
 "path": "scripts/gacha-prints/kumamoto_mock/r1_p1.py"
-},
-{
-"dir": "ref",
-"path": "scripts/gacha-prints/kyushu_mock/r1.py"
 }
 ],
 "lines": 55,
@@ -25005,15 +25571,15 @@
 "links": [
 {
 "dir": "ref",
+"path": "scripts/gacha-prints/fwu_mock/r2.py"
+},
+{
+"dir": "ref",
 "path": "scripts/gacha-prints/kumamoto_mock/r2.py"
 },
 {
 "dir": "ref",
 "path": "scripts/gacha-prints/kumamoto_mock/r2_p1.py"
-},
-{
-"dir": "ref",
-"path": "scripts/gacha-prints/kyushu_mock/r2.py"
 }
 ],
 "lines": 55,
@@ -25132,15 +25698,15 @@
 "links": [
 {
 "dir": "ref",
+"path": "scripts/gacha-prints/fwu_mock/r3.py"
+},
+{
+"dir": "ref",
 "path": "scripts/gacha-prints/kumamoto_mock/r3.py"
 },
 {
 "dir": "ref",
 "path": "scripts/gacha-prints/kumamoto_mock/r3_p1.py"
-},
-{
-"dir": "ref",
-"path": "scripts/gacha-prints/kyushu_mock/r3.py"
 }
 ],
 "lines": 55,
@@ -25257,11 +25823,11 @@
 },
 {
 "dir": "ref",
-"path": "scripts/gacha-prints/gakugei_mock/render.py"
+"path": "scripts/gacha-prints/fwu_mock/render.py"
 },
 {
 "dir": "ref",
-"path": "scripts/gacha-prints/kumamoto_mock/render.py"
+"path": "scripts/gacha-prints/fwu_mock/style.css"
 }
 ],
 "lines": 156,
@@ -27274,15 +27840,15 @@
 "links": [
 {
 "dir": "ref",
+"path": "scripts/gacha-prints/fwu_mock/render.py"
+},
+{
+"dir": "ref",
 "path": "scripts/gacha-prints/gakugei_mock/render.py"
 },
 {
 "dir": "ref",
 "path": "scripts/gacha-prints/kumamoto_mock/render.py"
-},
-{
-"dir": "ref",
-"path": "scripts/gacha-prints/kyushu_mock/render.py"
 }
 ],
 "lines": 118,
@@ -27306,15 +27872,15 @@
 "links": [
 {
 "dir": "ref",
+"path": "scripts/gacha-prints/fwu_mock/pdf.mjs"
+},
+{
+"dir": "ref",
+"path": "scripts/gacha-prints/fwu_mock/render.py"
+},
+{
+"dir": "ref",
 "path": "scripts/gacha-prints/gakugei_mock/pdf.mjs"
-},
-{
-"dir": "ref",
-"path": "scripts/gacha-prints/gakugei_mock/render.py"
-},
-{
-"dir": "ref",
-"path": "scripts/gacha-prints/kumamoto_mock/pdf.mjs"
 }
 ],
 "lines": 30,
@@ -27346,7 +27912,7 @@
 },
 {
 "dir": "ref",
-"path": "scripts/gacha-prints/gakugei_mock/render.py"
+"path": "scripts/gacha-prints/fwu_mock/render.py"
 }
 ],
 "lines": 14,
@@ -27389,15 +27955,15 @@
 "links": [
 {
 "dir": "ref",
+"path": "scripts/gacha-prints/fwu_mock/r1.py"
+},
+{
+"dir": "ref",
 "path": "scripts/gacha-prints/kumamoto_mock/r1.py"
 },
 {
 "dir": "ref",
 "path": "scripts/gacha-prints/kumamoto_mock/r1_p1.py"
-},
-{
-"dir": "ref",
-"path": "scripts/gacha-prints/kyushu_mock/r1.py"
 }
 ],
 "lines": 45,
@@ -27440,15 +28006,15 @@
 "links": [
 {
 "dir": "ref",
+"path": "scripts/gacha-prints/fwu_mock/r1.py"
+},
+{
+"dir": "ref",
 "path": "scripts/gacha-prints/kyushu_mock/r1.py"
 },
 {
 "dir": "ref",
 "path": "scripts/gacha-prints/ryukyu_mock/r1.py"
-},
-{
-"dir": "ref",
-"path": "scripts/gacha-prints/ryukyu_mock/r1_p2.py"
 }
 ],
 "lines": 42,
@@ -27600,15 +28166,15 @@
 "links": [
 {
 "dir": "ref",
+"path": "scripts/gacha-prints/fwu_mock/r2.py"
+},
+{
+"dir": "ref",
 "path": "scripts/gacha-prints/kumamoto_mock/r2.py"
 },
 {
 "dir": "ref",
 "path": "scripts/gacha-prints/kumamoto_mock/r2_p1.py"
-},
-{
-"dir": "ref",
-"path": "scripts/gacha-prints/kyushu_mock/r2.py"
 }
 ],
 "lines": 45,
@@ -27651,15 +28217,15 @@
 "links": [
 {
 "dir": "ref",
+"path": "scripts/gacha-prints/fwu_mock/r2.py"
+},
+{
+"dir": "ref",
 "path": "scripts/gacha-prints/kyushu_mock/r2.py"
 },
 {
 "dir": "ref",
 "path": "scripts/gacha-prints/ryukyu_mock/r2.py"
-},
-{
-"dir": "ref",
-"path": "scripts/gacha-prints/ryukyu_mock/r2_p2.py"
 }
 ],
 "lines": 45,
@@ -27802,15 +28368,15 @@
 "links": [
 {
 "dir": "ref",
+"path": "scripts/gacha-prints/fwu_mock/r3.py"
+},
+{
+"dir": "ref",
 "path": "scripts/gacha-prints/kumamoto_mock/r3.py"
 },
 {
 "dir": "ref",
 "path": "scripts/gacha-prints/kumamoto_mock/r3_p1.py"
-},
-{
-"dir": "ref",
-"path": "scripts/gacha-prints/kyushu_mock/r3.py"
 }
 ],
 "lines": 44,
@@ -27853,15 +28419,15 @@
 "links": [
 {
 "dir": "ref",
+"path": "scripts/gacha-prints/fwu_mock/r3.py"
+},
+{
+"dir": "ref",
 "path": "scripts/gacha-prints/kyushu_mock/r3.py"
 },
 {
 "dir": "ref",
 "path": "scripts/gacha-prints/ryukyu_mock/r3.py"
-},
-{
-"dir": "ref",
-"path": "scripts/gacha-prints/ryukyu_mock/r3_p2.py"
 }
 ],
 "lines": 45,
@@ -28002,11 +28568,11 @@
 },
 {
 "dir": "ref",
-"path": "scripts/gacha-prints/gakugei_mock/render.py"
+"path": "scripts/gacha-prints/fwu_mock/render.py"
 },
 {
 "dir": "ref",
-"path": "scripts/gacha-prints/kumamoto_mock/render.py"
+"path": "scripts/gacha-prints/fwu_mock/style.css"
 }
 ],
 "lines": 161,
@@ -28238,15 +28804,15 @@
 "links": [
 {
 "dir": "ref",
+"path": "scripts/gacha-prints/fwu_mock/render.py"
+},
+{
+"dir": "ref",
 "path": "scripts/gacha-prints/gakugei_mock/render.py"
 },
 {
 "dir": "ref",
 "path": "scripts/gacha-prints/kumamoto_mock/render.py"
-},
-{
-"dir": "ref",
-"path": "scripts/gacha-prints/kyushu_mock/render.py"
 }
 ],
 "lines": 118,
@@ -28270,15 +28836,15 @@
 "links": [
 {
 "dir": "ref",
+"path": "scripts/gacha-prints/fwu_mock/pdf.mjs"
+},
+{
+"dir": "ref",
+"path": "scripts/gacha-prints/fwu_mock/render.py"
+},
+{
+"dir": "ref",
 "path": "scripts/gacha-prints/gakugei_mock/pdf.mjs"
-},
-{
-"dir": "ref",
-"path": "scripts/gacha-prints/gakugei_mock/render.py"
-},
-{
-"dir": "ref",
-"path": "scripts/gacha-prints/kumamoto_mock/pdf.mjs"
 }
 ],
 "lines": 30,
@@ -28310,7 +28876,7 @@
 },
 {
 "dir": "ref",
-"path": "scripts/gacha-prints/gakugei_mock/render.py"
+"path": "scripts/gacha-prints/fwu_mock/render.py"
 }
 ],
 "lines": 10,
@@ -28353,15 +28919,15 @@
 "links": [
 {
 "dir": "ref",
+"path": "scripts/gacha-prints/fwu_mock/r1.py"
+},
+{
+"dir": "ref",
 "path": "scripts/gacha-prints/kumamoto_mock/r1.py"
 },
 {
 "dir": "ref",
 "path": "scripts/gacha-prints/kumamoto_mock/r1_p1.py"
-},
-{
-"dir": "ref",
-"path": "scripts/gacha-prints/kyushu_mock/r1.py"
 }
 ],
 "lines": 52,
@@ -28404,15 +28970,15 @@
 "links": [
 {
 "dir": "ref",
+"path": "scripts/gacha-prints/fwu_mock/r1.py"
+},
+{
+"dir": "ref",
 "path": "scripts/gacha-prints/kyushu_mock/r1.py"
 },
 {
 "dir": "ref",
 "path": "scripts/gacha-prints/ryukyu_mock/r1.py"
-},
-{
-"dir": "ref",
-"path": "scripts/gacha-prints/ryukyu_mock/r1_p2.py"
 }
 ],
 "lines": 64,
@@ -28521,15 +29087,15 @@
 "links": [
 {
 "dir": "ref",
+"path": "scripts/gacha-prints/fwu_mock/r2.py"
+},
+{
+"dir": "ref",
 "path": "scripts/gacha-prints/kumamoto_mock/r2.py"
 },
 {
 "dir": "ref",
 "path": "scripts/gacha-prints/kumamoto_mock/r2_p1.py"
-},
-{
-"dir": "ref",
-"path": "scripts/gacha-prints/kyushu_mock/r2.py"
 }
 ],
 "lines": 52,
@@ -28572,15 +29138,15 @@
 "links": [
 {
 "dir": "ref",
+"path": "scripts/gacha-prints/fwu_mock/r2.py"
+},
+{
+"dir": "ref",
 "path": "scripts/gacha-prints/kyushu_mock/r2.py"
 },
 {
 "dir": "ref",
 "path": "scripts/gacha-prints/ryukyu_mock/r2.py"
-},
-{
-"dir": "ref",
-"path": "scripts/gacha-prints/ryukyu_mock/r2_p2.py"
 }
 ],
 "lines": 64,
@@ -28680,15 +29246,15 @@
 "links": [
 {
 "dir": "ref",
+"path": "scripts/gacha-prints/fwu_mock/r3.py"
+},
+{
+"dir": "ref",
 "path": "scripts/gacha-prints/kumamoto_mock/r3.py"
 },
 {
 "dir": "ref",
 "path": "scripts/gacha-prints/kumamoto_mock/r3_p1.py"
-},
-{
-"dir": "ref",
-"path": "scripts/gacha-prints/kyushu_mock/r3.py"
 }
 ],
 "lines": 52,
@@ -28731,15 +29297,15 @@
 "links": [
 {
 "dir": "ref",
+"path": "scripts/gacha-prints/fwu_mock/r3.py"
+},
+{
+"dir": "ref",
 "path": "scripts/gacha-prints/kyushu_mock/r3.py"
 },
 {
 "dir": "ref",
 "path": "scripts/gacha-prints/ryukyu_mock/r3.py"
-},
-{
-"dir": "ref",
-"path": "scripts/gacha-prints/ryukyu_mock/r3_p2.py"
 }
 ],
 "lines": 64,
@@ -28837,11 +29403,11 @@
 },
 {
 "dir": "ref",
-"path": "scripts/gacha-prints/gakugei_mock/render.py"
+"path": "scripts/gacha-prints/fwu_mock/render.py"
 },
 {
 "dir": "ref",
-"path": "scripts/gacha-prints/kumamoto_mock/render.py"
+"path": "scripts/gacha-prints/fwu_mock/style.css"
 }
 ],
 "lines": 148,
@@ -28865,15 +29431,15 @@
 "links": [
 {
 "dir": "ref",
+"path": "scripts/gacha-prints/fwu_mock/render.py"
+},
+{
+"dir": "ref",
 "path": "scripts/gacha-prints/gakugei_mock/render.py"
 },
 {
 "dir": "ref",
 "path": "scripts/gacha-prints/kumamoto_mock/render.py"
-},
-{
-"dir": "ref",
-"path": "scripts/gacha-prints/kyushu_mock/render.py"
 }
 ],
 "lines": 118,
@@ -28897,15 +29463,15 @@
 "links": [
 {
 "dir": "ref",
+"path": "scripts/gacha-prints/fwu_mock/pdf.mjs"
+},
+{
+"dir": "ref",
+"path": "scripts/gacha-prints/fwu_mock/render.py"
+},
+{
+"dir": "ref",
 "path": "scripts/gacha-prints/gakugei_mock/pdf.mjs"
-},
-{
-"dir": "ref",
-"path": "scripts/gacha-prints/gakugei_mock/render.py"
-},
-{
-"dir": "ref",
-"path": "scripts/gacha-prints/kumamoto_mock/pdf.mjs"
 }
 ],
 "lines": 30,
@@ -28937,7 +29503,7 @@
 },
 {
 "dir": "ref",
-"path": "scripts/gacha-prints/gakugei_mock/render.py"
+"path": "scripts/gacha-prints/fwu_mock/render.py"
 }
 ],
 "lines": 8,
@@ -29272,11 +29838,11 @@
 },
 {
 "dir": "ref",
-"path": "scripts/gacha-prints/gakugei_mock/render.py"
+"path": "scripts/gacha-prints/fwu_mock/render.py"
 },
 {
 "dir": "ref",
-"path": "scripts/gacha-prints/kumamoto_mock/render.py"
+"path": "scripts/gacha-prints/fwu_mock/style.css"
 }
 ],
 "lines": 156,
@@ -32174,12 +32740,46 @@
 "flow": []
 },
 {
+"id": "src/components/toeic/ToeicP6Passage.tsx",
+"path": "src/components/toeic/ToeicP6Passage.tsx",
+"name": "ToeicP6Passage.tsx",
+"folder": "src",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「TOEIC Part 6：ページの上（PCでは左）に出す文書（2026-10-31） 空所は回の中の通し番号つき。選んだ答えを空所に入れて見せ、採点後は正誤の色を付ける （Part…」ToeicP6Passageを公開する。読み込むもの：curriculum.ts・toeicPart6Kit.ts・textFormatter.tsx など5ファイル。ToeicPageQuiz.tsxから読み込まれる。",
+"links": [
+{
+"dir": "from",
+"path": "src/components/toeic/ToeicPageQuiz.tsx"
+},
+{
+"dir": "to",
+"path": "src/types/curriculum.ts"
+},
+{
+"dir": "to",
+"path": "src/data/toeic/toeicPart6Kit.ts"
+}
+],
+"lines": 45,
+"tag": "部品",
+"conf": "低",
+"kind": "file",
+"exports": [
+"ToeicP6Passage"
+],
+"nImports": 5,
+"nBy": 1,
+"draft": true,
+"sys": "screen",
+"flow": []
+},
+{
 "id": "src/components/toeic/ToeicPageQuiz.tsx",
 "path": "src/components/toeic/ToeicPageQuiz.tsx",
 "name": "ToeicPageQuiz.tsx",
 "folder": "src",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「TOEIC Part 5 の演習画面：1ページに複数問・マーク式（2026-10-28） 紙の問題集に近い並び（問題番号・英文・(A)〜(D) を2×2）で、各選択肢の頭のマーク（…」ToeicPageQuizProps・ToeicPageQuizを公開する。読み込むもの：firebase.ts・safeLocalStorage.ts・curriculum.ts など22ファイル、外部部品 lucide-react・react。Quiz.tsxから読み込まれる。",
+"detail": "冒頭の説明：「TOEIC Part 5 の演習画面：1ページに複数問・マーク式（2026-10-28） 紙の問題集に近い並び（問題番号・英文・(A)〜(D) を2×2）で、各選択肢の頭のマーク（…」ToeicPageQuizProps・ToeicPageQuizを公開する。読み込むもの：firebase.ts・safeLocalStorage.ts・curriculum.ts など23ファイル、外部部品 lucide-react・react。Quiz.tsxから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -32194,7 +32794,7 @@
 "path": "src/utils/safeLocalStorage.ts"
 }
 ],
-"lines": 523,
+"lines": 543,
 "tag": "部品",
 "conf": "低",
 "kind": "file",
@@ -32202,7 +32802,7 @@
 "ToeicPageQuizProps",
 "ToeicPageQuiz"
 ],
-"nImports": 22,
+"nImports": 23,
 "nBy": 1,
 "draft": true,
 "sys": "screen",
@@ -32251,7 +32851,7 @@
 "path": "src/components/toeic/ToeicPageQuiz.tsx"
 }
 ],
-"lines": 244,
+"lines": 266,
 "tag": "部品",
 "conf": "低",
 "kind": "file",
@@ -32305,7 +32905,7 @@
 "name": "toeicPageModel.ts",
 "folder": "src",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「TOEIC Part 5「1ページに複数問・マーク式」演習の計算部分（2026-10-28） 画面（ToeicPageQuiz.tsx）から React を使わない計算だけを分けた…」QUESTIONS_PER_PAGE・LONG_CHOICE_CHARS・isToeicPageChapter など18個を公開する。読み込むもの：curriculum.ts・toeicPart5Kit.ts・toeicPart5NoteTypes.ts など6ファイル。Quiz.tsx・ToeicExplanationPanel.tsx など6ファイルから読み込まれる。",
+"detail": "冒頭の説明：「TOEIC Part 5「1ページに複数問・マーク式」演習の計算部分（2026-10-28） 画面（ToeicPageQuiz.tsx）から React を使わない計算だけを分けた…」QUESTIONS_PER_PAGE・LONG_CHOICE_CHARS・isToeicPageChapter など26個を公開する。読み込むもの：curriculum.ts・toeicPart5Kit.ts・toeicPart6Kit.ts など8ファイル。Quiz.tsx・ToeicExplanationPanel.tsx など8ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -32320,7 +32920,7 @@
 "path": "src/types/curriculum.ts"
 }
 ],
-"lines": 208,
+"lines": 327,
 "tag": "データ",
 "conf": "低",
 "kind": "file",
@@ -32328,14 +32928,14 @@
 "QUESTIONS_PER_PAGE",
 "LONG_CHOICE_CHARS",
 "isToeicPageChapter",
-"splitPages",
-"prefersSingleColumn",
-"pageScoreKey",
-"countUnanswered",
-"pageFromStoredStep"
+"isToeicPart6Chapter",
+"locateP6",
+"p6SetOf",
+"splitP6Pages",
+"splitToeicPages"
 ],
-"nImports": 6,
-"nBy": 6,
+"nImports": 8,
+"nBy": 8,
 "draft": true,
 "sys": "screen",
 "flow": []
@@ -32661,7 +33261,7 @@
 "path": "src/data/gachaPrints.generated.ts"
 }
 ],
-"lines": 125,
+"lines": 132,
 "tag": "データ",
 "conf": "低",
 "kind": "file",
@@ -33137,12 +33737,12 @@
 "flow": []
 },
 {
-"id": "src/data/toeic/toeicPart5Data.ts",
-"path": "src/data/toeic/toeicPart5Data.ts",
-"name": "toeicPart5Data.ts",
+"id": "src/data/toeic/toeicData.ts",
+"path": "src/data/toeic/toeicData.ts",
+"name": "toeicData.ts",
 "folder": "src",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「TOEIC® L&R Part 5（短文穴埋め）データ（2026-10-28） 英文法（englishGrammarData.ts）・英語リスニングと同じ「parts → chap…」ToeicChapter・ToeicPart・toeicPart5Data など5個を公開する。読み込むもの：curriculum.ts・toeicPart5Kit.ts・toeicPart5Rounds.ts など5ファイル。gen-chapter-index.mts・allChapters.ts など6ファイルから読み込まれる。",
+"detail": "冒頭の説明：「TOEIC の教科データ（2026-10-31）：Part 5（短文穴埋め）と Part 6（長文穴埋め）を1つの教科にまとめる。」toeicData・getToeicStatsを公開する。読み込むもの：toeicPart5Data.ts・toeicPart6Data.ts。gen-chapter-index.mts・allChapters.tsから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -33151,6 +33751,41 @@
 {
 "dir": "from",
 "path": "src/data/allChapters.ts"
+},
+{
+"dir": "to",
+"path": "src/data/toeic/toeicPart5Data.ts"
+}
+],
+"lines": 19,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [
+"toeicData",
+"getToeicStats"
+],
+"nImports": 2,
+"nBy": 2,
+"draft": true,
+"sys": "content",
+"flow": []
+},
+{
+"id": "src/data/toeic/toeicPart5Data.ts",
+"path": "src/data/toeic/toeicPart5Data.ts",
+"name": "toeicPart5Data.ts",
+"folder": "src",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「TOEIC® L&R Part 5（短文穴埋め）データ（2026-10-28） 英文法（englishGrammarData.ts）・英語リスニングと同じ「parts → chap…」ToeicChapter・ToeicPart・toeicPart5Data など5個を公開する。読み込むもの：curriculum.ts・toeicPart5Kit.ts・listeningPostProcess.ts など5ファイル。toeicData.ts・toeicPart6Data.ts など5ファイルから読み込まれる。",
+"links": [
+{
+"dir": "from",
+"path": "src/data/toeic/toeicData.ts"
+},
+{
+"dir": "from",
+"path": "src/data/toeic/toeicPart6Data.ts"
 },
 {
 "dir": "to",
@@ -33169,7 +33804,7 @@
 "getToeicPart5Stats"
 ],
 "nImports": 5,
-"nBy": 6,
+"nBy": 5,
 "draft": true,
 "sys": "content",
 "flow": []
@@ -33180,7 +33815,7 @@
 "name": "toeicPart5Kit.ts",
 "folder": "src",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「TOEIC® L&R Part 5（短文穴埋め） 1回30問の型と組み立て道具（2026-10-28） ■ 位置づけ 英文法（englishGrammarKit.ts）と同じ「手書…」ToeicSkill・ToeicScene・ToeicLevel など18個を公開する。読み込むもの：curriculum.ts。ChapterSelection.tsx・toeicPageModel.ts など23ファイルから読み込まれる。",
+"detail": "冒頭の説明：「TOEIC® L&R Part 5（短文穴埋め） 1回30問の型と組み立て道具（2026-10-28） ■ 位置づけ 英文法（englishGrammarKit.ts）と同じ「手書…」ToeicSkill・ToeicScene・ToeicLevel など18個を公開する。読み込むもの：curriculum.ts。ChapterSelection.tsx・toeicPageModel.ts など24ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -33210,7 +33845,7 @@
 "TOEIC_P5_QUESTIONS_PER_ROUND"
 ],
 "nImports": 1,
-"nBy": 23,
+"nBy": 24,
 "draft": true,
 "sys": "content",
 "flow": []
@@ -33221,7 +33856,7 @@
 "name": "toeicPart5NoteTypes.ts",
 "folder": "src",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「TOEIC Part 5 解説の追加項目（任意）の型（2026-10-29） 問題データ（toeicPart5RoundNN.ts の問題文・選択肢・正解・既存の解説）は1文字も変…」ToeicCue・ToeicP5Noteを公開する。toeicPageModel.ts・toeicPart5Notes.ts など18ファイルから読み込まれる。",
+"detail": "冒頭の説明：「TOEIC Part 5 解説の追加項目（任意）の型（2026-10-29） 問題データ（toeicPart5RoundNN.ts の問題文・選択肢・正解・既存の解説）は1文字も変…」ToeicCue・ToeicP5Noteを公開する。toeicPageModel.ts・toeicPart5Notes.ts など19ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -33241,7 +33876,7 @@
 "ToeicP5Note"
 ],
 "nImports": 0,
-"nBy": 18,
+"nBy": 19,
 "draft": true,
 "sys": "content",
 "flow": []
@@ -34221,8 +34856,12 @@
 "name": "toeicPart6Data.ts",
 "folder": "src",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「TOEIC® L&R Part 6（長文穴埋め）データ（2026-10-30 準備） Part 5（toeicPart5Data.ts）と同じ「parts → chapters →…」toeicPart6Data・getAllToeicPart6Chapters・getToeicPart6Statsを公開する。読み込むもの：curriculum.ts・toeicPart5Data.ts・problemCount.ts など5ファイル。toeicPart6Kit.test.tsから読み込まれる。",
+"detail": "冒頭の説明：「TOEIC® L&R Part 6（長文穴埋め）データ（2026-10-30 準備 → 2026-10-31 問題を入れて画面につなぐ） Part 5（toeicPart5Data…」toeicPart6Data・getAllToeicPart6Chapters・getToeicPart6Statsを公開する。読み込むもの：curriculum.ts・toeicPart6Kit.ts・listeningPostProcess.ts など6ファイル。toeicData.ts・toeicPart6Kit.test.tsから読み込まれる。",
 "links": [
+{
+"dir": "from",
+"path": "src/data/toeic/toeicData.ts"
+},
 {
 "dir": "from",
 "path": "tests/toeicPart6Kit.test.ts"
@@ -34230,13 +34869,9 @@
 {
 "dir": "to",
 "path": "src/types/curriculum.ts"
-},
-{
-"dir": "to",
-"path": "src/data/toeic/toeicPart5Data.ts"
 }
 ],
-"lines": 64,
+"lines": 74,
 "tag": "データ",
 "conf": "低",
 "kind": "file",
@@ -34245,8 +34880,8 @@
 "getAllToeicPart6Chapters",
 "getToeicPart6Stats"
 ],
-"nImports": 5,
-"nBy": 1,
+"nImports": 6,
+"nBy": 2,
 "draft": true,
 "sys": "content",
 "flow": []
@@ -34257,22 +34892,22 @@
 "name": "toeicPart6Kit.ts",
 "folder": "src",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「TOEIC® L&R Part 6（長文穴埋め） 1セット＝文書1つ＋空所4つ の型と組み立て道具（2026-10-30 準備） ■ 位置づけ Part 5（toeicPart5K…」ToeicP6Skill・ToeicP6Genre・ToeicP6Blank など24個を公開する。読み込むもの：curriculum.ts・toeicPart5Kit.ts。toeicPart6Data.ts・toeicPart6Rounds.ts など3ファイルから読み込まれる。",
+"detail": "冒頭の説明：「TOEIC® L&R Part 6（長文穴埋め） 1セット＝文書1つ＋空所4つ の型と組み立て道具（2026-10-30 準備） ■ 位置づけ Part 5（toeicPart5K…」ToeicP6Skill・ToeicP6Genre・ToeicP6Blank など26個を公開する。読み込むもの：curriculum.ts・toeicPart5Kit.ts・toeicPart5NoteTypes.ts。ToeicP6Passage.tsx・toeicPageModel.ts など21ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
-"path": "src/data/toeic/toeicPart6Data.ts"
+"path": "src/components/toeic/ToeicP6Passage.tsx"
 },
 {
 "dir": "from",
-"path": "src/data/toeic/toeicPart6Rounds.ts"
+"path": "src/components/toeic/toeicPageModel.ts"
 },
 {
 "dir": "to",
 "path": "src/types/curriculum.ts"
 }
 ],
-"lines": 300,
+"lines": 342,
 "tag": "データ",
 "conf": "低",
 "kind": "file",
@@ -34286,8 +34921,458 @@
 "TOEIC_P6_BLANKS_PER_SET",
 "TOEIC_P6_QUESTIONS_PER_ROUND"
 ],
-"nImports": 2,
-"nBy": 3,
+"nImports": 3,
+"nBy": 21,
+"draft": true,
+"sys": "content",
+"flow": []
+},
+{
+"id": "src/data/toeic/toeicPart6Round01.ts",
+"path": "src/data/toeic/toeicPart6Round01.ts",
+"name": "toeicPart6Round01.ts",
+"folder": "src",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「TOEIC Part 6 第1回（文書4つ・16問）。すべてオリジナル。社名・人名・地名は架空」P6_ROUND_01を公開する。読み込むもの：toeicPart6Kit.ts。toeicPart6Rounds.tsから読み込まれる。",
+"links": [
+{
+"dir": "from",
+"path": "src/data/toeic/toeicPart6Rounds.ts"
+},
+{
+"dir": "to",
+"path": "src/data/toeic/toeicPart6Kit.ts"
+}
+],
+"lines": 193,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [
+"P6_ROUND_01"
+],
+"nImports": 1,
+"nBy": 1,
+"draft": true,
+"sys": "content",
+"flow": []
+},
+{
+"id": "src/data/toeic/toeicPart6Round02.ts",
+"path": "src/data/toeic/toeicPart6Round02.ts",
+"name": "toeicPart6Round02.ts",
+"folder": "src",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「TOEIC Part 6 第2回（文書4つ・16問）。すべてオリジナル。社名・人名・地名は架空」P6_ROUND_02を公開する。読み込むもの：toeicPart6Kit.ts。toeicPart6Rounds.tsから読み込まれる。",
+"links": [
+{
+"dir": "from",
+"path": "src/data/toeic/toeicPart6Rounds.ts"
+},
+{
+"dir": "to",
+"path": "src/data/toeic/toeicPart6Kit.ts"
+}
+],
+"lines": 193,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [
+"P6_ROUND_02"
+],
+"nImports": 1,
+"nBy": 1,
+"draft": true,
+"sys": "content",
+"flow": []
+},
+{
+"id": "src/data/toeic/toeicPart6Round03.ts",
+"path": "src/data/toeic/toeicPart6Round03.ts",
+"name": "toeicPart6Round03.ts",
+"folder": "src",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「TOEIC Part 6 第3回（文書4つ・16問）。すべてオリジナル。社名・人名・地名は架空」P6_ROUND_03を公開する。読み込むもの：toeicPart6Kit.ts。toeicPart6Rounds.tsから読み込まれる。",
+"links": [
+{
+"dir": "from",
+"path": "src/data/toeic/toeicPart6Rounds.ts"
+},
+{
+"dir": "to",
+"path": "src/data/toeic/toeicPart6Kit.ts"
+}
+],
+"lines": 193,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [
+"P6_ROUND_03"
+],
+"nImports": 1,
+"nBy": 1,
+"draft": true,
+"sys": "content",
+"flow": []
+},
+{
+"id": "src/data/toeic/toeicPart6Round04.ts",
+"path": "src/data/toeic/toeicPart6Round04.ts",
+"name": "toeicPart6Round04.ts",
+"folder": "src",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「TOEIC Part 6 第4回（文書4つ・16問）。すべてオリジナル。社名・人名・地名は架空」P6_ROUND_04を公開する。読み込むもの：toeicPart6Kit.ts。toeicPart6Rounds.tsから読み込まれる。",
+"links": [
+{
+"dir": "from",
+"path": "src/data/toeic/toeicPart6Rounds.ts"
+},
+{
+"dir": "to",
+"path": "src/data/toeic/toeicPart6Kit.ts"
+}
+],
+"lines": 193,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [
+"P6_ROUND_04"
+],
+"nImports": 1,
+"nBy": 1,
+"draft": true,
+"sys": "content",
+"flow": []
+},
+{
+"id": "src/data/toeic/toeicPart6Round05.ts",
+"path": "src/data/toeic/toeicPart6Round05.ts",
+"name": "toeicPart6Round05.ts",
+"folder": "src",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「TOEIC Part 6 第5回（文書4つ・16問）。すべてオリジナル。社名・人名・地名は架空」P6_ROUND_05を公開する。読み込むもの：toeicPart6Kit.ts。toeicPart6Rounds.tsから読み込まれる。",
+"links": [
+{
+"dir": "from",
+"path": "src/data/toeic/toeicPart6Rounds.ts"
+},
+{
+"dir": "to",
+"path": "src/data/toeic/toeicPart6Kit.ts"
+}
+],
+"lines": 193,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [
+"P6_ROUND_05"
+],
+"nImports": 1,
+"nBy": 1,
+"draft": true,
+"sys": "content",
+"flow": []
+},
+{
+"id": "src/data/toeic/toeicPart6Round06.ts",
+"path": "src/data/toeic/toeicPart6Round06.ts",
+"name": "toeicPart6Round06.ts",
+"folder": "src",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「TOEIC Part 6 第6回（文書4つ・16問）。すべてオリジナル。社名・人名・地名は架空」P6_ROUND_06を公開する。読み込むもの：toeicPart6Kit.ts。toeicPart6Rounds.tsから読み込まれる。",
+"links": [
+{
+"dir": "from",
+"path": "src/data/toeic/toeicPart6Rounds.ts"
+},
+{
+"dir": "to",
+"path": "src/data/toeic/toeicPart6Kit.ts"
+}
+],
+"lines": 193,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [
+"P6_ROUND_06"
+],
+"nImports": 1,
+"nBy": 1,
+"draft": true,
+"sys": "content",
+"flow": []
+},
+{
+"id": "src/data/toeic/toeicPart6Round07.ts",
+"path": "src/data/toeic/toeicPart6Round07.ts",
+"name": "toeicPart6Round07.ts",
+"folder": "src",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「TOEIC Part 6 第7回（文書4つ・16問）。すべてオリジナル。社名・人名・地名は架空」P6_ROUND_07を公開する。読み込むもの：toeicPart6Kit.ts。toeicPart6Rounds.tsから読み込まれる。",
+"links": [
+{
+"dir": "from",
+"path": "src/data/toeic/toeicPart6Rounds.ts"
+},
+{
+"dir": "to",
+"path": "src/data/toeic/toeicPart6Kit.ts"
+}
+],
+"lines": 193,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [
+"P6_ROUND_07"
+],
+"nImports": 1,
+"nBy": 1,
+"draft": true,
+"sys": "content",
+"flow": []
+},
+{
+"id": "src/data/toeic/toeicPart6Round08.ts",
+"path": "src/data/toeic/toeicPart6Round08.ts",
+"name": "toeicPart6Round08.ts",
+"folder": "src",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「TOEIC Part 6 第8回（文書4つ・16問）。すべてオリジナル。社名・人名・地名は架空」P6_ROUND_08を公開する。読み込むもの：toeicPart6Kit.ts。toeicPart6Rounds.tsから読み込まれる。",
+"links": [
+{
+"dir": "from",
+"path": "src/data/toeic/toeicPart6Rounds.ts"
+},
+{
+"dir": "to",
+"path": "src/data/toeic/toeicPart6Kit.ts"
+}
+],
+"lines": 193,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [
+"P6_ROUND_08"
+],
+"nImports": 1,
+"nBy": 1,
+"draft": true,
+"sys": "content",
+"flow": []
+},
+{
+"id": "src/data/toeic/toeicPart6Round09.ts",
+"path": "src/data/toeic/toeicPart6Round09.ts",
+"name": "toeicPart6Round09.ts",
+"folder": "src",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「TOEIC Part 6 第9回（文書4つ・16問）。すべてオリジナル。社名・人名・地名は架空」P6_ROUND_09を公開する。読み込むもの：toeicPart6Kit.ts。toeicPart6Rounds.tsから読み込まれる。",
+"links": [
+{
+"dir": "from",
+"path": "src/data/toeic/toeicPart6Rounds.ts"
+},
+{
+"dir": "to",
+"path": "src/data/toeic/toeicPart6Kit.ts"
+}
+],
+"lines": 193,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [
+"P6_ROUND_09"
+],
+"nImports": 1,
+"nBy": 1,
+"draft": true,
+"sys": "content",
+"flow": []
+},
+{
+"id": "src/data/toeic/toeicPart6Round10.ts",
+"path": "src/data/toeic/toeicPart6Round10.ts",
+"name": "toeicPart6Round10.ts",
+"folder": "src",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「TOEIC Part 6 第10回（文書4つ・16問）。すべてオリジナル。社名・人名・地名は架空」P6_ROUND_10を公開する。読み込むもの：toeicPart6Kit.ts。toeicPart6Rounds.tsから読み込まれる。",
+"links": [
+{
+"dir": "from",
+"path": "src/data/toeic/toeicPart6Rounds.ts"
+},
+{
+"dir": "to",
+"path": "src/data/toeic/toeicPart6Kit.ts"
+}
+],
+"lines": 193,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [
+"P6_ROUND_10"
+],
+"nImports": 1,
+"nBy": 1,
+"draft": true,
+"sys": "content",
+"flow": []
+},
+{
+"id": "src/data/toeic/toeicPart6Round11.ts",
+"path": "src/data/toeic/toeicPart6Round11.ts",
+"name": "toeicPart6Round11.ts",
+"folder": "src",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「TOEIC Part 6 第11回（文書4つ・16問）。すべてオリジナル。社名・人名・地名は架空」P6_ROUND_11を公開する。読み込むもの：toeicPart6Kit.ts。toeicPart6Rounds.tsから読み込まれる。",
+"links": [
+{
+"dir": "from",
+"path": "src/data/toeic/toeicPart6Rounds.ts"
+},
+{
+"dir": "to",
+"path": "src/data/toeic/toeicPart6Kit.ts"
+}
+],
+"lines": 193,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [
+"P6_ROUND_11"
+],
+"nImports": 1,
+"nBy": 1,
+"draft": true,
+"sys": "content",
+"flow": []
+},
+{
+"id": "src/data/toeic/toeicPart6Round12.ts",
+"path": "src/data/toeic/toeicPart6Round12.ts",
+"name": "toeicPart6Round12.ts",
+"folder": "src",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「TOEIC Part 6 第12回（文書4つ・16問）。すべてオリジナル。社名・人名・地名は架空」P6_ROUND_12を公開する。読み込むもの：toeicPart6Kit.ts。toeicPart6Rounds.tsから読み込まれる。",
+"links": [
+{
+"dir": "from",
+"path": "src/data/toeic/toeicPart6Rounds.ts"
+},
+{
+"dir": "to",
+"path": "src/data/toeic/toeicPart6Kit.ts"
+}
+],
+"lines": 193,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [
+"P6_ROUND_12"
+],
+"nImports": 1,
+"nBy": 1,
+"draft": true,
+"sys": "content",
+"flow": []
+},
+{
+"id": "src/data/toeic/toeicPart6Round13.ts",
+"path": "src/data/toeic/toeicPart6Round13.ts",
+"name": "toeicPart6Round13.ts",
+"folder": "src",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「TOEIC Part 6 第13回（文書4つ・16問）。すべてオリジナル。社名・人名・地名は架空」P6_ROUND_13を公開する。読み込むもの：toeicPart6Kit.ts。toeicPart6Rounds.tsから読み込まれる。",
+"links": [
+{
+"dir": "from",
+"path": "src/data/toeic/toeicPart6Rounds.ts"
+},
+{
+"dir": "to",
+"path": "src/data/toeic/toeicPart6Kit.ts"
+}
+],
+"lines": 193,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [
+"P6_ROUND_13"
+],
+"nImports": 1,
+"nBy": 1,
+"draft": true,
+"sys": "content",
+"flow": []
+},
+{
+"id": "src/data/toeic/toeicPart6Round14.ts",
+"path": "src/data/toeic/toeicPart6Round14.ts",
+"name": "toeicPart6Round14.ts",
+"folder": "src",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「TOEIC Part 6 第14回（文書4つ・16問）。すべてオリジナル。社名・人名・地名は架空」P6_ROUND_14を公開する。読み込むもの：toeicPart6Kit.ts。toeicPart6Rounds.tsから読み込まれる。",
+"links": [
+{
+"dir": "from",
+"path": "src/data/toeic/toeicPart6Rounds.ts"
+},
+{
+"dir": "to",
+"path": "src/data/toeic/toeicPart6Kit.ts"
+}
+],
+"lines": 193,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [
+"P6_ROUND_14"
+],
+"nImports": 1,
+"nBy": 1,
+"draft": true,
+"sys": "content",
+"flow": []
+},
+{
+"id": "src/data/toeic/toeicPart6Round15.ts",
+"path": "src/data/toeic/toeicPart6Round15.ts",
+"name": "toeicPart6Round15.ts",
+"folder": "src",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「TOEIC Part 6 第15回（文書4つ・16問）。すべてオリジナル。社名・人名・地名は架空」P6_ROUND_15を公開する。読み込むもの：toeicPart6Kit.ts。toeicPart6Rounds.tsから読み込まれる。",
+"links": [
+{
+"dir": "from",
+"path": "src/data/toeic/toeicPart6Rounds.ts"
+},
+{
+"dir": "to",
+"path": "src/data/toeic/toeicPart6Kit.ts"
+}
+],
+"lines": 193,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [
+"P6_ROUND_15"
+],
+"nImports": 1,
+"nBy": 1,
 "draft": true,
 "sys": "content",
 "flow": []
@@ -34298,30 +35383,30 @@
 "name": "toeicPart6Rounds.ts",
 "folder": "src",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「TOEIC Part 6 の回の並び（第1回〜）。1回＝文書4つ（ToeicP6Set を4つ）。」TOEIC_P6_ROUNDSを公開する。読み込むもの：toeicPart6Kit.ts。toeicPart6Data.ts・toeicPart6Kit.test.tsから読み込まれる。",
+"detail": "冒頭の説明：「TOEIC Part 6 の回の並び（第1回〜）。1回＝文書4つ（ToeicP6Set を4つ）。」TOEIC_P6_ROUNDSを公開する。読み込むもの：toeicPart6Kit.ts・toeicPart6Round01.ts・toeicPart6Round02.ts など16ファイル。check-toeic-notes.mts・toeicPageModel.ts など5ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
-"path": "src/data/toeic/toeicPart6Data.ts"
+"path": "scripts/check-toeic-notes.mts"
 },
 {
 "dir": "from",
-"path": "tests/toeicPart6Kit.test.ts"
+"path": "src/components/toeic/toeicPageModel.ts"
 },
 {
 "dir": "to",
 "path": "src/data/toeic/toeicPart6Kit.ts"
 }
 ],
-"lines": 9,
+"lines": 40,
 "tag": "データ",
 "conf": "低",
 "kind": "file",
 "exports": [
 "TOEIC_P6_ROUNDS"
 ],
-"nImports": 1,
-"nBy": 2,
+"nImports": 16,
+"nBy": 5,
 "draft": true,
 "sys": "content",
 "flow": []
@@ -35741,11 +36826,11 @@
 },
 {
 "dir": "ref",
-"path": "scripts/gacha-prints/kumamoto_mock/r3_p1.py"
+"path": "scripts/gacha-prints/fwu_mock/r1_p2.py"
 },
 {
 "dir": "ref",
-"path": "scripts/gacha-prints/kyotsu_mock/set3_r2.py"
+"path": "scripts/gacha-prints/kumamoto_mock/r3_p1.py"
 }
 ],
 "lines": 336,
@@ -41476,14 +42561,14 @@
 "name": "studyCatalog.test.ts",
 "folder": "tests",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "1件の確認（it）を持つ。主な確認：「TOEIC spotlight card」「presents Part 5 as the first experimental TOEIC offering」。対象：studyCatalog.ts。",
+"detail": "1件の確認（it）を持つ。主な確認：「TOEIC spotlight card」「presents Part 5 and Part 6 as the TOEIC offering」。対象：studyCatalog.ts。",
 "links": [
 {
 "dir": "to",
 "path": "src/data/studyCatalog.ts"
 }
 ],
-"lines": 12,
+"lines": 13,
 "tag": "テスト",
 "conf": "低",
 "kind": "file",
@@ -41635,16 +42720,16 @@
 "detail": "17件の確認（it）を持つ。主な確認：「TOEIC Part 5 解説の追加項目」「回と問の数がデータと合う（多すぎない）」。対象：toeicNote.ts・toeicPageModel.ts・toeicPart5Data.ts。",
 "links": [
 {
+"dir": "from",
+"path": "tests/toeicPart6Notes.test.ts"
+},
+{
 "dir": "to",
 "path": "src/data/toeic/toeicPart5Kit.ts"
 },
 {
 "dir": "to",
 "path": "src/data/toeic/toeicPart5NoteTypes.ts"
-},
-{
-"dir": "to",
-"path": "src/components/toeic/toeicPageModel.ts"
 }
 ],
 "lines": 171,
@@ -41657,7 +42742,7 @@
 "textWidth"
 ],
 "nImports": 7,
-"nBy": 0,
+"nBy": 1,
 "draft": true,
 "sys": "test",
 "flow": []
@@ -41676,19 +42761,51 @@
 },
 {
 "dir": "to",
+"path": "src/data/toeic/toeicPart6Kit.ts"
+},
+{
+"dir": "to",
 "path": "src/data/subjects.ts"
+}
+],
+"lines": 146,
+"tag": "テスト",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 5,
+"nBy": 0,
+"draft": true,
+"sys": "test",
+"flow": []
+},
+{
+"id": "tests/toeicPart6Notes.test.ts",
+"path": "tests/toeicPart6Notes.test.ts",
+"name": "toeicPart6Notes.test.ts",
+"folder": "tests",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "13件の確認（it）を持つ。主な確認：「TOEIC Part 6：問題と解説」「全空所に 着眼点・ポイント・TOEICでのコツ・手がかり がある」。対象：toeicPageModel.ts・allChapters.ts・toeicPart5Kit.ts。",
+"links": [
+{
+"dir": "to",
+"path": "src/data/allChapters.ts"
+},
+{
+"dir": "to",
+"path": "src/data/toeic/toeicPart5Kit.ts"
 },
 {
 "dir": "to",
 "path": "src/data/toeic/toeicPart6Kit.ts"
 }
 ],
-"lines": 145,
+"lines": 115,
 "tag": "テスト",
 "conf": "低",
 "kind": "file",
 "exports": [],
-"nImports": 5,
+"nImports": 6,
 "nBy": 0,
 "draft": true,
 "sys": "test",
@@ -41987,12 +43104,12 @@
 "one": "単元の索引・英文法の問題・単語数などを生成して持つ係",
 "detail": "chapterIndex（gen-chapter-index.mts）、egV3Items（grammar_v3/build_ts.py）、listeningVocabularyMeta（gen-listening-vocabulary.mts）、gachaPrints の各生成物。手で編集しない。",
 "links": [],
-"lines": 1780,
+"lines": 1798,
 "tag": "データ",
 "conf": "高",
 "kind": "bundle",
 "count": 6,
-"bytes": 1643674,
+"bytes": 1644251,
 "exts": {
 ".ts": 6
 },
@@ -42222,11 +43339,11 @@
 "tag": "文書",
 "conf": "高",
 "kind": "bundle",
-"count": 348,
-"bytes": 118711985,
+"count": 363,
+"bytes": 130005806,
 "exts": {
-".webp": 215,
-".pdf": 109,
+".webp": 224,
+".pdf": 115,
 ".mp3": 24
 },
 "members": [
