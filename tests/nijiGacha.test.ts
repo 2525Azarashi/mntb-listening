@@ -95,7 +95,7 @@ describe('2次試験ガチャ：抽選', () => {
 
 describe('2次試験の予想問題 PDF', () => {
   it('台帳のページ数・ファイル・サムネイルが実物と合う', () => {
-    expect(NIJI_MOCK_PRINTS.length).toBe(21); // 名古屋 3・静岡 3・大阪公立 A 3・B 3・和歌山 3・岡山 3・広島 3
+    expect(NIJI_MOCK_PRINTS.length).toBe(42); // 名古屋・静岡・大阪公立A/B・和歌山・岡山・広島・金沢・富山（共通/医学科）・福井（教育/医学科/国際地域）・福井県立 各3
     for (const u of NIJI_UNIVERSITIES) expect(NIJI_MOCK_PRINTS.filter((p) => nijiUniversityOf(p.id)?.id === u.id).length, u.id).toBe(3);
     for (const p of NIJI_MOCK_PRINTS) {
       expect(existsSync(`public${p.file}`), p.id).toBe(true);
@@ -130,6 +130,9 @@ describe('2次試験の予想問題 PDF', () => {
     expect(NIJI_DISCLAIMER.split('大阪公立大学').length - 1).toBe(1);
     for (const name of ['和歌山大学', '岡山大学', '広島大学']) expect(NIJI_DISCLAIMER, name).toContain(name);
     expect(nijiUniversityOf('print_lr_niji_hiroshima_en_2')?.name).toBe('広島大学');
+    for (const name of ['金沢大学', '富山大学', '福井大学', '福井県立大学']) expect(NIJI_DISCLAIMER, name).toContain(name);
+    expect(nijiUniversityOf('print_lr_niji_toyamamed_en_1')?.track).toBe('医学部医学科');
+    expect(nijiUniversityOf('print_lr_niji_fpu_en_3')?.name).toBe('福井県立大学');
     expect(NIJI_MOCK_PRINTS.find((p) => p.id === 'print_lr_niji_okayama_en_1')!.label).toBe('国公立2次 英語 予想問題 岡山大学 前期対策 第1回（問題＋解答・解説）');
     expect(readFileSync('src/components/gacha/GachaPickupModal.tsx', 'utf8')).toContain('NIJI_DISCLAIMER');
   });

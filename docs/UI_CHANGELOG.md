@@ -5,6 +5,18 @@
 
 ---
 
+## 2026-11-03 2次試験ガチャの大当たりに北陸の国公立（金沢・富山・福井・福井県立）を追加（PR: feat/niji-hokuriku）
+
+| # | どこ | 変更 | ファイル |
+|---|---|---|---|
+| 1 | 2次試験ガチャの LR | 国公立2次 英語 予想問題 北陸7系統×3回＝21冊を追加。金沢大学（全学域・学類共通）／富山大学（人文・教育・経済・看護の共通問題、医学部医学科）／福井大学（教育学部、医学部医学科、国際地域学部）／福井県立大学（英語を課す学部の共通問題）。学部で問題が分かれる大学は系統別に各3回 | `src/data/nijiMockPrints.ts`・`public/prints/print_lr_niji_{kanazawa,toyama,toyamamed,fukuie,fukuim,fukuig,fpu}_en_{1,2,3}.pdf`・thumbs・previews・`src/data/gachaPreviews.generated.ts` |
+| 2 | ピックアップの説明文 | 収録大学に4大学を追加。長くなるので大学名は「〇〇・〇〇大学」の短い書き方にまとめた | `src/battle/core/gachaPools.ts`（`NIJI_DISCLAIMER` は自動で4大学を含む） |
+| 3 | 既存の予想問題の言い回し | 和歌山2・岡山1/3・広島1 の一部の言い回しを修正（金沢・福井の過去問を照合元に加えても一致0件にするため。見た目の変更なし） | `public/prints/print_lr_niji_{wakayama_en_2,okayama_en_1,okayama_en_3,hiroshima_en_1}.pdf` ほか |
+
+**戻し方**：`nijiMockPrints.ts` の北陸7系統の行（`NIJI_UNIVERSITIES` の7行・ヘルパー7行・台帳21行）を消し、`gachaPools.ts` の lrNote・`build-previews.py` の正規表現・`tests/nijiGacha.test.ts` の件数（42→21）を元に戻す。PDF・画像は消してよい。#3 は別コミットなので、そのコミットだけ revert すれば戻る。
+
+---
+
 ## 2026-10-31 ご指摘E1〜E12：ガチャ演出・ピックアップ切替・フレンド申請・公開マイページ・英文法/リスニング復習・書き込み削減・音読PDF・英文解釈・解き方テクニック（PR: fix/revision-e）
 
 | # | 何を | どう変えた | ファイル |

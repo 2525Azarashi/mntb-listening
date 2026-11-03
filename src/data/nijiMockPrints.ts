@@ -8,6 +8,11 @@
  *   - 和歌山大学 前期対策（2026-10-31 追加）：大問Ⅰ〜Ⅲ（長文2題＋グラフ英作文）・90分・100点。全学部共通。3回分。
  *   - 岡山大学 前期対策（2026-10-31 追加）：問1〜問4（長文2題・会話文/和文英訳・自由英作文）・120分・200点。全学部共通。3回分。
  *   - 広島大学 前期対策（2026-10-31 追加）：大問Ⅰ〜Ⅳ（段落要約・関連2文の長文・意見英作文・グラフ英作文）・120分・200点。全学部共通。3回分。
+ *   - 金沢大学 前期対策（2026-11-03 追加）：全学域・学類共通。3回分。
+ *   - 富山大学 前期対策（2026-11-03 追加）：人文・教育・経済・医学部看護学科の共通問題と、医学部医学科の問題が別のため、各3回分（計6冊）。
+ *   - 福井大学 前期対策（2026-11-03 追加）：教育学部・医学部医学科・国際地域学部で問題が異なるため、各3回分（計9冊）。
+ *   - 福井県立大学 前期対策（2026-11-03 追加）：英語を課す学部・学科の共通問題（長文・和文英訳・自由英作文）・90分・100点。3回分。
+ *     （北陸の公立大学で2次に英語を課すのは福井県立大学のみ）
  *   ★過去問ではない★ 英文・設問・図表・解答はすべて書き下ろし。過去問・解答速報・講評の文章は引用していない
  *   （英語5語以上・日本語12字以上の連続一致がないことを機械で確認済み）。表紙と奥付に「大学とは関係がない」旨を明記。
  *
@@ -27,6 +32,13 @@ export const NIJI_UNIVERSITIES = [
   { id: 'wakayama', name: '和歌山大学', track: '' },
   { id: 'okayama', name: '岡山大学', track: '' },
   { id: 'hiroshima', name: '広島大学', track: '' },
+  { id: 'kanazawa', name: '金沢大学', track: '' },
+  { id: 'toyama', name: '富山大学', track: '人文・教育・経済・看護' },
+  { id: 'toyamamed', name: '富山大学', track: '医学部医学科' },
+  { id: 'fukuie', name: '福井大学', track: '教育学部' },
+  { id: 'fukuim', name: '福井大学', track: '医学部医学科' },
+  { id: 'fukuig', name: '福井大学', track: '国際地域学部' },
+  { id: 'fpu', name: '福井県立大学', track: '' },
 ] as const;
 export type NijiUniversityId = (typeof NIJI_UNIVERSITIES)[number]['id'];
 
@@ -50,6 +62,13 @@ const omub = (n: number, pages: number, kb: number) => mock('omub', n, pages, kb
 const wakayama = (n: number, pages: number, kb: number) => mock('wakayama', n, pages, kb);
 const okayama = (n: number, pages: number, kb: number) => mock('okayama', n, pages, kb);
 const hiroshima = (n: number, pages: number, kb: number) => mock('hiroshima', n, pages, kb);
+const kanazawa = (n: number, pages: number, kb: number) => mock('kanazawa', n, pages, kb);
+const toyama = (n: number, pages: number, kb: number) => mock('toyama', n, pages, kb);
+const toyamamed = (n: number, pages: number, kb: number) => mock('toyamamed', n, pages, kb);
+const fukuie = (n: number, pages: number, kb: number) => mock('fukuie', n, pages, kb);
+const fukuim = (n: number, pages: number, kb: number) => mock('fukuim', n, pages, kb);
+const fukuig = (n: number, pages: number, kb: number) => mock('fukuig', n, pages, kb);
+const fpu = (n: number, pages: number, kb: number) => mock('fpu', n, pages, kb);
 
 export const NIJI_MOCK_PRINTS: readonly GachaPrintDef[] = [
   nagoya(1, 28, 2026),
@@ -73,6 +92,27 @@ export const NIJI_MOCK_PRINTS: readonly GachaPrintDef[] = [
   hiroshima(1, 23, 1898),
   hiroshima(2, 23, 1928),
   hiroshima(3, 23, 1909),
+  kanazawa(1, 20, 1853),
+  kanazawa(2, 19, 1843),
+  kanazawa(3, 20, 1857),
+  toyama(1, 20, 1878),
+  toyama(2, 20, 1874),
+  toyama(3, 20, 1871),
+  toyamamed(1, 21, 1849),
+  toyamamed(2, 20, 1836),
+  toyamamed(3, 20, 1842),
+  fukuie(1, 20, 1890),
+  fukuie(2, 20, 1883),
+  fukuie(3, 20, 1876),
+  fukuim(1, 25, 1875),
+  fukuim(2, 25, 1885),
+  fukuim(3, 25, 1897),
+  fukuig(1, 24, 1866),
+  fukuig(2, 24, 1871),
+  fukuig(3, 24, 1864),
+  fpu(1, 20, 1870),
+  fpu(2, 19, 1847),
+  fpu(3, 20, 1846),
 ];
 
 /** その大学の予想問題に必ず添える注意書き（PDF の表紙・奥付と同じ文） */

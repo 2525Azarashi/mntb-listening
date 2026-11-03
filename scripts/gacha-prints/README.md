@@ -156,3 +156,21 @@ python3 scripts/gacha-prints/build-previews.py print_lr_niji_okayama_en_1 …   
   - 広島：Ⅰ〜Ⅳ（段落要約・関連2文の長文・意見英作文・グラフ英作文）・120分・200点
 - 照合：`python3 work/plag/niji_check.py wakayama okayama hiroshima`（各大学の過去問・公式解答のOCR文と照合）で英5語・日12字の一致0件を確認。
 - 大学名の入った問題指示の決まり文句も過去問と重なりやすいので、言い回しは独自のもの（例「以下の英文を読み、あとの問いに答えよ」）にしている。
+
+### 北陸の国公立 前期対策：金沢大学・富山大学・福井大学・福井県立大学（2026-11-03 追加）
+
+```bash
+# 中身は webapp/pdf/{kanazawa,toyama,toyamamed,fukuie,fukuim,fukuig,fpu}/r{1,2,3}.py、紙面は共通の webapp/pdf/niji_common.py
+cd webapp/pdf/fpu && python3 build.py 1      # → 予想問題_福井県立大学_英語_第1回_{問題,解答解説}.pdf
+pdfunite 予想問題_福井県立大学_英語_第1回_問題.pdf 予想問題_福井県立大学_英語_第1回_解答解説.pdf public/prints/print_lr_niji_fpu_en_1.pdf
+python3 scripts/gacha-prints/build-previews.py print_lr_niji_fpu_en_1 …   # previews（thumbs は1ページ目を 360×510 webp）
+```
+
+- 学部で英語の問題が違う大学は、系統ごとに id を分けて各3回分。
+  - 金沢 `kanazawa`：全学域・学類共通
+  - 富山 `toyama`：人文・教育・経済・医学部看護学科の共通問題／`toyamamed`：医学部医学科
+  - 福井 `fukuie`：教育学部／`fukuim`：医学部医学科／`fukuig`：国際地域学部
+  - 福井県立 `fpu`：英語を課す学部・学科の共通問題（長文・和文英訳・自由英作文）・90分・100点
+- 北陸の公立大学のうち、2次（前期）で英語を課すのは福井県立大学のみ（公立小松大学・富山県立大学・石川県立大学などは確認のうえ対象外）。
+- 照合：`python3 work/plag/niji_check.py kanazawa toyama toyamamed fukuie fukuim fukuig fpu` で英5語・日12字の一致0件を確認。
+
