@@ -20,6 +20,9 @@
  *     ・120分・200点（40・45・45・40・30）。全学部共通。小問の配点は編集部の想定。3回分。
  *   - 福岡女子大学 前期対策（2026-11-02 追加）：問題Ⅰ〜Ⅲ（約700語の長文2題・和文英訳2問）・90分。3学科共通。
  *     配点は大学非公表のため編集部の想定（100点：40・40・20）。3回分。
+ *   - 東京外国語大学 前期対策（2026-11-03 追加）：大問1〜5（約1000語の長文を日本語で説明・語群から選び形を変える空所10・
+ *     講義を聞く3択・インタビューを聞く3択・講義を聞いて150語の要約と200語の意見文）・120分・250点（60・30・40・40・80）。
+ *     3学部共通。リスニングは音声なし（解答編の「読み上げ原稿」を人が読む）。英語スピーキング試験は対象外。3回分。
  *   - 四国（2026-11-02 追加）：各大学・各系統の前期の形式に沿って3回分ずつ（計27冊）。
  *     香川大学（全学部共通）／徳島大学（全学部共通）／
  *     愛媛大学（法文学部・工学部〈文理型〉、教育学部、医学部医学科〈総合問題・英文〉）／
@@ -35,6 +38,8 @@ import type { GachaPrintDef } from './gachaPrints.generated';
 /**
  * 予想問題を作った大学（id は PDF のファイル名に使う）。
  * track：学部・学域で問題が分かれる大学だけ、どの系統向けかを書く（ラベルにも出す）。
+ * ★新しい大学を作る前に必ず `npm run niji:made -- <大学名> <id>` で作成済みかを確認する（main・開いている PR・手元の
+ *   ブランチを全部見る）。「✗ 作成済み」と出た大学は作らない（CLAUDE.md・scripts/gacha-prints/niji-made.mjs）。
  */
 export const NIJI_UNIVERSITIES = [
   { id: 'nagoya', name: '名古屋大学', track: '' },
@@ -50,6 +55,7 @@ export const NIJI_UNIVERSITIES = [
   { id: 'saga', name: '佐賀大学', track: '' },
   { id: 'kyushu', name: '九州大学', track: '' },
   { id: 'fwu', name: '福岡女子大学', track: '' },
+  { id: 'tufs', name: '東京外国語大学', track: '' },
   { id: 'kagawa', name: '香川大学', track: '' },
   { id: 'tokushima', name: '徳島大学', track: '' },
   { id: 'ehimeh', name: '愛媛大学', track: '法文学部・工学部（文理型）' },
@@ -89,6 +95,7 @@ const kumamoto = (n: number, pages: number, kb: number) => mock('kumamoto', n, p
 const saga = (n: number, pages: number, kb: number) => mock('saga', n, pages, kb);
 const kyushu = (n: number, pages: number, kb: number) => mock('kyushu', n, pages, kb);
 const fwu = (n: number, pages: number, kb: number) => mock('fwu', n, pages, kb);
+const tufs = (n: number, pages: number, kb: number) => mock('tufs', n, pages, kb);
 const kagawa = (n: number, pages: number, kb: number) => mock('kagawa', n, pages, kb);
 const tokushima = (n: number, pages: number, kb: number) => mock('tokushima', n, pages, kb);
 const ehimeh = (n: number, pages: number, kb: number) => mock('ehimeh', n, pages, kb);
@@ -140,6 +147,9 @@ export const NIJI_MOCK_PRINTS: readonly GachaPrintDef[] = [
   fwu(1, 23, 1813),
   fwu(2, 22, 1843),
   fwu(3, 22, 1834),
+  tufs(1, 35, 2014),
+  tufs(2, 34, 2003),
+  tufs(3, 34, 1972),
   kagawa(1, 16, 299),
   kagawa(2, 16, 286),
   kagawa(3, 16, 276),
