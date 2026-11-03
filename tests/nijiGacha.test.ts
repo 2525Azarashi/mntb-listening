@@ -116,7 +116,7 @@ describe('2次試験の予想問題 PDF', () => {
       expect(t, p.id).toContain(nijiDisclaimerFor(u.name).replace(/\s+/g, ''));
       expect(t, p.id).not.toMatch(/的中|必ず出る|合格できる/);
     }
-  });
+  }, 120_000); // 54冊ぶん pdfinfo / pdftotext を回すので、全体の上限 20 秒では足りない
   it('ガチャの詳細・ピックアップに注意書きを出す', () => {
     expect(NIJI_DISCLAIMER).toContain('過去問・公式問題ではありません');
     expect(readFileSync('src/components/gacha/GachaItemDetail.tsx', 'utf8')).toContain('nijiDisclaimerFor(nijiUniv.name)');
