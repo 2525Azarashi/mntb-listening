@@ -540,6 +540,17 @@
 
 ---
 
+## 2026-11-03 2次試験ガチャの大当たりに鳥取大学を追加（PR: feat/niji-tottori）
+
+| # | どこ | 変更 | ファイル |
+|---|---|---|---|
+| 1 | 2次試験ガチャの LR | 国公立2次 英語 予想問題 鳥取大学 前期対策を3回分追加（英語を課す全学部の共通問題） | `src/data/nijiMockPrints.ts`・`public/prints/print_lr_niji_tottori_en_{1,2,3}.pdf`・thumbs・previews・`src/data/gachaPreviews.generated.ts` |
+| 2 | ピックアップの説明文 | 収録大学に鳥取大学を追加 | `src/battle/core/gachaPools.ts`・`nijiMockPrints.ts`（`NIJI_DISCLAIMER` は自動で鳥取大学を含む） |
+
+**戻し方**：`nijiMockPrints.ts` の `tottori` の行（`NIJI_UNIVERSITIES` の1行・ヘルパー1行・台帳3行）を消し、`gachaPools.ts` の lrNote・`build-previews.py` の正規表現・`tests/nijiGacha.test.ts` の件数（63→60）を元に戻す。PDF・画像は消してよい。
+
+---
+
 ## 2026-11-02 2次試験ガチャの大当たりに四国の大学（香川・徳島・愛媛・高知）を追加（PR: feat/niji-shikoku）
 
 | # | どこ | 変更 | ファイル |

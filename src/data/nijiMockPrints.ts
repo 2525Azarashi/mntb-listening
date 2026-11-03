@@ -20,6 +20,7 @@
  *     香川大学（全学部共通）／徳島大学（全学部共通）／
  *     愛媛大学（法文学部・工学部〈文理型〉、教育学部、医学部医学科〈総合問題・英文〉）／
  *     高知大学（人文社会科学部 人文科学コース、同 国際社会コース、教育学部、医学部医学科）。
+ *   - 鳥取大学 前期対策（2026-11-03 追加）：［Ⅰ］［Ⅱ］長文読解・［Ⅲ］和文英訳・［Ⅳ］自由英作文（40語以上）・90分。英語を課す全学部共通。3回分。
  *   ★過去問ではない★ 英文・設問・図表・解答はすべて書き下ろし。過去問・解答速報・講評の文章は引用していない
  *   （英語5語以上・日本語12字以上の連続一致がないことを機械で確認済み）。表紙と奥付に「大学とは関係がない」旨を明記。
  *
@@ -52,6 +53,7 @@ export const NIJI_UNIVERSITIES = [
   { id: 'kochik', name: '高知大学', track: '人文社会科学部 国際社会コース' },
   { id: 'kochie', name: '高知大学', track: '教育学部' },
   { id: 'kochim', name: '高知大学', track: '医学部医学科' },
+  { id: 'tottori', name: '鳥取大学', track: '' },
 ] as const;
 export type NijiUniversityId = (typeof NIJI_UNIVERSITIES)[number]['id'];
 
@@ -88,6 +90,7 @@ const kochij = (n: number, pages: number, kb: number) => mock('kochij', n, pages
 const kochik = (n: number, pages: number, kb: number) => mock('kochik', n, pages, kb);
 const kochie = (n: number, pages: number, kb: number) => mock('kochie', n, pages, kb);
 const kochim = (n: number, pages: number, kb: number) => mock('kochim', n, pages, kb);
+const tottori = (n: number, pages: number, kb: number) => mock('tottori', n, pages, kb);
 
 export const NIJI_MOCK_PRINTS: readonly GachaPrintDef[] = [
   nagoya(1, 28, 2026),
@@ -150,6 +153,9 @@ export const NIJI_MOCK_PRINTS: readonly GachaPrintDef[] = [
   kochim(1, 22, 318),
   kochim(2, 22, 310),
   kochim(3, 22, 335),
+  tottori(1, 20, 315),
+  tottori(2, 20, 315),
+  tottori(3, 20, 301),
 ];
 
 /** その大学の予想問題に必ず添える注意書き（PDF の表紙・奥付と同じ文） */
