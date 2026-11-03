@@ -1,0 +1,39 @@
+“Hello. I'm Kenji Sato. How do you do?” “How do you do? I'm Emma Brown.”
+<break time="1.5s" />
+“Robert, this is my friend Linda.” “Hi, Linda. Nice to meet you.”
+<break time="1.5s" />
+“Hi, Tom. How are things going with you?” “Not bad.”
+<break time="1.5s" />
+“Long time no see, Ken! How have you been?” “Great, thanks. And you?”
+<break time="1.5s" />
+“I haven't seen you for months. How are you getting along these days?”
+<break time="1.5s" />
+“Where do you come from?” “Australia. I came to Japan last year.”
+<break time="1.5s" />
+“Who do you work for?” “I work for a car company in Nagoya.”
+<break time="1.5s" />
+“What do you do?” “I'm a nurse. I work at a hospital in Kobe.”
+<break time="1.5s" />
+“What's the date today?” “It's July 25th.”
+<break time="1.5s" />
+“Hi, Mike! It's been a long time since I saw you last.” “Yes, it has!”
+<break time="1.5s" />
+“Oh, it's already ten o'clock. I must be going now.” “Thank you for coming.”
+<break time="1.5s" />
+“It was a lovely party.” “Yes. I'm glad to have met you.”
+<break time="1.5s" />
+“I have to go now. See you later.” “Bye!”
+<break time="1.5s" />
+“Bye, Grandma. I'll visit you again next month.” “Take care, dear.”
+<break time="1.5s" />
+“Have a happy New Year!” “Thanks. The same to you.”
+<break time="1.5s" />
+“Here's your change. Have a nice day!” “Thanks. You too.”
+<break time="1.5s" />
+“Please remember me to your family.” “Sure, I will.”
+<break time="1.5s" />
+“I'm going to see Mr. Kato tomorrow.” “Oh, please say hello to him for me.”
+<break time="1.5s" />
+“I'm moving to Sapporo next week.” “Really? We'll miss you a lot.”
+<break time="1.5s" />
+“Hello, this is Suzuki from ABC Company speaking.” “Hello, Mr. Suzuki.”

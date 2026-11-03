@@ -1,0 +1,39 @@
+My dream is to travel around the world.
+<break time="1.5s" />
+It is important to get enough sleep before an exam.
+<break time="1.5s" />
+I was so nervous that I didn't know what to say at the interview.
+<break time="1.5s" />
+Excuse me. Could you tell me how to get to the station?
+<break time="1.5s" />
+They found it impossible to finish the work in time.
+<break time="1.5s" />
+My legs are tired. I need a chair to sit on.
+<break time="1.5s" />
+I'm thirsty. Please give me something cold to drink.
+<break time="1.5s" />
+I was very surprised to hear that he had moved to Australia.
+<break time="1.5s" />
+This math problem is very difficult to solve.
+<break time="1.5s" />
+He grew up to be a famous pianist.
+<break time="1.5s" />
+I hurried to the station, only to find that the train had already left.
+<break time="1.5s" />
+I went to the library to borrow some books for my report.
+<break time="1.5s" />
+The teacher told us not to use our phones during the test.
+<break time="1.5s" />
+It is dangerous for a child to walk alone at night.
+<break time="1.5s" />
+The teacher thought it important for students to find the answer by themselves.
+<break time="1.5s" />
+It was careless of you to leave the door unlocked.
+<break time="1.5s" />
+It is impossible for me to finish this report by tomorrow.
+<break time="1.5s" />
+He seems to have been ill last week, but he looks fine now.
+<break time="1.5s" />
+“Will you come to the party?” “I'd like to, but I have to work that day.”
+<break time="1.5s" />
+The box was too heavy for me to carry by myself.

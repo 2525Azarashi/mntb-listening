@@ -1,0 +1,27 @@
+Many residents objected to building a new airport near their town.
+<break time="1.5s" />
+She is good at drawing pictures of animals.
+<break time="1.5s" />
+When it comes to cooking, she is the best in our class.
+<break time="1.5s" />
+“What do you say to watching a movie this weekend?” “Sounds good!”
+<break time="1.5s" />
+“How about taking a short break?” “Good idea. I'm tired.”
+<break time="1.5s" />
+She had difficulty finding a parking space near the station.
+<break time="1.5s" />
+I don't suppose you will have any trouble getting used to your new class.
+<break time="1.5s" />
+My mother was busy cooking dinner when I got home.
+<break time="1.5s" />
+He spent the whole weekend playing video games.
+<break time="1.5s" />
+There is no knowing what she will say next.
+<break time="1.5s" />
+It goes without saying that safety comes first.
+<break time="1.5s" />
+I'm tired, so I don't feel like eating out tonight.
+<break time="1.5s" />
+She left the room without saying a word.
+<break time="1.5s" />
+On hearing the news, she burst into tears.

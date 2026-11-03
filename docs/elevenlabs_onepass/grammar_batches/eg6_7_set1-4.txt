@@ -1,0 +1,39 @@
+Be quiet. Don't wake the sleeping baby in the next room.
+<break time="1.5s" />
+Be careful. There's a broken window in the kitchen.
+<break time="1.5s" />
+Students wishing to join the trip must hand in this form by Friday.
+<break time="1.5s" />
+Most of the cars made in this factory are sold overseas.
+<break time="1.5s" />
+This is a picture painted by my sister when she was ten.
+<break time="1.5s" />
+Who is the boy reading a book by the window?
+<break time="1.5s" />
+There was a long line of people waiting outside the shop yesterday morning.
+<break time="1.5s" />
+I'm hungry, but there was nothing left in the fridge.
+<break time="1.5s" />
+Emi felt embarrassed when she noticed that she was wearing two different socks.
+<break time="1.5s" />
+The soccer game last night was very exciting. Everyone was cheering.
+<break time="1.5s" />
+The lecture was so boring that many students fell asleep.
+<break time="1.5s" />
+I'm sorry to have kept you waiting so long.
+<break time="1.5s" />
+Please keep the windows closed while the air conditioner is on.
+<break time="1.5s" />
+My car broke down, so I had it repaired at the garage.
+<break time="1.5s" />
+I heard the birds singing outside my window early this morning.
+<break time="1.5s" />
+Did you see the window broken by the ball?
+<break time="1.5s" />
+I need to get this letter sent by Friday.
+<break time="1.5s" />
+The man was seen running out of the bank at around ten.
+<break time="1.5s" />
+The hotel staff spoke only Italian, so I couldn't make myself understood.
+<break time="1.5s" />
+The crowd was so noisy that the speaker couldn't make himself heard.

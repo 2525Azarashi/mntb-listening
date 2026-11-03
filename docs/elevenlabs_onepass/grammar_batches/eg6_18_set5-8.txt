@@ -1,0 +1,39 @@
+The cat was found alive under the snow after three days.
+<break time="1.5s" />
+He won a prize for his literary works.
+<break time="1.5s" />
+In that village, only half of the adults were literate.
+<break time="1.5s" />
+This museum is well worth visiting.
+<break time="1.5s" />
+This report is worth reading.
+<break time="1.5s" />
+It is worth while to see this film twice.
+<break time="1.5s" />
+The bus had already left, but I ran and was able to catch it at the next stop.
+<break time="1.5s" />
+It is impossible for me to finish this report today.
+<break time="1.5s" />
+Some birds are capable of using tools.
+<break time="1.5s" />
+I was unable to get ready in such a short time.
+<break time="1.5s" />
+Please come and see me whenever it is convenient for you.
+<break time="1.5s" />
+It is fortunate that nobody was injured in the fire.
+<break time="1.5s" />
+The rent for this apartment is low, so many students live here.
+<break time="1.5s" />
+There was a large audience at the concert last night.
+<break time="1.5s" />
+Tokyo has a very large population.
+<break time="1.5s" />
+She is one of the greatest living poets.
+<break time="1.5s" />
+It was very considerate of you to call me when I was sick.
+<break time="1.5s" />
+A considerable number of people attended the meeting.
+<break time="1.5s" />
+This old letter is priceless. No money could buy it.
+<break time="1.5s" />
+The late Mr. Tanaka was loved by all his students.
