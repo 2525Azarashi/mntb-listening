@@ -111,7 +111,8 @@ for R in rounds:
         ql = sorted(k for q in qB for k in q['answers'])
         if bl != ql: ng.append((tag, 'blank_letters', bl, ql))
         for q in qB:
-            if any(pi != q['para'] for pi, _ in B): ng.append((tag, 'blank_para'))
+            ok_paras = q['para'] if isinstance(q['para'], list) else [q['para']]
+            if any(pi not in ok_paras for pi, _ in B): ng.append((tag, 'blank_para'))
             vals = list(q['answers'].values())
             if len(set(vals)) != len(vals) or not set(vals) <= set(q['words']) or len(q['words']) != len(vals) + 1: ng.append((tag, 'blank_words'))
         nos = [q['no'] for q in P['questions']]
