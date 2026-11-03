@@ -37,6 +37,8 @@ import type { GachaPrintDef } from './gachaPrints.generated';
 /**
  * 予想問題を作った大学（id は PDF のファイル名に使う）。
  * track：学部・学域で問題が分かれる大学だけ、どの系統向けかを書く（ラベルにも出す）。
+ * ★新しい大学を作る前に必ず `npm run niji:made -- <大学名> <id>` で作成済みかを確認する（main・開いている PR・手元の
+ *   ブランチを全部見る）。「✗ 作成済み」と出た大学は作らない（CLAUDE.md・scripts/gacha-prints/niji-made.mjs）。
  */
 export const NIJI_UNIVERSITIES = [
   { id: 'nagoya', name: '名古屋大学', track: '' },
