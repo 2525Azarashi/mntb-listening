@@ -23,12 +23,13 @@ P2 = {
         "Today, the yard {b6} about half its income from restoring historic vessels for museums and private owners. The rest comes from "
         "teaching. Each spring, it runs a twelve-week course in which participants build a small rowing boat from start to finish. The course "
         "is always full, and people have traveled from as far away as Canada and New Zealand to take part. Many of them have no plans to "
-        "become professional builders. They simply want to {b7} something solid with their own hands.",
+        "become professional builders. They simply want to {b7} something solid with their own hands. One recent participant, a software engineer, said that after years "
+        "of working on screens, it was a relief to make a mistake he could actually see and fix.",
 
         "Repairing an old boat requires patience. A builder cannot simply {b8} a damaged plank with a new one of the same size. Each piece "
         "of wood bends differently, and it must be shaped to fit the curve of the hull exactly. Keel prefers to use oak and larch that are "
         "{b9} locally, partly because they suit the local sea conditions and partly because buying from nearby forests reduces the need "
-        "for transport.",
+        "for transport. A single repair can take months, and Keel tells every customer at the start that the work cannot be hurried.",
 
         "Keel admits that the business will never make him rich. But he believes that the yard does something more important than earn "
         "money. \"Every boat that leaves here carries the work of my grandfather, my father, and the people we have taught,\" he says. Last "
@@ -75,11 +76,12 @@ P2 = {
 
         '今日、造船所は収入の約半分を、博物館や個人の持ち主のために歴史的な船を修復することで得ている。残りは教えることから得ている。毎年春に、参加者が小さな'
         '手こぎボートを最初から最後までつくる 12 週間の講座を開いている。講座はいつも満員で、カナダやニュージーランドほど遠くから参加しに来た人もいる。その多くは'
-        'プロの船大工になるつもりはない。ただ、自分の手でしっかりしたものを生み出したいのである。',
+        'プロの船大工になるつもりはない。ただ、自分の手でしっかりしたものを生み出したいのである。最近の参加者の一人であるソフトウェア技術者は、何年も画面に向かって働いてきたあとで、'
+        '実際に目で見て直せる失敗をするのはほっとすることだったと言った。',
 
         '古い船の修理には忍耐が必要だ。船大工は、傷んだ船板を同じ大きさの新しい板とただ取り替えればよいというわけにはいかない。木はそれぞれ曲がり方が違い、'
         '船体の曲線にぴったり合うように形を整えなければならない。キールは地元で育ったオークやカラマツを使うほうを好む。地元の海の状態に合っているからでもあり、'
-        '近くの森から買えば運ぶ必要が減るからでもある。',
+        '近くの森から買えば運ぶ必要が減るからでもある。1 回の修理に何か月もかかることがあり、キールはどの客にも最初に、作業は急げないと伝えている。',
 
         'キールは、この商売で金持ちになることは決してないと認めている。しかし彼は、造船所がお金をかせぐよりも大切なことをしていると信じている。「ここを出ていく'
         '船はどれも、祖父や父や、私たちが教えた人たちの仕事を乗せているのです」と彼は言う。先月、その 100 年前の漁船は、10 年ぶりに再び水に進水した。持ち主は'
