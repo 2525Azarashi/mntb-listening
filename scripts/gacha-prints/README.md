@@ -298,3 +298,27 @@ python3 check.py 1 2 3     # 英語4語／日本語13字の一致（弘前大の
 for R in 1 2 3; do python3 verify.py $R; done   # 大問1・2・3の語数・平均文長・難語率，設問数，日本語の解答の字数，要約の字数，事物の説明の文数，英作文の語数 → logs/verify_rN.json
 python3 probe.py '言い換え候補の文' …   # 書き直すときに，候補が過去問と重ならないかを先に試す
 ```
+
+## LR：岩手大学 前期日程 英語（人文社会科学部・教育学部 共通問題）予想問題（3回分・白黒）2026-11-03
+
+```bash
+# 必要なもの・フォントは神戸大と同じ（iwate_mock/render.py は kobe_mock/render.py と hokudai_mock/render.py の部品を読み込む。両方を壊さないこと）
+cd scripts/gacha-prints/iwate_mock && for R in 1 2 3; do python3 render.py $R; done
+# → .tmpwork/iwate_mock/manatobi_iwate_eng_yoso{n}_{mondai,kaitou}.pdf
+#   を public/prints/print_lr_iwate_{q,a}_{n}.pdf にコピー → サムネイル（1ページ目・72dpi・幅360で上510pxを webp q82）
+#   → src/data/iwateMockPrints.ts の pages / kb を合わせる → python3 scripts/gacha-prints/build-previews.py print_lr_iwate_q_1 …
+```
+- 形式：大問3つ・90分・独自配点 200点。年度によって大問の組み合わせが変わるので回ごとに変えた（第1回＝長文読解（日本語記述）＋短い英文3つ（空所補充・同意語・内容）＋表を読んで120〜150語の英作文，第2回＝長文読解2題（日本語記述・和訳）＋調査結果の表を読んで題をつけた180〜220語の英作文，第3回＝長文読解（日本語記述）＋ことわざについての80語程度の英作文と和文英訳＋長文読解（5択の空所補充・同意語・続きの英文・内容不一致））。
+- 問題データは `iN_1.py`〜`iN_3.py`（本文）と `iN_Mq.py`（設問。書き込みが途中で切れないよう分けた），`iN.py`（配点・架空の人物名）。設問の種類は free（日本語記述。`limit` で原稿用紙）／mcset（記号選択）／write（英作文）／jaen（和文英訳）。本文の記法：`{u1|…}` 下線部・`{w6|…}` 同意語を問う語・`((1))` 空所・`word*` 注のある語。
+- 表紙と奥付に「岩手大学の過去問・公式問題ではありません。予想問題であり，大学とは関係がありません」（`tests/iwateMockPrints.test.ts` が確認）。2ページ目以降に注記ヘッダーは付けない。登場人物・団体・地名は架空。
+- 分析に使った資料：大学公式サイト（入試情報「過去の入試問題」）で公開されている 2024〜2026年度の問題冊子と解答例。画像だけのPDFは OCR して `.tmpwork/iwate_ref/` に置くだけで，本文・設問・解答は引用しない。
+- 難易度の基準は実測値（`verify.py` の冒頭に記載。2024年度 大問3 は約590語・平均文長18語）。
+
+### 岩手大 予想問題：品質・オリジナル性の検査（商用利用のため毎回実行）2026-11-03
+
+```bash
+cd scripts/gacha-prints/iwate_mock
+python3 check.py 1 2 3     # 英語4語／日本語13字の一致（岩手大の公式PDF・解答例＋弘前大・東北大・北大・神戸大・阪大・立命館）・人物名・禁止語・解説の英文引用の実在・下線部/空所/同意語の番号と設問の対応・注の付け忘れ・和訳の段落数・選択肢の数と重複・正解位置と「最長の選択肢が正解」の偏り・配点の合計・題材の近さ・render.py の固定文言 → logs/check.json（ng が空であること）
+for R in 1 2 3; do python3 verify.py $R; done   # 長文・短文の語数・平均文長・難語率，日本語の解答の字数（字数指定の7〜10割），英作文の模範解答の語数，記号選択の小問数 → logs/verify_rN.json
+python3 probe.py '言い換え候補の文' …   # 書き直すときに，候補が過去問と重ならないかを先に試す
+```
