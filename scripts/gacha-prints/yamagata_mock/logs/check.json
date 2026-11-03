@@ -1,0 +1,37 @@
+{
+ "r1-1": {
+  "en4": {},
+  "ja13": {}
+ },
+ "r1-2": {
+  "en4": {},
+  "ja13": {}
+ },
+ "topic": {
+  "r1-1-Recipes Without ": [
+   0.101,
+   "hirosaki_ref/2026-1"
+  ],
+  "r1-2-A Forest the Siz": [
+   0.062,
+   "hokudai_ref/2026-4conv"
+  ]
+ },
+ "topic_past_ref": {
+  "n": 33,
+  "median": 0.049,
+  "max": 0.588
+ },
+ "render_fixed": {
+  "en4": [],
+  "ja13": []
+ },
+ "answer_positions": {
+  "A": 2,
+  "B": 1,
+  "C": 2,
+  "D": 1
+ },
+ "far_longest_answer": "1/6",
+ "ng": []
+}
