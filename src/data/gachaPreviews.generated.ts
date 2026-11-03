@@ -173,6 +173,30 @@ export const GACHA_PREVIEWS: Readonly<Record<string, readonly string[]>> = {
     "/prints/previews/print_lr_niji_saga_en_3_p2.webp",
     "/prints/previews/print_lr_niji_saga_en_3_p10.webp"
   ],
+  "print_lr_niji_kyushu_en_1": [
+    "/prints/previews/print_lr_niji_kyushu_en_1_p2.webp",
+    "/prints/previews/print_lr_niji_kyushu_en_1_p15.webp"
+  ],
+  "print_lr_niji_kyushu_en_2": [
+    "/prints/previews/print_lr_niji_kyushu_en_2_p2.webp",
+    "/prints/previews/print_lr_niji_kyushu_en_2_p15.webp"
+  ],
+  "print_lr_niji_kyushu_en_3": [
+    "/prints/previews/print_lr_niji_kyushu_en_3_p2.webp",
+    "/prints/previews/print_lr_niji_kyushu_en_3_p15.webp"
+  ],
+  "print_lr_niji_fwu_en_1": [
+    "/prints/previews/print_lr_niji_fwu_en_1_p2.webp",
+    "/prints/previews/print_lr_niji_fwu_en_1_p12.webp"
+  ],
+  "print_lr_niji_fwu_en_2": [
+    "/prints/previews/print_lr_niji_fwu_en_2_p2.webp",
+    "/prints/previews/print_lr_niji_fwu_en_2_p11.webp"
+  ],
+  "print_lr_niji_fwu_en_3": [
+    "/prints/previews/print_lr_niji_fwu_en_3_p2.webp",
+    "/prints/previews/print_lr_niji_fwu_en_3_p11.webp"
+  ],
   "print_lr_niji_kagawa_en_1": [
     "/prints/previews/print_lr_niji_kagawa_en_1_p2.webp",
     "/prints/previews/print_lr_niji_kagawa_en_1_p8.webp"
