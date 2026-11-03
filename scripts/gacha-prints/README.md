@@ -281,3 +281,15 @@ python3 ../build-previews.py print_lr_niji_kochim_en_1 …   # previews
   - 高知：人文社会 人文科学コース（kochij：長文・会話・整序）／同 国際社会コース（kochik：＋自由英作文100語）／教育学部（kochie：長文・文法・1語補充・整序・英作文）／医学部医学科（kochim：長文・会話・整序・医療長文）
 - 表紙・奥付に「{大学名}の過去問・公式問題ではありません。予想問題であり、大学とは関係がありません。」
 - 厳格チェック（2026-11-03）：`python3 strict/gate.py {id…}`（英語5語以上・日本語10字以上の連続一致。記号の並びと大学名だけ除く）と `python3 strict/para.py`（1文ごとの言い換え検出）がどちらも 0 件であること。照合元は各大学の過去問・解答例（画像PDFは300dpiで全ページOCRし直したもの）。指示文の決まり文句も過去問と重ならない独自の言い回しにしている（置き換え表は `strict/fix.py`）。
+
+### 鳥取大学 前期対策（2026-11-03 追加）
+
+```bash
+cd scripts/gacha-prints/niji_shikoku   # 四国と同じ道具（cfg.py に 'tottori' を追加）
+python3 run.py tottori 1 2 3
+python3 plag.py tottori && python3 strict/gate.py tottori && python3 strict/para.py   # どれも 0 件
+python3 ../build-previews.py print_lr_niji_tottori_en_1 print_lr_niji_tottori_en_2 print_lr_niji_tottori_en_3
+```
+
+- 英語は英語を課す全学部の共通問題なので3回分。形式は過去3年分（令和6〜8年度）の公開問題に合わせた：［Ⅰ］［Ⅱ］長文読解（和訳・下線部説明・語義/語形・内容一致2つ）／［Ⅲ］下線部の和文英訳／［Ⅳ］40語以上の自由英作文・90分。配点は大学非公表のため本書の想定（60・60・40・40）。
+- 照合元は鳥取大学の公開問題・出題意図・解答例（令和6〜8年度。画像PDFは300dpiで全ページOCR）。本文は大学が著作権の都合で非公開にしている部分が多いが、公開部分（設問文・選択肢・自由英作文の問い）と照合し、英5語・日10字の一致と1文ごとの言い換えがどちらも0件。
