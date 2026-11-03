@@ -1,4 +1,4 @@
-# コード地図（文字版）— 2026年11月時点・feat/niji-fwu @2c404b3（2026-11-02）
+# コード地図（文字版）— 2026年11月時点・feat/niji-fwu @417623f（2026-11-03）
 
 tools/update.sh が cards.json から作る。1ファイル1行：`パス` — ひとことで（タグ・行数・使われる数）。
 【新】はカード未記入の新しいファイル、【変】は書いたあとに冒頭の説明か export が変わったファイル、【要確認】は役割を確かめきれていないファイル。
@@ -128,7 +128,7 @@ tools/update.sh が cards.json から作る。1ファイル1行：`パス` — �
 - `src/components/foundationShared.tsx` — 【変】「固める」ページで共通に使う読み上げなどの部品の係（部品・69行・使われる3）
 - `src/components/fx/CorrectBurst.tsx` — 正解した瞬間に、画面いっぱいの祝いの演出を出す係（部品・65行・使われる4）
 - `src/components/fx/correct-burst.css` — 正解の演出を、短く操作のじゃまをしない見た目にする係（部品・64行・使われる1）
-- `src/components/gacha.css` — 【変】ガチャ画面と、引いたときの演出の見た目を決める係（部品・477行・使われる1）
+- `src/components/gacha.css` — 【変】ガチャ画面と、引いたときの演出の見た目を決める係（部品・490行・使われる1）
 - `src/components/gacha/GachaCollectionModal.tsx` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（部品・151行・使われる1）
 - `src/components/gacha/GachaItemDetail.tsx` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（部品・92行・使われる3）
 - `src/components/gacha/GachaPickupModal.tsx` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（部品・100行・使われる2）
@@ -210,7 +210,7 @@ tools/update.sh が cards.json から作る。1ファイル1行：`パス` — �
 - `src/features/studylog/manualLogCore.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・468行・使われる13）
 - `src/features/studylog/manualLogStore.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・51行・使われる4）
 - `src/features/studylog/studyFeed.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・186行・使われる5）
-- `src/features/studylog/studylog.css` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（部品・366行・使われる3）
+- `src/features/studylog/studylog.css` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（部品・370行・使われる3）
 - `src/features/studylog/ui.tsx` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・33行・使われる3）
 - `src/features/toeic/catalog.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・40行・使われる2）
 - `src/features/toeic/format.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・62行・使われる3）
@@ -496,7 +496,7 @@ tools/update.sh が cards.json から作る。1ファイル1行：`パス` — �
 - `src/utils/vocabGoal.ts` — 志望校と、単語帳の目標（出題範囲）を保存する係（データ・41行・使われる3）
 - `src/utils/webSignInCore.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・239行・使われる3）
 
-## 問題と教材のデータ（116ファイル）
+## 問題と教材のデータ（118ファイル）
 
 - `listening_audio_ledger.json` — リスニング音源374件の出どころと状態を記録する台帳の係（データ・5,612行・使われる0）
 - `public/data/listeningTranslations.json` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（設定・0行・使われる0）
@@ -530,7 +530,9 @@ tools/update.sh が cards.json から作る。1ファイル1行：`パス` — �
 - `src/data/listeningSupport.ts` — 聞き取り練習用の単語の形と、8つの文法レッスンを持つ係（データ・29行・使われる6）
 - `src/data/listeningTechniques.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・117行・使われる2）
 - `src/data/mascotTips.ts` — とびら君が話す「ミニ豆知識」の文を持つ係（データ・180行・使われる1）
-- `src/data/nijiMockPrints.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・132行・使われる5）
+- `src/data/nijiMockPrints.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・181行・使われる5）
+- `src/data/nijiMockPrints.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・181行・使われる5）
+- `src/data/nijiMockPrints.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・181行・使われる5）
 - `src/data/philosophy.ts` — 理念ページ「学びの扉」に載せる本文を段落ごとに持つ係（データ・68行・使われる1）
 - `src/data/problemCount.ts` — 1つの単元に大問が何問入っているかを数える共通の係（データ・66行・使われる4）
 - `src/data/reading/index.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・163行・使われる6）
@@ -680,7 +682,7 @@ tools/update.sh が cards.json から作る。1ファイル1行：`パス` — �
 - `public/化学基礎_フローチャート集.html` — 【要確認】化学基礎のフローチャート集を見せる単体ページだが、使い道が未確認の係（文書・2,561行・使われる0）
 - `public/化学基礎_フローチャート集_v2.html` — 【要確認】化学基礎のフローチャート集の第2版の単体ページだが、使い道が未確認の係（文書・2,561行・使われる0）
 
-## 作る道具（432ファイル）
+## 作る道具（470ファイル）
 
 - `scripts/README.md` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（文書・49行・使われる0）
 - `scripts/build.sh` — ビルドの前にメモリ不足を見つけ、理由と対処を先に示す係（設定・49行・使われる0）
@@ -699,7 +701,7 @@ tools/update.sh が cards.json から作る。1ファイル1行：`パス` — �
 - `scripts/firefly-kit/unify_background.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・253行・使われる0）
 - `scripts/firefly-kit/videos.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・368行・使われる0）
 - `scripts/fix-vocab-meanings.py` — 英単語の意味に残った「第／の」などの表記くずれを直す係（データ・70行・使われる0）
-- `scripts/gacha-prints/README.md` — 【変】ガチャで当たる学習プリントの作り直し方を説明する係（文書・241行・使われる0）
+- `scripts/gacha-prints/README.md` — 【変】ガチャで当たる学習プリントの作り直し方を説明する係（文書・257行・使われる0）
 - `scripts/gacha-prints/analysis_data.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・36行・使われる0）
 - `scripts/gacha-prints/analysis_subjects1.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・58行・使われる0）
 - `scripts/gacha-prints/analysis_subjects2.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・63行・使われる0）
@@ -709,6 +711,8 @@ tools/update.sh が cards.json から作る。1ファイル1行：`パス` — �
 - `scripts/gacha-prints/build-grammar-ur.py` — 学習プリント「英文法 全20単元 総合100題」を作る係（文書・305行・使われる0）
 - `scripts/gacha-prints/build-level-ur.py` — レベル報酬の学習プリント「リスニングの聞き方」を作る係（文書・70行・使われる0）
 - `scripts/gacha-prints/build-listening-book.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・306行・使われる0）
+- `scripts/gacha-prints/build-previews.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・103行・使われる0）
+- `scripts/gacha-prints/build-previews.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・103行・使われる0）
 - `scripts/gacha-prints/build-previews.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・103行・使われる0）
 - `scripts/gacha-prints/build-reading-mock.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・159行・使われる0）
 - `scripts/gacha-prints/build-science-ur.py` — 化学・数学・理科の学習プリント3冊を作り直す係（文書・315行・使われる0）
@@ -910,6 +914,42 @@ tools/update.sh が cards.json から作る。1ファイル1行：`パス` — �
 - `scripts/gacha-prints/kyushu_mock/render.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・494行・使われる0）
 - `scripts/gacha-prints/kyushu_mock/style.css` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（部品・161行・使われる0）
 - `scripts/gacha-prints/listening_guide.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・66行・使われる0）
+- `scripts/gacha-prints/niji_shikoku/cfg.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・72行・使われる0）
+- `scripts/gacha-prints/niji_shikoku/common.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・313行・使われる0）
+- `scripts/gacha-prints/niji_shikoku/ehimee/r1.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・106行・使われる0）
+- `scripts/gacha-prints/niji_shikoku/ehimee/r2.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・103行・使われる0）
+- `scripts/gacha-prints/niji_shikoku/ehimee/r3.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・105行・使われる0）
+- `scripts/gacha-prints/niji_shikoku/ehimeh/r1.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・147行・使われる0）
+- `scripts/gacha-prints/niji_shikoku/ehimeh/r2.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・144行・使われる0）
+- `scripts/gacha-prints/niji_shikoku/ehimeh/r3.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・145行・使われる0）
+- `scripts/gacha-prints/niji_shikoku/ehimem/r1.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・96行・使われる0）
+- `scripts/gacha-prints/niji_shikoku/ehimem/r2.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・95行・使われる0）
+- `scripts/gacha-prints/niji_shikoku/ehimem/r3.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・98行・使われる0）
+- `scripts/gacha-prints/niji_shikoku/kagawa/r1.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・134行・使われる0）
+- `scripts/gacha-prints/niji_shikoku/kagawa/r2.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・137行・使われる0）
+- `scripts/gacha-prints/niji_shikoku/kagawa/r3.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・133行・使われる0）
+- `scripts/gacha-prints/niji_shikoku/kochie/r1.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・177行・使われる0）
+- `scripts/gacha-prints/niji_shikoku/kochie/r2.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・177行・使われる0）
+- `scripts/gacha-prints/niji_shikoku/kochie/r3.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・177行・使われる0）
+- `scripts/gacha-prints/niji_shikoku/kochij/r1.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・137行・使われる0）
+- `scripts/gacha-prints/niji_shikoku/kochij/r2.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・135行・使われる0）
+- `scripts/gacha-prints/niji_shikoku/kochij/r3.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・135行・使われる0）
+- `scripts/gacha-prints/niji_shikoku/kochik/r1.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・154行・使われる0）
+- `scripts/gacha-prints/niji_shikoku/kochik/r2.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・155行・使われる0）
+- `scripts/gacha-prints/niji_shikoku/kochik/r3.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・154行・使われる0）
+- `scripts/gacha-prints/niji_shikoku/kochim/r1.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・218行・使われる0）
+- `scripts/gacha-prints/niji_shikoku/kochim/r2.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・225行・使われる0）
+- `scripts/gacha-prints/niji_shikoku/kochim/r3.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・226行・使われる0）
+- `scripts/gacha-prints/niji_shikoku/ledger.json` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（設定・109行・使われる0）
+- `scripts/gacha-prints/niji_shikoku/plag.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・38行・使われる0）
+- `scripts/gacha-prints/niji_shikoku/run.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・15行・使われる0）
+- `scripts/gacha-prints/niji_shikoku/strict/fix.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・65行・使われる0）
+- `scripts/gacha-prints/niji_shikoku/strict/gate.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・30行・使われる0）
+- `scripts/gacha-prints/niji_shikoku/strict/para.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・20行・使われる0）
+- `scripts/gacha-prints/niji_shikoku/strict/strict.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・83行・使われる0）
+- `scripts/gacha-prints/niji_shikoku/tokushima/r1.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・101行・使われる0）
+- `scripts/gacha-prints/niji_shikoku/tokushima/r2.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・100行・使われる0）
+- `scripts/gacha-prints/niji_shikoku/tokushima/r3.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・98行・使われる0）
 - `scripts/gacha-prints/reading_guide.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・52行・使われる0）
 - `scripts/gacha-prints/reading_mock_a.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・301行・使われる0）
 - `scripts/gacha-prints/reading_mock_b1.py` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・106行・使われる0）
@@ -1115,7 +1155,7 @@ tools/update.sh が cards.json から作る。1ファイル1行：`パス` — �
 - `store-assets/youtube/CHAPTERS.txt` — YouTube 動画の見出し（チャプター）の時刻を並べた係（文書・7行・使われる0）
 - `store-assets/youtube/youtube_16x9.mp4` — YouTube に載せる横長（16:9）の宣伝動画の係（音声・画像・236,072行・使われる0）
 
-## 自動テスト（160ファイル）
+## 自動テスト（162ファイル）
 
 - `functions/core.test.mjs` — サーバー側のクラン集計の計算が正しいかを確かめる係（テスト・72行・使われる0）
 - `functions/integration.test.mjs` — 試験用の環境で、サーバー処理の流れを通して確かめる係（テスト・146行・使われる0）
@@ -1208,7 +1248,9 @@ tools/update.sh が cards.json から作る。1ファイル1行：`パス` — �
 - `tests/myStudyWeek.test.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（テスト・22行・使われる0）
 - `tests/mypageDesktopWidth.test.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（テスト・13行・使われる0）
 - `tests/nativeAuthError.test.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（テスト・33行・使われる0）
-- `tests/nijiGacha.test.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（テスト・158行・使われる0）
+- `tests/nijiGacha.test.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（テスト・167行・使われる0）
+- `tests/nijiGacha.test.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（テスト・167行・使われる0）
+- `tests/nijiGacha.test.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（テスト・167行・使われる0）
 - `tests/noExplicitAny.test.ts` — 手書きのコードに any 型が増えていないかを見張る係（テスト・56行・使われる0）
 - `tests/noSilentCatch.test.ts` — 理由を書かずに失敗を握りつぶしている箇所が無いか確かめる係（テスト・48行・使われる0）
 - `tests/pdfViewer.test.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（テスト・93行・使われる0）
@@ -1312,7 +1354,7 @@ tools/update.sh が cards.json から作る。1ファイル1行：`パス` — �
 - `docs/TOBIRA_MOTION_PROMPTS.md` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（文書・113行・使われる0）
 - `docs/TOEIC_DESIGN.md` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（文書・165行・使われる0）
 - `docs/TOEIC_P5_GLOSSARY.md` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（文書・52行・使われる0）
-- `docs/UI_CHANGELOG.md` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（文書・1,097行・使われる0）
+- `docs/UI_CHANGELOG.md` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（文書・1,109行・使われる0）
 - `docs/UI参考_画面と導線.md` — ホームや科目選択の画面と導線の参考をまとめた係（文書・77行・使われる0）
 - `docs/WEB_LOGIN_SAME_ORIGIN.md` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（文書・89行・使われる0）
 - `docs/app_review/BLOCK_FEATURE_FOR_APPLE.md` — Appleの審査に、通報・ブロック機能の場所を答える資料の係（文書・74行・使われる0）
@@ -1553,7 +1595,7 @@ tools/update.sh が cards.json から作る。1ファイル1行：`パス` — �
 
 - ロックファイル（2件）：`リポジトリ直下、functions/` — 使う部品の正確な版を記録し、同じ環境を再現する係（2ファイル）
 - 対戦の出題プール（自動生成）：`src/battle/data/` — 対戦で出す問題と答えの一覧を、教科ごとに持つ係（7ファイル）
-- 教材の自動生成ファイル：`src/data/、src/data/reading/` — 単元の索引・英文法の問題・単語数などを生成して持つ係（6ファイル）
+- 教材の自動生成ファイル：`src/data/、src/data/reading/` — 単元の索引・英文法の問題・単語数などを生成して持つ係（8ファイル）
 - リスニング第4〜6問の問題データ群：`src/data/listeningSets/` — リスニング第4〜6問の問題と音源の長さをまとめて持つ係（4ファイル）
 - 単語帳の元データ：`src/data/listeningVocabularySource.json` — 単語帳データを作るもとになる、語と確認問題の一覧の係（1ファイル）
 - アプリ内のロゴ画像：`src/assets/mntb_logo.png` — マナトビのロゴ画像を持つが、使う側が見つからない係（1ファイル）
@@ -1561,7 +1603,7 @@ tools/update.sh が cards.json から作る。1ファイル1行：`パス` — �
 - リスニング第4〜6問の音源と図：`public/listening_q4/、public/listening_q5/、public/listening_q6/` — リスニング第4〜6問の音声と、問題に添える図を持つ係（255ファイル）
 - リスニングのイラスト（第1問B・第2問）：`public/listening_q1b/、public/listening_q2/` — 絵を選ぶ問題（第1問B・第2問）のイラストを持つ係（108ファイル）
 - 音読用の時刻データ群：`public/read_along/listening_audio/、public/read_along/listening_q4/、public/read_along/listening_q5/、public/read_along/listening_q6/` — 音読・ディクテーション用に、単語ごとの時刻を持つ係（374ファイル）
-- ガチャの学習プリント（PDFと縮小画像）：`public/prints/、public/prints/kyotsu_assets/audio/、public/prints/previews/、public/prints/thumbs/` — ガチャで当たる学習プリントのPDFと、その縮小画像を持つ係（363ファイル）
+- ガチャの学習プリント（PDFと縮小画像）：`public/prints/、public/prints/kyotsu_assets/audio/、public/prints/previews/、public/prints/thumbs/` — ガチャで当たる学習プリントのPDFと、その縮小画像を持つ係（480ファイル）
 - 対戦の効果音：`public/sfx/battle/` — 対戦中の正解・不正解などの効果音を、1音1ファイルで持つ係（26ファイル）
 - 対戦BGM：`public/bgm/battle/` — 対戦の待合室と試合中に流すBGMの音源を持つ係（3ファイル）
 - タイトル曲：`public/tanjou.mp3` — アプリ全体で流れるタイトル曲の音源を持つ係（1ファイル）

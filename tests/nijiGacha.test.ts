@@ -95,7 +95,9 @@ describe('2次試験ガチャ：抽選', () => {
 
 describe('2次試験の予想問題 PDF', () => {
   it('台帳のページ数・ファイル・サムネイルが実物と合う', () => {
-    expect(NIJI_MOCK_PRINTS.length).toBe(39); // 名古屋 3・静岡 3・大阪公立 A 3・B 3・和歌山 3・岡山 3・広島 3・東京学芸 3・琉球 3・熊本 3・佐賀 3・九州 3・福岡女子 3
+    expect(NIJI_MOCK_PRINTS.length).toBe(66); // 名古屋 3・静岡 3・大阪公立 A 3・B 3・和歌山 3・岡山 3・広島 3・東京学芸 3・琉球 3・熊本 3・佐賀 3・九州 3
+    // ＋四国 27（香川 3・徳島 3・愛媛 法文工/教育/医 各3・高知 人文/国際/教育/医 各3）
+    // ＋福岡女子 3
     for (const u of NIJI_UNIVERSITIES) expect(NIJI_MOCK_PRINTS.filter((p) => nijiUniversityOf(p.id)?.id === u.id).length, u.id).toBe(3);
     for (const p of NIJI_MOCK_PRINTS) {
       expect(existsSync(`public${p.file}`), p.id).toBe(true);
@@ -116,7 +118,7 @@ describe('2次試験の予想問題 PDF', () => {
       expect(t, p.id).toContain(nijiDisclaimerFor(u.name).replace(/\s+/g, ''));
       expect(t, p.id).not.toMatch(/的中|必ず出る|合格できる/);
     }
-  });
+  }, 90_000); // 66冊を pdftotext で開くので既定の20秒では足りない
   it('ガチャの詳細・ピックアップに注意書きを出す', () => {
     expect(NIJI_DISCLAIMER).toContain('過去問・公式問題ではありません');
     expect(readFileSync('src/components/gacha/GachaItemDetail.tsx', 'utf8')).toContain('nijiDisclaimerFor(nijiUniv.name)');
@@ -128,6 +130,7 @@ describe('2次試験の予想問題 PDF', () => {
     expect(NIJI_MOCK_PRINTS.find((p) => p.id === 'print_lr_niji_omua_en_1')!.label).toContain('Aグループ');
     expect(NIJI_MOCK_PRINTS.find((p) => p.id === 'print_lr_niji_omub_en_3')!.label).toContain('Bグループ');
     expect(NIJI_DISCLAIMER.split('大阪公立大学').length - 1).toBe(1);
+    for (const n of ['香川大学', '徳島大学', '愛媛大学', '高知大学']) expect(NIJI_DISCLAIMER.split(n).length - 1, n).toBe(1);
     for (const name of ['和歌山大学', '岡山大学', '広島大学']) expect(NIJI_DISCLAIMER, name).toContain(name);
     expect(nijiUniversityOf('print_lr_niji_hiroshima_en_2')?.name).toBe('広島大学');
     expect(NIJI_MOCK_PRINTS.find((p) => p.id === 'print_lr_niji_okayama_en_1')!.label).toBe('国公立2次 英語 予想問題 岡山大学 前期対策 第1回（問題＋解答・解説）');
@@ -143,6 +146,12 @@ describe('ガチャ画面：左右スワイプで切り替え', () => {
     expect(room).toContain('<GachaPoolCarousel');
     expect(css).toMatch(/\.gacha-carousel \{[^}]*overflow-x: auto[^}]*scroll-snap-type: x mandatory/);
     expect(css).toMatch(/\.gacha-slide \{[^}]*flex: 0 0 100%[^}]*scroll-snap-align: start/);
+  });
+  it('長い目玉セリフを省略せず、スマホ高画面で広告分の余白を保つ', () => {
+    expect(carousel).toContain('line={`${def.title}の目玉は「${hero.label}」！${gachaRarityOf(hero)}はめったに出ないよ`}');
+    expect(css).toMatch(/@media \(min-width: 361px\) and \(max-width: 699px\) and \(min-height: 761px\) and \(max-height: 900px\)/);
+    expect(css).toContain('.gacha-banner-buddy .tb-bubble { padding: 4px 8px; font-size: 12px; line-height: 1.25; }');
+    expect(css).toContain('.gacha-banner-hero { min-height: 78px; padding: 5px 8px; gap: 8px; }');
   });
   it('切替タブ（共通テスト｜2次試験）でも切り替えられ、引くときはそのガチャで抽選する', () => {
     expect(carousel).toContain('role="tablist"');
