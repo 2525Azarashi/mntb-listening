@@ -46,11 +46,12 @@ for n in ('1', '2', '3'):
                     chk.append((n, q['no'], len(a), '25-200字', 'OK' if 25 <= len(a) <= 200 else 'NG'))
         elif q['kind'] == 'write':
             m = re.findall(r'\d+', q['limit']); lo, hi = int(m[0]), int(m[-1])
+            if lo == hi: lo, hi = round(lo * .9), hi   # 「80語程度」→ 72〜88語（上限は下で +10%）
             for lab, mdl in q['models']:
                 w = wc(re.sub(r'\(\d+ words\)', '', mdl))
                 chk.append((n, f'write-{lab}', w, f'{lo}-{round(hi * 1.1)}語', 'OK' if lo <= w <= round(hi * 1.1) else 'NG'))
         elif q['kind'] == 'mcset':
-            k = len(q['items']); chk.append((n, q['no'], k, '5問', 'OK' if k == 5 else 'NG'))
+            k = len(q['items']); chk.append((n, q['no'], k, '5問（内容不一致は1問）', 'OK' if k in (1, 5) else 'NG'))
 log['lengths'] = chk
 ng = [k for k, v in log.items() if isinstance(v, dict) and any('NG' in x for x in v['range'].values())]
 ng += [c for c in chk if c[-1] == 'NG']

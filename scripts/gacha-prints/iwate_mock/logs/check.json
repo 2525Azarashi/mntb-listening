@@ -23,47 +23,67 @@
   "en4": {},
   "ja13": {}
  },
+ "r3-1": {
+  "en4": {},
+  "ja13": {}
+ },
+ "r3-2": {
+  "en4": {},
+  "ja13": {}
+ },
+ "r3-3": {
+  "en4": {},
+  "ja13": {}
+ },
  "topic": {
   "r1-1": [
-   0.127,
+   0.123,
    "tohoku_ref/2026-III"
   ],
   "r1-2A": [
-   0.048,
+   0.049,
    "hokudai_ref/2026-4conv"
   ],
   "r1-2B": [
-   0.04,
+   0.038,
    "hokudai_ref/2022-2"
   ],
   "r1-2C": [
-   0.055,
+   0.054,
    "hokudai_ref/2026-4conv"
   ],
   "r2-1": [
-   0.069,
+   0.067,
    "hokudai_ref/2026-2"
   ],
   "r2-2": [
    0.098,
    "hirosaki_ref/2026-1"
+  ],
+  "r3-1": [
+   0.084,
+   "hokudai_ref/2024-3"
+  ],
+  "r3-3": [
+   0.091,
+   "hokudai_ref/2026-4conv"
   ]
  },
  "topic_past_ref": {
   "n": 33,
   "median": 0.049,
-  "max": 0.59
+  "max": 0.592
  },
  "render_fixed": {
   "en4": [],
   "ja13": []
  },
  "answer_positions": {
-  "a": 3,
-  "b": 4,
-  "c": 4,
-  "d": 4
+  "a": 7,
+  "b": 8,
+  "c": 8,
+  "d": 8
  },
- "far_longest_answer": "2/15",
+ "far_longest_answer": "5/31",
  "ng": []
 }

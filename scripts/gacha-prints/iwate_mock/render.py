@@ -24,7 +24,7 @@ from weasyprint import HTML, CSS
 e, mono, FC, genko, crit_table = kb.e, kb.mono, kb.FC, kb.genko, kb.crit_table
 OUT_DIR = Path(os.environ.get('IWATE_OUT_DIR', str(ROOT / '.tmpwork/iwate_mock')))
 DISCLAIMER = '岩手大学の過去問・公式問題ではありません。予想問題であり，大学とは関係がありません。'
-PN = '①②③④⑤⑥⑦⑧⑨⑩⑪⑫⑬⑭⑮'
+PN = '①②③④⑤⑥⑦⑧⑨⑩⑪⑫⑬⑭⑮⑯⑰⑱⑲⑳'
 CL = 'abcde'
 PAGE_INFO = {}
 

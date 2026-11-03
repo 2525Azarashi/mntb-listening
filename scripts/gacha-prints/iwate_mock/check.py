@@ -106,7 +106,7 @@ for R in rounds:
                     if q['points'] % len(q['items']): ng.append((qt, 'mcset_points'))
                     for it in q['items']:
                         ch = it['choices']
-                        if len(ch) != 4 or len(set(map(norm, ch))) != 4: ng.append((qt, 'choices_shape', it['label']))
+                        if len(ch) not in (4, 5) or len(set(map(norm, ch))) != len(ch): ng.append((qt, 'choices_shape', it['label']))
                         if not 0 <= it['answer'] < len(ch): ng.append((qt, 'answer_index', it['label']))
                         pos[it['answer']] += 1
                         Ls = [len(c) for c in ch]; longest[1] += 1
