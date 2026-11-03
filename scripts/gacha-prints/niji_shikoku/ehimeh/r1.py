@@ -2,7 +2,7 @@
 
 S1 = {
     'title': '物語文の読解', 'pts': 80,
-    'lead': '以下の英文は、ある港町の時計店を舞台にした小説の冒頭部分である（架空の作品）。これを読んで設問 1 〜 8 に答えよ。*印の語には本文の下に注をつけた。',
+    'lead': '以下の英文は、ある港町の時計店を舞台にした小説の書き出しである（架空の作品）。これを読んで設問 1 〜 8 に答えよ。*印の語には本文の下に注をつけた。',
     'passages': [{'paras': [
         "Every clock in Mr. Hollis’s shop told a different time. That was the first thing I noticed when I stepped inside to escape the rain, and {u:(1):it bothered me more than it should have}. A tall clock by the door said a quarter past four. A small brass one on the counter insisted it was nearly seven. Somewhere behind a curtain, a cuckoo clock was calling out the hour with great confidence, although I could not tell which hour it meant.",
         "“They’re not broken,” said a voice. An old man with silver glasses had appeared from behind the curtain, wiping his hands on a cloth. “People always think they’re broken.” I said I hadn’t thought anything, which was a lie, and he smiled as if he knew. “Each of them is set to a different city,” he explained. “That one is Lisbon. That one is Tokyo. The cuckoo is Buenos Aires, because my wife was born there and she liked to hear it sing.”",
@@ -15,14 +15,14 @@ S1 = {
     ]}],
     'notes': [('crooked', '曲がった、傾いた'), ('wind', '（時計のねじを）巻く（過去分詞 wound）')],
     'qs': [
-        {'n': '1.', 'q': '下線部 (1) の it が指す内容を明らかにして、下線部全体を日本語に訳せ。', 'sheet': 3},
+        {'n': '1.', 'q': '下線部 (1) の it が指す内容がわかるようにして、下線部全体を和訳せよ。', 'sheet': 3},
         {'n': '2.', 'q': '下線部 (2) から読み取れる老人の様子を、日本語でわかりやすく説明せよ。', 'sheet': 3},
-        {'n': '3.', 'q': '下線部 (3) のように妻が言った理由を、本文に即して日本語で説明せよ。', 'sheet': 3},
-        {'n': '4.', 'q': '下線部 (4) を日本語に訳せ。', 'sheet': 3},
+        {'n': '3.', 'q': '下線部 (3) のように妻が言った理由を、本文をもとに日本語で説明せよ。', 'sheet': 3},
+        {'n': '4.', 'q': '下線部 (4) を和訳せよ。', 'sheet': 3},
         {'n': '5.', 'q': '下線部 (5) について、老人が「愛」なのか「臆病」なのかわからないと言うのはなぜか。本文の内容をふまえて日本語で説明せよ。', 'sheet': 4},
-        {'n': '6.', 'q': '下線部 (6) を日本語に訳せ。', 'sheet': 3},
+        {'n': '6.', 'q': '下線部 (6) を和訳せよ。', 'sheet': 3},
         {'n': '7.', 'q': '下線部 (7) について、語り手が木曜日に店へ戻った本当の理由として考えられることを、本文全体をふまえて日本語で説明せよ。', 'sheet': 3},
-        {'n': '8.', 'q': '空所 ( A ) を埋める語句としてふさわしいものを ①〜④ のうちから一つ選び、その番号を記せ。また、下線部 (8) から読み取れる二人の気持ちを日本語で簡潔に説明せよ。',
+        {'n': '8.', 'q': '空所 ( A ) を埋める語句としてふさわしいものを ①〜④ のうちから一つを選び、その番号を記せ。また、下線部 (8) から読み取れる二人の気持ちを日本語で簡潔に説明せよ。',
          'opts': ['broken again', 'running', 'gone', 'set to Tokyo'], 'sheet': 3},
     ],
     'ans': [
@@ -73,11 +73,11 @@ S2 = {
         "In the end, the question is not whether convenience is good or bad. It is how much of our attention, skill, and connection with others we are willing to trade for it. {u:(7):That trade is worth making many times a day — but it is worth making with our eyes open.}",
     ]}],
     'qs': [
-        {'n': '1.', 'q': '下線部 (1) を日本語に訳せ。ただし otherwise の内容を明らかにすること。', 'sheet': 3},
+        {'n': '1.', 'q': '下線部 (1) を和訳せよ。ただし otherwise の指す内容がわかるように訳すこと。', 'sheet': 3},
         {'n': '2.', 'q': '下線部 (2) が意味する内容を、第2段落の例に触れながら日本語で説明せよ。', 'sheet': 4},
-        {'n': '3.', 'q': '下線部 (3) はどういうことか。その原因も含めて、本文に即して日本語で説明せよ。', 'sheet': 4},
+        {'n': '3.', 'q': '下線部 (3) はどういうことか。その原因も含めて、本文をもとに日本語で説明せよ。', 'sheet': 4},
         {'n': '4.', 'q': '下線部 (4) の The same pattern とはどのような傾向か。第4段落の内容をふまえて日本語で説明せよ。', 'sheet': 3},
-        {'n': '5.', 'q': '下線部 (5) を日本語に訳せ。', 'sheet': 3},
+        {'n': '5.', 'q': '下線部 (5) を和訳せよ。', 'sheet': 3},
         {'n': '6.', 'q': '空所 (6) を補う文として文脈に合うものを、(A)〜(D) のうちから一つ選べ。',
          'opts': ['Effort is always more valuable than speed',
                   'Inconvenience, chosen freely, can be a kind of reward',

@@ -5,7 +5,7 @@ N8 = ['1.', '2.', '3.', '4.', '5.', '6.', '7.', '8.']
 
 S1 = {
     'title': '長文読解', 'pts': 70,
-    'lead': '子どもの読書と「読み聞かせ」について述べた次の英文を読み、設問 1 〜 9 に答えよ。',
+    'lead': '子どもの読書と「読み聞かせ」について述べた以下の英文を読み、設問 1 〜 9 に答えよ。',
     'passages': [{'title': 'Why Reading Aloud Still Matters', 'paras': [
         "Most parents read to their children when they are very young. Picture books are shared at bedtime, and the same stories are repeated night after night. But once children learn to read by themselves, usually around the age of seven or eight, this habit tends to ({b:Ａ}) disappear. Parents reason that their children no longer need help, and children may feel that being read to is something for babies. Recent studies suggest that both groups may be giving up something ({b:Ｂ}) too early.",
         "One reason has to do with the gap between what children can read and what they can understand. A nine-year-old may be able to read only simple books on her own, yet she can follow a story with far richer vocabulary and more complicated ideas when an adult reads it ({b:ア}). {u:⑴:Listening allows children to enjoy books that they are not yet able to read, and in doing so, it introduces them to words and sentence patterns they would otherwise meet much later.} Teachers sometimes describe this as stretching a child’s reach.",
@@ -15,7 +15,7 @@ S1 = {
         "As children grow, the form of reading aloud can change. Teenagers may not want a parent to read them a bedtime story, but they may enjoy taking turns reading a novel, or listening to an audiobook together on a long car trip. The ({b:Ｄ}) point is to keep reading a shared experience for as long as possible. In a world where many activities happen alone in front of a screen, a story heard together may be more ({b:Ｅ}) than ever, and it gives children a chance to ({b:ウ}).",
     ]}],
     'qs': [
-        {'n': '設問1', 'q': '空所（ Ａ ）〜（ Ｅ ）に入れるのにふさわしい語を、下の 1〜7 のうちからそれぞれ一つを選び、その番号を記せ。各語は一度しか使えない。\n1. valuable　2. difficult　3. gradually　4. important　5. loudly　6. essential　7. strange', 'sheet': 'box',
+        {'n': '設問1', 'q': '空所（ Ａ ）〜（ Ｅ ）に補うのにふさわしい語を、下の 1〜7 のうちからそれぞれ一つを選び、その番号を記せ。各語は一度しか使えない。\n1. valuable　2. difficult　3. gradually　4. important　5. loudly　6. essential　7. strange', 'sheet': 'box',
          'sub': [('(Ａ)', ''), ('(Ｂ)', ''), ('(Ｃ)', ''), ('(Ｄ)', ''), ('(Ｅ)', '')]},
         {'n': '設問2', 'q': '空所（ ア ）を補う語として文脈に合うものを、次の 1〜4 のうちから一つを選び、その番号を記せ。', 'marks': N4,
          'opts': ['aloud', 'silently', 'quickly', 'alone'], 'sheet': 'box'},
@@ -23,8 +23,8 @@ S1 = {
          'opts': ['enjoyment', 'stress', 'money', 'punishment'], 'sheet': 'box'},
         {'n': '設問4', 'q': '空所（ ウ ）を補う語句として文脈に合うものを、次の 1〜4 のうちから一つを選び、その番号を記せ。', 'marks': N4,
          'opts': ['feel connected to others', 'stop talking to adults', 'avoid reading at school', 'watch more videos'], 'sheet': 'box'},
-        {'n': '設問5', 'q': '下線部 ⑴ を日本語に訳せ。', 'sheet': 4},
-        {'n': '設問6', 'q': '下線部 ⑵ の（　）内の語を、文意が通る語順に並べかえて書け。', 'sheet': 1},
+        {'n': '設問5', 'q': '下線部 ⑴ を和訳せよ。', 'sheet': 4},
+        {'n': '設問6', 'q': '下線部 ⑵ のかっこ内の語を、文意が通る語順に並べかえて書け。', 'sheet': 1},
         {'n': '設問7', 'q': '下線部 ⑶ の内容に最も近いものを、次の 1〜4 のうちから一つを選び、その番号を記せ。', 'marks': N4,
          'opts': ['Sharing reading with others is more important than reading for a long time.',
                   'Children should read alone for at least one hour every day.',
@@ -115,7 +115,7 @@ S3 = {
         ('⑸', '彼女は困っている人を決して見捨てない。\nShe never turns her (　　　) on people in trouble.'),
         ('⑹', '試験の結果を彼に知らせておきます。\nI will keep him (　　　) about the results of the exam.'),
         ('⑺', '私の考えでは、その計画はうまくいかないだろう。\nIn my (　　　), the plan won’t work.'),
-        ('⑻', '彼は医者になることを目指している。\nHe is aiming (　　　) becoming a doctor.'),
+        ('⑻', '彼は医師になることを目標にしている。\nHe is aiming (　　　) becoming a doctor.'),
         ('⑼', 'そのドアは内側からしか開けられない。\nThe door can be opened only from the (　　　).'),
         ('⑽', '彼女はきっと試験に合格するだろう。\nShe is (　　　) to pass the exam.'),
     ]}],
@@ -128,7 +128,7 @@ S3 = {
 
 S4 = {
     'title': '語順整序', 'pts': 40,
-    'lead': '次の ⑴ 〜 ⑻ の日本文の意味を表す英文になるよう、（　）内の語句を並べかえ、英文全体を書け。文の最初にくる語も小文字で示してある。必要があればコンマを補うこと。',
+    'lead': '次の ⑴ 〜 ⑻ の日本文に合う英文を、（　）の中の語句を並べかえて作り、その英文全体を書け。文の最初にくる語も小文字で示してある。必要があればコンマを補うこと。',
     'qs': [
         {'n': '⑴', 'q': '天気がよければ、明日は海に行こう。\n（ fine / go / if / is / let’s / the sea / the weather / to ）tomorrow.', 'sheet': 2},
         {'n': '⑵', 'q': '私は彼女がどこに住んでいるのか知らない。\n（ don’t / I / know / lives / she / where ）.', 'sheet': 2},
@@ -162,7 +162,7 @@ S4 = {
 
 S5 = {
     'title': '意見英作文', 'pts': 50,
-    'lead': '次の問いについて、あなたの意見を英語で書け。長さは100語以内とし、最後の（　　）に総語数を書くこと。句読点は語数に数えない。',
+    'lead': '次の問いに対する自分の意見を英語で書け。長さは100語以内とし、最後の（　　）に総語数を書くこと。句読点は語数に数えない。',
     'prompt': 'What is one thing you learned outside the classroom that you think every child should learn, and why?',
     'qs': [{'n': '', 'q': '', 'sheet': 'words12'}],
     'ans': [

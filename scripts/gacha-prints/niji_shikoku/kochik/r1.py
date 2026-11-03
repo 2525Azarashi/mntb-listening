@@ -114,7 +114,7 @@ S2 = {
 
 S3 = {
     'title': '整序英作文', 'pts': 40,
-    'lead': '各問の日本文の意味を表す英文になるよう、［　］内の語句を並べかえ、英文全体を解答用紙に書け。文の最初にくる語も小文字で示してある。',
+    'lead': '各問の日本文に合う英文を、［　］の中の語句を並べかえて作り、その英文全体を解答用紙に書け。文の最初にくる語も小文字で示してある。',
     'qs': [
         {'n': '問1', 'q': '外国語を学ぶ最もよい方法は、その言葉が話されている国で暮らすことだ。\nThe best way to learn a foreign language ［ a country / in / is / is / it / live / spoken / to / where ］.', 'sheet': 2},
         {'n': '問2', 'q': '彼は、その計画について何も知らないふりをした。\nHe ［ about / anything / know / not / plan / pretended / the / to ］.', 'sheet': 2},
@@ -139,14 +139,14 @@ S3 = {
 
 S4 = {
     'title': '自由英作文', 'pts': 50,
-    'lead': '次の問いについて、あなたの考えを英語で書け。長さは100語以内とし、解答欄末尾の（　　）に使った語数を書くこと。句読点は語数に数えない。',
+    'lead': '次の問いについて、自分の考えを英語で書け。長さは100語以内とし、解答欄末尾の（　　）に使った語数を書くこと。句読点は語数に数えない。',
     'prompt': 'Some people say that a town should limit the number of tourists in order to protect the daily lives of the people who live there. What is your view on this idea? Explain your position, backing it up with concrete reasons.',
     'qs': [{'n': '', 'q': '', 'sheet': 'words12'}],
     'ans': [
         {'n': '解答例', 'pts': 50, 'min_words': 80, 'max_words': 100,
          'ans': '（下の解答例を参照）', 'short': '下の解答例を参照（立場の明示＋理由＋結論、100語以内）',
          'model': "I agree that a town should sometimes limit the number of tourists. First, the people who live in a town need to be able to continue their daily lives. If buses are always crowded and rents keep rising, local families may be forced to move away. Second, limiting visitors can protect the very things that make a place attractive, such as quiet streets and local shops. Tourists also enjoy a town more when it is not too crowded. Of course, tourism brings jobs, so the limits should be flexible and decided together with residents.",
-         'exp': '【出題の意図】長文（第1問）で扱った観光と地域社会のテーマについて、自分の立場を明確にし、理由を示して簡潔に論じる力をみる。\n【構成例】①立場の表明（I agree / I disagree）→②理由を2つ（First, … Second, …）→③反対意見への配慮や結論。100語以内なので、理由は2つに絞り、一つずつ具体的に書く。\n【採点の観点】①立場が明確で一貫している ②理由が具体的で論理的につながっている ③語数（100語以内。大きく不足する場合も減点）④文法・語法・つづりの正確さ。\n【反対側で書く場合の理由の例】観光は地方にとって貴重な収入源である／人数制限は観光客を他の町へ流すだけで問題を解決しない／制限よりも閑散期への分散や交通の整備で対応できる。'},
+         'exp': '【出題の意図】長文（第1問）で扱った観光と地域社会という題材に関して、自分の立場を明確にし、理由を示して簡潔に論じる力をみる。\n【構成例】①立場の表明（I agree / I disagree）→②理由を2つ（First, … Second, …）→③反対意見への配慮や結論。100語以内なので、理由は2つに絞り、一つずつ具体的に書く。\n【採点の観点】①立場が明確で一貫している ②理由が具体的で論理的につながっている ③語数（100語以内。大きく不足する場合も減点）④文法・語法・つづりの正確さ。\n【反対側で書く場合の理由の例】観光は地方にとって貴重な収入源である／人数制限は観光客を他の町へ流すだけで問題を解決しない／制限よりも閑散期への分散や交通の整備で対応できる。'},
     ],
     'tr': ['【解答例の訳】町は時には観光客の数を制限すべきだという考えに私は賛成する。第一に、町に住む人々は日常生活を続けられる必要がある。バスがいつも混んでいて家賃が上がり続ければ、地元の家族は引っ越しを余儀なくされるかもしれない。第二に、観光客を制限することで、静かな通りや地元の店のように、その場所を魅力的にしているまさにそのものを守ることができる。観光客も、混みすぎていない方が町をより楽しめる。もちろん観光は仕事を生むので、制限は柔軟にし、住民と一緒に決めるべきだ。'],
 }

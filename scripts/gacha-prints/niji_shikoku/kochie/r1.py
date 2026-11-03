@@ -5,7 +5,7 @@ N8 = ['1.', '2.', '3.', '4.', '5.', '6.', '7.', '8.']
 
 S1 = {
     'title': '長文読解', 'pts': 70,
-    'lead': '授業中の「待ち時間」について述べた次の英文を読み、設問 1 〜 9 に答えよ。',
+    'lead': '授業中の「待ち時間」について述べた以下の英文を読み、設問 1 〜 9 に答えよ。',
     'passages': [{'title': 'Waiting for an Answer', 'paras': [
         "Watch almost any classroom and you will notice a familiar pattern. The teacher asks a question, one or two students raise their hands almost at once, and the teacher calls on one of them. The whole exchange may take less than three seconds. It seems efficient, and it keeps the lesson moving. But researchers who have studied classroom talk have found that this ({b:Ａ}) pause between question and answer has surprising effects on who learns and how much.",
         "In the 1970s, an American science educator measured how long teachers waited after asking a question before they spoke again. The average was about one second. When teachers were trained to wait three to five seconds instead, several things changed. Students gave longer answers, more of them volunteered, and their answers were more often supported by ({b:ア}). Students who rarely spoke began to take part. {u:⑴:It appeared that many students had been capable of answering all along; they had simply not been given enough time to put their thoughts into words.}",
@@ -15,7 +15,7 @@ S1 = {
         "None of this means that every question deserves a long silence. Simple checks such as “Is everyone ready?” need no waiting at all, and too long a pause can make students ({b:Ｄ}). The skill lies in matching the wait to the question. Still, for questions that ask students to explain, compare, or predict, a few extra seconds may be one of the cheapest and most ({b:Ｅ}) changes a teacher can make. It costs nothing, requires no new equipment, and gives every student, not only the fastest, a chance to ({b:ウ}).",
     ]}],
     'qs': [
-        {'n': '設問1', 'q': '空所（ Ａ ）〜（ Ｅ ）に入れるのにふさわしい語を、下の 1〜7 のうちからそれぞれ一つを選び、その番号を記せ。各語は一度しか使えない。\n1. brief　2. obvious　3. silent　4. uneasy　5. effective　6. noisy　7. complex', 'sheet': 'box',
+        {'n': '設問1', 'q': '空所（ Ａ ）〜（ Ｅ ）に補うのにふさわしい語を、下の 1〜7 のうちからそれぞれ一つを選び、その番号を記せ。各語は一度しか使えない。\n1. brief　2. obvious　3. silent　4. uneasy　5. effective　6. noisy　7. complex', 'sheet': 'box',
          'sub': [('(Ａ)', ''), ('(Ｂ)', ''), ('(Ｃ)', ''), ('(Ｄ)', ''), ('(Ｅ)', '')]},
         {'n': '設問2', 'q': '空所（ ア ）を補う語として文脈に合うものを、次の 1〜4 のうちから一つを選び、その番号を記せ。', 'marks': N4,
          'opts': ['evidence', 'accident', 'rumor', 'silence'], 'sheet': 'box'},
@@ -23,8 +23,8 @@ S1 = {
          'opts': ['answer first', 'stay quiet', 'write it down', 'leave the room'], 'sheet': 'box'},
         {'n': '設問4', 'q': '空所（ ウ ）を補う語句として文脈に合うものを、次の 1〜4 のうちから一つを選び、その番号を記せ。', 'marks': N4,
          'opts': ['be heard', 'be punished', 'go home', 'be absent'], 'sheet': 'box'},
-        {'n': '設問5', 'q': '下線部 ⑴ を日本語に訳せ。', 'sheet': 4},
-        {'n': '設問6', 'q': '下線部 ⑵ の（　）内の語を、文意が通る語順に並べかえて書け。', 'sheet': 1},
+        {'n': '設問5', 'q': '下線部 ⑴ を和訳せよ。', 'sheet': 4},
+        {'n': '設問6', 'q': '下線部 ⑵ のかっこ内の語を、文意が通る語順に並べかえて書け。', 'sheet': 1},
         {'n': '設問7', 'q': '下線部 ⑶ の内容に最も近いものを、次の 1〜4 のうちから一つを選び、その番号を記せ。', 'marks': N4,
          'opts': ['Teachers also gain useful information from waiting.',
                   'Teachers should speak more than students in class.',
@@ -128,7 +128,7 @@ S3 = {
 
 S4 = {
     'title': '語順整序', 'pts': 40,
-    'lead': '次の ⑴ 〜 ⑻ の日本文の意味を表す英文になるよう、（　）内の語句を並べかえ、英文全体を書け。文の最初にくる語も小文字で示してある。必要があればコンマを補うこと。',
+    'lead': '次の ⑴ 〜 ⑻ の日本文に合う英文を、（　）の中の語句を並べかえて作り、その英文全体を書け。文の最初にくる語も小文字で示してある。必要があればコンマを補うこと。',
     'qs': [
         {'n': '⑴', 'q': '何か質問があれば、遠慮なく私に聞いてください。\n（ any / ask / feel / free / have / if / me / questions / to / you ）.', 'sheet': 2},
         {'n': '⑵', 'q': '彼女が言ったことは本当だとわかった。\n（ be / out / said / she / to / true / turned / what ）.', 'sheet': 2},
@@ -162,7 +162,7 @@ S4 = {
 
 S5 = {
     'title': '意見英作文', 'pts': 50,
-    'lead': '次の問いについて、あなたの意見を英語で書け。長さは100語以内とし、最後の（　　）に総語数を書くこと。句読点は語数に数えない。',
+    'lead': '次の問いに対する自分の意見を英語で書け。長さは100語以内とし、最後の（　　）に総語数を書くこと。句読点は語数に数えない。',
     'prompt': 'If you could invite a student from another country to your hometown for one day, where would you take him or her, and why?',
     'qs': [{'n': '', 'q': '', 'sheet': 'words12'}],
     'ans': [

@@ -5,7 +5,7 @@ N8 = ['1.', '2.', '3.', '4.', '5.', '6.', '7.', '8.']
 
 S1 = {
     'title': '長文読解', 'pts': 70,
-    'lead': '学校の宿題のあり方について述べた次の英文を読み、設問 1 〜 9 に答えよ。',
+    'lead': '学校の宿題のあり方について述べた以下の英文を読み、設問 1 〜 9 に答えよ。',
     'passages': [{'title': 'Rethinking Homework', 'paras': [
         "For generations, homework has been treated as a natural part of school life. Children carry worksheets home, parents check that they are finished, and teachers mark them the next day. Few people have questioned whether this routine actually helps children learn. In recent years, however, a number of schools have begun to reduce or even ({b:Ａ}) remove homework for younger pupils, and the results have started a lively debate among parents and teachers.",
         "Research on homework gives a mixed picture. For older students, a moderate amount of homework seems to be linked with better results, especially when the tasks are carefully designed. For children in the early years of primary school, the benefits are much ({b:Ｂ}) to find. Some studies suggest that long homework assignments at this age do little to improve achievement and may make children see learning as a ({b:ア}). {u:⑴:What appears to matter most is not how much time children spend on homework but what kind of task they are asked to do.}",
@@ -15,7 +15,7 @@ S1 = {
         "Perhaps the most sensible approach is to treat homework not as a fixed tradition but as a tool that teachers can adjust. A small amount of reading every evening, an occasional project that involves the family, and time for rest and play may together do more for young children than a heavy daily load. After all, children also learn a great deal outside school, from playing with friends, helping at home, and simply having time to ({b:ウ}).",
     ]}],
     'qs': [
-        {'n': '設問1', 'q': '空所（ Ａ ）〜（ Ｅ ）に入れるのにふさわしい語を、下の 1〜7 のうちからそれぞれ一つを選び、その番号を記せ。各語は一度しか使えない。\n1. easier　2. harder　3. completely　4. nearby　5. valuable　6. slowly　7. useless', 'sheet': 'box',
+        {'n': '設問1', 'q': '空所（ Ａ ）〜（ Ｅ ）に補うのにふさわしい語を、下の 1〜7 のうちからそれぞれ一つを選び、その番号を記せ。各語は一度しか使えない。\n1. easier　2. harder　3. completely　4. nearby　5. valuable　6. slowly　7. useless', 'sheet': 'box',
          'sub': [('(Ａ)', ''), ('(Ｂ)', ''), ('(Ｃ)', ''), ('(Ｄ)', ''), ('(Ｅ)', '')]},
         {'n': '設問2', 'q': '空所（ ア ）を補う語として文脈に合うものを、次の 1〜4 のうちから一つを選び、その番号を記せ。', 'marks': N4,
          'opts': ['burden', 'game', 'gift', 'holiday'], 'sheet': 'box'},
@@ -23,8 +23,8 @@ S1 = {
          'opts': ['do the work', 'skip school', 'watch television', 'forget the task'], 'sheet': 'box'},
         {'n': '設問4', 'q': '空所（ ウ ）を補う語句として文脈に合うものを、次の 1〜4 のうちから一つを選び、その番号を記せ。', 'marks': N4,
          'opts': ['think and imagine', 'take more tests', 'stay at school', 'buy new books'], 'sheet': 'box'},
-        {'n': '設問5', 'q': '下線部 ⑴ を日本語に訳せ。', 'sheet': 4},
-        {'n': '設問6', 'q': '下線部 ⑵ の（　）内の語を、文意が通る語順に並べかえて書け。', 'sheet': 1},
+        {'n': '設問5', 'q': '下線部 ⑴ を和訳せよ。', 'sheet': 4},
+        {'n': '設問6', 'q': '下線部 ⑵ のかっこ内の語を、文意が通る語順に並べかえて書け。', 'sheet': 1},
         {'n': '設問7', 'q': '下線部 ⑶ の内容に最も近いものを、次の 1〜4 のうちから一つを選び、その番号を記せ。', 'marks': N4,
          'opts': ['It is unclear whether long daily worksheets are the most effective way to build good habits.',
                   'Long daily worksheets are clearly the best way to teach time management.',
@@ -128,7 +128,7 @@ S3 = {
 
 S4 = {
     'title': '語順整序', 'pts': 40,
-    'lead': '次の ⑴ 〜 ⑻ の日本文の意味を表す英文になるよう、（　）内の語句を並べかえ、英文全体を書け。文の最初にくる語も小文字で示してある。必要があればコンマを補うこと。',
+    'lead': '次の ⑴ 〜 ⑻ の日本文に合う英文を、（　）の中の語句を並べかえて作り、その英文全体を書け。文の最初にくる語も小文字で示してある。必要があればコンマを補うこと。',
     'qs': [
         {'n': '⑴', 'q': '時間があれば、私の家に遊びに来てください。\n（ come / have / if / me / please / see / time / to / you ）.', 'sheet': 2},
         {'n': '⑵', 'q': 'その少年は、誰がその窓を割ったのか知っているようだ。\n（ broke / boy / seems / know / the / the window / to / who ）.', 'sheet': 2},
@@ -162,7 +162,7 @@ S4 = {
 
 S5 = {
     'title': '意見英作文', 'pts': 50,
-    'lead': '次の問いについて、あなたの意見を英語で書け。長さは100語以内とし、最後の（　　）に総語数を書くこと。句読点は語数に数えない。',
+    'lead': '次の問いに対する自分の意見を英語で書け。長さは100語以内とし、最後の（　　）に総語数を書くこと。句読点は語数に数えない。',
     'prompt': 'Do you think elementary school children should be allowed to bring their own smartphones to school? Explain your view with reasons.',
     'qs': [{'n': '', 'q': '', 'sheet': 'words12'}],
     'ans': [

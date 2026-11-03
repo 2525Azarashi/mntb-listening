@@ -15,9 +15,9 @@ S1 = {
         {'n': '問1', 'q': '下線部①について、抗菌薬に依存している医療の例として本文に挙げられているものを、第1段落から英語で3つ抜き出せ（1つにつき2語以上の語句でもよい）。', 'sheet': 2},
         {'n': '問2', 'q': '下線部②で筆者が抗菌薬の使用を「進化の実験」と表現しているのはなぜか。60字以内（句読点も1字と数える）の日本語で説明せよ。', 'sheet': 'grid60'},
         {'n': '問3', 'q': '下線部③を、本文の趣旨がわかるように、100字以内の日本語に訳せ。', 'sheet': 'grid100'},
-        {'n': '問4', 'q': '下線部④の「異例の状況」が生まれる理由を、本文に即して日本語で説明せよ。', 'sheet': 4},
+        {'n': '問4', 'q': '下線部④の「異例の状況」が生まれる理由を、本文をもとに日本語で説明せよ。', 'sheet': 4},
         {'n': '問5', 'q': '下線部⑤の These measures に当たる取り組みと、その結果わかったことを、80字以内の日本語で述べよ。', 'sheet': 'grid80'},
-        {'n': '問6', 'q': '本文の内容をふまえ、将来医師として外来診療を行う際に、抗菌薬を求める患者に対してどのように対応したいと考えるか。患者側の事情にも触れながら、あなたの考えを240字以内の日本語で述べよ。', 'sheet': 'grid240'},
+        {'n': '問6', 'q': '本文の内容をふまえ、将来医師として外来診療を行う際に、抗菌薬を求める患者に対してどのように対応したいと考えるか。患者側の事情にも触れながら、自分の考えを240字以内の日本語で述べよ。', 'sheet': 'grid240'},
     ],
     'ans': [
         {'n': '問1', 'pts': 9, 'ans': 'hip replacements ／ cancer treatments ／ a difficult childbirth（別解：a case of pneumonia, a scratch that became infected）',
@@ -63,7 +63,7 @@ S2 = {
         ]},
     ],
     'qs': [
-        {'n': '問1', 'q': '次の文は、文章2の考え方を医学生がまとめたものである。空所 (a)〜(e) に入れるのに最もふさわしい語を、下の語群からそれぞれ1つずつ選び、記号で答えよ。同じ語を二度用いてはならない。\nWhen a patient refuses treatment, the doctor should not use (a) to change his mind. Instead, the doctor should try to understand the (b) and values behind the refusal. Family members’ requests come from (c), but the final choice belongs to a patient who is (d) of deciding. If the patient still refuses, the doctor’s job changes to (e) the patient’s chosen way of life.',
+        {'n': '問1', 'q': '次の文は、文章2の考え方を医学生がまとめたものである。空所 (a)〜(e) に補うのにふさわしい語を、下の語群からそれぞれ1つずつ選び、記号で答えよ。各語は一度しか使えない。\nWhen a patient refuses treatment, the doctor should not use (a) to change his mind. Instead, the doctor should try to understand the (b) and values behind the refusal. Family members’ requests come from (c), but the final choice belongs to a patient who is (d) of deciding. If the patient still refuses, the doctor’s job changes to (e) the patient’s chosen way of life.',
          'opts': ['capable', 'pressure', 'supporting', 'fears', 'love', 'ignoring', 'research', 'unable'], 'sheet': 'box', 'sub': [('(a)', ''), ('(b)', ''), ('(c)', ''), ('(d)', ''), ('(e)', '')]},
         {'n': '問2', 'q': '下線部①のように娘が医師に頼んだ理由と、下線部②の考えに照らしてその頼みに応じることの問題点を、100字以内の日本語で述べよ。', 'sheet': 'grid100'},
         {'n': '問3', 'q': '下線部③の内容を、文章1の原さんの場合に当てはめて具体的に説明せよ。下線部④にも触れること。', 'sheet': 5},

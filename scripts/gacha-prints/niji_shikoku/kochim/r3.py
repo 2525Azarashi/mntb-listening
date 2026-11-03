@@ -113,7 +113,7 @@ S2 = {
 
 S3 = {
     'title': '語順整序', 'pts': 40,
-    'lead': '次の 1. 〜 10. の日本文の意味を表す英文になるよう、［　］内の語句を並べかえ、英文全体を解答用紙に書け。文の最初にくる語も小文字で示してある。',
+    'lead': '次の 1. 〜 10. の日本文に合う英文を、［　］の中の語句を並べかえて作り、その英文全体を解答用紙に書け。文の最初にくる語も小文字で示してある。',
     'qs': [
         {'n': '1.', 'q': 'その病気の原因はまだわかっていない。\nThe cause ［ been / disease / has / identified / not / of / the / yet ］.', 'sheet': 1},
         {'n': '2.', 'q': '彼女は、看護師として働いた経験を生かして医師になった。\nShe ［ as / became / experience / a doctor / her / making use of / a nurse ］.', 'sheet': 1},
@@ -160,7 +160,7 @@ S4 = {
                  ('(43)', '', ['forbid', 'ignore', 'recommend', 'avoid']),
                  ('(44)', '', ['praised', 'rejected', 'invented', 'tested']),
                  ('(45)', '', ['easy', 'cheap', 'difficult', 'quick'])]},
-        {'n': '問2', 'q': '下線部 ⑴ で若い医師が出した結論を、句読点を含めて40字以上60字以内の日本語で説明せよ。', 'sheet': 'grid60'},
+        {'n': '問2', 'q': '下線部 ⑴ で若い医師が出した結論を、句読点を含めて40字以上60字以内の日本語でまとめよ。', 'sheet': 'grid60'},
         {'n': '問3', 'q': '空所（ Ａ ）と（ Ｂ ）を補う二語の組として文脈に合うものを、①〜④ のうちから一つ選べ。', 'marks': M4,
          'opts': ['Ａ: welcomed　／　Ｂ: understood', 'Ａ: resisted　／　Ｂ: forgotten', 'Ａ: welcomed　／　Ｂ: forgotten', 'Ａ: resisted　／　Ｂ: understood'], 'sheet': 'box'},
         {'n': '問4', 'q': '下線部 ⑵ を和訳せよ。また、空所（ Ｃ ）と（ Ｄ ）を補う二語の組として文脈に合うものを ①〜④ のうちから一つ選べ。', 'marks': M4,
@@ -187,7 +187,7 @@ S4 = {
                  ('8.', 'Health workers today always wash their hands as often as guidelines say.'),
                  ('9.', 'Providing soap and a place to wash can help reduce illness among children.'),
                  ('10.', 'The writer suggests that important medical advances are always complicated.')]},
-        {'n': '問7', 'q': '本文に即して、次の質問に英語で答えよ。\n1. Why did some patients beg not to be sent to the doctors’ ward?\n2. Give two reasons why many doctors did not accept the young doctor’s idea.\n3. What methods have hospitals tried in order to improve hand hygiene among staff?', 'sheet': 3,
+        {'n': '問7', 'q': '本文をもとにて、次の質問に英語で答えよ。\n1. Why did some patients beg not to be sent to the doctors’ ward?\n2. Give two reasons why many doctors did not accept the young doctor’s idea.\n3. What methods have hospitals tried in order to improve hand hygiene among staff?', 'sheet': 3,
          'sub': [('1.', ''), ('2.', ''), ('3.', '')]},
     ],
     'ans': [

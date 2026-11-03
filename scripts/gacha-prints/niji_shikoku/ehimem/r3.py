@@ -13,11 +13,11 @@ S1 = {
     'notes': [('stroke', '脳卒中'), ('dementia', '認知症')],
     'qs': [
         {'n': '問1', 'q': '下線部①について、長期の社会的孤立と関連があるとされる病気を、本文中から英語で3つ抜き出せ。', 'sheet': 2},
-        {'n': '問2', 'q': '下線部②の内容を、social isolation と loneliness の違いが明らかになるように、60字以内の日本語で説明せよ。', 'sheet': 'grid60'},
+        {'n': '問2', 'q': '下線部②の内容を、social isolation と loneliness の違いが明らかになるように、60字以内の日本語でまとめよ。', 'sheet': 'grid60'},
         {'n': '問3', 'q': '下線部③を、本文の趣旨がわかるように、100字以内の日本語に訳せ。', 'sheet': 'grid100'},
-        {'n': '問4', 'q': '下線部④の考え方を、social prescribing の内容を明らかにしながら日本語で説明せよ。', 'sheet': 4},
+        {'n': '問4', 'q': '下線部④の考え方を、social prescribing がどういうものかを示しながら日本語で説明せよ。', 'sheet': 4},
         {'n': '問5', 'q': '下線部⑤に込められた筆者の主張を、80字以内の日本語でまとめよ。', 'sheet': 'grid80'},
-        {'n': '問6', 'q': '高齢化と人口減少が進む地域で、医師として住民の孤立や孤独にどのように関わることができるか。本文の内容をふまえ、具体的な取り組みを挙げながら、あなたの考えを240字以内の日本語で述べよ。', 'sheet': 'grid240'},
+        {'n': '問6', 'q': '高齢化と人口減少が進む地域で、医師として住民の孤立や孤独にどのように関わることができるか。本文の内容をふまえ、具体的な取り組みを挙げながら、自分の考えを240字以内の日本語で述べよ。', 'sheet': 'grid240'},
     ],
     'ans': [
         {'n': '問1', 'pts': 9, 'ans': 'heart disease ／ stroke ／ depression（別解：dementia）',
@@ -64,7 +64,7 @@ S2 = {
     ],
     'notes': [('diabetes', '糖尿病'), ('insulin', 'インスリン（血糖値を下げるホルモン）')],
     'qs': [
-        {'n': '問1', 'q': '次の文は、文章2の内容を医学生がまとめたものである。空所 (a)〜(e) に入れるのに最もふさわしい語を、下の語群からそれぞれ1つずつ選び、記号で答えよ。同じ語を二度用いてはならない。\nTeenagers with a chronic illness want to be (a) and to fit in, so poor control may reflect a (b) rather than carelessness. Closer watching by parents can cause more (c). Doctors should listen to the teenager and set goals (d). Responsibility should be passed on (e), through small successes.',
+        {'n': '問1', 'q': '次の文は、文章2の内容を医学生がまとめたものである。空所 (a)〜(e) に補うのにふさわしい語を、下の語群からそれぞれ1つずつ選び、記号で答えよ。各語は一度しか使えない。\nTeenagers with a chronic illness want to be (a) and to fit in, so poor control may reflect a (b) rather than carelessness. Closer watching by parents can cause more (c). Doctors should listen to the teenager and set goals (d). Responsibility should be passed on (e), through small successes.',
          'opts': ['independent', 'struggle', 'resistance', 'together', 'gradually', 'immediately', 'punishment', 'separately'], 'sheet': 'box', 'sub': [('(a)', ''), ('(b)', ''), ('(c)', ''), ('(d)', ''), ('(e)', '')]},
         {'n': '問2', 'q': '下線部①の健太さんの発言から読み取れる気持ちを、文章2の下線部②の考え方と関連づけて、100字以内の日本語で述べよ。', 'sheet': 'grid100'},
         {'n': '問3', 'q': '下線部③の the teenager’s own voice を大切にするために、筆者はどのような方法を挙げているか。また、下線部④の考え方を、健太さんの場合に当てはめて具体的に説明せよ。', 'sheet': 5},

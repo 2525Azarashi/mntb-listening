@@ -18,7 +18,7 @@ S1 = {
          'sub': [('(a)', ''), ('(b)', ''), ('(c)', ''), ('(d)', ''), ('(e)', '')]},
         {'n': '問3', 'q': '空所（ ア ）〜（ オ ）を補うのにふさわしい前置詞を下の語群から一つずつ選べ。各語は一度しか使えない。\n［ about ／ for ／ in ／ with ／ from ］', 'sheet': 'box',
          'sub': [('(ア)', ''), ('(イ)', ''), ('(ウ)', ''), ('(エ)', ''), ('(オ)', '')]},
-        {'n': '問4', 'q': '下線部 ⑴ の investment of time の言い換えとして最も近いものを、次の四つから一つ選べ。\n［ the money spent on paper ／ the time the writer gave ／ the speed of delivery ／ the length of the letter ］', 'sheet': 'box'},
+        {'n': '問4', 'q': '下線部 ⑴ の investment of time とほぼ同じ意味を表すものを、次の四つから一つ選べ。\n［ the money spent on paper ／ the time the writer gave ／ the speed of delivery ／ the length of the letter ］', 'sheet': 'box'},
         {'n': '問5', 'q': '下線部 ⑵ を和訳せよ。', 'sheet': 4},
         {'n': '問6', 'q': '下線部 ⑶ の生徒の発言から、筆者は手書きの手紙のどのような価値を示そうとしているか。本文全体をもとに日本語で説明せよ。', 'sheet': 5},
     ],
@@ -109,7 +109,7 @@ S2 = {
 
 S3 = {
     'title': '整序英作文', 'pts': 40,
-    'lead': '各問の日本文の意味を表す英文になるよう、［　］内の語句を並べかえ、英文全体を解答用紙に書け。文の最初にくる語も小文字で示してある。',
+    'lead': '各問の日本文に合う英文を、［　］の中の語句を並べかえて作り、その英文全体を解答用紙に書け。文の最初にくる語も小文字で示してある。',
     'qs': [
         {'n': '問1', 'q': '彼が戻ってくるまで、ここで待っていたほうがよい。\nYou ［ back / better / comes / had / he / here / until / wait ］.', 'sheet': 2},
         {'n': '問2', 'q': '駅に着いて初めて、私は傘を忘れたことに気づいた。\nIt ［ I / I / not / realized / that / the station / until / was / reached ］ I had left my umbrella.', 'sheet': 2},

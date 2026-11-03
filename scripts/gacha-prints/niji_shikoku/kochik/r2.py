@@ -25,7 +25,7 @@ S1 = {
                   'Elderly people may refuse to teach the language to anyone.',
                   'The language may be used only at school and on television.'], 'sheet': 'box'},
         {'n': '問5', 'q': '下線部 ⑵ を和訳せよ。', 'sheet': 4},
-        {'n': '問6', 'q': '下線部 ⑶ の dictionaries と dinner tables がそれぞれ何を指すかを明らかにしたうえで、この一文に込められた筆者の考えとその根拠を日本語でまとめよ。', 'sheet': 5},
+        {'n': '問6', 'q': '下線部 ⑶ の dictionaries と dinner tables がそれぞれ何を指すかを示したうえで、この一文に込められた筆者の考えとその根拠を日本語でまとめよ。', 'sheet': 5},
     ],
     'ans': [
         {'n': '問1', 'pts': 15, 'ans': '(1) replaced　(2) reinforce　(3) discovered　(4) reach　(5) hears',
@@ -115,7 +115,7 @@ S2 = {
 
 S3 = {
     'title': '整序英作文', 'pts': 40,
-    'lead': '各問の日本文の意味を表す英文になるよう、［　］内の語句を並べかえ、英文全体を解答用紙に書け。文の最初にくる語も小文字で示してある。',
+    'lead': '各問の日本文に合う英文を、［　］の中の語句を並べかえて作り、その英文全体を解答用紙に書け。文の最初にくる語も小文字で示してある。',
     'qs': [
         {'n': '問1', 'q': '彼がその会議に遅れたのは、これが初めてだった。\nThis ［ been / first / had / he / late / the / time / was ］ for the meeting.', 'sheet': 2},
         {'n': '問2', 'q': '何をすべきかわからなかったので、私は先生に助言を求めた。\n［ do / knowing / not / to / what ］, I asked my teacher for advice.', 'sheet': 2},
@@ -140,7 +140,7 @@ S3 = {
 
 S4 = {
     'title': '自由英作文', 'pts': 50,
-    'lead': '次の問いについて、あなたの考えを英語で書け。長さは100語以内とし、解答欄末尾の（　　）に使った語数を書くこと。句読点は語数に数えない。',
+    'lead': '次の問いについて、自分の考えを英語で書け。長さは100語以内とし、解答欄末尾の（　　）に使った語数を書くこと。句読点は語数に数えない。',
     'prompt': 'Should Japanese schools teach students a second foreign language, such as Chinese or Korean, in addition to English? State your position clearly and explain why you hold that view.',
     'qs': [{'n': '', 'q': '', 'sheet': 'words12'}],
     'ans': [

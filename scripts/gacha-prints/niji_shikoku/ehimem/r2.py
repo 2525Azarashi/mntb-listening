@@ -13,11 +13,11 @@ S1 = {
     'notes': [('radiology', '放射線科'), ('tumor', '腫瘍')],
     'qs': [
         {'n': '問1', 'q': '下線部①について、AI がどのようにして病気を見つけられるようになるのかを説明した部分から、学習の材料となるものを表す英語を、本文中から連続する4語で抜き出せ。', 'sheet': 1},
-        {'n': '問2', 'q': '下線部②で、AI の役割はどのようなものだと述べられているか。60字以内の日本語で説明せよ。', 'sheet': 'grid60'},
+        {'n': '問2', 'q': '下線部②で、AI の役割はどのようなものだと述べられているか。60字以内の日本語でまとめよ。', 'sheet': 'grid60'},
         {'n': '問3', 'q': '下線部③を、本文の趣旨がわかるように、100字以内の日本語に訳せ。', 'sheet': 'grid100'},
-        {'n': '問4', 'q': '下線部④のような逆説が生じるのはなぜか。automation bias の意味を明らかにしながら、日本語で説明せよ。', 'sheet': 4},
+        {'n': '問4', 'q': '下線部④のような逆説が生じるのはなぜか。automation bias の意味を示しながら、日本語で説明せよ。', 'sheet': 4},
         {'n': '問5', 'q': '下線部⑤の This arrangement の内容と、それが患者にとって望ましい理由を、80字以内の日本語で述べよ。', 'sheet': 'grid80'},
-        {'n': '問6', 'q': 'AI による画像診断支援を地方の病院に導入するとした場合、医師はどのような点に注意すべきだと考えるか。本文の内容をふまえ、あなたの考えを240字以内の日本語で述べよ。', 'sheet': 'grid240'},
+        {'n': '問6', 'q': 'AI による画像診断支援を地方の病院に導入するとした場合、医師はどのような点に注意すべきだと考えるか。本文の内容をふまえ、自分の考えを240字以内の日本語で述べよ。', 'sheet': 'grid240'},
     ],
     'ans': [
         {'n': '問1', 'pts': 8, 'ans': 'enormous collections of images',
@@ -62,11 +62,11 @@ S2 = {
         ]},
     ],
     'qs': [
-        {'n': '問1', 'q': '次の文は、文章2の内容を医学生がまとめたものである。空所 (a)〜(e) に入れるのに最もふさわしい語を、下の語群からそれぞれ1つずつ選び、記号で答えよ。同じ語を二度用いてはならない。\nErrors should not be seen as personal (a), because this makes people (b) them. Incident reports should be used to find problems in the (c), not to punish people. Patients have a (d) to know what happened, and an honest explanation usually builds (e) between doctors and patients.',
+        {'n': '問1', 'q': '次の文は、文章2の内容を医学生がまとめたものである。空所 (a)〜(e) に補うのにふさわしい語を、下の語群からそれぞれ1つずつ選び、記号で答えよ。各語は一度しか使えない。\nErrors should not be seen as personal (a), because this makes people (b) them. Incident reports should be used to find problems in the (c), not to punish people. Patients have a (d) to know what happened, and an honest explanation usually builds (e) between doctors and patients.',
          'opts': ['system', 'trust', 'failures', 'right', 'hide', 'luck', 'repeat', 'doubts'], 'sheet': 'box', 'sub': [('(a)', ''), ('(b)', ''), ('(c)', ''), ('(d)', ''), ('(e)', '')]},
         {'n': '問2', 'q': '下線部①の看護師の主張を要約し、その主張に対して文章2の筆者ならどのように反論すると考えられるか、100字以内の日本語で述べよ。', 'sheet': 'grid100'},
         {'n': '問3', 'q': '下線部③で筆者が若い医師に求めている役割を、下線部②の内容と関連づけて日本語で説明せよ。', 'sheet': 5},
-        {'n': '問4', 'q': '文章1の場面で、あなたが研修医であれば、その夜から翌日にかけてどのように行動するか。看護師・上級医・上田さんそれぞれへの関わり方を含め、文章2の見解に対するあなたの考えも示しながら、300字以内の日本語で述べよ。', 'sheet': 'grid300'},
+        {'n': '問4', 'q': '文章1の場面で、あなたが研修医であれば、その夜から翌日にかけてどのように行動するか。看護師・上級医・上田さんそれぞれへの関わり方を含め、文章2の見解に対する自分の考えも示しながら、300字以内の日本語で述べよ。', 'sheet': 'grid300'},
     ],
     'ans': [
         {'n': '問1', 'pts': 20, 'ans': '(a) (C) failures　(b) (E) hide　(c) (A) system　(d) (D) right　(e) (B) trust',

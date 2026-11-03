@@ -114,7 +114,7 @@ S2 = {
 
 S3 = {
     'title': '整序英作文', 'pts': 40,
-    'lead': '各問の日本文の意味を表す英文になるよう、［　］内の語句を並べかえ、英文全体を解答用紙に書け。文の最初にくる語も小文字で示してある。',
+    'lead': '各問の日本文に合う英文を、［　］の中の語句を並べかえて作り、その英文全体を解答用紙に書け。文の最初にくる語も小文字で示してある。',
     'qs': [
         {'n': '問1', 'q': '私たちが議論すべきなのは、その計画にいくらかかるかだ。\nWhat ［ discuss / how much / is / should / the plan / we / will cost ］.', 'sheet': 2},
         {'n': '問2', 'q': '窓を開けたまま寝てはいけない。\nYou ［ go / open / should / sleep / the window / to / with / not ］.', 'sheet': 2},
@@ -139,7 +139,7 @@ S3 = {
 
 S4 = {
     'title': '自由英作文', 'pts': 50,
-    'lead': '次の問いについて、あなたの考えを英語で書け。長さは100語以内とし、解答欄末尾の（　　）に使った語数を書くこと。句読点は語数に数えない。',
+    'lead': '次の問いについて、自分の考えを英語で書け。長さは100語以内とし、解答欄末尾の（　　）に使った語数を書くこと。句読点は語数に数えない。',
     'prompt': 'Is it better to buy a few expensive, high-quality items or many cheaper ones? Choose one side and support it with reasons drawn from your own experience or knowledge.',
     'qs': [{'n': '', 'q': '', 'sheet': 'words12'}],
     'ans': [
