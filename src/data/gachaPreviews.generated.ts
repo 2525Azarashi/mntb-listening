@@ -209,6 +209,114 @@ export const GACHA_PREVIEWS: Readonly<Record<string, readonly string[]>> = {
     "/prints/previews/print_lr_niji_tufs_en_3_p2.webp",
     "/prints/previews/print_lr_niji_tufs_en_3_p17.webp"
   ],
+  "print_lr_niji_kagawa_en_1": [
+    "/prints/previews/print_lr_niji_kagawa_en_1_p2.webp",
+    "/prints/previews/print_lr_niji_kagawa_en_1_p8.webp"
+  ],
+  "print_lr_niji_kagawa_en_2": [
+    "/prints/previews/print_lr_niji_kagawa_en_2_p2.webp",
+    "/prints/previews/print_lr_niji_kagawa_en_2_p8.webp"
+  ],
+  "print_lr_niji_kagawa_en_3": [
+    "/prints/previews/print_lr_niji_kagawa_en_3_p2.webp",
+    "/prints/previews/print_lr_niji_kagawa_en_3_p8.webp"
+  ],
+  "print_lr_niji_tokushima_en_1": [
+    "/prints/previews/print_lr_niji_tokushima_en_1_p2.webp",
+    "/prints/previews/print_lr_niji_tokushima_en_1_p8.webp"
+  ],
+  "print_lr_niji_tokushima_en_2": [
+    "/prints/previews/print_lr_niji_tokushima_en_2_p2.webp",
+    "/prints/previews/print_lr_niji_tokushima_en_2_p8.webp"
+  ],
+  "print_lr_niji_tokushima_en_3": [
+    "/prints/previews/print_lr_niji_tokushima_en_3_p2.webp",
+    "/prints/previews/print_lr_niji_tokushima_en_3_p8.webp"
+  ],
+  "print_lr_niji_ehimeh_en_1": [
+    "/prints/previews/print_lr_niji_ehimeh_en_1_p2.webp",
+    "/prints/previews/print_lr_niji_ehimeh_en_1_p9.webp"
+  ],
+  "print_lr_niji_ehimeh_en_2": [
+    "/prints/previews/print_lr_niji_ehimeh_en_2_p2.webp",
+    "/prints/previews/print_lr_niji_ehimeh_en_2_p9.webp"
+  ],
+  "print_lr_niji_ehimeh_en_3": [
+    "/prints/previews/print_lr_niji_ehimeh_en_3_p2.webp",
+    "/prints/previews/print_lr_niji_ehimeh_en_3_p9.webp"
+  ],
+  "print_lr_niji_ehimee_en_1": [
+    "/prints/previews/print_lr_niji_ehimee_en_1_p2.webp",
+    "/prints/previews/print_lr_niji_ehimee_en_1_p8.webp"
+  ],
+  "print_lr_niji_ehimee_en_2": [
+    "/prints/previews/print_lr_niji_ehimee_en_2_p2.webp",
+    "/prints/previews/print_lr_niji_ehimee_en_2_p8.webp"
+  ],
+  "print_lr_niji_ehimee_en_3": [
+    "/prints/previews/print_lr_niji_ehimee_en_3_p2.webp",
+    "/prints/previews/print_lr_niji_ehimee_en_3_p8.webp"
+  ],
+  "print_lr_niji_ehimem_en_1": [
+    "/prints/previews/print_lr_niji_ehimem_en_1_p2.webp",
+    "/prints/previews/print_lr_niji_ehimem_en_1_p7.webp"
+  ],
+  "print_lr_niji_ehimem_en_2": [
+    "/prints/previews/print_lr_niji_ehimem_en_2_p2.webp",
+    "/prints/previews/print_lr_niji_ehimem_en_2_p7.webp"
+  ],
+  "print_lr_niji_ehimem_en_3": [
+    "/prints/previews/print_lr_niji_ehimem_en_3_p2.webp",
+    "/prints/previews/print_lr_niji_ehimem_en_3_p7.webp"
+  ],
+  "print_lr_niji_kochij_en_1": [
+    "/prints/previews/print_lr_niji_kochij_en_1_p2.webp",
+    "/prints/previews/print_lr_niji_kochij_en_1_p8.webp"
+  ],
+  "print_lr_niji_kochij_en_2": [
+    "/prints/previews/print_lr_niji_kochij_en_2_p2.webp",
+    "/prints/previews/print_lr_niji_kochij_en_2_p8.webp"
+  ],
+  "print_lr_niji_kochij_en_3": [
+    "/prints/previews/print_lr_niji_kochij_en_3_p2.webp",
+    "/prints/previews/print_lr_niji_kochij_en_3_p8.webp"
+  ],
+  "print_lr_niji_kochik_en_1": [
+    "/prints/previews/print_lr_niji_kochik_en_1_p2.webp",
+    "/prints/previews/print_lr_niji_kochik_en_1_p9.webp"
+  ],
+  "print_lr_niji_kochik_en_2": [
+    "/prints/previews/print_lr_niji_kochik_en_2_p2.webp",
+    "/prints/previews/print_lr_niji_kochik_en_2_p9.webp"
+  ],
+  "print_lr_niji_kochik_en_3": [
+    "/prints/previews/print_lr_niji_kochik_en_3_p2.webp",
+    "/prints/previews/print_lr_niji_kochik_en_3_p9.webp"
+  ],
+  "print_lr_niji_kochie_en_1": [
+    "/prints/previews/print_lr_niji_kochie_en_1_p2.webp",
+    "/prints/previews/print_lr_niji_kochie_en_1_p11.webp"
+  ],
+  "print_lr_niji_kochie_en_2": [
+    "/prints/previews/print_lr_niji_kochie_en_2_p2.webp",
+    "/prints/previews/print_lr_niji_kochie_en_2_p11.webp"
+  ],
+  "print_lr_niji_kochie_en_3": [
+    "/prints/previews/print_lr_niji_kochie_en_3_p2.webp",
+    "/prints/previews/print_lr_niji_kochie_en_3_p11.webp"
+  ],
+  "print_lr_niji_kochim_en_1": [
+    "/prints/previews/print_lr_niji_kochim_en_1_p2.webp",
+    "/prints/previews/print_lr_niji_kochim_en_1_p11.webp"
+  ],
+  "print_lr_niji_kochim_en_2": [
+    "/prints/previews/print_lr_niji_kochim_en_2_p2.webp",
+    "/prints/previews/print_lr_niji_kochim_en_2_p11.webp"
+  ],
+  "print_lr_niji_kochim_en_3": [
+    "/prints/previews/print_lr_niji_kochim_en_3_p2.webp",
+    "/prints/previews/print_lr_niji_kochim_en_3_p11.webp"
+  ],
   "print_book_listening_all": [
     "/prints/previews/print_book_listening_all_p2.webp",
     "/prints/previews/print_book_listening_all_p40.webp"
