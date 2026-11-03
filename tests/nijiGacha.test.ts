@@ -6,7 +6,7 @@ import { KYOTSU_MOCK_PRINTS } from '../src/data/kyotsuMockPrints';
 import {
   GACHA_RARITY_ORDER, GACHA_RARITY_RATES, gachaItemRate, gachaItems, gachaItemsByRarity, pickGachaItem, rollGacha, exchangeShards,
 } from '../src/battle/core/arenaEconomy';
-import { GACHA_POOLS, NIJI_NEW_ITEM_IDS, NIJI_SHARED_IDS, inGachaPool } from '../src/battle/core/gachaPools';
+import { GACHA_POOLS, NIJI_NEW_ITEM_IDS, NIJI_SHARED_IDS, UNIV_MOCK_PRINT_IDS, inGachaPool } from '../src/battle/core/gachaPools';
 import { GACHA_SETS } from '../src/battle/core/gachaSets';
 import { ITEMS, emptyProgress, gachaRarityOf, printOf } from '../src/battle/core/growth';
 import { parseAccessory, wallpaperOf } from '../src/battle/core/tobiraParts';
@@ -21,9 +21,10 @@ describe('2次試験ガチャ：景品', () => {
   it('LR は2次試験の予想問題だけ。共通テストの予想問題は出ない（その逆も）', () => {
     const niji = gachaItemsByRarity('niji');
     const kyotsu = gachaItemsByRarity('kyotsu');
-    expect(niji.LR.map((i) => i.id).sort()).toEqual(NIJI_MOCK_PRINTS.map((p) => p.id).sort());
+    expect(niji.LR.map((i) => i.id).sort()).toEqual([...UNIV_MOCK_PRINT_IDS].sort());
+    for (const p of NIJI_MOCK_PRINTS) expect(UNIV_MOCK_PRINT_IDS).toContain(p.id);
     expect(kyotsu.LR.map((i) => i.id).sort()).toEqual(KYOTSU_MOCK_PRINTS.map((p) => p.id).sort());
-    for (const p of NIJI_MOCK_PRINTS) expect(inGachaPool(p.id, 'kyotsu'), p.id).toBe(false);
+    for (const id of UNIV_MOCK_PRINT_IDS) expect(inGachaPool(id, 'kyotsu'), id).toBe(false);
   });
   it('どのレア度にも景品がある（2次試験ガチャでも LR〜N が空でない）', () => {
     const t = gachaItemsByRarity('niji');

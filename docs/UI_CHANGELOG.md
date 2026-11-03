@@ -1162,3 +1162,79 @@
 ### テスト
 - `tests/homeBattleRankingPolish.test.ts`（新規）で上の①〜⑤が崩れていないかを確認。戻すときはこのテストも消す。
 - `tests/revision.test.ts`：main で1件落ちていた（#58 でホームの「ランキングを見る」を外したのに、テストがホームにあることを求めていた）。入口が対戦画面の切替（`onRanking`）にあることを確かめる形に直した。
+
+## 2026-10-29 ガチャ LR に「神戸大学 前期 英語 予想問題」6種を追加
+
+| 何を | どう変えた | ファイル |
+|---|---|---|
+| ガチャの LR | 2次試験ガチャの LR に、神戸大学 前期 英語 予想問題（第1〜3回 × 問題／解答・解説）の6種を追加（共通テストガチャには出ない）。LR の出る割合（1%）は同じ | `src/data/kobeMockPrints.ts`（新規）、`src/battle/core/growthItems.ts` |
+| ピックアップの「中身を少し見る」 | 6種のちら見せ画像を追加 | `public/prints/previews/print_lr_kobe_*`、`src/data/gachaPreviews.generated.ts`、`scripts/gacha-prints/build-previews.py` |
+| PDF | 白黒・A4縦。解説は太字・下線・波下線で強調。表紙と奥付に「神戸大学の過去問・公式問題ではありません。予想問題であり，大学とは関係がありません」 | `public/prints/print_lr_kobe_{q,a}_{1,2,3}.pdf`、`scripts/gacha-prints/kobe_mock/` |
+
+**戻し方**：`growthItems.ts` の `KOBE_MOCK_PRINTS` の2か所（import・ITEMS・printOf）を消し、`kobeMockPrints.ts`・`public/prints/*kobe*`・`tests/kobeMockPrints.test.ts` を消して `build-previews.py` を流し直す。`tests/kyotsuMockPrints.test.ts` の LR の一覧も共通テストだけに戻す。
+- 同日追記：神戸大 予想問題 PDF の2ページ目以降の上の注記（「マナトビ 予想問題 ／ 神戸大学の過去問・公式問題ではありません（大学とは無関係）」）を削除（表紙と奥付には残す）。表紙右上の「MANATOBI MOCK EXAM SERIES」も削除。`scripts/gacha-prints/kobe_mock/render.py`
+- 同日追記（品質）：神戸大 予想問題の問題データを見直し。過去問・解答との一致（英語4語・日本語13字）を0に、設問文の言い回しも独自のものへ。過去問と同じだった登場人物名（第2回 III）を変更。正解位置を（あ）〜（え）に均等化し、正解だけが長い選択肢を減らした。難語の割合を過去問の平均に近づけ、第3回 III の語数を範囲内に。検査スクリプトは `scripts/gacha-prints/kobe_mock/check_orig.py`・`check_quality.py`・`verify.py`。
+
+## 2026-10-30 ガチャ LR に「大阪大学 前期 英語 予想問題」6種を追加
+
+| 何を | どう変えた | ファイル |
+|---|---|---|
+| ガチャの LR | 2次試験ガチャの LR に、大阪大学 前期 英語 予想問題（第1〜3回 × 問題／解答・解説）の6種を追加（共通テストガチャには出ない）。LR の出る割合（1%）は同じ | `src/data/osakaMockPrints.ts`（新規）、`src/battle/core/growthItems.ts` |
+| ピックアップの「中身を少し見る」 | 6種のちら見せ画像を追加 | `public/prints/previews/print_lr_osaka_*`、`src/data/gachaPreviews.generated.ts`、`scripts/gacha-prints/build-previews.py` |
+| PDF | 白黒・A4縦・フォント埋め込み。解説は太字・下線・波下線で強調。表紙と奥付に「大阪大学の過去問・公式問題ではありません。予想問題であり，大学とは関係がありません」。過去問・解答との一致（英語4語・日本語13字）0、難易度は 2022〜2026年度の範囲内 | `public/prints/print_lr_osaka_{q,a}_{1,2,3}.pdf`、`scripts/gacha-prints/osaka_mock/` |
+
+**戻し方**：`growthItems.ts` の `OSAKA_MOCK_PRINTS`（import・ITEMS・printOf の3か所）を消し、`osakaMockPrints.ts`・`public/prints/*osaka*`・`tests/osakaMockPrints.test.ts` を消して `build-previews.py` を流し直す。`tests/kyotsuMockPrints.test.ts` の LR の一覧から `OSAKA_MOCK_PRINTS` を外す。
+
+## 2026-10-30 ガチャ LR に「立命館大学 全学統一（文系） 英語 予想問題」6種を追加
+
+| 何を | どう変えた | ファイル |
+|---|---|---|
+| ガチャの LR | 2次試験ガチャの LR に、立命館大学 全学統一方式（文系）英語 予想問題（第1〜3回 × 問題／解答・解説）の6種を追加。2次試験ガチャの LR は 名古屋大6・静岡大6・神戸大6・阪大6・立命館6 の30種に等分（LR の割合 1% は同じ）。共通テストガチャの LR は共通テスト予想問題だけのまま | `src/data/ritsuMockPrints.ts`（新規）、`src/battle/core/growthItems.ts`、`src/battle/core/gachaPools.ts` |
+| 2次試験ガチャの表示 | LR の見出しを「大学別 英語 予想問題（2次・個別試験）」に、説明文とピックアップの注意書きに神戸大学・大阪大学・立命館大学を追加。神戸大・阪大・立命館の景品の詳細にも、その大学の名前入りの「過去問・公式問題ではありません」の注意書きを出す | `src/battle/core/gachaPools.ts`、`src/data/nijiMockPrints.ts`、`src/components/gacha/GachaItemDetail.tsx` |
+| ピックアップの「中身を少し見る」 | 6種のちら見せ画像を追加 | `public/prints/previews/print_lr_ritsu_*`、`src/data/gachaPreviews.generated.ts`、`scripts/gacha-prints/build-previews.py` |
+| PDF | 白黒・A4縦・フォント埋め込み・マーク式解答用紙つき。解説は太字・下線・波下線で強調。表紙と奥付に「立命館大学の過去問・公式問題ではありません。予想問題であり，大学とは関係がありません」。過去問・解答との一致（英語4語・日本語13字）0、登場人物名の重複0、難易度は 2022〜2026年度の範囲内 | `public/prints/print_lr_ritsu_{q,a}_{1,2,3}.pdf`、`scripts/gacha-prints/ritsu_mock/` |
+
+**戻し方**：`growthItems.ts` の `RITSU_MOCK_PRINTS`（import・ITEMS・printOf の3か所）を消し、`ritsuMockPrints.ts`・`public/prints/*ritsu*`・`tests/ritsuMockPrints.test.ts` を消して `build-previews.py` を流し直す。`tests/kyotsuMockPrints.test.ts` の LR の一覧から `RITSU_MOCK_PRINTS` を外す。
+
+### 2026-10-31 2次試験ガチャ LR に北海道大学 前期 英語 予想問題を追加
+
+| 場所 | 変更 | ファイル |
+|---|---|---|
+| 2次試験ガチャの LR | 北海道大学 前期日程 英語（全学部共通）予想問題（第1〜3回 × 問題／解答・解説）の6種を追加。2次試験ガチャの LR は36種に等分（LR の割合 1% は同じ）。共通テストガチャには出ない | `src/data/hokudaiMockPrints.ts`（新規）、`src/battle/core/growthItems.ts`、`src/battle/core/gachaPools.ts` |
+| 2次試験ガチャの表示 | LR の説明文とピックアップの注意書きに北海道大学を追加。北大の景品の詳細にも大学名入りの「過去問・公式問題ではありません」の注意書きを出す | `src/battle/core/gachaPools.ts`、`src/data/nijiMockPrints.ts` |
+
+### 2026-11-01 2次試験ガチャ LR に東北大学 前期 英語 予想問題を追加
+
+| 場所 | 変更 | ファイル |
+|---|---|---|
+| 2次試験ガチャの LR | 東北大学 前期日程 英語（全学部共通）予想問題（第1〜3回 × 問題／解答・解説）の6種を追加。2次試験ガチャの LR は42種に等分（LR の割合 1% は同じ）。共通テストガチャには出ない | `src/data/tohokuMockPrints.ts`（新規）、`src/battle/core/growthItems.ts`、`src/battle/core/gachaPools.ts` |
+| 2次試験ガチャの表示 | LR の説明文とピックアップの注意書きに東北大学を追加。東北大の景品の詳細にも大学名入りの「過去問・公式問題ではありません」の注意書きを出す | `src/battle/core/gachaPools.ts`、`src/data/nijiMockPrints.ts` |
+
+**戻し方**：`growthItems.ts` の `TOHOKU_MOCK_PRINTS`（import・ITEMS・printOf の3か所）と `gachaPools.ts` の import・`UNIV_MOCK_PRINT_IDS` から外し、`nijiMockPrints.ts` の `OTHER_MOCK_UNIVERSITIES` から tohoku を消す。`tohokuMockPrints.ts`・`public/prints/*tohoku*`・`tests/tohokuMockPrints.test.ts` を消して `build-previews.py` を流し直す。
+
+### 2026-11-02 2次試験ガチャ LR に弘前大学 前期 英語 予想問題を追加
+
+| 場所 | 変更 | ファイル |
+|---|---|---|
+| 2次試験ガチャの LR | 弘前大学 前期日程 英語（英語を課す学部で共通）予想問題（第1〜3回 × 問題／解答・解説）の6種を追加。main で増えた大阪公立・和歌山・岡山・広島を取り込んだ結果、2次試験ガチャの LR は57種に等分（LR の割合 1% は同じ）。共通テストガチャには出ない | `src/data/hirosakiMockPrints.ts`（新規）、`src/battle/core/growthItems.ts`、`src/battle/core/gachaPools.ts` |
+| 2次試験ガチャの表示 | LR の説明文とピックアップの注意書きに弘前大学を追加。弘前大の景品の詳細にも大学名入りの「過去問・公式問題ではありません」の注意書きを出す | `src/battle/core/gachaPools.ts`、`src/data/nijiMockPrints.ts` |
+
+**戻し方**：`growthItems.ts` の `HIROSAKI_MOCK_PRINTS`（import・ITEMS・printOf の3か所）と `gachaPools.ts` の import・`UNIV_MOCK_PRINT_IDS` から外し、`nijiMockPrints.ts` の `OTHER_MOCK_UNIVERSITIES` から hirosaki を消す。`hirosakiMockPrints.ts`・`public/prints/*hirosaki*`・`tests/hirosakiMockPrints.test.ts` を消して `build-previews.py` を流し直す。
+
+### 2026-11-03 2次試験ガチャ LR に岩手大学 前期 英語 予想問題を追加
+
+| 場所 | 変更 | ファイル |
+|---|---|---|
+| 2次試験ガチャの LR | 岩手大学 前期日程 英語（人文社会科学部・教育学部 共通問題）予想問題（第1〜3回 × 問題／解答・解説）の6種を追加。2次試験ガチャの LR は63種に等分（LR の割合 1% は同じ）。共通テストガチャには出ない | `src/data/iwateMockPrints.ts`（新規）、`src/battle/core/growthItems.ts`、`src/battle/core/gachaPools.ts` |
+| 2次試験ガチャの表示 | LR の説明文とピックアップの注意書きに岩手大学を追加。岩手大の景品の詳細にも大学名入りの「過去問・公式問題ではありません」の注意書きを出す | `src/battle/core/gachaPools.ts`、`src/data/nijiMockPrints.ts` |
+
+**戻し方**：`growthItems.ts` の `IWATE_MOCK_PRINTS`（import・ITEMS・printOf の3か所）と `gachaPools.ts` の import・`UNIV_MOCK_PRINT_IDS` から外し、`nijiMockPrints.ts` の `OTHER_MOCK_UNIVERSITIES` から iwate を消す。`iwateMockPrints.ts`・`public/prints/*iwate*`・`tests/iwateMockPrints.test.ts` を消して `build-previews.py` を流し直す。
+
+### 2026-11-03 2次試験ガチャ LR に秋田大学 前期 英語 予想問題を追加
+
+| 場所 | 変更 | ファイル |
+|---|---|---|
+| 2次試験ガチャの LR | 秋田大学 前期日程 英語（国際資源学部・教育文化学部・医学部保健学科・情報データ科学部 共通問題）予想問題（第1〜3回 × 問題／解答・解説）の6種を追加。2次試験ガチャの LR は69種に等分（LR の割合 1% は同じ）。共通テストガチャには出ない | `src/data/akitaMockPrints.ts`（新規）、`src/battle/core/growthItems.ts`、`src/battle/core/gachaPools.ts` |
+| 2次試験ガチャの表示 | LR の説明文とピックアップの注意書きに秋田大学を追加。秋田大の景品の詳細にも大学名入りの「過去問・公式問題ではありません」の注意書きを出す | `src/battle/core/gachaPools.ts`、`src/data/nijiMockPrints.ts` |
+
+**戻し方**：`growthItems.ts` の `AKITA_MOCK_PRINTS`（import・ITEMS・printOf の3か所）と `gachaPools.ts` の import・`UNIV_MOCK_PRINT_IDS` から外し、`nijiMockPrints.ts` の `OTHER_MOCK_UNIVERSITIES` から akita を消す。`akitaMockPrints.ts`・`public/prints/*akita*`・`tests/akitaMockPrints.test.ts` を消して `build-previews.py` を流し直す。
