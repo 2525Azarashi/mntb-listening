@@ -546,6 +546,17 @@
 
 ---
 
+## 2026-11-02 2次試験ガチャの大当たりに四国の大学（香川・徳島・愛媛・高知）を追加（PR: feat/niji-shikoku）
+
+| # | どこ | 変更 | ファイル |
+|---|---|---|---|
+| 1 | 2次試験ガチャの LR | 国公立2次 英語 予想問題を27冊追加。香川大学・徳島大学（全学部共通）各3回、愛媛大学（法文学部・工学部〈文理型〉／教育学部／医学部医学科 総合問題）各3回、高知大学（人文社会科学部 人文科学コース／同 国際社会コース／教育学部／医学部医学科）各3回。ラベルに学部・コース名を出す | `src/data/nijiMockPrints.ts`・`public/prints/print_lr_niji_{kagawa,tokushima,ehimeh,ehimee,ehimem,kochij,kochik,kochie,kochim}_en_{1,2,3}.pdf`・thumbs・previews・`src/data/gachaPreviews.generated.ts` |
+| 2 | ピックアップの説明文 | 収録大学に4大学を追加 | `src/battle/core/gachaPools.ts`・`nijiMockPrints.ts`（`NIJI_DISCLAIMER` は自動で4大学を含む） |
+
+**戻し方**：`nijiMockPrints.ts` の四国9系統の行（`NIJI_UNIVERSITIES` の9行・ヘルパー9行・台帳27行）を消し、`gachaPools.ts` の lrNote と `build-previews.py` の正規表現、`tests/nijiGacha.test.ts` の件数（48→21）を元に戻す。PDF・画像は消してよい。
+
+---
+
 ## 2026-11-01 TOEIC に Part 6（長文穴埋め）を追加・単元選択に Part 5／Part 6 のタブ（PR: feat/toeic-part6）
 
 | # | 何を | どう変えた | ファイル |

@@ -225,3 +225,20 @@ python3 scripts/gacha-prints/build-previews.py print_lr_niji_kyushu_en_1 print_l
 - 小問ごとの配点は大学が公表していないため編集部の想定。表紙・奥付にもそう書いた。
 - 過去問（R7・R8・大学公開。本文は大学側で省略）の設問・解答例・出題意図を文字にしたものと照合し、英5語・日12字の連続一致が0件であることを確認（「〜を日本語に訳しなさい」「in a paragraph of approximately … words」などの決まり文句も言い換えた）。
 - render.py が検査すること：大問ごとの配点（40・45・45・40・30）と合計200、下線部・空所が本文にあるか、記号の答えが選択肢にあるか（前置詞は1回ずつ）、並べ替えが全項目を使うか、抜き出しの1語が本文にあるか、日本語の解答例が字数制限内か、英語の解答例の語数（要約22〜40語・〔4〕85〜115語・〔5〕65〜95語）、採点の目安の合計が配点と合うか。
+
+### 四国（香川・徳島・愛媛・高知）前期対策（2026-11-02 追加）
+
+```bash
+# 中身は scripts/gacha-prints/niji_shikoku/{slug}/r{1,2,3}.py、紙面は common.py、大学ごとの設定は cfg.py
+cd scripts/gacha-prints/niji_shikoku
+python3 run.py kochim 1        # → 問題＋解答解説を pdfunite して public/prints/print_lr_niji_kochim_en_1.pdf と thumbs を作り、ledger.json に pages/kb を記録
+python3 plag.py kochim         # 過去問・公式解答のテキストと照合（英5語・日12字）。TOTAL 0 であること
+python3 ../build-previews.py print_lr_niji_kochim_en_1 …   # previews
+```
+
+- 学部・コースで問題が違う大学は系統ごとに3回分（計27冊）。
+  - 香川（kagawa）・徳島（tokushima）：全学部共通
+  - 愛媛：法文学部・工学部〈文理型〉（ehimeh：物語文・評論・和文英訳）／教育学部（ehimee：長文2題・書き出し指定の英作文）／医学部医学科 総合問題〈英文〉（ehimem：医療英文の抜き出し・字数制限の日本語記述）
+  - 高知：人文社会 人文科学コース（kochij：長文・会話・整序）／同 国際社会コース（kochik：＋自由英作文100語）／教育学部（kochie：長文・文法・1語補充・整序・英作文）／医学部医学科（kochim：長文・会話・整序・医療長文）
+- 表紙・奥付に「{大学名}の過去問・公式問題ではありません。予想問題であり、大学とは関係がありません。」
+- 厳格チェック（2026-11-03）：`python3 strict/gate.py {id…}`（英語5語以上・日本語10字以上の連続一致。記号の並びと大学名だけ除く）と `python3 strict/para.py`（1文ごとの言い換え検出）がどちらも 0 件であること。照合元は各大学の過去問・解答例（画像PDFは300dpiで全ページOCRし直したもの）。指示文の決まり文句も過去問と重ならない独自の言い回しにしている（置き換え表は `strict/fix.py`）。
