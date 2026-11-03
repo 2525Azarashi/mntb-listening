@@ -11,7 +11,8 @@ P2 = {
 
         "One person in the audience that night was Ruth Okonjo, a retired accountant who had seen her first film at the Regent at the age of "
         "six. She could not bear the thought of the building being turned into flats. Within a week, she had {b2} a public meeting in the "
-        "town hall. More than two hundred people came, far more than she had expected, and many of them offered to help in some way.",
+        "town hall. More than two hundred people came, far more than she had expected, and many of them offered to help in some way. Some brought old ticket stubs and photographs, and one elderly man described "
+        "proposing to his wife in the back row in 1958.",
 
         "The group's first task was to raise enough money to buy the building. Instead of looking for one wealthy investor, they {b3} to sell "
         "shares to the community. Each share cost fifty pounds, and anyone who bought one would become a part-owner of the cinema. Over six "
@@ -29,7 +30,9 @@ P2 = {
 
         "Five years after it nearly closed, the Regent is open seven days a week and makes a small profit, which is {b9} in repairs and in "
         "lowering ticket prices for young people. About sixty volunteers work there regularly, selling tickets, making popcorn, and greeting "
-        "customers at the door. Okonjo says that many of them came to help the cinema but stayed because of the friendships they made.",
+        "customers at the door. Okonjo says that many of them came to help the cinema but stayed because of the friendships they made. For some older "
+        "volunteers who live alone, a shift at the Regent is the main social event of their week, and several say it has given them a "
+        "new sense of purpose.",
 
         "Other towns have since asked the group for advice, and Okonjo always gives the same answer: a building can be saved only if people "
         "feel that it belongs to them. \"We did not just {b10} a cinema,\" she says. \"We gave the town a living room.\"",
@@ -66,7 +69,7 @@ P2 = {
 
         'その夜の観客の一人に、ルース・オコンジョがいた。退職した会計士で、6 歳のときにリージェントで初めて映画を見た人だった。彼女は、建物が集合住宅に変えられる'
         'と考えると耐えられなかった。1 週間のうちに、彼女は町役場で住民集会を開いていた。200 人を超える人が集まり、彼女が予想していたよりずっと多く、その多くが'
-        '何らかの形で手伝うと申し出た。',
+        '何らかの形で手伝うと申し出た。古いチケットの半券や写真を持ってきた人もいれば、1958 年に後ろの列で妻にプロポーズしたことを話す年配の男性もいた。',
 
         'グループの最初の仕事は、建物を買うのに十分なお金を集めることだった。1 人の裕福な投資家を探すかわりに、彼らは地域の人々に株を売ることに決めた。1 株は'
         '50 ポンドで、株を買った人は誰でも映画館の共同所有者になる。6 か月の間に、1500 人近くが株を買った。遠くに住んでいながら、子どものころの思い出で町と'
@@ -82,7 +85,8 @@ P2 = {
 
         '閉館しかけてから 5 年後、リージェントは週 7 日開いていて、少しの利益を出しており、それは修理と若い人向けのチケットの値下げに使われている。60 人ほどの'
         'ボランティアが定期的にそこで働き、チケットを売り、ポップコーンをつくり、入り口で客を出迎えている。オコンジョは、その多くが映画館を手伝うために来たのに、'
-        'そこでできた友情のために残ったのだと言う。',
+        'そこでできた友情のために残ったのだと言う。一人暮らしの年配のボランティアの中には、リージェントでの当番が 1 週間の主な人づきあいの場になっている人もいて、'
+        '新しい生きがいができたと言う人も何人かいる。',
 
         'その後、ほかの町がグループに助言を求めてきたが、オコンジョはいつも同じ答えをする。建物を救えるのは、人々がそれを自分たちのものだと感じる場合だけだ、と。'
         '「私たちは映画館を救っただけではありません。町に居間を与えたのです」と彼女は言う。',
