@@ -117,7 +117,7 @@ export const P7_ROUND_06: ToeicP7Set[] = [
         why: '第1段落で、オンラインバンキングのシステムを新しくする日時を知らせ、第2段落で新しくなる機能を説明している。オンラインのサービスの変更の案内。',
         e: ['Northbridge Savings Bank will upgrade its online banking system'], etr: 'ノースブリッジ貯蓄銀行はオンラインバンキングのシステムを新しくします',
         kw: [['upgrade', '性能を上げる・新しくする'], ['statement', '（口座の）明細']],
-        h: '件名の Upgrade と、第1段落の1文目の動詞を合わせて読む。',
+        h: '件名の Upgrade と、最初の段落の書き出しの動詞を合わせて読む。',
         r: '目的の設問は、メール全体の話題（何をいつ変えるか）をまとめた選択肢を選ぶ。',
         tip: '銀行や会社からのお知らせは「変更の日時→新しい点→変わらない点」の順が多い。',
         cues: [{ p: 'will upgrade its online banking system', w: 'オンラインバンキングのシステムを新しくする' }] },

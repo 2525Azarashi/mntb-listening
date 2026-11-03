@@ -227,7 +227,7 @@ export const P7_ROUND_07: ToeicP7Set[] = [
         why: '第1段落で、ベイビュー銀行とコーストライン信用金庫が年末までに合併すると発表したと伝えている。2つの金融機関が1つになる話。',
         e: ['Bayview Bank and Coastline Credit announced yesterday that they will merge by the end of the year'], etr: 'ベイビュー銀行とコーストライン信用金庫は昨日、年末までに合併すると発表した',
         kw: [['merge', '合併する'], ['combined', '合わさった']],
-        h: '題名の Merge With と、第1段落の1文目を合わせて考える。',
+        h: '題名の Merge With と、最初の段落の書き出しを合わせて考える。',
         r: 'merge を joining together と、やさしい語で言い換えている。',
         tip: '企業の合併の記事は「発表→理由→利用者への影響」の順に書かれることが多い。',
         cues: [{ p: 'they will merge', w: '合併すると発表した' }] },

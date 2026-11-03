@@ -171,7 +171,7 @@ export const P7_ROUND_05: ToeicP7Set[] = [
         why: '第1段落で、2月1日から案件の管理に TaskBridge を使うと伝え、その使い方と研修を説明している。新しいソフトの紹介。',
         e: ['Beginning February 1, our department will use TaskBridge to track all projects'], etr: '2月1日から、当部ではすべての案件の管理に TaskBridge を使います',
         kw: [['track', '管理する・追跡する'], ['replace', '取って代わる']],
-        h: '件名の New project tracking tool と、第1段落の1文目を合わせる。',
+        h: '件名の New project tracking tool と、最初の段落の書き出しを合わせる。',
         r: 'online tool を software tool と言い換えている。',
         tip: '新しい仕組みのお知らせは「何が・いつから・どう使うか」の順に書かれる。',
         cues: [{ p: 'will use TaskBridge', w: '案件の管理に TaskBridge を使う' }] },

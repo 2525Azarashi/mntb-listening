@@ -170,7 +170,7 @@ export const P7_ROUND_13: ToeicP7Set[] = [
         why: '第1段落で、ブライトボックス・トイズが積み木セットを再生プラスチックで作ると発表したと伝えている。製品の材料を変える話。',
         e: ['all of its building block sets will be made from recycled plastic'], etr: 'すべての積み木セットを再生プラスチックで作る',
         kw: [['recycled', '再生された'], ['compatible', '一緒に使える']],
-        h: '題名の Switches to Recycled Plastic と、第1段落の1文目を合わせる。',
+        h: '題名の Switches to Recycled Plastic と、最初の段落の書き出しを合わせる。',
         r: 'made from recycled plastic を the material used と言い換えている。',
         tip: '題名の Switch to ～ は「～に切り替える」。変更の話の目印になる。',
         cues: [{ p: 'made from recycled plastic', w: '再生プラスチックで作る' }] },

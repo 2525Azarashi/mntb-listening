@@ -222,7 +222,7 @@ export const P7_ROUND_10: ToeicP7Set[] = [
         why: '第1段落で、交通局がこの夏、電気バス20台を加えると伝えている。排気ガスを出さないバスに入れ替える計画の記事。',
         e: ['will add twenty electric buses to its fleet this summer'], etr: 'この夏、電気バス20台を加え',
         kw: [['fleet', '（会社が持つ）車両の全体'], ['exhaust', '排気ガス']],
-        h: '題名の Adds Electric Buses と、第1段落の1文目を合わせる。',
+        h: '題名の Adds Electric Buses と、最初の段落の書き出しを合わせる。',
         r: 'electric・no exhaust を cleaner とまとめて言い換えている。',
         tip: '記事の主題では、本文の細かい点（運賃・車庫）を選ばないようにする。',
         cues: [{ p: 'add twenty electric buses', w: '電気バス20台を加える' }] },
