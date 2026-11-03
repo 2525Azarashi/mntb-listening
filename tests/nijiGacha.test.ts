@@ -95,7 +95,7 @@ describe('2次試験ガチャ：抽選', () => {
 
 describe('2次試験の予想問題 PDF', () => {
   it('台帳のページ数・ファイル・サムネイルが実物と合う', () => {
-    expect(NIJI_MOCK_PRINTS.length).toBe(42); // 名古屋・静岡・大阪公立A/B・和歌山・岡山・広島・金沢・富山（共通/医学科）・福井（教育/医学科/国際地域）・福井県立 各3
+    expect(NIJI_MOCK_PRINTS.length).toBe(54); // 名古屋・静岡・大阪公立A/B・和歌山・岡山・広島・東京学芸・琉球・熊本・佐賀・金沢・富山（共通/医学科）・福井（教育/医学科/国際地域）・福井県立 各3
     for (const u of NIJI_UNIVERSITIES) expect(NIJI_MOCK_PRINTS.filter((p) => nijiUniversityOf(p.id)?.id === u.id).length, u.id).toBe(3);
     for (const p of NIJI_MOCK_PRINTS) {
       expect(existsSync(`public${p.file}`), p.id).toBe(true);
