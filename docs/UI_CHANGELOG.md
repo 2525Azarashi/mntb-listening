@@ -570,6 +570,43 @@
 
 ---
 
+## 2026-11-03 TOEIC Part 6・7 のスマホ：「文書」と「設問・選択肢」を切り替えて見る（PR: feat/toeic-mobile-view-switch）
+
+| # | 何を | どう変えた | ファイル |
+|---|---|---|---|
+| 1 | Part 6・7 の演習画面（1024px 未満） | 時間ガイドの下に **「文書」／「設問・選択肢」の切り替えボタン**（2つ並び・高さ48px）。押した方だけを表示する。文書ボタンの添え書きは Part 6「空所 4つ」・Part 7「1つの文書／2つの文書／3つの文書」、設問ボタンは「未回答 n問」→採点後「n/m問正解」 | `src/components/toeic/ToeicPageQuiz.tsx`・`toeic-page.css`（末尾に段を追加） |
+| 2 | 文書の最後 | 「**設問・選択肢へ進む**」のボタン（高さ48px） | 同上 |
+| 3 | 切り替えの動き | ページを開いたときは「文書」から。文書と設問で読みかけの位置をそれぞれ覚えておき、戻ると続きから。採点すると結果と解説が見えるよう「設問」に切り替わる。結果の印（問番号）を押すと設問に切り替えてその問題へ移動。次のページでは「文書」に戻る | `ToeicPageQuiz.tsx`（`pane`・`switchPane`・`resetPane`） |
+
+- PC（1024px 以上）は今までどおり左に文書・右に設問の2列で、切り替えのボタンは出さない（Part 6 の PC 表示はピクセル比較で同じ）。Part 5 の画面は変えていない（ピクセル比較で同じ）。
+- 確認した幅：320・360・390・768・1280。文字12px未満・44px未満のボタン・横はみ出しは0件。
+
+**戻し方**：`toeic-page.css` の末尾「Part 6・7 のスマホ：『文書』と『設問・選択肢』を切り替えて…」の段を消し、`ToeicPageQuiz.tsx` の `tp-pane-switch`（切り替えボタン）・`paneNext`（設問へ進む）・`data-pane` を外す（文書の下に設問が続く元の縦並びに戻る）。
+
+---
+
+## 2026-11-02 TOEIC に Part 7（読解）を追加・単元選択のタブに Part 7（PR: feat/toeic-part7）
+
+| # | 何を | どう変えた | ファイル |
+|---|---|---|---|
+| 1 | 学習カタログの TOEIC カード | 説明「Part 5・Part 6」→「**Part 5・6・7**」（「Part 5・Part 6・Part 7」は 390px で末尾が切れたため短くした）。件数は「Part 5 全15回・Part 6 全15回・Part 7 全15回」 | `src/data/studyCatalog.ts` |
+| 2 | TOEIC の単元選択 | タブを3つに（短文穴埋め Part 5／長文穴埋め Part 6／**読解 Part 7**）。Part 7 の説明は「Part 7 読解・1回7セット24問・4択」 | `src/components/ChapterSelection.tsx` |
+| 3 | Part 7 の演習画面 | **1ページ＝1セット**（文書1〜3つ＋設問2〜5問、1回7ページ）。スマホ・タブレットは文書が2つ以上ならタブ（文書1／文書2／文書3・高さ44px）で切り替え、PC（1024px 以上）は左に文書を全部・右に設問の2列。見出し行（To / From など）は表、チャットは吹き出し（最初に話した人が左）、注文書・予定表は表、文挿入の位置は [1]〜[4] の札。上の進み具合の印はセットの数（7つ） | `src/components/toeic/ToeicP7Passage.tsx`（新）・`ToeicPageQuiz.tsx`・`toeicPageModel.ts`・`toeic-page.css`（末尾に Part 7 の段） |
+| 4 | Part 7 の解説 | Part 5・6 と同じ解説に「**根拠（文書の英文）**」の札を足した（複数文書は（文書n）つき）。手がかりのマーカーは根拠と正解の理由に引く。和訳は「設問：…／根拠：…」 | `ToeicExplanationPanel.tsx`・`toeicPageModel.ts`（`toeicP7ExplanationFor`）・`toeicNote.ts` |
+| 5 | Part 7 の時間の目安 | 1問あたり 標準50秒・ゆっくり60秒・速め40秒で、セットの設問の数に比例 | `src/components/toeic/toeicTimeBudget.ts`（`buildToeicP7PageBudgets`） |
+| 6 | TOEIC の英文の金額 | 「$100 … $15」のように $ が2つある文で、その間が数式（KaTeX）として組まれて文字が崩れていたのを直した。TOEIC の部品だけ `formatText` に `noMath: true` を渡す（Part 6 の3段落も同じ症状だったので一緒に直る。ほかの教科は変えていない） | `src/utils/textFormatter.tsx`（`noMath` を追加）・`src/components/toeic/*.tsx` |
+
+- 確認した幅：320・360・390・768・1280。文字12px未満・44px未満のボタン・横はみ出しはどの画面も0件（単元選択・チャット・2文書のタブ・3文書・採点後の解説）。
+- 変えていない画面（feat/toeic-part6 と凍結した撮影でピクセル比較・52組）：英文法・英語リスニングの問題と結果（16組）・Part 5 の演習（8組）は同じ。Part 6 の演習（8組）は 1280 の2枚で明るさ1〜2の差（文字の描き方の揺れ・目では見分けられない）。英文法・英語リスニングの単元選択は 360 で明るさ12〜18の差が数十画素（同じく描き方の揺れ・並びと文字は同じ）。差が出たのは TOEIC の単元選択（タブが3つ）と学習カタログ（TOEIC カードの説明）だけ。
+
+**戻し方**：
+- Part 7 を丸ごと戻す：このPRを revert。
+- Part 7 の画面だけ外す：`toeicData.ts` で `toeicPart7Data.parts` を足さない（単元・タブから Part 7 が消える）。`subjects.ts` の章ID の型を `/^tp[56]_\d+$/` に戻す。
+- カードの説明だけ戻す：`studyCatalog.ts` の `description` を `'Part 5・Part 6'` に。
+- 金額の直しだけ戻す：`src/components/toeic/*.tsx` の `formatText(…, { prose: true, noMath: true })` から `noMath: true` を外す（`textFormatter.tsx` の `noMath` は使われなくなるだけで害はない）。
+
+---
+
 ## 2026-11-01 TOEIC に Part 6（長文穴埋め）を追加・単元選択に Part 5／Part 6 のタブ（PR: feat/toeic-part6）
 
 | # | 何を | どう変えた | ファイル |
