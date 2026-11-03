@@ -20,6 +20,17 @@ python3 scripts/gacha-prints/build-science-ur.py            # 一部だけなら
 - 品質の下限は `tests/gachaPrintsQuality.test.ts`（100問すべてに解説・正解位置25問ずつ・4択の答えあり）。
 - 理科・化学・数学は `ur_common.py`（表紙・問題・解答用紙・答えの一覧・解説・要点・自己採点表）を共通で使う。IPAゴシックに無い下付き・上付き数字や ≤ ≥ は DejaVu Sans で描く。
 
+
+## 2次試験ガチャの予想問題：作る前に「作成済み」を確認（2026-11-03）
+
+```bash
+npm run niji:made                         # main・開いている PR・手元のブランチで作った大学の一覧
+npm run niji:made -- 山口大学 yamaguchi    # 作成済みなら「✗ 作成済み」で終了コード 1 → 作らない
+```
+
+- 別の部屋も同じリポジトリで大学を作っているので、**新しい大学に取りかかる前に毎回これを実行**する。
+- 見ているのは各ブランチの `src/data/nijiMockPrints.ts` の `NIJI_UNIVERSITIES`。
+
 ## UR「完全版」の本（2026-10-24）
 
 ガチャの UR（大当たり）は「その一冊で完成する本」だけ。単元プリント・100語テストは SR。
