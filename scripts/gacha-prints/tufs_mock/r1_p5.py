@@ -9,7 +9,7 @@ P5 = {
     'worksheet': [
         '1. What changed: many office workers now work from home {w} days a week',
         '2. Effects on city centers: fewer customers for cafés and {w}; empty office floors',
-        '3. Effects on workers: no commuting / more time with {w}; but some feel {w}',
+        '3. Effects on workers: no commute, more time with {w}; some feel {w}',
         '4. Effects on smaller towns: new residents, more {w} on local shops',
         '5. Possible future: offices turned into {w}; city centers as places to {w}',
         '6. Key question: who {w} from these changes, and who is left out?',
