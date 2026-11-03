@@ -18,6 +18,8 @@
  *     ・英文を読んで100語の英作文）・100分・100点（20・20・30・30）。教育・経済・医・農学部共通。3回分。図の数値は架空。
  *   - 九州大学 前期対策（2026-11-01 追加）：大問〔1〕〜〔5〕（段落番号つきの長文3題・約100語の自由英作文・グラフを約80語で説明）
  *     ・120分・200点（40・45・45・40・30）。全学部共通。小問の配点は編集部の想定。3回分。
+ *   - 福岡女子大学 前期対策（2026-11-02 追加）：問題Ⅰ〜Ⅲ（約700語の長文2題・和文英訳2問）・90分。3学科共通。
+ *     配点は大学非公表のため編集部の想定（100点：40・40・20）。3回分。
  *   ★過去問ではない★ 英文・設問・図表・解答はすべて書き下ろし。過去問・解答速報・講評の文章は引用していない
  *   （英語5語以上・日本語12字以上の連続一致がないことを機械で確認済み）。表紙と奥付に「大学とは関係がない」旨を明記。
  *
@@ -42,6 +44,7 @@ export const NIJI_UNIVERSITIES = [
   { id: 'kumamoto', name: '熊本大学', track: '' },
   { id: 'saga', name: '佐賀大学', track: '' },
   { id: 'kyushu', name: '九州大学', track: '' },
+  { id: 'fwu', name: '福岡女子大学', track: '' },
 ] as const;
 export type NijiUniversityId = (typeof NIJI_UNIVERSITIES)[number]['id'];
 
@@ -70,6 +73,7 @@ const ryukyu = (n: number, pages: number, kb: number) => mock('ryukyu', n, pages
 const kumamoto = (n: number, pages: number, kb: number) => mock('kumamoto', n, pages, kb);
 const saga = (n: number, pages: number, kb: number) => mock('saga', n, pages, kb);
 const kyushu = (n: number, pages: number, kb: number) => mock('kyushu', n, pages, kb);
+const fwu = (n: number, pages: number, kb: number) => mock('fwu', n, pages, kb);
 
 export const NIJI_MOCK_PRINTS: readonly GachaPrintDef[] = [
   nagoya(1, 28, 2026),
@@ -108,6 +112,9 @@ export const NIJI_MOCK_PRINTS: readonly GachaPrintDef[] = [
   kyushu(1, 30, 1827),
   kyushu(2, 30, 1790),
   kyushu(3, 30, 1862),
+  fwu(1, 23, 1813),
+  fwu(2, 22, 1843),
+  fwu(3, 22, 1834),
 ];
 
 /** その大学の予想問題に必ず添える注意書き（PDF の表紙・奥付と同じ文） */
