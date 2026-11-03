@@ -22,7 +22,7 @@ export function MarkedText({ text, marks }: { text: string; marks: readonly { st
     <>
       {splitByMarks(text, marks).map((piece, i) => piece.cue
         ? <mark key={i} className="tp-cue" data-toeic-cue={piece.cue} aria-label={`手がかり${piece.cue}`}><sup aria-hidden="true">{piece.cue}</sup>{piece.text}</mark>
-        : <span key={i}>{formatText(piece.text, [], { prose: true })}</span>)}
+        : <span key={i}>{formatText(piece.text, [], { prose: true, noMath: true })}</span>)}
     </>
   );
 }
@@ -44,7 +44,7 @@ export function StemWithBlank({ stem, filled, result, cues }: {
     <>
       <MarkedText text={before} marks={marks} />
       <span className="tp-blank" data-filled={filled ? true : undefined} data-result={result} data-toeic-blank>
-        {filled ? formatText(filled, [], { prose: true }) : <span className="tp-sr">空所</span>}
+        {filled ? formatText(filled, [], { prose: true, noMath: true }) : <span className="tp-sr">空所</span>}
       </span>
       <MarkedText text={after} marks={afterMarks} />
     </>

@@ -383,7 +383,7 @@ export function ToeicPageQuiz({
                 >
                   <span className="tp-bubble" aria-hidden="true">{markLetter(mark)}</span>
                   <span className="tp-choice-body" aria-hidden="true">
-                    <span className="tp-choice-text">{formatText(texts[i] ?? mark, [], { prose: true })}</span>
+                    <span className="tp-choice-text">{formatText(texts[i] ?? mark, [], { prose: true, noMath: true })}</span>
                   </span>
                   {/* 「あなた・正解」のバッジ（英文法の答え合わせと同じ形）。選択肢の幅を食わないよう枠の右上に重ねる */}
                   {(isRight || isWrongPick) && (

@@ -20,7 +20,7 @@ function Paragraph({ text }: { text: string }) {
     <p lang="en">
       {splitP7Paragraph(text).map((piece, j) => piece.mark != null
         ? <span key={j} className="tp7-insert" data-toeic-insert={piece.mark} aria-label={`位置${piece.mark}`}>[{piece.mark}]</span>
-        : <span key={j}>{formatText(piece.text || '', [], { prose: true })}</span>)}
+        : <span key={j}>{formatText(piece.text || '', [], { prose: true, noMath: true })}</span>)}
     </p>
   );
 }

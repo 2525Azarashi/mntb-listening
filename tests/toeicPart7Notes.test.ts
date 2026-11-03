@@ -127,3 +127,25 @@ describe('TOEIC Part 7：画面の計算', () => {
     expect(b[0].limitElapsedSec).toBeCloseTo(100);
   });
 });
+
+describe('TOEIC の英文：金額の $ を数式にしない（2026-11-03）', () => {
+  it('「$100 … $15」のように $ が2つ並んでも、KaTeX で組まず文字のまま出す', async () => {
+    const { renderToStaticMarkup } = await import('react-dom/server');
+    const { createElement, Fragment } = await import('react');
+    const { formatText } = await import('../src/utils/textFormatter');
+    const text = 'Standard delivery is free for orders over $100. Express delivery costs $15.';
+    const html = renderToStaticMarkup(createElement(Fragment, null, formatText(text, [], { prose: true, noMath: true })));
+    expect(html).not.toContain('katex');
+    expect(html.replace(/<[^>]+>/g, '')).toBe(text);
+  });
+
+  it('TOEIC の部品は formatText に noMath を渡している', async () => {
+    const { readFileSync } = await import('node:fs');
+    for (const f of ['ToeicP7Passage.tsx', 'ToeicP6Passage.tsx', 'ToeicExplanationPanel.tsx', 'ToeicPageQuiz.tsx']) {
+      const src = readFileSync(new URL(`../src/components/toeic/${f}`, import.meta.url), 'utf8');
+      const calls = src.match(/formatText\([^)]*\)/g) || [];
+      expect(calls.length, f).toBeGreaterThan(0);
+      expect(calls.filter((c) => !c.includes('noMath: true')), f).toEqual([]);
+    }
+  });
+});
