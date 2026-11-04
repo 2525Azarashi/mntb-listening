@@ -5,32 +5,23 @@
  *   弘前大学の過去問・公式問題ではなく、大学とは関係がない（表紙と奥付に明記。tests/hirosakiMockPrints.test.ts が確かめる）。
  *
  * PDF は scripts/gacha-prints/hirosaki_mock/render.py で作る。pages / kb は実物の値を写す（テストが照合する）。
+ * 各回の問題・解答解説を1冊に連結し、1アイテムで提供する。
  */
 import type { GachaPrintDef } from './gachaPrints.generated';
 
-const q = (n: number, pages: number, kb: number): GachaPrintDef => ({
-  id: `print_lr_hirosaki_q_${n}`,
-  label: `弘前大学 前期 英語 予想問題 第${n}回 問題（200点・大学とは無関係のオリジナル）`,
+const round = (n: number, pages: number, kb: number): GachaPrintDef => ({
+  id: `print_lr_hirosaki_${n}`,
+  label: `弘前大学 英語 予想問題 第${n}回（問題＋解答・解説・大学とは無関係のオリジナル）`,
   subject: 'english_reading',
   category: '演習プリント',
-  file: `/prints/print_lr_hirosaki_q_${n}.pdf`,
-  thumb: `/prints/thumbs/print_lr_hirosaki_q_${n}.webp`,
-  pages,
-  kb,
-});
-const a = (n: number, pages: number, kb: number): GachaPrintDef => ({
-  id: `print_lr_hirosaki_a_${n}`,
-  label: `弘前大学 前期 英語 予想問題 第${n}回 解答・解説（全訳つき）`,
-  subject: 'english_reading',
-  category: '演習プリント',
-  file: `/prints/print_lr_hirosaki_a_${n}.pdf`,
-  thumb: `/prints/thumbs/print_lr_hirosaki_a_${n}.webp`,
+  file: `/prints/print_lr_hirosaki_${n}.pdf`,
+  thumb: `/prints/thumbs/print_lr_hirosaki_${n}.webp`,
   pages,
   kb,
 });
 
 export const HIROSAKI_MOCK_PRINTS: readonly GachaPrintDef[] = [
-  q(1, 12, 649), a(1, 19, 893),
-  q(2, 12, 638), a(2, 18, 862),
-  q(3, 11, 634), a(3, 16, 827),
+  round(1, 31, 1600),
+  round(2, 30, 1547),
+  round(3, 27, 1506),
 ];
