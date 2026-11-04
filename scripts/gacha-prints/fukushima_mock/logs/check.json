@@ -1,0 +1,50 @@
+{
+ "r1-1": {
+  "en4": {},
+  "ja13": {}
+ },
+ "r1-2": {
+  "en4": {},
+  "ja13": {}
+ },
+ "r1-3": {
+  "en4": {},
+  "ja13": {}
+ },
+ "r1-4": {
+  "en4": {},
+  "ja13": {}
+ },
+ "II_answers": [
+  "yourself",
+  "mind",
+  "preference",
+  "instead",
+  "since"
+ ],
+ "III_tags": {
+  "1": [
+   "関係代名詞 what",
+   "so ~ that 構文",
+   "have + 目的語 + 過去分詞",
+   "It takes + 人 + 時間 + to do",
+   "used to do（以前は〜だった）"
+  ]
+ },
+ "topic": {
+  "r1-1": [
+   0.083,
+   "hirosaki_ref/2026-3"
+  ]
+ },
+ "topic_past_ref": {
+  "n": 35,
+  "median": 0.047,
+  "max": 0.584
+ },
+ "render_fixed": {
+  "en4": [],
+  "ja13": []
+ },
+ "ng": []
+}
