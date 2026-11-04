@@ -46,7 +46,7 @@ P1 = {
          'stem': '空所(2)にあてはまる語句としてもっともふさわしいものを，次の(イ)〜(ニ)から一つ選び，記号を書きなさい。',
          'choices': ['did better than', 'were slower than', 'looked after', 'took over'], 'answer': 'イ',
          'expl': '手書きの学生のほうが，とくに説明を求める問題で「よくできた」。次の段落の「最初は奇妙に思える」もこの結果を受けている。'},
-        {'label': '問3', 'type': 'word', 'points': 3, 'kind': '共通する語', 'answer': 'the',
+        {'label': '問3', 'type': 'word', 'points': 3, 'kind': '共通する語', 'answer': 'for',
          'stem': '第3段落の空所（ A ）と（ B ）には同じ1語が入る。その語を書きなさい。',
          'expl': '（A）the reason for …「…の理由」。（B）word for word「一語一語・逐語的に」。どちらも for。'},
         {'label': '問4', 'type': 'mc', 'ref': 3, 'points': 3, 'kind': '語句の意味',
