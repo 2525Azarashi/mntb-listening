@@ -195,3 +195,7 @@ table.ast.tf th { min-width: 20mm; }
 .src { text-align: right; font-size: 8pt; color: #333; margin: 1mm 0; }
 .fp { margin: 0 0 1.2mm; }
 .wcbox { text-align: right; font-size: 10pt; margin: 2mm 0; }
+.ordl.c2 { column-count: 2; column-gap: 6mm; }
+.ordl.c2 .ordi { break-inside: avoid; }
+.ordl.c2 .cl { width: 6mm; }
+.ordl.c2 .ordi { padding-left: 6mm; text-indent: -6mm; }

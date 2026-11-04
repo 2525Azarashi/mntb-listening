@@ -175,7 +175,8 @@ def part_k2(K, pts):
 
 def part_m3(M, pts):
     body = head('M3', pts) + f'<p class="lead">{m(M["lead"])}</p>' + passage(M)
-    body += '<div class="ordl">' + ''.join(
+    longest = max(len(' / '.join(it['shown'])) for it in M['items'])
+    body += f'<div class="ordl{" c2" if longest <= 52 else ""}">' + ''.join(
         f'<p class="ordi"><span class="cl">{e(it["key"])}.</span> [ {" / ".join(e(c) for c in it["shown"])} ]</p>' for it in M['items']) + '</div>'
     return page(body, 'flow')
 
