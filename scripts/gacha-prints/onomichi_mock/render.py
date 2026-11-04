@@ -295,6 +295,7 @@ def check_read(P, k):
         elif t == 'order':
             assert 5 <= len(q['words']) <= 8, ('order 語数', lab)
             assert q.get('ja'), ('order 和訳', lab)
+            assert len(set(w.lower() for w in q['words'])) == len(q['words']), ('order 同じ語が2回', lab)
         elif t == 'word':
             if q.get('from_para') is not None:
                 src = plain(P['passage'][q['from_para']], P)
@@ -380,6 +381,7 @@ def a_part_4(R):
     rows = []
     for i, it in enumerate(W['items']):
         assert len(it['words']) == 8, ('Ⅳ 語数', i)
+        assert len(set(w.lower() for w in it['words'])) == 8, ('Ⅳ 同じ語が2回', i)
         ans = shuffled(it['words'], it['seed'])[1]
         rows.append((str(i + 1), f'4番目 {ans[3]}（{it["words"][3]}）・7番目 {ans[6]}（{it["words"][6]}）', 3))
     body = head(4, '語句の並べ替え', W['points'], ' — 解答・解説') + '<p class="ah">解答一覧（4番目・7番目の両方が合って 3 点）</p>' + akey_table(rows)
