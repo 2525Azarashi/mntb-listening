@@ -514,6 +514,21 @@ python3 ../build-previews.py print_lr_niji_tottori_en_1 print_lr_niji_tottori_en
 - 英語は英語を課す全学部の共通問題なので3回分。形式は過去3年分（令和6〜8年度）の公開問題に合わせた：［Ⅰ］［Ⅱ］長文読解（和訳・下線部説明・語義/語形・内容一致2つ）／［Ⅲ］下線部の和文英訳／［Ⅳ］40語以上の自由英作文・90分。配点は大学非公表のため本書の想定（60・60・40・40）。
 - 照合元は鳥取大学の公開問題・出題意図・解答例（令和6〜8年度。画像PDFは300dpiで全ページOCR）。本文は大学が著作権の都合で非公開にしている部分が多いが、公開部分（設問文・選択肢・自由英作文の問い）と照合し、英5語・日10字の一致と1文ごとの言い換えがどちらも0件。
 
+### 島根大学 前期対策（2026-11-04 追加）
+
+```bash
+cd scripts/gacha-prints/niji_shikoku   # 四国・鳥取と同じ道具（cfg.py に 'shimaneh'・'shimanem' を追加）
+python3 shimane/fixwords.py shimane/r*_*.py   # 指示文の決まり文句を独自の言い回しに置き換え
+python3 run.py shimaneh 1 2 3 && python3 run.py shimanem 1 2 3
+python3 plag.py shimaneh shimanem && python3 strict/gate.py shimaneh shimanem && python3 strict/para.py   # どれも 0 件（plag は記号の並びのみ）
+python3 ../build-previews.py print_lr_niji_shimaneh_en_1 print_lr_niji_shimaneh_en_2 print_lr_niji_shimaneh_en_3 print_lr_niji_shimanem_en_1 print_lr_niji_shimanem_en_2 print_lr_niji_shimanem_en_3
+```
+
+- 2系統×3回。中身は `shimane/r{n}_s1.py`（共通1）・`r{n}_s2.py`（共通2）・`r{n}_s3.py`（医3）・`r{n}_s45.py`（S4＝グラフ英作文、S5＝医の和文英訳＋意見英作文）。大問番号は過去問どおり飛び番号（`common.py` の `secno` が `S['no']` を優先）。
+  - shimaneh（法文・人間科学・総合理工・生物資源科学部・90分200点）：1 長文（英語で答える）70／2 長文（日本語で答える）80／4 グラフを読んで約70語の英作文 50
+  - shimanem（医学部医学科・120分300点）：1 70／2 80／3 医療・科学の長文 90／5 A 和文英訳・B 約80語の意見英作文 60
+- 配点は大学非公表のため本書の想定。照合元は島根大学の公開問題・出題意図（令和5〜7年度。画像PDFは全ページOCR）。英5語・日10字の一致と1文ごとの言い換えがどちらも0件。
+
 ### 山口大学 前期対策（2026-11-03 追加）
 
 ```bash
