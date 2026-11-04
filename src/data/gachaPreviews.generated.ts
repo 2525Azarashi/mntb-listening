@@ -557,6 +557,30 @@ export const GACHA_PREVIEWS: Readonly<Record<string, readonly string[]>> = {
     "/prints/previews/print_lr_yamagata_a_3_p2.webp",
     "/prints/previews/print_lr_yamagata_a_3_p6.webp"
   ],
+  "print_lr_fukushima_q_1": [
+    "/prints/previews/print_lr_fukushima_q_1_p2.webp",
+    "/prints/previews/print_lr_fukushima_q_1_p5.webp"
+  ],
+  "print_lr_fukushima_a_1": [
+    "/prints/previews/print_lr_fukushima_a_1_p2.webp",
+    "/prints/previews/print_lr_fukushima_a_1_p7.webp"
+  ],
+  "print_lr_fukushima_q_2": [
+    "/prints/previews/print_lr_fukushima_q_2_p2.webp",
+    "/prints/previews/print_lr_fukushima_q_2_p5.webp"
+  ],
+  "print_lr_fukushima_a_2": [
+    "/prints/previews/print_lr_fukushima_a_2_p2.webp",
+    "/prints/previews/print_lr_fukushima_a_2_p6.webp"
+  ],
+  "print_lr_fukushima_q_3": [
+    "/prints/previews/print_lr_fukushima_q_3_p2.webp",
+    "/prints/previews/print_lr_fukushima_q_3_p5.webp"
+  ],
+  "print_lr_fukushima_a_3": [
+    "/prints/previews/print_lr_fukushima_a_3_p2.webp",
+    "/prints/previews/print_lr_fukushima_a_3_p7.webp"
+  ],
   "print_book_listening_all": [
     "/prints/previews/print_book_listening_all_p2.webp",
     "/prints/previews/print_book_listening_all_p40.webp"

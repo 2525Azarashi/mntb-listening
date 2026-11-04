@@ -1,0 +1,114 @@
+{
+ "r1-1": {
+  "en4": {},
+  "ja13": {}
+ },
+ "r1-2": {
+  "en4": {},
+  "ja13": {}
+ },
+ "r1-3": {
+  "en4": {},
+  "ja13": {}
+ },
+ "r1-4": {
+  "en4": {},
+  "ja13": {}
+ },
+ "r2-1": {
+  "en4": {},
+  "ja13": {}
+ },
+ "r2-2": {
+  "en4": {},
+  "ja13": {}
+ },
+ "r2-3": {
+  "en4": {},
+  "ja13": {}
+ },
+ "r2-4": {
+  "en4": {},
+  "ja13": {}
+ },
+ "r3-1": {
+  "en4": {},
+  "ja13": {}
+ },
+ "r3-2": {
+  "en4": {},
+  "ja13": {}
+ },
+ "r3-3": {
+  "en4": {},
+  "ja13": {}
+ },
+ "r3-4": {
+  "en4": {},
+  "ja13": {}
+ },
+ "II_answers": [
+  "yourself",
+  "mind",
+  "preference",
+  "instead",
+  "since",
+  "yet",
+  "afford",
+  "after",
+  "forget",
+  "every",
+  "give",
+  "spare",
+  "turn",
+  "to",
+  "much"
+ ],
+ "III_tags": {
+  "1": [
+   "関係代名詞 what",
+   "so ~ that 構文",
+   "have + 目的語 + 過去分詞",
+   "It takes + 人 + 時間 + to do",
+   "used to do（以前は〜だった）"
+  ],
+  "2": [
+   "最上級＋現在完了（ever）",
+   "I wish＋仮定法過去完了",
+   "not only A but also B",
+   "間接疑問",
+   "関係代名詞 who（主格）"
+  ],
+  "3": [
+   "look forward to ~ing",
+   "使役動詞 let＋人＋動詞の原形",
+   "the＋比較級, the＋比較級",
+   "too ~ to do",
+   "関係副詞 where"
+  ]
+ },
+ "topic": {
+  "r1-1": [
+   0.081,
+   "hirosaki_ref/2026-3"
+  ],
+  "r2-1": [
+   0.115,
+   "hokudai_ref/2026-4conv"
+  ],
+  "r3-1": [
+   0.1,
+   "hokudai_ref/2024-2"
+  ]
+ },
+ "topic_past_ref": {
+  "n": 35,
+  "median": 0.047,
+  "max": 0.586
+ },
+ "render_fixed": {
+  "en4": [],
+  "ja13": []
+ },
+ "ng": []
+}
