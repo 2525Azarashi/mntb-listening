@@ -31,6 +31,9 @@
  *   - 山口大学 前期対策（2026-11-03 追加）：Ⅰ 約1000語の長文（設問・解答とも英語）・Ⅱ 約1000語のエッセイ／物語（設問は日本語）・
  *     Ⅲ-1 会話文の空所に英語・Ⅲ-2 日本語の指示を英語にしてメール完成・120分・200点（65・65・30・40）。全学部共通。
  *     小問の配点は編集部の想定。3回分。
+ *   - 尾道市立大学 前期対策（経済情報学部・2026-11-04 追加）：Ⅰ・Ⅱ 約500語の読解（並べ替え・空所の語選択・語義・指示内容・抜き出し・
+ *     内容の○×）・Ⅲ 空所補充8（4択）・Ⅳ 日本文に合わせた8語の並べ替え6題（4番目と7番目）・80分・100点（33・33・16・18）。
+ *     英語の個別試験は経済情報学部だけ。小問の配点は編集部の想定。3回分。
  *   ★過去問ではない★ 英文・設問・図表・解答はすべて書き下ろし。過去問・解答速報・講評の文章は引用していない
  *   （英語5語以上・日本語12字以上の連続一致がないことを機械で確認済み）。表紙と奥付に「大学とは関係がない」旨を明記。
  *
@@ -70,6 +73,7 @@ export const NIJI_UNIVERSITIES = [
   { id: 'kochim', name: '高知大学', track: '医学部医学科' },
   { id: 'tottori', name: '鳥取大学', track: '' },
   { id: 'yamaguchi', name: '山口大学', track: '' },
+  { id: 'onomichi', name: '尾道市立大学', track: '経済情報学部' },
 ] as const;
 export type NijiUniversityId = (typeof NIJI_UNIVERSITIES)[number]['id'];
 
@@ -111,6 +115,7 @@ const kochie = (n: number, pages: number, kb: number) => mock('kochie', n, pages
 const kochim = (n: number, pages: number, kb: number) => mock('kochim', n, pages, kb);
 const tottori = (n: number, pages: number, kb: number) => mock('tottori', n, pages, kb);
 const yamaguchi = (n: number, pages: number, kb: number) => mock('yamaguchi', n, pages, kb);
+const onomichi = (n: number, pages: number, kb: number) => mock('onomichi', n, pages, kb);
 
 export const NIJI_MOCK_PRINTS: readonly GachaPrintDef[] = [
   nagoya(1, 28, 2026),
@@ -188,6 +193,9 @@ export const NIJI_MOCK_PRINTS: readonly GachaPrintDef[] = [
   yamaguchi(1, 26, 1858),
   yamaguchi(2, 25, 1826),
   yamaguchi(3, 25, 1828),
+  onomichi(1, 22, 1693),
+  onomichi(2, 22, 1686),
+  onomichi(3, 22, 1654),
 ];
 
 /** その大学の予想問題に必ず添える注意書き（PDF の表紙・奥付と同じ文） */
