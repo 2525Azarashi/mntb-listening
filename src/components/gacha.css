@@ -504,3 +504,7 @@
   @keyframes gacha-hero-in { from { opacity: 0; translate: 0 -8px; filter: blur(3px); } }
 }
 @media (prefers-reduced-motion: reduce) { .gacha-banner-swap { transition: none; } }
+
+/* 2026-11-04 提供割合の窓のコレクション一覧：文字を12px以上に（帯ラベル 8〜9px・所持状況 10px を上書き） */
+.gacha-odds .gacha-collection-grid li > span { font-size: 12px; }
+.gacha-odds .gacha-collection-grid .gacha-print-thumb em { display: none; } /* 種類（演習プリント等）は帯にせず、下の名前とレア度で判断できる */
