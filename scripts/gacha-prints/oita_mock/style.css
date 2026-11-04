@@ -190,8 +190,8 @@ table.ast.tf th { min-width: 20mm; }
 /* 大分大学 予想問題で追加 */
 .cv-track { text-align: center; font-family: 'Noto Sans CJK JP', sans-serif; font-weight: bold; font-size: 12.5pt; margin: 2mm 0 0; }
 .slot { font-family: 'Noto Sans CJK JP', sans-serif; font-weight: bold; white-space: nowrap; }
-.ordl { border: 1px solid #333; padding: 2mm 4mm; margin: 2mm 0; font-family: 'Noto Serif', 'Times New Roman', serif; font-size: 10pt; line-height: 1.75; }
-.ordi { margin: 0.8mm 0; }
+.ordl { border: 1px solid #333; padding: 1.5mm 4mm; margin: 1.5mm 0; font-family: 'Noto Serif', 'Times New Roman', serif; font-size: 10pt; line-height: 1.5; break-inside: avoid; }
+.ordi { margin: 0.3mm 0; }
 .src { text-align: right; font-size: 8pt; color: #333; margin: 1mm 0; }
 .fp { margin: 0 0 1.2mm; }
 .wcbox { text-align: right; font-size: 10pt; margin: 2mm 0; }
