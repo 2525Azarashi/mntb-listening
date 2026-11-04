@@ -74,8 +74,7 @@ function PickupItem({ item, progress, pool }: { item: ItemDef; progress: GrowthP
   const owned = !!progress?.owned.includes(item.id);
   const sample = kyotsuAudioOf(item.id)[0];
   return (
-    <li>
-      <details className="gacha-pickup-item" data-gacha-pickup-item={item.id}>
+    <details className="gacha-pickup-item" data-gacha-pickup-item={item.id}>
         <summary>
           {print && <img src={print.thumb} alt="" loading="lazy" width={40} height={56} />}
           <span>
@@ -99,8 +98,7 @@ function PickupItem({ item, progress, pool }: { item: ItemDef; progress: GrowthP
             <audio controls preload="none" src={sample.file} />
           </p>
         )}
-      </details>
-    </li>
+    </details>
   );
 }
 
@@ -165,14 +163,14 @@ export function GachaPickupModal({ dialog, items, progress, pool = DEFAULT_GACHA
             {shelf?.groups.map((g) => (
               <div key={g.label ?? 'all'} className="gacha-pickup-univ">
                 {g.label && <h3>{g.label}<small>{g.items.length}冊</small></h3>}
-                <ul>{g.items.map((item) => <PickupItem key={item.id} item={item} progress={progress} pool={pool} />)}</ul>
+                <ul>{g.items.map((item) => <li key={item.id}><PickupItem item={item} progress={progress} pool={pool} /></li>)}</ul>
               </div>
             ))}
           </section>
         ) : (
           <section className="gacha-pickup-group" aria-label="厳選UR 完全版の本" data-pickup-panel="UR">
             <p>大当たり（その一冊で完成する本）から、{def.title}で出るもの。</p>
-            <ul>{ur.map((item) => <PickupItem key={item.id} item={item} progress={progress} pool={pool} />)}</ul>
+            <ul>{ur.map((item) => <li key={item.id}><PickupItem item={item} progress={progress} pool={pool} /></li>)}</ul>
           </section>
         )}
       </div>
