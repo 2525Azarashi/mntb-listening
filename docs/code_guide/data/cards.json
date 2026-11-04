@@ -2326,7 +2326,7 @@
 "path": "README.md"
 }
 ],
-"lines": 556,
+"lines": 572,
 "tag": "文書",
 "conf": "高",
 "kind": "file",
@@ -10611,7 +10611,7 @@
 "path": "src/components/GachaRoom.tsx"
 }
 ],
-"lines": 510,
+"lines": 490,
 "tag": "部品",
 "conf": "高",
 "kind": "file",
@@ -19611,7 +19611,7 @@
 "name": "UI_CHANGELOG.md",
 "folder": "docs",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "主な見出し：UI 変更記録（元に戻すとき用）／UI 変更記録（元に戻すとき用）／2026-11-04 ガチャ「ピックアップ一覧」「提供割合」の窓を整理（PR: feat/gacha-pickup-shelves）。",
+"detail": "主な見出し：UI 変更記録（元に戻すとき用）／UI 変更記録（元に戻すとき用）／2026-11-04 2次試験ガチャ LR に尾道市立大学（経済情報学部）の英語 予想問題 3回分（PR: feat/niji-onomichi）。",
 "links": [
 {
 "dir": "ref",
@@ -19626,7 +19626,7 @@
 "path": "scripts/pr/prCore.mts"
 }
 ],
-"lines": 1390,
+"lines": 1384,
 "tag": "文書",
 "conf": "低",
 "kind": "file",
@@ -26107,7 +26107,12 @@
 "folder": "scripts",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
 "detail": "冒頭の説明：「*- coding: utf-8 -*- 第3回 問題Ⅱ 本文（書き下ろし・研究者と調査は架空）」",
-"links": [],
+"links": [
+{
+"dir": "ref",
+"path": "scripts/gacha-prints/onomichi_mock/r3_p2t.py"
+}
+],
 "lines": 93,
 "tag": "データ",
 "conf": "低",
@@ -29376,7 +29381,12 @@
 "folder": "scripts",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
 "detail": "冒頭の説明：「*- coding: utf-8 -*- 第3回 Ⅱ 長文（英語の設問に英語で答える）本文・設問・全訳。町・人物・数値は架空」",
-"links": [],
+"links": [
+{
+"dir": "ref",
+"path": "scripts/gacha-prints/onomichi_mock/r3_p2t.py"
+}
+],
 "lines": 55,
 "tag": "データ",
 "conf": "低",
@@ -32046,7 +32056,12 @@
 "folder": "scripts",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
 "detail": "冒頭の説明：「*- coding: utf-8 -*- 第3回〔2〕長文（本文・全訳・語句）。研究者・大学・調査は架空」",
-"links": [],
+"links": [
+{
+"dir": "ref",
+"path": "scripts/gacha-prints/onomichi_mock/r3_p2t.py"
+}
+],
 "lines": 25,
 "tag": "データ",
 "conf": "低",
@@ -33310,6 +33325,432 @@
 "links": [],
 "lines": 132,
 "tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "tools",
+"flow": []
+},
+{
+"id": "scripts/gacha-prints/onomichi_mock/logo_gray.png",
+"path": "scripts/gacha-prints/onomichi_mock/logo_gray.png",
+"name": "logo_gray.png",
+"folder": "scripts",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [
+{
+"dir": "ref",
+"path": "scripts/gacha-prints/akita_mock/render.py"
+},
+{
+"dir": "ref",
+"path": "scripts/gacha-prints/fukushima_mock/render.py"
+},
+{
+"dir": "ref",
+"path": "scripts/gacha-prints/fwu_mock/render.py"
+}
+],
+"lines": 118,
+"tag": "音声・画像",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "tools",
+"flow": []
+},
+{
+"id": "scripts/gacha-prints/onomichi_mock/pdf.mjs",
+"path": "scripts/gacha-prints/onomichi_mock/pdf.mjs",
+"name": "pdf.mjs",
+"folder": "scripts",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「HTML → A4 PDF（Chromium）。render.py から呼ぶ：node pdf.mjs <in.html> <out.pdf> <ヘッダーの文字> Playwrig…」読み込むもの：。",
+"links": [
+{
+"dir": "ref",
+"path": "scripts/gacha-prints/fwu_mock/pdf.mjs"
+},
+{
+"dir": "ref",
+"path": "scripts/gacha-prints/fwu_mock/render.py"
+},
+{
+"dir": "ref",
+"path": "scripts/gacha-prints/gakugei_mock/pdf.mjs"
+}
+],
+"lines": 30,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "tools",
+"flow": []
+},
+{
+"id": "scripts/gacha-prints/onomichi_mock/r1.py",
+"path": "scripts/gacha-prints/onomichi_mock/r1.py",
+"name": "r1.py",
+"folder": "scripts",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「*- coding: utf-8 -*-」",
+"links": [
+{
+"dir": "ref",
+"path": "docs/UI_CHANGELOG.md"
+},
+{
+"dir": "ref",
+"path": "scripts/gacha-prints/README.md"
+},
+{
+"dir": "ref",
+"path": "scripts/gacha-prints/fwu_mock/render.py"
+}
+],
+"lines": 6,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "tools",
+"flow": []
+},
+{
+"id": "scripts/gacha-prints/onomichi_mock/r1_p1.py",
+"path": "scripts/gacha-prints/onomichi_mock/r1_p1.py",
+"name": "r1_p1.py",
+"folder": "scripts",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「*- coding: utf-8 -*- 第1回 Ⅰ：退屈は想像力の目覚まし時計（解説文。書き下ろし。人物・大学・実験は架空）」",
+"links": [],
+"lines": 97,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "tools",
+"flow": []
+},
+{
+"id": "scripts/gacha-prints/onomichi_mock/r1_p2.py",
+"path": "scripts/gacha-prints/onomichi_mock/r1_p2.py",
+"name": "r1_p2.py",
+"folder": "scripts",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「*- coding: utf-8 -*- 第1回 Ⅱ：港町の「修理カフェ」（ニュース記事風。書き下ろし。人物・町・団体・数値は架空）」",
+"links": [],
+"lines": 92,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "tools",
+"flow": []
+},
+{
+"id": "scripts/gacha-prints/onomichi_mock/r1_p3.py",
+"path": "scripts/gacha-prints/onomichi_mock/r1_p3.py",
+"name": "r1_p3.py",
+"folder": "scripts",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「*- coding: utf-8 -*- 第1回 Ⅲ：灯台守の島の図書館（書き下ろし。島・人物・数値は架空）／Ⅳ：日本文に合わせた並べ替え」",
+"links": [],
+"lines": 86,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "tools",
+"flow": []
+},
+{
+"id": "scripts/gacha-prints/onomichi_mock/r2.py",
+"path": "scripts/gacha-prints/onomichi_mock/r2.py",
+"name": "r2.py",
+"folder": "scripts",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「*- coding: utf-8 -*-」",
+"links": [
+{
+"dir": "ref",
+"path": "docs/UI_CHANGELOG.md"
+},
+{
+"dir": "ref",
+"path": "scripts/gacha-prints/README.md"
+}
+],
+"lines": 6,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "tools",
+"flow": []
+},
+{
+"id": "scripts/gacha-prints/onomichi_mock/r2_p1.py",
+"path": "scripts/gacha-prints/onomichi_mock/r2_p1.py",
+"name": "r2_p1.py",
+"folder": "scripts",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「*- coding: utf-8 -*- 第2回 Ⅰ：手書きのメモと記憶（解説文。書き下ろし。人物・大学・実験は架空）」",
+"links": [],
+"lines": 96,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "tools",
+"flow": []
+},
+{
+"id": "scripts/gacha-prints/onomichi_mock/r2_p2.py",
+"path": "scripts/gacha-prints/onomichi_mock/r2_p2.py",
+"name": "r2_p2.py",
+"folder": "scripts",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「*- coding: utf-8 -*- 第2回 Ⅱ：都市の屋上でミツバチを飼う（ニュース記事風。書き下ろし。人物・都市・団体・数値は架空）」",
+"links": [],
+"lines": 92,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "tools",
+"flow": []
+},
+{
+"id": "scripts/gacha-prints/onomichi_mock/r2_p3.py",
+"path": "scripts/gacha-prints/onomichi_mock/r2_p3.py",
+"name": "r2_p3.py",
+"folder": "scripts",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「*- coding: utf-8 -*- 第2回 Ⅲ：夜行バスの運転手たち（書き下ろし。会社・人物・数値は架空）／Ⅳ：日本文に合わせた並べ替え」",
+"links": [],
+"lines": 87,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "tools",
+"flow": []
+},
+{
+"id": "scripts/gacha-prints/onomichi_mock/r3.py",
+"path": "scripts/gacha-prints/onomichi_mock/r3.py",
+"name": "r3.py",
+"folder": "scripts",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「*- coding: utf-8 -*-」",
+"links": [],
+"lines": 8,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "tools",
+"flow": []
+},
+{
+"id": "scripts/gacha-prints/onomichi_mock/r3_p1.py",
+"path": "scripts/gacha-prints/onomichi_mock/r3_p1.py",
+"name": "r3_p1.py",
+"folder": "scripts",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「*- coding: utf-8 -*- 第3回 Ⅰ：「ちょうどいい」選択肢の数（解説文。書き下ろし。人物・大学・店・実験は架空）」",
+"links": [],
+"lines": 99,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "tools",
+"flow": []
+},
+{
+"id": "scripts/gacha-prints/onomichi_mock/r3_p2.py",
+"path": "scripts/gacha-prints/onomichi_mock/r3_p2.py",
+"name": "r3_p2.py",
+"folder": "scripts",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「*- coding: utf-8 -*- 第3回 Ⅱ：商店街の空き店舗を「日替わり店」に（ニュース記事風。書き下ろし。町・人物・団体・数値は架空）」",
+"links": [
+{
+"dir": "ref",
+"path": "scripts/gacha-prints/onomichi_mock/r3_p2t.py"
+}
+],
+"lines": 82,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "tools",
+"flow": []
+},
+{
+"id": "scripts/gacha-prints/onomichi_mock/r3_p2t.py",
+"path": "scripts/gacha-prints/onomichi_mock/r3_p2t.py",
+"name": "r3_p2t.py",
+"folder": "scripts",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「*- coding: utf-8 -*- 第3回 Ⅱ の全訳と語句（r3_p2.py の本文に対応）」",
+"links": [
+{
+"dir": "ref",
+"path": "scripts/gacha-prints/onomichi_mock/r3.py"
+}
+],
+"lines": 16,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "tools",
+"flow": []
+},
+{
+"id": "scripts/gacha-prints/onomichi_mock/r3_p3.py",
+"path": "scripts/gacha-prints/onomichi_mock/r3_p3.py",
+"name": "r3_p3.py",
+"folder": "scripts",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「*- coding: utf-8 -*- 第3回 Ⅲ：山あいの村の「星空の観光」（書き下ろし。村・人物・数値は架空）」",
+"links": [],
+"lines": 61,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "tools",
+"flow": []
+},
+{
+"id": "scripts/gacha-prints/onomichi_mock/r3_p4.py",
+"path": "scripts/gacha-prints/onomichi_mock/r3_p4.py",
+"name": "r3_p4.py",
+"folder": "scripts",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「*- coding: utf-8 -*- 第3回 Ⅳ：日本文に合わせた並べ替え（書き下ろし）」",
+"links": [],
+"lines": 26,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "tools",
+"flow": []
+},
+{
+"id": "scripts/gacha-prints/onomichi_mock/render.py",
+"path": "scripts/gacha-prints/onomichi_mock/render.py",
+"name": "render.py",
+"folder": "scripts",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「尾道市立大学 一般選抜（前期日程）経済情報学部「英語」対策 予想問題 — 紙面づくり（2026-11-04） python3 scripts/gacha-prints/onomic…」",
+"links": [
+{
+"dir": "ref",
+"path": "docs/UI_CHANGELOG.md"
+},
+{
+"dir": "ref",
+"path": "docs/elevenlabs_vocab/ALL_PROMPTS.md"
+},
+{
+"dir": "ref",
+"path": "docs/elevenlabs_vocab/batches/ilv2_0140-0166.txt"
+}
+],
+"lines": 444,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "tools",
+"flow": []
+},
+{
+"id": "scripts/gacha-prints/onomichi_mock/style.css",
+"path": "scripts/gacha-prints/onomichi_mock/style.css",
+"name": "style.css",
+"folder": "scripts",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「尾道市立大学 予想問題の紙面（yamaguchi_mock/style.css を元にした白黒の試験冊子）」",
+"links": [
+{
+"dir": "ref",
+"path": "docs/business_overview/index.html"
+},
+{
+"dir": "ref",
+"path": "scripts/gacha-prints/fwu_mock/render.py"
+},
+{
+"dir": "ref",
+"path": "scripts/gacha-prints/fwu_mock/style.css"
+}
+],
+"lines": 204,
+"tag": "部品",
 "conf": "低",
 "kind": "file",
 "exports": [],
@@ -35206,7 +35647,12 @@
 "folder": "scripts",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
 "detail": "冒頭の説明：「*- coding: utf-8 -*- 第3回 大問2 物語文（書き下ろし）本文と全訳。島・人物は架空。設問は r3_p2q.py」",
-"links": [],
+"links": [
+{
+"dir": "ref",
+"path": "scripts/gacha-prints/onomichi_mock/r3_p2t.py"
+}
+],
 "lines": 31,
 "tag": "データ",
 "conf": "低",
@@ -35673,7 +36119,12 @@
 "folder": "scripts",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
 "detail": "冒頭の説明：「*- coding: utf-8 -*- 第3回 大問2 会話文の空所補充（4か所・各5点）」",
-"links": [],
+"links": [
+{
+"dir": "ref",
+"path": "scripts/gacha-prints/onomichi_mock/r3_p2t.py"
+}
+],
 "lines": 77,
 "tag": "データ",
 "conf": "低",
@@ -36820,7 +37271,12 @@
 "folder": "scripts",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
 "detail": "冒頭の説明：「*- coding: utf-8 -*- 第3回 大問2 本文（書き下ろし・町と人物は架空）」",
-"links": [],
+"links": [
+{
+"dir": "ref",
+"path": "scripts/gacha-prints/onomichi_mock/r3_p2t.py"
+}
+],
 "lines": 99,
 "tag": "データ",
 "conf": "低",
@@ -37986,7 +38442,12 @@
 "folder": "scripts",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
 "detail": "冒頭の説明：「*- coding: utf-8 -*- 第3回 Ⅱ：祖母の「ひとつかみ」のレシピ（軽いエッセイ。書き下ろし。人物は架空）。設問は r3_p2q.py」",
-"links": [],
+"links": [
+{
+"dir": "ref",
+"path": "scripts/gacha-prints/onomichi_mock/r3_p2t.py"
+}
+],
 "lines": 79,
 "tag": "データ",
 "conf": "低",
@@ -39419,7 +39880,7 @@
 "name": "printShelves.ts",
 "folder": "src",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「PDF の棚（2026-11-04 ご要望「ショップの PDF があふれているので分野ごとに整理（地方ごとなど）」）。」PrintShelfId・PRINT_SHELVES・UNIV_REGION など5個を公開する。読み込むもの：gachaPrints.generated.ts。MyCollection.tsx・GachaCollectionModal.tsx など4ファイルから読み込まれる。",
+"detail": "冒頭の説明：「PDF の棚（2026-11-04 ご要望「ショップの PDF があふれているので分野ごとに整理（地方ごとなど）」）。」PrintShelfId・PRINT_SHELVES・UNIV_REGION など5個を公開する。読み込むもの：gachaPrints.generated.ts。MyCollection.tsx・printShelves.test.tsから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -39427,7 +39888,7 @@
 },
 {
 "dir": "from",
-"path": "src/components/gacha/GachaCollectionModal.tsx"
+"path": "tests/printShelves.test.ts"
 },
 {
 "dir": "to",
@@ -39446,7 +39907,7 @@
 "printShelfOf"
 ],
 "nImports": 1,
-"nBy": 4,
+"nBy": 2,
 "draft": true,
 "sys": "battle",
 "flow": [
@@ -40612,7 +41073,7 @@
 "name": "GachaCollectionModal.tsx",
 "folder": "src",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「「装飾コレクション・提供割合」のダイアログ（C-06）。」GachaCollectionModalを公開する。読み込むもの：growth.ts・arenaEconomy.ts・gachaPools.ts など6ファイル、外部部品 react。GachaRoom.tsxから読み込まれる。",
+"detail": "冒頭の説明：「「装飾コレクション・提供割合」のダイアログ（C-06）。」GachaCollectionModalを公開する。読み込むもの：growth.ts・arenaEconomy.ts・gachaPools.ts など5ファイル、外部部品 react。GachaRoom.tsxから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -40627,14 +41088,14 @@
 "path": "src/battle/core/arenaEconomy.ts"
 }
 ],
-"lines": 209,
+"lines": 180,
 "tag": "部品",
 "conf": "低",
 "kind": "file",
 "exports": [
 "GachaCollectionModal"
 ],
-"nImports": 6,
+"nImports": 5,
 "nBy": 1,
 "draft": true,
 "sys": "screen",
@@ -40683,7 +41144,7 @@
 "name": "GachaPickupModal.tsx",
 "folder": "src",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「「ピックアップ」ダイアログ（2026-10-27）。」pickupItems・pickupUnivLabel・PickupShelf など6個を公開する。読み込むもの：growth.ts・arenaEconomy.ts・gachaPools.ts など8ファイル、外部部品 react。GachaRoom.tsx・gachaPickup.test.tsから読み込まれる。",
+"detail": "冒頭の説明：「「ピックアップ」ダイアログ（2026-10-27）。」pickupItems・GachaPickupModalを公開する。読み込むもの：growth.ts・arenaEconomy.ts・gachaPools.ts など7ファイル、外部部品 react。GachaRoom.tsx・gachaPickup.test.tsから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -40698,19 +41159,15 @@
 "path": "src/battle/core/growth.ts"
 }
 ],
-"lines": 179,
+"lines": 100,
 "tag": "部品",
 "conf": "低",
 "kind": "file",
 "exports": [
 "pickupItems",
-"pickupUnivLabel",
-"PickupShelf",
-"pickupShelves",
-"pickupLrSummary",
 "GachaPickupModal"
 ],
-"nImports": 8,
+"nImports": 7,
 "nBy": 2,
 "draft": true,
 "sys": "screen",
@@ -41988,7 +42445,7 @@
 "path": "src/data/gachaPrints.generated.ts"
 }
 ],
-"lines": 228,
+"lines": 236,
 "tag": "データ",
 "conf": "低",
 "kind": "file",
@@ -51117,7 +51574,7 @@
 "name": "gachaPickup.test.ts",
 "folder": "tests",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "6件の確認（it）を持つ。主な確認：「ガチャのピックアップ（中身を少し見る）」「LR 全種と厳選UR 10種が並ぶ（LR が先）」。対象：arenaEconomy.ts・growth.ts・GachaParts.tsx。",
+"detail": "3件の確認（it）を持つ。主な確認：「ガチャのピックアップ（中身を少し見る）」「LR 全種と厳選UR 10種が並ぶ（LR が先）」。対象：arenaEconomy.ts・growth.ts・GachaParts.tsx。",
 "links": [
 {
 "dir": "to",
@@ -51132,7 +51589,7 @@
 "path": "src/components/GachaParts.tsx"
 }
 ],
-"lines": 67,
+"lines": 41,
 "tag": "テスト",
 "conf": "低",
 "kind": "file",
@@ -53162,12 +53619,12 @@
 "one": "単元の索引・英文法の問題・単語数などを生成して持つ係",
 "detail": "chapterIndex（gen-chapter-index.mts）、egV3Items（grammar_v3/build_ts.py）、listeningVocabularyMeta（gen-listening-vocabulary.mts）、gachaPrints の各生成物。手で編集しない。",
 "links": [],
-"lines": 2068,
+"lines": 2080,
 "tag": "データ",
 "conf": "高",
 "kind": "bundle",
 "count": 6,
-"bytes": 1653878,
+"bytes": 1654358,
 "exts": {
 ".ts": 6
 },
@@ -53397,11 +53854,11 @@
 "tag": "文書",
 "conf": "高",
 "kind": "bundle",
-"count": 636,
-"bytes": 199773052,
+"count": 648,
+"bytes": 204988069,
 "exts": {
-".webp": 431,
-".pdf": 181,
+".webp": 440,
+".pdf": 184,
 ".mp3": 24
 },
 "members": [

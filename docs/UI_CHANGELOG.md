@@ -27,6 +27,17 @@
 
 ---
 
+## 2026-11-04 2次試験ガチャ LR に尾道市立大学（経済情報学部）の英語 予想問題 3回分（PR: feat/niji-onomichi）
+
+| 何を | どう変えた | ファイル |
+|---|---|---|
+| 2次試験ガチャの LR | 尾道市立大学 前期（経済情報学部）英語の予想問題を3冊追加（各22ページ・問題＋解答解説・白黒）。LR の説明の大学一覧に「尾道市立大学」 | `src/data/nijiMockPrints.ts`・`src/battle/core/gachaPools.ts` |
+| ショップの PDF の棚 | 尾道市立大学を「2次 中国・四国」の棚に入れた | `src/battle/core/printShelves.ts` |
+
+**戻し方**：このPRを revert（PDF・サムネ・プレビューと台帳の3行・LR 説明の大学名・棚の1語がまとめて戻る）。
+
+---
+
 ## 2026-11-04 塾クラスの生徒は広告なし・ショップの PDF を棚（地方・教科）で整理（PR: feat/juku-noads-pdf-shelf）
 
 | # | 何を | どう変えた | ファイル |
@@ -623,6 +634,17 @@
 | 注意書き | 大学ごとの注意書き・ピックアップの注意書きに「東京学芸大学」が自動で加わる（`NIJI_UNIVERSITIES` に1行） | `src/data/nijiMockPrints.ts` |
 
 - 戻すとき：`nijiMockPrints.ts` の `gakugei` の行（大学1行・`gakugei(…)` 3行）を消し、`build-previews.py` の正規表現から `gakugei` を外して作り直す。PDF などのファイルは消さなくても出なくなる。
+
+---
+
+## 2026-11-04 2次試験ガチャの大当たりに島根大学を追加（PR: feat/niji-shimane）
+
+| # | どこ | 変更 | ファイル |
+|---|---|---|---|
+| 1 | 2次試験ガチャの LR | 国公立2次 英語 予想問題 島根大学 前期対策を6冊追加（法文・人間科学・総合理工・生物資源科学部／医学部医学科 各3回）。ラベルに学部名を出す | `src/data/nijiMockPrints.ts`・`public/prints/print_lr_niji_shimane{h,m}_en_{1,2,3}.pdf`・thumbs・previews・`src/data/gachaPreviews.generated.ts` |
+| 2 | ピックアップの説明文 | 収録大学に島根大学を追加（学部別に各3回の大学に並べる） | `src/battle/core/gachaPools.ts`・`nijiMockPrints.ts`（`NIJI_DISCLAIMER` は自動で島根大学を含む） |
+
+**戻し方**：`nijiMockPrints.ts` の `shimaneh`・`shimanem` の行（`NIJI_UNIVERSITIES` の2行・ヘルパー2行・台帳6行）を消し、`gachaPools.ts` の lrNote・`build-previews.py` の正規表現・`tests/nijiGacha.test.ts` の件数（81→75）を元に戻す。PDF・画像は消してよい。
 
 ---
 
