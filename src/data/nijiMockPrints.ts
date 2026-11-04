@@ -31,6 +31,10 @@
  *   - 山口大学 前期対策（2026-11-03 追加）：Ⅰ 約1000語の長文（設問・解答とも英語）・Ⅱ 約1000語のエッセイ／物語（設問は日本語）・
  *     Ⅲ-1 会話文の空所に英語・Ⅲ-2 日本語の指示を英語にしてメール完成・120分・200点（65・65・30・40）。全学部共通。
  *     小問の配点は編集部の想定。3回分。
+ *   - 島根大学 前期対策（2026-11-04 追加）：1・2 は全学部共通の長文2題（1 は英語・記号で答える、2 は日本語で答える）。
+ *     そのあと学部で分かれるため2系統×3回（計6冊）。法文・人間科学・総合理工・生物資源科学部用＝1・2・4（グラフを読んで約70語）・
+ *     90分・200点（70・80・50）／医学部医学科用＝1・2・3（医療の長文）・5（A 和文英訳・B 約80語の意見文）・120分・300点（70・80・90・60）。
+ *     時間・配点・小問の配点は編集部の想定。グラフの数値は架空。
  *   ★過去問ではない★ 英文・設問・図表・解答はすべて書き下ろし。過去問・解答速報・講評の文章は引用していない
  *   （英語5語以上・日本語12字以上の連続一致がないことを機械で確認済み）。表紙と奥付に「大学とは関係がない」旨を明記。
  *
@@ -70,6 +74,8 @@ export const NIJI_UNIVERSITIES = [
   { id: 'kochim', name: '高知大学', track: '医学部医学科' },
   { id: 'tottori', name: '鳥取大学', track: '' },
   { id: 'yamaguchi', name: '山口大学', track: '' },
+  { id: 'shimaneh', name: '島根大学', track: '法文・人間科学・総合理工・生物資源科学部' },
+  { id: 'shimanem', name: '島根大学', track: '医学部医学科' },
 ] as const;
 export type NijiUniversityId = (typeof NIJI_UNIVERSITIES)[number]['id'];
 
@@ -111,6 +117,8 @@ const kochie = (n: number, pages: number, kb: number) => mock('kochie', n, pages
 const kochim = (n: number, pages: number, kb: number) => mock('kochim', n, pages, kb);
 const tottori = (n: number, pages: number, kb: number) => mock('tottori', n, pages, kb);
 const yamaguchi = (n: number, pages: number, kb: number) => mock('yamaguchi', n, pages, kb);
+const shimaneh = (n: number, pages: number, kb: number) => mock('shimaneh', n, pages, kb);
+const shimanem = (n: number, pages: number, kb: number) => mock('shimanem', n, pages, kb);
 
 export const NIJI_MOCK_PRINTS: readonly GachaPrintDef[] = [
   nagoya(1, 28, 2026),
@@ -188,6 +196,12 @@ export const NIJI_MOCK_PRINTS: readonly GachaPrintDef[] = [
   yamaguchi(1, 26, 1858),
   yamaguchi(2, 25, 1826),
   yamaguchi(3, 25, 1828),
+  shimaneh(1, 17, 302),
+  shimaneh(2, 17, 300),
+  shimaneh(3, 17, 291),
+  shimanem(1, 22, 353),
+  shimanem(2, 22, 348),
+  shimanem(3, 22, 331),
 ];
 
 /** その大学の予想問題に必ず添える注意書き（PDF の表紙・奥付と同じ文） */

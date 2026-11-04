@@ -341,6 +341,30 @@ export const GACHA_PREVIEWS: Readonly<Record<string, readonly string[]>> = {
     "/prints/previews/print_lr_niji_yamaguchi_en_3_p2.webp",
     "/prints/previews/print_lr_niji_yamaguchi_en_3_p13.webp"
   ],
+  "print_lr_niji_shimaneh_en_1": [
+    "/prints/previews/print_lr_niji_shimaneh_en_1_p2.webp",
+    "/prints/previews/print_lr_niji_shimaneh_en_1_p9.webp"
+  ],
+  "print_lr_niji_shimaneh_en_2": [
+    "/prints/previews/print_lr_niji_shimaneh_en_2_p2.webp",
+    "/prints/previews/print_lr_niji_shimaneh_en_2_p9.webp"
+  ],
+  "print_lr_niji_shimaneh_en_3": [
+    "/prints/previews/print_lr_niji_shimaneh_en_3_p2.webp",
+    "/prints/previews/print_lr_niji_shimaneh_en_3_p9.webp"
+  ],
+  "print_lr_niji_shimanem_en_1": [
+    "/prints/previews/print_lr_niji_shimanem_en_1_p2.webp",
+    "/prints/previews/print_lr_niji_shimanem_en_1_p11.webp"
+  ],
+  "print_lr_niji_shimanem_en_2": [
+    "/prints/previews/print_lr_niji_shimanem_en_2_p2.webp",
+    "/prints/previews/print_lr_niji_shimanem_en_2_p11.webp"
+  ],
+  "print_lr_niji_shimanem_en_3": [
+    "/prints/previews/print_lr_niji_shimanem_en_3_p2.webp",
+    "/prints/previews/print_lr_niji_shimanem_en_3_p11.webp"
+  ],
   "print_lr_kobe_q_1": [
     "/prints/previews/print_lr_kobe_q_1_p2.webp",
     "/prints/previews/print_lr_kobe_q_1_p7.webp"
