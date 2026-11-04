@@ -15,12 +15,33 @@
   "en4": {},
   "ja13": {}
  },
+ "r2-1": {
+  "en4": {},
+  "ja13": {}
+ },
+ "r2-2": {
+  "en4": {},
+  "ja13": {}
+ },
+ "r2-3": {
+  "en4": {},
+  "ja13": {}
+ },
+ "r2-4": {
+  "en4": {},
+  "ja13": {}
+ },
  "II_answers": [
   "yourself",
   "mind",
   "preference",
   "instead",
-  "since"
+  "since",
+  "yet",
+  "afford",
+  "after",
+  "forget",
+  "every"
  ],
  "III_tags": {
   "1": [
@@ -29,12 +50,23 @@
    "have + 目的語 + 過去分詞",
    "It takes + 人 + 時間 + to do",
    "used to do（以前は〜だった）"
+  ],
+  "2": [
+   "最上級＋現在完了（ever）",
+   "I wish＋仮定法過去完了",
+   "not only A but also B",
+   "間接疑問",
+   "関係代名詞 who（主格）"
   ]
  },
  "topic": {
   "r1-1": [
-   0.083,
+   0.082,
    "hirosaki_ref/2026-3"
+  ],
+  "r2-1": [
+   0.117,
+   "hokudai_ref/2026-4conv"
   ]
  },
  "topic_past_ref": {
