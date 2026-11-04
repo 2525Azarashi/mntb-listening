@@ -31,6 +31,22 @@
   "en4": {},
   "ja13": {}
  },
+ "r3-1": {
+  "en4": {},
+  "ja13": {}
+ },
+ "r3-2": {
+  "en4": {},
+  "ja13": {}
+ },
+ "r3-3": {
+  "en4": {},
+  "ja13": {}
+ },
+ "r3-4": {
+  "en4": {},
+  "ja13": {}
+ },
  "II_answers": [
   "yourself",
   "mind",
@@ -41,7 +57,12 @@
   "afford",
   "after",
   "forget",
-  "every"
+  "every",
+  "give",
+  "spare",
+  "turn",
+  "to",
+  "much"
  ],
  "III_tags": {
   "1": [
@@ -57,22 +78,33 @@
    "not only A but also B",
    "間接疑問",
    "関係代名詞 who（主格）"
+  ],
+  "3": [
+   "look forward to ~ing",
+   "使役動詞 let＋人＋動詞の原形",
+   "the＋比較級, the＋比較級",
+   "too ~ to do",
+   "関係副詞 where"
   ]
  },
  "topic": {
   "r1-1": [
-   0.082,
+   0.081,
    "hirosaki_ref/2026-3"
   ],
   "r2-1": [
-   0.117,
+   0.115,
    "hokudai_ref/2026-4conv"
+  ],
+  "r3-1": [
+   0.1,
+   "hokudai_ref/2024-2"
   ]
  },
  "topic_past_ref": {
   "n": 35,
   "median": 0.047,
-  "max": 0.584
+  "max": 0.586
  },
  "render_fixed": {
   "en4": [],

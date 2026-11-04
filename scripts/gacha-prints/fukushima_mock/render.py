@@ -111,7 +111,8 @@ def part2(P, pts):
     return f'<section class="part">{head("2", pts)}{intro("2")}' + ''.join(dlg_html(it, i) for i, it in enumerate(P['items'], 1)) + '</section>'
 
 def ord_html(it, i):
-    return f'<div class="ordq"><span>({i})</span><span>{e(it["pre"])} ({e(", ".join(sorted(it["words"], key=str.lower)))}) {e(it["post"])}</span></div>'
+    post = it['post'] if re.fullmatch(r'[.?!]', it['post']) else ' ' + it['post']
+    return f'<div class="ordq"><span>({i})</span><span>{e(it["pre"])} ({e(", ".join(sorted(it["words"], key=str.lower)))}){e(post)}</span></div>'
 
 def part3(P, pts):
     return f'<section class="part">{head("3", pts)}{intro("3")}' + ''.join(ord_html(it, i) for i, it in enumerate(P['items'], 1)) + '</section>'
