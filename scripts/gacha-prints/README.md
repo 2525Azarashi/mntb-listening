@@ -2,6 +2,10 @@
 
 アプリの英文法・単語帳のデータから、ガチャの UR 学習プリント（PDF＋サムネイル）を作ります。
 
+## 大学別予想問題の登録ルール
+
+**1回分＝1つの結合PDF＝マイPDF／ガチャで1アイテム**。問題編と解答・解説編を `pdfunite` でこの順に連結し、統合後のPDFを1件だけカタログへ登録します。問題と解答を別カードに登録しないでください。テストで両方の内容・サムネイル・PDFメタデータ・1回1アイテムを確かめます。旧問題／解答の所持IDがあるシリーズをまとめる場合は、両方の旧IDを同じ回の新IDへ正規化します（`tests/mockPrintPairs.test.ts`）。
+
 ```bash
 # 1) 英文法の素データ（手書きの問題・解説）を書き出す
 mkdir -p .tmpwork/eg && cp src/data/egProblems*.ts .tmpwork/eg/
@@ -200,8 +204,9 @@ for R in 1 2 3; do python3 verify.py $R; done   # 語数・平均文長・難語
 # 必要なもの・フォントは神戸大と同じ（osaka_mock/render.py は kobe_mock/render.py の部品を読み込む。kobe 側を壊さないこと）
 cd scripts/gacha-prints/osaka_mock && for R in 1 2 3; do python3 render.py $R; done
 # → .tmpwork/osaka_mock/manatobi_osaka_eng_yoso{n}_{mondai,kaitou}.pdf
-#   を public/prints/print_lr_osaka_{q,a}_{n}.pdf にコピー → サムネイル（book_common.make_thumb と同じ作り方）
-#   → src/data/osakaMockPrints.ts の pages / kb を合わせる → python3 scripts/gacha-prints/build-previews.py
+#   を問題→解答・解説の順に pdfunite で連結し public/prints/print_lr_osaka_{n}.pdf にする
+#   → サムネイル（book_common.make_thumb と同じ作り方）→ src/data/osakaMockPrints.ts の pages / kb を合わせる
+#   → python3 scripts/gacha-prints/build-previews.py → 各回をマイPDFの1アイテムとして登録する
 ```
 - 形式：I 英文和訳(A)(B)／II 長文読解（語句4択・英問4択・字数制限の日本語説明・和訳・英語説明40〜50語・内容一致2つ）／III 自由英作文80語程度／IV 和文英訳(A)全員＋(B)(イ)文学部・(ロ)文学部以外。独自配点 150点（I 30・II 50・III 30・IV 40）。
 - 問題データは `oN_I.py`〜`oN_IV.py`・`oN_II_ja.py`（全訳・語句）（N＝回）。英文・日本文・設問はすべて書き下ろし。
@@ -269,7 +274,7 @@ for R in 1 2 3; do python3 verify.py $R; done   # 大問ごとの語数・平均
 cd scripts/gacha-prints/tohoku_mock && for R in 1 2 3; do python3 render.py $R; done
 # → .tmpwork/tohoku_mock/manatobi_tohoku_eng_yoso{n}_{mondai,kaitou}.pdf
 #   を public/prints/print_lr_tohoku_{q,a}_{n}.pdf にコピー → サムネイル（1ページ目・72dpi・幅360で上510pxを webp q82）
-#   → src/data/tohokuMockPrints.ts の pages / kb を合わせる → python3 scripts/gacha-prints/build-previews.py print_lr_tohoku_q_1 …
+#   → src/data/tohokuMockPrints.ts の pages / kb を合わせる → python3 scripts/gacha-prints/build-previews.py print_lr_tohoku_1 …
 ```
 - 形式：Ⅰ・Ⅱ 長文読解（下線部和訳・内容説明・空所補充・文法正誤〈2つ〉・語句整序・内容一致・文挿入・図表の空所・語義）／Ⅲ 教授と学生の会話文（語義4つ＋意見論述 60〜80語）／Ⅳ 日本文（和文英訳1＋語句整序2〈10個から8個〉）。100分。独自配点 200点（Ⅰ 60・Ⅱ 50・Ⅲ 40・Ⅳ 50）。
 - 問題データは `tN_I.py`〜`tN_IV.py`（N＝回）。本文の記法：`{u1|…}` 下線部・`{gア|…}` 文法正誤の下線・`{wa|…}` 語義の下線・`{o3}` 並べ替え（設問の words / correct から組み立てる）・`[[I]]` 空所・`[[①]]` 文挿入・`[[あ]]` 図表の空所・`*word` 注。
@@ -293,7 +298,7 @@ python3 probe.py '言い換え候補の文' …   # 書き直すときに，候�
 cd scripts/gacha-prints/hirosaki_mock && for R in 1 2 3; do python3 render.py $R; done
 # → .tmpwork/hirosaki_mock/manatobi_hirosaki_eng_yoso{n}_{mondai,kaitou}.pdf
 #   を public/prints/print_lr_hirosaki_{q,a}_{n}.pdf にコピー → サムネイル（1ページ目・72dpi・幅360で上510pxを webp q82）
-#   → src/data/hirosakiMockPrints.ts の pages / kb を合わせる → python3 scripts/gacha-prints/build-previews.py print_lr_hirosaki_q_1 …
+#   → src/data/hirosakiMockPrints.ts の pages / kb を合わせる → python3 scripts/gacha-prints/build-previews.py print_lr_hirosaki_1 …
 ```
 - 形式：大問1・2 は年度によって形式が変わるので，回ごとに変えた（第1回＝会話文読解＋長文読解〈2026年度型〉，第2回＝長文読解＋英文要約400字程度〈2025年度型〉，第3回＝長文読解＋会話文の空所に入る英文を日本語 (a)〜(e) から書く〈2024年度型〉）。大問3 会話の最後の一言を完成（A・B）＋日本の事物を2〜3文の英語で説明（A・B）。大問4 約100語の英作文（e-mail で二択の一方を勧める／規則の利点と欠点／変化の利点と残る課題）。90分。独自配点 200点（各50点）。
 - 問題データは `hN_1.py`〜`hN_4.py`（N＝回）と `hN.py`。大問1・2 は `type`（reading / dialogue / summary / jaen）で形式を切り替える。本文の記法：`{u1|…}` 下線部・`((1))` 会話文の空所・`[...]` 完成させる部分・`word*` 注のある語。
@@ -317,7 +322,7 @@ python3 probe.py '言い換え候補の文' …   # 書き直すときに，候�
 cd scripts/gacha-prints/iwate_mock && for R in 1 2 3; do python3 render.py $R; done
 # → .tmpwork/iwate_mock/manatobi_iwate_eng_yoso{n}_{mondai,kaitou}.pdf
 #   を public/prints/print_lr_iwate_{q,a}_{n}.pdf にコピー → サムネイル（1ページ目・72dpi・幅360で上510pxを webp q82）
-#   → src/data/iwateMockPrints.ts の pages / kb を合わせる → python3 scripts/gacha-prints/build-previews.py print_lr_iwate_q_1 …
+#   → src/data/iwateMockPrints.ts の pages / kb を合わせる → python3 scripts/gacha-prints/build-previews.py print_lr_iwate_1 …
 ```
 - 形式：大問3つ・90分・独自配点 200点。年度によって大問の組み合わせが変わるので回ごとに変えた（第1回＝長文読解（日本語記述）＋短い英文3つ（空所補充・同意語・内容）＋表を読んで120〜150語の英作文，第2回＝長文読解2題（日本語記述・和訳）＋調査結果の表を読んで題をつけた180〜220語の英作文，第3回＝長文読解（日本語記述）＋ことわざについての80語程度の英作文と和文英訳＋長文読解（5択の空所補充・同意語・続きの英文・内容不一致））。
 - 問題データは `iN_1.py`〜`iN_3.py`（本文）と `iN_Mq.py`（設問。書き込みが途中で切れないよう分けた），`iN.py`（配点・架空の人物名）。設問の種類は free（日本語記述。`limit` で原稿用紙）／mcset（記号選択）／write（英作文）／jaen（和文英訳）。本文の記法：`{u1|…}` 下線部・`{w6|…}` 同意語を問う語・`((1))` 空所・`word*` 注のある語。
@@ -341,7 +346,7 @@ python3 probe.py '言い換え候補の文' …   # 書き直すときに，候�
 cd scripts/gacha-prints/akita_mock && for R in 1 2 3; do python3 render.py $R; done
 # → .tmpwork/akita_mock/manatobi_akita_eng_yoso{n}_{mondai,kaitou}.pdf
 #   を public/prints/print_lr_akita_{q,a}_{n}.pdf にコピー → サムネイル（1ページ目・72dpi・幅360で上510pxを webp q82）
-#   → src/data/akitaMockPrints.ts の pages / kb を合わせる → python3 scripts/gacha-prints/build-previews.py print_lr_akita_q_1 …
+#   → src/data/akitaMockPrints.ts の pages / kb を合わせる → python3 scripts/gacha-prints/build-previews.py print_lr_akita_1 …
 ```
 - 形式：60分・大問3つ・独自配点 200点（Ⅰ 70・Ⅱ 70・Ⅲ 60）。Ⅰ・Ⅱは段落番号 [1]〜 つきの記事（約700〜880語・10〜11段落）を読み，英語の設問に4択 (A)〜(D) で答える10問（語義・段落の内容・指示内容・述べられていないもの・本文と合わないもの）。Ⅲは自分の意見を1段落・約120語で書く（第1回＝地域ボランティアの義務化への賛否，第2回＝キャッシュレス決済の利点と欠点を一つずつ，第3回＝大都市か小さな町か）。2024〜2026年度の3年とも同じ構成なので，3回とも同じ形式にした。
 - 問題データは `aN_1.py`・`aN_2.py`（本文）と `aN_1q.py`・`aN_2q.py`（設問。書き込みが途中で切れないよう分けた），`aN_3.py`（英作文），`aN.py`（配点・架空の固有名詞）。本文の記法：`{u|…}` 設問で問う語句（下線）・`word*` 注のある語。設問文の `<<…>>` は本文中の語句（太字斜体）。解答・解説では各設問に日本語訳をつけた。
@@ -364,7 +369,7 @@ python3 probe.py '言い換え候補の文' …   # 書き直すときに，候�
 cd scripts/gacha-prints/yamagata_mock && for R in 1 2 3; do python3 render.py $R; done
 # → .tmpwork/yamagata_mock/manatobi_yamagata_eng_yoso{n}_{mondai,kaitou}.pdf
 #   を public/prints/print_lr_yamagata_{q,a}_{n}.pdf にコピー → サムネイル（1ページ目・72dpi・幅360で上510pxを webp q82）
-#   → src/data/yamagataMockPrints.ts の pages / kb を合わせる → python3 scripts/gacha-prints/build-previews.py print_lr_yamagata_q_1 …
+#   → src/data/yamagataMockPrints.ts の pages / kb を合わせる → python3 scripts/gacha-prints/build-previews.py print_lr_yamagata_1 …
 ```
 - 形式：90分・英文2本・独自配点 200点。設問の指示は英語。設問は語義（同意語の選択）・並べ替え・下線部和訳・日本語での説明（50〜60字・80〜90字などの字数指定）・語群からの空所補充・内容一致（2つ選ぶ／T・F）・英語1語で答える問題・英作文。2024・2025年度は大問Ⅰ・Ⅱに1本ずつ（英作文 40〜50語・55〜65語），2026年度は1つの大問に新聞記事2本（英作文 at least 100 words）なので，第1・2回は大問Ⅰ・Ⅱ（各100点），第3回は2記事融合の大問Ⅰ（200点・英作文100語以上）にした。
 - 問題データは `yN_M.py`（本文。第3回は `y3_1a.py`・`y3_1b.py` の2記事）・`yN_Mt.py`（全訳）・`yN_Mq.py`（設問）と `yN.py`（配点・架空の固有名詞）。書き込みが途中で切れないよう分けた。本文の記法：`{u|…}` 下線・`{s|…}` 説明させる箇所・`{o|a / b}` 並べ替え・`[[a]]` 空所・`word*` 注のある語。設問文の `¶N` は段落番号（丸数字）になる。解答・解説では各設問に日本語訳をつけた。
@@ -525,3 +530,27 @@ python3 scripts/gacha-prints/build-previews.py print_lr_niji_yamaguchi_en_1 prin
 - 照合：過去問（画像PDFは200dpiで全ページOCR）・解答例・出題の意図と、英語5語・日本語12字の連続一致が 0 件（指示文の決まり文句も言い換え済み）。照合用のテキストは著作物なので git に入れない。
 - render.py が検査すること：大問ごとの配点と合計200、本文の語数（880〜1080語）・全訳の段落数、下線部の位置、英語で答える問題の語数と「本文の語句で」の語が本文にあるか、頭文字つき空所の頭文字、T/F の偏り、出来事の順番が最初から正解の順になっていないこと、Ⅲ の空所数・解答例2つずつ・採点の目安の合計。
 
+## LR：福島大学 前期日程 英語（経済経営学類〔令和9年度から政経学部（仮称）〕 英語・小論文選択の「英語」）予想問題（3回分・白黒）2026-11-04
+
+```bash
+# 必要なもの・フォントは神戸大と同じ（fukushima_mock/render.py は kobe_mock/render.py と hokudai_mock/render.py の部品を読み込む。両方を壊さないこと）
+cd scripts/gacha-prints/fukushima_mock && for R in 1 2 3; do python3 render.py $R; done
+# → .tmpwork/fukushima_mock/manatobi_fukushima_eng_yoso{n}_{mondai,kaitou}.pdf
+#   を public/prints/print_lr_fukushima_{q,a}_{n}.pdf にコピー → サムネイル（1ページ目・72dpi・幅360で上510pxを webp q82）
+#   → src/data/fukushimaMockPrints.ts の pages / kb を合わせる → python3 scripts/gacha-prints/build-previews.py print_lr_fukushima_1 …
+```
+- 対象の選び方：福島大学の前期日程で英語の個別試験があるのは，経済経営学類の「英語・小論文から1科目選択」の英語だけ（人間発達文化・行政政策・共生システム理工・食農は小論文・数学・理科など。人文科学コースの英語は課程が別）。令和9年度からは政経学部（仮称）の前期日程で同じ選択科目として続く（大学の入学者選抜要項で確認）。
+- 形式：70分・大問4つ・独自配点 200点（Ⅰ 100・Ⅱ 25・Ⅲ 25・Ⅳ 50）。Ⅰは約320〜370語の英文を読み，日本語で答える設問6つ（うち下線部和訳2つ）。Ⅱは対話文の空所に英単語1語×5。Ⅲは6語句の並べかえ×5（(　)内の語句だけを書く）。Ⅳは2つの英語の問いから1つを選んで100語程度の英作文。2024〜2026年度の3年とも同じ構成なので，3回とも同じ形式にした。
+- 問題データは `fN_1.py`（本文・注・全訳）・`fN_1q.py`（Ⅰの設問）・`fN_2.py`（Ⅱの対話・Ⅲの並べかえ）・`fN_4.py`（Ⅳ）・`fN.py`（配点・架空の固有名詞）。本文の記法：`{a|…}`・`{b|…}` 和訳させる下線（記号つき）・`word*` 注のある語。Ⅲの各問には問う文法のタグ（`tag`）をつけ，同じ回で重ならないことを `check.py` が確かめる。
+- 表紙と奥付に「福島大学の過去問・公式問題ではありません。予想問題であり，大学とは関係がありません」（`tests/fukushimaMockPrints.test.ts` が確認）。2ページ目以降に注記ヘッダーは付けない。登場人物・団体・地名は架空。
+- 分析に使った資料：大学公式サイト（入試情報「過去問題（学類入学試験）」）で公開されている 2024〜2026年度（R6〜R8）の経済経営学類 前期日程「英語・小論文」の問題冊子（画像PDFを OCR。R7 のⅠの英文は著作権のため非公開）と出題意図。OCR は `.tmpwork/fukushima_ref/` に置くだけで，本文・設問・解答は引用しない。解答例は大学が公表していない。
+- 難易度の基準（`verify.py` の冒頭に記載）：Ⅰの本文 280〜420語（R6 約380語・R8 約320語）・平均文長 14〜25語・難語率 2〜10%。Ⅲの完成文 7〜20語。Ⅳの解答例 90〜120語。
+
+### 福島大 予想問題：品質・オリジナル性の検査（商用利用のため毎回実行）2026-11-04
+
+```bash
+cd scripts/gacha-prints/fukushima_mock
+python3 check.py 1 2 3     # 英語4語／日本語13字の一致（福島大の公式PDF・出題意図＋山形大・秋田大・岩手大・弘前大・東北大・北大・神戸大・阪大・立命館）・人物名・禁止語・下線と和訳の設問の対応・注の付け忘れ・全訳の段落数・配点と採点基準の合計・Ⅱの空所1つ／1語／正解の重複（3回を通して）・Ⅲの語句6つ／正解が語句の並べかえ／表示順と正解が同じでない／文法タグの重複・Ⅳの問い2つと解答例2つ・題材の近さ・render.py の固定文言 → logs/check.json（ng が空であること）
+for R in 1 2 3; do python3 verify.py $R; done   # Ⅰの語数・平均文長・難語率・和訳の数・解答例の字数，Ⅲの文の長さ，Ⅳの解答例の語数 → logs/verify_rN.json
+python3 probe.py '言い換え候補の文' …   # 書き直すときに，候補が過去問と重ならないかを先に試す
+```

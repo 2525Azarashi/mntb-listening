@@ -20,6 +20,7 @@ import { gachaRarityOf, printOf, type GachaRarity, type GrowthProgress, type Ite
 import { PRINT_SHELVES, printShelfOf, type PrintShelfId } from '../../battle/core/printShelves';
 import { COLLECTION_KINDS, ItemArt, PrintLinks, RarityTag, pct, type CollectionKind } from '../GachaParts';
 import { DEFAULT_GACHA_POOL, gachaPoolOf, type GachaPoolId } from '../../battle/core/gachaPools';
+import { availableCollectionRarities, filterCollectionByRarity, type CollectionRarityFilter } from './collectionFilters';
 
 export function GachaCollectionModal({ oddsDialog, items, tiers, progress, pool = DEFAULT_GACHA_POOL }: {
   oddsDialog: RefObject<HTMLDialogElement | null>;
@@ -33,11 +34,15 @@ export function GachaCollectionModal({ oddsDialog, items, tiers, progress, pool 
   const [collectionKind, setCollectionKind] = useState<CollectionKind>('body');
   const [tab, setTab] = useState<'odds' | 'collection'>('odds');
   const [shelf, setShelf] = useState<PrintShelfId | 'all'>('all');
+  const [collectionRarity, setCollectionRarity] = useState<CollectionRarityFilter>('all');
   const kindList = items.filter(COLLECTION_KINDS.find((k) => k.id === collectionKind)!.match);
   const shelfOfItem = (i: ItemDef): PrintShelfId | null => { const p = printOf(i.id); return p ? printShelfOf(p) : null; };
   const shelfCount = new Map<PrintShelfId, number>();
   if (collectionKind === 'print') for (const i of kindList) { const sh = shelfOfItem(i); if (sh) shelfCount.set(sh, (shelfCount.get(sh) ?? 0) + 1); }
+  // 棚（地方・教科）で絞ったあと、さらにレア度で絞る（#176 のレア度ボタンと両立）
   const collectionList = collectionKind === 'print' && shelf !== 'all' ? kindList.filter((i) => shelfOfItem(i) === shelf) : kindList;
+  const rarityOptions = collectionKind === 'print' ? availableCollectionRarities(collectionList) : [];
+  const rarityFilteredList = filterCollectionByRarity(collectionList, collectionRarity);
   return (
     <dialog ref={oddsDialog} className="game-details-dialog mt-dialog" aria-labelledby="gacha-odds-title">
       <header>
@@ -97,7 +102,7 @@ export function GachaCollectionModal({ oddsDialog, items, tiers, progress, pool 
               key={k.id}
               type="button"
               aria-pressed={collectionKind === k.id}
-              onClick={() => { setCollectionKind(k.id); setShelf('all'); }}
+              onClick={() => { setCollectionKind(k.id); setShelf('all'); setCollectionRarity('all'); }}
             >
               {k.label} {items.filter(k.match).length}
             </button>
@@ -106,11 +111,36 @@ export function GachaCollectionModal({ oddsDialog, items, tiers, progress, pool 
         {collectionKind === 'print' && shelfCount.size > 1 && (
           <nav className="gacha-pickup-shelves" aria-label="PDFの棚" data-odds-shelves>
             {[{ id: 'all' as const, label: 'すべて' }, ...PRINT_SHELVES.filter((sh) => shelfCount.has(sh.id))].map((sh) => (
-              <button key={sh.id} type="button" aria-pressed={shelf === sh.id} data-shelf={sh.id} onClick={() => setShelf(sh.id)}>
+              <button key={sh.id} type="button" aria-pressed={shelf === sh.id} data-shelf={sh.id} onClick={() => { setShelf(sh.id); setCollectionRarity('all'); }}>
                 {sh.label}{sh.id !== 'all' && <small>{shelfCount.get(sh.id)}</small>}
               </button>
             ))}
           </nav>
+        )}
+        {collectionKind === 'print' && (
+          <div className="gacha-collection-filters gacha-collection-rarities" role="group" aria-label="PDFのレアリティで絞り込む">
+            <button
+              type="button"
+              aria-pressed={collectionRarity === 'all'}
+              onClick={() => setCollectionRarity('all')}
+            >
+              すべて {collectionList.length}
+            </button>
+            {rarityOptions.map((rarity) => {
+              const count = filterCollectionByRarity(collectionList, rarity).length;
+              return (
+                <button
+                  key={rarity}
+                  type="button"
+                  aria-label={`${rarity}のPDF ${count}件`}
+                  aria-pressed={collectionRarity === rarity}
+                  onClick={() => setCollectionRarity(rarity)}
+                >
+                  {rarity} {count}
+                </button>
+              );
+            })}
+          </div>
         )}
         <div className="gacha-collection-filters" role="group" aria-label="所持状況で絞り込む">
           {(
@@ -130,8 +160,8 @@ export function GachaCollectionModal({ oddsDialog, items, tiers, progress, pool 
             </button>
           ))}
         </div>
-        <ul className="gacha-collection-grid" data-kind={collectionKind}>
-          {collectionList
+        <ul className="gacha-collection-grid" data-kind={collectionKind} data-rarity={collectionKind === 'print' ? collectionRarity : undefined}>
+          {rarityFilteredList
             .filter(
               (item) =>
                 collectionFilter === 'all' ||
@@ -154,7 +184,7 @@ export function GachaCollectionModal({ oddsDialog, items, tiers, progress, pool 
             })}
         </ul>
         {(() => {
-          const list = collectionList;
+          const list = rarityFilteredList;
           const n = list.filter((item) => progress?.owned.includes(item.id)).length;
           return (
             <>
