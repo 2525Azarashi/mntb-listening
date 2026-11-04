@@ -44,7 +44,7 @@ P2 = {
         {'label': '問2', 'type': 'order', 'ref': 2, 'points': 4, 'kind': '語の並べかえ', 'seed': 1202,
          'words': ['could', 'be', 'repaired', 'in', 'less', 'than', 'ten', 'minutes'],
          'ja': '10分もかからずに修理できるだろう',
-         'stem': '下線部(2)の（　）内の語を，文脈に合うように並べかえて英文を完成させ，記号を左から順に書きなさい。',
+         'stem': '下線部(2)が前後の内容と自然につながる英語になるよう，（　）内の語を正しい順に置きかえ，記号を左から順に書きなさい。',
          'expl': '主語 Most of the things people throw away に続く述語。助動詞 could ＋受動態 be repaired。「10分もかからずに」は in less than ten minutes。後ろに続く「ゆるんだ配線，なくなったねじ」が簡単な修理の例になっている。'},
         {'label': '問3', 'type': 'mc', 'ref': 3, 'points': 3, 'kind': '指示語',
          'stem': '下線部(3)の they が指すものとしてもっともふさわしいものを，次の(イ)〜(ニ)から一つ選び，記号を書きなさい。',

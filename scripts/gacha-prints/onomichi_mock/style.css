@@ -201,3 +201,4 @@ table.ast.c8 th { min-width: 19mm; }
 table.fill4 { border-collapse: collapse; margin: 1mm 0 3mm 6mm; }
 .fill4 th { border: 1px solid #111; font-weight: normal; font-size: 8.6pt; padding: 0.5mm 2.5mm; font-family: 'Noto Sans CJK JP', sans-serif; }
 .fill4 td { border: 1px solid #111; width: 24mm; height: 11mm; }
+.qhead { break-after: avoid; }
