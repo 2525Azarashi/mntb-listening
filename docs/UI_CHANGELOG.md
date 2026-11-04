@@ -1371,3 +1371,13 @@
 | 2次試験ガチャの表示 | LR の説明文とピックアップの注意書きに福島大学を追加。福島大の景品の詳細にも大学名入りの「過去問・公式問題ではありません」の注意書きを出す | `src/battle/core/gachaPools.ts`、`src/data/nijiMockPrints.ts` |
 
 **戻し方**：`growthItems.ts` の `FUKUSHIMA_MOCK_PRINTS`（import・ITEMS・printOf の3か所）と `gachaPools.ts` の import・`UNIV_MOCK_PRINT_IDS` から外し、`nijiMockPrints.ts` の `OTHER_MOCK_UNIVERSITIES` から fukushima を消す。`fukushimaMockPrints.ts`・`public/prints/*fukushima*`・`tests/fukushimaMockPrints.test.ts` を消して `build-previews.py` を流し直す。
+
+### 2026-11-04 2次試験ガチャ LR に宇都宮大学 前期 英語 予想問題を追加
+
+| 場所 | 変更 | ファイル |
+|---|---|---|
+| 2次試験ガチャの LR | 宇都宮大学 前期日程 英語（データサイエンス経営学部・国際学部・工学部・農学部 共通）予想問題（第1〜3回。各回「問題＋解答・解説」を1冊に統合）の3種を追加。2次試験ガチャの LR はこの3種を加えた数で等分（LR の割合 1% は同じ）。共通テストガチャには出ない | `src/data/utsunomiyaMockPrints.ts`（新規）、`src/battle/core/growthItems.ts`、`src/battle/core/gachaPools.ts`、`src/battle/core/growth.ts` |
+| 2次試験ガチャの表示 | LR の説明文とピックアップの注意書きに宇都宮大学を追加。宇都宮大の景品の詳細にも大学名入りの「過去問・公式問題ではありません」の注意書きを出す | `src/battle/core/gachaPools.ts`、`src/data/nijiMockPrints.ts` |
+| PDF の棚 | 宇都宮大の予想問題は「2次 関東・中部」の棚に並ぶ | `src/battle/core/printShelves.ts` |
+
+**戻し方**：`growthItems.ts` の `UTSUNOMIYA_MOCK_PRINTS`（import・ITEMS・printOf の3か所）と `gachaPools.ts` の import・`UNIV_MOCK_PRINT_IDS` から外し、`nijiMockPrints.ts` の `OTHER_MOCK_UNIVERSITIES`・`growth.ts` の旧ID正規化・`printShelves.ts` の `UNIV_REGION`・`tests/mockPrintPairs.test.ts` から utsunomiya を消す。`utsunomiyaMockPrints.ts`・`public/prints/*utsunomiya*`・`tests/utsunomiyaMockPrints.test.ts` を消して `build-previews.py` を流し直す。
