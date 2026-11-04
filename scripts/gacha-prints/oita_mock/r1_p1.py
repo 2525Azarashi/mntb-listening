@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # 第1回 〔1〕 長文読解（3学部共通）— 本文・全訳・語句。英文はすべて書き下ろし（人物・町・数値は架空）
 P1 = {
-    'lead': '次の英文を読んで，あとの問いに答えなさい。',
+    'lead': '次の英文を読み，下の設問に答えなさい。',
     'title': 'The Return of the Repair Café',
     'passage': [
         'On the first Saturday of every month, the community hall in the small town of Westerby fills up with broken things. '

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # 第1回 〔2〕 医学部：長文読解（医療の話題）— 本文・全訳・語句。英文は書き下ろし（病院・人物・数値は架空）
 M2 = {
-    'lead': '次の英文を読んで，あとの問いに答えなさい。',
+    'lead': '次の英文を読み，下の設問に答えなさい。',
     'title': 'When Alarms Stop Being Heard',
     'passage': [
         'Walk into any intensive care unit and you will hear a constant chorus of electronic sounds. Monitors beep when a patient’s heart rate rises, '

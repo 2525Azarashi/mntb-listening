@@ -25,7 +25,7 @@ M2Q = {'questions': [
      'criteria': [('基準値の拡大・遅れの設定・センサーの毎日交換・患者ごとの調整のうち1つ目（25字以内）', 4),
                   ('同じく2つ目（25字以内）', 4), ('同じく3つ目（25字以内）', 4)]},
     {'label': '問4', 'kind': '下線部和訳', 'type': 'ja', 'points': 12, 'ref': 'A', 'lines': 3,
-     'stem': '下線部(A)を日本語に訳しなさい。',
+     'stem': '下線部(A)を和訳しなさい。',
      'answer': '警報を切ることが答えなのではない。目標は，警報が鳴ったときには，それが耳を傾ける価値のあるものになるようにすることである。',
      'expl': 'Turning alarms off は動名詞の主語「警報を切ること」。the goal is to make sure that ～ は「目標は～であることを確実にすることだ」。'
              'it is worth listening to は be worth ～ing「～する価値がある」で，listen to の to を落とさないのがポイント（it が listen to の目的語にあたる）。',

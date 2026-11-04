@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # 第2回 〔1〕 長文読解（3学部共通）— 本文・全訳・語句。英文はすべて書き下ろし（人物・実験・数値は架空）
 P1 = {
-    'lead': '次の英文を読んで，あとの問いに答えなさい。',
+    'lead': '次の英文を読み，下の設問に答えなさい。',
     'title': 'In Praise of Boredom',
     'passage': [
         'Ask a group of parents what they dread most during the long summer holiday, and many will give the same answer: the moment their child says, “I’m bored.” '

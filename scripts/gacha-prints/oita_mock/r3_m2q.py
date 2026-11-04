@@ -25,7 +25,7 @@ M2Q = {'questions': [
      'criteria': [('患者が求める・医師が処方してしまう・途中でやめる・家畜に与える のうち1つ目（25字以内）', 4),
                   ('同じく2つ目（25字以内）', 4), ('同じく3つ目（25字以内）', 4)]},
     {'label': '問4', 'kind': '下線部和訳', 'type': 'ja', 'points': 12, 'ref': 'A', 'lines': 3,
-     'stem': '下線部(A)を日本語に訳しなさい。',
+     'stem': '下線部(A)を和訳しなさい。',
      'answer': '抗生物質が使われる回数が多ければ多いほど，耐性菌が広がる機会は多くなる。',
      'expl': 'The 比較級 ～, the 比較級 …「～すればするほど…」。後半は there are more chances for resistant bacteria to spread が元の形で，'
              'for resistant bacteria は to spread の意味上の主語「耐性菌が広がる」。chances は「機会・可能性」。',

@@ -25,7 +25,7 @@ M2Q = {'questions': [
      'criteria': [('元気だと感じる・副作用への恐れ・費用・必要性を理解していない のうち1つ目（25字以内）', 4),
                   ('同じく2つ目（25字以内）', 4), ('同じく3つ目（25字以内）', 4)]},
     {'label': '問4', 'kind': '下線部和訳', 'type': 'ja', 'points': 12, 'ref': 'A', 'lines': 3,
-     'stem': '下線部(A)を日本語に訳しなさい。',
+     'stem': '下線部(A)を和訳しなさい。',
      'answer': '患者は処方せんを手にしてはいても，その薬が何をするのか，飲むのをやめたら何が起こりうるのかをはっきり分からないまま診察室を出ることが多い。',
      'expl': 'with a prescription in their hand「処方せんを手にして」と but without a clear idea of ～「～がはっきり分からないまま」が対比になっている。'
              'idea of のあとに what the drug does と what might happen if ～ の2つの間接疑問が or で並ぶ。might は「起こるかもしれない」。',

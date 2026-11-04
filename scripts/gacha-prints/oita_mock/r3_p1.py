@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # 第3回 〔1〕 長文読解（3学部共通）— 本文・全訳・語句。英文はすべて書き下ろし（人物・町・調査・数値は架空）
 P1 = {
-    'lead': '次の英文を読んで，あとの問いに答えなさい。',
+    'lead': '次の英文を読み，下の設問に答えなさい。',
     'title': 'Bringing Back the Dark',
     'passage': [
         'When Rosa Elling was a child, she could lie on the grass behind her grandparents’ farmhouse and see the Milky Way stretching across the sky like a river of light. '

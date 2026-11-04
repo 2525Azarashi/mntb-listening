@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # 第2回 〔2〕 医学部：長文読解（医療の話題）— 本文・全訳・語句。英文は書き下ろし（人物・診療所・数値は架空）
 M2 = {
-    'lead': '次の英文を読んで，あとの問いに答えなさい。',
+    'lead': '次の英文を読み，下の設問に答えなさい。',
     'title': 'The Medicine That Stays in the Bottle',
     'passage': [
         'Modern medicine has produced drugs that can control blood pressure, prevent heart attacks and keep diseases such as diabetes in check. '
