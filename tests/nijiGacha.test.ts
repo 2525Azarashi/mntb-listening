@@ -95,7 +95,7 @@ describe('2次試験ガチャ：抽選', () => {
 
 describe('2次試験の予想問題 PDF', () => {
   it('台帳のページ数・ファイル・サムネイルが実物と合う', () => {
-    expect(NIJI_MOCK_PRINTS.length).toBe(54); // 名古屋・静岡・大阪公立A/B・和歌山・岡山・広島・東京学芸・琉球・熊本・佐賀・金沢・富山（共通/医学科）・福井（教育/医学科/国際地域）・福井県立 各3
+    expect(NIJI_MOCK_PRINTS.length).toBe(75); // 名古屋・静岡・大阪公立A/B・和歌山・岡山・広島・東京学芸・琉球・熊本・佐賀・金沢・富山（共通/医学科）・福井（教育/医学科/国際地域）・福井県立・岐阜・三重・名古屋工業・名古屋市立・愛知県立（外国語/3学部）・愛知教育 各3
     for (const u of NIJI_UNIVERSITIES) expect(NIJI_MOCK_PRINTS.filter((p) => nijiUniversityOf(p.id)?.id === u.id).length, u.id).toBe(3);
     for (const p of NIJI_MOCK_PRINTS) {
       expect(existsSync(`public${p.file}`), p.id).toBe(true);
@@ -133,6 +133,11 @@ describe('2次試験の予想問題 PDF', () => {
     for (const name of ['金沢大学', '富山大学', '福井大学', '福井県立大学']) expect(NIJI_DISCLAIMER, name).toContain(name);
     expect(nijiUniversityOf('print_lr_niji_toyamamed_en_1')?.track).toBe('医学部医学科');
     expect(nijiUniversityOf('print_lr_niji_fpu_en_3')?.name).toBe('福井県立大学');
+    for (const name of ['岐阜大学', '三重大学', '名古屋工業大学', '名古屋市立大学', '愛知県立大学', '愛知教育大学']) expect(NIJI_DISCLAIMER, name).toContain(name);
+    expect(NIJI_DISCLAIMER.split('愛知県立大学').length - 1).toBe(1);
+    expect(nijiUniversityOf('print_lr_niji_apua_en_2')?.track).toBe('外国語学部');
+    expect(NIJI_MOCK_PRINTS.find((p) => p.id === 'print_lr_niji_apub_en_1')!.label).toContain('日本文化・教育福祉・看護学部');
+    expect(nijiUniversityOf('print_lr_niji_aue_en_3')?.name).toBe('愛知教育大学');
     expect(NIJI_MOCK_PRINTS.find((p) => p.id === 'print_lr_niji_okayama_en_1')!.label).toBe('国公立2次 英語 予想問題 岡山大学 前期対策 第1回（問題＋解答・解説）');
     expect(readFileSync('src/components/gacha/GachaPickupModal.tsx', 'utf8')).toContain('NIJI_DISCLAIMER');
   });

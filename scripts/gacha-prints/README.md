@@ -231,3 +231,18 @@ python3 scripts/gacha-prints/build-previews.py print_lr_niji_fpu_en_1 …   # pr
 - 北陸の公立大学のうち、2次（前期）で英語を課すのは福井県立大学のみ（公立小松大学・富山県立大学・石川県立大学などは確認のうえ対象外）。
 - 照合：`python3 work/plag/niji_check.py kanazawa toyama toyamamed fukuie fukuim fukuig fpu` で英5語・日12字の一致0件を確認。
 
+
+### 東海の国公立 前期対策：岐阜・三重・名古屋工業・名古屋市立・愛知県立・愛知教育大学（2026-11-04 追加）
+
+```bash
+# 中身は webapp/pdf/{gifu,mie,nit,ncu,apua,apub,aue}/r{1,2,3}.py（愛知県立の共通Ⅰ・Ⅱは webapp/pdf/apu_shared/apu_c{1,2,3}.py）
+cd webapp/pdf/aue && python3 build.py 1      # → 予想問題_愛知教育大学_英語_第1回_{問題,解答解説}.pdf
+pdfunite 予想問題_愛知教育大学_英語_第1回_問題.pdf 予想問題_愛知教育大学_英語_第1回_解答解説.pdf public/prints/print_lr_niji_aue_en_1.pdf
+python3 scripts/gacha-prints/build-previews.py print_lr_niji_aue_en_1 …   # previews（thumbs は1ページ目を 360×510 webp）
+```
+
+- 岐阜 `gifu`・三重 `mie`・名古屋工業 `nit`・名古屋市立 `ncu`（前期・英語を課す学部の共通問題を想定）・愛知教育 `aue`（英語専修を想定）は各3回分。
+- 愛知県立大学は、Ⅰ・Ⅱが全学部共通で、外国語学部はⅣ、日本文化・教育福祉・看護学部はⅢを解く。系統別に `apua`（外国語学部）・`apub`（3学部）を各3回分。共通のⅠ・Ⅱは両方の冊子で同じ問題。
+- 大問の見出しを「Ⅳ Part A」のように出すため、`niji_common.py` の CFG に `sec_labels`（[(バッジ, 見出し), …]）を足した（他大学は従来どおり）。
+- 対象外：浜松医科・静岡県立・静岡文化芸術（別途対応）、名古屋市立の中期・薬学部、三重県立看護（前期の過去問が非公開のため保留）。
+- 照合：`python3 work/plag/niji_check.py gifu mie nit ncu apua apub aue` で英5語・日12字の一致0件を確認。

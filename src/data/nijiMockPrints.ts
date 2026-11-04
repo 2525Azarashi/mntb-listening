@@ -21,6 +21,15 @@
  *   - 福井大学 前期対策（2026-11-03 追加）：教育学部・医学部医学科・国際地域学部で問題が異なるため、各3回分（計9冊）。
  *   - 福井県立大学 前期対策（2026-11-03 追加）：英語を課す学部・学科の共通問題（長文・和文英訳・自由英作文）・90分・100点。3回分。
  *     （北陸の公立大学で2次に英語を課すのは福井県立大学のみ）
+ *   - 岐阜大学 前期対策（2026-11-04 追加）：英語を課す学部の共通問題・3回分。
+ *   - 三重大学 前期対策（2026-11-04 追加）：英語を課す学部の共通問題（大問Ⅰ〜Ⅲ）・80分・100点。3回分。
+ *   - 名古屋工業大学 前期対策（2026-11-04 追加）：大問Ⅰ〜Ⅴ（短文読解・空所補充・長文・英文の計算/図表・図表を読む英作文）・80分・100点。3回分。
+ *   - 名古屋市立大学 前期対策（2026-11-04 追加）：英語を課す学部の共通問題を想定（長文3題＋自由英作文）・120分・100点。3回分。
+ *     （自由英作文は年度により出題されないことがあるが、演習のため毎回入れている）
+ *   - 愛知県立大学 前期対策（2026-11-04 追加）：Ⅰ・Ⅱは全学部共通、外国語学部はⅣ、日本文化・教育福祉・看護学部はⅢを解くため、
+ *     外国語学部用・3学部用を各3回分（計6冊）。90分・100点。設問の指示は英語。
+ *   - 愛知教育大学 前期対策（2026-11-04 追加）：大問Ⅰ〜Ⅳ（日本語で答える長文2題・誤り指摘/空所補充/英文要約・図表の要約と意見200語）
+ *     ・100分・100点（各25点）。英語専修の志望者を想定。3回分。図表の数値は架空。
  *   ★過去問ではない★ 英文・設問・図表・解答はすべて書き下ろし。過去問・解答速報・講評の文章は引用していない
  *   （英語5語以上・日本語12字以上の連続一致がないことを機械で確認済み）。表紙と奥付に「大学とは関係がない」旨を明記。
  *
@@ -51,6 +60,13 @@ export const NIJI_UNIVERSITIES = [
   { id: 'fukuim', name: '福井大学', track: '医学部医学科' },
   { id: 'fukuig', name: '福井大学', track: '国際地域学部' },
   { id: 'fpu', name: '福井県立大学', track: '' },
+  { id: 'gifu', name: '岐阜大学', track: '' },
+  { id: 'mie', name: '三重大学', track: '' },
+  { id: 'nit', name: '名古屋工業大学', track: '' },
+  { id: 'ncu', name: '名古屋市立大学', track: '' },
+  { id: 'apua', name: '愛知県立大学', track: '外国語学部' },
+  { id: 'apub', name: '愛知県立大学', track: '日本文化・教育福祉・看護学部' },
+  { id: 'aue', name: '愛知教育大学', track: '' },
 ] as const;
 export type NijiUniversityId = (typeof NIJI_UNIVERSITIES)[number]['id'];
 
@@ -85,6 +101,13 @@ const fukuie = (n: number, pages: number, kb: number) => mock('fukuie', n, pages
 const fukuim = (n: number, pages: number, kb: number) => mock('fukuim', n, pages, kb);
 const fukuig = (n: number, pages: number, kb: number) => mock('fukuig', n, pages, kb);
 const fpu = (n: number, pages: number, kb: number) => mock('fpu', n, pages, kb);
+const gifu = (n: number, pages: number, kb: number) => mock('gifu', n, pages, kb);
+const mie = (n: number, pages: number, kb: number) => mock('mie', n, pages, kb);
+const nit = (n: number, pages: number, kb: number) => mock('nit', n, pages, kb);
+const ncu = (n: number, pages: number, kb: number) => mock('ncu', n, pages, kb);
+const apua = (n: number, pages: number, kb: number) => mock('apua', n, pages, kb);
+const apub = (n: number, pages: number, kb: number) => mock('apub', n, pages, kb);
+const aue = (n: number, pages: number, kb: number) => mock('aue', n, pages, kb);
 
 export const NIJI_MOCK_PRINTS: readonly GachaPrintDef[] = [
   nagoya(1, 28, 2026),
@@ -141,6 +164,27 @@ export const NIJI_MOCK_PRINTS: readonly GachaPrintDef[] = [
   fpu(1, 20, 1870),
   fpu(2, 19, 1847),
   fpu(3, 20, 1846),
+  gifu(1, 32, 1957),
+  gifu(2, 32, 1939),
+  gifu(3, 32, 1936),
+  mie(1, 21, 1907),
+  mie(2, 22, 1925),
+  mie(3, 22, 1903),
+  nit(1, 26, 1959),
+  nit(2, 26, 1944),
+  nit(3, 26, 1940),
+  ncu(1, 26, 1965),
+  ncu(2, 26, 1943),
+  ncu(3, 26, 1954),
+  apua(1, 31, 1928),
+  apua(2, 31, 1926),
+  apua(3, 30, 1922),
+  apub(1, 31, 1933),
+  apub(2, 31, 1934),
+  apub(3, 31, 1934),
+  aue(1, 25, 1996),
+  aue(2, 25, 2000),
+  aue(3, 24, 2007),
 ];
 
 /** その大学の予想問題に必ず添える注意書き（PDF の表紙・奥付と同じ文） */

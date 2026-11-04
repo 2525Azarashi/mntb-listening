@@ -296,5 +296,89 @@ export const GACHA_PREVIEWS: Readonly<Record<string, readonly string[]>> = {
   "print_lr_niji_fpu_en_3": [
     "/prints/previews/print_lr_niji_fpu_en_3_p2.webp",
     "/prints/previews/print_lr_niji_fpu_en_3_p10.webp"
+  ],
+  "print_lr_niji_gifu_en_1": [
+    "/prints/previews/print_lr_niji_gifu_en_1_p2.webp",
+    "/prints/previews/print_lr_niji_gifu_en_1_p16.webp"
+  ],
+  "print_lr_niji_gifu_en_2": [
+    "/prints/previews/print_lr_niji_gifu_en_2_p2.webp",
+    "/prints/previews/print_lr_niji_gifu_en_2_p16.webp"
+  ],
+  "print_lr_niji_gifu_en_3": [
+    "/prints/previews/print_lr_niji_gifu_en_3_p2.webp",
+    "/prints/previews/print_lr_niji_gifu_en_3_p16.webp"
+  ],
+  "print_lr_niji_mie_en_1": [
+    "/prints/previews/print_lr_niji_mie_en_1_p2.webp",
+    "/prints/previews/print_lr_niji_mie_en_1_p11.webp"
+  ],
+  "print_lr_niji_mie_en_2": [
+    "/prints/previews/print_lr_niji_mie_en_2_p2.webp",
+    "/prints/previews/print_lr_niji_mie_en_2_p11.webp"
+  ],
+  "print_lr_niji_mie_en_3": [
+    "/prints/previews/print_lr_niji_mie_en_3_p2.webp",
+    "/prints/previews/print_lr_niji_mie_en_3_p11.webp"
+  ],
+  "print_lr_niji_nit_en_1": [
+    "/prints/previews/print_lr_niji_nit_en_1_p2.webp",
+    "/prints/previews/print_lr_niji_nit_en_1_p13.webp"
+  ],
+  "print_lr_niji_nit_en_2": [
+    "/prints/previews/print_lr_niji_nit_en_2_p2.webp",
+    "/prints/previews/print_lr_niji_nit_en_2_p13.webp"
+  ],
+  "print_lr_niji_nit_en_3": [
+    "/prints/previews/print_lr_niji_nit_en_3_p2.webp",
+    "/prints/previews/print_lr_niji_nit_en_3_p13.webp"
+  ],
+  "print_lr_niji_ncu_en_1": [
+    "/prints/previews/print_lr_niji_ncu_en_1_p2.webp",
+    "/prints/previews/print_lr_niji_ncu_en_1_p13.webp"
+  ],
+  "print_lr_niji_ncu_en_2": [
+    "/prints/previews/print_lr_niji_ncu_en_2_p2.webp",
+    "/prints/previews/print_lr_niji_ncu_en_2_p13.webp"
+  ],
+  "print_lr_niji_ncu_en_3": [
+    "/prints/previews/print_lr_niji_ncu_en_3_p2.webp",
+    "/prints/previews/print_lr_niji_ncu_en_3_p13.webp"
+  ],
+  "print_lr_niji_apua_en_1": [
+    "/prints/previews/print_lr_niji_apua_en_1_p2.webp",
+    "/prints/previews/print_lr_niji_apua_en_1_p16.webp"
+  ],
+  "print_lr_niji_apua_en_2": [
+    "/prints/previews/print_lr_niji_apua_en_2_p2.webp",
+    "/prints/previews/print_lr_niji_apua_en_2_p16.webp"
+  ],
+  "print_lr_niji_apua_en_3": [
+    "/prints/previews/print_lr_niji_apua_en_3_p2.webp",
+    "/prints/previews/print_lr_niji_apua_en_3_p15.webp"
+  ],
+  "print_lr_niji_apub_en_1": [
+    "/prints/previews/print_lr_niji_apub_en_1_p2.webp",
+    "/prints/previews/print_lr_niji_apub_en_1_p16.webp"
+  ],
+  "print_lr_niji_apub_en_2": [
+    "/prints/previews/print_lr_niji_apub_en_2_p2.webp",
+    "/prints/previews/print_lr_niji_apub_en_2_p16.webp"
+  ],
+  "print_lr_niji_apub_en_3": [
+    "/prints/previews/print_lr_niji_apub_en_3_p2.webp",
+    "/prints/previews/print_lr_niji_apub_en_3_p16.webp"
+  ],
+  "print_lr_niji_aue_en_1": [
+    "/prints/previews/print_lr_niji_aue_en_1_p2.webp",
+    "/prints/previews/print_lr_niji_aue_en_1_p13.webp"
+  ],
+  "print_lr_niji_aue_en_2": [
+    "/prints/previews/print_lr_niji_aue_en_2_p2.webp",
+    "/prints/previews/print_lr_niji_aue_en_2_p13.webp"
+  ],
+  "print_lr_niji_aue_en_3": [
+    "/prints/previews/print_lr_niji_aue_en_3_p2.webp",
+    "/prints/previews/print_lr_niji_aue_en_3_p12.webp"
   ]
 };
