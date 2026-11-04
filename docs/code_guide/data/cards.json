@@ -183,15 +183,15 @@
 "links": [
 {
 "dir": "ref",
+"path": "CLAUDE.md"
+},
+{
+"dir": "ref",
 "path": "docs/LISTENING_AUDIO_REPLACE.md"
 },
 {
 "dir": "ref",
 "path": "functions/index.mjs"
-},
-{
-"dir": "ref",
-"path": "package-lock.json"
 }
 ],
 "lines": 108,
@@ -322,7 +322,7 @@
 "path": "scripts/pr/pr.mts"
 }
 ],
-"lines": 24,
+"lines": 25,
 "tag": "文書",
 "conf": "高",
 "kind": "file",
@@ -2311,7 +2311,7 @@
 "name": "README.md",
 "folder": "scripts",
 "one": "ガチャで当たる学習プリントの作り直し方を説明する係",
-"detail": "主な見出し：UR 学習プリントの作り直し（英語・理科・化学 無機・数学）／1) 英文法の素データ（手書きの問題・解説）を書き出す／2) PDF を作る（reportlab・pdftoppm・Pillow・IPAゴシックが必要）。",
+"detail": "主な見出し：UR 学習プリントの作り直し（英語・理科・化学 無機・数学）／大学別予想問題の登録ルール／1) 英文法の素データ（手書きの問題・解説）を書き出す。",
 "links": [
 {
 "dir": "ref",
@@ -2326,7 +2326,7 @@
 "path": "README.md"
 }
 ],
-"lines": 542,
+"lines": 572,
 "tag": "文書",
 "conf": "高",
 "kind": "file",
@@ -4207,7 +4207,7 @@
 "name": "arenaEconomy.ts",
 "folder": "src",
 "one": "ガチャの値段や重複時に返すコインなどの決まりを持つ係",
-"detail": "GACHA_COST・GACHA_MULTI_COST・GACHA_MULTI_COUNT など17個を公開する。読み込むもの：growth.ts・gachaPools.ts・gachaSets.ts。gachaFeatured.ts・growthStore.ts など28ファイルから読み込まれる。",
+"detail": "GACHA_COST・GACHA_MULTI_COST・GACHA_MULTI_COUNT など17個を公開する。読み込むもの：growth.ts・gachaPools.ts・gachaSets.ts。gachaFeatured.ts・growthStore.ts など31ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -4237,7 +4237,7 @@
 "GACHA_RARITY_RATES"
 ],
 "nImports": 3,
-"nBy": 28,
+"nBy": 31,
 "draft": false,
 "changed": true,
 "sys": "battle",
@@ -4663,7 +4663,7 @@
 "path": "src/battle/core/growthBadges.ts"
 }
 ],
-"lines": 771,
+"lines": 774,
 "tag": "データ",
 "conf": "高",
 "kind": "file",
@@ -4678,7 +4678,7 @@
 "RUSH_COMBO_MISSION"
 ],
 "nImports": 5,
-"nBy": 63,
+"nBy": 67,
 "draft": false,
 "sys": "battle",
 "flow": [
@@ -7128,7 +7128,7 @@
 "name": "growthItems.ts",
 "folder": "src",
 "one": "とびら君の装備・ガチャ景品の一覧と、解放や購入を扱う係",
-"detail": "冒頭の説明：「growth.ts から分割（growthItems）。外部からは従来どおり growth.ts 経由で import できる。」DEFAULT_POSE・DEFAULT_FRAME・DEFAULT_COMPANION など30個を公開する。読み込むもの：tobiraParts.ts・nijiMockPrints.ts・growthBadges.ts など16ファイル。growth.tsから読み込まれる。",
+"detail": "冒頭の説明：「growth.ts から分割（growthItems）。外部からは従来どおり growth.ts 経由で import できる。」DEFAULT_POSE・DEFAULT_FRAME・DEFAULT_COMPANION など30個を公開する。読み込むもの：tobiraParts.ts・nijiMockPrints.ts・growthBadges.ts など17ファイル。growth.tsから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -7143,7 +7143,7 @@
 "path": "src/data/nijiMockPrints.ts"
 }
 ],
-"lines": 457,
+"lines": 459,
 "tag": "データ",
 "conf": "高",
 "kind": "file",
@@ -7157,7 +7157,7 @@
 "GachaRarity",
 "ItemDef"
 ],
-"nImports": 16,
+"nImports": 17,
 "nBy": 1,
 "draft": false,
 "changed": true,
@@ -19626,7 +19626,7 @@
 "path": "scripts/pr/prCore.mts"
 }
 ],
-"lines": 1375,
+"lines": 1384,
 "tag": "文書",
 "conf": "低",
 "kind": "file",
@@ -24573,11 +24573,11 @@
 },
 {
 "dir": "ref",
-"path": "scripts/gacha-prints/hirosaki_mock/check.py"
+"path": "scripts/gacha-prints/fukushima_mock/check.py"
 },
 {
 "dir": "ref",
-"path": "scripts/gacha-prints/hokudai_mock/check.py"
+"path": "scripts/gacha-prints/hirosaki_mock/check.py"
 }
 ],
 "lines": 153,
@@ -24605,11 +24605,11 @@
 },
 {
 "dir": "ref",
-"path": "scripts/gacha-prints/fwu_mock/render.py"
+"path": "scripts/gacha-prints/fukushima_mock/render.py"
 },
 {
 "dir": "ref",
-"path": "scripts/gacha-prints/gakugei_mock/render.py"
+"path": "scripts/gacha-prints/fwu_mock/render.py"
 }
 ],
 "lines": 430,
@@ -24641,7 +24641,7 @@
 },
 {
 "dir": "ref",
-"path": "scripts/gacha-prints/hirosaki_mock/check.py"
+"path": "scripts/gacha-prints/fukushima_mock/check.py"
 }
 ],
 "lines": 80,
@@ -24731,11 +24731,11 @@
 },
 {
 "dir": "ref",
-"path": "scripts/gacha-prints/hirosaki_mock/probe.py"
+"path": "scripts/gacha-prints/fukushima_mock/probe.py"
 },
 {
 "dir": "ref",
-"path": "scripts/gacha-prints/iwate_mock/probe.py"
+"path": "scripts/gacha-prints/hirosaki_mock/probe.py"
 }
 ],
 "lines": 19,
@@ -25026,7 +25026,7 @@
 "path": "src/components/gacha/GachaPickupModal.tsx"
 }
 ],
-"lines": 130,
+"lines": 107,
 "tag": "データ",
 "conf": "低",
 "kind": "file",
@@ -25126,6 +25126,545 @@
 "flow": []
 },
 {
+"id": "scripts/gacha-prints/fukushima_mock/check.py",
+"path": "scripts/gacha-prints/fukushima_mock/check.py",
+"name": "check.py",
+"folder": "scripts",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「福島大 予想問題の検査（商用利用のため毎回実行）。」",
+"links": [
+{
+"dir": "ref",
+"path": "scripts/gacha-prints/README.md"
+},
+{
+"dir": "ref",
+"path": "scripts/gacha-prints/akita_mock/check.py"
+},
+{
+"dir": "ref",
+"path": "scripts/gacha-prints/hirosaki_mock/check.py"
+}
+],
+"lines": 148,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "tools",
+"flow": []
+},
+{
+"id": "scripts/gacha-prints/fukushima_mock/f1.py",
+"path": "scripts/gacha-prints/fukushima_mock/f1.py",
+"name": "f1.py",
+"folder": "scripts",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「*- coding: utf-8 -*-」",
+"links": [],
+"lines": 10,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "tools",
+"flow": []
+},
+{
+"id": "scripts/gacha-prints/fukushima_mock/f1_1.py",
+"path": "scripts/gacha-prints/fukushima_mock/f1_1.py",
+"name": "f1_1.py",
+"folder": "scripts",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「第1回 Ⅰ 本文・注・全訳（退屈は何を知らせているか）。書き下ろし。」",
+"links": [],
+"lines": 30,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "tools",
+"flow": []
+},
+{
+"id": "scripts/gacha-prints/fukushima_mock/f1_1q.py",
+"path": "scripts/gacha-prints/fukushima_mock/f1_1q.py",
+"name": "f1_1q.py",
+"folder": "scripts",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「第1回 Ⅰ 設問（日本語で答える6問。うち(2)(4)が下線部の和訳）。」",
+"links": [],
+"lines": 50,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "tools",
+"flow": []
+},
+{
+"id": "scripts/gacha-prints/fukushima_mock/f1_2.py",
+"path": "scripts/gacha-prints/fukushima_mock/f1_2.py",
+"name": "f1_2.py",
+"folder": "scripts",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「第1回 Ⅱ 対話文の空所補充（英単語1語）・Ⅲ 語句の並べかえ。書き下ろし。」",
+"links": [],
+"lines": 53,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "tools",
+"flow": []
+},
+{
+"id": "scripts/gacha-prints/fukushima_mock/f1_4.py",
+"path": "scripts/gacha-prints/fukushima_mock/f1_4.py",
+"name": "f1_4.py",
+"folder": "scripts",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「第1回 Ⅳ 自由英作文（2つの問いから1つ・100語程度）。書き下ろし。」",
+"links": [],
+"lines": 35,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "tools",
+"flow": []
+},
+{
+"id": "scripts/gacha-prints/fukushima_mock/f2.py",
+"path": "scripts/gacha-prints/fukushima_mock/f2.py",
+"name": "f2.py",
+"folder": "scripts",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「*- coding: utf-8 -*-」",
+"links": [],
+"lines": 10,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "tools",
+"flow": []
+},
+{
+"id": "scripts/gacha-prints/fukushima_mock/f2_1.py",
+"path": "scripts/gacha-prints/fukushima_mock/f2_1.py",
+"name": "f2_1.py",
+"folder": "scripts",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「第2回 Ⅰ 本文・注・全訳（習慣はどのように作られるか）。書き下ろし。」",
+"links": [],
+"lines": 30,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "tools",
+"flow": []
+},
+{
+"id": "scripts/gacha-prints/fukushima_mock/f2_1q.py",
+"path": "scripts/gacha-prints/fukushima_mock/f2_1q.py",
+"name": "f2_1q.py",
+"folder": "scripts",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「第2回 Ⅰ 設問（日本語で答える6問。うち(3)(5)が下線部の和訳）。」",
+"links": [],
+"lines": 50,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "tools",
+"flow": []
+},
+{
+"id": "scripts/gacha-prints/fukushima_mock/f2_2.py",
+"path": "scripts/gacha-prints/fukushima_mock/f2_2.py",
+"name": "f2_2.py",
+"folder": "scripts",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「第2回 Ⅱ 対話文の空所補充（英単語1語）・Ⅲ 語句の並べかえ。書き下ろし。」",
+"links": [],
+"lines": 55,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "tools",
+"flow": []
+},
+{
+"id": "scripts/gacha-prints/fukushima_mock/f2_4.py",
+"path": "scripts/gacha-prints/fukushima_mock/f2_4.py",
+"name": "f2_4.py",
+"folder": "scripts",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「第2回 Ⅳ 自由英作文（2つの問いから1つ・100語程度）。書き下ろし。」",
+"links": [],
+"lines": 36,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "tools",
+"flow": []
+},
+{
+"id": "scripts/gacha-prints/fukushima_mock/f3.py",
+"path": "scripts/gacha-prints/fukushima_mock/f3.py",
+"name": "f3.py",
+"folder": "scripts",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「*- coding: utf-8 -*-」",
+"links": [],
+"lines": 10,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "tools",
+"flow": []
+},
+{
+"id": "scripts/gacha-prints/fukushima_mock/f3_1.py",
+"path": "scripts/gacha-prints/fukushima_mock/f3_1.py",
+"name": "f3_1.py",
+"folder": "scripts",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「第3回 Ⅰ 本文・注・全訳（見知らぬ人の口コミをなぜ信じるのか）。書き下ろし。」",
+"links": [],
+"lines": 30,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "tools",
+"flow": []
+},
+{
+"id": "scripts/gacha-prints/fukushima_mock/f3_1q.py",
+"path": "scripts/gacha-prints/fukushima_mock/f3_1q.py",
+"name": "f3_1q.py",
+"folder": "scripts",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「第3回 Ⅰ 設問（日本語で答える6問。うち(2)(5)が下線部の和訳）。」",
+"links": [],
+"lines": 50,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "tools",
+"flow": []
+},
+{
+"id": "scripts/gacha-prints/fukushima_mock/f3_2.py",
+"path": "scripts/gacha-prints/fukushima_mock/f3_2.py",
+"name": "f3_2.py",
+"folder": "scripts",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「第3回 Ⅱ 対話文の空所補充（英単語1語）・Ⅲ 語句の並べかえ。書き下ろし。」",
+"links": [],
+"lines": 55,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "tools",
+"flow": []
+},
+{
+"id": "scripts/gacha-prints/fukushima_mock/f3_4.py",
+"path": "scripts/gacha-prints/fukushima_mock/f3_4.py",
+"name": "f3_4.py",
+"folder": "scripts",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「第3回 Ⅳ 自由英作文（2つの問いから1つ・100語程度）。書き下ろし。」",
+"links": [],
+"lines": 34,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "tools",
+"flow": []
+},
+{
+"id": "scripts/gacha-prints/fukushima_mock/logo_gray.png",
+"path": "scripts/gacha-prints/fukushima_mock/logo_gray.png",
+"name": "logo_gray.png",
+"folder": "scripts",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [
+{
+"dir": "ref",
+"path": "scripts/gacha-prints/akita_mock/render.py"
+},
+{
+"dir": "ref",
+"path": "scripts/gacha-prints/fukushima_mock/render.py"
+},
+{
+"dir": "ref",
+"path": "scripts/gacha-prints/fwu_mock/render.py"
+}
+],
+"lines": 430,
+"tag": "音声・画像",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "tools",
+"flow": []
+},
+{
+"id": "scripts/gacha-prints/fukushima_mock/logs/check.json",
+"path": "scripts/gacha-prints/fukushima_mock/logs/check.json",
+"name": "check.json",
+"folder": "scripts",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "主な項目：r1-1・r1-2・r1-3・r1-4・r2-1。",
+"links": [
+{
+"dir": "ref",
+"path": "scripts/gacha-prints/README.md"
+},
+{
+"dir": "ref",
+"path": "scripts/gacha-prints/akita_mock/check.py"
+},
+{
+"dir": "ref",
+"path": "scripts/gacha-prints/fukushima_mock/check.py"
+}
+],
+"lines": 113,
+"tag": "設定",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "tools",
+"flow": []
+},
+{
+"id": "scripts/gacha-prints/fukushima_mock/logs/verify_r1.json",
+"path": "scripts/gacha-prints/fukushima_mock/logs/verify_r1.json",
+"name": "verify_r1.json",
+"folder": "scripts",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "主な項目：I・I-trans・III-1・III-2・III-3。",
+"links": [
+{
+"dir": "ref",
+"path": "scripts/gacha-prints/ritsu_mock/verify.py"
+}
+],
+"lines": 26,
+"tag": "設定",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "tools",
+"flow": []
+},
+{
+"id": "scripts/gacha-prints/fukushima_mock/logs/verify_r2.json",
+"path": "scripts/gacha-prints/fukushima_mock/logs/verify_r2.json",
+"name": "verify_r2.json",
+"folder": "scripts",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "主な項目：I・I-trans・III-1・III-2・III-3。",
+"links": [],
+"lines": 26,
+"tag": "設定",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "tools",
+"flow": []
+},
+{
+"id": "scripts/gacha-prints/fukushima_mock/logs/verify_r3.json",
+"path": "scripts/gacha-prints/fukushima_mock/logs/verify_r3.json",
+"name": "verify_r3.json",
+"folder": "scripts",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "主な項目：I・I-trans・III-1・III-2・III-3。",
+"links": [],
+"lines": 26,
+"tag": "設定",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "tools",
+"flow": []
+},
+{
+"id": "scripts/gacha-prints/fukushima_mock/probe.py",
+"path": "scripts/gacha-prints/fukushima_mock/probe.py",
+"name": "probe.py",
+"folder": "scripts",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「言い回し候補が過去問（照合先すべて）と英語4語／日本語13字で重ならないかを試す。」",
+"links": [
+{
+"dir": "ref",
+"path": "scripts/gacha-prints/README.md"
+},
+{
+"dir": "ref",
+"path": "scripts/gacha-prints/akita_mock/probe.py"
+},
+{
+"dir": "ref",
+"path": "scripts/gacha-prints/hirosaki_mock/probe.py"
+}
+],
+"lines": 19,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "tools",
+"flow": []
+},
+{
+"id": "scripts/gacha-prints/fukushima_mock/render.py",
+"path": "scripts/gacha-prints/fukushima_mock/render.py",
+"name": "render.py",
+"folder": "scripts",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「福島大学 前期日程 英語（経済経営学類〔令和9年度から政経学部（仮称）〕の「英語・小論文から1科目」の英語）予想問題の PDF。白黒・A4縦。」",
+"links": [
+{
+"dir": "ref",
+"path": "docs/UI_CHANGELOG.md"
+},
+{
+"dir": "ref",
+"path": "docs/elevenlabs_vocab/ALL_PROMPTS.md"
+},
+{
+"dir": "ref",
+"path": "docs/elevenlabs_vocab/batches/ilv2_0140-0166.txt"
+}
+],
+"lines": 225,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "tools",
+"flow": []
+},
+{
+"id": "scripts/gacha-prints/fukushima_mock/verify.py",
+"path": "scripts/gacha-prints/fukushima_mock/verify.py",
+"name": "verify.py",
+"folder": "scripts",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「福島大 予想問題の難易度・形式チェック。」",
+"links": [
+{
+"dir": "ref",
+"path": "docs/LISTENING_AUDIO_VS_SPEECH.md"
+},
+{
+"dir": "ref",
+"path": "docs/UI_CHANGELOG.md"
+},
+{
+"dir": "ref",
+"path": "docs/elevenlabs_vocab/ALL_PROMPTS.md"
+}
+],
+"lines": 52,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "tools",
+"flow": []
+},
+{
 "id": "scripts/gacha-prints/fwu_mock/logo_gray.png",
 "path": "scripts/gacha-prints/fwu_mock/logo_gray.png",
 "name": "logo_gray.png",
@@ -25139,11 +25678,11 @@
 },
 {
 "dir": "ref",
-"path": "scripts/gacha-prints/fwu_mock/render.py"
+"path": "scripts/gacha-prints/fukushima_mock/render.py"
 },
 {
 "dir": "ref",
-"path": "scripts/gacha-prints/gakugei_mock/render.py"
+"path": "scripts/gacha-prints/fwu_mock/render.py"
 }
 ],
 "lines": 118,
@@ -25714,11 +26253,11 @@
 },
 {
 "dir": "ref",
-"path": "scripts/gacha-prints/fwu_mock/render.py"
+"path": "scripts/gacha-prints/fukushima_mock/render.py"
 },
 {
 "dir": "ref",
-"path": "scripts/gacha-prints/gakugei_mock/render.py"
+"path": "scripts/gacha-prints/fwu_mock/render.py"
 }
 ],
 "lines": 118,
@@ -26143,7 +26682,7 @@
 },
 {
 "dir": "ref",
-"path": "scripts/gacha-prints/hokudai_mock/check.py"
+"path": "scripts/gacha-prints/fukushima_mock/check.py"
 }
 ],
 "lines": 162,
@@ -26461,11 +27000,11 @@
 },
 {
 "dir": "ref",
-"path": "scripts/gacha-prints/fwu_mock/render.py"
+"path": "scripts/gacha-prints/fukushima_mock/render.py"
 },
 {
 "dir": "ref",
-"path": "scripts/gacha-prints/gakugei_mock/render.py"
+"path": "scripts/gacha-prints/fwu_mock/render.py"
 }
 ],
 "lines": 430,
@@ -26497,7 +27036,7 @@
 },
 {
 "dir": "ref",
-"path": "scripts/gacha-prints/hirosaki_mock/check.py"
+"path": "scripts/gacha-prints/fukushima_mock/check.py"
 }
 ],
 "lines": 97,
@@ -26591,7 +27130,7 @@
 },
 {
 "dir": "ref",
-"path": "scripts/gacha-prints/iwate_mock/probe.py"
+"path": "scripts/gacha-prints/fukushima_mock/probe.py"
 }
 ],
 "lines": 19,
@@ -26687,7 +27226,7 @@
 },
 {
 "dir": "ref",
-"path": "scripts/gacha-prints/hirosaki_mock/check.py"
+"path": "scripts/gacha-prints/fukushima_mock/check.py"
 }
 ],
 "lines": 173,
@@ -27005,11 +27544,11 @@
 },
 {
 "dir": "ref",
-"path": "scripts/gacha-prints/fwu_mock/render.py"
+"path": "scripts/gacha-prints/fukushima_mock/render.py"
 },
 {
 "dir": "ref",
-"path": "scripts/gacha-prints/gakugei_mock/render.py"
+"path": "scripts/gacha-prints/fwu_mock/render.py"
 }
 ],
 "lines": 430,
@@ -27041,7 +27580,7 @@
 },
 {
 "dir": "ref",
-"path": "scripts/gacha-prints/hirosaki_mock/check.py"
+"path": "scripts/gacha-prints/fukushima_mock/check.py"
 }
 ],
 "lines": 116,
@@ -27314,7 +27853,7 @@
 },
 {
 "dir": "ref",
-"path": "scripts/gacha-prints/hirosaki_mock/check.py"
+"path": "scripts/gacha-prints/fukushima_mock/check.py"
 }
 ],
 "lines": 167,
@@ -27715,11 +28254,11 @@
 },
 {
 "dir": "ref",
-"path": "scripts/gacha-prints/fwu_mock/render.py"
+"path": "scripts/gacha-prints/fukushima_mock/render.py"
 },
 {
 "dir": "ref",
-"path": "scripts/gacha-prints/gakugei_mock/render.py"
+"path": "scripts/gacha-prints/fwu_mock/render.py"
 }
 ],
 "lines": 430,
@@ -27751,7 +28290,7 @@
 },
 {
 "dir": "ref",
-"path": "scripts/gacha-prints/hirosaki_mock/check.py"
+"path": "scripts/gacha-prints/fukushima_mock/check.py"
 }
 ],
 "lines": 88,
@@ -27845,7 +28384,7 @@
 },
 {
 "dir": "ref",
-"path": "scripts/gacha-prints/hirosaki_mock/probe.py"
+"path": "scripts/gacha-prints/fukushima_mock/probe.py"
 }
 ],
 "lines": 19,
@@ -27993,11 +28532,11 @@
 },
 {
 "dir": "ref",
-"path": "scripts/gacha-prints/fwu_mock/render.py"
+"path": "scripts/gacha-prints/fukushima_mock/render.py"
 },
 {
 "dir": "ref",
-"path": "scripts/gacha-prints/gakugei_mock/render.py"
+"path": "scripts/gacha-prints/fwu_mock/render.py"
 }
 ],
 "lines": 430,
@@ -28439,11 +28978,11 @@
 },
 {
 "dir": "ref",
-"path": "scripts/gacha-prints/fwu_mock/render.py"
+"path": "scripts/gacha-prints/fukushima_mock/render.py"
 },
 {
 "dir": "ref",
-"path": "scripts/gacha-prints/gakugei_mock/render.py"
+"path": "scripts/gacha-prints/fwu_mock/render.py"
 }
 ],
 "lines": 118,
@@ -30964,11 +31503,11 @@
 },
 {
 "dir": "ref",
-"path": "scripts/gacha-prints/fwu_mock/render.py"
+"path": "scripts/gacha-prints/fukushima_mock/render.py"
 },
 {
 "dir": "ref",
-"path": "scripts/gacha-prints/gakugei_mock/render.py"
+"path": "scripts/gacha-prints/fwu_mock/render.py"
 }
 ],
 "lines": 118,
@@ -32809,11 +33348,11 @@
 },
 {
 "dir": "ref",
-"path": "scripts/gacha-prints/fwu_mock/render.py"
+"path": "scripts/gacha-prints/fukushima_mock/render.py"
 },
 {
 "dir": "ref",
-"path": "scripts/gacha-prints/gakugei_mock/render.py"
+"path": "scripts/gacha-prints/fwu_mock/render.py"
 }
 ],
 "lines": 118,
@@ -33239,7 +33778,7 @@
 },
 {
 "dir": "ref",
-"path": "scripts/gacha-prints/hirosaki_mock/check.py"
+"path": "scripts/gacha-prints/fukushima_mock/check.py"
 }
 ],
 "lines": 128,
@@ -33267,11 +33806,11 @@
 },
 {
 "dir": "ref",
-"path": "scripts/gacha-prints/fwu_mock/render.py"
+"path": "scripts/gacha-prints/fukushima_mock/render.py"
 },
 {
 "dir": "ref",
-"path": "scripts/gacha-prints/gakugei_mock/render.py"
+"path": "scripts/gacha-prints/fwu_mock/render.py"
 }
 ],
 "lines": 430,
@@ -33303,7 +33842,7 @@
 },
 {
 "dir": "ref",
-"path": "scripts/gacha-prints/hirosaki_mock/check.py"
+"path": "scripts/gacha-prints/fukushima_mock/check.py"
 }
 ],
 "lines": 103,
@@ -34017,7 +34556,7 @@
 },
 {
 "dir": "ref",
-"path": "scripts/gacha-prints/hirosaki_mock/check.py"
+"path": "scripts/gacha-prints/fukushima_mock/check.py"
 }
 ],
 "lines": 163,
@@ -34045,11 +34584,11 @@
 },
 {
 "dir": "ref",
-"path": "scripts/gacha-prints/fwu_mock/render.py"
+"path": "scripts/gacha-prints/fukushima_mock/render.py"
 },
 {
 "dir": "ref",
-"path": "scripts/gacha-prints/gakugei_mock/render.py"
+"path": "scripts/gacha-prints/fwu_mock/render.py"
 }
 ],
 "lines": 430,
@@ -34081,7 +34620,7 @@
 },
 {
 "dir": "ref",
-"path": "scripts/gacha-prints/hirosaki_mock/check.py"
+"path": "scripts/gacha-prints/fukushima_mock/check.py"
 }
 ],
 "lines": 108,
@@ -34641,11 +35180,11 @@
 },
 {
 "dir": "ref",
-"path": "scripts/gacha-prints/fwu_mock/render.py"
+"path": "scripts/gacha-prints/fukushima_mock/render.py"
 },
 {
 "dir": "ref",
-"path": "scripts/gacha-prints/gakugei_mock/render.py"
+"path": "scripts/gacha-prints/fwu_mock/render.py"
 }
 ],
 "lines": 118,
@@ -35273,11 +35812,11 @@
 },
 {
 "dir": "ref",
-"path": "scripts/gacha-prints/fwu_mock/render.py"
+"path": "scripts/gacha-prints/fukushima_mock/render.py"
 },
 {
 "dir": "ref",
-"path": "scripts/gacha-prints/gakugei_mock/render.py"
+"path": "scripts/gacha-prints/fwu_mock/render.py"
 }
 ],
 "lines": 118,
@@ -35717,7 +36256,7 @@
 },
 {
 "dir": "ref",
-"path": "scripts/gacha-prints/hirosaki_mock/check.py"
+"path": "scripts/gacha-prints/fukushima_mock/check.py"
 }
 ],
 "lines": 216,
@@ -35745,11 +36284,11 @@
 },
 {
 "dir": "ref",
-"path": "scripts/gacha-prints/fwu_mock/render.py"
+"path": "scripts/gacha-prints/fukushima_mock/render.py"
 },
 {
 "dir": "ref",
-"path": "scripts/gacha-prints/gakugei_mock/render.py"
+"path": "scripts/gacha-prints/fwu_mock/render.py"
 }
 ],
 "lines": 430,
@@ -35781,7 +36320,7 @@
 },
 {
 "dir": "ref",
-"path": "scripts/gacha-prints/hirosaki_mock/check.py"
+"path": "scripts/gacha-prints/fukushima_mock/check.py"
 }
 ],
 "lines": 104,
@@ -35894,7 +36433,7 @@
 },
 {
 "dir": "ref",
-"path": "scripts/gacha-prints/hirosaki_mock/probe.py"
+"path": "scripts/gacha-prints/fukushima_mock/probe.py"
 }
 ],
 "lines": 19,
@@ -36291,11 +36830,11 @@
 },
 {
 "dir": "ref",
-"path": "scripts/gacha-prints/fwu_mock/render.py"
+"path": "scripts/gacha-prints/fukushima_mock/render.py"
 },
 {
 "dir": "ref",
-"path": "scripts/gacha-prints/gakugei_mock/render.py"
+"path": "scripts/gacha-prints/fwu_mock/render.py"
 }
 ],
 "lines": 118,
@@ -36888,7 +37427,7 @@
 },
 {
 "dir": "ref",
-"path": "scripts/gacha-prints/hirosaki_mock/check.py"
+"path": "scripts/gacha-prints/fukushima_mock/check.py"
 }
 ],
 "lines": 185,
@@ -36916,11 +37455,11 @@
 },
 {
 "dir": "ref",
-"path": "scripts/gacha-prints/fwu_mock/render.py"
+"path": "scripts/gacha-prints/fukushima_mock/render.py"
 },
 {
 "dir": "ref",
-"path": "scripts/gacha-prints/gakugei_mock/render.py"
+"path": "scripts/gacha-prints/fwu_mock/render.py"
 }
 ],
 "lines": 430,
@@ -36952,7 +37491,7 @@
 },
 {
 "dir": "ref",
-"path": "scripts/gacha-prints/hirosaki_mock/check.py"
+"path": "scripts/gacha-prints/fukushima_mock/check.py"
 }
 ],
 "lines": 65,
@@ -37046,7 +37585,7 @@
 },
 {
 "dir": "ref",
-"path": "scripts/gacha-prints/hirosaki_mock/probe.py"
+"path": "scripts/gacha-prints/fukushima_mock/probe.py"
 }
 ],
 "lines": 19,
@@ -37602,11 +38141,11 @@
 },
 {
 "dir": "ref",
-"path": "scripts/gacha-prints/fwu_mock/render.py"
+"path": "scripts/gacha-prints/fukushima_mock/render.py"
 },
 {
 "dir": "ref",
-"path": "scripts/gacha-prints/gakugei_mock/render.py"
+"path": "scripts/gacha-prints/fwu_mock/render.py"
 }
 ],
 "lines": 118,
@@ -39259,7 +39798,7 @@
 "name": "gachaPools.ts",
 "folder": "src",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「ガチャの種類（2026-10-29 追加）：共通テストガチャ（これまでの1つ）と、2次試験ガチャ。」GachaPoolId・GachaPoolDef・GACHA_POOLS など10個を公開する。読み込むもの：nijiMockPrints.ts・akitaMockPrints.ts・hirosakiMockPrints.ts など10ファイル。arenaEconomy.ts・gachaFeatured.ts など9ファイルから読み込まれる。",
+"detail": "冒頭の説明：「ガチャの種類（2026-10-29 追加）：共通テストガチャ（これまでの1つ）と、2次試験ガチャ。」GachaPoolId・GachaPoolDef・GACHA_POOLS など10個を公開する。読み込むもの：nijiMockPrints.ts・akitaMockPrints.ts・fukushimaMockPrints.ts など11ファイル。arenaEconomy.ts・gachaFeatured.ts など9ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -39274,7 +39813,7 @@
 "path": "src/data/nijiMockPrints.ts"
 }
 ],
-"lines": 96,
+"lines": 97,
 "tag": "データ",
 "conf": "低",
 "kind": "file",
@@ -39288,7 +39827,7 @@
 "UNIV_MOCK_PRINT_IDS",
 "NIJI_ONLY_IDS"
 ],
-"nImports": 10,
+"nImports": 11,
 "nBy": 9,
 "draft": true,
 "sys": "battle",
@@ -40534,7 +41073,7 @@
 "name": "GachaCollectionModal.tsx",
 "folder": "src",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「「装飾コレクション・提供割合」のダイアログ（C-06）。」GachaCollectionModalを公開する。読み込むもの：growth.ts・arenaEconomy.ts・gachaPools.ts など4ファイル、外部部品 react。GachaRoom.tsxから読み込まれる。",
+"detail": "冒頭の説明：「「装飾コレクション・提供割合」のダイアログ（C-06）。」GachaCollectionModalを公開する。読み込むもの：growth.ts・arenaEconomy.ts・gachaPools.ts など5ファイル、外部部品 react。GachaRoom.tsxから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -40549,14 +41088,14 @@
 "path": "src/battle/core/arenaEconomy.ts"
 }
 ],
-"lines": 151,
+"lines": 180,
 "tag": "部品",
 "conf": "低",
 "kind": "file",
 "exports": [
 "GachaCollectionModal"
 ],
-"nImports": 4,
+"nImports": 5,
 "nBy": 1,
 "draft": true,
 "sys": "screen",
@@ -40767,6 +41306,42 @@
 ],
 "nImports": 1,
 "nBy": 1,
+"draft": true,
+"sys": "screen",
+"flow": []
+},
+{
+"id": "src/components/gacha/collectionFilters.ts",
+"path": "src/components/gacha/collectionFilters.ts",
+"name": "collectionFilters.ts",
+"folder": "src",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "CollectionRarityFilter・availableCollectionRarities・filterCollectionByRarityを公開する。読み込むもの：growth.ts。GachaCollectionModal.tsx・gachaPdfRarityFilters.test.tsから読み込まれる。",
+"links": [
+{
+"dir": "from",
+"path": "src/components/gacha/GachaCollectionModal.tsx"
+},
+{
+"dir": "from",
+"path": "tests/gachaPdfRarityFilters.test.ts"
+},
+{
+"dir": "to",
+"path": "src/battle/core/growth.ts"
+}
+],
+"lines": 17,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [
+"CollectionRarityFilter",
+"availableCollectionRarities",
+"filterCollectionByRarity"
+],
+"nImports": 1,
+"nBy": 2,
 "draft": true,
 "sys": "screen",
 "flow": []
@@ -41482,7 +42057,7 @@
 "name": "akitaMockPrints.ts",
 "folder": "src",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「LR（レジェンドレア）：秋田大学 前期日程 英語（国際資源学部・教育文化学部・医学部保健学科・情報データ科学部 共通問題）対策 予想問題（白黒・A4）。」AKITA_MOCK_PRINTSを公開する。読み込むもの：gachaPrints.generated.ts。growthItems.ts・gachaPools.ts など3ファイルから読み込まれる。",
+"detail": "冒頭の説明：「LR（レジェンドレア）：秋田大学 前期日程 英語（国際資源学部・教育文化学部・医学部保健学科・情報データ科学部 共通問題）対策 予想問題（白黒・A4）。」AKITA_MOCK_PRINTSを公開する。読み込むもの：gachaPrints.generated.ts。growthItems.ts・gachaPools.ts など4ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -41497,7 +42072,7 @@
 "path": "src/data/gachaPrints.generated.ts"
 }
 ],
-"lines": 36,
+"lines": 27,
 "tag": "データ",
 "conf": "低",
 "kind": "file",
@@ -41505,7 +42080,41 @@
 "AKITA_MOCK_PRINTS"
 ],
 "nImports": 1,
-"nBy": 3,
+"nBy": 4,
+"draft": true,
+"sys": "content",
+"flow": []
+},
+{
+"id": "src/data/fukushimaMockPrints.ts",
+"path": "src/data/fukushimaMockPrints.ts",
+"name": "fukushimaMockPrints.ts",
+"folder": "src",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「LR（レジェンドレア）：福島大学 前期日程 英語（経済経営学類〔令和9年度から政経学部（仮称）〕 英語・小論文選択の「英語」）対策 予想問題（白黒・A4）。」FUKUSHIMA_MOCK_PRINTSを公開する。読み込むもの：gachaPrints.generated.ts。growthItems.ts・gachaPools.ts など4ファイルから読み込まれる。",
+"links": [
+{
+"dir": "from",
+"path": "src/battle/core/growthItems.ts"
+},
+{
+"dir": "from",
+"path": "src/battle/core/gachaPools.ts"
+},
+{
+"dir": "to",
+"path": "src/data/gachaPrints.generated.ts"
+}
+],
+"lines": 27,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [
+"FUKUSHIMA_MOCK_PRINTS"
+],
+"nImports": 1,
+"nBy": 4,
 "draft": true,
 "sys": "content",
 "flow": []
@@ -41585,7 +42194,7 @@
 "name": "hirosakiMockPrints.ts",
 "folder": "src",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「LR（レジェンドレア）：弘前大学 前期日程 英語（英語を課す学部で共通）対策 予想問題（白黒・A4）。」HIROSAKI_MOCK_PRINTSを公開する。読み込むもの：gachaPrints.generated.ts。growthItems.ts・gachaPools.ts など3ファイルから読み込まれる。",
+"detail": "冒頭の説明：「LR（レジェンドレア）：弘前大学 前期日程 英語（英語を課す学部で共通）対策 予想問題（白黒・A4）。」HIROSAKI_MOCK_PRINTSを公開する。読み込むもの：gachaPrints.generated.ts。growthItems.ts・gachaPools.ts など4ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -41600,7 +42209,7 @@
 "path": "src/data/gachaPrints.generated.ts"
 }
 ],
-"lines": 36,
+"lines": 27,
 "tag": "データ",
 "conf": "低",
 "kind": "file",
@@ -41608,7 +42217,7 @@
 "HIROSAKI_MOCK_PRINTS"
 ],
 "nImports": 1,
-"nBy": 3,
+"nBy": 4,
 "draft": true,
 "sys": "content",
 "flow": []
@@ -41619,7 +42228,7 @@
 "name": "hokudaiMockPrints.ts",
 "folder": "src",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「LR（レジェンドレア）：北海道大学 前期日程 英語（全学部共通）対策 予想問題（白黒・A4）。」HOKUDAI_MOCK_PRINTSを公開する。読み込むもの：gachaPrints.generated.ts。growthItems.ts・gachaPools.ts など3ファイルから読み込まれる。",
+"detail": "冒頭の説明：「LR（レジェンドレア）：北海道大学 前期日程 英語（全学部共通）対策 予想問題（白黒・A4）。」HOKUDAI_MOCK_PRINTSを公開する。読み込むもの：gachaPrints.generated.ts。growthItems.ts・gachaPools.ts など4ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -41634,7 +42243,7 @@
 "path": "src/data/gachaPrints.generated.ts"
 }
 ],
-"lines": 36,
+"lines": 27,
 "tag": "データ",
 "conf": "低",
 "kind": "file",
@@ -41642,7 +42251,7 @@
 "HOKUDAI_MOCK_PRINTS"
 ],
 "nImports": 1,
-"nBy": 3,
+"nBy": 4,
 "draft": true,
 "sys": "content",
 "flow": []
@@ -41653,7 +42262,7 @@
 "name": "iwateMockPrints.ts",
 "folder": "src",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「LR（レジェンドレア）：岩手大学 前期日程 英語（人文社会科学部・教育学部 共通問題）対策 予想問題（白黒・A4）。」IWATE_MOCK_PRINTSを公開する。読み込むもの：gachaPrints.generated.ts。growthItems.ts・gachaPools.ts など3ファイルから読み込まれる。",
+"detail": "冒頭の説明：「LR（レジェンドレア）：岩手大学 前期日程 英語（人文社会科学部・教育学部 共通問題）対策 予想問題（白黒・A4）。」IWATE_MOCK_PRINTSを公開する。読み込むもの：gachaPrints.generated.ts。growthItems.ts・gachaPools.ts など4ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -41668,7 +42277,7 @@
 "path": "src/data/gachaPrints.generated.ts"
 }
 ],
-"lines": 36,
+"lines": 27,
 "tag": "データ",
 "conf": "低",
 "kind": "file",
@@ -41676,7 +42285,7 @@
 "IWATE_MOCK_PRINTS"
 ],
 "nImports": 1,
-"nBy": 3,
+"nBy": 4,
 "draft": true,
 "sys": "content",
 "flow": []
@@ -41687,7 +42296,7 @@
 "name": "kobeMockPrints.ts",
 "folder": "src",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「LR（レジェンドレア）：神戸大学 前期日程 外国語（英語）対策 予想問題（白黒・A4）。」KOBE_MOCK_PRINTSを公開する。読み込むもの：gachaPrints.generated.ts。growthItems.ts・gachaPools.ts など3ファイルから読み込まれる。",
+"detail": "冒頭の説明：「LR（レジェンドレア）：神戸大学 前期日程 外国語（英語）対策 予想問題（白黒・A4）。」KOBE_MOCK_PRINTSを公開する。読み込むもの：gachaPrints.generated.ts。growthItems.ts・gachaPools.ts など4ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -41702,7 +42311,7 @@
 "path": "src/data/gachaPrints.generated.ts"
 }
 ],
-"lines": 36,
+"lines": 27,
 "tag": "データ",
 "conf": "低",
 "kind": "file",
@@ -41710,7 +42319,7 @@
 "KOBE_MOCK_PRINTS"
 ],
 "nImports": 1,
-"nBy": 3,
+"nBy": 4,
 "draft": true,
 "sys": "content",
 "flow": []
@@ -41836,7 +42445,7 @@
 "path": "src/data/gachaPrints.generated.ts"
 }
 ],
-"lines": 235,
+"lines": 236,
 "tag": "データ",
 "conf": "低",
 "kind": "file",
@@ -41862,7 +42471,7 @@
 "name": "osakaMockPrints.ts",
 "folder": "src",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「LR（レジェンドレア）：大阪大学 前期日程 外国語（英語）対策 予想問題（白黒・A4）。」OSAKA_MOCK_PRINTSを公開する。読み込むもの：gachaPrints.generated.ts。growthItems.ts・gachaPools.ts など3ファイルから読み込まれる。",
+"detail": "冒頭の説明：「LR（レジェンドレア）：大阪大学 前期日程 外国語（英語）対策の書き下ろし予想問題。」OSAKA_MOCK_PRINTSを公開する。読み込むもの：gachaPrints.generated.ts。growthItems.ts・gachaPools.ts など4ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -41877,7 +42486,7 @@
 "path": "src/data/gachaPrints.generated.ts"
 }
 ],
-"lines": 36,
+"lines": 23,
 "tag": "データ",
 "conf": "低",
 "kind": "file",
@@ -41885,7 +42494,7 @@
 "OSAKA_MOCK_PRINTS"
 ],
 "nImports": 1,
-"nBy": 3,
+"nBy": 4,
 "draft": true,
 "sys": "content",
 "flow": []
@@ -42353,7 +42962,7 @@
 "name": "ritsuMockPrints.ts",
 "folder": "src",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「LR（レジェンドレア）：立命館大学 全学統一方式（文系）英語 対策 予想問題（白黒・A4・マーク式）。」RITSU_MOCK_PRINTSを公開する。読み込むもの：gachaPrints.generated.ts。growthItems.ts・gachaPools.ts など3ファイルから読み込まれる。",
+"detail": "冒頭の説明：「LR（レジェンドレア）：立命館大学 全学統一方式（文系）英語 対策 予想問題（白黒・A4・マーク式）。」RITSU_MOCK_PRINTSを公開する。読み込むもの：gachaPrints.generated.ts。growthItems.ts・gachaPools.ts など4ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -42368,7 +42977,7 @@
 "path": "src/data/gachaPrints.generated.ts"
 }
 ],
-"lines": 36,
+"lines": 27,
 "tag": "データ",
 "conf": "低",
 "kind": "file",
@@ -42376,7 +42985,7 @@
 "RITSU_MOCK_PRINTS"
 ],
 "nImports": 1,
-"nBy": 3,
+"nBy": 4,
 "draft": true,
 "sys": "content",
 "flow": []
@@ -44623,7 +45232,7 @@
 "name": "tohokuMockPrints.ts",
 "folder": "src",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「LR（レジェンドレア）：東北大学 前期日程 英語（全学部共通）対策 予想問題（白黒・A4）。」TOHOKU_MOCK_PRINTSを公開する。読み込むもの：gachaPrints.generated.ts。growthItems.ts・gachaPools.ts など3ファイルから読み込まれる。",
+"detail": "冒頭の説明：「LR（レジェンドレア）：東北大学 前期日程 英語（全学部共通）対策 予想問題（白黒・A4）。」TOHOKU_MOCK_PRINTSを公開する。読み込むもの：gachaPrints.generated.ts。growthItems.ts・gachaPools.ts など4ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -44638,7 +45247,7 @@
 "path": "src/data/gachaPrints.generated.ts"
 }
 ],
-"lines": 36,
+"lines": 27,
 "tag": "データ",
 "conf": "低",
 "kind": "file",
@@ -44646,7 +45255,7 @@
 "TOHOKU_MOCK_PRINTS"
 ],
 "nImports": 1,
-"nBy": 3,
+"nBy": 4,
 "draft": true,
 "sys": "content",
 "flow": []
@@ -44657,7 +45266,7 @@
 "name": "yamagataMockPrints.ts",
 "folder": "src",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「LR（レジェンドレア）：山形大学 前期日程 英語（人文社会科学部・医学部ほか 英語を課す学部の共通問題）対策 予想問題（白黒・A4）。」YAMAGATA_MOCK_PRINTSを公開する。読み込むもの：gachaPrints.generated.ts。growthItems.ts・gachaPools.ts など3ファイルから読み込まれる。",
+"detail": "冒頭の説明：「LR（レジェンドレア）：山形大学 前期日程 英語（人文社会科学部・医学部ほか 英語を課す学部の共通問題）対策 予想問題（白黒・A4）。」YAMAGATA_MOCK_PRINTSを公開する。読み込むもの：gachaPrints.generated.ts。growthItems.ts・gachaPools.ts など4ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -44672,7 +45281,7 @@
 "path": "src/data/gachaPrints.generated.ts"
 }
 ],
-"lines": 36,
+"lines": 27,
 "tag": "データ",
 "conf": "低",
 "kind": "file",
@@ -44680,7 +45289,7 @@
 "YAMAGATA_MOCK_PRINTS"
 ],
 "nImports": 1,
-"nBy": 3,
+"nBy": 4,
 "draft": true,
 "sys": "content",
 "flow": []
@@ -45901,7 +46510,7 @@
 "path": "src/index.css"
 }
 ],
-"lines": 641,
+"lines": 643,
 "tag": "部品",
 "conf": "低",
 "kind": "file",
@@ -50377,7 +50986,7 @@
 "name": "akitaMockPrints.test.ts",
 "folder": "tests",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "3件の確認（it）を持つ。主な確認：「LR：秋田大学 前期 英語 予想問題」「3回分 × 問題・解答解説の6種。ファイル・サムネイル・KB が実物と合う」。対象：arenaEconomy.ts・growth.ts・akitaMockPrints.ts。",
+"detail": "3件の確認（it）を持つ。主な確認：「LR：秋田大学 前期 英語 予想問題」「3回分を各1アイテム（問題＋解答・解説）。ファイル・サムネイル・KB が実物と合う」。対象：arenaEconomy.ts・growth.ts・akitaMockPrints.ts。",
 "links": [
 {
 "dir": "to",
@@ -50392,7 +51001,7 @@
 "path": "src/data/akitaMockPrints.ts"
 }
 ],
-"lines": 52,
+"lines": 51,
 "tag": "テスト",
 "conf": "低",
 "kind": "file",
@@ -50832,6 +51441,38 @@
 "flow": []
 },
 {
+"id": "tests/fukushimaMockPrints.test.ts",
+"path": "tests/fukushimaMockPrints.test.ts",
+"name": "fukushimaMockPrints.test.ts",
+"folder": "tests",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "3件の確認（it）を持つ。主な確認：「LR：福島大学 前期 英語 予想問題」「3回分を各1アイテム（問題＋解答・解説）。ファイル・サムネイル・KB が実物と合う」。対象：arenaEconomy.ts・growth.ts・fukushimaMockPrints.ts。",
+"links": [
+{
+"dir": "to",
+"path": "src/battle/core/growth.ts"
+},
+{
+"dir": "to",
+"path": "src/battle/core/arenaEconomy.ts"
+},
+{
+"dir": "to",
+"path": "src/data/fukushimaMockPrints.ts"
+}
+],
+"lines": 52,
+"tag": "テスト",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 4,
+"nBy": 0,
+"draft": true,
+"sys": "test",
+"flow": []
+},
+{
 "id": "tests/gachaBanner.test.ts",
 "path": "tests/gachaBanner.test.ts",
 "name": "gachaBanner.test.ts",
@@ -50885,6 +51526,38 @@
 }
 ],
 "lines": 96,
+"tag": "テスト",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 3,
+"nBy": 0,
+"draft": true,
+"sys": "test",
+"flow": []
+},
+{
+"id": "tests/gachaPdfRarityFilters.test.ts",
+"path": "tests/gachaPdfRarityFilters.test.ts",
+"name": "gachaPdfRarityFilters.test.ts",
+"folder": "tests",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "1件の確認（it）を持つ。主な確認：「提供割合のPDFレアリティ絞り込み」「PDFを選んだ時だけレアリティ切り替えを表示し、選択レアリティの個別提供割合を出す」。対象：arenaEconomy.ts・growth.ts・collectionFilters.ts。",
+"links": [
+{
+"dir": "to",
+"path": "src/battle/core/growth.ts"
+},
+{
+"dir": "to",
+"path": "src/battle/core/arenaEconomy.ts"
+},
+{
+"dir": "to",
+"path": "src/components/gacha/collectionFilters.ts"
+}
+],
+"lines": 37,
 "tag": "テスト",
 "conf": "低",
 "kind": "file",
@@ -51021,7 +51694,7 @@
 "name": "hirosakiMockPrints.test.ts",
 "folder": "tests",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "3件の確認（it）を持つ。主な確認：「LR：弘前大学 前期 英語 予想問題」「3回分 × 問題・解答解説の6種。ファイル・サムネイル・KB が実物と合う」。対象：arenaEconomy.ts・growth.ts・gachaPreviews.generated.ts。",
+"detail": "3件の確認（it）を持つ。主な確認：「LR：弘前大学 前期 英語 予想問題」「3回分を各1アイテム（問題＋解答・解説）。ファイル・サムネイル・KB が実物と合う」。対象：arenaEconomy.ts・growth.ts・gachaPreviews.generated.ts。",
 "links": [
 {
 "dir": "to",
@@ -51036,7 +51709,7 @@
 "path": "src/data/hirosakiMockPrints.ts"
 }
 ],
-"lines": 52,
+"lines": 51,
 "tag": "テスト",
 "conf": "低",
 "kind": "file",
@@ -51053,7 +51726,7 @@
 "name": "hokudaiMockPrints.test.ts",
 "folder": "tests",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "3件の確認（it）を持つ。主な確認：「LR：北海道大学 前期 英語 予想問題」「3回分 × 問題・解答解説の6種。ファイル・サムネイル・KB が実物と合う」。対象：arenaEconomy.ts・growth.ts・gachaPreviews.generated.ts。",
+"detail": "3件の確認（it）を持つ。主な確認：「LR：北海道大学 前期 英語 予想問題」「3回分を各1アイテム（問題＋解答・解説）。ファイル・サムネイル・KB が実物と合う」。対象：arenaEconomy.ts・growth.ts・gachaPreviews.generated.ts。",
 "links": [
 {
 "dir": "to",
@@ -51068,7 +51741,7 @@
 "path": "src/data/hokudaiMockPrints.ts"
 }
 ],
-"lines": 52,
+"lines": 51,
 "tag": "テスト",
 "conf": "低",
 "kind": "file",
@@ -51215,7 +51888,7 @@
 "name": "iwateMockPrints.test.ts",
 "folder": "tests",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "3件の確認（it）を持つ。主な確認：「LR：岩手大学 前期 英語 予想問題」「3回分 × 問題・解答解説の6種。ファイル・サムネイル・KB が実物と合う」。対象：arenaEconomy.ts・growth.ts・gachaPreviews.generated.ts。",
+"detail": "3件の確認（it）を持つ。主な確認：「LR：岩手大学 前期 英語 予想問題」「3回分を各1アイテム（問題＋解答・解説）。ファイル・サムネイル・KB が実物と合う」。対象：arenaEconomy.ts・growth.ts・gachaPreviews.generated.ts。",
 "links": [
 {
 "dir": "to",
@@ -51230,7 +51903,7 @@
 "path": "src/data/iwateMockPrints.ts"
 }
 ],
-"lines": 52,
+"lines": 51,
 "tag": "テスト",
 "conf": "低",
 "kind": "file",
@@ -51275,7 +51948,7 @@
 "name": "kobeMockPrints.test.ts",
 "folder": "tests",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "3件の確認（it）を持つ。主な確認：「LR：神戸大学 前期 英語 予想問題」「3回分 × 問題・解答解説の6種。ファイル・サムネイル・KB が実物と合う」。対象：arenaEconomy.ts・growth.ts・gachaPreviews.generated.ts。",
+"detail": "3件の確認（it）を持つ。主な確認：「LR：神戸大学 前期 英語 予想問題」「3回分を各1アイテム（問題＋解答・解説）。ファイル・サムネイル・KB が実物と合う」。対象：arenaEconomy.ts・growth.ts・gachaPreviews.generated.ts。",
 "links": [
 {
 "dir": "to",
@@ -51476,6 +52149,38 @@
 "flow": []
 },
 {
+"id": "tests/mockPrintPairs.test.ts",
+"path": "tests/mockPrintPairs.test.ts",
+"name": "mockPrintPairs.test.ts",
+"folder": "tests",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "2件の確認（it）を持つ。主な確認：「大学別の問題＋解答・解説プリントは一回一冊」「問題側・解答側の旧所持IDは、同じ回の新しい1冊アイテムにまとめて引き継ぐ」。対象：arenaEconomy.ts・growth.ts・akitaMockPrints.ts。",
+"links": [
+{
+"dir": "to",
+"path": "src/battle/core/growth.ts"
+},
+{
+"dir": "to",
+"path": "src/battle/core/arenaEconomy.ts"
+},
+{
+"dir": "to",
+"path": "src/data/akitaMockPrints.ts"
+}
+],
+"lines": 54,
+"tag": "テスト",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 13,
+"nBy": 0,
+"draft": true,
+"sys": "test",
+"flow": []
+},
+{
 "id": "tests/motionExtras.test.ts",
 "path": "tests/motionExtras.test.ts",
 "name": "motionExtras.test.ts",
@@ -51634,7 +52339,7 @@
 "name": "osakaMockPrints.test.ts",
 "folder": "tests",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "3件の確認（it）を持つ。主な確認：「LR：大阪大学 前期 英語 予想問題」「3回分 × 問題・解答解説の6種。ファイル・サムネイル・KB が実物と合う」。対象：arenaEconomy.ts・growth.ts・gachaPreviews.generated.ts。",
+"detail": "2件の確認（it）を持つ。主な確認：「LR：大阪大学 前期 英語 予想問題」「3回分を各1アイテムにまとめ、各PDFに問題・解答解説を順に収録する」。対象：arenaEconomy.ts・growth.ts・gachaPreviews.generated.ts。",
 "links": [
 {
 "dir": "to",
@@ -51649,7 +52354,7 @@
 "path": "src/data/osakaMockPrints.ts"
 }
 ],
-"lines": 51,
+"lines": 46,
 "tag": "テスト",
 "conf": "低",
 "kind": "file",
@@ -52135,7 +52840,7 @@
 "name": "ritsuMockPrints.test.ts",
 "folder": "tests",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "3件の確認（it）を持つ。主な確認：「LR：立命館大学 全学統一（文系） 英語 予想問題」「3回分 × 問題・解答解説の6種。ファイル・サムネイル・KB が実物と合う」。対象：arenaEconomy.ts・growth.ts・gachaPreviews.generated.ts。",
+"detail": "3件の確認（it）を持つ。主な確認：「LR：立命館大学 全学統一（文系） 英語 予想問題」「3回分を各1アイテム（問題＋解答・解説）。ファイル・サムネイル・KB が実物と合う」。対象：arenaEconomy.ts・growth.ts・gachaPreviews.generated.ts。",
 "links": [
 {
 "dir": "to",
@@ -52150,7 +52855,7 @@
 "path": "src/data/ritsuMockPrints.ts"
 }
 ],
-"lines": 51,
+"lines": 50,
 "tag": "テスト",
 "conf": "低",
 "kind": "file",
@@ -52619,7 +53324,7 @@
 "name": "tohokuMockPrints.test.ts",
 "folder": "tests",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "3件の確認（it）を持つ。主な確認：「LR：東北大学 前期 英語 予想問題」「3回分 × 問題・解答解説の6種。ファイル・サムネイル・KB が実物と合う」。対象：arenaEconomy.ts・growth.ts・gachaPreviews.generated.ts。",
+"detail": "3件の確認（it）を持つ。主な確認：「LR：東北大学 前期 英語 予想問題」「3回分を各1アイテム（問題＋解答・解説）。ファイル・サムネイル・KB が実物と合う」。対象：arenaEconomy.ts・growth.ts・gachaPreviews.generated.ts。",
 "links": [
 {
 "dir": "to",
@@ -52634,7 +53339,7 @@
 "path": "src/data/tohokuMockPrints.ts"
 }
 ],
-"lines": 52,
+"lines": 51,
 "tag": "テスト",
 "conf": "低",
 "kind": "file",
@@ -52822,7 +53527,7 @@
 "name": "yamagataMockPrints.test.ts",
 "folder": "tests",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "3件の確認（it）を持つ。主な確認：「LR：山形大学 前期 英語 予想問題」「3回分 × 問題・解答解説の6種。ファイル・サムネイル・KB が実物と合う」。対象：arenaEconomy.ts・growth.ts・gachaPreviews.generated.ts。",
+"detail": "3件の確認（it）を持つ。主な確認：「LR：山形大学 前期 英語 予想問題」「3回分を各1アイテム（問題＋解答・解説）。ファイル・サムネイル・KB が実物と合う」。対象：arenaEconomy.ts・growth.ts・gachaPreviews.generated.ts。",
 "links": [
 {
 "dir": "to",
@@ -52837,7 +53542,7 @@
 "path": "src/data/yamagataMockPrints.ts"
 }
 ],
-"lines": 52,
+"lines": 51,
 "tag": "テスト",
 "conf": "低",
 "kind": "file",
@@ -52914,12 +53619,12 @@
 "one": "単元の索引・英文法の問題・単語数などを生成して持つ係",
 "detail": "chapterIndex（gen-chapter-index.mts）、egV3Items（grammar_v3/build_ts.py）、listeningVocabularyMeta（gen-listening-vocabulary.mts）、gachaPrints の各生成物。手で編集しない。",
 "links": [],
-"lines": 2176,
+"lines": 2080,
 "tag": "データ",
 "conf": "高",
 "kind": "bundle",
 "count": 6,
-"bytes": 1657722,
+"bytes": 1654358,
 "exts": {
 ".ts": 6
 },
@@ -53149,11 +53854,11 @@
 "tag": "文書",
 "conf": "高",
 "kind": "bundle",
-"count": 744,
-"bytes": 200107903,
+"count": 648,
+"bytes": 204988069,
 "exts": {
-".webp": 512,
-".pdf": 208,
+".webp": 440,
+".pdf": 184,
 ".mp3": 24
 },
 "members": [
