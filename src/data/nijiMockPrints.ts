@@ -38,6 +38,9 @@
  *     そのあと学部で分かれるため2系統×3回（計6冊）。法文・人間科学・総合理工・生物資源科学部用＝1・2・4（グラフを読んで約70語）・
  *     90分・200点（70・80・50）／医学部医学科用＝1・2・3（医療の長文）・5（A 和文英訳・B 約80語の意見文）・120分・300点（70・80・90・60）。
  *     時間・配点・小問の配点は編集部の想定。グラフの数値は架空。
+ *   - 公立鳥取環境大学 前期対策（2026-11-04 追加）：Part 1 約650語の記事＋4択20問（内容・語義・段落の主旨）・Part 2 150語以上の英作文・
+ *     Part 3 会話の空所（4つの文から選ぶ／お知らせを読んで書く）・Part 4 約110語の短い記事を読んで80〜100語の意見・90分。
+ *     英語は両学部・A/B方式共通の1種類。配点は大学非公表のため編集部の想定（100点：40・24・12・24）。3回分。
  *   ★過去問ではない★ 英文・設問・図表・解答はすべて書き下ろし。過去問・解答速報・講評の文章は引用していない
  *   （英語5語以上・日本語12字以上の連続一致がないことを機械で確認済み）。表紙と奥付に「大学とは関係がない」旨を明記。
  *
@@ -80,6 +83,7 @@ export const NIJI_UNIVERSITIES = [
   { id: 'onomichi', name: '尾道市立大学', track: '経済情報学部' },
   { id: 'shimaneh', name: '島根大学', track: '法文・人間科学・総合理工・生物資源科学部' },
   { id: 'shimanem', name: '島根大学', track: '医学部医学科' },
+  { id: 'kankyo', name: '公立鳥取環境大学', track: '' },
 ] as const;
 export type NijiUniversityId = (typeof NIJI_UNIVERSITIES)[number]['id'];
 
@@ -124,6 +128,7 @@ const yamaguchi = (n: number, pages: number, kb: number) => mock('yamaguchi', n,
 const onomichi = (n: number, pages: number, kb: number) => mock('onomichi', n, pages, kb);
 const shimaneh = (n: number, pages: number, kb: number) => mock('shimaneh', n, pages, kb);
 const shimanem = (n: number, pages: number, kb: number) => mock('shimanem', n, pages, kb);
+const kankyo = (n: number, pages: number, kb: number) => mock('kankyo', n, pages, kb);
 
 export const NIJI_MOCK_PRINTS: readonly GachaPrintDef[] = [
   nagoya(1, 28, 2026),
@@ -210,6 +215,9 @@ export const NIJI_MOCK_PRINTS: readonly GachaPrintDef[] = [
   shimanem(1, 22, 353),
   shimanem(2, 22, 348),
   shimanem(3, 22, 331),
+  kankyo(1, 19, 1415),
+  kankyo(2, 20, 1404),
+  kankyo(3, 19, 1409),
 ];
 
 /** その大学の予想問題に必ず添える注意書き（PDF の表紙・奥付と同じ文） */

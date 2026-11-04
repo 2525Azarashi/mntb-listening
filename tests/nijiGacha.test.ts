@@ -96,7 +96,7 @@ describe('2次試験ガチャ：抽選', () => {
 
 describe('2次試験の予想問題 PDF', () => {
   it('台帳のページ数・ファイル・サムネイルが実物と合う', () => {
-    expect(NIJI_MOCK_PRINTS.length).toBe(84); // 名古屋 3・静岡 3・大阪公立 A 3・B 3・和歌山 3・岡山 3・広島 3・東京学芸 3・琉球 3・熊本 3・佐賀 3・九州 3
+    expect(NIJI_MOCK_PRINTS.length).toBe(87); // 名古屋 3・静岡 3・大阪公立 A 3・B 3・和歌山 3・岡山 3・広島 3・東京学芸 3・琉球 3・熊本 3・佐賀 3・九州 3・公立鳥取環境 3
     // ＋四国 27（香川 3・徳島 3・愛媛 法文工/教育/医 各3・高知 人文/国際/教育/医 各3）
     // ＋福岡女子 3・東京外大 3・鳥取 3・山口 3・尾道市立 3・島根 2系統×3
     for (const u of NIJI_UNIVERSITIES) expect(NIJI_MOCK_PRINTS.filter((p) => nijiUniversityOf(p.id)?.id === u.id).length, u.id).toBe(3);

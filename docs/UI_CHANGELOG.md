@@ -10,6 +10,17 @@
 
 ---
 
+## 2026-11-04 2次試験ガチャ LR に公立鳥取環境大学（前期・英語）予想問題3回分を追加（PR: feat/niji-kankyo）
+
+| 何を | どう変えた | ファイル |
+|---|---|---|
+| 2次試験ガチャの LR | 公立鳥取環境大学 前期（英語・全学部共通）の予想問題を3冊追加（各回 問題11ページ＋解答・解説8〜9ページ）。ピックアップ一覧・LR の説明にも大学名が出る | `public/prints/print_lr_niji_kankyo_en_{1,2,3}.pdf`・`src/data/nijiMockPrints.ts`・`src/battle/core/gachaPools.ts` |
+| ショップの PDF の棚 | 公立鳥取環境大学を「2次 中国・四国」の棚に入れる | `src/battle/core/printShelves.ts` |
+
+**戻し方**：このPRを revert（PDF・サムネ・プレビューも消える）。
+
+---
+
 ## 2026-11-04 2次試験ガチャ LR に尾道市立大学（経済情報学部）の英語 予想問題 3回分（PR: feat/niji-onomichi）
 
 | 何を | どう変えた | ファイル |
