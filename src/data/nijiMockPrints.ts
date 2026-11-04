@@ -21,6 +21,21 @@
  *   - 福井大学 前期対策（2026-11-03 追加）：教育学部・医学部医学科・国際地域学部で問題が異なるため、各3回分（計9冊）。
  *   - 福井県立大学 前期対策（2026-11-03 追加）：英語を課す学部・学科の共通問題（長文・和文英訳・自由英作文）・90分・100点。3回分。
  *     （北陸の公立大学で2次に英語を課すのは福井県立大学のみ）
+ *   - 九州大学 前期対策（2026-11-01 追加）：大問〔1〕〜〔5〕（段落番号つきの長文3題・約100語の自由英作文・グラフを約80語で説明）
+ *     ・120分・200点（40・45・45・40・30）。全学部共通。小問の配点は編集部の想定。3回分。
+ *   - 福岡女子大学 前期対策（2026-11-02 追加）：問題Ⅰ〜Ⅲ（約700語の長文2題・和文英訳2問）・90分。3学科共通。
+ *     配点は大学非公表のため編集部の想定（100点：40・40・20）。3回分。
+ *   - 東京外国語大学 前期対策（2026-11-03 追加）：大問1〜5（約1000語の長文を日本語で説明・語群から選び形を変える空所10・
+ *     講義を聞く3択・インタビューを聞く3択・講義を聞いて150語の要約と200語の意見文）・120分・250点（60・30・40・40・80）。
+ *     3学部共通。リスニングは音声なし（解答編の「読み上げ原稿」を人が読む）。英語スピーキング試験は対象外。3回分。
+ *   - 四国（2026-11-02 追加）：各大学・各系統の前期の形式に沿って3回分ずつ（計27冊）。
+ *     香川大学（全学部共通）／徳島大学（全学部共通）／
+ *     愛媛大学（法文学部・工学部〈文理型〉、教育学部、医学部医学科〈総合問題・英文〉）／
+ *     高知大学（人文社会科学部 人文科学コース、同 国際社会コース、教育学部、医学部医学科）。
+ *   - 鳥取大学 前期対策（2026-11-03 追加）：［Ⅰ］［Ⅱ］長文読解・［Ⅲ］和文英訳・［Ⅳ］自由英作文（40語以上）・90分。英語を課す全学部共通。3回分。
+ *   - 山口大学 前期対策（2026-11-03 追加）：Ⅰ 約1000語の長文（設問・解答とも英語）・Ⅱ 約1000語のエッセイ／物語（設問は日本語）・
+ *     Ⅲ-1 会話文の空所に英語・Ⅲ-2 日本語の指示を英語にしてメール完成・120分・200点（65・65・30・40）。全学部共通。
+ *     小問の配点は編集部の想定。3回分。
  *   ★過去問ではない★ 英文・設問・図表・解答はすべて書き下ろし。過去問・解答速報・講評の文章は引用していない
  *   （英語5語以上・日本語12字以上の連続一致がないことを機械で確認済み）。表紙と奥付に「大学とは関係がない」旨を明記。
  *
@@ -31,6 +46,8 @@ import type { GachaPrintDef } from './gachaPrints.generated';
 /**
  * 予想問題を作った大学（id は PDF のファイル名に使う）。
  * track：学部・学域で問題が分かれる大学だけ、どの系統向けかを書く（ラベルにも出す）。
+ * ★新しい大学を作る前に必ず `npm run niji:made -- <大学名> <id>` で作成済みかを確認する（main・開いている PR・手元の
+ *   ブランチを全部見る）。「✗ 作成済み」と出た大学は作らない（CLAUDE.md・scripts/gacha-prints/niji-made.mjs）。
  */
 export const NIJI_UNIVERSITIES = [
   { id: 'nagoya', name: '名古屋大学', track: '' },
@@ -51,6 +68,20 @@ export const NIJI_UNIVERSITIES = [
   { id: 'fukuim', name: '福井大学', track: '医学部医学科' },
   { id: 'fukuig', name: '福井大学', track: '国際地域学部' },
   { id: 'fpu', name: '福井県立大学', track: '' },
+  { id: 'kyushu', name: '九州大学', track: '' },
+  { id: 'fwu', name: '福岡女子大学', track: '' },
+  { id: 'tufs', name: '東京外国語大学', track: '' },
+  { id: 'kagawa', name: '香川大学', track: '' },
+  { id: 'tokushima', name: '徳島大学', track: '' },
+  { id: 'ehimeh', name: '愛媛大学', track: '法文学部・工学部（文理型）' },
+  { id: 'ehimee', name: '愛媛大学', track: '教育学部' },
+  { id: 'ehimem', name: '愛媛大学', track: '医学部医学科（総合問題）' },
+  { id: 'kochij', name: '高知大学', track: '人文社会科学部 人文科学コース' },
+  { id: 'kochik', name: '高知大学', track: '人文社会科学部 国際社会コース' },
+  { id: 'kochie', name: '高知大学', track: '教育学部' },
+  { id: 'kochim', name: '高知大学', track: '医学部医学科' },
+  { id: 'tottori', name: '鳥取大学', track: '' },
+  { id: 'yamaguchi', name: '山口大学', track: '' },
 ] as const;
 export type NijiUniversityId = (typeof NIJI_UNIVERSITIES)[number]['id'];
 
@@ -85,6 +116,20 @@ const fukuie = (n: number, pages: number, kb: number) => mock('fukuie', n, pages
 const fukuim = (n: number, pages: number, kb: number) => mock('fukuim', n, pages, kb);
 const fukuig = (n: number, pages: number, kb: number) => mock('fukuig', n, pages, kb);
 const fpu = (n: number, pages: number, kb: number) => mock('fpu', n, pages, kb);
+const kyushu = (n: number, pages: number, kb: number) => mock('kyushu', n, pages, kb);
+const fwu = (n: number, pages: number, kb: number) => mock('fwu', n, pages, kb);
+const tufs = (n: number, pages: number, kb: number) => mock('tufs', n, pages, kb);
+const kagawa = (n: number, pages: number, kb: number) => mock('kagawa', n, pages, kb);
+const tokushima = (n: number, pages: number, kb: number) => mock('tokushima', n, pages, kb);
+const ehimeh = (n: number, pages: number, kb: number) => mock('ehimeh', n, pages, kb);
+const ehimee = (n: number, pages: number, kb: number) => mock('ehimee', n, pages, kb);
+const ehimem = (n: number, pages: number, kb: number) => mock('ehimem', n, pages, kb);
+const kochij = (n: number, pages: number, kb: number) => mock('kochij', n, pages, kb);
+const kochik = (n: number, pages: number, kb: number) => mock('kochik', n, pages, kb);
+const kochie = (n: number, pages: number, kb: number) => mock('kochie', n, pages, kb);
+const kochim = (n: number, pages: number, kb: number) => mock('kochim', n, pages, kb);
+const tottori = (n: number, pages: number, kb: number) => mock('tottori', n, pages, kb);
+const yamaguchi = (n: number, pages: number, kb: number) => mock('yamaguchi', n, pages, kb);
 
 export const NIJI_MOCK_PRINTS: readonly GachaPrintDef[] = [
   nagoya(1, 28, 2026),
@@ -141,11 +186,75 @@ export const NIJI_MOCK_PRINTS: readonly GachaPrintDef[] = [
   fpu(1, 20, 1870),
   fpu(2, 19, 1847),
   fpu(3, 20, 1846),
+  kyushu(1, 30, 1827),
+  kyushu(2, 30, 1790),
+  kyushu(3, 30, 1862),
+  fwu(1, 23, 1813),
+  fwu(2, 22, 1843),
+  fwu(3, 22, 1834),
+  tufs(1, 35, 2014),
+  tufs(2, 34, 2003),
+  tufs(3, 34, 1972),
+  kagawa(1, 16, 299),
+  kagawa(2, 16, 286),
+  kagawa(3, 16, 276),
+  tokushima(1, 15, 244),
+  tokushima(2, 15, 236),
+  tokushima(3, 15, 231),
+  ehimeh(1, 17, 301),
+  ehimeh(2, 17, 287),
+  ehimeh(3, 17, 297),
+  ehimee(1, 15, 277),
+  ehimee(2, 15, 276),
+  ehimee(3, 15, 277),
+  ehimem(1, 14, 317),
+  ehimem(2, 13, 311),
+  ehimem(3, 13, 308),
+  kochij(1, 15, 257),
+  kochij(2, 15, 263),
+  kochij(3, 15, 256),
+  kochik(1, 18, 286),
+  kochik(2, 18, 282),
+  kochik(3, 18, 284),
+  kochie(1, 21, 293),
+  kochie(2, 21, 288),
+  kochie(3, 21, 295),
+  kochim(1, 22, 318),
+  kochim(2, 22, 310),
+  kochim(3, 22, 335),
+  tottori(1, 20, 315),
+  tottori(2, 20, 315),
+  tottori(3, 20, 301),
+  yamaguchi(1, 26, 1858),
+  yamaguchi(2, 25, 1826),
+  yamaguchi(3, 25, 1828),
 ];
 
 /** その大学の予想問題に必ず添える注意書き（PDF の表紙・奥付と同じ文） */
 export function nijiDisclaimerFor(univName: string): string {
   return `${univName}の過去問・公式問題ではありません。予想問題であり、大学とは関係がありません。`;
+}
+
+/**
+ * 2次試験ガチャの LR に入っている、ほかの大学別 予想問題（問題／解答・解説が別冊。台帳は hokudai/tohoku/hirosaki/iwate/akita/yamagata/kobe/osaka/ritsuMockPrints.ts）。
+ *   id は print_lr_{id}_{q|a}_{回}。
+ */
+export const OTHER_MOCK_UNIVERSITIES = [
+  { id: 'hokudai', name: '北海道大学' },
+  { id: 'tohoku', name: '東北大学' },
+  { id: 'hirosaki', name: '弘前大学' },
+  { id: 'iwate', name: '岩手大学' },
+  { id: 'akita', name: '秋田大学' },
+  { id: 'yamagata', name: '山形大学' },
+  { id: 'kobe', name: '神戸大学' },
+  { id: 'osaka', name: '大阪大学' },
+  { id: 'ritsu', name: '立命館大学' },
+] as const;
+
+/** 2次試験ガチャの予想問題（id）がどの大学のものか（名古屋・静岡に加え、北大・東北大・弘前大・岩手大・秋田大・山形大・神戸・阪大・立命館も）。予想問題でなければ undefined */
+export function mockUniversityOf(id: string): { id: string; name: string } | undefined {
+  const m = id.match(/^print_lr_([a-z]+)_[qa]_\d+$/);
+  return m ? OTHER_MOCK_UNIVERSITIES.find((u) => u.id === m[1]) : nijiUniversityOf(id);
 }
 
 /** 予想問題（id）がどの大学のものか。2次の予想問題でなければ undefined */
@@ -155,4 +264,4 @@ export function nijiUniversityOf(id: string): (typeof NIJI_UNIVERSITIES)[number]
 }
 
 /** ピックアップなど、ガチャ全体に添える注意書き（収録している大学をすべて挙げる） */
-export const NIJI_DISCLAIMER = `${[...new Set(NIJI_UNIVERSITIES.map((u) => u.name))].join('・')}の過去問・公式問題ではありません。予想問題であり、各大学とは関係がありません。`;
+export const NIJI_DISCLAIMER = `${[...new Set([...NIJI_UNIVERSITIES, ...OTHER_MOCK_UNIVERSITIES].map((u) => u.name))].join('・')}の過去問・公式問題ではありません。予想問題であり、各大学とは関係がありません。`;

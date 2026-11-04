@@ -11,8 +11,10 @@ import { formatText } from '../../utils/textFormatter';
 import { isAnswerCorrect } from '../../utils/answerJudge';
 import { locateP6 } from './toeicPageModel';
 
-export function ToeicP6Passage({ set, setIndex, offset, page, answers, scored }: {
+export function ToeicP6Passage({ set, setIndex, offset, page, answers, scored, focusBlank }: {
   set: ToeicP6Set; setIndex: number; offset: number; page: readonly SubQuestion[]; answers: Record<string, string>; scored: boolean;
+  /** 採点後に「文書で空所を見る」を押した問題の番号（回の中の通し番号）。その空所に枠を付ける（2026-11-03） */
+  focusBlank?: number | null;
 }) {
   const subOf = (n: number) => page.find((sq) => { const at = locateP6(sq.id); return at && at.blank === n - 1; });
   return (
@@ -25,16 +27,17 @@ export function ToeicP6Passage({ set, setIndex, offset, page, answers, scored }:
       {set.p.map((para, i) => (
         <p key={i} lang="en">
           {splitParagraph(para).map((piece, j) => {
-            if (piece.blank == null) return <span key={j}>{formatText(piece.text || '', [], { prose: true })}</span>;
+            if (piece.blank == null) return <span key={j}>{formatText(piece.text || '', [], { prose: true, noMath: true })}</span>;
             const no = offset + piece.blank;
             const sq = subOf(piece.blank);
             const chosen = sq ? answers[sq.id] || '' : '';
             const filled = sq && chosen ? (sq.optionTexts || [])[sq.options.indexOf(chosen)] ?? '' : '';
             const result = scored && sq && chosen ? (isAnswerCorrect(sq, chosen) ? 'right' : 'wrong') : undefined;
             return (
-              <span key={j} className="tp-blank tp-doc-blank" data-filled={filled ? true : undefined} data-result={result} data-toeic-doc-blank={no}>
+              <span key={j} className="tp-blank tp-doc-blank" data-filled={filled ? true : undefined} data-result={result} data-toeic-doc-blank={no}
+                data-focus={focusBlank === no || undefined}>
                 <span className="tp-doc-no">({no})</span>
-                {filled ? <span>{formatText(filled, [], { prose: true })}</span> : <span className="tp-sr">空所</span>}
+                {filled ? <span>{formatText(filled, [], { prose: true, noMath: true })}</span> : <span className="tp-sr">空所</span>}
               </span>
             );
           })}
