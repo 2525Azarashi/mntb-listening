@@ -45,7 +45,7 @@ P1Q = {
          'choices': ['build much higher walls along the river', 'move the people of Helm to the mountains', 'turn some farmland near the marshes back into wetland', 'stop boats from using the river'], 'answer': 'c',
          'expl': '第5段落 Instead of simply building higher walls … Some farmland near the marshes was turned back into wetland。instead of があるので a は逆。'},
         {'stem': 'Why does the article compare the wetland to a sponge?',
-         'choices': ['because it is soft to walk on', 'because it can hold large amounts of water', 'because it is full of holes made by animals', 'because it dries very quickly'], 'answer': 'b',
+         'choices': ['because it is soft to walk on', 'because it can hold large amounts of water', 'because animals have dug holes all over it', 'because it dries very quickly'], 'answer': 'b',
          'expl': '第5段落 which can hold huge amounts of water like a sponge。水をたくさんためられる点をスポンジにたとえている。'},
         {'stem': 'About how much of Eskard’s electricity is produced by the dam near Ostby?',
          'choices': ['about 5 percent', 'about half', 'almost all of it', 'about 20 percent'], 'answer': 'd',
