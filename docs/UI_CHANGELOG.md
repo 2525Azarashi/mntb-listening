@@ -22,6 +22,34 @@
 **戻し方**：`nijiMockPrints.ts` の東海7系統の行（`NIJI_UNIVERSITIES` の7行・ヘルパー7行・台帳21行・先頭コメントの東海の項目）を消し、`gachaPools.ts` の lrNote・`build-previews.py` の正規表現・`tests/nijiGacha.test.ts` の件数（75→54）と東海の確認行を元に戻す。`gachaPreviews.generated.ts` から東海21件を消す。PDF・画像は消してよい。
 
 ---
+
+## 2026-11-04 塾クラスの生徒は広告なし・ショップの PDF を棚（地方・教科）で整理（PR: feat/juku-noads-pdf-shelf）
+
+| # | 何を | どう変えた | ファイル |
+|---|---|---|---|
+| 1 | 塾クラスの生徒の広告 | 塾クラス（plan == 'juku'）に入っている生徒は、下のバナー（と、その場所の余白）・ガチャ「動画で1回」の広告を出さない。動画で1回は今までどおりアプリ内の応援動画で引ける。判定は端末に覚えた在籍（クラス画面・ログイン時に読み直し）。ゲスト・塾以外のクラス・クラスなしは今までどおり | `src/ads/adFree.ts`（新）・`src/hooks/useJukuAdFree.ts`（新）・`src/ads/AdBannerSlot.tsx`・`src/ads/rewardedAd.ts`・`src/App.tsx` |
+| 2 | ショップの PDF | 種類「PDF」を選ぶと、その下に **棚のチップ**（共通テスト予想／2次 北海道・東北／関東・中部／近畿／中国・四国／九州・沖縄／完全版の本／英語／化学／数学／情報／生物・理科／出題傾向。件数つき）。マイPDF でも、持っている PDF が2つ以上の棚にまたがると出る。見た目は種類のチップと同じ | `src/battle/core/printShelves.ts`（新）・`src/components/MyCollection.tsx`・`src/components/growth-hub.css`（末尾） |
+| 3 | 低い画面（高さ600px以下） | 棚が出ている間だけ、下の「所有アイテム・コインは…」の注意書きを畳んで一覧の場所を空ける | `growth-hub.css` |
+
+- 新しい大学の予想問題を足したら `printShelves.ts` の `UNIV_REGION` に1行（`tests/printShelves.test.ts` が見張る）。
+
+**戻し方**：
+- 丸ごと戻す：このPRを revert。
+- 広告だけ戻す：`App.tsx` の `useJukuAdFree();` の1行を消す（全員に今までどおり広告）。
+- 棚だけ消す：`MyCollection.tsx` の `data-print-shelves` の `<nav>` を消し、`inShelf(i) &&` を外す。
+
+---
+
+## 2026-11-04 タイトル画面のとびら君の動画を、もう1本の動画に差し替え（PR: feat/title-video-e6）
+
+| 何を | どう変えた | ファイル |
+|---|---|---|
+| タイトル画面（起動時）のとびら君の動画 | E4（11/03）で作った動画から、送られた2本のうちもう1本（「…heartwarming 200121 Aoq.mp4」）に差し替え。手に鉛筆と三角定規を持って、その場で体をゆらす動き（2.7秒）。目が白く崩れるコマは使っていない。背景はほかの動画と同じクリーム色 | `public/cinematics/title.mp4`・`title-poster.webp`・`scripts/firefly-kit/title_e6.py` |
+
+- 動画の最後のコマと、そのあと残る静止画（装備したポーズ）の位置はほぼ同じなので、配置（CSS）は変えていない。
+
+**戻し方**：`git checkout <この PR の前のコミット> -- public/cinematics/title.mp4 public/cinematics/title-poster.webp`（または、元動画を置いて `scripts/firefly-kit/title_e4.py` を実行して public/cinematics/ にコピー）。
+
 ## 2026-11-03 英単語・英文法に ElevenLabs の音源、単語帳に読み方の表示（PR: feat/elevenlabs-audio）
 
 | 何を | どう変えた | ファイル |
