@@ -8,11 +8,12 @@ P4 = {
         "Every September, the town of Larkfield closes its main streets to cars for one whole week. During this week, people walk, cycle "
         "or take free buses to work and school. Shops put tables on the empty roads, and children draw pictures on the ground with chalk. "
         "The town says that air pollution falls by about 30 percent during the week, and many residents enjoy the quiet streets. However, "
-        "some delivery companies and older people who find walking difficult say the week causes them real problems. The town is now "
+        "some delivery companies and older people who find walking difficult say the week causes them real problems. A few shop owners "
+        "also report fewer customers from nearby villages. The town is now "
         "discussing whether the car-free week should become a car-free month.",
     ],
     'article_ja': [
-        '毎年9月，ラークフィールドの町は中心部の道路を丸1週間車の通行止めにする。この週の間，人々は歩くか，自転車に乗るか，無料のバスを使って職場や学校へ行く。店は空いた道路にテーブルを出し，子どもたちはチョークで地面に絵を描く。町によれば，この週の間は大気汚染が約30％減り，多くの住民が静かな通りを楽しんでいる。しかし，配送業者や歩くのが難しい高齢者の中には，この週が実際に困りごとを生んでいると言う人もいる。町は今，車のない週を車のない月にするかどうかを話し合っている。',
+        '毎年9月，ラークフィールドの町は中心部の道路を丸1週間車の通行止めにする。この週の間，人々は歩くか，自転車に乗るか，無料のバスを使って職場や学校へ行く。店は空いた道路にテーブルを出し，子どもたちはチョークで地面に絵を描く。町によれば，この週の間は大気汚染が約30％減り，多くの住民が静かな通りを楽しんでいる。しかし，配送業者や歩くのが難しい高齢者の中には，この週が実際に困りごとを生んでいると言う人もいる。近くの村から来る客が減ったと言う店主も何人かいる。町は今，車のない週を車のない月にするかどうかを話し合っている。',
     ],
     'question': 'Do you think the town should make the car-free week a car-free month? Why or why not?',
     'question_ja': 'あなたは，町が車のない週を車のない月にすべきだと思いますか。そう思う，または思わない理由は何ですか。',
