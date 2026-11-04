@@ -25,7 +25,7 @@ P1 = {
 
         "Some researchers have also pointed out that laptops bring {u5|distractions} with them. A message from a friend, a news headline or a "
         "video can pull attention away from the lecture in a second. In Okoro’s study, students using laptops were not allowed to go online, but "
-        "in real classrooms there is no such rule, and the gap between the two groups {r6}.",
+        "in real classrooms there is no such rule, and the gap between the two groups {r6} his study.",
 
         "This does not mean that keyboards should be banned. For students with certain disabilities, typing may be the only practical way to "
         "take notes, and some people simply write too slowly to keep up with a fast speaker. Okoro himself types most of his emails and papers. "
