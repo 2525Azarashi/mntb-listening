@@ -2,7 +2,7 @@
 # 第1回 問題Ⅰ：「正常値」という考え方の成り立ち（書き下ろし。都市・人物・数値・書名はすべて架空）
 P1 = {
     'points': 50,
-    'lead': '次の英文を読んで，問1〜問4に答えなさい。＊の付いた語句には文末に注がある。',
+    'lead': '以下の英文を読み，設問（問1〜問4）に答えよ。＊印の語句は文末の注を参照すること。',
     'title': 'The Invention of the Normal Patient',
     'passage': [
         "When a doctor tells you that your blood pressure or your temperature is \u201cnormal,\u201d the word sounds like a simple "

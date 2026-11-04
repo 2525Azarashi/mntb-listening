@@ -2,7 +2,7 @@
 # 第1回 問題Ⅲ：村の外科医が書いた「失敗の記録」（医学史の研究書。書き下ろし。人物・町・書名はすべて架空）
 P3 = {
     'points': 50,
-    'lead': '次の英文を読んで，問1〜問5に答えなさい。＊の付いた語句には文末に注がある。',
+    'lead': '以下の英文を読み，設問（問1〜問5）に答えよ。＊印の語句は文末の注を参照すること。',
     'title': 'A Surgeon Who Wrote Down His Failures',
     'passage': [
         "In the spring of 1782, a country surgeon named Elias Dorn began a notebook that would occupy him for the rest of his life. "

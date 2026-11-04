@@ -11,7 +11,7 @@ P1Q = {
                       ('that of his neighbours の that が脈を指すことがわかる訳になっている', 3),
                       ('what it had been before he fell ill を「病気になる前の状態」と訳している', 3)]},
         {'label': '問2', 'type': 'ja', 'kind': '下線部和訳', 'ref': '2', 'points': 14, 'lines': 5,
-         'stem': '下線部(2)を，his figure が何を指すかを明らかにしながら和訳しなさい。',
+         'stem': '下線部(2)を，his figure が指すものを補って日本語に訳せ。',
          'answer': 'フェアハルトが求めた「健康な体温」という数値が，厳密に言って間違っていたというわけではない。そうではなく，その数値は特定のやり方で測定された特定の集団の人々を表していたのに，そのあとすべての人を表すものとして受け取られた，ということなのである。',
          'expl': 'It is not that …; it is that …（…というわけではない。…ということなのだ）の構文。his figure は第2段落でフェアハルトが計算した「健康な体温」の値。exactly は否定とともに「厳密に言えば（〜というわけではない）」。後半は described と was then taken の二つの動詞が and で並ぶ。take A to do（A が〜すると受け取る）の受動態。',
          'criteria': [('his figure を「フェアハルトが求めた健康な体温（の値）」と明らかにしている', 3),

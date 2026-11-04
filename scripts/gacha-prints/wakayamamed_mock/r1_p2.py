@@ -2,7 +2,7 @@
 # 第1回 問題Ⅱ：「ありがとう」を言わない島（人類学者のエッセイ。書き下ろし。島・人物・書名はすべて架空）
 P2 = {
     'points': 50,
-    'lead': '次の英文を読んで，問1〜問5に答えなさい。＊の付いた語句には文末に注がある。',
+    'lead': '以下の英文を読み，設問（問1〜問5）に答えよ。＊印の語句は文末の注を参照すること。',
     'title': 'The Island Without Thanks',
     'passage': [
         "During my first month on the island of Tavu, I made what I thought was a terrible mistake almost every day. Whenever "
