@@ -10,6 +10,33 @@
 
 ---
 
+## 2026-11-04 塾クラスの生徒は広告なし・ショップの PDF を棚（地方・教科）で整理（PR: feat/juku-noads-pdf-shelf）
+
+| # | 何を | どう変えた | ファイル |
+|---|---|---|---|
+| 1 | 塾クラスの生徒の広告 | 塾クラス（plan == 'juku'）に入っている生徒は、下のバナー（と、その場所の余白）・ガチャ「動画で1回」の広告を出さない。動画で1回は今までどおりアプリ内の応援動画で引ける。判定は端末に覚えた在籍（クラス画面・ログイン時に読み直し）。ゲスト・塾以外のクラス・クラスなしは今までどおり | `src/ads/adFree.ts`（新）・`src/hooks/useJukuAdFree.ts`（新）・`src/ads/AdBannerSlot.tsx`・`src/ads/rewardedAd.ts`・`src/App.tsx` |
+| 2 | ショップの PDF | 種類「PDF」を選ぶと、その下に **棚のチップ**（共通テスト予想／2次 北海道・東北／関東・中部／近畿／中国・四国／九州・沖縄／完全版の本／英語／化学／数学／情報／生物・理科／出題傾向。件数つき）。マイPDF でも、持っている PDF が2つ以上の棚にまたがると出る。見た目は種類のチップと同じ | `src/battle/core/printShelves.ts`（新）・`src/components/MyCollection.tsx`・`src/components/growth-hub.css`（末尾） |
+| 3 | 低い画面（高さ600px以下） | 棚が出ている間だけ、下の「所有アイテム・コインは…」の注意書きを畳んで一覧の場所を空ける | `growth-hub.css` |
+
+- 新しい大学の予想問題を足したら `printShelves.ts` の `UNIV_REGION` に1行（`tests/printShelves.test.ts` が見張る）。
+
+**戻し方**：
+- 丸ごと戻す：このPRを revert。
+- 広告だけ戻す：`App.tsx` の `useJukuAdFree();` の1行を消す（全員に今までどおり広告）。
+- 棚だけ消す：`MyCollection.tsx` の `data-print-shelves` の `<nav>` を消し、`inShelf(i) &&` を外す。
+
+---
+
+## 2026-11-04 タイトル画面のとびら君の動画を、もう1本の動画に差し替え（PR: feat/title-video-e6）
+
+| 何を | どう変えた | ファイル |
+|---|---|---|
+| タイトル画面（起動時）のとびら君の動画 | E4（11/03）で作った動画から、送られた2本のうちもう1本（「…heartwarming 200121 Aoq.mp4」）に差し替え。手に鉛筆と三角定規を持って、その場で体をゆらす動き（2.7秒）。目が白く崩れるコマは使っていない。背景はほかの動画と同じクリーム色 | `public/cinematics/title.mp4`・`title-poster.webp`・`scripts/firefly-kit/title_e6.py` |
+
+- 動画の最後のコマと、そのあと残る静止画（装備したポーズ）の位置はほぼ同じなので、配置（CSS）は変えていない。
+
+**戻し方**：`git checkout <この PR の前のコミット> -- public/cinematics/title.mp4 public/cinematics/title-poster.webp`（または、元動画を置いて `scripts/firefly-kit/title_e4.py` を実行して public/cinematics/ にコピー）。
+
 ## 2026-11-03 英単語・英文法に ElevenLabs の音源、単語帳に読み方の表示（PR: feat/elevenlabs-audio）
 
 | 何を | どう変えた | ファイル |
@@ -1326,3 +1353,12 @@
 | 2次試験ガチャの表示 | LR の説明文とピックアップの注意書きに秋田大学を追加。秋田大の景品の詳細にも大学名入りの「過去問・公式問題ではありません」の注意書きを出す | `src/battle/core/gachaPools.ts`、`src/data/nijiMockPrints.ts` |
 
 **戻し方**：`growthItems.ts` の `AKITA_MOCK_PRINTS`（import・ITEMS・printOf の3か所）と `gachaPools.ts` の import・`UNIV_MOCK_PRINT_IDS` から外し、`nijiMockPrints.ts` の `OTHER_MOCK_UNIVERSITIES` から akita を消す。`akitaMockPrints.ts`・`public/prints/*akita*`・`tests/akitaMockPrints.test.ts` を消して `build-previews.py` を流し直す。
+
+### 2026-11-03 2次試験ガチャ LR に山形大学 前期 英語 予想問題を追加
+
+| 場所 | 変更 | ファイル |
+|---|---|---|
+| 2次試験ガチャの LR | 山形大学 前期日程 英語（人文社会科学部・医学部ほか 英語を課す学部の共通問題）予想問題（第1〜3回 × 問題／解答・解説）の6種を追加。2次試験ガチャの LR は75種に等分（LR の割合 1% は同じ）。共通テストガチャには出ない | `src/data/yamagataMockPrints.ts`（新規）、`src/battle/core/growthItems.ts`、`src/battle/core/gachaPools.ts` |
+| 2次試験ガチャの表示 | LR の説明文とピックアップの注意書きに山形大学を追加。山形大の景品の詳細にも大学名入りの「過去問・公式問題ではありません」の注意書きを出す | `src/battle/core/gachaPools.ts`、`src/data/nijiMockPrints.ts` |
+
+**戻し方**：`growthItems.ts` の `YAMAGATA_MOCK_PRINTS`（import・ITEMS・printOf の3か所）と `gachaPools.ts` の import・`UNIV_MOCK_PRINT_IDS` から外し、`nijiMockPrints.ts` の `OTHER_MOCK_UNIVERSITIES` から yamagata を消す。`yamagataMockPrints.ts`・`public/prints/*yamagata*`・`tests/yamagataMockPrints.test.ts` を消して `build-previews.py` を流し直す。
