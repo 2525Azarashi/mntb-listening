@@ -620,6 +620,17 @@
 
 ---
 
+## 2026-11-04 2次試験ガチャの大当たりに島根大学を追加（PR: feat/niji-shimane）
+
+| # | どこ | 変更 | ファイル |
+|---|---|---|---|
+| 1 | 2次試験ガチャの LR | 国公立2次 英語 予想問題 島根大学 前期対策を6冊追加（法文・人間科学・総合理工・生物資源科学部／医学部医学科 各3回）。ラベルに学部名を出す | `src/data/nijiMockPrints.ts`・`public/prints/print_lr_niji_shimane{h,m}_en_{1,2,3}.pdf`・thumbs・previews・`src/data/gachaPreviews.generated.ts` |
+| 2 | ピックアップの説明文 | 収録大学に島根大学を追加（学部別に各3回の大学に並べる） | `src/battle/core/gachaPools.ts`・`nijiMockPrints.ts`（`NIJI_DISCLAIMER` は自動で島根大学を含む） |
+
+**戻し方**：`nijiMockPrints.ts` の `shimaneh`・`shimanem` の行（`NIJI_UNIVERSITIES` の2行・ヘルパー2行・台帳6行）を消し、`gachaPools.ts` の lrNote・`build-previews.py` の正規表現・`tests/nijiGacha.test.ts` の件数（81→75）を元に戻す。PDF・画像は消してよい。
+
+---
+
 ## 2026-11-03 2次試験ガチャの大当たりに鳥取大学を追加（PR: feat/niji-tottori）
 
 | # | どこ | 変更 | ファイル |
@@ -1373,3 +1384,12 @@
 | 2次試験ガチャの表示 | LR の説明文とピックアップの注意書きに山形大学を追加。山形大の景品の詳細にも大学名入りの「過去問・公式問題ではありません」の注意書きを出す | `src/battle/core/gachaPools.ts`、`src/data/nijiMockPrints.ts` |
 
 **戻し方**：`growthItems.ts` の `YAMAGATA_MOCK_PRINTS`（import・ITEMS・printOf の3か所）と `gachaPools.ts` の import・`UNIV_MOCK_PRINT_IDS` から外し、`nijiMockPrints.ts` の `OTHER_MOCK_UNIVERSITIES` から yamagata を消す。`yamagataMockPrints.ts`・`public/prints/*yamagata*`・`tests/yamagataMockPrints.test.ts` を消して `build-previews.py` を流し直す。
+
+### 2026-11-04 2次試験ガチャ LR に福島大学 前期 英語 予想問題を追加
+
+| 場所 | 変更 | ファイル |
+|---|---|---|
+| 2次試験ガチャの LR | 福島大学 前期日程 英語（経済経営学類〔令和9年度から政経学部（仮称）〕 英語・小論文選択の「英語」）予想問題（第1〜3回 × 問題／解答・解説）の6種を追加。2次試験ガチャの LR はこの6種を加えた数で等分（LR の割合 1% は同じ）。共通テストガチャには出ない | `src/data/fukushimaMockPrints.ts`（新規）、`src/battle/core/growthItems.ts`、`src/battle/core/gachaPools.ts` |
+| 2次試験ガチャの表示 | LR の説明文とピックアップの注意書きに福島大学を追加。福島大の景品の詳細にも大学名入りの「過去問・公式問題ではありません」の注意書きを出す | `src/battle/core/gachaPools.ts`、`src/data/nijiMockPrints.ts` |
+
+**戻し方**：`growthItems.ts` の `FUKUSHIMA_MOCK_PRINTS`（import・ITEMS・printOf の3か所）と `gachaPools.ts` の import・`UNIV_MOCK_PRINT_IDS` から外し、`nijiMockPrints.ts` の `OTHER_MOCK_UNIVERSITIES` から fukushima を消す。`fukushimaMockPrints.ts`・`public/prints/*fukushima*`・`tests/fukushimaMockPrints.test.ts` を消して `build-previews.py` を流し直す。

@@ -31,10 +31,10 @@ export const PRINT_SHELVES: readonly { id: PrintShelfId; label: string }[] = [
 /** 大学（PDF の id に入っている名前）→ 地方 */
 export const UNIV_REGION: Readonly<Record<string, PrintShelfId>> = {
   hokudai: 'hokkaido_tohoku', tohoku: 'hokkaido_tohoku', hirosaki: 'hokkaido_tohoku', iwate: 'hokkaido_tohoku', akita: 'hokkaido_tohoku',
-  yamagata: 'hokkaido_tohoku',
+  yamagata: 'hokkaido_tohoku', fukushima: 'hokkaido_tohoku',
   gakugei: 'kanto_chubu', tufs: 'kanto_chubu', nagoya: 'kanto_chubu', shizuoka: 'kanto_chubu',
   omua: 'kinki', omub: 'kinki', wakayama: 'kinki', kobe: 'kinki', osaka: 'kinki', ritsu: 'kinki',
-  okayama: 'chugoku_shikoku', hiroshima: 'chugoku_shikoku', tottori: 'chugoku_shikoku', yamaguchi: 'chugoku_shikoku', onomichi: 'chugoku_shikoku',
+  okayama: 'chugoku_shikoku', hiroshima: 'chugoku_shikoku', tottori: 'chugoku_shikoku', yamaguchi: 'chugoku_shikoku', onomichi: 'chugoku_shikoku', shimaneh: 'chugoku_shikoku', shimanem: 'chugoku_shikoku',
   kagawa: 'chugoku_shikoku', tokushima: 'chugoku_shikoku', ehimeh: 'chugoku_shikoku', ehimee: 'chugoku_shikoku', ehimem: 'chugoku_shikoku',
   kochij: 'chugoku_shikoku', kochik: 'chugoku_shikoku', kochie: 'chugoku_shikoku', kochim: 'chugoku_shikoku',
   kyushu: 'kyushu_okinawa', saga: 'kyushu_okinawa', kumamoto: 'kyushu_okinawa', ryukyu: 'kyushu_okinawa', fwu: 'kyushu_okinawa',
@@ -42,7 +42,7 @@ export const UNIV_REGION: Readonly<Record<string, PrintShelfId>> = {
 
 /** 大学別の予想問題なら、その大学の名前（id の一部）。それ以外は null */
 export function univOfPrint(id: string): string | null {
-  const m = /^print_lr_niji_([a-z]+)_en_\d+$/.exec(id) ?? /^print_lr_([a-z]+)_[qa]_\d+$/.exec(id);
+  const m = /^print_lr_niji_([a-z]+)_en_\d+$/.exec(id) ?? /^print_lr_([a-z]+)_(?:[qa]_)?\d+$/.exec(id);
   return m && m[1] !== 'kyotsu' ? m[1] : null;
 }
 
