@@ -82,7 +82,10 @@ def plain(s, P=None):
         def fill(x):
             n = int(x.group(1))
             q = next((q for q in P['questions'] if q.get('ref') == n and q['type'] == 'mc'), None)
-            return q['choices'][KANA.index(q['answer'])] if q else ' '
+            if q:
+                return q['choices'][KANA.index(q['answer'])]
+            w = next((q for q in P['questions'] if q.get('ref') == n and q['type'] == 'word'), None)
+            return w['answer'] if w else ' '
         t = re.sub(r'\{p(\d)\}', fill, t)
     t = re.sub(r'\{u\d\|(.+?)\}', r'\1', t)
     t = re.sub(r'\{[pkr]\d\}|\{b[A-Z]\}', ' ', t)
@@ -171,6 +174,7 @@ def question(q, P):
     if t == 'mc':
         body += choice_list(q['choices'])
     elif t == 'tf':
+        body = f'<div>{m(q["stem"])}{TF_RULE}</div>'
         body += '<ol class="tfl ja-tf">' + ''.join(f'<li><span class="cl">({TF[i]})</span> {m(s)}</li>'
                                                    for i, (s, _) in enumerate(q['items'])) + '</ol>'
     return f'<div class="q"><span class="qk">{e(q["label"])}</span><div class="qbody">{body}</div></div>'
@@ -292,8 +296,10 @@ def check_read(P, k):
             assert 5 <= len(q['words']) <= 8, ('order 語数', lab)
             assert q.get('ja'), ('order 和訳', lab)
         elif t == 'word':
-            if q.get('in_text'):
-                assert re.search(r'\b' + re.escape(q['answer']) + r'\b', pt), ('抜き出しが本文にない', lab, q['answer'])
+            if q.get('from_para') is not None:
+                src = plain(P['passage'][q['from_para']], P)
+                assert re.search(r'\b' + re.escape(q['answer']) + r'\b', src), ('抜き出しが指定段落にない', lab, q['answer'])
+                assert len(q['answer'].split()) == q.get('n_words', 1), ('抜き出しの語数', lab)
         elif t == 'tf':
             vs = [v for _, v in q['items']]
             assert True in vs and False in vs, ('tf 偏り', lab)
