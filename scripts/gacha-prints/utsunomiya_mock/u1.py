@@ -6,5 +6,5 @@ DATA = {
     '2': {'title': u1_2.TITLE, 'paras': u1_2.PARAS, 'notes': u1_2.NOTES, 'translation': u1_2.TRANSLATION, 'questions': u1_2q.QUESTIONS, 'vocab': u1_2.VOCAB},
     '3': u1_3.ESSAY,
     '4': {'convs': u1_3.CONVS},
-    'names': ['Elsie', 'Ambrose Pettigrew', 'Pettigrew', 'Brennick', 'Halden Cycles', 'Rina'],
+    'names': ['Elsie', 'Ambrose Pettigrew', 'Pettigrew', 'Brennick', 'Halden Cycles', 'Rina', 'Sota'],
 }
