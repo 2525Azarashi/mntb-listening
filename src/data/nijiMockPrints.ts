@@ -35,6 +35,10 @@
  *     そのあと学部で分かれるため2系統×3回（計6冊）。法文・人間科学・総合理工・生物資源科学部用＝1・2・4（グラフを読んで約70語）・
  *     90分・200点（70・80・50）／医学部医学科用＝1・2・3（医療の長文）・5（A 和文英訳・B 約80語の意見文）・120分・300点（70・80・90・60）。
  *     時間・配点・小問の配点は編集部の想定。グラフの数値は架空。
+ *   - 長崎大学 前期対策（2026-11-04 追加）：A 長文読解（日本語で答える）・B 物語文読解（英語で答える）は全学部共通。
+ *     そのあと志望学部で分かれるため2系統×3回（計6冊）。多文化社会・経済・医・歯・薬・工・環境科学部ほか用＝A・B・D（グラフを読んで100語程度×2）／
+ *     教育学部（文系以外）・情報データ科学部（理系受験）用＝A・B・C（語彙・同意表現10問）。100分・200点（70・70・60）。
+ *     配点・小問の配点は編集部の想定。グラフの数値は架空。
  *   ★過去問ではない★ 英文・設問・図表・解答はすべて書き下ろし。過去問・解答速報・講評の文章は引用していない
  *   （英語5語以上・日本語12字以上の連続一致がないことを機械で確認済み）。表紙と奥付に「大学とは関係がない」旨を明記。
  *
@@ -76,6 +80,8 @@ export const NIJI_UNIVERSITIES = [
   { id: 'yamaguchi', name: '山口大学', track: '' },
   { id: 'shimaneh', name: '島根大学', track: '法文・人間科学・総合理工・生物資源科学部' },
   { id: 'shimanem', name: '島根大学', track: '医学部医学科' },
+  { id: 'nagasakid', name: '長崎大学', track: '多文化社会・経済・医・歯・薬・工・環境科学部ほか' },
+  { id: 'nagasakic', name: '長崎大学', track: '教育学部（文系以外）・情報データ科学部（理系受験）' },
 ] as const;
 export type NijiUniversityId = (typeof NIJI_UNIVERSITIES)[number]['id'];
 
@@ -119,6 +125,8 @@ const tottori = (n: number, pages: number, kb: number) => mock('tottori', n, pag
 const yamaguchi = (n: number, pages: number, kb: number) => mock('yamaguchi', n, pages, kb);
 const shimaneh = (n: number, pages: number, kb: number) => mock('shimaneh', n, pages, kb);
 const shimanem = (n: number, pages: number, kb: number) => mock('shimanem', n, pages, kb);
+const nagasakid = (n: number, pages: number, kb: number) => mock('nagasakid', n, pages, kb);
+const nagasakic = (n: number, pages: number, kb: number) => mock('nagasakic', n, pages, kb);
 
 export const NIJI_MOCK_PRINTS: readonly GachaPrintDef[] = [
   nagoya(1, 28, 2026),
@@ -202,6 +210,12 @@ export const NIJI_MOCK_PRINTS: readonly GachaPrintDef[] = [
   shimanem(1, 22, 353),
   shimanem(2, 22, 348),
   shimanem(3, 22, 331),
+  nagasakid(1, 18, 346),
+  nagasakid(2, 18, 329),
+  nagasakid(3, 18, 338),
+  nagasakic(1, 18, 319),
+  nagasakic(2, 18, 293),
+  nagasakic(3, 18, 313),
 ];
 
 /** その大学の予想問題に必ず添える注意書き（PDF の表紙・奥付と同じ文） */

@@ -101,6 +101,7 @@ def esc(s):
 
 def mk(s):
     s = esc(s)
+    s = re.sub(r'\{_:(.*?)\}', r'<span class="ul">\1</span>', s)
     s = re.sub(r'\{u:([^:{}]+):(.*?)\}', r'<span class="ul"><span class="lab">\1</span>\2</span>', s)
     s = re.sub(r'\{b:([^{}]+)\}', r'<span class="blank">（ \1 ）</span>', s)
     s = re.sub(r'\*\*(.+?)\*\*', r'<b>\1</b>', s)
@@ -270,7 +271,7 @@ def ans_html(cfg, R):
 
 
 def words(s):
-    return len(re.findall(r"[A-Za-z][A-Za-z'’-]*", re.sub(r'<[^>]+>|\{[ub]:[^:}]*:?|\}', ' ', s)))
+    return len(re.findall(r"[A-Za-z][A-Za-z'’-]*", re.sub(r'<[^>]+>|\{_:|\{[ub]:[^:}]*:?|\}', ' ', s)))
 
 
 def check(cfg, R):
