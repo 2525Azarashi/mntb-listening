@@ -45,6 +45,9 @@
  *     外国語学部用・3学部用を各3回分（計6冊）。90分・100点。設問の指示は英語。
  *   - 愛知教育大学 前期対策（2026-11-04 追加）：大問Ⅰ〜Ⅳ（日本語で答える長文2題・誤り指摘/空所補充/英文要約・図表の要約と意見200語）
  *     ・100分・100点（各25点）。英語専修の志望者を想定。3回分。図表の数値は架空。
+ *   - 鹿児島大学 前期対策（2026-11-04 追加）：1〜4 は全学部共通（長文2題・文法の4択10問・対話の和文英訳4問）、5 は学部で分かれる
+ *     （5−1 自由英作文 100〜120語：法文・教育・医・歯・共同獣医〈獣医〉／5−2 長文読解：理・工・農・水産・共同獣医〈畜産〉）。
+ *     系統別に各3回分（計6冊）。配点は編集部の想定（22・22・10・16・30）。
  *   ★過去問ではない★ 英文・設問・図表・解答はすべて書き下ろし。過去問・解答速報・講評の文章は引用していない
  *   （英語5語以上・日本語12字以上の連続一致がないことを機械で確認済み）。表紙と奥付に「大学とは関係がない」旨を明記。
  *
@@ -98,6 +101,8 @@ export const NIJI_UNIVERSITIES = [
   { id: 'apua', name: '愛知県立大学', track: '外国語学部' },
   { id: 'apub', name: '愛知県立大学', track: '日本文化・教育福祉・看護学部' },
   { id: 'aue', name: '愛知教育大学', track: '' },
+  { id: 'kagoa', name: '鹿児島大学', track: '法文・教育・医・歯・共同獣医（獣医）' },
+  { id: 'kagob', name: '鹿児島大学', track: '理・工・農・水産・共同獣医（畜産）' },
 ] as const;
 export type NijiUniversityId = (typeof NIJI_UNIVERSITIES)[number]['id'];
 
@@ -153,6 +158,8 @@ const ncu = (n: number, pages: number, kb: number) => mock('ncu', n, pages, kb);
 const apua = (n: number, pages: number, kb: number) => mock('apua', n, pages, kb);
 const apub = (n: number, pages: number, kb: number) => mock('apub', n, pages, kb);
 const aue = (n: number, pages: number, kb: number) => mock('aue', n, pages, kb);
+const kagoa = (n: number, pages: number, kb: number) => mock('kagoa', n, pages, kb);
+const kagob = (n: number, pages: number, kb: number) => mock('kagob', n, pages, kb);
 
 export const NIJI_MOCK_PRINTS: readonly GachaPrintDef[] = [
   nagoya(1, 28, 2026),
@@ -272,6 +279,12 @@ export const NIJI_MOCK_PRINTS: readonly GachaPrintDef[] = [
   aue(1, 25, 1996),
   aue(2, 25, 2000),
   aue(3, 24, 2007),
+  kagoa(1, 27, 1981),
+  kagoa(2, 27, 1964),
+  kagoa(3, 28, 1954),
+  kagob(1, 29, 2019),
+  kagob(2, 29, 2000),
+  kagob(3, 30, 2000),
 ];
 
 /** その大学の予想問題に必ず添える注意書き（PDF の表紙・奥付と同じ文） */

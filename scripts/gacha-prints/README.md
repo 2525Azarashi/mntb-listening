@@ -557,3 +557,16 @@ python3 scripts/gacha-prints/build-previews.py print_lr_niji_aue_en_1 …   # pr
 - 大問の見出しを「Ⅳ Part A」のように出すため、`niji_common.py` の CFG に `sec_labels`（[(バッジ, 見出し), …]）を足した（他大学は従来どおり）。
 - 対象外：浜松医科・静岡県立・静岡文化芸術（別途対応）、名古屋市立の中期・薬学部、三重県立看護（前期の過去問が非公開のため保留）。
 - 照合：`python3 work/plag/niji_check.py gifu mie nit ncu apua apub aue` で英5語・日12字の一致0件を確認。
+
+### 鹿児島大学 前期対策（学部別2系統）（2026-11-04 追加）
+
+```bash
+# 中身は webapp/pdf/{kagoa,kagob}/r{1,2,3}.py（共通の 1〜4 は webapp/pdf/kago_shared/kago_c{1,2,3}.py）
+cd webapp/pdf/kagoa && python3 build.py 1      # → 予想問題_鹿児島大学_英語_第1回_{問題,解答解説}.pdf
+pdfunite 予想問題_鹿児島大学_英語_第1回_問題.pdf 予想問題_鹿児島大学_英語_第1回_解答解説.pdf public/prints/print_lr_niji_kagoa_en_1.pdf
+python3 scripts/gacha-prints/build-previews.py print_lr_niji_kagoa_en_1 …   # 実行後、gachaPreviews.generated.ts は既存の並びを保ち新しい項目だけ末尾に足す
+```
+
+- 1〜4（長文2題・文法の4択10問・対話の和文英訳4問）は全学部共通。5 は 5−1 自由英作文 100〜120語（`kagoa`：法文・教育・医・歯・共同獣医〈獣医〉）と 5−2 長文読解（`kagob`：理・工・農・水産・共同獣医〈畜産〉）。共通部分は両方の冊子で同じ問題。
+- 配点は編集部の想定（22・22・10・16・30）。
+- 照合：`python3 work/plag/niji_check.py kagoa kagob`（照合元に鹿児島大学 R6〜R8 の公開問題・解答例を追加）で英5語・日12字の一致0件を確認。

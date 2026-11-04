@@ -42,6 +42,7 @@ export const UNIV_REGION: Readonly<Record<string, PrintShelfId>> = {
   kagawa: 'chugoku_shikoku', tokushima: 'chugoku_shikoku', ehimeh: 'chugoku_shikoku', ehimee: 'chugoku_shikoku', ehimem: 'chugoku_shikoku',
   kochij: 'chugoku_shikoku', kochik: 'chugoku_shikoku', kochie: 'chugoku_shikoku', kochim: 'chugoku_shikoku',
   kyushu: 'kyushu_okinawa', saga: 'kyushu_okinawa', kumamoto: 'kyushu_okinawa', ryukyu: 'kyushu_okinawa', fwu: 'kyushu_okinawa',
+  kagoa: 'kyushu_okinawa', kagob: 'kyushu_okinawa',
 };
 
 /** 大学別の予想問題なら、その大学の名前（id の一部）。それ以外は null */
