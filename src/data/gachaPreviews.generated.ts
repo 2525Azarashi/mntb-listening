@@ -341,6 +341,42 @@ export const GACHA_PREVIEWS: Readonly<Record<string, readonly string[]>> = {
     "/prints/previews/print_lr_niji_yamaguchi_en_3_p2.webp",
     "/prints/previews/print_lr_niji_yamaguchi_en_3_p13.webp"
   ],
+  "print_lr_niji_oitae_en_1": [
+    "/prints/previews/print_lr_niji_oitae_en_1_p2.webp",
+    "/prints/previews/print_lr_niji_oitae_en_1_p7.webp"
+  ],
+  "print_lr_niji_oitae_en_2": [
+    "/prints/previews/print_lr_niji_oitae_en_2_p2.webp",
+    "/prints/previews/print_lr_niji_oitae_en_2_p7.webp"
+  ],
+  "print_lr_niji_oitae_en_3": [
+    "/prints/previews/print_lr_niji_oitae_en_3_p2.webp",
+    "/prints/previews/print_lr_niji_oitae_en_3_p7.webp"
+  ],
+  "print_lr_niji_oitak_en_1": [
+    "/prints/previews/print_lr_niji_oitak_en_1_p2.webp",
+    "/prints/previews/print_lr_niji_oitak_en_1_p7.webp"
+  ],
+  "print_lr_niji_oitak_en_2": [
+    "/prints/previews/print_lr_niji_oitak_en_2_p2.webp",
+    "/prints/previews/print_lr_niji_oitak_en_2_p7.webp"
+  ],
+  "print_lr_niji_oitak_en_3": [
+    "/prints/previews/print_lr_niji_oitak_en_3_p2.webp",
+    "/prints/previews/print_lr_niji_oitak_en_3_p7.webp"
+  ],
+  "print_lr_niji_oitam_en_1": [
+    "/prints/previews/print_lr_niji_oitam_en_1_p2.webp",
+    "/prints/previews/print_lr_niji_oitam_en_1_p10.webp"
+  ],
+  "print_lr_niji_oitam_en_2": [
+    "/prints/previews/print_lr_niji_oitam_en_2_p2.webp",
+    "/prints/previews/print_lr_niji_oitam_en_2_p11.webp"
+  ],
+  "print_lr_niji_oitam_en_3": [
+    "/prints/previews/print_lr_niji_oitam_en_3_p2.webp",
+    "/prints/previews/print_lr_niji_oitam_en_3_p11.webp"
+  ],
   "print_lr_kobe_1": [
     "/prints/previews/print_lr_kobe_1_p2.webp",
     "/prints/previews/print_lr_kobe_1_p17.webp"
