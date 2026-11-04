@@ -11,9 +11,9 @@ const hasPdf = (() => { try { execFileSync('pdftotext', ['-v'], { stdio: 'ignore
 const text = (file: string) => execFileSync('pdftotext', [`public${file}`, '-'], { encoding: 'utf8', maxBuffer: 64 << 20 }).replace(/\s+/g, '');
 
 describe('LR：弘前大学 前期 英語 予想問題', () => {
-  it('3回分 × 問題・解答解説の6種。ファイル・サムネイル・KB が実物と合う', () => {
-    expect(HIROSAKI_MOCK_PRINTS.length).toBe(6);
-    for (const n of [1, 2, 3]) for (const k of ['q', 'a']) expect(HIROSAKI_MOCK_PRINTS.some(p => p.id === `print_lr_hirosaki_${k}_${n}`)).toBe(true);
+  it('3回分を各1アイテム（問題＋解答・解説）。ファイル・サムネイル・KB が実物と合う', () => {
+    expect(HIROSAKI_MOCK_PRINTS.length).toBe(3);
+    for (const n of [1, 2, 3]) expect(HIROSAKI_MOCK_PRINTS.some(p => p.id === `print_lr_hirosaki_${n}`)).toBe(true);
     for (const p of HIROSAKI_MOCK_PRINTS) {
       expect(existsSync(`public${p.file}`), p.id).toBe(true);
       expect(existsSync(`public${p.thumb}`), p.id).toBe(true);
@@ -44,8 +44,7 @@ describe('LR：弘前大学 前期 英語 予想問題', () => {
       expect(t, p.id).toContain('大学とは関係がありません');
       expect(t, p.id).toContain('200点');
       expect(t, p.id).not.toMatch(/的中|必ず出る|合格できる/);
-      if (p.id.includes('_q_')) expect(t, p.id).toContain('解答用紙');
-      else { expect(t, p.id).toContain('解答一覧'); expect(t, p.id).toContain('全訳'); }
+      expect(t, p.id).toContain('解答用紙'); expect(t, p.id).toContain('全訳');
       if (p.id.includes('_q_')) expect(t, p.id).toContain('英作文');
     }
   });
