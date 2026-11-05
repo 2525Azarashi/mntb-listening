@@ -1,0 +1,29 @@
+Getting up early is good for your health.
+<break time="1.5s" />
+We enjoyed swimming in the lake last summer.
+<break time="1.5s" />
+The coach complained about my being late for practice every day.
+<break time="1.5s" />
+It's a little cold in here. Would you mind closing the window?
+<break time="1.5s" />
+He is proud of having lived abroad when he was young.
+<break time="1.5s" />
+He regrets not having been honest with his parents when he was a child.
+<break time="1.5s" />
+My father stopped smoking for his health two years ago.
+<break time="1.5s" />
+Remember to lock the door when you go out.
+<break time="1.5s" />
+It is no use trying to persuade him. He never changes his mind.
+<break time="1.5s" />
+It's already done. There is no point worrying about the past.
+<break time="1.5s" />
+This book is worth reading. You'll love it.
+<break time="1.5s" />
+There appears to be no sense in apologizing to him now.
+<break time="1.5s" />
+I'm looking forward to hearing from you soon.
+<break time="1.5s" />
+My grandmother is used to getting up at five every morning.
+<break time="1.5s" />
+I am not accustomed to commuting on crowded trains.

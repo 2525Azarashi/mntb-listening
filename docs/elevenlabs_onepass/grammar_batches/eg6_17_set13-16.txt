@@ -1,0 +1,39 @@
+My coach encouraged me to enter the speech contest.
+<break time="1.5s" />
+I would like you to mail this letter for me.
+<break time="1.5s" />
+The snowstorm compelled us to stay at the hotel for two more nights.
+<break time="1.5s" />
+My parents want me to become a doctor in the future.
+<break time="1.5s" />
+Because he caught a bad cold, he was forced to stay at home for a week.
+<break time="1.5s" />
+I suggest that we take a taxi. It's going to rain.
+<break time="1.5s" />
+The manager proposed that the meeting be held on Friday.
+<break time="1.5s" />
+The doctor recommended that my father take exercise regularly.
+<break time="1.5s" />
+She insisted that he tell the truth.
+<break time="1.5s" />
+It feels much warmer today than it did yesterday.
+<break time="1.5s" />
+This soup smells good.
+<break time="1.5s" />
+Her dream of becoming a pilot finally came true.
+<break time="1.5s" />
+The milk has turned sour. Don't drink it.
+<break time="1.5s" />
+Please keep quiet during the test.
+<break time="1.5s" />
+Something is wrong with my computer. It won't start.
+<break time="1.5s" />
+The fans went wild when their team scored in the last inning.
+<break time="1.5s" />
+She really resembles her mother. They look like sisters.
+<break time="1.5s" />
+The typhoon is approaching the Kyushu area.
+<break time="1.5s" />
+We discussed the problem for three hours, but we couldn't solve it.
+<break time="1.5s" />
+He married his classmate last year.

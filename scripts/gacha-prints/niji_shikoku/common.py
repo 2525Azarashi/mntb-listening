@@ -101,13 +101,16 @@ def esc(s):
 
 def mk(s):
     s = esc(s)
+    s = re.sub(r'\{_:(.*?)\}', r'<span class="ul">\1</span>', s)
     s = re.sub(r'\{u:([^:{}]+):(.*?)\}', r'<span class="ul"><span class="lab">\1</span>\2</span>', s)
     s = re.sub(r'\{b:([^{}]+)\}', r'<span class="blank">（ \1 ）</span>', s)
     s = re.sub(r'\*\*(.+?)\*\*', r'<b>\1</b>', s)
     return s.replace('\n', '<br>')
 
 
-def secno(cfg, i):
+def secno(cfg, i, S=None):
+    if S and S.get("no"):
+        return S["no"]
     st = cfg.get('sec_style', 'dai')
     return {'dai': f'第{i + 1}問', 'roman': ROMAN[i], 'num': str(i + 1), 'kaku': f'［{ROMAN[i]}］', 'mon': f'問題{i + 1}'}[st]
 
@@ -167,7 +170,7 @@ def q_html(q, marks):
 
 def sec_html(cfg, i, S):
     marks = S.get('marks') or cfg.get('marks') or ['(A)', '(B)', '(C)', '(D)', '(E)', '(F)']
-    h = (f'<section class="sec"><div class="sh"><span class="no">{secno(cfg, i)}</span><span class="t">{esc(S.get("title", ""))}</span>'
+    h = (f'<section class="sec"><div class="sh"><span class="no">{secno(cfg, i, S)}</span><span class="t">{esc(S.get("title", ""))}</span>'
          f'<span class="p">（配点 {S["pts"]} 点）</span></div><p class="lead">{mk(S["lead"])}</p>')
     for P in S.get('passages', []):
         if P.get('title'):
@@ -217,7 +220,7 @@ def sheet_rows(q):
 def answer_sheets(cfg, R):
     out = ''
     for i, S in enumerate(R['sections']):
-        out += (f'<section class="sheet"><h2>解答用紙　{secno(cfg, i)}</h2>'
+        out += (f'<section class="sheet"><h2>解答用紙　{secno(cfg, i, S)}</h2>'
                 f'<div class="who">{esc(cfg["univ"])} {esc(cfg.get("label", "英語"))} 予想問題 第{R["no"]}回　　受験番号（　　　　　　　）　氏名（　　　　　　　　　　）</div>'
                 f'<div class="blk">' + ''.join(sheet_rows(q) for q in S['qs']) + '<div class="subtot">小計（　　　　）点</div></div></section>')
     return out
@@ -249,7 +252,7 @@ def colophon(cfg, R, kind):
 def ans_html(cfg, R):
     h = ''
     for i, S in enumerate(R['sections']):
-        h += (f'<section class="sec ans"><div class="sh"><span class="no">{secno(cfg, i)}</span><span class="t">{esc(S.get("title", ""))}　解答・解説</span>'
+        h += (f'<section class="sec ans"><div class="sh"><span class="no">{secno(cfg, i, S)}</span><span class="t">{esc(S.get("title", ""))}　解答・解説</span>'
               f'<span class="p">（配点 {S["pts"]} 点）</span></div>')
         h += ('<table class="kt"><tr><th style="width:16mm">設問</th><th>解答（例）</th><th style="width:13mm">配点</th></tr>'
               + ''.join(f'<tr><td>{esc(a["n"])}</td><td>{mk(a.get("short", a["ans"]))}</td><td class="pt">{a["pts"]}</td></tr>' for a in S['ans']) + '</table>')
@@ -268,19 +271,19 @@ def ans_html(cfg, R):
 
 
 def words(s):
-    return len(re.findall(r"[A-Za-z][A-Za-z'’-]*", re.sub(r'<[^>]+>|\{[ub]:[^:}]*:?|\}', ' ', s)))
+    return len(re.findall(r"[A-Za-z][A-Za-z'’-]*", re.sub(r'<[^>]+>|\{_:|\{[ub]:[^:}]*:?|\}', ' ', s)))
 
 
 def check(cfg, R):
     tot = 0
     for i, S in enumerate(R['sections']):
         s = sum(a['pts'] for a in S['ans'])
-        assert s == S['pts'], f'{secno(cfg, i)} 配点 {s} != {S["pts"]}'
+        assert s == S['pts'], f'{secno(cfg, i, S)} 配点 {s} != {S["pts"]}'
         tot += S['pts']
         for a in S['ans']:
             if a.get('min_words'):
                 w = words(a['model'])
-                assert a['min_words'] <= w <= a.get('max_words', 999), f'{secno(cfg, i)} {a["n"]} 模範解答 {w}語'
+                assert a['min_words'] <= w <= a.get('max_words', 999), f'{secno(cfg, i, S)} {a["n"]} 模範解答 {w}語'
     assert tot == cfg['total'], f'合計 {tot} != {cfg["total"]}'
 
 

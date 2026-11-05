@@ -1,0 +1,29 @@
+I sent invitations to ten classmates, but none of them came.
+<break time="1.5s" />
+I have two umbrellas, but neither of them is in good condition.
+<break time="1.5s" />
+“Are both of your parents from Kyoto?” “Not both. My father is from Osaka.”
+<break time="1.5s" />
+Expensive restaurants are not always good.
+<break time="1.5s" />
+Not every student in this class likes math.
+<break time="1.5s" />
+A good player does not necessarily make a good coach.
+<break time="1.5s" />
+I'm not afraid of failing in the least.
+<break time="1.5s" />
+I didn't sleep at all last night because of the noise.
+<break time="1.5s" />
+This plan is by no means perfect.
+<break time="1.5s" />
+There is no doubt whatever that he is telling the truth.
+<break time="1.5s" />
+She can't drive a car, and her husband can't, either.
+<break time="1.5s" />
+Under no circumstances should you tell your password to anyone.
+<break time="1.5s" />
+My father is the last man to break a promise.
+<break time="1.5s" />
+He is the last person who would tell a lie.
+<break time="1.5s" />
+The test was anything but easy. Most students failed.

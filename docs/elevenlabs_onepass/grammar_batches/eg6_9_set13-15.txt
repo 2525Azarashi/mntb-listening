@@ -1,0 +1,23 @@
+His success has something to do with his hard work.
+<break time="1.5s" />
+I got this ticket for nothing.
+<break time="1.5s" />
+There is something wrong with my phone.
+<break time="1.5s" />
+We enjoyed ourselves at the party.
+<break time="1.5s" />
+Please help yourself to the snacks.
+<break time="1.5s" />
+You should think for yourself instead of asking others.
+<break time="1.5s" />
+Please come in and make yourself at home.
+<break time="1.5s" />
+She has been living by herself since she moved to Tokyo.
+<break time="1.5s" />
+She laughed in spite of herself.
+<break time="1.5s" />
+Between ourselves, I don't really like this plan.
+<break time="1.5s" />
+He was beside himself with joy when he heard the news.
+<break time="1.5s" />
+Money in itself does not bring happiness.

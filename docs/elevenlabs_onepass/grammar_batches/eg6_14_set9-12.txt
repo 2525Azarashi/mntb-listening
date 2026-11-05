@@ -1,0 +1,37 @@
+Hardly had I reached the station when the train left.
+<break time="1.5s" />
+Not only does she play the piano, but she also writes her own songs.
+<break time="1.5s" />
+Only after she left did I realize how much I loved her.
+<break time="1.5s" />
+My brother doesn't eat vegetables, nor does he drink milk.
+<break time="1.5s" />
+Not until I got home did I notice that I had lost my wallet.
+<break time="1.5s" />
+“I don't like horror movies.” “Neither do I.”
+<break time="1.5s" />
+Tom hasn't finished his homework, and neither has his sister.
+<break time="1.5s" />
+“My brother plays tennis every weekend.” “So does mine.”
+<break time="1.5s" />
+“I was really tired yesterday.” “So was I.”
+<break time="1.5s" />
+It was so interesting a movie that I watched it three times.
+<break time="1.5s" />
+This is too difficult a book for a child to read.
+<break time="1.5s" />
+She is as good a pianist as her mother.
+<break time="1.5s" />
+I have never seen such a big fish before.
+<break time="1.5s" />
+Nobody knew how serious a problem it was.
+<break time="1.5s" />
+These are my old comic books. I'm going to give them away.
+<break time="1.5s" />
+It's cold outside. You'd better put your coat on.
+<break time="1.5s" />
+Be it ever so small, there is no place like home.
+<break time="1.5s" />
+My father started his own company five years after he graduated from college.
+<break time="1.5s" />
+We arrived at the hall an hour before the concert started.

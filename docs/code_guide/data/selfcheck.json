@@ -2527,6 +2527,82 @@
    "カードがまだ書かれていない新しいファイル。役割は要確認の係"
   ],
   [
+   "scripts/gacha-prints/niji_shikoku/shimane/fixwords.py",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "scripts/gacha-prints/niji_shikoku/shimane/r1_s1.py",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "scripts/gacha-prints/niji_shikoku/shimane/r1_s2.py",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "scripts/gacha-prints/niji_shikoku/shimane/r1_s3.py",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "scripts/gacha-prints/niji_shikoku/shimane/r1_s45.py",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "scripts/gacha-prints/niji_shikoku/shimane/r2_s1.py",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "scripts/gacha-prints/niji_shikoku/shimane/r2_s2.py",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "scripts/gacha-prints/niji_shikoku/shimane/r2_s3.py",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "scripts/gacha-prints/niji_shikoku/shimane/r2_s45.py",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "scripts/gacha-prints/niji_shikoku/shimane/r3_s1.py",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "scripts/gacha-prints/niji_shikoku/shimane/r3_s2.py",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "scripts/gacha-prints/niji_shikoku/shimane/r3_s3.py",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "scripts/gacha-prints/niji_shikoku/shimane/r3_s45.py",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "scripts/gacha-prints/niji_shikoku/shimaneh/r1.py",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "scripts/gacha-prints/niji_shikoku/shimaneh/r2.py",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "scripts/gacha-prints/niji_shikoku/shimaneh/r3.py",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "scripts/gacha-prints/niji_shikoku/shimanem/r1.py",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "scripts/gacha-prints/niji_shikoku/shimanem/r2.py",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "scripts/gacha-prints/niji_shikoku/shimanem/r3.py",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
    "scripts/gacha-prints/niji_shikoku/strict/fix.py",
    "カードがまだ書かれていない新しいファイル。役割は要確認の係"
   ],
@@ -2567,119 +2643,75 @@
    "カードがまだ書かれていない新しいファイル。役割は要確認の係"
   ],
   [
-   "scripts/gacha-prints/oita_mock/check.py",
+   "scripts/gacha-prints/onomichi_mock/logo_gray.png",
    "カードがまだ書かれていない新しいファイル。役割は要確認の係"
   ],
   [
-   "scripts/gacha-prints/oita_mock/logo_gray.png",
+   "scripts/gacha-prints/onomichi_mock/pdf.mjs",
    "カードがまだ書かれていない新しいファイル。役割は要確認の係"
   ],
   [
-   "scripts/gacha-prints/oita_mock/pdf.mjs",
+   "scripts/gacha-prints/onomichi_mock/r1.py",
    "カードがまだ書かれていない新しいファイル。役割は要確認の係"
   ],
   [
-   "scripts/gacha-prints/oita_mock/r1.py",
+   "scripts/gacha-prints/onomichi_mock/r1_p1.py",
    "カードがまだ書かれていない新しいファイル。役割は要確認の係"
   ],
   [
-   "scripts/gacha-prints/oita_mock/r1_e2.py",
+   "scripts/gacha-prints/onomichi_mock/r1_p2.py",
    "カードがまだ書かれていない新しいファイル。役割は要確認の係"
   ],
   [
-   "scripts/gacha-prints/oita_mock/r1_k2.py",
+   "scripts/gacha-prints/onomichi_mock/r1_p3.py",
    "カードがまだ書かれていない新しいファイル。役割は要確認の係"
   ],
   [
-   "scripts/gacha-prints/oita_mock/r1_m2.py",
+   "scripts/gacha-prints/onomichi_mock/r2.py",
    "カードがまだ書かれていない新しいファイル。役割は要確認の係"
   ],
   [
-   "scripts/gacha-prints/oita_mock/r1_m2q.py",
+   "scripts/gacha-prints/onomichi_mock/r2_p1.py",
    "カードがまだ書かれていない新しいファイル。役割は要確認の係"
   ],
   [
-   "scripts/gacha-prints/oita_mock/r1_m3.py",
+   "scripts/gacha-prints/onomichi_mock/r2_p2.py",
    "カードがまだ書かれていない新しいファイル。役割は要確認の係"
   ],
   [
-   "scripts/gacha-prints/oita_mock/r1_p1.py",
+   "scripts/gacha-prints/onomichi_mock/r2_p3.py",
    "カードがまだ書かれていない新しいファイル。役割は要確認の係"
   ],
   [
-   "scripts/gacha-prints/oita_mock/r1_p1q.py",
+   "scripts/gacha-prints/onomichi_mock/r3.py",
    "カードがまだ書かれていない新しいファイル。役割は要確認の係"
   ],
   [
-   "scripts/gacha-prints/oita_mock/r2.py",
+   "scripts/gacha-prints/onomichi_mock/r3_p1.py",
    "カードがまだ書かれていない新しいファイル。役割は要確認の係"
   ],
   [
-   "scripts/gacha-prints/oita_mock/r2_e2.py",
+   "scripts/gacha-prints/onomichi_mock/r3_p2.py",
    "カードがまだ書かれていない新しいファイル。役割は要確認の係"
   ],
   [
-   "scripts/gacha-prints/oita_mock/r2_k2.py",
+   "scripts/gacha-prints/onomichi_mock/r3_p2t.py",
    "カードがまだ書かれていない新しいファイル。役割は要確認の係"
   ],
   [
-   "scripts/gacha-prints/oita_mock/r2_m2.py",
+   "scripts/gacha-prints/onomichi_mock/r3_p3.py",
    "カードがまだ書かれていない新しいファイル。役割は要確認の係"
   ],
   [
-   "scripts/gacha-prints/oita_mock/r2_m2q.py",
+   "scripts/gacha-prints/onomichi_mock/r3_p4.py",
    "カードがまだ書かれていない新しいファイル。役割は要確認の係"
   ],
   [
-   "scripts/gacha-prints/oita_mock/r2_m3.py",
+   "scripts/gacha-prints/onomichi_mock/render.py",
    "カードがまだ書かれていない新しいファイル。役割は要確認の係"
   ],
   [
-   "scripts/gacha-prints/oita_mock/r2_p1.py",
-   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
-  ],
-  [
-   "scripts/gacha-prints/oita_mock/r2_p1q.py",
-   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
-  ],
-  [
-   "scripts/gacha-prints/oita_mock/r3.py",
-   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
-  ],
-  [
-   "scripts/gacha-prints/oita_mock/r3_e2.py",
-   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
-  ],
-  [
-   "scripts/gacha-prints/oita_mock/r3_k2.py",
-   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
-  ],
-  [
-   "scripts/gacha-prints/oita_mock/r3_m2.py",
-   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
-  ],
-  [
-   "scripts/gacha-prints/oita_mock/r3_m2q.py",
-   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
-  ],
-  [
-   "scripts/gacha-prints/oita_mock/r3_m3.py",
-   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
-  ],
-  [
-   "scripts/gacha-prints/oita_mock/r3_p1.py",
-   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
-  ],
-  [
-   "scripts/gacha-prints/oita_mock/r3_p1q.py",
-   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
-  ],
-  [
-   "scripts/gacha-prints/oita_mock/render.py",
-   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
-  ],
-  [
-   "scripts/gacha-prints/oita_mock/style.css",
+   "scripts/gacha-prints/onomichi_mock/style.css",
    "カードがまだ書かれていない新しいファイル。役割は要確認の係"
   ],
   [
@@ -5505,6 +5537,6 @@
    "英単語の出題範囲を表す名前を作り、範囲内か調べる係"
   ]
  ],
- "cards": 1968,
- "files": 11375
+ "cards": 1976,
+ "files": 11383
 }

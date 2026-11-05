@@ -1,0 +1,39 @@
+The coach praised some players who trained hard every day.
+<break time="1.5s" />
+I have a friend who lives in Paris.
+<break time="1.5s" />
+He is a man whom everyone in the town respects.
+<break time="1.5s" />
+Scientists are developing a new technology which will change our daily lives.
+<break time="1.5s" />
+This is the best movie that I have ever seen.
+<break time="1.5s" />
+She is one of the students I taught math ten years ago.
+<break time="1.5s" />
+Look at the boy and his dog that are running in the park.
+<break time="1.5s" />
+A person whose job is to design buildings is called an architect.
+<break time="1.5s" />
+They live in a house whose windows face the sea.
+<break time="1.5s" />
+I know a girl whose father is a pilot.
+<break time="1.5s" />
+That building, the roof of which is green, is a museum.
+<break time="1.5s" />
+This is the friend with that I often talk.
+<break time="1.5s" />
+Reading was the only thing he was passionate about.
+<break time="1.5s" />
+The man to whom I spoke was very kind.
+<break time="1.5s" />
+This is the pen with which I signed the contract.
+<break time="1.5s" />
+This is the café where we first met.
+<break time="1.5s" />
+I remember the day when I first came to this town.
+<break time="1.5s" />
+The castle which we visited last week was built 400 years ago.
+<break time="1.5s" />
+This is the town where I was born.
+<break time="1.5s" />
+The day will come when people can travel to Mars easily.

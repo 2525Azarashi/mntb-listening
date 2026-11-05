@@ -1,0 +1,37 @@
+It's already eleven. It's time you went to bed.
+<break time="1.5s" />
+It is high time you cleaned your room. It's a mess!
+<break time="1.5s" />
+He talks as if he had seen the accident.
+<break time="1.5s" />
+If it were not for your support, I couldn't continue this work.
+<break time="1.5s" />
+If it had not been for the map, we would have got lost in the mountains.
+<break time="1.5s" />
+Without water, no living things could survive on the earth.
+<break time="1.5s" />
+But for his help, I would not have finished the project on time.
+<break time="1.5s" />
+Were I rich, I would buy a house by the sea.
+<break time="1.5s" />
+Had she known the truth, she would have been very upset.
+<break time="1.5s" />
+Were a big earthquake to hit this city, many buildings would be damaged.
+<break time="1.5s" />
+Should you have any questions, please feel free to ask me.
+<break time="1.5s" />
+Had it not been for my mother's encouragement at that time, I would have given up.
+<break time="1.5s" />
+Had I known about the party, I would have come.
+<break time="1.5s" />
+A wiser person would not have made such a mistake.
+<break time="1.5s" />
+Without your advice, I would have made a big mistake.
+<break time="1.5s" />
+I took a taxi; otherwise I would have been late for the meeting.
+<break time="1.5s" />
+A true friend would not say such a thing.
+<break time="1.5s" />
+To hear her speak English, you would think she was a native speaker.
+<break time="1.5s" />
+“I took the express train.” “You could have taken the bus. It was much cheaper.”
