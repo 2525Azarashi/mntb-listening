@@ -4,7 +4,7 @@ import { GACHA_PREVIEWS } from '../src/data/gachaPreviews.generated';
 import { gachaItems } from '../src/battle/core/arenaEconomy';
 import { gachaRarityOf, printOf } from '../src/battle/core/growth';
 import { FEATURED_UR_IDS } from '../src/components/GachaParts';
-import { pickupItems } from '../src/components/gacha/GachaPickupModal';
+import { pickupItems, pickupLrSummary, pickupShelves, pickupUnivLabel } from '../src/components/gacha/GachaPickupModal';
 
 describe('ガチャのピックアップ（中身を少し見る）', () => {
   const items = gachaItems();
@@ -37,5 +37,31 @@ describe('ガチャのピックアップ（中身を少し見る）', () => {
     expect(banner).not.toContain('data-gacha-featured-item');
     expect(room).toContain('<GachaPickupModal');
     expect(room).not.toContain('data-gacha-featured-item');
+  });
+});
+
+describe('ピックアップ一覧の整理（2026-11-04：PDF が増えても縦に長くならない）', () => {
+  const items = gachaItems();
+  const lr = pickupItems(items).filter((i) => gachaRarityOf(i) === 'LR');
+  it('LR はどれか1つの棚に入り、棚の合計＝LR 全部（落ちるものがない）', () => {
+    const shelves = pickupShelves(lr);
+    expect(shelves.reduce((n, s) => n + s.count, 0)).toBe(lr.length);
+    for (const s of shelves) expect(s.groups.reduce((n, g) => n + g.items.length, 0), s.id).toBe(s.count);
+    expect(shelves.find((s) => s.id === 'other')).toBeUndefined();
+  });
+  it('2次の予想問題は大学ごとにまとまる（同じ大学が2つに分かれない）', () => {
+    for (const s of pickupShelves(lr)) {
+      const labels = s.groups.map((g) => g.label);
+      expect(new Set(labels).size, s.id).toBe(labels.length);
+    }
+    expect(pickupUnivLabel('print_lr_niji_kochim_en_1')).toBe('高知大学（医学部医学科）');
+    expect(pickupUnivLabel('print_lr_hokudai_q_1')).toBe('北海道大学');
+    expect(pickupUnivLabel('print_lr_kyotsu_r_1')).toBeNull();
+  });
+  it('LR の説明は大学名を並べず「◯大学・◯冊」の短い文', () => {
+    const niji = lr.filter((i) => pickupUnivLabel(i.id));
+    const text = pickupLrSummary(niji)!;
+    expect(text).toMatch(/^\d+大学・\d+冊。/);
+    expect(text.length).toBeLessThan(40);
   });
 });

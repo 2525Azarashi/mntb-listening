@@ -10,6 +10,23 @@
 
 ---
 
+## 2026-11-04 ガチャ「ピックアップ一覧」「提供割合」の窓を整理（PR: feat/gacha-pickup-shelves）
+
+| # | 何を | どう変えた | ファイル |
+|---|---|---|---|
+| 1 | ピックアップ一覧 | 上に **LR／UR のタブ**。LR は「◯大学・◯冊」の短い説明と **地方の棚ボタン**（九州・沖縄／中国・四国／近畿／関東・中部／北海道・東北など。件数つき）を出し、選んだ地方のプリントを **大学ごとの見出し** でまとめて並べる。予想問題の注意書きは畳める（▸ を押すと開く） | `src/components/gacha/GachaPickupModal.tsx`・`src/components/gacha.css` |
+| 2 | 提供割合 | 上に **「割合・ルール」「コレクション」のタブ**。重複・入手条件は畳める。コレクションで学習プリントを選ぶと **地方の棚ボタン** → #176 の **レア度ボタン** → 持っているものだけ、の順で絞れる | `src/components/gacha/GachaCollectionModal.tsx`・`src/components/gacha.css` |
+| 3 | 文字・ボタンの大きさ | 新しいボタンは高さ44px・文字12px以上。コレクション一覧の小さい文字（カテゴリ表示）は隠し、名前を12pxに。レア度ボタンも44pxに | `gacha.css`・`src/styles/game-dashboard.css` |
+
+- 新しい大学を足したら `printShelves.ts` の `UNIV_REGION` に1行（足し忘れると「その他」の棚に入ってしまい、`tests/gachaPickup.test.ts` が落ちる）。
+
+**戻し方**：
+- 丸ごと戻す：このPRを revert。
+- ピックアップだけ戻す：`git checkout <この PR の前のコミット> -- src/components/gacha/GachaPickupModal.tsx tests/gachaPickup.test.ts`。
+- 提供割合だけ戻す：`GachaCollectionModal.tsx` を同様に戻す（#176 のレア度ボタンは残す）。
+
+---
+
 ## 2026-11-04 2次試験ガチャ LR に尾道市立大学（経済情報学部）の英語 予想問題 3回分（PR: feat/niji-onomichi）
 
 | 何を | どう変えた | ファイル |

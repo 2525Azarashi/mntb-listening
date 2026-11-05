@@ -1,7 +1,7 @@
 {
- "commit": "a625070c",
+ "commit": "52147a69",
  "date": "2026-11-04",
- "branch": "feat/niji-onomichi",
+ "branch": "feat/gacha-pickup-shelves",
  "new": [
   ".gitattributes",
   "docs/APP_CAPACITOR_README.md",
@@ -617,6 +617,25 @@
   "scripts/gacha-prints/niji_shikoku/ledger.json",
   "scripts/gacha-prints/niji_shikoku/plag.py",
   "scripts/gacha-prints/niji_shikoku/run.py",
+  "scripts/gacha-prints/niji_shikoku/shimane/fixwords.py",
+  "scripts/gacha-prints/niji_shikoku/shimane/r1_s1.py",
+  "scripts/gacha-prints/niji_shikoku/shimane/r1_s2.py",
+  "scripts/gacha-prints/niji_shikoku/shimane/r1_s3.py",
+  "scripts/gacha-prints/niji_shikoku/shimane/r1_s45.py",
+  "scripts/gacha-prints/niji_shikoku/shimane/r2_s1.py",
+  "scripts/gacha-prints/niji_shikoku/shimane/r2_s2.py",
+  "scripts/gacha-prints/niji_shikoku/shimane/r2_s3.py",
+  "scripts/gacha-prints/niji_shikoku/shimane/r2_s45.py",
+  "scripts/gacha-prints/niji_shikoku/shimane/r3_s1.py",
+  "scripts/gacha-prints/niji_shikoku/shimane/r3_s2.py",
+  "scripts/gacha-prints/niji_shikoku/shimane/r3_s3.py",
+  "scripts/gacha-prints/niji_shikoku/shimane/r3_s45.py",
+  "scripts/gacha-prints/niji_shikoku/shimaneh/r1.py",
+  "scripts/gacha-prints/niji_shikoku/shimaneh/r2.py",
+  "scripts/gacha-prints/niji_shikoku/shimaneh/r3.py",
+  "scripts/gacha-prints/niji_shikoku/shimanem/r1.py",
+  "scripts/gacha-prints/niji_shikoku/shimanem/r2.py",
+  "scripts/gacha-prints/niji_shikoku/shimanem/r3.py",
   "scripts/gacha-prints/niji_shikoku/strict/fix.py",
   "scripts/gacha-prints/niji_shikoku/strict/gate.py",
   "scripts/gacha-prints/niji_shikoku/strict/para.py",
@@ -1399,7 +1418,7 @@
   },
   {
    "path": "scripts/gacha-prints/README.md",
-   "why": "行数 21→572",
+   "why": "行数 21→587",
    "one": "ガチャで当たる学習プリントの作り直し方を説明する係"
   },
   {
@@ -1564,7 +1583,7 @@
   },
   {
    "path": "src/components/gacha.css",
-   "why": "行数 278→490",
+   "why": "行数 278→510",
    "one": "ガチャ画面と、引いたときの演出の見た目を決める係"
   },
   {
