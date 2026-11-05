@@ -384,7 +384,7 @@
 .gacha-collection-filters button { flex: 1; border: 1px solid #d9cba9; border-radius: 10px; }
 .gacha-collection-filters [aria-pressed=true] { background: #f3deb1; font-weight: 800; }
 .gacha-collection-rarities { display: grid; grid-template-columns: repeat(auto-fit, minmax(74px, 1fr)); }
-.gacha-collection-rarities button { min-height: 42px; padding: 6px 4px; white-space: nowrap; }
+.gacha-collection-rarities button { min-height: 44px; padding: 6px 4px; white-space: nowrap; }
 .gacha-odds .gacha-collection-grid { gap: 10px; margin-bottom: 12px; }
 .gacha-collection-grid li { display: flex; flex-direction: column; align-items: center; gap: 7px; border: 1px solid #e1d8c6; border-radius: 14px; padding: 12px 6px; background: #fffdf7; text-align: center; }
 .gacha-collection-grid li[data-owned=true] { border-color: #aec4af; background: #f3f7ed; }

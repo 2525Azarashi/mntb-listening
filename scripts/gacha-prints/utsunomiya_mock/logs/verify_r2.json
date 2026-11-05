@@ -1,0 +1,35 @@
+{
+ "1": {
+  "words": 595,
+  "avg": 16.1,
+  "zipf_lt4": 5.2,
+  "paras": 8,
+  "range": {
+   "words": "550–900:OK",
+   "avg": "14–25:OK",
+   "zipf_lt4": "3–12:OK"
+  }
+ },
+ "1-questions": 8,
+ "2": {
+  "words": 688,
+  "avg": 11.7,
+  "zipf_lt4": 5.9,
+  "paras": 13,
+  "range": {
+   "words": "550–900:OK",
+   "avg": "9–20:OK",
+   "zipf_lt4": "2–12:OK"
+  }
+ },
+ "2-questions": 8,
+ "3-models": {
+  "words": [
+   147,
+   138
+  ],
+  "range": "130〜170語"
+ },
+ "3-passage_words": 89,
+ "ng": []
+}

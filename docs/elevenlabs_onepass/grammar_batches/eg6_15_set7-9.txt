@@ -1,0 +1,23 @@
+The project will take months, if not years, to complete.
+<break time="1.5s" />
+Was it Ken that won the prize?
+<break time="1.5s" />
+It was only when I lost my health that I realized its value.
+<break time="1.5s" />
+It was not until I came to Japan that I learned how to use chopsticks.
+<break time="1.5s" />
+It was in this house that the famous composer was born.
+<break time="1.5s" />
+It is I who am to blame for the accident.
+<break time="1.5s" />
+Who was it that called you last night?
+<break time="1.5s" />
+It is not the players but the coach who is responsible for the defeat.
+<break time="1.5s" />
+I rarely drink coffee, but when I do drink it, I prefer it black.
+<break time="1.5s" />
+I did lock the door when I left home, but it was open when I came back.
+<break time="1.5s" />
+What on earth did you do to your hair?
+<break time="1.5s" />
+Why in the world did you say such a terrible thing to her?

@@ -1,0 +1,21 @@
+The forecast says it will rain all day, and nobody knows when it will stop.
+<break time="1.5s" />
+We'll cancel the picnic if it rains tomorrow.
+<break time="1.5s" />
+I wonder if she will meet us at the station tomorrow.
+<break time="1.5s" />
+I'm not sure if Ken will pass the exam next month. He hasn't studied at all.
+<break time="1.5s" />
+Let's start the meeting as soon as everyone arrives.
+<break time="1.5s" />
+“Have you decided what to do this summer?” “Yes. I am going to visit my grandparents in Hokkaido.”
+<break time="1.5s" />
+Look at those dark clouds. It is going to rain.
+<break time="1.5s" />
+I was about to go to bed when the phone rang.
+<break time="1.5s" />
+Five years have passed since we moved to this town.
+<break time="1.5s" />
+It has been two years since I last saw her.
+<break time="1.5s" />
+It has been ten years now since my grandfather passed away.

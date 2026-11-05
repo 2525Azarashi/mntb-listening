@@ -1,0 +1,39 @@
+Our train will reach Osaka at three.
+<break time="1.5s" />
+“Is Mr. Tanaka still single?” “No, he is married to a nurse.”
+<break time="1.5s" />
+Tom apologized for being late for the meeting.
+<break time="1.5s" />
+My brother and I are always arguing with each other about small things.
+<break time="1.5s" />
+She graduated from university last spring.
+<break time="1.5s" />
+Moderate exercise will do you a lot of good.
+<break time="1.5s" />
+Reading in poor light will do harm to your eyes.
+<break time="1.5s" />
+May I ask you a favor? = Will you do me a favor?
+<break time="1.5s" />
+Could you spare me a few minutes? I need your advice.
+<break time="1.5s" />
+Thanks to your e-mail, I didn't have to call her. = Your e-mail saved me the trouble of calling her.
+<break time="1.5s" />
+My father gave me 3,000 yen to buy a new book.
+<break time="1.5s" />
+It cost me a lot of money to have my house repaired.
+<break time="1.5s" />
+It took me a long time to arrange the tour.
+<break time="1.5s" />
+The repair shop charged me 8,000 yen for fixing my bike.
+<break time="1.5s" />
+The test allowed us only thirty minutes to answer all the questions.
+<break time="1.5s" />
+Any mistake in the data will cause us a lot of trouble.
+<break time="1.5s" />
+This new smartphone is selling very well.
+<break time="1.5s" />
+Any pen will do as long as it writes in black.
+<break time="1.5s" />
+The government has decided to raise the price of electricity next year.
+<break time="1.5s" />
+After the heavy rain, the river has risen by two meters.

@@ -1,0 +1,39 @@
+He goes to the gym every other day.
+<break time="1.5s" />
+The twins look so alike that I can't tell one from the other.
+<break time="1.5s" />
+I have two dogs. One is white, and the other is black.
+<break time="1.5s" />
+This shirt is too big. Could you show me another?
+<break time="1.5s" />
+I have three cousins. One is a doctor, and the others are teachers.
+<break time="1.5s" />
+Of the ten students, some went home, and the others stayed in the classroom.
+<break time="1.5s" />
+Some people like summer, and others like winter.
+<break time="1.5s" />
+Knowing a language is one thing, and teaching it is another.
+<break time="1.5s" />
+Cars passed by one after another.
+<break time="1.5s" />
+The two girls smiled at each other.
+<break time="1.5s" />
+If you want this ticket, you'll have to pay another five dollars.
+<break time="1.5s" />
+She is always kind to others.
+<break time="1.5s" />
+Most of the members agreed with the plan.
+<break time="1.5s" />
+Most Japanese people eat rice every day.
+<break time="1.5s" />
+Almost all the seats were taken.
+<break time="1.5s" />
+Most students in this school walk to school.
+<break time="1.5s" />
+"Will it be sunny tomorrow?" "I think so."
+<break time="1.5s" />
+"Can you come tomorrow?" "I'm afraid not."
+<break time="1.5s" />
+"Is it going to snow?" "I hope not."
+<break time="1.5s" />
+He has nothing to do with the accident.

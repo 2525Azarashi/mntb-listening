@@ -23,6 +23,7 @@ describe('PDF の棚', () => {
     expect(shelf('print_lr_kobe_1')).toBe('kinki');
     expect(shelf('print_lr_niji_kochim_en_2')).toBe('chugoku_shikoku');
     expect(shelf('print_lr_niji_ryukyu_en_3')).toBe('kyushu_okinawa');
+    expect(shelf('print_lr_niji_nagasakid_en_1')).toBe('kyushu_okinawa');
     expect(shelf('print_trend_cb_all')).toBe('trend');
     expect(shelf('print_cb_ch1')).toBe('chemistry');
   });

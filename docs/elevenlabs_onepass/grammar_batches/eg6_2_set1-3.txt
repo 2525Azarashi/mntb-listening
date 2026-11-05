@@ -1,0 +1,29 @@
+“This bridge looks really old.” “Yes, it was built about two hundred years ago.”
+<break time="1.5s" />
+When was this temple built? It looks very old.
+<break time="1.5s" />
+The fireworks were so bright that they could be seen from the other side of the river.
+<break time="1.5s" />
+Medicine like this should be kept out of the reach of small children.
+<break time="1.5s" />
+I was given a nice watch by my uncle on my birthday.
+<break time="1.5s" />
+The room hasn't been cleaned yet, so you can't use it now.
+<break time="1.5s" />
+The baby was named Hana by her parents, after a flower they both loved.
+<break time="1.5s" />
+While the new road was being built, cars had to take a long way around.
+<break time="1.5s" />
+The new student was laughed at by some classmates, and he felt sad.
+<break time="1.5s" />
+Kyoto is known for its old temples and shrines.
+<break time="1.5s" />
+The puppy is being taken care of by the neighbors.
+<break time="1.5s" />
+I'm not interested in horror movies, so let's watch something else.
+<break time="1.5s" />
+We were surprised at the news of his sudden retirement.
+<break time="1.5s" />
+We were caught in a traffic jam on the way to the airport.
+<break time="1.5s" />
+Cheese is made from milk.

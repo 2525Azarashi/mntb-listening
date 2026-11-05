@@ -1,7 +1,7 @@
 {
- "commit": "66bbcd09",
+ "commit": "52147a69",
  "date": "2026-11-04",
- "branch": "feat/niji-kankyo",
+ "branch": "feat/gacha-pickup-shelves",
  "new": [
   ".gitattributes",
   "docs/APP_CAPACITOR_README.md",
@@ -415,28 +415,6 @@
   "scripts/gacha-prints/iwate_mock/probe.py",
   "scripts/gacha-prints/iwate_mock/render.py",
   "scripts/gacha-prints/iwate_mock/verify.py",
-  "scripts/gacha-prints/kankyo_mock/logo_gray.png",
-  "scripts/gacha-prints/kankyo_mock/pdf.mjs",
-  "scripts/gacha-prints/kankyo_mock/r1.py",
-  "scripts/gacha-prints/kankyo_mock/r1_p1.py",
-  "scripts/gacha-prints/kankyo_mock/r1_p1q.py",
-  "scripts/gacha-prints/kankyo_mock/r1_p2.py",
-  "scripts/gacha-prints/kankyo_mock/r1_p4.py",
-  "scripts/gacha-prints/kankyo_mock/r2.py",
-  "scripts/gacha-prints/kankyo_mock/r2_p1.py",
-  "scripts/gacha-prints/kankyo_mock/r2_p1q.py",
-  "scripts/gacha-prints/kankyo_mock/r2_p2.py",
-  "scripts/gacha-prints/kankyo_mock/r2_p3.py",
-  "scripts/gacha-prints/kankyo_mock/r2_p4.py",
-  "scripts/gacha-prints/kankyo_mock/r3.py",
-  "scripts/gacha-prints/kankyo_mock/r3_p1.py",
-  "scripts/gacha-prints/kankyo_mock/r3_p1q.py",
-  "scripts/gacha-prints/kankyo_mock/r3_p1t.py",
-  "scripts/gacha-prints/kankyo_mock/r3_p2.py",
-  "scripts/gacha-prints/kankyo_mock/r3_p3.py",
-  "scripts/gacha-prints/kankyo_mock/r3_p4.py",
-  "scripts/gacha-prints/kankyo_mock/render.py",
-  "scripts/gacha-prints/kankyo_mock/style.css",
   "scripts/gacha-prints/kobe_mock/check_orig.py",
   "scripts/gacha-prints/kobe_mock/check_quality.py",
   "scripts/gacha-prints/kobe_mock/logo_gray.png",
@@ -1440,7 +1418,7 @@
   },
   {
    "path": "scripts/gacha-prints/README.md",
-   "why": "行数 21→603",
+   "why": "行数 21→587",
    "one": "ガチャで当たる学習プリントの作り直し方を説明する係"
   },
   {
@@ -1605,7 +1583,7 @@
   },
   {
    "path": "src/components/gacha.css",
-   "why": "行数 278→490",
+   "why": "行数 278→510",
    "one": "ガチャ画面と、引いたときの演出の見た目を決める係"
   },
   {

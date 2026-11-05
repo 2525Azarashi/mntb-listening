@@ -41,6 +41,10 @@
  *   - 公立鳥取環境大学 前期対策（2026-11-04 追加）：Part 1 約650語の記事＋4択20問（内容・語義・段落の主旨）・Part 2 150語以上の英作文・
  *     Part 3 会話の空所（4つの文から選ぶ／お知らせを読んで書く）・Part 4 約110語の短い記事を読んで80〜100語の意見・90分。
  *     英語は両学部・A/B方式共通の1種類。配点は大学非公表のため編集部の想定（100点：40・24・12・24）。3回分。
+*   - 長崎大学 前期対策（2026-11-04 追加）：A 長文読解（日本語で答える）・B 物語文読解（英語で答える）は全学部共通。
+ *     そのあと志望学部で分かれるため2系統×3回（計6冊）。多文化社会・経済・医・歯・薬・工・環境科学部ほか用＝A・B・D（グラフを読んで100語程度×2）／
+ *     教育学部（文系以外）・情報データ科学部（理系受験）用＝A・B・C（語彙・同意表現10問）。100分・200点（70・70・60）。
+ *     配点・小問の配点は編集部の想定。グラフの数値は架空。
  *   ★過去問ではない★ 英文・設問・図表・解答はすべて書き下ろし。過去問・解答速報・講評の文章は引用していない
  *   （英語5語以上・日本語12字以上の連続一致がないことを機械で確認済み）。表紙と奥付に「大学とは関係がない」旨を明記。
  *
@@ -84,6 +88,8 @@ export const NIJI_UNIVERSITIES = [
   { id: 'shimaneh', name: '島根大学', track: '法文・人間科学・総合理工・生物資源科学部' },
   { id: 'shimanem', name: '島根大学', track: '医学部医学科' },
   { id: 'kankyo', name: '公立鳥取環境大学', track: '' },
+{ id: 'nagasakid', name: '長崎大学', track: '多文化社会・経済・医・歯・薬・工・環境科学部ほか' },
+  { id: 'nagasakic', name: '長崎大学', track: '教育学部（文系以外）・情報データ科学部（理系受験）' },
 ] as const;
 export type NijiUniversityId = (typeof NIJI_UNIVERSITIES)[number]['id'];
 
@@ -129,6 +135,8 @@ const onomichi = (n: number, pages: number, kb: number) => mock('onomichi', n, p
 const shimaneh = (n: number, pages: number, kb: number) => mock('shimaneh', n, pages, kb);
 const shimanem = (n: number, pages: number, kb: number) => mock('shimanem', n, pages, kb);
 const kankyo = (n: number, pages: number, kb: number) => mock('kankyo', n, pages, kb);
+const nagasakid = (n: number, pages: number, kb: number) => mock('nagasakid', n, pages, kb);
+const nagasakic = (n: number, pages: number, kb: number) => mock('nagasakic', n, pages, kb);
 
 export const NIJI_MOCK_PRINTS: readonly GachaPrintDef[] = [
   nagoya(1, 28, 2026),
@@ -218,6 +226,12 @@ export const NIJI_MOCK_PRINTS: readonly GachaPrintDef[] = [
   kankyo(1, 19, 1415),
   kankyo(2, 20, 1404),
   kankyo(3, 19, 1409),
+nagasakid(1, 18, 346),
+  nagasakid(2, 18, 329),
+  nagasakid(3, 18, 338),
+  nagasakic(1, 18, 319),
+  nagasakic(2, 18, 293),
+  nagasakic(3, 18, 313),
 ];
 
 /** その大学の予想問題に必ず添える注意書き（PDF の表紙・奥付と同じ文） */
@@ -237,12 +251,13 @@ export const OTHER_MOCK_UNIVERSITIES = [
   { id: 'akita', name: '秋田大学' },
   { id: 'yamagata', name: '山形大学' },
   { id: 'fukushima', name: '福島大学' },
+  { id: 'utsunomiya', name: '宇都宮大学' },
   { id: 'kobe', name: '神戸大学' },
   { id: 'osaka', name: '大阪大学' },
   { id: 'ritsu', name: '立命館大学' },
 ] as const;
 
-/** 2次試験ガチャの予想問題（id）がどの大学のものか（名古屋・静岡に加え、北大・東北大・弘前大・岩手大・秋田大・山形大・福島大・神戸・阪大・立命館も）。予想問題でなければ undefined */
+/** 2次試験ガチャの予想問題（id）がどの大学のものか（名古屋・静岡に加え、北大・東北大・弘前大・岩手大・秋田大・山形大・福島大・宇都宮大・神戸・阪大・立命館も）。予想問題でなければ undefined */
 export function mockUniversityOf(id: string): { id: string; name: string } | undefined {
   const m = id.match(/^print_lr_([a-z]+)_(?:[qa]_)?\d+$/);
   return m ? OTHER_MOCK_UNIVERSITIES.find((u) => u.id === m[1]) : nijiUniversityOf(id);

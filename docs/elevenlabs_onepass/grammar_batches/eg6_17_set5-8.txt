@@ -1,0 +1,39 @@
+When I said I was lost, an old man offered to show me the way.
+<break time="1.5s" />
+Don't pretend to know the answer. I know you have no idea.
+<break time="1.5s" />
+She promised not to be late for class again.
+<break time="1.5s" />
+I remember visiting this park with my grandfather when I was little.
+<break time="1.5s" />
+Remember to turn off the lights when you leave the room.
+<break time="1.5s" />
+Don't forget to take an umbrella with you. It's going to rain.
+<break time="1.5s" />
+I'll never forget seeing the ocean for the first time.
+<break time="1.5s" />
+He regretted not studying harder when he was in high school.
+<break time="1.5s" />
+We regret to inform you that the concert has been canceled.
+<break time="1.5s" />
+I tried to solve the math problem by myself, but after an hour I gave up.
+<break time="1.5s" />
+If you can't sleep, try drinking a glass of warm milk.
+<break time="1.5s" />
+I regret to tell you that your application has been rejected.
+<break time="1.5s" />
+I'm sorry. I didn't mean to hurt your feelings.
+<break time="1.5s" />
+Missing this bus means waiting another hour.
+<break time="1.5s" />
+This shirt is dirty. It needs washing.
+<break time="1.5s" />
+This bike needs to be repaired before you ride it.
+<break time="1.5s" />
+I was so tired that I stopped to take a short rest on the way.
+<break time="1.5s" />
+These shoes are worn out. They want mending.
+<break time="1.5s" />
+He didn't want to go on being a doctor.
+<break time="1.5s" />
+The teacher introduced himself and went on to explain the purpose of the class.

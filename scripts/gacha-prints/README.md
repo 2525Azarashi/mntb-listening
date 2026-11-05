@@ -529,6 +529,21 @@ python3 ../build-previews.py print_lr_niji_shimaneh_en_1 print_lr_niji_shimaneh_
   - shimanem（医学部医学科・120分300点）：1 70／2 80／3 医療・科学の長文 90／5 A 和文英訳・B 約80語の意見英作文 60
 - 配点は大学非公表のため本書の想定。照合元は島根大学の公開問題・出題意図（令和5〜7年度。画像PDFは全ページOCR）。英5語・日10字の一致と1文ごとの言い換えがどちらも0件。
 
+### 長崎大学 前期対策（2026-11-04 追加）
+
+```bash
+cd scripts/gacha-prints/niji_shikoku   # 四国・鳥取・島根と同じ道具（cfg.py に 'nagasakid'・'nagasakic' を追加）
+python3 nagasaki/fixwords.py nagasaki/r*_*.py   # 指示文の決まり文句を独自の言い回しに置き換え
+python3 run.py nagasakid 1 2 3 && python3 run.py nagasakic 1 2 3
+python3 plag.py nagasakid nagasakic && python3 strict/gate.py nagasakid nagasakic && python3 strict/para.py   # gate・para は 0 件（plag は学部名と記号の並びのみ）
+python3 ../build-previews.py print_lr_niji_nagasakid_en_1 print_lr_niji_nagasakid_en_2 print_lr_niji_nagasakid_en_3 print_lr_niji_nagasakic_en_1 print_lr_niji_nagasakic_en_2 print_lr_niji_nagasakic_en_3
+```
+
+- 2系統×3回。中身は `nagasaki/r{n}_a.py`（A 共通）・`r{n}_b.py`（B 共通）・`r{n}_cd.py`（SC＝C 語彙、SD＝D グラフ英作文）。形式は令和4〜8年度の公開問題（画像PDFは300dpiでOCR）に合わせた。
+  - nagasakid（多文化社会・教育〈文系〉・経済・医・歯・薬・情報データ科学〈文系〉・工・環境科学部）：A 長文（日本語で答える）70／B 物語文（英語で答える）70／D グラフを読んで100語程度×2 60
+  - nagasakic（教育〈文系以外〉・情報データ科学〈理系〉）：A 70／B 70／C 下線部の同意語句10問 60
+- 100分。配点は大学非公表のため本書の想定。`common.py` に下線だけ（ラベルなし）を引く `{_:語句}` を追加。照合元に `/home/user/work/kyushu/*/*.txt` を加えた。
+
 ### 山口大学 前期対策（2026-11-03 追加）
 
 ```bash
@@ -599,5 +614,31 @@ cd scripts/gacha-prints/fukushima_mock && for R in 1 2 3; do python3 render.py $
 cd scripts/gacha-prints/fukushima_mock
 python3 check.py 1 2 3     # 英語4語／日本語13字の一致（福島大の公式PDF・出題意図＋山形大・秋田大・岩手大・弘前大・東北大・北大・神戸大・阪大・立命館）・人物名・禁止語・下線と和訳の設問の対応・注の付け忘れ・全訳の段落数・配点と採点基準の合計・Ⅱの空所1つ／1語／正解の重複（3回を通して）・Ⅲの語句6つ／正解が語句の並べかえ／表示順と正解が同じでない／文法タグの重複・Ⅳの問い2つと解答例2つ・題材の近さ・render.py の固定文言 → logs/check.json（ng が空であること）
 for R in 1 2 3; do python3 verify.py $R; done   # Ⅰの語数・平均文長・難語率・和訳の数・解答例の字数，Ⅲの文の長さ，Ⅳの解答例の語数 → logs/verify_rN.json
+python3 probe.py '言い換え候補の文' …   # 書き直すときに，候補が過去問と重ならないかを先に試す
+```
+
+## LR：宇都宮大学 前期日程 英語（データサイエンス経営学部・国際学部・工学部・農学部 共通の問題冊子）予想問題（3回分・白黒）2026-11-04
+
+```bash
+# 必要なもの・フォントは神戸大と同じ（utsunomiya_mock/render.py は kobe_mock/render.py と hokudai_mock/render.py の部品を読み込む。両方を壊さないこと）
+cd scripts/gacha-prints/utsunomiya_mock && for R in 1 2 3; do python3 render.py $R; done
+# → .tmpwork/utsunomiya_mock/manatobi_utsunomiya_eng_yoso{n}_{mondai,kaitou}.pdf
+#   を「問題 → 解答・解説」の順に pdfunite で1冊にして public/prints/print_lr_utsunomiya_{n}.pdf
+#   → サムネイル（1ページ目・72dpi・幅360で上510pxを webp q82）→ src/data/utsunomiyaMockPrints.ts の pages / kb を合わせる
+#   → python3 scripts/gacha-prints/build-previews.py print_lr_utsunomiya_1 print_lr_utsunomiya_2 print_lr_utsunomiya_3
+```
+- 対象：前期日程の「英語」は4学部（データサイエンス経営・国際・工・農）共通の1冊なので3回分。120分想定・独自配点 200点（第1問 60・第2問 60・第3問 40・第4問 40）。
+- 形式は公開されている問題（令和6〜8年度）と解答例・出題の意図の「形」だけを参考にした：第1問 約600語の論説文（語義・下線部和訳・内容説明・空所補充・内容一致〇×）／第2問 約600語の物語文（同じ種類の設問）／第3問 約100語の英文を読んで約150語の意見英作文／第4問 会話文の空所4つ×2に英文を書く。
+- 問題データは `uN_1.py`（論説文・注・全訳・語句）・`uN_1q.py`（第1問の設問）・`uN_2.py`／`uN_2q.py`（物語文）・`uN_3.py`（第3問の英作文・第4問の会話）・`uN.py`（配点・架空の固有名詞）。本文の記法：`{n|…}` 番号つき下線・`[[n]]` 番号つき空所・`word*` 注のある語。
+- 表紙と奥付に「宇都宮大学の過去問・公式問題ではありません。予想問題であり，大学とは関係がありません。」（`tests/utsunomiyaMockPrints.test.ts` が確認）。2ページ目以降に注記ヘッダーは付けない。登場人物・団体・地名・調査は架空（過去問に出てくる名前と重ならないことも確認）。
+- 分析に使った資料：大学公式サイトで公開されている令和6〜8年度の前期 英語問題と解答例・出題の意図（画像PDFを OCR）。OCR は `.tmpwork/utsunomiya_ref/` に置くだけで，本文・設問・解答は引用しない。過去問の題材（冠詞・新語とSNS・英語の将来・自転車ヘルメット・スマホの年齢・昆虫食 など）は避けた。
+- 難易度の基準（`verify.py` の冒頭に記載）：本文 550〜900語，第1問 平均文長 14〜25語・難語率 3〜12%，第2問 平均文長 9〜20語・難語率 2〜12%，設問 7〜9問（最後は〇×），英作文の解答例 130〜170語。
+
+### 宇都宮大 予想問題：品質・オリジナル性の検査（商用利用のため毎回実行）2026-11-04
+
+```bash
+cd scripts/gacha-prints/utsunomiya_mock
+python3 check.py 1 2 3     # 英語4語／日本語13字の一致（宇都宮大の公式PDF・解答例＋福島大・山形大・秋田大・岩手大・弘前大・東北大・北大・神戸大・阪大・立命館）・人物名・禁止語・下線／空所と設問の対応・注の付け忘れ・全訳の段落数・配点と採点基準の合計・選択肢の数と正解位置の偏り・〇×の妥当性・解答例2つ・会話の空所数・題材の近さ・render.py の固定文言 → logs/check.json（ng が空であること）
+for R in 1 2 3; do python3 verify.py $R; done   # 本文の語数・平均文長・難語率・設問数と種類・英作文の語数 → logs/verify_rN.json
 python3 probe.py '言い換え候補の文' …   # 書き直すときに，候補が過去問と重ならないかを先に試す
 ```
