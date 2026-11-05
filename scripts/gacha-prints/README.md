@@ -546,6 +546,23 @@ cd scripts/gacha-prints/fukushima_mock && for R in 1 2 3; do python3 render.py $
 - 分析に使った資料：大学公式サイト（入試情報「過去問題（学類入学試験）」）で公開されている 2024〜2026年度（R6〜R8）の経済経営学類 前期日程「英語・小論文」の問題冊子（画像PDFを OCR。R7 のⅠの英文は著作権のため非公開）と出題意図。OCR は `.tmpwork/fukushima_ref/` に置くだけで，本文・設問・解答は引用しない。解答例は大学が公表していない。
 - 難易度の基準（`verify.py` の冒頭に記載）：Ⅰの本文 280〜420語（R6 約380語・R8 約320語）・平均文長 14〜25語・難語率 2〜10%。Ⅲの完成文 7〜20語。Ⅳの解答例 90〜120語。
 
+### 茨城大学 前期対策（2026-11-04 追加）
+
+```bash
+# 中身は scripts/gacha-prints/ibaraki_mock/r{1,2,3}{a,b}.py＋r{n}.py（a＝Ⅰ・Ⅱ、b＝Ⅲ・Ⅳ）
+python3 scripts/gacha-prints/ibaraki_mock/check.py r1 r2 r3   # 過去問OCR・解答例との一致（英語4語・日本語13字）・禁止語・解説の引用・Ⅲ解答の丸写し
+python3 scripts/gacha-prints/ibaraki_mock/render.py all       # → public/prints/print_lr_niji_ibaraki_en_{1,2,3}.pdf（問題＋解答解説を pdfunite）
+python3 scripts/gacha-prints/build-previews.py print_lr_niji_ibaraki_en_1 print_lr_niji_ibaraki_en_2 print_lr_niji_ibaraki_en_3
+# サムネ（表紙・360×510）は山口大学と同じ作り方。src/data/nijiMockPrints.ts の pages / kb を実物に合わせる
+```
+
+- 前期の英語（英語A）は人文社会科学部・工学部・農学部・地域未来共創学環（英語選択）で共通の1種類なので3回分。90分・200点。
+- 形式は公開されている令和7・8年度の問題冊子の設問文と解答例の「形」だけを参考にした（英文本文は大学のHPでも非公開）：Ⅰ・Ⅱ 下線部和訳・下線部の内容説明／Ⅲ 設問も解答も英語（5問）／Ⅳ 日本文の下線部を内容をかみくだいて英語で表現。
+- 大問の配点（各50）は編集部の想定。
+- 表紙と奥付に「茨城大学の過去問・公式問題ではありません。予想問題であり、大学とは関係がありません。」を明記。
+- 照合用の過去問OCRテキスト（.tmpwork/ibaraki_ref）は著作物なので git に入れない。
+- render.py が検査すること：本文の語数（430〜640語）・全訳の段落数・下線の番号と設問の対応（1問で2か所を扱う refs も可）・注の印・採点基準と配点の合計・Ⅲの問いが疑問文で解答が2〜32語・Ⅳの解答例2つずつ。
+
 ### 福島大 予想問題：品質・オリジナル性の検査（商用利用のため毎回実行）2026-11-04
 
 ```bash
