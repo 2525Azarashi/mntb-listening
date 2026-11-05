@@ -1,0 +1,29 @@
+She always arrives on time. She is very punctual.
+<break time="1.5s" />
+"Can I speak to Ms. Ito?" "I'm sorry, you have the wrong number."
+<break time="1.5s" />
+This is the very book that I have been looking for.
+<break time="1.5s" />
+I haven't finished my homework yet.
+<break time="1.5s" />
+Are you still here? I thought you had gone home.
+<break time="1.5s" />
+When I got to the station, the train had left ten minutes before.
+<break time="1.5s" />
+I saw him at the station three days ago.
+<break time="1.5s" />
+He told me that he had met her two years before.
+<break time="1.5s" />
+I was so busy that I hardly slept last night.
+<break time="1.5s" />
+We seldom eat out — maybe once or twice a year.
+<break time="1.5s" />
+Ken is almost always late. He rarely arrives on time.
+<break time="1.5s" />
+There were scarcely any people on the beach.
+<break time="1.5s" />
+My brother hardly ever watches TV. He prefers reading.
+<break time="1.5s" />
+The bus was so late that I almost missed my flight.
+<break time="1.5s" />
+Almost all the students passed the test.

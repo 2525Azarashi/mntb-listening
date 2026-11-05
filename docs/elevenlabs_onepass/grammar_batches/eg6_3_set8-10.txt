@@ -1,0 +1,23 @@
+The train ought to have arrived here ten minutes ago. I wonder why it's late.
+<break time="1.5s" />
+I have a terrible stomachache. I should not have eaten so much cake.
+<break time="1.5s" />
+I ought not to have played games until so late.
+<break time="1.5s" />
+We needn't have taken a taxi. The station was only a five-minute walk.
+<break time="1.5s" />
+It is essential that every student follow the safety rules.
+<break time="1.5s" />
+You can't be too careful when you ride a bicycle at night.
+<break time="1.5s" />
+I would like to ask you a question about the homework.
+<break time="1.5s" />
+The movie was so funny that I couldn't help laughing.
+<break time="1.5s" />
+I cannot but be grateful for his kindness.
+<break time="1.5s" />
+She studied very hard for a year. She may well be proud of her result.
+<break time="1.5s" />
+You might as well throw your money away as spend it on such a useless thing.
+<break time="1.5s" />
+There's nothing more to do here. We might as well go home.

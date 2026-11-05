@@ -1,0 +1,29 @@
+I had never seen a koala until I visited Australia last year.
+<break time="1.5s" />
+I bought this bag at a department store three days ago.
+<break time="1.5s" />
+He came home just now, so he is still changing his clothes.
+<break time="1.5s" />
+“I can't find my umbrella.” “When did you use it last?”
+<break time="1.5s" />
+I have just been to the post office to send a package, so I'm a bit tired.
+<break time="1.5s" />
+Ms. Ito isn't here now. She has gone to Osaka on business and won't be back until Friday.
+<break time="1.5s" />
+“Have you ever been to Hokkaido?” “No, but I'd love to go someday.”
+<break time="1.5s" />
+I have been looking for my key since this morning, but I still can't find it.
+<break time="1.5s" />
+She had been standing in line for an hour when the store finally opened.
+<break time="1.5s" />
+We have lived in this city since 2015.
+<break time="1.5s" />
+This house has belonged to my family since my grandfather built it in 1970.
+<break time="1.5s" />
+Please wait here until I come back.
+<break time="1.5s" />
+You can go out to play after you have finished your homework.
+<break time="1.5s" />
+By the time you get here, I will have finished cleaning the room.
+<break time="1.5s" />
+I'll tell him the news when he gets home tonight.

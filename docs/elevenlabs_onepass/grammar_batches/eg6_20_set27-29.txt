@@ -1,0 +1,27 @@
+“Mary has gotten engaged to Tom.” “Really? That's news to me.”
+<break time="1.5s" />
+“He didn't pass the examination.” “What a shame!”
+<break time="1.5s" />
+“I passed my driving test yesterday.” “Well done!”
+<break time="1.5s" />
+“It must have been a boring job.” “You can say that again.”
+<break time="1.5s" />
+“Will you be able to come?” “I'm afraid not. I have to work.”
+<break time="1.5s" />
+“Come downstairs. Dinner's ready.” “I'm coming.”
+<break time="1.5s" />
+“Well, it can't be helped.” “Yes. There's no choice.”
+<break time="1.5s" />
+“How were your winter holidays?” “Couldn't have been better. I enjoyed every day.”
+<break time="1.5s" />
+“When is the paper due?” “Ten in the morning tomorrow.”
+<break time="1.5s" />
+“Congratulations! You have a healthy baby boy.”
+<break time="1.5s" />
+“You have an appointment at 3:00, don't you? Can you make it?” “Yes, I can.”
+<break time="1.5s" />
+“My house is just on the corner. You can't miss it.”
+<break time="1.5s" />
+“Will you do me a favor, Tom?” “You name it.”
+<break time="1.5s" />
+“Will you go to the party?” “Well, that depends.”

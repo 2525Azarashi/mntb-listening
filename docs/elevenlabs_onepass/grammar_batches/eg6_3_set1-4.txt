@@ -1,0 +1,39 @@
+“Where is Mr. Kato?” “I'm not sure, but he may be in the library.”
+<break time="1.5s" />
+If you practice every day, you will be able to swim 100 meters by summer.
+<break time="1.5s" />
+“I have a job interview tomorrow.” “Good luck! May you get the job!”
+<break time="1.5s" />
+That woman can't be his mother. She looks much too young.
+<break time="1.5s" />
+“May I use your pen for a moment?” “Sure, go ahead.”
+<break time="1.5s" />
+She speaks French, Spanish and Chinese. She must be very good at languages.
+<break time="1.5s" />
+You mustn't touch the paintings in this museum. It's against the rules.
+<break time="1.5s" />
+All passengers must wear a seat belt during takeoff and landing.
+<break time="1.5s" />
+I couldn't go to the party last Saturday because I had to take care of my little sister.
+<break time="1.5s" />
+You don't have to bring your lunch tomorrow. Lunch will be served at the event.
+<break time="1.5s" />
+The next train is an hour late, so we will have to wait at the station.
+<break time="1.5s" />
+To use the app, you have only to press this button.
+<break time="1.5s" />
+It's going to rain this afternoon. You should take an umbrella with you.
+<break time="1.5s" />
+“Shall I open the window?” “Yes, please. It's hot in here.”
+<break time="1.5s" />
+You ought not to go out alone late at night.
+<break time="1.5s" />
+We have plenty of time before the movie starts. You needn't hurry.
+<break time="1.5s" />
+You don't need to worry about the test. You studied very hard.
+<break time="1.5s" />
+I dare not tell my father that I broke his camera. He would be so angry.
+<break time="1.5s" />
+How dare you read my diary without asking me!
+<break time="1.5s" />
+If you will wait a moment, I'll get the manager for you.

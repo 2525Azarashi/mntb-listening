@@ -338,6 +338,22 @@
 .gacha-pickup-pages > img { width:100%; height:auto; border:1px solid #e3d8c3; border-radius:6px; background:#fff; }
 .gacha-pickup-audio { display:grid; gap:4px; margin:0; padding:0 10px 10px; font-size:12px; color:#6b5a3a; }
 .gacha-pickup-audio > audio { width:100%; min-height:44px; }
+/* 2026-11-04 整理：LR/UR のタブ・地方の棚・大学ごとのまとまり（PDF が増えても縦に長くならない） */
+.gacha-pickup-tabs { display:grid; grid-template-columns:1fr 1fr; gap:6px; }
+.gacha-pickup-tabs > button, .gacha-pickup-shelves > button, .gacha-odds-tabs > button { display:flex; align-items:center; justify-content:center; gap:4px; min-height:44px; padding:4px 8px; border:1.5px solid #e1d3b4; border-radius:12px; background:#fffdf8; color:#59451f; font:800 13px/1.25 var(--mt-font-body); text-align:center; cursor:pointer; }
+.gacha-pickup-tabs > button[aria-selected=true], .gacha-pickup-shelves > button[aria-pressed=true], .gacha-odds-tabs > button[aria-selected=true] { border-color:#d9a63a; background:#fff1cc; color:#4a3610; }
+.gacha-pickup-tabs small, .gacha-pickup-shelves small, .gacha-odds-tabs small { font-size:12px; font-weight:700; color:#8a6a2a; }
+.gacha-pickup-shelves { display:flex; flex-wrap:wrap; gap:6px; }
+.gacha-pickup-shelves > button { flex:1 1 auto; min-width:0; font-size:12px; }
+.gacha-pickup-univ { display:grid; gap:6px; }
+.gacha-pickup-univ > h3 { display:flex; align-items:baseline; gap:6px; margin:4px 0 0; color:#59451f; font:800 13px/1.35 var(--mt-font-body); border-bottom:1px solid #eadfc8; padding-bottom:2px; }
+.gacha-pickup-univ > h3 small { font-size:12px; font-weight:700; color:#8a6a2a; }
+.gacha-pickup-univ > ul { display:grid; gap:6px; margin:0; padding:0; list-style:none; }
+.gacha-pickup-disclaimer { font-size:12px; color:#6b5a3a; }
+.gacha-pickup-disclaimer > summary { min-height:44px; display:flex; align-items:center; cursor:pointer; }
+.gacha-pickup-disclaimer > p { margin:0; }
+.gacha-odds-tabs { display:grid; grid-template-columns:1fr 1fr; gap:6px; }
+.gacha-odds-rules > summary { min-height:44px; display:flex; align-items:center; cursor:pointer; color:#59451f; font:800 13px/1.35 var(--mt-font-body); }
 
 /* ===== LR リスニングの音声（マイPDF） ===== */
 .kyotsu-audio { border-top:1px dashed #d9c9a8; padding-top:4px; }
@@ -488,3 +504,7 @@
   @keyframes gacha-hero-in { from { opacity: 0; translate: 0 -8px; filter: blur(3px); } }
 }
 @media (prefers-reduced-motion: reduce) { .gacha-banner-swap { transition: none; } }
+
+/* 2026-11-04 提供割合の窓のコレクション一覧：文字を12px以上に（帯ラベル 8〜9px・所持状況 10px を上書き） */
+.gacha-odds .gacha-collection-grid li > span { font-size: 12px; }
+.gacha-odds .gacha-collection-grid .gacha-print-thumb em { display: none; } /* 種類（演習プリント等）は帯にせず、下の名前とレア度で判断できる */

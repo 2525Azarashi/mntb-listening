@@ -1,0 +1,39 @@
+The opening ceremony will be held on the 1st of April.
+<break time="1.5s" />
+The museum opens at 9:30 every morning.
+<break time="1.5s" />
+My grandmother was born on a snowy morning in February.
+<break time="1.5s" />
+Let's meet at the north exit of the station at six.
+<break time="1.5s" />
+My uncle has lived in Canada for more than twenty years.
+<break time="1.5s" />
+The famous novelist was born in Tokyo on February 9, 1867.
+<break time="1.5s" />
+The movie will start in a few minutes. Please turn off your phone.
+<break time="1.5s" />
+Please send us your answer within a week.
+<break time="1.5s" />
+She has been studying Spanish for three years.
+<break time="1.5s" />
+I haven't heard from my old friend since last summer.
+<break time="1.5s" />
+He got injured during the soccer game.
+<break time="1.5s" />
+“How long will you be in Kyoto?” “Until next Tuesday.”
+<break time="1.5s" />
+You have to return the book to the library by Friday.
+<break time="1.5s" />
+This is the hottest summer in thirty years.
+<break time="1.5s" />
+We saw a rainbow above the hills after the rain.
+<break time="1.5s" />
+Last night the temperature fell to ten degrees below zero.
+<break time="1.5s" />
+There is a big map of the world on the wall of our classroom.
+<break time="1.5s" />
+Don't forget to put a stamp on the envelope before you mail it.
+<break time="1.5s" />
+We went skating on the frozen lake.
+<break time="1.5s" />
+Part-time workers at this store are paid by the hour.

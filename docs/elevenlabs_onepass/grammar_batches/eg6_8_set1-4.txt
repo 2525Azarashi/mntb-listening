@@ -1,0 +1,39 @@
+The test was not as difficult as it looked.
+<break time="1.5s" />
+My sister can run as fast as I can.
+<break time="1.5s" />
+My brother doesn't spend as much money as I do.
+<break time="1.5s" />
+The new library is three times as large as the old one.
+<break time="1.5s" />
+This box is half as heavy as that one.
+<break time="1.5s" />
+This rope is twice the length of that one.
+<break time="1.5s" />
+Ken has twice the number of comics that I have.
+<break time="1.5s" />
+Please answer as quickly as you can.
+<break time="1.5s" />
+Read as many books as you can during the summer vacation.
+<break time="1.5s" />
+Success is not so much a matter of luck as of effort.
+<break time="1.5s" />
+My son does not so much as clean his own room.
+<break time="1.5s" />
+She is as great a pianist as ever lived.
+<break time="1.5s" />
+My old bike was repaired, and now it is as good as new.
+<break time="1.5s" />
+This bag is much lighter than that one.
+<break time="1.5s" />
+Today is even hotter than yesterday.
+<break time="1.5s" />
+This movie is less exciting than that one.
+<break time="1.5s" />
+Our coach is more kind than strict.
+<break time="1.5s" />
+It is getting darker and darker outside.
+<break time="1.5s" />
+Tom is the taller of the two brothers.
+<break time="1.5s" />
+The more I listened to his story, the more convinced I became that he was lying.

@@ -1,0 +1,39 @@
+Our team lost the final by just one point.
+<break time="1.5s" />
+I paid 4,000 yen for this pair of sneakers.
+<break time="1.5s" />
+Most of the members voted for the plan, so it was adopted.
+<break time="1.5s" />
+He was sitting on the sofa with his arms folded.
+<break time="1.5s" />
+The boy came into the room with his hands in his pockets.
+<break time="1.5s" />
+This dictionary will be of great use to you.
+<break time="1.5s" />
+Health is of the greatest importance to everyone.
+<break time="1.5s" />
+She answered all the difficult questions with ease.
+<break time="1.5s" />
+Who is that woman in the white dress?
+<break time="1.5s" />
+Let's talk about our trip over dinner.
+<break time="1.5s" />
+It's quite warm for the middle of December.
+<break time="1.5s" />
+My grandfather looks young for his age.
+<break time="1.5s" />
+To my great surprise, he won the speech contest.
+<break time="1.5s" />
+The problem was settled to everyone's satisfaction.
+<break time="1.5s" />
+Besides being a famous singer, she is also a successful businesswoman.
+<break time="1.5s" />
+I have read all of her novels but the latest one.
+<break time="1.5s" />
+Please fill out this form with a black pen.
+<break time="1.5s" />
+My sister goes to school by bicycle.
+<break time="1.5s" />
+We stayed at a hotel with a beautiful garden.
+<break time="1.5s" />
+This question is beyond my understanding.

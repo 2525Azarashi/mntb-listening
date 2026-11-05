@@ -1,0 +1,29 @@
+My father takes a walk in the park every morning, so he is very healthy.
+<break time="1.5s" />
+Our science teacher told us that water boils at 100 degrees Celsius.
+<break time="1.5s" />
+“Where did you go last Sunday?” “I went to the zoo with my cousins.”
+<break time="1.5s" />
+My sister rode her bike to school yesterday because it was sunny.
+<break time="1.5s" />
+If you take this bus, you will arrive at the museum in ten minutes.
+<break time="1.5s" />
+When the phone rang, my brother was taking a bath, so I answered it instead.
+<break time="1.5s" />
+Please don't call me at nine tonight. I will be having dinner with my clients then.
+<break time="1.5s" />
+I am visiting my aunt in Kyoto next weekend. I've already bought the train ticket.
+<break time="1.5s" />
+This soup tastes wonderful. Did you make it yourself?
+<break time="1.5s" />
+I have liked this song since I was a little child, and I still sing it.
+<break time="1.5s" />
+Emi resembles her mother so much that people often mistake them for each other.
+<break time="1.5s" />
+“Is Mr. Sato still in the office?” “No, he has just left for the station.”
+<break time="1.5s" />
+By next April, my sister will have lived in London for five years.
+<break time="1.5s" />
+When we got to the theater, the movie had already begun, so we missed the opening.
+<break time="1.5s" />
+I recognized the town at once because I had been there several times as a child.
