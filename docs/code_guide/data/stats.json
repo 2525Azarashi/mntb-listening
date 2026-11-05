@@ -1,14 +1,14 @@
 {
  "asOf": "2026年11月時点",
- "commit": "286e976b",
+ "commit": "1f0f9098",
  "commitDate": "2026-11-05",
- "branch": "feat/niji-oita",
- "tracked": 11956,
- "srcFiles": 670,
- "srcLines": 133556,
+ "branch": "main",
+ "tracked": 12153,
+ "srcFiles": 676,
+ "srcLines": 134868,
  "screens": 18,
- "testCases": 1516,
- "testFiles": 166,
+ "testCases": 1590,
+ "testFiles": 174,
  "listening": {
   "label": "英語リスニング",
   "chapters": 9,
@@ -31,16 +31,16 @@
  },
  "battleTotal": 10958,
  "audio": 374,
- "cardsFile": 2183,
+ "cardsFile": 2230,
  "cardsBundle": 30,
- "bundledFiles": 9773,
+ "bundledFiles": 9923,
  "folders": {
-  "public": 9033,
-  "scripts": 955,
-  "src": 678,
-  "audio_sources": 500,
+  "public": 9164,
+  "scripts": 989,
+  "src": 684,
+  "audio_sources": 519,
   "docs": 389,
-  "tests": 175,
+  "tests": 182,
   "store-assets": 111,
   "android": 55,
   "ios": 25,
@@ -51,30 +51,30 @@
  },
  "tags": {
   "設定": 219,
-  "音声・画像": 8396,
-  "データ": 1487,
-  "文書": 1362,
+  "音声・画像": 8418,
+  "データ": 1523,
+  "文書": 1492,
   "通信": 40,
-  "テスト": 192,
+  "テスト": 199,
   "画面": 53,
-  "部品": 207
+  "部品": 209
  },
  "conf": {
   "高": 607,
   "中": 4,
-  "低": 1602
+  "低": 1649
  },
  "sys": {
   "native": 91,
-  "tools": 1052,
+  "tools": 1086,
   "docs": 412,
   "server": 8,
-  "test": 191,
+  "test": 198,
   "boot": 8,
-  "content": 158,
-  "assets": 9530,
-  "screen": 228,
-  "battle": 124,
+  "content": 159,
+  "assets": 9680,
+  "screen": 229,
+  "battle": 128,
   "logic": 136,
   "net": 18
  },
@@ -82,6 +82,6 @@
   "solve": 83,
   "learn": 40,
   "review": 20,
-  "compete": 142
+  "compete": 146
  }
 }

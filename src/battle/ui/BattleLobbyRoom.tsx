@@ -14,7 +14,7 @@
  *   戻った瞬間にさっきの試合へ入り直してしまう。開いたときの round を覚えておき、それより進んだら入る。
  */
 import { useEffect, useRef, useState } from 'react';
-import { DoorOpen, ListChecks, Loader2, RotateCcw, Shuffle } from 'lucide-react';
+import { Copy, DoorOpen, ListChecks, Loader2, RotateCcw, Shuffle } from 'lucide-react';
 import { auth } from '../../firebase';
 import {
   bothPicked,
@@ -39,11 +39,13 @@ const REVEAL_HOLD_MS = 1800;
 
 export function BattleLobbyRoom({
   lobbyId,
+  kind = 'national',
   onEnterRoom,
   onExit,
   onNationalAgain,
 }: {
   lobbyId: string;
+  kind?: 'national' | 'friend';
   /** 部屋が変わったら画面ごと作り直す（BattleRoomScreen と同じ書き方） */
   key?: string;
   /** 試合（battle_rooms）ができたら、その部屋へ */
@@ -69,6 +71,7 @@ export function BattleLobbyRoom({
   onEnterRef.current = onEnterRoom;
   const drawingRef = useRef(false);
   const [drawTry, setDrawTry] = useState(0);
+  const [copied, setCopied] = useState(false);
 
   useEffect(() => watchLobby(lobbyId, (next) => {
     setLobby(next);
@@ -82,6 +85,8 @@ export function BattleLobbyRoom({
   const otherPick = otherUid ? lobby?.picks?.[otherUid] : undefined;
   const isHost = !!lobby && lobby.players[0] === uid;
   const ready = !!lobby && lobby.status === 'open' && bothPicked(lobby);
+  const isFriend = kind === 'friend' || lobby?.kind === 'friend';
+  const modeLabel = isFriend ? 'フレンド対戦' : '全国対戦';
 
   // ------------------------------------------------------------
   // 試合ができた（round が進んだ）→ 抽選の結果を見せてから入る
@@ -159,7 +164,7 @@ export function BattleLobbyRoom({
   if (picking && lobby?.status === 'open') {
     return (
       <BattleSubjectSelect
-        title="対戦の部屋 ／ 希望の単元をえらぶ"
+        title={`${modeLabel} ／ 希望の単元をえらぶ`}
         allowQuestionCount
         currentSubject={myPick?.subject}
         onPick={(subject, count, chapterId) => { if (!saving) void choose(subject, count, chapterId); }}
@@ -171,7 +176,7 @@ export function BattleLobbyRoom({
   if (lobby === undefined) {
     return (
       <BattleShell>
-        <BattleTitle subtitle="全国対戦 ／ 対戦の部屋" />
+        <BattleTitle subtitle={`${modeLabel} ／ 対戦の部屋`} />
         <BattleLoading message="対戦の部屋に入っています…" />
       </BattleShell>
     );
@@ -189,8 +194,8 @@ export function BattleLobbyRoom({
   if (!lobby || (lobby.status === 'closed' && !reveal)) {
     const otherLeft = !!lobby && !!lobby.left && Object.keys(lobby.left).some((u) => u !== uid);
     return (
-      <BattleShell footer={<div className="grid gap-2.5"><BattleButton onClick={onNationalAgain} icon={<Shuffle size={18} />}>ちがう相手と全国対戦</BattleButton>{exitButton}</div>}>
-        <BattleTitle subtitle="全国対戦 ／ 対戦の部屋" />
+      <BattleShell footer={<div className="grid gap-2.5"><BattleButton onClick={onNationalAgain} icon={<Shuffle size={18} />}>{isFriend ? 'フレンド対戦にもどる' : 'ちがう相手と全国対戦'}</BattleButton>{exitButton}</div>}>
+        <BattleTitle subtitle={`${modeLabel} ／ 対戦の部屋`} />
         <div className="flex flex-1 items-center justify-center py-10" data-lobby-closed>
           <BattleNotice message={error || (otherLeft ? '相手が部屋を出ました。' : 'この対戦の部屋は閉じました。')} />
         </div>
@@ -205,7 +210,7 @@ export function BattleLobbyRoom({
     const mine = reveal.uid === uid;
     return (
       <BattleShell className="arena-matching">
-        <BattleTitle subtitle="全国対戦 ／ 対戦の部屋" />
+        <BattleTitle subtitle={`${modeLabel} ／ 対戦の部屋`} />
         <div className="lobby-reveal" data-lobby-reveal role="status">
           <Shuffle size={36} className="battle-pop lobby-reveal-icon" aria-hidden />
           <p className="lobby-reveal-kicker">抽選の結果</p>
@@ -238,8 +243,22 @@ export function BattleLobbyRoom({
         </div>
       }
     >
-      <BattleTitle subtitle={`全国対戦 ／ 対戦の部屋（${roundNo}戦目）`} />
-      <p className="lobby-howto">2人がえらんだ単元のうち、<b>どちらか1つ</b>をランダムで出題します。</p>
+      <BattleTitle subtitle={`${modeLabel} ／ 対戦の部屋（${roundNo}戦目）`} />
+      {isFriend && lobby.joinCode && (
+        <section className="lobby-code mb-3 rounded-2xl border-2 border-amber-300 bg-amber-50 p-3 text-center" aria-label="フレンドコード" data-friend-code={lobby.joinCode}>
+          <p className="lobby-code-label text-xs font-bold text-stone-600">フレンドに伝える4文字コード</p>
+          <p className="lobby-code-value font-mono text-3xl font-black tracking-[0.35em] text-stone-900" aria-live="polite">{lobby.joinCode}</p>
+          <button type="button" className="lobby-code-copy inline-flex min-h-10 items-center gap-1.5 rounded-xl border-2 border-amber-300 bg-white px-3 text-xs font-black text-amber-800" onClick={() => {
+            if (!navigator.clipboard) { setError('コードをコピーできませんでした。表示中の4文字を伝えてください。'); return; }
+            void navigator.clipboard.writeText(lobby.joinCode!).then(() => setCopied(true)).catch(() => setError('コードをコピーできませんでした。表示中の4文字を伝えてください。'));
+          }}><Copy size={15} aria-hidden />{copied ? 'コピーしました' : 'コードをコピー'}</button>
+        </section>
+      )}
+      <p className="lobby-howto">
+        {isFriend && lobby.players.length < 2
+          ? '4文字コードを友達に伝えてください。友達も単元をえらぶと、どちらかの希望からランダムで出題します。'
+          : <>2人がえらんだ単元のうち、<b>どちらか1つ</b>をランダムで出題します。</>}
+      </p>
 
       <ul className="lobby-seats" aria-label="2人の希望の単元">
         <li className="lobby-seat is-me" data-lobby-seat="me">
@@ -248,7 +267,7 @@ export function BattleLobbyRoom({
         </li>
         <li className="lobby-seat" data-lobby-seat="opponent">
           <PlayerBadge nickname={other?.nickname || '対戦相手'} photoURL={other?.photoURL} rating={other?.rating ?? 1500} mask />
-          <LobbyPickLine pick={otherPick} empty="えらんでいます…" />
+          <LobbyPickLine pick={otherPick} empty={isFriend && lobby.players.length < 2 ? 'フレンドの入室を待っています…' : 'えらんでいます…'} />
         </li>
       </ul>
 

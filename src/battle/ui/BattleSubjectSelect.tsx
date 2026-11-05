@@ -102,6 +102,7 @@ export function BattleSubjectSelect({
   currentSubject,
   showRecent = false,
   onRetryWrong,
+  requireSpecificUnit = false,
 }: {
   /** 「部屋をつくる」「相手をさがす」など、何のための選択かを出す */
   title: string;
@@ -126,6 +127,8 @@ export function BattleSubjectSelect({
   showRecent?: boolean;
   /** さいきんの対戦の「間違えた問題だけ」 */
   onRetryWrong?: (subject: string, ids: string[]) => void;
+  /** AI戦など、必ず利用者が単元を指定してから開始する場合 */
+  requireSpecificUnit?: boolean;
 }) {
   // 選んでいる問題数。既定は 10（教科の既定と同じものが大半）。
   const [questionCount, setQuestionCount] = useState<QuestionCountChoice>(10);
@@ -139,6 +142,7 @@ export function BattleSubjectSelect({
   const [unitError, setUnitError] = useState(false);
   const [retry, setRetry] = useState(0);
   const [recent] = useState<LocalBattleLogItem[]>(() => showRecent ? loadLocalBattleLog(auth.currentUser?.uid).slice(0, 4) : []);
+  const visibleRecent = requireSpecificUnit ? recent.filter((r) => !!r.chapterId) : recent;
   useEffect(() => {
     if (!unitSubject) return;
     let alive = true;
@@ -219,7 +223,7 @@ export function BattleSubjectSelect({
       {unitError ? <div role="alert"><p>単元を読み込めませんでした。</p><BattleButton onClick={() => setRetry(n => n + 1)}>再読み込み</BattleButton></div>
         : !units ? <p role="status">単元を読み込んでいます…</p>
         : <div className="grid grid-cols-2 gap-2" aria-label="単元一覧">
-          {<button type="button" data-battle-unit="all" onClick={() => onPick(unitSubject, questionCount, book ?? undefined)}
+          {!requireSpecificUnit && <button type="button" data-battle-unit="all" onClick={() => onPick(unitSubject, questionCount, book ?? undefined)}
             className="col-span-2 min-h-[52px] rounded-2xl border-2 px-4 py-2 text-left font-black" style={{ borderColor: theme.accent, color: INK, background: theme.surface }}>
             {book ? 'この教材すべて' : '全単元から出題'}<span className="ml-2 text-xs">{Math.min(questionCount, units.filter(u => !book || u.id === book).reduce((n, u) => n + u.count, 0))}問</span>
           </button>}
@@ -304,11 +308,11 @@ export function BattleSubjectSelect({
       </details>
 
       {!allowQuestionCount && <p className="mb-3 text-xs font-bold" style={{ color: INK_SUB }}>全国対戦は全単元から出題します。単元を指定したいときはAI・フレンド対戦を選んでください。</p>}
-      {recent.length > 0 && (
+      {visibleRecent.length > 0 && (
         <section className="battle-recent mb-2" aria-label="さいきんの対戦" data-battle-recent data-has-recent>
           <h2 className="battle-recent-title"><HistoryIcon size={14} aria-hidden="true" />さいきんの対戦から選ぶ</h2>
           <ul>
-            {recent.map((r) => {
+            {visibleRecent.map((r) => {
               const theme = subjectTheme(r.subject as SubjectKey);
               const label = r.chapterTitle || '全単元';
               const pick = () => allowQuestionCount ? onPick(r.subject, questionCount, r.chapterId) : onPick(r.subject);
@@ -332,7 +336,7 @@ export function BattleSubjectSelect({
           </ul>
         </section>
       )}
-      <div className={`grid gap-2.5 battle-subject-list${recent.length > 0 ? ' is-compact' : ''}`}>
+      <div className={`grid gap-2.5 battle-subject-list${visibleRecent.length > 0 ? ' is-compact' : ''}`}>
         {entries.map(({ subject, count, kanaCount, rule }) => {
           const theme = subjectTheme(subject as SubjectKey);
           const note = formatNote(rule, count);

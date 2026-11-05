@@ -66,7 +66,8 @@ try {
   await ap.getByRole('button',{name:'AIと対戦する',exact:true}).click();
   await ap.locator('[data-question-count="5"]').click();
   await ap.getByRole('button',{name:/英文法/}).first().click();
-  await ap.locator('[data-battle-unit="all"]').click(); await ap.locator('#battle-ai-easy').click();
+  assert.equal(await ap.locator('[data-battle-unit="all"]').count(),0,'AI must require a specific unit');
+  await ap.locator('[data-battle-unit]:not([data-battle-unit="all"])').first().click(); await ap.locator('#battle-ai-easy').click();
   await ap.getByRole('button',{name:'はじめる',exact:true}).click();
   const audioState = () => ap.evaluate(async () => {
     const {battleAudio} = await import(window.__audioModuleUrl); const e = battleAudio();

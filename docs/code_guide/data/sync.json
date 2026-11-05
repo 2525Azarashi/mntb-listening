@@ -1,7 +1,7 @@
 {
- "commit": "286e976b",
+ "commit": "1f0f9098",
  "date": "2026-11-05",
- "branch": "feat/niji-oita",
+ "branch": "main",
  "new": [
   ".gitattributes",
   "docs/APP_CAPACITOR_README.md",
@@ -431,6 +431,37 @@
   "scripts/gacha-prints/gakugei_mock/render.py",
   "scripts/gacha-prints/gakugei_mock/style.css",
   "scripts/gacha-prints/grammar_b4/build.py",
+  "scripts/gacha-prints/gunma_mock/check.py",
+  "scripts/gacha-prints/gunma_mock/j1.py",
+  "scripts/gacha-prints/gunma_mock/j1a.py",
+  "scripts/gacha-prints/gunma_mock/j1b.py",
+  "scripts/gacha-prints/gunma_mock/j2.py",
+  "scripts/gacha-prints/gunma_mock/j2a.py",
+  "scripts/gacha-prints/gunma_mock/j2b.py",
+  "scripts/gacha-prints/gunma_mock/j3.py",
+  "scripts/gacha-prints/gunma_mock/j3a.py",
+  "scripts/gacha-prints/gunma_mock/j3b.py",
+  "scripts/gacha-prints/gunma_mock/logo_gray.png",
+  "scripts/gacha-prints/gunma_mock/pdf.mjs",
+  "scripts/gacha-prints/gunma_mock/render_j.py",
+  "scripts/gacha-prints/gunma_mock/style.css",
+  "scripts/gacha-prints/gunma_riko_mock/check.py",
+  "scripts/gacha-prints/gunma_riko_mock/g1.py",
+  "scripts/gacha-prints/gunma_riko_mock/g1_1.py",
+  "scripts/gacha-prints/gunma_riko_mock/g1_2.py",
+  "scripts/gacha-prints/gunma_riko_mock/g1_3.py",
+  "scripts/gacha-prints/gunma_riko_mock/g2.py",
+  "scripts/gacha-prints/gunma_riko_mock/g2_1.py",
+  "scripts/gacha-prints/gunma_riko_mock/g2_2.py",
+  "scripts/gacha-prints/gunma_riko_mock/g2_3.py",
+  "scripts/gacha-prints/gunma_riko_mock/g3.py",
+  "scripts/gacha-prints/gunma_riko_mock/g3_1.py",
+  "scripts/gacha-prints/gunma_riko_mock/g3_2.py",
+  "scripts/gacha-prints/gunma_riko_mock/g3_3.py",
+  "scripts/gacha-prints/gunma_riko_mock/logo_gray.png",
+  "scripts/gacha-prints/gunma_riko_mock/probe.py",
+  "scripts/gacha-prints/gunma_riko_mock/render.py",
+  "scripts/gacha-prints/gunma_riko_mock/verify.py",
   "scripts/gacha-prints/hirosaki_mock/check.py",
   "scripts/gacha-prints/hirosaki_mock/h1.py",
   "scripts/gacha-prints/hirosaki_mock/h1_1.py",
@@ -664,6 +695,7 @@
   "scripts/gacha-prints/kyotsu_mock/figs.py",
   "scripts/gacha-prints/kyotsu_mock/make_audio.py",
   "scripts/gacha-prints/kyotsu_mock/make_audio_el.py",
+  "scripts/gacha-prints/kyotsu_mock/make_full_audio.py",
   "scripts/gacha-prints/kyotsu_mock/render.py",
   "scripts/gacha-prints/kyotsu_mock/set1_l.py",
   "scripts/gacha-prints/kyotsu_mock/set1_r.py",
@@ -1105,8 +1137,10 @@
   "scripts/icons/apply-android-assets.py",
   "scripts/icons/apply-new-icon.py",
   "scripts/icons/make-icons.py",
+  "scripts/launch/make_title_plate.py",
   "scripts/listening-data/build-listening-prompts-pdf.py",
   "scripts/listening-data/build-q2-rerecord-pdf.py",
+  "scripts/listening-data/build_redo_illustrations_pdf.py",
   "scripts/listening-data/concat_listening_audio.sh",
   "scripts/listening-data/extract_q2_illustrations.py",
   "scripts/listening-data/fix_q2_text_to_figures.py",
@@ -1145,19 +1179,23 @@
   "src/battle/core/gachaPools.ts",
   "src/battle/core/gachaSets.ts",
   "src/battle/core/printShelves.ts",
+  "src/battle/data/battleLobby.ts",
   "src/battle/data/ghostRating.ts",
   "src/battle/data/pendingRating.ts",
   "src/battle/hooks/useBattlePostMatch.ts",
   "src/battle/hooks/useBattleRoomConnection.ts",
   "src/battle/hooks/useBattleRoomLifecycle.ts",
   "src/battle/ui/BattleAnswerControls.tsx",
+  "src/battle/ui/BattleLobbyRoom.tsx",
   "src/battle/ui/BattleMatchingRadar.tsx",
   "src/battle/ui/BattleProfileTabs.tsx",
   "src/battle/ui/BattleQuitControl.tsx",
   "src/battle/ui/BattleResultReviewSection.tsx",
   "src/battle/ui/CompanionArt.tsx",
   "src/battle/ui/GrowthShopParts.tsx",
+  "src/battle/ui/battle-lobby-room.css",
   "src/battle/ui/companion.css",
+  "src/battle/ui/lobbyPickTitle.ts",
   "src/components/AppToast.tsx",
   "src/components/BattleRankSwitch.tsx",
   "src/components/ChapterTitleCelebration.tsx",
@@ -1188,6 +1226,7 @@
   "src/components/gacha/GachaSetsPanel.tsx",
   "src/components/gacha/KyotsuAudioPlayer.tsx",
   "src/components/gacha/collectionFilters.ts",
+  "src/components/gacha/openFullPrint.ts",
   "src/components/home-companion.css",
   "src/components/home-mascot-idle.css",
   "src/components/home/home-v2.css",
@@ -1215,6 +1254,7 @@
   "src/data/fukushimaMockPrints.ts",
   "src/data/grammarAudioManifest.ts",
   "src/data/grammarMemorizeSets.ts",
+  "src/data/gunmaMockPrints.ts",
   "src/data/hirosakiMockPrints.ts",
   "src/data/hokudaiMockPrints.ts",
   "src/data/iwateMockPrints.ts",
@@ -1507,9 +1547,13 @@
   "tests/akitaMockPrints.test.ts",
   "tests/androidAudioFixPresent.test.ts",
   "tests/answerStability.test.ts",
+  "tests/answeredCorrectly.test.ts",
   "tests/appPersistence.test.ts",
   "tests/appToastSkeleton.test.ts",
   "tests/architectureFitness.test.ts",
+  "tests/battleLobby.rules.test.ts",
+  "tests/battleLobby.test.ts",
+  "tests/battleLobbyUi.test.ts",
   "tests/calendarCompare.test.ts",
   "tests/chapterTitles.test.ts",
   "tests/classAssignmentsCore.test.ts",
@@ -1531,6 +1575,7 @@
   "tests/gachaSets.test.ts",
   "tests/grammarAudioManifest.test.ts",
   "tests/grammarMemorizeSets.test.ts",
+  "tests/gunmaMockPrints.test.ts",
   "tests/hirosakiMockPrints.test.ts",
   "tests/hokudaiMockPrints.test.ts",
   "tests/home-battle-shop-switch.test.ts",
@@ -1539,6 +1584,7 @@
   "tests/homeBattleRankingPolish.test.ts",
   "tests/homeMascotIdle.test.ts",
   "tests/homeStage.test.ts",
+  "tests/itemVariety.test.ts",
   "tests/iwateMockPrints.test.ts",
   "tests/jukuAdFree.test.ts",
   "tests/kobeMockPrints.test.ts",
@@ -1578,6 +1624,7 @@
   "tests/shuffle.test.ts",
   "tests/startupImportGraph.test.ts",
   "tests/studyCatalog.test.ts",
+  "tests/studyCoins.test.ts",
   "tests/studyFeed.rules.test.ts",
   "tests/studyFeed.test.ts",
   "tests/tobiraMotion.test.ts",
@@ -1655,7 +1702,7 @@
   },
   {
    "path": "scripts/gacha-prints/README.md",
-   "why": "行数 21→756",
+   "why": "行数 21→799",
    "one": "ガチャで当たる学習プリントの作り直し方を説明する係"
   },
   {
@@ -1689,9 +1736,29 @@
    "one": "対戦の正誤・得点・勝ち負けを判定する計算の係"
   },
   {
+   "path": "src/battle/core/growth.ts",
+   "why": "冒頭の説明・export が変わった",
+   "one": "成長のしくみの入口として、記録の更新をまとめて行う係"
+  },
+  {
    "path": "src/battle/core/tobiraParts.ts",
-   "why": "冒頭の説明・export が変わった／行数 76→120",
+   "why": "冒頭の説明・export が変わった／行数 76→158",
    "one": "とびら君の帽子やメガネなど着せかえの部位を決める係"
+  },
+  {
+   "path": "src/battle/data/battle.ts",
+   "why": "冒頭の説明・export が変わった",
+   "one": "対戦のデータ保存先とのやりとりの入口をまとめる係"
+  },
+  {
+   "path": "src/battle/data/battleFriendRoom.ts",
+   "why": "冒頭の説明・export が変わった",
+   "one": "合言葉の部屋を作る・入る・再戦用の部屋を用意する係"
+  },
+  {
+   "path": "src/battle/data/battleMatchmaking.ts",
+   "why": "冒頭の説明・export が変わった",
+   "one": "全国ランダム対戦の待ち列に入り、相手が決まるのを待つ係"
   },
   {
    "path": "src/battle/data/growthStore.ts",
@@ -1715,7 +1782,7 @@
   },
   {
    "path": "src/battle/core/growthItems.ts",
-   "why": "冒頭の説明・export が変わった／行数 316→461",
+   "why": "冒頭の説明・export が変わった／行数 316→535",
    "one": "とびら君の装備・ガチャ景品の一覧と、解放や購入を扱う係"
   },
   {
@@ -1825,7 +1892,7 @@
   },
   {
    "path": "src/components/gacha.css",
-   "why": "行数 278→510",
+   "why": "行数 278→529",
    "one": "ガチャ画面と、引いたときの演出の見た目を決める係"
   },
   {
@@ -1904,6 +1971,11 @@
    "one": "アカウント削除のとき、サーバーと端末のデータを消す係"
   },
   {
+   "path": "src/features/legal/legalText.ts",
+   "why": "冒頭の説明・export が変わった",
+   "one": "利用規約とプライバシーポリシーの本文と問い合わせ先を持つ係"
+  },
+  {
    "path": "src/firebase.ts",
    "why": "冒頭の説明・export が変わった／行数 29→91",
    "one": "ログインとデータ保存に使うFirebaseへの接続を用意する係"
@@ -1969,6 +2041,11 @@
    "one": "問題文と解答欄に、何をどう表示するかの決まりを持つ係"
   },
   {
+   "path": "src/utils/reviewList.ts",
+   "why": "冒頭の説明・export が変わった",
+   "one": "間違えた問題を集め、忘却曲線に沿って復習日を決める係"
+  },
+  {
    "path": "src/utils/reviewTarget.ts",
    "why": "冒頭の説明・export が変わった／行数 52→112",
    "one": "小問のIDから、解き直す問題の場所を探し出す係"
@@ -1977,6 +2054,11 @@
    "path": "src/utils/safeLocalStorage.ts",
    "why": "冒頭の説明・export が変わった／行数 88→176",
    "one": "端末の保存領域から、壊れていても安全に値を取り出す係"
+  },
+  {
+   "path": "src/utils/studyLog.ts",
+   "why": "冒頭の説明・export が変わった",
+   "one": "直近3日にどの問題を解き、どこを間違えたかを記録する係"
   },
   {
    "path": "src/utils/studySummary.ts",

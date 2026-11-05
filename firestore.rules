@@ -1219,11 +1219,24 @@ service cloud.firestore {
       allow get: if battleSignedIn();
       allow list: if false;
 
+      function legacyBattleCodeValid(d) {
+        return d.keys().hasOnly(['roomId', 'hostUid', 'subject', 'createdAt'])
+          && d.roomId is string && d.roomId.size() <= 64;
+      }
+      function friendLobbyCodeValid(d) {
+        let lobbyPath = /databases/$(database)/documents/battle_lobbies/$(d.lobbyId);
+        return d.keys().hasOnly(['lobbyId', 'kind', 'hostUid', 'subject', 'createdAt'])
+          && d.lobbyId is string && d.lobbyId.size() <= 64
+          && d.kind == 'friend_lobby'
+          && existsAfter(lobbyPath)
+          && getAfter(lobbyPath).data.kind == 'friend'
+          && getAfter(lobbyPath).data.hostUid == d.hostUid
+          && getAfter(lobbyPath).data.joinCode == joinCode;
+      }
+
       // 作れるのは「自分が部屋主の合言葉」だけ。
       allow create: if battleSignedIn()
-        && request.resource.data.keys().hasOnly(['roomId', 'hostUid', 'subject', 'createdAt'])
-        && request.resource.data.roomId is string
-        && request.resource.data.roomId.size() <= 64
+        && (legacyBattleCodeValid(request.resource.data) || friendLobbyCodeValid(request.resource.data))
         && request.resource.data.hostUid == request.auth.uid
         && request.resource.data.subject is string
         && request.resource.data.subject.size() <= 40
@@ -1239,7 +1252,13 @@ service cloud.firestore {
 
       // 片付けは部屋主だけ。
       allow delete: if battleSignedIn()
-        && resource.data.hostUid == request.auth.uid;
+        && (resource.data.hostUid == request.auth.uid || (
+          resource.data.kind == 'friend_lobby'
+          && resource.data.lobbyId is string
+          && existsAfter(/databases/$(database)/documents/battle_lobbies/$(resource.data.lobbyId))
+          && request.auth.uid in getAfter(/databases/$(database)/documents/battle_lobbies/$(resource.data.lobbyId)).data.players
+          && getAfter(/databases/$(database)/documents/battle_lobbies/$(resource.data.lobbyId)).data.status == 'closed'
+        ));
     }
 
     // ===============================================================
@@ -1299,12 +1318,20 @@ service cloud.firestore {
     // ===============================================================
     match /battle_lobbies/{lobbyId} {
       // まだ無い部屋は読める（待っている側が自分の部屋 lb_<自分の検索ID> ができるのを待つため。中身は無いので漏れない）
-      allow get: if battleSignedIn() && (resource == null || request.auth.uid in resource.data.players);
+      allow get: if battleSignedIn() && (resource == null
+        || request.auth.uid in resource.data.players
+        || (resource.data.get('kind', '') == 'friend' && lobbyHostIsFriend(resource.data.hostUid)));
       allow list: if battleSignedIn() && request.auth.uid in resource.data.players;
+
+      function lobbyHostIsFriend(hostUid) {
+        return exists(/databases/$(database)/documents/friends/$(hostUid)/items/$(request.auth.uid))
+          && exists(/databases/$(database)/documents/friends/$(request.auth.uid)/items/$(hostUid));
+      }
 
       // 作れるのは、待機列（lobby:v1）で並んでいた相手の票を同じ書き込みで消した人だけ
       //   （battle_rooms の random と同じ考え方。並んでいない人を勝手に部屋に入れられない）
-      allow create: if battleSignedIn() && lobbyValidNew(request.resource.data);
+      allow create: if battleSignedIn()
+        && (lobbyValidNew(request.resource.data) || lobbyValidFriendNew(request.resource.data));
       function lobbyValidNew(d) {
         return d.keys().hasOnly(['id', 'status', 'players', 'profiles', 'picks', 'round',
                                  'roomId', 'chosen', 'createdAt', 'updatedAt'])
@@ -1324,6 +1351,28 @@ service cloud.firestore {
           // 部屋IDは「lb_＋相手の検索ID」に決まっている（相手はその1件だけを待てばよい）
           && lobbyId == 'lb_' + get(/databases/$(database)/documents/battle_queue/$(d.players[1])).data.profile.get('matchSessionId', '');
       }
+      function lobbyProfileValid(p, playerUid) {
+        return p is map
+          && p.keys().hasOnly(['uid', 'nickname', 'photoURL', 'rating'])
+          && p.uid == playerUid
+          && p.nickname is string && p.nickname.size() <= 40
+          && p.photoURL is string && p.photoURL.size() <= 500
+          && p.rating is number && p.rating >= 0 && p.rating <= 4000;
+      }
+      function lobbyValidFriendNew(d) {
+        return d.keys().hasOnly(['id', 'status', 'kind', 'hostUid', 'joinCode', 'players', 'profiles',
+                                 'picks', 'round', 'roomId', 'chosen', 'createdAt', 'updatedAt'])
+          && d.id == lobbyId
+          && d.status == 'open' && d.kind == 'friend'
+          && d.hostUid == request.auth.uid
+          && d.joinCode is string && d.joinCode.size() == 4 && d.joinCode.matches('^[A-Z0-9]{4}$')
+          && d.players is list && d.players.size() == 1 && d.players[0] == request.auth.uid
+          && d.profiles is map && d.profiles.size() == 1 && d.profiles.keys().hasOnly(d.players)
+          && lobbyProfileValid(d.profiles[request.auth.uid], request.auth.uid)
+          && d.picks is map && d.picks.size() == 0
+          && d.round == 0 && d.roomId == '' && d.chosen == null
+          && d.createdAt == request.time && d.updatedAt == request.time;
+      }
       function lobbyQueueConsumed(other) {
         return exists(/databases/$(database)/documents/battle_queue/$(other))
           && get(/databases/$(database)/documents/battle_queue/$(other)).data.subject == 'lobby:v1'
@@ -1331,20 +1380,37 @@ service cloud.firestore {
       }
 
       allow update: if battleSignedIn()
-        && request.auth.uid in resource.data.players
         && request.resource.data.updatedAt == request.time
         && request.resource.data.keys().hasOnly(['id', 'status', 'players', 'profiles', 'picks', 'round',
-                                                 'roomId', 'chosen', 'createdAt', 'updatedAt', 'left'])
-        && lobbyUnchanged('id') && lobbyUnchanged('players')
-        && lobbyUnchanged('profiles') && lobbyUnchanged('createdAt')
+                                                 'roomId', 'chosen', 'createdAt', 'updatedAt', 'left',
+                                                 'kind', 'hostUid', 'joinCode'])
+        && lobbyUnchanged('id') && lobbyUnchanged('createdAt')
         && resource.data.status == 'open'
-        && (lobbyPicking() || lobbyStarting() || lobbyLeaving());
+        && ((request.auth.uid in resource.data.players
+          && (lobbyPicking() || lobbyStarting() || lobbyLeaving())) || lobbyJoining());
 
       function lobbyUnchanged(f) {
         return request.resource.data.get(f, null) == resource.data.get(f, null);
       }
       function lobbyOther() {
-        return resource.data.players[0] == request.auth.uid ? resource.data.players[1] : resource.data.players[0];
+        return resource.data.players.size() < 2 ? ''
+          : (resource.data.players[0] == request.auth.uid ? resource.data.players[1] : resource.data.players[0]);
+      }
+      function lobbyJoining() {
+        let nd = request.resource.data;
+        let host = resource.data.hostUid;
+        return resource.data.kind == 'friend'
+          && resource.data.players.size() == 1
+          && request.auth.uid != host
+          && lobbyHostIsFriend(host)
+          && lobbyUnchanged('status') && lobbyUnchanged('kind') && lobbyUnchanged('hostUid')
+          && lobbyUnchanged('joinCode') && lobbyUnchanged('picks') && lobbyUnchanged('round')
+          && lobbyUnchanged('roomId') && lobbyUnchanged('chosen') && lobbyUnchanged('left')
+          && nd.players is list && nd.players.size() == 2
+          && nd.players[0] == host && nd.players[1] == request.auth.uid
+          && nd.profiles is map && nd.profiles.size() == 2 && nd.profiles.keys().hasOnly(nd.players)
+          && nd.profiles[host] == resource.data.profiles[host]
+          && lobbyProfileValid(nd.profiles[request.auth.uid], request.auth.uid);
       }
 
       // 自分の単元をえらぶ・えらび直す（相手の分は触れない）
@@ -1352,6 +1418,8 @@ service cloud.firestore {
         let np = request.resource.data.picks;
         return lobbyUnchanged('status') && lobbyUnchanged('round') && lobbyUnchanged('roomId')
           && lobbyUnchanged('chosen') && lobbyUnchanged('left')
+          && lobbyUnchanged('players') && lobbyUnchanged('profiles')
+          && lobbyUnchanged('kind') && lobbyUnchanged('hostUid') && lobbyUnchanged('joinCode')
           && np is map && np.keys().hasOnly(resource.data.players)
           && np.get(lobbyOther(), null) == resource.data.picks.get(lobbyOther(), null)
           && (!(request.auth.uid in np) || lobbyPickValid(np[request.auth.uid]));
@@ -1371,6 +1439,11 @@ service cloud.firestore {
         let roomPath = /databases/$(database)/documents/battle_rooms/$(nd.roomId);
         return request.auth.uid == resource.data.players[0]
           && lobbyUnchanged('status') && lobbyUnchanged('left')
+          && lobbyUnchanged('players') && lobbyUnchanged('profiles')
+          && lobbyUnchanged('kind') && lobbyUnchanged('hostUid') && lobbyUnchanged('joinCode')
+          && resource.data.players.size() == 2
+          && resource.data.players[0] in resource.data.picks
+          && resource.data.players[1] in resource.data.picks
           && nd.round == resource.data.round + 1
           && nd.picks is map && nd.picks.size() == 0
           && nd.roomId is string && nd.roomId.size() > 0 && nd.roomId != resource.data.roomId
@@ -1382,6 +1455,9 @@ service cloud.firestore {
           && nd.chosen.uid in resource.data.players
           && resource.data.picks.get(nd.chosen.uid, null) != null
           && nd.chosen.subject == resource.data.picks[nd.chosen.uid].subject
+          && nd.chosen.chapterId == resource.data.picks[nd.chosen.uid].chapterId
+          && nd.chosen.count == resource.data.picks[nd.chosen.uid].count
+          && nd.chosen.title == resource.data.picks[nd.chosen.uid].title
           && nd.chosen.subject == getAfter(roomPath).data.subject;
       }
 
@@ -1390,6 +1466,8 @@ service cloud.firestore {
         return request.resource.data.status == 'closed'
           && lobbyUnchanged('picks') && lobbyUnchanged('round')
           && lobbyUnchanged('roomId') && lobbyUnchanged('chosen')
+          && lobbyUnchanged('players') && lobbyUnchanged('profiles')
+          && lobbyUnchanged('kind') && lobbyUnchanged('hostUid') && lobbyUnchanged('joinCode')
           && !('left' in resource.data)
           && request.resource.data.left is map
           && request.resource.data.left.keys().hasOnly([request.auth.uid]);
@@ -1600,13 +1678,21 @@ service cloud.firestore {
       //   get() はこの書き込みの前の部屋（えらんだ単元が残っている状態）を読む。
       function battleLobbyStartOk(d) {
         let lobby = get(/databases/$(database)/documents/battle_lobbies/$(d.lobbyId)).data;
+        let lobbyAfter = getAfter(/databases/$(database)/documents/battle_lobbies/$(d.lobbyId)).data;
+        let chosen = lobbyAfter.chosen;
         return lobby.status == 'open'
           && lobby.players == d.players
-          && d.lobbyRound == lobby.round + 1
+          && d.players.size() == 2
           && d.players[0] in lobby.picks
           && d.players[1] in lobby.picks
-          && (lobby.picks[d.players[0]].subject == d.subject
-              || lobby.picks[d.players[1]].subject == d.subject)
+          && d.lobbyRound == lobby.round + 1
+          && chosen is map && chosen.uid in d.players
+          && chosen.subject == d.subject
+          && chosen.uid in lobby.picks
+          && chosen.subject == lobby.picks[chosen.uid].subject
+          && chosen.chapterId == lobby.picks[chosen.uid].chapterId
+          && chosen.count == lobby.picks[chosen.uid].count
+          && chosen.title == lobby.picks[chosen.uid].title
           // 部屋の「次の回へ進める」書き込みと必ずセット（試合だけ何度も作れない）
           && getAfter(/databases/$(database)/documents/battle_lobbies/$(d.lobbyId)).data.roomId == roomId
           && getAfter(/databases/$(database)/documents/battle_lobbies/$(d.lobbyId)).data.round == d.lobbyRound;

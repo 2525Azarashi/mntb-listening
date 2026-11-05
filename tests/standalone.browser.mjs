@@ -63,7 +63,9 @@ try {
   assert.equal(await page.getByRole('button',{name:/化学基礎|地理総合|生物基礎|数学/}).count(),0);
   assert.ok(await page.getByRole('button',{name:/英単語・英熟語/}).count()>=1,'英単語・英熟語 is kept as a battle subject');
   assert.ok(await page.getByRole('button',{name:/英文法/}).count()>=1,'英文法 is a battle subject');
-  await listening.click();await page.locator('[data-battle-unit="all"]').click();
+  await listening.click();
+  assert.equal(await page.locator('[data-battle-unit="all"]').count(),0,'AI must require a specific unit');
+  await page.locator('[data-battle-unit]:not([data-battle-unit="all"])').first().click();
   await page.locator('#battle-ai-easy').click();
   await page.getByRole('button',{name:'はじめる',exact:true}).click();
   await page.locator('.battle-listening-audio audio').waitFor({state:'attached',timeout:20000});
