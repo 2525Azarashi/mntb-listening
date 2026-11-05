@@ -1,5 +1,6 @@
 import React from 'react';
-import { AlertTriangle, BookOpen, ChevronLeft, ChevronRight, Coins, TrendingUp } from 'lucide-react';
+import { AlertTriangle, BookOpen, ChevronLeft, ChevronRight, Coins, Flag, TrendingUp } from 'lucide-react';
+import { QUESTION_REPORT_FORM_URL } from '../../features/legal/legalText';
 import type { SubQuestion } from '../../types/curriculum';
 import type { ResultPage } from './explanationLogic';
 import { KineticText } from '../../motion';
@@ -13,7 +14,7 @@ import { CinematicClip, CINEMATIC_CLIPS } from '../CinematicClip';
  *
  *   （演習の結果のカードは D2 で ResultInsight.tsx へ。前回・自己ベスト・目標・回の棒グラフ）
  *   ResultStage          … とびらくんと今回もらったマナコイン（D2：横並びの小さめ）
- *   ResultSummaryActions … 下のバー「詳しい解説を見る」1つだけ
+ *   ResultSummaryActions … 下のバー「詳しい解説を見る」＋小さな「この問題の不具合を報告する」（F1）
  *   WeakAreasPanel       … 大きな「分析結果：復習推奨エリア」（スマホ以外）
  *   ResultPager          … 詳しい結果の「1問ずつの答え合わせ」ページ送り
  */
@@ -46,7 +47,7 @@ export function ResultStage({ resultTotalJudgeable, resultTotalCorrect, studyRew
                 ? <span>ログインすると、正解した問題ごとにマナコインがもらえます</span>
                 : coins > 0
                   ? <><span>今回のごほうび</span><b>＋<CountUp value={coins} fromZero duration={900} delay={1100} /></b><span>マナコイン</span>{studyReward?.xp ? <small>＋{studyReward.xp}XP</small> : null}</>
-                  : <span>正解した問題ごとに<b className="is-inline">＋3</b>マナコイン<small>（同じ問題は1日1回）</small></span>}
+                  : <span>正解した問題ごとに<b className="is-inline">＋2〜5</b>マナコイン<small>（速く・つづけて正解すると多め／同じ問題は1日1回）</small></span>}
             </div>
           </section>
         );
@@ -61,11 +62,15 @@ export function ResultStage({ resultTotalJudgeable, resultTotalCorrect, studyRew
 export function ResultSummaryActions({ onOpenDetail, wrongCount }: { onOpenDetail: () => void; wrongCount: number }) {
   return (
     <>
-      <div className="practice-bottom-spacer" aria-hidden="true" />
-        <div className="practice-bottom-bar" data-practice-summary-actions>
+      <div className="practice-bottom-spacer is-summary" aria-hidden="true" />
+        <div className="practice-bottom-bar is-summary" data-practice-summary-actions>
           <button type="button" className="practice-detail-open" data-practice-open-detail onClick={onOpenDetail}>
             <BookOpen size={18} aria-hidden="true" />詳しい解説を見る{wrongCount > 0 ? `（まちがい${wrongCount}問）` : ''}<ChevronRight size={18} aria-hidden="true" />
           </button>
+          {/* F1（2026-11-04 レビューのご要望「問題点をすぐ報告したい」）：見つけたその場で報告できる。Googleフォームが開く */}
+          <a className="practice-report-link" data-practice-report href={QUESTION_REPORT_FORM_URL} target="_blank" rel="noopener noreferrer">
+            <Flag size={15} aria-hidden="true" />この問題の不具合を報告する
+          </a>
         </div>
     </>
   );

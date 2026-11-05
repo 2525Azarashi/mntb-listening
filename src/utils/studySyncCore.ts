@@ -266,6 +266,9 @@ export function toSyncableReviewItem(item: ReviewItem): Record<string, unknown> 
     ['correctAnswer', clip(item.correctAnswer)],
     ['lastWrongAnswer', clip(item.lastWrongAnswer)],
     ['questionIndex', Number.isFinite(item.questionIndex as number) ? item.questionIndex : undefined],
+    // F9：いちばん新しい結果（「正解した」の表示）
+    ['lastResult', item.lastResult === 'correct' || item.lastResult === 'wrong' ? item.lastResult : undefined],
+    ['lastCorrectAt', Number.isFinite(item.lastCorrectAt as number) ? item.lastCorrectAt : undefined],
   ];
   optional.forEach(([key, value]) => {
     if (value !== undefined) out[key] = value;

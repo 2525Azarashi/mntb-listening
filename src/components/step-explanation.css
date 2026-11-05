@@ -140,3 +140,9 @@
 .pbb-retry { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; gap: 6px; border: 0; background: transparent; color: var(--mt-ink-3); font-weight: 700; font-size: 13px; text-decoration: underline; text-underline-offset: 3px; }
 .practice-bottom-bar.is-review:has(.pbb-retry) { gap: 4px; }
 .practice-bottom-spacer.is-review:has(+ .practice-bottom-bar .pbb-retry) { height: calc(186px + env(safe-area-inset-bottom)); }
+
+/* F1（2026-11-04）結果の下のバー：「詳しい解説を見る」の下に小さな「この問題の不具合を報告する」（文字リンク・押せる高さは44px） */
+.practice-bottom-bar.is-summary { display: grid; gap: 0; padding-top: 8px; }
+.practice-report-link { display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 44px; max-width: 720px; width: 100%; margin-inline: auto; color: #6e6455; font-size: 13px; font-weight: 700; text-decoration: underline; text-underline-offset: 3px; }
+.practice-report-link:active { opacity: .7; }
+.practice-bottom-spacer.is-summary { height: calc(124px + env(safe-area-inset-bottom)); }

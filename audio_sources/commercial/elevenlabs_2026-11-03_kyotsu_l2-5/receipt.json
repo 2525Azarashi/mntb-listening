@@ -1,0 +1,129 @@
+{
+  "batch": "elevenlabs_2026-11-03_kyotsu_l2-5",
+  "kind": "commercial",
+  "provider": "ElevenLabs（利用者が直接生成・eleven_v4）",
+  "license": "ElevenLabs有料契約中に新規生成（利用者がアップロード 2026-11-04。既存の領収書 audio_sources/commercial/license_evidence/）",
+  "use": "LR 共通テスト英語リスニング予想問題 第2〜5回（print_lr_kyotsu_l_2〜5）の音声。listening_audio_ledger.json（374本）とは別教材なので台帳には入れない",
+  "files": [
+    {
+      "originalFilename": "ElevenLabs_2026-11-03T14_48_11_Mark - Natural Conversations_pvc_sp100_s44_sb75_v4.mp3",
+      "sha256": "8f0f6311a868abcd8af0265a4ee704ec355142bb0b8a18ac64b490187f31043d",
+      "bytes": 439911,
+      "durationSeconds": 26.435875,
+      "receivedAtUtc": "2026-11-04"
+    },
+    {
+      "originalFilename": "ElevenLabs_2026-11-03T14_56_23_Hope - upbeat and clear_pvc_sp96_s50_sb75_v4.mp3",
+      "sha256": "406f1f7af70c79ddd21fecd0082c4462c86c5fe32203805c56b44d114afdfe40",
+      "bytes": 938954,
+      "durationSeconds": 57.626063,
+      "receivedAtUtc": "2026-11-04"
+    },
+    {
+      "originalFilename": "ElevenLabs_2026-11-03T15_04_05_Jenna - Warm, Soft, and Sultry_pvc_sp100_s50_sb75_v4.mp3",
+      "sha256": "8c451e1990a1689072d3ed674295e41820f0e3d209f73101c1f7c354ced0d734",
+      "bytes": 1010843,
+      "durationSeconds": 62.119125,
+      "receivedAtUtc": "2026-11-04"
+    },
+    {
+      "originalFilename": "ElevenLabs_2026-11-03T15_08_41_Adam - Distinct, Deep and Engaging_pvc_sp100_s50_sb75_v4.mp3",
+      "sha256": "81483d05bbc54328e23ae3f9f365370d5dd57cbc71df59381b45e80e4d54262f",
+      "bytes": 2320310,
+      "durationSeconds": 143.960813,
+      "receivedAtUtc": "2026-11-04"
+    },
+    {
+      "originalFilename": "ElevenLabs_2026-11-03T15_12_19_Jarnathan - Confident and Versatile_pvc_sp100_s18_sb75_v4.mp3",
+      "sha256": "b4ffd1bade5c5c9cf1a8d813bced0cbc152494bac2447eb1c9048b6903496587",
+      "bytes": 996633,
+      "durationSeconds": 61.231,
+      "receivedAtUtc": "2026-11-04"
+    },
+    {
+      "originalFilename": "ElevenLabs_2026-11-03T15_18_18_Jessica - Playful, Bright, Warm_pvc_sp100_s50_sb75_v4.mp3",
+      "sha256": "cb8713165561a18e4ac1f40ac0b0ad8748cadc613ae38a3107171ace26eb8807",
+      "bytes": 373456,
+      "durationSeconds": 22.282438,
+      "receivedAtUtc": "2026-11-04"
+    },
+    {
+      "originalFilename": "ElevenLabs_2026-11-03T15_23_32_Hope - upbeat and clear_pvc_sp96_s50_sb75_v4.mp3",
+      "sha256": "ebf76e1964312e53db2957b851b38cc1e67a103305acd0ce0a259fc0b1852055",
+      "bytes": 855781,
+      "durationSeconds": 52.42775,
+      "receivedAtUtc": "2026-11-04"
+    },
+    {
+      "originalFilename": "ElevenLabs_2026-11-03T15_28_19_Mark - Natural Conversations_pvc_sp100_s44_sb75_v4.mp3",
+      "sha256": "6adb05fda451b47272f0e78ca5ee53918a5f85987678ac05a3fd72a1e6617083",
+      "bytes": 928923,
+      "durationSeconds": 56.999125,
+      "receivedAtUtc": "2026-11-04"
+    },
+    {
+      "originalFilename": "ElevenLabs_2026-11-03T15_32_59_Lauren - Friendly, Comforting and Soft_pvc_sp100_s50_sb75_v4.mp3",
+      "sha256": "ce8b11252f1eab60db1f1e4ca7a61b2e6d4faf6e0a129589246462a0b6f30746",
+      "bytes": 2655513,
+      "durationSeconds": 164.911,
+      "receivedAtUtc": "2026-11-04"
+    },
+    {
+      "originalFilename": "ElevenLabs_2026-11-03T15_35_48_Flint - Deep, Raspy, and Warm_pvc_sp100_s94_sb90_v4.mp3",
+      "sha256": "2f7abfe242a05036a15ad1d5d8505c339193f02350682257c78bd2b0b6cac13c",
+      "bytes": 930177,
+      "durationSeconds": 57.0775,
+      "receivedAtUtc": "2026-11-04"
+    },
+    {
+      "originalFilename": "ElevenLabs_2026-11-03T15_45_17_Cassidy - Crisp, Direct and Clear_pvc_sp100_s50_sb75_v4.mp3",
+      "sha256": "7844bd9a69790cbac2ec22e2ac2c22d3ec49934f95e0a7424b4b07618e3bd193",
+      "bytes": 1193910,
+      "durationSeconds": 73.560813,
+      "receivedAtUtc": "2026-11-04"
+    },
+    {
+      "originalFilename": "ElevenLabs_2026-11-03T15_52_49_Mark - Natural Conversations_pvc_sp100_s44_sb75_v4.mp3",
+      "sha256": "2d0b48b99248e50368cd2e3abd6bb5832720156f22a0fefa2821eb91bbceb68a",
+      "bytes": 756306,
+      "durationSeconds": 46.210563,
+      "receivedAtUtc": "2026-11-04"
+    },
+    {
+      "originalFilename": "ElevenLabs_2026-11-03T15_58_21_Mark - Natural Conversations_pvc_sp100_s44_sb75_v4.mp3",
+      "sha256": "b8aa9b38b73ba87555b7e14c41125c282804ccd217cbab873da3050a2a9e0270",
+      "bytes": 2245913,
+      "durationSeconds": 139.311,
+      "receivedAtUtc": "2026-11-04"
+    },
+    {
+      "originalFilename": "ElevenLabs_2026-11-03T16_02_26_Cassidy - Crisp, Direct and Clear_pvc_sp100_s50_sb75_v4.mp3",
+      "sha256": "72549956b459d841adcec1341c0601ed9a1cf268d090a20ea20a66086be5b492",
+      "bytes": 841988,
+      "durationSeconds": 51.565688,
+      "receivedAtUtc": "2026-11-04"
+    },
+    {
+      "originalFilename": "第5回1_6A.mp3",
+      "sha256": "245c7e202d65a2740033ed152f33a93ae73dd31a64f696e48d04c533f08b6d1d",
+      "bytes": 4504146,
+      "durationSeconds": 280.450563,
+      "receivedAtUtc": "2026-11-04"
+    },
+    {
+      "originalFilename": "第5回6B.mp3",
+      "sha256": "3c95b28cdc5f127cd5919bd2e1bfdfd6ff64ee7c9a41a99ef929a430505d05d9",
+      "bytes": 556522,
+      "durationSeconds": 33.724063,
+      "receivedAtUtc": "2026-11-04"
+    },
+    {
+      "originalFilename": "ElevenLabs_2026-11-04T05_54_23_Chihiro - Calm Mid-Low Female_pvc_sp100_s50_sb75_v4.mp3",
+      "sha256": "90c8f487e059747fd6e8023b5116074c9e7fed96682665c849dba3796c667a9a",
+      "bytes": 5539431,
+      "durationSeconds": 345.155875,
+      "receivedAtUtc": "2026-11-04",
+      "note": "日本語の試験の案内（全回共通）。F8 の通し音声に使う"
+    }
+  ]
+}

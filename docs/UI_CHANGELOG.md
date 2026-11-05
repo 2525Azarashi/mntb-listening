@@ -1,3 +1,26 @@
+## 2026-11-05 修正F（F1〜F9・F11）結果の不具合報告・共通テスト予想の音声とQR・第1回全文・アイテム増量・タイトルの演出 ほか（PR: feat/revision-f-batch）
+
+| # | 何を | どう変えた | ファイル |
+|---|---|---|---|
+| F1 | 問題を解いた後の結果画面 | 下のバーに「この問題の不具合を報告する」（Googleフォームを開く） | `ResultSummary.tsx` `step-explanation.css` `legalText.ts` |
+| F2 | 共通テスト予想リスニング 第2〜5回 | 音声を問題ごとに切って追加（96本）。第5問のグラフ問題の音声は今のPDFのスクリプトと一致していたので、PDFの問題は変えていない | `kyotsuMockAudio.ts` `public/prints/kyotsu_assets/audio/` |
+| F8 | 同 PDF の表紙 | 日本語の案内つきの「通し音声」（第1〜5回）を作り、表紙にQRコード。マイPDFに「通しで聞く（本番と同じ流れ）」 | `build.py` `render.py` `make_full_audio.py` `KyotsuAudioPlayer.tsx` `public/prints/kyotsu_assets/full/` |
+| F11 | ショップ「セット収集」 | スマホで右にはみ出していたのを1列に | `gacha.css` |
+| F3 | 正解のマナコイン | 1問2〜5枚（速く・れんぞく正解で多め）。結果画面の説明も変更 | `growth.ts` `quizScoring.ts` `ResultSummary.tsx` |
+| F9 | 復習ノート・解いた問題 | あとで正解した問題は「正解した」表示（○） | `reviewList.ts` `StudyHub.tsx` `StudyRecord.tsx` `study-record.css` |
+| F5 | 共通テストガチャのピックアップ | 第1回（R・L）を一番上に固定し「全文を見る」。アプリ内のPDFで全ページ。「‹ もどる」で元の画面へ。バナーのピックアップも第1回が先頭 | `GachaPickupModal.tsx` `GachaItemDetail.tsx` `openFullPrint.ts` `kyotsuMockPrints.ts` `gacha.css` |
+| F7 | アイテム | ショップにどの種類も並ぶように大増量（お供は26種・帽子/メガネ/ほっぺ/オーラ/壁紙/ホーム背景も追加）。絵は今ある物の色ちがい | `growthItems.ts` `tobiraParts.ts` `companion.css` `home-stage.css` |
+| F6 | タイトル画面 | 動画が終わっても雲・星・紙飛行機が残り、とびら君だけ静止画に切り替わる（最後のコマからとびら君を消した背景）。星のまたたき・呼吸、ロゴ→コピー→ボタンが順にふわっと出る、「これ1本」にマーカー、「はじめる」に光。ボタンの位置は変えていない | `LaunchScreen.tsx` `launch-screen.css` `public/cinematics/title-plate.webp` |
+
+**戻し方**：
+- 丸ごと戻す：このPRを revert。
+- F1：`ResultSummary.tsx` の `data-practice-report` の `<a>` を消す。
+- F5：`GachaPickupModal.tsx` の `data-gacha-free-full` の `<section>`、`GachaItemDetail.tsx` の `gacha-detail-full` のボタンを消し、`weeklyPickup` の `pinned` を外す。
+- F6：`launch-screen.css` の末尾2つの「F6」のかたまりを消し、`LaunchScreen.tsx` の `.launch-plate` / `.launch-sparkles` を `.launch-halo` / `.launch-ground` に戻す。
+- F7：`growthItems.ts` の「F7（2026-11-04）アイテムの大増量」のかたまりを消す（持っている人がいる場合は表示されなくなるだけ）。
+
+---
+
 ## 2026-11-04 2次試験ガチャ LR に公立鳥取環境大学（前期・英語）予想問題3回分を追加（PR: feat/niji-kankyo）
 
 | 何を | どう変えた | ファイル |
@@ -33,6 +56,44 @@
 
 ---
 
+## 2026-11-05 2次試験ガチャの大当たりに宮崎大学 前期対策（学部別3系統）を追加（PR: feat/niji-miyazaki）
+
+| # | どこ | 変更 | ファイル |
+|---|---|---|---|
+| 1 | 2次試験ガチャの LR | 国公立2次 英語 予想問題 宮崎大学 3系統×3回＝9冊を追加。教育・農（獣医）／医学科／工学部で問題が分かれるため系統別に作成 | `src/data/nijiMockPrints.ts`・`public/prints/print_lr_niji_{miyae,miyam,miyat}_en_{1,2,3}.pdf`・thumbs・previews |
+| 2 | ピックアップの説明文 | 収録大学に宮崎大学を追加し、学部別の文にも宮崎大学を追加 | `src/battle/core/gachaPools.ts` |
+| 3 | PDF の棚 | `miyae`・`miyam`・`miyat` を「2次 九州・沖縄」に追加 | `src/battle/core/printShelves.ts` |
+
+- 画面のレイアウトは変えていない（排出リスト・サムネイル・ちら見せ画像が増えるだけ）。表紙と奥付に「宮崎大学の過去問・公式問題ではありません。予想問題であり、大学とは関係がありません。」を明記。
+
+**戻し方**：`nijiMockPrints.ts` の `miyae`・`miyam`・`miyat`（`NIJI_UNIVERSITIES` の3行・ヘルパー3行・台帳9行・先頭コメントの宮崎の項目）を消し、`gachaPools.ts` の lrNote から「宮崎大学」を2か所消し、`printShelves.ts` の `miyae`・`miyam`・`miyat` の行を消す。`tests/nijiGacha.test.ts` の冊数を 123 に戻し、宮崎の4行を消す。PDF・thumbs・previews の `miyae`/`miyam`/`miyat` を削除し、`gachaPreviews.generated.ts` の末尾9項目を消す。
+
+---
+
+## 2026-11-04 2次試験ガチャの大当たりに鹿児島大学 前期対策（学部別2系統）を追加（PR: feat/niji-kagoshima）
+
+| # | どこ | 変更 | ファイル |
+|---|---|---|---|
+| 1 | 2次試験ガチャの LR | 国公立2次 英語 予想問題 鹿児島大学 2系統×3回＝6冊を追加。1〜4 は全学部共通、5 は 5−1（自由英作文：法文・教育・医・歯・共同獣医〈獣医〉）／5−2（長文読解：理・工・農・水産・共同獣医〈畜産〉）で分けた | `src/data/nijiMockPrints.ts`・`public/prints/print_lr_niji_{kagoa,kagob}_en_{1,2,3}.pdf`・thumbs・previews |
+| 2 | ピックアップの説明文 | 収録大学に鹿児島大学を追加し、学部別の文にも鹿児島大学を追加 | `src/battle/core/gachaPools.ts` |
+| 3 | PDF の棚 | `kagoa`・`kagob` を「2次 九州・沖縄」に追加 | `src/battle/core/printShelves.ts` |
+
+- 画面のレイアウトは変えていない（排出リスト・サムネイル・ちら見せ画像が増えるだけ）。表紙と奥付に「鹿児島大学の過去問・公式問題ではありません。予想問題であり、大学とは関係がありません。」を明記。
+
+**戻し方**：`nijiMockPrints.ts` の `kagoa`・`kagob`（`NIJI_UNIVERSITIES` の2行・ヘルパー2行・台帳6行・先頭コメントの鹿児島の項目）を消し、`gachaPools.ts` の lrNote から「鹿児島大学」を2か所消し、`printShelves.ts` の `kagoa`・`kagob` の行を消す。`tests/nijiGacha.test.ts` の冊数を 117 に戻し、鹿児島の3行を消す。PDF・thumbs・previews の `kagoa`/`kagob` を削除し、`gachaPreviews.generated.ts` の末尾6項目を消す。
+
+---
+
+## 2026-11-04 2次試験ガチャの大当たりに東海の国公立（岐阜・三重・名古屋工業・名古屋市立・愛知県立・愛知教育）を追加（PR: feat/niji-tokai）
+
+| # | どこ | 変更 | ファイル |
+|---|---|---|---|
+| 1 | 2次試験ガチャの LR | 国公立2次 英語 予想問題 東海7系統×3回＝21冊を追加。岐阜大学／三重大学／名古屋工業大学／名古屋市立大学（前期）／愛知県立大学（外国語学部、日本文化・教育福祉・看護学部）／愛知教育大学。愛知県立大学は解く大問が学部で分かれるため系統別に各3回 | `src/data/nijiMockPrints.ts`・`public/prints/print_lr_niji_{gifu,mie,nit,ncu,apua,apub,aue}_en_{1,2,3}.pdf`・thumbs・previews・`src/data/gachaPreviews.generated.ts` |
+| 2 | ピックアップの説明文 | 収録大学に6大学を追加（短い書き方「〇〇・〇〇大学」のまま） | `src/battle/core/gachaPools.ts`（`NIJI_DISCLAIMER` は自動で6大学を含む） |
+
+- 画面のレイアウトは変えていない（排出リスト・サムネイル・ちら見せ画像が増えるだけ）。表紙と奥付に「〇〇大学の過去問・公式問題ではありません。予想問題であり、大学とは関係がありません。」を明記。
+
+**戻し方**：`nijiMockPrints.ts` の東海7系統の行（`NIJI_UNIVERSITIES` の7行・ヘルパー7行・台帳21行・先頭コメントの東海の項目）を消し、`gachaPools.ts` の lrNote・`build-previews.py` の正規表現・`tests/nijiGacha.test.ts` の件数（75→54）と東海の確認行を元に戻す。`gachaPreviews.generated.ts` から東海21件を消す。PDF・画像は消してよい。
 ## 2026-11-04 ガチャ「ピックアップ一覧」「提供割合」の窓を整理（PR: feat/gacha-pickup-shelves）
 
 | # | 何を | どう変えた | ファイル |
@@ -58,8 +119,6 @@
 | ショップの PDF の棚 | 尾道市立大学を「2次 中国・四国」の棚に入れた | `src/battle/core/printShelves.ts` |
 
 **戻し方**：このPRを revert（PDF・サムネ・プレビューと台帳の3行・LR 説明の大学名・棚の1語がまとめて戻る）。
-
----
 
 ## 2026-11-04 塾クラスの生徒は広告なし・ショップの PDF を棚（地方・教科）で整理（PR: feat/juku-noads-pdf-shelf）
 
@@ -682,6 +741,15 @@
 
 ---
 
+## 2026-11-03 2次試験ガチャの大当たりに北陸の国公立（金沢・富山・福井・福井県立）を追加（PR: feat/niji-hokuriku）
+
+| # | どこ | 変更 | ファイル |
+|---|---|---|---|
+| 1 | 2次試験ガチャの LR | 国公立2次 英語 予想問題 北陸7系統×3回＝21冊を追加。金沢大学（全学域・学類共通）／富山大学（人文・教育・経済・看護の共通問題、医学部医学科）／福井大学（教育学部、医学部医学科、国際地域学部）／福井県立大学（英語を課す学部の共通問題）。学部で問題が分かれる大学は系統別に各3回 | `src/data/nijiMockPrints.ts`・`public/prints/print_lr_niji_{kanazawa,toyama,toyamamed,fukuie,fukuim,fukuig,fpu}_en_{1,2,3}.pdf`・thumbs・previews・`src/data/gachaPreviews.generated.ts` |
+| 2 | ピックアップの説明文 | 収録大学に4大学を追加。長くなるので大学名は「〇〇・〇〇大学」の短い書き方にまとめた | `src/battle/core/gachaPools.ts`（`NIJI_DISCLAIMER` は自動で4大学を含む） |
+| 3 | 既存の予想問題の言い回し | 和歌山2・岡山1/3・広島1 の一部の言い回しを修正（金沢・福井の過去問を照合元に加えても一致0件にするため。見た目の変更なし） | `public/prints/print_lr_niji_{wakayama_en_2,okayama_en_1,okayama_en_3,hiroshima_en_1}.pdf` ほか |
+
+**戻し方**：`nijiMockPrints.ts` の北陸7系統の行（`NIJI_UNIVERSITIES` の7行・ヘルパー7行・台帳21行）を消し、`gachaPools.ts` の lrNote・`build-previews.py` の正規表現・`tests/nijiGacha.test.ts` の件数（54→33）を元に戻す。PDF・画像は消してよい。#3 は別コミットなので、そのコミットだけ revert すれば戻る。
 ## 2026-11-03 2次試験ガチャの大当たりに鳥取大学を追加（PR: feat/niji-tottori）
 
 | # | どこ | 変更 | ファイル |
