@@ -377,6 +377,18 @@ export const GACHA_PREVIEWS: Readonly<Record<string, readonly string[]>> = {
     "/prints/previews/print_lr_niji_shimanem_en_3_p2.webp",
     "/prints/previews/print_lr_niji_shimanem_en_3_p11.webp"
   ],
+  "print_lr_niji_kankyo_en_1": [
+    "/prints/previews/print_lr_niji_kankyo_en_1_p2.webp",
+    "/prints/previews/print_lr_niji_kankyo_en_1_p10.webp"
+  ],
+  "print_lr_niji_kankyo_en_2": [
+    "/prints/previews/print_lr_niji_kankyo_en_2_p2.webp",
+    "/prints/previews/print_lr_niji_kankyo_en_2_p10.webp"
+  ],
+  "print_lr_niji_kankyo_en_3": [
+    "/prints/previews/print_lr_niji_kankyo_en_3_p2.webp",
+    "/prints/previews/print_lr_niji_kankyo_en_3_p10.webp"
+  ],
   "print_lr_niji_nagasakid_en_1": [
     "/prints/previews/print_lr_niji_nagasakid_en_1_p2.webp",
     "/prints/previews/print_lr_niji_nagasakid_en_1_p9.webp"

@@ -38,7 +38,10 @@
  *     そのあと学部で分かれるため2系統×3回（計6冊）。法文・人間科学・総合理工・生物資源科学部用＝1・2・4（グラフを読んで約70語）・
  *     90分・200点（70・80・50）／医学部医学科用＝1・2・3（医療の長文）・5（A 和文英訳・B 約80語の意見文）・120分・300点（70・80・90・60）。
  *     時間・配点・小問の配点は編集部の想定。グラフの数値は架空。
- *   - 長崎大学 前期対策（2026-11-04 追加）：A 長文読解（日本語で答える）・B 物語文読解（英語で答える）は全学部共通。
+ *   - 公立鳥取環境大学 前期対策（2026-11-04 追加）：Part 1 約650語の記事＋4択20問（内容・語義・段落の主旨）・Part 2 150語以上の英作文・
+ *     Part 3 会話の空所（4つの文から選ぶ／お知らせを読んで書く）・Part 4 約110語の短い記事を読んで80〜100語の意見・90分。
+ *     英語は両学部・A/B方式共通の1種類。配点は大学非公表のため編集部の想定（100点：40・24・12・24）。3回分。
+*   - 長崎大学 前期対策（2026-11-04 追加）：A 長文読解（日本語で答える）・B 物語文読解（英語で答える）は全学部共通。
  *     そのあと志望学部で分かれるため2系統×3回（計6冊）。多文化社会・経済・医・歯・薬・工・環境科学部ほか用＝A・B・D（グラフを読んで100語程度×2）／
  *     教育学部（文系以外）・情報データ科学部（理系受験）用＝A・B・C（語彙・同意表現10問）。100分・200点（70・70・60）。
  *     配点・小問の配点は編集部の想定。グラフの数値は架空。
@@ -84,7 +87,8 @@ export const NIJI_UNIVERSITIES = [
   { id: 'onomichi', name: '尾道市立大学', track: '経済情報学部' },
   { id: 'shimaneh', name: '島根大学', track: '法文・人間科学・総合理工・生物資源科学部' },
   { id: 'shimanem', name: '島根大学', track: '医学部医学科' },
-  { id: 'nagasakid', name: '長崎大学', track: '多文化社会・経済・医・歯・薬・工・環境科学部ほか' },
+  { id: 'kankyo', name: '公立鳥取環境大学', track: '' },
+{ id: 'nagasakid', name: '長崎大学', track: '多文化社会・経済・医・歯・薬・工・環境科学部ほか' },
   { id: 'nagasakic', name: '長崎大学', track: '教育学部（文系以外）・情報データ科学部（理系受験）' },
 ] as const;
 export type NijiUniversityId = (typeof NIJI_UNIVERSITIES)[number]['id'];
@@ -130,6 +134,7 @@ const yamaguchi = (n: number, pages: number, kb: number) => mock('yamaguchi', n,
 const onomichi = (n: number, pages: number, kb: number) => mock('onomichi', n, pages, kb);
 const shimaneh = (n: number, pages: number, kb: number) => mock('shimaneh', n, pages, kb);
 const shimanem = (n: number, pages: number, kb: number) => mock('shimanem', n, pages, kb);
+const kankyo = (n: number, pages: number, kb: number) => mock('kankyo', n, pages, kb);
 const nagasakid = (n: number, pages: number, kb: number) => mock('nagasakid', n, pages, kb);
 const nagasakic = (n: number, pages: number, kb: number) => mock('nagasakic', n, pages, kb);
 
@@ -218,7 +223,10 @@ export const NIJI_MOCK_PRINTS: readonly GachaPrintDef[] = [
   shimanem(1, 22, 353),
   shimanem(2, 22, 348),
   shimanem(3, 22, 331),
-  nagasakid(1, 18, 346),
+  kankyo(1, 19, 1415),
+  kankyo(2, 20, 1404),
+  kankyo(3, 19, 1409),
+nagasakid(1, 18, 346),
   nagasakid(2, 18, 329),
   nagasakid(3, 18, 338),
   nagasakic(1, 18, 319),
