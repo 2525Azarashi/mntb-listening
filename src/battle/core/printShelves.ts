@@ -43,6 +43,7 @@ export const UNIV_REGION: Readonly<Record<string, PrintShelfId>> = {
   kagawa: 'chugoku_shikoku', tokushima: 'chugoku_shikoku', ehimeh: 'chugoku_shikoku', ehimee: 'chugoku_shikoku', ehimem: 'chugoku_shikoku',
   kochij: 'chugoku_shikoku', kochik: 'chugoku_shikoku', kochie: 'chugoku_shikoku', kochim: 'chugoku_shikoku',
   kyushu: 'kyushu_okinawa', saga: 'kyushu_okinawa', kumamoto: 'kyushu_okinawa', ryukyu: 'kyushu_okinawa', fwu: 'kyushu_okinawa',
+  oitae: 'kyushu_okinawa', oitak: 'kyushu_okinawa', oitam: 'kyushu_okinawa',
   nagasakid: 'kyushu_okinawa', nagasakic: 'kyushu_okinawa',
   kagoa: 'kyushu_okinawa', kagob: 'kyushu_okinawa',
   miyae: 'kyushu_okinawa', miyam: 'kyushu_okinawa', miyat: 'kyushu_okinawa',

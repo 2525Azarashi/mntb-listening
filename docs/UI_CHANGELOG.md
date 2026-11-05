@@ -146,6 +146,18 @@
 | ショップの PDF の棚 | 尾道市立大学を「2次 中国・四国」の棚に入れた | `src/battle/core/printShelves.ts` |
 
 **戻し方**：このPRを revert（PDF・サムネ・プレビューと台帳の3行・LR 説明の大学名・棚の1語がまとめて戻る）。
+## 2026-11-04 2次試験ガチャの大当たりに大分大学 前期対策 英語 予想問題（教育・経済・医 各第1〜3回）（PR: feat/niji-oita）
+
+| # | 何を | どう変えた | ファイル |
+|---|---|---|---|
+| 1 | 2次試験ガチャ LR の中身 | 大分大学の予想問題 9冊（教育学部・経済学部・医学部〈医学科・先進医療科学科〉× 第1〜3回、問題＋解答・解説）を追加。ラベルに系統名が出る | `src/data/nijiMockPrints.ts`・`public/prints/print_lr_niji_oita{e,k,m}_en_{1,2,3}.pdf` |
+| 2 | ガチャのサムネ・ちら見せ画像 | 表紙のサムネと、ピックアップの「中身を少しだけ」画像を9冊分追加 | `public/prints/thumbs/`・`public/prints/previews/`・`src/data/gachaPreviews.generated.ts` |
+| 3 | ガチャの説明文（LR の注意書き） | 対象大学の一覧に「大分大学」、系統別の説明に大分大学を追加 | `src/battle/core/gachaPools.ts` |
+| 4 | ショップの PDF の棚 | 大分大学の9冊を「2次 九州・沖縄」の棚に入れる | `src/battle/core/printShelves.ts` |
+
+**戻し方**：
+- 丸ごと戻す：このPRを revert。
+- 大分大学だけ外す：`nijiMockPrints.ts` の `oitae`/`oitak`/`oitam` の3行（NIJI_UNIVERSITIES）・helper 3行・9冊の行を消し、`gachaPools.ts` の「大分大学」2か所、`printShelves.ts` の `oita*` の1行、`build-previews.py` の `|oitae|oitak|oitam` を消して、`tests/nijiGacha.test.ts` の冊数を 84→75 に戻す。
 
 ## 2026-11-04 塾クラスの生徒は広告なし・ショップの PDF を棚（地方・教科）で整理（PR: feat/juku-noads-pdf-shelf）
 

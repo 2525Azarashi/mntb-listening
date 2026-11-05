@@ -101,6 +101,7 @@ describe('2次試験の予想問題 PDF', () => {
     // ＋北陸 21（金沢 3・富山 共通/医学科 各3・福井 教育/医学科/国際地域 各3・福井県立 3）
     // ＋東海 21（岐阜 3・三重 3・名古屋工業 3・名古屋市立 3・愛知県立 外国語/3学部 各3・愛知教育 3）
     // ＋鹿児島 6（5−1 英作文の学部・5−2 長文の学部 各3）＋宮崎 9（教育・農／医学科／工学部 各3）
+    // ＋大分 9（教育/経済/医 各3）
     for (const u of NIJI_UNIVERSITIES) expect(NIJI_MOCK_PRINTS.filter((p) => nijiUniversityOf(p.id)?.id === u.id).length, u.id).toBe(3);
     for (const p of NIJI_MOCK_PRINTS) {
       expect(existsSync(`public${p.file}`), p.id).toBe(true);
@@ -133,7 +134,7 @@ describe('2次試験の予想問題 PDF', () => {
     expect(NIJI_MOCK_PRINTS.find((p) => p.id === 'print_lr_niji_omua_en_1')!.label).toContain('Aグループ');
     expect(NIJI_MOCK_PRINTS.find((p) => p.id === 'print_lr_niji_omub_en_3')!.label).toContain('Bグループ');
     expect(NIJI_DISCLAIMER.split('大阪公立大学').length - 1).toBe(1);
-    for (const n of ['香川大学', '徳島大学', '愛媛大学', '高知大学', '鳥取大学', '島根大学', '長崎大学']) expect(NIJI_DISCLAIMER.split(n).length - 1, n).toBe(1);
+    for (const n of ['香川大学', '徳島大学', '愛媛大学', '高知大学', '鳥取大学', '島根大学', '長崎大学', '大分大学']) expect(NIJI_DISCLAIMER.split(n).length - 1, n).toBe(1);
     for (const name of ['和歌山大学', '岡山大学', '広島大学']) expect(NIJI_DISCLAIMER, name).toContain(name);
     expect(nijiUniversityOf('print_lr_niji_hiroshima_en_2')?.name).toBe('広島大学');
     for (const name of ['金沢大学', '富山大学', '福井大学', '福井県立大学']) expect(NIJI_DISCLAIMER, name).toContain(name);
@@ -152,6 +153,8 @@ describe('2次試験の予想問題 PDF', () => {
     expect(nijiUniversityOf('print_lr_niji_miyam_en_1')?.track).toBe('医学科');
     expect(nijiUniversityOf('print_lr_niji_miyat_en_3')?.track).toBe('工学部');
     expect(NIJI_MOCK_PRINTS.find((p) => p.id === 'print_lr_niji_okayama_en_1')!.label).toBe('国公立2次 英語 予想問題 岡山大学 前期対策 第1回（問題＋解答・解説）');
+    expect(NIJI_MOCK_PRINTS.find((p) => p.id === 'print_lr_niji_oitam_en_2')!.label).toContain('医学部（医学科・先進医療科学科）');
+    expect(nijiUniversityOf('print_lr_niji_oitak_en_3')?.name).toBe('大分大学');
     expect(readFileSync('src/components/gacha/GachaPickupModal.tsx', 'utf8')).toContain('NIJI_DISCLAIMER');
   });
 });

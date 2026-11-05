@@ -36,6 +36,10 @@
  *   - 山口大学 前期対策（2026-11-03 追加）：Ⅰ 約1000語の長文（設問・解答とも英語）・Ⅱ 約1000語のエッセイ／物語（設問は日本語）・
  *     Ⅲ-1 会話文の空所に英語・Ⅲ-2 日本語の指示を英語にしてメール完成・120分・200点（65・65・30・40）。全学部共通。
  *     小問の配点は編集部の想定。3回分。
+ *   - 大分大学 前期対策（2026-11-04 追加）：前期の英語は学部で3種類（80分）。〔1〕長文読解は3学部共通で、
+ *     教育学部（150点：〔2〕日本語の文章の概要を75〜85語の英語で）・経済学部（200点：〔2〕日本文の下線部(A)〜(D)を英訳）・
+ *     医学部 医学科・先進医療科学科（100点：〔2〕医療の長文・〔3〕語句を並べ替えて本文の【①】〜【⑥】に入れる）。
+ *     配点は大学非公表のため編集部の想定。各系統3回分（計9冊）。
  *   - 岐阜大学 前期対策（2026-11-04 追加）：英語を課す学部の共通問題・3回分。
  *   - 三重大学 前期対策（2026-11-04 追加）：英語を課す学部の共通問題（大問Ⅰ〜Ⅲ）・80分・100点。3回分。
  *   - 名古屋工業大学 前期対策（2026-11-04 追加）：大問Ⅰ〜Ⅴ（短文読解・空所補充・長文・英文の計算/図表・図表を読む英作文）・80分・100点。3回分。
@@ -114,6 +118,9 @@ export const NIJI_UNIVERSITIES = [
   { id: 'kochim', name: '高知大学', track: '医学部医学科' },
   { id: 'tottori', name: '鳥取大学', track: '' },
   { id: 'yamaguchi', name: '山口大学', track: '' },
+  { id: 'oitae', name: '大分大学', track: '教育学部' },
+  { id: 'oitak', name: '大分大学', track: '経済学部' },
+  { id: 'oitam', name: '大分大学', track: '医学部（医学科・先進医療科学科）' },
   { id: 'gifu', name: '岐阜大学', track: '' },
   { id: 'mie', name: '三重大学', track: '' },
   { id: 'nit', name: '名古屋工業大学', track: '' },
@@ -183,6 +190,9 @@ const kochie = (n: number, pages: number, kb: number) => mock('kochie', n, pages
 const kochim = (n: number, pages: number, kb: number) => mock('kochim', n, pages, kb);
 const tottori = (n: number, pages: number, kb: number) => mock('tottori', n, pages, kb);
 const yamaguchi = (n: number, pages: number, kb: number) => mock('yamaguchi', n, pages, kb);
+const oitae = (n: number, pages: number, kb: number) => mock('oitae', n, pages, kb);
+const oitak = (n: number, pages: number, kb: number) => mock('oitak', n, pages, kb);
+const oitam = (n: number, pages: number, kb: number) => mock('oitam', n, pages, kb);
 const gifu = (n: number, pages: number, kb: number) => mock('gifu', n, pages, kb);
 const mie = (n: number, pages: number, kb: number) => mock('mie', n, pages, kb);
 const nit = (n: number, pages: number, kb: number) => mock('nit', n, pages, kb);
@@ -302,6 +312,15 @@ export const NIJI_MOCK_PRINTS: readonly GachaPrintDef[] = [
   yamaguchi(1, 26, 1858),
   yamaguchi(2, 25, 1826),
   yamaguchi(3, 25, 1828),
+  oitae(1, 13, 1552),
+  oitae(2, 13, 1554),
+  oitae(3, 13, 1562),
+  oitak(1, 14, 1538),
+  oitak(2, 14, 1549),
+  oitak(3, 14, 1548),
+  oitam(1, 20, 1813),
+  oitam(2, 21, 1815),
+  oitam(3, 21, 1852),
   gifu(1, 32, 1957),
   gifu(2, 32, 1939),
   gifu(3, 32, 1936),
