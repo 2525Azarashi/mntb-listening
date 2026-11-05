@@ -1,0 +1,39 @@
+I can't understand why she refused such a good offer.
+<break time="1.5s" />
+What did you have for breakfast this morning?
+<break time="1.5s" />
+Do you know how much it costs to fly to Hawaii?
+<break time="1.5s" />
+“How many brothers and sisters do you have?” “I have two sisters.”
+<break time="1.5s" />
+“How often do you visit your grandparents?” “Once a month.”
+<break time="1.5s" />
+How long does it take to get to the airport from here by train?
+<break time="1.5s" />
+“How soon will the pizza be delivered?” “In about twenty minutes.”
+<break time="1.5s" />
+“How far is it from here to the station?” “About two kilometers.”
+<break time="1.5s" />
+Could you tell me how I can use this machine?
+<break time="1.5s" />
+Do you know how far it is from Tokyo to Osaka?
+<break time="1.5s" />
+Do you know what the population of Japan is?
+<break time="1.5s" />
+I wonder if she will come to the party tomorrow.
+<break time="1.5s" />
+What do you think is the best way to learn a foreign language?
+<break time="1.5s" />
+Which team do you think will win the game?
+<break time="1.5s" />
+Your sister doesn't eat meat, does she?
+<break time="1.5s" />
+The students enjoyed the school festival, didn't they?
+<break time="1.5s" />
+You have never been to Okinawa, have you?
+<break time="1.5s" />
+There is a convenience store near here, isn't there?
+<break time="1.5s" />
+Pass me the salt, will you?
+<break time="1.5s" />
+Don't tell anyone about this, will you?

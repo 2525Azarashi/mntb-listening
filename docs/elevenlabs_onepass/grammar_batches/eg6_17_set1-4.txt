@@ -1,0 +1,39 @@
+Would you mind closing the window? It's a little cold in here.
+<break time="1.5s" />
+We really enjoyed listening to the live music at the festival.
+<break time="1.5s" />
+You should avoid going out alone late at night.
+<break time="1.5s" />
+My father gave up smoking when I was born.
+<break time="1.5s" />
+Have you finished writing your report yet?
+<break time="1.5s" />
+I missed seeing the famous singer because I arrived late.
+<break time="1.5s" />
+Don't put off doing your homework until the last minute.
+<break time="1.5s" />
+Let's wait in the café until it stops snowing.
+<break time="1.5s" />
+She practices playing the violin for two hours every day.
+<break time="1.5s" />
+Have you ever considered studying abroad after high school?
+<break time="1.5s" />
+The man denied having stolen the woman's purse.
+<break time="1.5s" />
+I couldn't help laughing when I saw his funny face.
+<break time="1.5s" />
+My parents couldn't afford to send me to a private school.
+<break time="1.5s" />
+The company has agreed to raise our salaries next year.
+<break time="1.5s" />
+If you decide to take part in the contest, let me know by Friday.
+<break time="1.5s" />
+Ken hasn't finished the work yet, but he expects to finish it soon.
+<break time="1.5s" />
+I managed to catch the last train, so I got home safely.
+<break time="1.5s" />
+Many students fail to realize how important sleep is.
+<break time="1.5s" />
+He refused to answer my question and left the room.
+<break time="1.5s" />
+She moved to Tokyo, hoping to become an actress.

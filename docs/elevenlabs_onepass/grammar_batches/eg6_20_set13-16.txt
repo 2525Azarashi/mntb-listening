@@ -1,0 +1,39 @@
+“Do you mind if I smoke here?” “Not at all. Go ahead.”
+<break time="1.5s" />
+“Would you mind if I opened the window?” “I'd rather you didn't, I'm a little cold.”
+<break time="1.5s" />
+“May I use this phone?” “Yes, go ahead.”
+<break time="1.5s" />
+“May I join you?” “Why not? Please sit down.”
+<break time="1.5s" />
+“I wonder if I can borrow this CD for a couple of days.” “No problem.”
+<break time="1.5s" />
+“Would you be kind enough to post these letters for me?”
+<break time="1.5s" />
+“May I call on you tomorrow, Mr. Smith?” “Yes, by all means.”
+<break time="1.5s" />
+“Would you do me a favor?” “Sure. What is it?”
+<break time="1.5s" />
+“May I ask a favor of you?” “Of course. How can I help?”
+<break time="1.5s" />
+“Will you lend me 10,000 yen?” “No way! You haven't paid me back yet.”
+<break time="1.5s" />
+“What do you say to going for a drive?” “Sounds great!”
+<break time="1.5s" />
+“Perhaps we could have dinner at a nearby restaurant.” “Sounds nice.”
+<break time="1.5s" />
+“Why don't you have some more wine?” “No, thanks. I'm driving.”
+<break time="1.5s" />
+“I can't find the station.” “Why not ask the police officer over there?”
+<break time="1.5s" />
+“Why don't we drop in at a coffee shop?” “Yes, let's.”
+<break time="1.5s" />
+“Will you have dinner with us at my home?” “Yes, with pleasure.”
+<break time="1.5s" />
+(At the door) “After you.” “Oh, thank you.”
+<break time="1.5s" />
+“Let's stop here for a cup of coffee.” “Sounds great.”
+<break time="1.5s" />
+“Thanks for helping me.” “Don't mention it.”
+<break time="1.5s" />
+“Thank you very much for the ride.” “Don't mention it.”

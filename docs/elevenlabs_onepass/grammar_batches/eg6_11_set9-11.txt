@@ -1,0 +1,29 @@
+We had no sooner arrived at the beach than it started to rain.
+<break time="1.5s" />
+Scarcely had the game started when it began to rain.
+<break time="1.5s" />
+Hardly had she sat down when the phone rang.
+<break time="1.5s" />
+Let's do our best since nobody else will help us.
+<break time="1.5s" />
+As it was late, we took a taxi.
+<break time="1.5s" />
+I hardly knew her because she had grown up so much.
+<break time="1.5s" />
+You shouldn't look down on him because he is young.
+<break time="1.5s" />
+Unless you leave now, you won't catch the last train.
+<break time="1.5s" />
+You won't pass the exam unless you study harder.
+<break time="1.5s" />
+You can borrow my car provided you return it by Sunday.
+<break time="1.5s" />
+I'll tell you the secret on condition that you keep it to yourself.
+<break time="1.5s" />
+Supposing it rains tomorrow, what will you do?
+<break time="1.5s" />
+He talks as if he knew everything.
+<break time="1.5s" />
+Although she has studied French for years, she still can't speak it well.
+<break time="1.5s" />
+Even though he is rich, he is not happy.

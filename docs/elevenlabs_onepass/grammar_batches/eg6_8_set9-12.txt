@@ -1,0 +1,35 @@
+Most students prefer reading to watching TV.
+<break time="1.5s" />
+I prefer to stay home rather than go out on rainy days.
+<break time="1.5s" />
+Of the four boys, Ken is the best runner.
+<break time="1.5s" />
+This song is by far the most popular of all.
+<break time="1.5s" />
+Mike is the very best player on the team.
+<break time="1.5s" />
+This is much the best way to learn English.
+<break time="1.5s" />
+This is the most delicious cake that I have ever eaten.
+<break time="1.5s" />
+This is the most interesting movie that I have ever seen.
+<break time="1.5s" />
+Who is the most interesting person you have ever met?
+<break time="1.5s" />
+Yokohama is the second largest city in Japan.
+<break time="1.5s" />
+The Nile is one of the longest rivers in the world.
+<break time="1.5s" />
+The ticket will cost thirty dollars at most.
+<break time="1.5s" />
+You should sleep at least seven hours a day.
+<break time="1.5s" />
+Mt. Fuji is higher than any other mountain in Japan.
+<break time="1.5s" />
+No other city in Japan has as many people as Tokyo.
+<break time="1.5s" />
+No other member on his team runs faster than Ken.
+<break time="1.5s" />
+She loves music more than anything else.
+<break time="1.5s" />
+Health is the most precious thing. Nothing is as precious as health.

@@ -1,0 +1,27 @@
+Feeling very tired, I went to bed early last night.
+<break time="1.5s" />
+Walking down the street, I met an old friend of mine.
+<break time="1.5s" />
+Not knowing where to go, the tourist asked a police officer for help.
+<break time="1.5s" />
+Having finished all his homework, he went out to play soccer.
+<break time="1.5s" />
+The weather being fine, we went on a picnic.
+<break time="1.5s" />
+Weather permitting, we will go hiking this weekend.
+<break time="1.5s" />
+Seen from the top of the tower, the city looks like a toy town.
+<break time="1.5s" />
+All things considered, the school festival was a great success.
+<break time="1.5s" />
+Living as she does in the countryside, my aunt rarely goes shopping in the city.
+<break time="1.5s" />
+Frankly speaking, I don't like his idea very much.
+<break time="1.5s" />
+Judging from his accent, he must be from Osaka.
+<break time="1.5s" />
+She listened to the music with her eyes closed.
+<break time="1.5s" />
+He stood by the door with his arms folded.
+<break time="1.5s" />
+I walked in the park with my dog following me.

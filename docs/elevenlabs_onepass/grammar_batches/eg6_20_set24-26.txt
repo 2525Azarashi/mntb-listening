@@ -1,0 +1,29 @@
+“I've got a cold.” “That's too bad.”
+<break time="1.5s" />
+“Please make yourself at home.” “Thank you.”
+<break time="1.5s" />
+“Please help yourself to the salad.” “Thank you. It looks delicious.”
+<break time="1.5s" />
+“I won the lottery!” “You must be kidding. It can't be true.”
+<break time="1.5s" />
+“Will you wait a minute? I want to wash my hands.” “Of course. Take your time.”
+<break time="1.5s" />
+“I've had enough of your nonsense.” “I'm sorry.”
+<break time="1.5s" />
+“Who are you dating?” “Mind your own business. It's none of your business.”
+<break time="1.5s" />
+“I'm so nervous about tomorrow's speech.” “Take it easy. You'll be fine.”
+<break time="1.5s" />
+“Excuse me. Do you have the time?” “It's ten fifteen right now.”
+<break time="1.5s" />
+“Do you have time for a quick chat after class?” “Sure. What's up?”
+<break time="1.5s" />
+“Please show me where we are on this map.” “Let me see.... We are here on this street.”
+<break time="1.5s" />
+“I want to see the movie.” “Me too.”
+<break time="1.5s" />
+“I don't like horror movies.” “Me neither. They're too scary.”
+<break time="1.5s" />
+“Do you really mean it?” “Yes, I do. I'm serious.”
+<break time="1.5s" />
+“We've missed the train.” “It doesn't matter. We can take the next one.”

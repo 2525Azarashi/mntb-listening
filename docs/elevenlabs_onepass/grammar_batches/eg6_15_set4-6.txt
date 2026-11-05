@@ -1,0 +1,29 @@
+He did nothing but complain during the trip.
+<break time="1.5s" />
+His explanation was far from clear.
+<break time="1.5s" />
+The missing child has yet to be found.
+<break time="1.5s" />
+Many questions about the universe remain to be answered.
+<break time="1.5s" />
+He has more books than he can read.
+<break time="1.5s" />
+I never hear this song without thinking of my high school days.
+<break time="1.5s" />
+It never rains but it pours.
+<break time="1.5s" />
+There is no rule without exceptions.
+<break time="1.5s" />
+This kind of illness can be cured if discovered early.
+<break time="1.5s" />
+While staying in London, I visited the British Museum.
+<break time="1.5s" />
+There are few, if any, mistakes in your report.
+<break time="1.5s" />
+My grandfather seldom, if ever, goes out these days.
+<break time="1.5s" />
+Correct the errors, if any.
+<break time="1.5s" />
+The pain didn't go away. If anything, it got worse.
+<break time="1.5s" />
+Though tired, she kept running to the goal.
