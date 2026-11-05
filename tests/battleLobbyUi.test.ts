@@ -48,6 +48,17 @@ describe('F10 対戦の部屋：画面のつなぎ', () => {
     expect(lobby).toContain('相手が部屋を出ました。');
     expect(mode).toMatch(/const leaveRoom = useCallback\(\(message\?: string\) => \{\s*closeLobby\(\);/);
   });
+  it('単元選択と部屋を出る操作を1行にまとめ、広告下に隠れにくくする', () => {
+    expect(lobby).toContain('className="lobby-footer-actions"');
+    expect(lobby).toContain('data-lobby-pick');
+    expect(lobby).toContain('data-lobby-leave');
+    expect(css).toMatch(/\.lobby-room \.lobby-footer-actions\s*\{[^}]*grid-template-columns:\s*repeat\(2,\s*minmax\(0,\s*1fr\)\)/s);
+    expect(css).toMatch(/\.lobby-room \.lobby-footer-actions > button\s*\{[^}]*min-height:\s*48px/s);
+    expect(css).toMatch(/@media \(max-width:\s*359px\)[\s\S]*font-size:\s*12px/);
+    expect(css).toMatch(/#battle-shell\.lobby-room\s*\{\s*min-height:\s*calc\(100dvh - var\(--app-safe-top, 0px\) - var\(--app-nav-h, 76px\)\)/);
+    expect(css).toMatch(/#battle-shell\.lobby-room > footer\s*\{[^}]*position:\s*fixed[^}]*bottom:\s*var\(--app-nav-h, 76px\)/s);
+    expect(css).toContain('padding-bottom: calc(16px + 72px);');
+  });
   it('結果の「対戦の部屋に戻る」は教科選びではなく、同じ対戦の部屋へ戻る', () => {
     expect(room).toMatch(/lobbyOfRoom \? \(\) => onBackToLobby\?\.\(lobbyOfRoom\)/);
     expect(room).toContain("'対戦の部屋に戻る（同じ相手ともう1回）'");
