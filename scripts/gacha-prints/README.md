@@ -739,8 +739,8 @@ python3 probe.py '言い換え候補の文' …   # 書き直すときに，候�
 ### 群馬大 予想問題（2次試験ガチャ LR・第1〜3回）2026-11-05
 
 ```bash
-# 必要なもの・フォントは神戸大と同じ（gunma_mock/render.py は kobe_mock/render.py と hokudai_mock/render.py の部品を読み込む。両方を壊さないこと）
-cd scripts/gacha-prints/gunma_mock && for R in 1 2 3; do python3 render.py $R; done
+# 必要なもの・フォントは神戸大と同じ（gunma_riko_mock/render.py は kobe_mock/render.py と hokudai_mock/render.py の部品を読み込む。両方を壊さないこと）
+cd scripts/gacha-prints/gunma_riko_mock && for R in 1 2 3; do python3 render.py $R; done
 # → .tmpwork/gunma_mock/manatobi_gunma_eng_yoso{n}_{mondai,kaitou}.pdf
 #   を「問題 → 解答・解説」の順に pdfunite で1冊にして public/prints/print_lr_gunma_{n}.pdf
 #   → サムネイル（1ページ目・72dpi・幅360で上510pxを webp q82）→ src/data/gunmaMockPrints.ts の pages / kb を合わせる
@@ -755,7 +755,7 @@ cd scripts/gacha-prints/gunma_mock && for R in 1 2 3; do python3 render.py $R; d
 ### 群馬大 予想問題：品質・オリジナル性の検査（商用利用のため毎回実行）2026-11-05
 
 ```bash
-cd scripts/gacha-prints/gunma_mock
+cd scripts/gacha-prints/gunma_riko_mock
 python3 check.py 1 2 3     # 英語4語／日本語13字の一致（群馬大の公式PDF＋宇都宮大・福島大・山形大・秋田大・岩手大・弘前大・東北大・北大・神戸大・阪大・立命館）・人物名・禁止語・空所と選択肢・正解位置の偏り・語の完成の形・render.py の固定文言 → logs/check.json（ng が空であること）
 for R in 1 2 3; do python3 verify.py $R; done   # 長文の語数・平均文長・難語率・空所語の頻度・問題文の長さ → logs/verify_rN.json
 python3 probe.py '言い換え候補の文' …   # 書き直すときに，候補が過去問と重ならないかを先に試す

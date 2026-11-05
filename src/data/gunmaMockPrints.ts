@@ -4,14 +4,14 @@
  *   英文・日本文・設問はすべて書き下ろしのオリジナル。登場する人物・団体・地名は架空。
  *   群馬大学の過去問・公式問題ではなく、大学とは関係がない（表紙と奥付に明記。tests/gunmaMockPrints.test.ts が確かめる）。
  *
- * PDF は scripts/gacha-prints/gunma_mock/render.py で作る。pages / kb は実物の値を写す（テストが照合する）。
+ * PDF は scripts/gacha-prints/gunma_riko_mock/render.py で作る。pages / kb は実物の値を写す（テストが照合する）。
  * 各回の問題・解答解説を1冊に連結し、1アイテムで提供する。
  */
 import type { GachaPrintDef } from './gachaPrints.generated';
 
 const round = (n: number, pages: number, kb: number): GachaPrintDef => ({
   id: `print_lr_gunma_${n}`,
-  label: `群馬大学 英語 予想問題 第${n}回（問題＋解答・解説・大学とは無関係のオリジナル）`,
+  label: `群馬大学 理工学部・医学部保健学科 英語 予想問題 第${n}回（問題＋解答・解説・大学とは無関係のオリジナル）`,
   subject: 'english_reading',
   category: '演習プリント',
   file: `/prints/print_lr_gunma_${n}.pdf`,
