@@ -43,6 +43,8 @@ import { BattleMissions } from './BattleMissions';
 import type { BattleHomeChoice } from './BattleHome';
 import { BattleLoading, BattleNotice, BattleShell, BattleTitle } from './BattleParts';
 import { BattleMatching } from './BattleMatching';
+import { BattleLobbyRoom } from './BattleLobbyRoom';
+import { leaveLobby } from '../data/battleLobby';
 import { BattleRanking } from './BattleRanking';
 import { BattleRoomScreen } from './BattleRoomScreen';
 import { BattleSubjectSelect } from './BattleSubjectSelect';
@@ -57,7 +59,8 @@ import { logRejection } from '../../utils/reportError';
  *  subject-national… 教科選択（全国対戦）
  *  creating        … 部屋を作っている最中
  *  join            … 合言葉を入れる
- *  matching        … 全国の相手さがし
+ *  matching        … 全国の相手さがし（F10 から教科を決めずにマッチ → 対戦の部屋へ）
+ *  lobby           … 対戦の部屋（F10。2人がそれぞれ単元をえらび、どちらかで試合。終わったらここに戻って再戦）
  *  room            … 部屋の中（待機・対戦・結果）
  *  subject-ai      … 教科選択（AI 対戦）
  *  ai-level        … AI の強さをえらぶ
@@ -74,6 +77,7 @@ type Screen =
   | 'creating'
   | 'join'
   | 'matching'
+  | 'lobby'
   | 'room'
   | 'ranking'
   | 'clan'
@@ -165,6 +169,19 @@ export function BattleMode({
     };
   }, []);
   const [roomId, setRoomId] = useState<string | null>(null);
+  /** F10 いま入っている対戦の部屋（battle_lobbies）。試合中も覚えておき、結果から戻れるようにする */
+  const [lobbyId, setLobbyId] = useState<string | null>(null);
+  const lobbyIdRef = useRef<string | null>(null);
+  lobbyIdRef.current = lobbyId;
+  /** 対戦の部屋を出る（部屋は閉じ、相手には「相手が部屋を出ました」と出る） */
+  const closeLobby = useCallback(() => {
+    const id = lobbyIdRef.current;
+    if (id) void leaveLobby(id);
+    lobbyIdRef.current = null;
+    setLobbyId(null);
+  }, []);
+  // 対戦モードごと抜けたときも部屋を閉じる（相手が待ちぼうけにならないように）
+  useEffect(() => () => { const id = lobbyIdRef.current; if (id) void leaveLobby(id); }, []);
   const [subject, setSubject] = useState<string>(initialSubject);
   /**
    * 利用者が選んだ問題数（フレンド・AI でのみ）。undefined なら教科の既定。
@@ -215,7 +232,9 @@ export function BattleMode({
         setScreen('join');
         break;
       case 'national':
-        setScreen('subject-national');
+        // ★F10★ 教科は先に決めない。マッチしたら対戦の部屋で2人がそれぞれ単元をえらぶ
+        setGhost(null);
+        setScreen('matching');
         break;
       case 'ai':
         setScreen('subject-ai');
@@ -264,10 +283,11 @@ export function BattleMode({
   // 部屋から戻る
   // ------------------------------------------------------------
   const leaveRoom = useCallback((message?: string) => {
+    closeLobby();
     setRoomId(null);
     setNotice(message || null);
     setScreen('home');
-  }, []);
+  }, [closeLobby]);
 
   /** 同じ教科・同じ問題数でもう1回（結果画面から） */
   const rematch = useCallback(
@@ -306,19 +326,24 @@ export function BattleMode({
       );
 
     case 'subject-national':
+      // ★F10★ 全国対戦で人が見つからず AI プレイヤーが相手になったとき：対戦の部屋と同じく、希望の単元をえらんでから始める
+      if (!ghost) {
+        return <BattleHome onChoose={handleHomeChoice} onExit={onExit} onRanking={onRanking} onRequireLogin={onRequireLogin} notice={notice} />;
+      }
       return (
         <BattleSubjectSelect
-            currentSubject={subject}
-          title="全国対戦 ／ 教科をえらぶ"
-          showRecent
-          // ★全国は問題数を選べない★ 待機列は教科だけでマッチさせている。
-          onPick={(pick) => {
+          currentSubject={subject}
+          title="対戦の部屋 ／ 希望の単元をえらぶ"
+          allowQuestionCount
+          onPick={(pick, count, unit) => {
             setSubject(pick);
-            setQuestionCount(undefined);
-            setChapterId(undefined);
-            setScreen('matching');
+            setQuestionCount(count);
+            setChapterId(unit);
+            setRetryIds(null);
+            setAiMatchNo((n) => n + 1);
+            setScreen('ai-room');
           }}
-          onBack={() => setScreen('home')}
+          onBack={() => { setGhost(null); setScreen('home'); }}
         />
       );
 
@@ -347,10 +372,13 @@ export function BattleMode({
     case 'matching':
       return (
         <BattleMatching
-          subject={subject}
+          subject=""
+          lobby
+          // ★F10★ マッチしたら対戦の部屋へ（試合は部屋で2人が単元をえらんでから）
           onMatched={(id) => {
-            setRoomId(id);
-            setScreen('room');
+            setLobbyId(id);
+            setRoomId(null);
+            setScreen('lobby');
           }}
           onCancel={() => setScreen('home')}
           // ★待ちが長いときの逃げ道は「AI と対戦」にする★
@@ -367,12 +395,24 @@ export function BattleMode({
             setScreen('ai-level');
           }}
           onGhostMatch={(g) => {
+            // F10：人の対戦と同じく、希望の単元をえらんでから始める
             setGhost(g);
-            setQuestionCount(undefined);
-            setChapterId(undefined);
-            setAiMatchNo((n) => n + 1);
-            setScreen('ai-room');
+            setScreen('subject-national');
           }}
+        />
+      );
+
+    case 'lobby':
+      if (!lobbyId) {
+        return <BattleHome onChoose={handleHomeChoice} onExit={onExit} onRanking={onRanking} onRequireLogin={onRequireLogin} notice={notice} />;
+      }
+      return (
+        <BattleLobbyRoom
+          key={lobbyId}
+          lobbyId={lobbyId}
+          onEnterRoom={(id) => { setRoomId(id); setScreen('room'); }}
+          onExit={() => leaveRoom()}
+          onNationalAgain={() => { closeLobby(); setScreen('matching'); }}
         />
       );
 
@@ -428,7 +468,7 @@ export function BattleMode({
             setAiMatchNo((n) => n + 1);
           }}
           onChangeLevel={() => { setGhost(null); setRetryIds(null); setScreen('ai-level'); }}
-          onChangeSubject={() => { const wasGhost = !!ghost; setGhost(null); setRetryIds(null); setScreen(wasGhost ? 'subject-national' : 'subject-ai'); }}
+          onChangeSubject={() => { setRetryIds(null); setScreen(ghost ? 'subject-national' : 'subject-ai'); }}
           onHome={onExit}
           onPractice={onPractice}
           onActiveChange={onActiveChange}
@@ -461,8 +501,10 @@ export function BattleMode({
           onExit={leaveRoom}
           onRematch={rematch}
           onSwitchRoom={(next) => setRoomId(next)}
-          onChangeSubject={(friend) => { setRoomId(null); setScreen(friend ? 'subject-friend' : 'subject-national'); }}
-          onNationalAgain={() => { setRoomId(null); setScreen('matching'); }}
+          onChangeSubject={(friend) => { setRoomId(null); setScreen(friend ? 'subject-friend' : 'matching'); }}
+          // ★F10★ 対戦の部屋から始めた試合は、結果の「対戦の部屋に戻る」で同じ部屋（同じ相手）へ戻る
+          onBackToLobby={(id) => { setRoomId(null); setLobbyId(id); setScreen('lobby'); }}
+          onNationalAgain={() => { closeLobby(); setRoomId(null); setScreen('matching'); }}
           onHome={onExit}
           onPractice={onPractice}
           onActiveChange={onActiveChange}
