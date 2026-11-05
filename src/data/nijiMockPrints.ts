@@ -48,6 +48,9 @@
  *   - 鹿児島大学 前期対策（2026-11-04 追加）：1〜4 は全学部共通（長文2題・文法の4択10問・対話の和文英訳4問）、5 は学部で分かれる
  *     （5−1 自由英作文 100〜120語：法文・教育・医・歯・共同獣医〈獣医〉／5−2 長文読解：理・工・農・水産・共同獣医〈畜産〉）。
  *     系統別に各3回分（計6冊）。配点は編集部の想定（22・22・10・16・30）。
+ *   - 宮崎大学 前期対策（2026-11-05 追加）：学部で問題が分かれるので系統別に各3回分（計9冊）。
+ *     教育・農（獣医）＝会話文2題・説明文・物語文・自由英作文 120〜150語（90分）／医学科＝長文総合・和文英訳・記事読解と英語での意見記述
+ *     （90分・設問は英語）／工学部＝空所補充・会話文と仕様表・随筆・説明文（60分）。配点は編集部の想定。製品・料金などの数値は架空。
  *   ★過去問ではない★ 英文・設問・図表・解答はすべて書き下ろし。過去問・解答速報・講評の文章は引用していない
  *   （英語5語以上・日本語12字以上の連続一致がないことを機械で確認済み）。表紙と奥付に「大学とは関係がない」旨を明記。
  *
@@ -103,6 +106,9 @@ export const NIJI_UNIVERSITIES = [
   { id: 'aue', name: '愛知教育大学', track: '' },
   { id: 'kagoa', name: '鹿児島大学', track: '法文・教育・医・歯・共同獣医（獣医）' },
   { id: 'kagob', name: '鹿児島大学', track: '理・工・農・水産・共同獣医（畜産）' },
+  { id: 'miyae', name: '宮崎大学', track: '教育・農（獣医）' },
+  { id: 'miyam', name: '宮崎大学', track: '医学科' },
+  { id: 'miyat', name: '宮崎大学', track: '工学部' },
 ] as const;
 export type NijiUniversityId = (typeof NIJI_UNIVERSITIES)[number]['id'];
 
@@ -160,6 +166,9 @@ const apub = (n: number, pages: number, kb: number) => mock('apub', n, pages, kb
 const aue = (n: number, pages: number, kb: number) => mock('aue', n, pages, kb);
 const kagoa = (n: number, pages: number, kb: number) => mock('kagoa', n, pages, kb);
 const kagob = (n: number, pages: number, kb: number) => mock('kagob', n, pages, kb);
+const miyae = (n: number, pages: number, kb: number) => mock('miyae', n, pages, kb);
+const miyam = (n: number, pages: number, kb: number) => mock('miyam', n, pages, kb);
+const miyat = (n: number, pages: number, kb: number) => mock('miyat', n, pages, kb);
 
 export const NIJI_MOCK_PRINTS: readonly GachaPrintDef[] = [
   nagoya(1, 28, 2026),
@@ -285,6 +294,15 @@ export const NIJI_MOCK_PRINTS: readonly GachaPrintDef[] = [
   kagob(1, 29, 2019),
   kagob(2, 29, 2000),
   kagob(3, 30, 2000),
+  miyae(1, 25, 1940),
+  miyae(2, 25, 1932),
+  miyae(3, 25, 1940),
+  miyam(1, 21, 1818),
+  miyam(2, 21, 1811),
+  miyam(3, 21, 1816),
+  miyat(1, 22, 1815),
+  miyat(2, 22, 1812),
+  miyat(3, 22, 1822),
 ];
 
 /** その大学の予想問題に必ず添える注意書き（PDF の表紙・奥付と同じ文） */

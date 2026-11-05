@@ -10,6 +10,20 @@
 
 ---
 
+## 2026-11-05 2次試験ガチャの大当たりに宮崎大学 前期対策（学部別3系統）を追加（PR: feat/niji-miyazaki）
+
+| # | どこ | 変更 | ファイル |
+|---|---|---|---|
+| 1 | 2次試験ガチャの LR | 国公立2次 英語 予想問題 宮崎大学 3系統×3回＝9冊を追加。教育・農（獣医）／医学科／工学部で問題が分かれるため系統別に作成 | `src/data/nijiMockPrints.ts`・`public/prints/print_lr_niji_{miyae,miyam,miyat}_en_{1,2,3}.pdf`・thumbs・previews |
+| 2 | ピックアップの説明文 | 収録大学に宮崎大学を追加し、学部別の文にも宮崎大学を追加 | `src/battle/core/gachaPools.ts` |
+| 3 | PDF の棚 | `miyae`・`miyam`・`miyat` を「2次 九州・沖縄」に追加 | `src/battle/core/printShelves.ts` |
+
+- 画面のレイアウトは変えていない（排出リスト・サムネイル・ちら見せ画像が増えるだけ）。表紙と奥付に「宮崎大学の過去問・公式問題ではありません。予想問題であり、大学とは関係がありません。」を明記。
+
+**戻し方**：`nijiMockPrints.ts` の `miyae`・`miyam`・`miyat`（`NIJI_UNIVERSITIES` の3行・ヘルパー3行・台帳9行・先頭コメントの宮崎の項目）を消し、`gachaPools.ts` の lrNote から「宮崎大学」を2か所消し、`printShelves.ts` の `miyae`・`miyam`・`miyat` の行を消す。`tests/nijiGacha.test.ts` の冊数を 123 に戻し、宮崎の4行を消す。PDF・thumbs・previews の `miyae`/`miyam`/`miyat` を削除し、`gachaPreviews.generated.ts` の末尾9項目を消す。
+
+---
+
 ## 2026-11-04 2次試験ガチャの大当たりに鹿児島大学 前期対策（学部別2系統）を追加（PR: feat/niji-kagoshima）
 
 | # | どこ | 変更 | ファイル |

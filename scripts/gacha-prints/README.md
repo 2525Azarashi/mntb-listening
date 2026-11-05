@@ -570,3 +570,18 @@ python3 scripts/gacha-prints/build-previews.py print_lr_niji_kagoa_en_1 …   # 
 - 1〜4（長文2題・文法の4択10問・対話の和文英訳4問）は全学部共通。5 は 5−1 自由英作文 100〜120語（`kagoa`：法文・教育・医・歯・共同獣医〈獣医〉）と 5−2 長文読解（`kagob`：理・工・農・水産・共同獣医〈畜産〉）。共通部分は両方の冊子で同じ問題。
 - 配点は編集部の想定（22・22・10・16・30）。
 - 照合：`python3 work/plag/niji_check.py kagoa kagob`（照合元に鹿児島大学 R6〜R8 の公開問題・解答例を追加）で英5語・日12字の一致0件を確認。
+
+### 宮崎大学 前期対策（学部別3系統）（2026-11-05 追加）
+
+```bash
+# 中身は webapp/pdf/{miyae,miyam,miyat}/r{1,2,3}.py
+cd webapp/pdf/miyae && python3 build.py 1      # → 予想問題_宮崎大学_英語_第1回_{問題,解答解説}.pdf
+pdfunite 予想問題_宮崎大学_英語_第1回_問題.pdf 予想問題_宮崎大学_英語_第1回_解答解説.pdf public/prints/print_lr_niji_miyae_en_1.pdf
+python3 scripts/gacha-prints/build-previews.py print_lr_niji_miyae_en_1 …   # 実行後、gachaPreviews.generated.ts は既存の並びを保ち新しい項目だけ末尾に足す
+```
+
+- `miyae`（教育・農〈獣医〉・90分）：会話文の語句補充・文補充、説明文、物語文（前半あらすじ＋後半英文）、自由英作文 120〜150語。
+- `miyam`（医学科・90分・設問は英語）：医療・健康の長文総合（和訳・日本語説明・整序・T/F 8問・約30語/約50語）、和文英訳、記事読解（語義の組み合わせ・T/F・30〜40語×2・約60語）。
+- `miyat`（工学部・60分）：短い説明文の空所補充、会話文と仕様表（条件に合う製品・プランを選ぶ）、随筆、説明文（和訳・整序・40字説明・文挿入・5語以上の感想）。
+- 地域資源創成学部は総合問題のため対象外。配点は編集部の想定（大学は配点を公表していない）。
+- 照合：`python3 work/plag/niji_check.py miyae miyam miyat`（照合元に宮崎大学 R7・R8 の公開問題・出題意図を追加）で英5語・日12字の一致0件を確認。
