@@ -10,6 +10,34 @@
 
 ---
 
+## 2026-11-04 ガチャ「ピックアップ一覧」「提供割合」の窓を整理（PR: feat/gacha-pickup-shelves）
+
+| # | 何を | どう変えた | ファイル |
+|---|---|---|---|
+| 1 | ピックアップ一覧 | 上に **LR／UR のタブ**。LR は「◯大学・◯冊」の短い説明と **地方の棚ボタン**（九州・沖縄／中国・四国／近畿／関東・中部／北海道・東北など。件数つき）を出し、選んだ地方のプリントを **大学ごとの見出し** でまとめて並べる。予想問題の注意書きは畳める（▸ を押すと開く） | `src/components/gacha/GachaPickupModal.tsx`・`src/components/gacha.css` |
+| 2 | 提供割合 | 上に **「割合・ルール」「コレクション」のタブ**。重複・入手条件は畳める。コレクションで学習プリントを選ぶと **地方の棚ボタン** → #176 の **レア度ボタン** → 持っているものだけ、の順で絞れる | `src/components/gacha/GachaCollectionModal.tsx`・`src/components/gacha.css` |
+| 3 | 文字・ボタンの大きさ | 新しいボタンは高さ44px・文字12px以上。コレクション一覧の小さい文字（カテゴリ表示）は隠し、名前を12pxに。レア度ボタンも44pxに | `gacha.css`・`src/styles/game-dashboard.css` |
+
+- 新しい大学を足したら `printShelves.ts` の `UNIV_REGION` に1行（足し忘れると「その他」の棚に入ってしまい、`tests/gachaPickup.test.ts` が落ちる）。
+
+**戻し方**：
+- 丸ごと戻す：このPRを revert。
+- ピックアップだけ戻す：`git checkout <この PR の前のコミット> -- src/components/gacha/GachaPickupModal.tsx tests/gachaPickup.test.ts`。
+- 提供割合だけ戻す：`GachaCollectionModal.tsx` を同様に戻す（#176 のレア度ボタンは残す）。
+
+---
+
+## 2026-11-04 2次試験ガチャ LR に尾道市立大学（経済情報学部）の英語 予想問題 3回分（PR: feat/niji-onomichi）
+
+| 何を | どう変えた | ファイル |
+|---|---|---|
+| 2次試験ガチャの LR | 尾道市立大学 前期（経済情報学部）英語の予想問題を3冊追加（各22ページ・問題＋解答解説・白黒）。LR の説明の大学一覧に「尾道市立大学」 | `src/data/nijiMockPrints.ts`・`src/battle/core/gachaPools.ts` |
+| ショップの PDF の棚 | 尾道市立大学を「2次 中国・四国」の棚に入れた | `src/battle/core/printShelves.ts` |
+
+**戻し方**：このPRを revert（PDF・サムネ・プレビューと台帳の3行・LR 説明の大学名・棚の1語がまとめて戻る）。
+
+---
+
 ## 2026-11-04 塾クラスの生徒は広告なし・ショップの PDF を棚（地方・教科）で整理（PR: feat/juku-noads-pdf-shelf）
 
 | # | 何を | どう変えた | ファイル |
@@ -1393,3 +1421,13 @@
 | 2次試験ガチャの表示 | LR の説明文とピックアップの注意書きに福島大学を追加。福島大の景品の詳細にも大学名入りの「過去問・公式問題ではありません」の注意書きを出す | `src/battle/core/gachaPools.ts`、`src/data/nijiMockPrints.ts` |
 
 **戻し方**：`growthItems.ts` の `FUKUSHIMA_MOCK_PRINTS`（import・ITEMS・printOf の3か所）と `gachaPools.ts` の import・`UNIV_MOCK_PRINT_IDS` から外し、`nijiMockPrints.ts` の `OTHER_MOCK_UNIVERSITIES` から fukushima を消す。`fukushimaMockPrints.ts`・`public/prints/*fukushima*`・`tests/fukushimaMockPrints.test.ts` を消して `build-previews.py` を流し直す。
+
+### 2026-11-04 2次試験ガチャ LR に宇都宮大学 前期 英語 予想問題を追加
+
+| 場所 | 変更 | ファイル |
+|---|---|---|
+| 2次試験ガチャの LR | 宇都宮大学 前期日程 英語（データサイエンス経営学部・国際学部・工学部・農学部 共通）予想問題（第1〜3回。各回「問題＋解答・解説」を1冊に統合）の3種を追加。2次試験ガチャの LR はこの3種を加えた数で等分（LR の割合 1% は同じ）。共通テストガチャには出ない | `src/data/utsunomiyaMockPrints.ts`（新規）、`src/battle/core/growthItems.ts`、`src/battle/core/gachaPools.ts`、`src/battle/core/growth.ts` |
+| 2次試験ガチャの表示 | LR の説明文とピックアップの注意書きに宇都宮大学を追加。宇都宮大の景品の詳細にも大学名入りの「過去問・公式問題ではありません」の注意書きを出す | `src/battle/core/gachaPools.ts`、`src/data/nijiMockPrints.ts` |
+| PDF の棚 | 宇都宮大の予想問題は「2次 関東・中部」の棚に並ぶ | `src/battle/core/printShelves.ts` |
+
+**戻し方**：`growthItems.ts` の `UTSUNOMIYA_MOCK_PRINTS`（import・ITEMS・printOf の3か所）と `gachaPools.ts` の import・`UNIV_MOCK_PRINT_IDS` から外し、`nijiMockPrints.ts` の `OTHER_MOCK_UNIVERSITIES`・`growth.ts` の旧ID正規化・`printShelves.ts` の `UNIV_REGION`・`tests/mockPrintPairs.test.ts` から utsunomiya を消す。`utsunomiyaMockPrints.ts`・`public/prints/*utsunomiya*`・`tests/utsunomiyaMockPrints.test.ts` を消して `build-previews.py` を流し直す。

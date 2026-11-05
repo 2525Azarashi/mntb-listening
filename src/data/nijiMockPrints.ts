@@ -31,6 +31,9 @@
  *   - 山口大学 前期対策（2026-11-03 追加）：Ⅰ 約1000語の長文（設問・解答とも英語）・Ⅱ 約1000語のエッセイ／物語（設問は日本語）・
  *     Ⅲ-1 会話文の空所に英語・Ⅲ-2 日本語の指示を英語にしてメール完成・120分・200点（65・65・30・40）。全学部共通。
  *     小問の配点は編集部の想定。3回分。
+ *   - 尾道市立大学 前期対策（経済情報学部・2026-11-04 追加）：Ⅰ・Ⅱ 約500語の読解（並べ替え・空所の語選択・語義・指示内容・抜き出し・
+ *     内容の○×）・Ⅲ 空所補充8（4択）・Ⅳ 日本文に合わせた8語の並べ替え6題（4番目と7番目）・80分・100点（33・33・16・18）。
+ *     英語の個別試験は経済情報学部だけ。小問の配点は編集部の想定。3回分。
  *   - 島根大学 前期対策（2026-11-04 追加）：1・2 は全学部共通の長文2題（1 は英語・記号で答える、2 は日本語で答える）。
  *     そのあと学部で分かれるため2系統×3回（計6冊）。法文・人間科学・総合理工・生物資源科学部用＝1・2・4（グラフを読んで約70語）・
  *     90分・200点（70・80・50）／医学部医学科用＝1・2・3（医療の長文）・5（A 和文英訳・B 約80語の意見文）・120分・300点（70・80・90・60）。
@@ -78,6 +81,7 @@ export const NIJI_UNIVERSITIES = [
   { id: 'kochim', name: '高知大学', track: '医学部医学科' },
   { id: 'tottori', name: '鳥取大学', track: '' },
   { id: 'yamaguchi', name: '山口大学', track: '' },
+  { id: 'onomichi', name: '尾道市立大学', track: '経済情報学部' },
   { id: 'shimaneh', name: '島根大学', track: '法文・人間科学・総合理工・生物資源科学部' },
   { id: 'shimanem', name: '島根大学', track: '医学部医学科' },
   { id: 'nagasakid', name: '長崎大学', track: '多文化社会・経済・医・歯・薬・工・環境科学部ほか' },
@@ -123,6 +127,7 @@ const kochie = (n: number, pages: number, kb: number) => mock('kochie', n, pages
 const kochim = (n: number, pages: number, kb: number) => mock('kochim', n, pages, kb);
 const tottori = (n: number, pages: number, kb: number) => mock('tottori', n, pages, kb);
 const yamaguchi = (n: number, pages: number, kb: number) => mock('yamaguchi', n, pages, kb);
+const onomichi = (n: number, pages: number, kb: number) => mock('onomichi', n, pages, kb);
 const shimaneh = (n: number, pages: number, kb: number) => mock('shimaneh', n, pages, kb);
 const shimanem = (n: number, pages: number, kb: number) => mock('shimanem', n, pages, kb);
 const nagasakid = (n: number, pages: number, kb: number) => mock('nagasakid', n, pages, kb);
@@ -204,6 +209,9 @@ export const NIJI_MOCK_PRINTS: readonly GachaPrintDef[] = [
   yamaguchi(1, 26, 1858),
   yamaguchi(2, 25, 1826),
   yamaguchi(3, 25, 1828),
+  onomichi(1, 22, 1693),
+  onomichi(2, 22, 1686),
+  onomichi(3, 22, 1654),
   shimaneh(1, 17, 302),
   shimaneh(2, 17, 300),
   shimaneh(3, 17, 291),
@@ -235,12 +243,13 @@ export const OTHER_MOCK_UNIVERSITIES = [
   { id: 'akita', name: '秋田大学' },
   { id: 'yamagata', name: '山形大学' },
   { id: 'fukushima', name: '福島大学' },
+  { id: 'utsunomiya', name: '宇都宮大学' },
   { id: 'kobe', name: '神戸大学' },
   { id: 'osaka', name: '大阪大学' },
   { id: 'ritsu', name: '立命館大学' },
 ] as const;
 
-/** 2次試験ガチャの予想問題（id）がどの大学のものか（名古屋・静岡に加え、北大・東北大・弘前大・岩手大・秋田大・山形大・福島大・神戸・阪大・立命館も）。予想問題でなければ undefined */
+/** 2次試験ガチャの予想問題（id）がどの大学のものか（名古屋・静岡に加え、北大・東北大・弘前大・岩手大・秋田大・山形大・福島大・宇都宮大・神戸・阪大・立命館も）。予想問題でなければ undefined */
 export function mockUniversityOf(id: string): { id: string; name: string } | undefined {
   const m = id.match(/^print_lr_([a-z]+)_(?:[qa]_)?\d+$/);
   return m ? OTHER_MOCK_UNIVERSITIES.find((u) => u.id === m[1]) : nijiUniversityOf(id);
