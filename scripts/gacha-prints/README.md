@@ -514,6 +514,21 @@ python3 ../build-previews.py print_lr_niji_tottori_en_1 print_lr_niji_tottori_en
 - 英語は英語を課す全学部の共通問題なので3回分。形式は過去3年分（令和6〜8年度）の公開問題に合わせた：［Ⅰ］［Ⅱ］長文読解（和訳・下線部説明・語義/語形・内容一致2つ）／［Ⅲ］下線部の和文英訳／［Ⅳ］40語以上の自由英作文・90分。配点は大学非公表のため本書の想定（60・60・40・40）。
 - 照合元は鳥取大学の公開問題・出題意図・解答例（令和6〜8年度。画像PDFは300dpiで全ページOCR）。本文は大学が著作権の都合で非公開にしている部分が多いが、公開部分（設問文・選択肢・自由英作文の問い）と照合し、英5語・日10字の一致と1文ごとの言い換えがどちらも0件。
 
+### 島根大学 前期対策（2026-11-04 追加）
+
+```bash
+cd scripts/gacha-prints/niji_shikoku   # 四国・鳥取と同じ道具（cfg.py に 'shimaneh'・'shimanem' を追加）
+python3 shimane/fixwords.py shimane/r*_*.py   # 指示文の決まり文句を独自の言い回しに置き換え
+python3 run.py shimaneh 1 2 3 && python3 run.py shimanem 1 2 3
+python3 plag.py shimaneh shimanem && python3 strict/gate.py shimaneh shimanem && python3 strict/para.py   # どれも 0 件（plag は記号の並びのみ）
+python3 ../build-previews.py print_lr_niji_shimaneh_en_1 print_lr_niji_shimaneh_en_2 print_lr_niji_shimaneh_en_3 print_lr_niji_shimanem_en_1 print_lr_niji_shimanem_en_2 print_lr_niji_shimanem_en_3
+```
+
+- 2系統×3回。中身は `shimane/r{n}_s1.py`（共通1）・`r{n}_s2.py`（共通2）・`r{n}_s3.py`（医3）・`r{n}_s45.py`（S4＝グラフ英作文、S5＝医の和文英訳＋意見英作文）。大問番号は過去問どおり飛び番号（`common.py` の `secno` が `S['no']` を優先）。
+  - shimaneh（法文・人間科学・総合理工・生物資源科学部・90分200点）：1 長文（英語で答える）70／2 長文（日本語で答える）80／4 グラフを読んで約70語の英作文 50
+  - shimanem（医学部医学科・120分300点）：1 70／2 80／3 医療・科学の長文 90／5 A 和文英訳・B 約80語の意見英作文 60
+- 配点は大学非公表のため本書の想定。照合元は島根大学の公開問題・出題意図（令和5〜7年度。画像PDFは全ページOCR）。英5語・日10字の一致と1文ごとの言い換えがどちらも0件。
+
 ### 山口大学 前期対策（2026-11-03 追加）
 
 ```bash
@@ -529,6 +544,22 @@ python3 scripts/gacha-prints/build-previews.py print_lr_niji_yamaguchi_en_1 prin
 - 表紙と奥付に「山口大学の過去問・公式問題ではありません。予想問題であり、大学とは関係がありません。」を明記。
 - 照合：過去問（画像PDFは200dpiで全ページOCR）・解答例・出題の意図と、英語5語・日本語12字の連続一致が 0 件（指示文の決まり文句も言い換え済み）。照合用のテキストは著作物なので git に入れない。
 - render.py が検査すること：大問ごとの配点と合計200、本文の語数（880〜1080語）・全訳の段落数、下線部の位置、英語で答える問題の語数と「本文の語句で」の語が本文にあるか、頭文字つき空所の頭文字、T/F の偏り、出来事の順番が最初から正解の順になっていないこと、Ⅲ の空所数・解答例2つずつ・採点の目安の合計。
+
+### 尾道市立大学 前期対策（経済情報学部・2026-11-04 追加）
+
+```bash
+# 中身は scripts/gacha-prints/onomichi_mock/r{1,2,3}*.py（r{n}_p1・p2（第3回は p2t に全訳）・p3（Ⅲ）・p4/p3 の P4（Ⅳ））
+python3 scripts/gacha-prints/onomichi_mock/render.py all   # → .tmpwork/onomichi/ に問題・解答解説、public/prints/ に結合PDF
+python3 scripts/gacha-prints/build-previews.py print_lr_niji_onomichi_en_1 print_lr_niji_onomichi_en_2 print_lr_niji_onomichi_en_3
+# サムネ（表紙・360×510）は山口大学と同じ作り方。src/data/nijiMockPrints.ts の pages / kb を実物に合わせる
+```
+
+- 英語の個別試験は経済情報学部 前期の「英語」だけ（日本文学科は国語、美術学科は実技）なので、経済情報学部用として3回分。80分・100点。
+- 形式は公開されている 2026 年度の問題・出題の意図・解答例の「形」だけを参考にした：Ⅰ・Ⅱ 約500語の読解（語の並べ替え・空所の語選択・語義・指示内容・抜き出し・共通する1語・内容の○×）／Ⅲ 約400語の英文の空所8か所を4択／Ⅳ 日本文に合わせて8語を並べ替え，4番目と7番目を答える（6題）。
+- 大問の配点（33・33・16・18）は公開問題にならった。小問の配点は編集部の想定。
+- 表紙と奥付に「尾道市立大学の過去問・公式問題ではありません。予想問題であり、大学とは関係がありません。」を明記。
+- 照合：公開問題（英語A・B。画像PDFは200dpiで全ページOCR）・出題の意図と、英語5語・日本語12字の連続一致が 0 件（指示文の決まり文句も言い換え済み）。照合用のテキストは著作物なので git に入れない。
+- render.py が検査すること：大問ごとの配点と合計100、本文の語数（Ⅰ・Ⅱ 480〜650語、Ⅲ 330〜500語）・全訳の段落数、下線部の番号が連番で設問とそろうこと、並べ替えの語に重複がないこと・記号の順が最初から正解にならないこと（固定の種で毎回同じ並び）、抜き出しの語が指定段落にあること、○×の偏り、Ⅲ の4択の重複。
 
 ## LR：福島大学 前期日程 英語（経済経営学類〔令和9年度から政経学部（仮称）〕 英語・小論文選択の「英語」）予想問題（3回分・白黒）2026-11-04
 

@@ -34,7 +34,7 @@ export const UNIV_REGION: Readonly<Record<string, PrintShelfId>> = {
   yamagata: 'hokkaido_tohoku', fukushima: 'hokkaido_tohoku',
   utsunomiya: 'kanto_chubu', gakugei: 'kanto_chubu', tufs: 'kanto_chubu', nagoya: 'kanto_chubu', shizuoka: 'kanto_chubu',
   omua: 'kinki', omub: 'kinki', wakayama: 'kinki', kobe: 'kinki', osaka: 'kinki', ritsu: 'kinki',
-  okayama: 'chugoku_shikoku', hiroshima: 'chugoku_shikoku', tottori: 'chugoku_shikoku', yamaguchi: 'chugoku_shikoku',
+  okayama: 'chugoku_shikoku', hiroshima: 'chugoku_shikoku', tottori: 'chugoku_shikoku', yamaguchi: 'chugoku_shikoku', onomichi: 'chugoku_shikoku', shimaneh: 'chugoku_shikoku', shimanem: 'chugoku_shikoku',
   kagawa: 'chugoku_shikoku', tokushima: 'chugoku_shikoku', ehimeh: 'chugoku_shikoku', ehimee: 'chugoku_shikoku', ehimem: 'chugoku_shikoku',
   kochij: 'chugoku_shikoku', kochik: 'chugoku_shikoku', kochie: 'chugoku_shikoku', kochim: 'chugoku_shikoku',
   kyushu: 'kyushu_okinawa', saga: 'kyushu_okinawa', kumamoto: 'kyushu_okinawa', ryukyu: 'kyushu_okinawa', fwu: 'kyushu_okinawa',

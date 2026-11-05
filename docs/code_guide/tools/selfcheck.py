@@ -28,7 +28,8 @@ def vals():
         out |= set(re.findall(r'[\w.+-]+@[\w-]+\.[\w.]+', open(f'{SRC}/{f}').read()))
     out |= set(re.findall(r'https://script\.google\.com/[^\s\'"`)]+', subprocess.run('git grep -h -o "https://script.google.com/[^ \\"\'`)]*"', shell=True, cwd=SRC, capture_output=True, text=True).stdout))
     out |= set(re.findall(r'https://docs\.google\.com/forms/[^\s\'"`)]+', open(f'{SRC}/src/features/legal/legalText.ts').read()))
-    out |= set(re.findall(r'AIza[0-9A-Za-z_-]{20,}', subprocess.run('git grep -h -o "AIza[0-9A-Za-z_-]*"', shell=True, cwd=SRC, capture_output=True, text=True).stdout))
+    # 生成物（docs/code_guide）は集める対象から外す：埋め込みフォントの base64 に偶然 AIza… の並びができると、自分自身を「秘密」と誤検知するため
+    out |= set(re.findall(r'AIza[0-9A-Za-z_-]{20,}', subprocess.run('git grep -h -o "AIza[0-9A-Za-z_-]*" -- ":!docs/code_guide"', shell=True, cwd=SRC, capture_output=True, text=True).stdout))
     return {v for v in out if len(v) >= 6}
 secret = vals()
 outs = ['interactive.html', '.work/poster.html', '.work/file-guide.html', 'data/cards.json', 'research.md', 'codemap.md'] + sorted('.work/maps/' + x for x in (os.listdir(f'{G}/.work/maps') if os.path.isdir(f'{G}/.work/maps') else []) if x.endswith('.html'))
