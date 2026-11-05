@@ -4922,7 +4922,7 @@
 "name": "types.ts",
 "folder": "src",
 "one": "対戦で使う問題・部屋・ルールなどの型をまとめる係",
-"detail": "冒頭の説明：「対戦モード — 型定義（葉モジュール・依存ゼロ） ★このファイルは他の src を一切 import しない。★ 理由: 対戦の型は「純粋ロジック（core/）」「Firestor…」BattleAnswerFormat・BattleQuestion・BattleTiebreak など16個を公開する。aiOpponent.ts・arenaRules.ts など41ファイルから読み込まれる。",
+"detail": "冒頭の説明：「対戦モード — 型定義（葉モジュール・依存ゼロ） ★このファイルは他の src を一切 import しない。★ 理由: 対戦の型は「純粋ロジック（core/）」「Firestor…」BattleAnswerFormat・BattleQuestion・BattleTiebreak など16個を公開する。aiOpponent.ts・arenaRules.ts など42ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -4948,7 +4948,7 @@
 "answerKeyOf"
 ],
 "nImports": 0,
-"nBy": 41,
+"nBy": 42,
 "draft": false,
 "sys": "battle",
 "flow": [
@@ -4986,7 +4986,7 @@
 "vocabRanges"
 ],
 "nImports": 1,
-"nBy": 4,
+"nBy": 5,
 "draft": false,
 "sys": "battle",
 "flow": [
@@ -18632,7 +18632,7 @@
 "one": "実際のブラウザで、4つの画面の大きさでの表示を確かめる係",
 "detail": "Playwright の検査スクリプト。320×568・375×667・390×844・1280×800 の4つの大きさでアプリを開き、表示とエラーの有無を確かめる。",
 "links": [],
-"lines": 95,
+"lines": 99,
 "tag": "テスト",
 "conf": "高",
 "kind": "file",
@@ -18823,7 +18823,7 @@
 "path": "package.json"
 }
 ],
-"lines": 76,
+"lines": 77,
 "tag": "テスト",
 "conf": "高",
 "kind": "file",
@@ -58595,6 +58595,34 @@
 "nBy": 0,
 "draft": true,
 "sys": "tools",
+"flow": []
+},
+{
+"id": "tests/aiUnitSelection.test.ts",
+"path": "tests/aiUnitSelection.test.ts",
+"name": "aiUnitSelection.test.ts",
+"folder": "tests",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "2件の確認（it）を持つ。主な確認：「AI battle selected-unit scope」「a normal unit contains only questions from the selected chap」。対象：types.ts・vocabRanges.ts。",
+"links": [
+{
+"dir": "to",
+"path": "src/battle/core/types.ts"
+},
+{
+"dir": "to",
+"path": "src/battle/core/vocabRanges.ts"
+}
+],
+"lines": 27,
+"tag": "テスト",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 2,
+"nBy": 0,
+"draft": true,
+"sys": "test",
 "flow": []
 },
 {

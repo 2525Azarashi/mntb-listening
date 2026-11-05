@@ -1,4 +1,4 @@
-# コード地図（文字版）— 2026年11月時点・main @1f0f9098（2026-11-05）
+# コード地図（文字版）— 2026年11月時点・[31morigin/feat/battle-friend-lobby-ai-unit-20261106[m @c67e3ccd（2026-11-05）
 
 tools/update.sh が cards.json から作る。1ファイル1行：`パス` — ひとことで（タグ・行数・使われる数）。
 【新】はカード未記入の新しいファイル、【変】は書いたあとに冒頭の説明か export が変わったファイル、【要確認】は役割を確かめきれていないファイル。
@@ -292,8 +292,8 @@ tools/update.sh が cards.json から作る。1ファイル1行：`パス` — �
 - `src/battle/core/printShelves.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（データ・70行・使われる4）
 - `src/battle/core/serverClock.ts` — 端末の時計のずれを吸収し、サーバーの時刻を推定する係（通信・247行・使われる7）
 - `src/battle/core/tobiraParts.ts` — 【変】とびら君の帽子やメガネなど着せかえの部位を決める係（データ・158行・使われる13）
-- `src/battle/core/types.ts` — 対戦で使う問題・部屋・ルールなどの型をまとめる係（データ・508行・使われる41）
-- `src/battle/core/vocabRanges.ts` — 英単語の出題範囲を表す名前を作り、範囲内か調べる係（データ・21行・使われる4）
+- `src/battle/core/types.ts` — 対戦で使う問題・部屋・ルールなどの型をまとめる係（データ・508行・使われる42）
+- `src/battle/core/vocabRanges.ts` — 英単語の出題範囲を表す名前を作り、範囲内か調べる係（データ・21行・使われる5）
 - `src/battle/data/battle.ts` — 【変】対戦のデータ保存先とのやりとりの入口をまとめる係（通信・88行・使われる17）
 - `src/battle/data/battleFriendRoom.ts` — 【変】合言葉の部屋を作る・入る・再戦用の部屋を用意する係（通信・364行・使われる2）
 - `src/battle/data/battleHistory.ts` — 自分の対戦履歴をサーバーに保存し、読み出す係（通信・61行・使われる1）
@@ -1719,7 +1719,7 @@ tools/update.sh が cards.json から作る。1ファイル1行：`パス` — �
 - `store-assets/youtube/CHAPTERS.txt` — YouTube 動画の見出し（チャプター）の時刻を並べた係（文書・7行・使われる0）
 - `store-assets/youtube/youtube_16x9.mp4` — 【変】YouTube に載せる横長（16:9）の宣伝動画の係（音声・画像・3行・使われる0）
 
-## 自動テスト（188ファイル）
+## 自動テスト（189ファイル）
 
 - `functions/core.test.mjs` — サーバー側のクラン集計の計算が正しいかを確かめる係（テスト・72行・使われる0）
 - `functions/integration.test.mjs` — 試験用の環境で、サーバー処理の流れを通して確かめる係（テスト・146行・使われる0）
@@ -1729,6 +1729,7 @@ tools/update.sh が cards.json から作る。1ファイル1行：`パス` — �
 - `store-assets/_tools/peek.py` — 宣伝素材の下見用に、主な画面をスマホの大きさで撮る係（テスト・27行・使われる0）
 - `tests/__snapshots__/sharedHash.test.ts.snap` — 日付ごとのミッションの組を、比べる用に記録しておく係（テスト・9行・使われる0）
 - `tests/ai-no-rating.test.ts` — AIやボットとの対戦では、レートが変わらないことを確かめる係（テスト・25行・使われる0）
+- `tests/aiUnitSelection.test.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（テスト・27行・使われる0）
 - `tests/akitaMockPrints.test.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（テスト・51行・使われる0）
 - `tests/androidAudioFixPresent.test.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（テスト・45行・使われる0）
 - `tests/androidBgmCrackle.test.ts` — AndroidでBGMが音割れしないための設定を確かめる係（テスト・85行・使われる0）
@@ -1857,7 +1858,7 @@ tools/update.sh が cards.json から作る。1ファイル1行：`パス` — �
 - `tests/review-group.test.ts` — 復習ノートが、間違えた小問だけを1枚にまとめるかを確かめる係（テスト・80行・使われる0）
 - `tests/reviewLaunch.test.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（テスト・55行・使われる0）
 - `tests/reviewRecordRedesign.test.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（テスト・106行・使われる0）
-- `tests/revision.browser.mjs` — 実際のブラウザで、4つの画面の大きさでの表示を確かめる係（テスト・95行・使われる0）
+- `tests/revision.browser.mjs` — 実際のブラウザで、4つの画面の大きさでの表示を確かめる係（テスト・99行・使われる0）
 - `tests/revision.test.ts` — ガチャの値段や対戦の範囲など、見直した決まりを確かめる係（テスト・74行・使われる0）
 - `tests/revisionD.browser.mjs` — 実際のブラウザで、ホームやガチャが1画面に収まるか確かめる係（テスト・112行・使われる0）
 - `tests/revisionF.test.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（テスト・72行・使われる0）
@@ -1869,7 +1870,7 @@ tools/update.sh が cards.json から作る。1ファイル1行：`パス` — �
 - `tests/shuffle.test.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（テスト・33行・使われる0）
 - `tests/stagePlay.test.ts` — ステージの挑戦の記録と、送信の予約が正しく分かれているか確かめる係（テスト・23行・使われる0）
 - `tests/standalone-online.rules.test.ts` — リスニング版で2人が対戦部屋を使えるか、ルール込みで確かめる係（テスト・114行・使われる0）
-- `tests/standalone.browser.mjs` — 実際のブラウザで、ホームの3本柱と導線が正しいかを確かめる係（テスト・76行・使われる0）
+- `tests/standalone.browser.mjs` — 実際のブラウザで、ホームの3本柱と導線が正しいかを確かめる係（テスト・77行・使われる0）
 - `tests/standalone.test.ts` — リスニング版で、リスニングが主役になっているかを確かめる係（テスト・114行・使われる0）
 - `tests/startupImportGraph.test.ts` — 【新】カードがまだ書かれていない新しいファイル。役割は要確認の係（テスト・143行・使われる0）
 - `tests/storageGuard.test.ts` — 端末の保存領域が満杯でも、アプリが落ちないかを確かめる係（テスト・38行・使われる0）

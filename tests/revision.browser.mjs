@@ -6,9 +6,13 @@ const sizes = [[320,568],[375,667],[390,844],[1280,800]];
 const errors = [];
 async function open(width, height) {
   const context = await browser.newContext({ viewport: { width, height } });
-  await context.addInitScript(() => { localStorage.setItem('savedAppState','home'); localStorage.setItem('savedIsGuest','true'); });
+  await context.addInitScript(() => {
+    localStorage.setItem('savedAppState','home');
+    localStorage.setItem('screenshot_mode','true');
+    localStorage.setItem('login_fallback_local_v1','true');
+  });
   const page = await context.newPage(); page.on('pageerror', e => errors.push(e.message));
-  await page.goto(base, {waitUntil:'domcontentloaded'}); await page.locator('.launch-start').click({ timeout: 120000 }); await page.locator('.launch-announcement-actions').getByRole('button',{name:'閉じる',exact:true}).click(); await page.locator('.game-home').waitFor();
+  await page.goto(base, {waitUntil:'domcontentloaded'}); await page.locator('.game-home').waitFor();
   await page.evaluate(async () => {
     const { emptyProgress, ITEMS } = await import('/src/battle/core/growth.ts');
     const p = emptyProgress('guest'); p.coins = 5000; p.owned.push(ITEMS.find(i=>i.kind==='print').id);

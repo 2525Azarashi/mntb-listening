@@ -9,11 +9,12 @@ try {
   page.on('response',r=>{if(r.url().startsWith(url)&&r.status()===404&&!r.url().endsWith('/sw.js'))missing.push(r.url());});
   await page.route('**/*',r=>r.request().url().startsWith(url)?r.continue():r.abort());
   await page.addInitScript(()=>{
-    localStorage.setItem('savedAppState','home');localStorage.setItem('savedIsGuest','true');
+    localStorage.setItem('savedAppState','home');localStorage.setItem('screenshot_mode','true');
+    localStorage.setItem('login_fallback_local_v1','true');
     localStorage.setItem('savedSelectedSubject','math');localStorage.setItem('bgm_enabled','off');
   });
   await page.goto(url);assert.equal(await page.title(),'マナトビ リスニング');
-  await page.locator('.launch-start').click();await page.locator('.game-home').waitFor();
+  await page.locator('.game-home').waitFor();
   for(const [width,height] of [[320,568],[390,844],[1280,900]]) {
     await page.setViewportSize({width,height});
     // 1画面ホーム（B1）。3本柱：演習する／対戦する（同じ大きさ）＋横長の復習ノート

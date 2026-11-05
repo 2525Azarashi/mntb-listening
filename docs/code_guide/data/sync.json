@@ -1,7 +1,7 @@
 {
- "commit": "1f0f9098",
+ "commit": "c67e3ccd",
  "date": "2026-11-05",
- "branch": "main",
+ "branch": "\u001b[31morigin/feat/battle-friend-lobby-ai-unit-20261106\u001b[m",
  "new": [
   ".gitattributes",
   "docs/APP_CAPACITOR_README.md",
@@ -1544,6 +1544,7 @@
   "store-assets/vocab/vocab_story_9x16.mp4",
   "store-assets/vocab/vocab_youtube_16x9.mp4",
   "store-assets/vocab/vocab_youtube_16x9_CHAPTERS.txt",
+  "tests/aiUnitSelection.test.ts",
   "tests/akitaMockPrints.test.ts",
   "tests/androidAudioFixPresent.test.ts",
   "tests/answerStability.test.ts",

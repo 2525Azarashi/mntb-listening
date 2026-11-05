@@ -1,9 +1,9 @@
 {
  "asOf": "2026年11月時点",
- "commit": "1f0f9098",
+ "commit": "c67e3ccd",
  "commitDate": "2026-11-05",
- "branch": "main",
- "tracked": 12153,
+ "branch": "\u001b[31morigin/feat/battle-friend-lobby-ai-unit-20261106\u001b[m",
+ "tracked": 12154,
  "srcFiles": 676,
  "srcLines": 134868,
  "screens": 18,
@@ -31,7 +31,7 @@
  },
  "battleTotal": 10958,
  "audio": 374,
- "cardsFile": 2230,
+ "cardsFile": 2231,
  "cardsBundle": 30,
  "bundledFiles": 9923,
  "folders": {
@@ -40,7 +40,7 @@
   "src": 684,
   "audio_sources": 519,
   "docs": 389,
-  "tests": 182,
+  "tests": 183,
   "store-assets": 111,
   "android": 55,
   "ios": 25,
@@ -55,21 +55,21 @@
   "データ": 1523,
   "文書": 1492,
   "通信": 40,
-  "テスト": 199,
+  "テスト": 200,
   "画面": 53,
   "部品": 209
  },
  "conf": {
   "高": 607,
   "中": 4,
-  "低": 1649
+  "低": 1650
  },
  "sys": {
   "native": 91,
   "tools": 1086,
   "docs": 412,
   "server": 8,
-  "test": 198,
+  "test": 199,
   "boot": 8,
   "content": 159,
   "assets": 9680,
