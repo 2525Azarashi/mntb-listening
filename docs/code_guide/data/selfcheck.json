@@ -995,6 +995,10 @@
    "カードがまだ書かれていない新しいファイル。役割は要確認の係"
   ],
   [
+   "scripts/firefly-kit/title_e6.py",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
    "scripts/firefly-kit/unify_background.py",
    "カードがまだ書かれていない新しいファイル。役割は要確認の係"
   ],
@@ -1152,6 +1156,102 @@
   ],
   [
    "scripts/gacha-prints/dump-listening.ts",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "scripts/gacha-prints/fukushima_mock/check.py",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "scripts/gacha-prints/fukushima_mock/f1.py",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "scripts/gacha-prints/fukushima_mock/f1_1.py",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "scripts/gacha-prints/fukushima_mock/f1_1q.py",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "scripts/gacha-prints/fukushima_mock/f1_2.py",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "scripts/gacha-prints/fukushima_mock/f1_4.py",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "scripts/gacha-prints/fukushima_mock/f2.py",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "scripts/gacha-prints/fukushima_mock/f2_1.py",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "scripts/gacha-prints/fukushima_mock/f2_1q.py",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "scripts/gacha-prints/fukushima_mock/f2_2.py",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "scripts/gacha-prints/fukushima_mock/f2_4.py",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "scripts/gacha-prints/fukushima_mock/f3.py",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "scripts/gacha-prints/fukushima_mock/f3_1.py",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "scripts/gacha-prints/fukushima_mock/f3_1q.py",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "scripts/gacha-prints/fukushima_mock/f3_2.py",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "scripts/gacha-prints/fukushima_mock/f3_4.py",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "scripts/gacha-prints/fukushima_mock/logo_gray.png",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "scripts/gacha-prints/fukushima_mock/logs/check.json",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "scripts/gacha-prints/fukushima_mock/logs/verify_r1.json",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "scripts/gacha-prints/fukushima_mock/logs/verify_r2.json",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "scripts/gacha-prints/fukushima_mock/logs/verify_r3.json",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "scripts/gacha-prints/fukushima_mock/probe.py",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "scripts/gacha-prints/fukushima_mock/render.py",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "scripts/gacha-prints/fukushima_mock/verify.py",
    "カードがまだ書かれていない新しいファイル。役割は要確認の係"
   ],
   [
@@ -2467,6 +2567,78 @@
    "カードがまだ書かれていない新しいファイル。役割は要確認の係"
   ],
   [
+   "scripts/gacha-prints/onomichi_mock/logo_gray.png",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "scripts/gacha-prints/onomichi_mock/pdf.mjs",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "scripts/gacha-prints/onomichi_mock/r1.py",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "scripts/gacha-prints/onomichi_mock/r1_p1.py",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "scripts/gacha-prints/onomichi_mock/r1_p2.py",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "scripts/gacha-prints/onomichi_mock/r1_p3.py",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "scripts/gacha-prints/onomichi_mock/r2.py",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "scripts/gacha-prints/onomichi_mock/r2_p1.py",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "scripts/gacha-prints/onomichi_mock/r2_p2.py",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "scripts/gacha-prints/onomichi_mock/r2_p3.py",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "scripts/gacha-prints/onomichi_mock/r3.py",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "scripts/gacha-prints/onomichi_mock/r3_p1.py",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "scripts/gacha-prints/onomichi_mock/r3_p2.py",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "scripts/gacha-prints/onomichi_mock/r3_p2t.py",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "scripts/gacha-prints/onomichi_mock/r3_p3.py",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "scripts/gacha-prints/onomichi_mock/r3_p4.py",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "scripts/gacha-prints/onomichi_mock/render.py",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "scripts/gacha-prints/onomichi_mock/style.css",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
    "scripts/gacha-prints/osaka_mock/check.py",
    "カードがまだ書かれていない新しいファイル。役割は要確認の係"
   ],
@@ -3083,6 +3255,118 @@
    "カードがまだ書かれていない新しいファイル。役割は要確認の係"
   ],
   [
+   "scripts/gacha-prints/yamagata_mock/check.py",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "scripts/gacha-prints/yamagata_mock/logo_gray.png",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "scripts/gacha-prints/yamagata_mock/logs/check.json",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "scripts/gacha-prints/yamagata_mock/logs/verify_r1.json",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "scripts/gacha-prints/yamagata_mock/logs/verify_r2.json",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "scripts/gacha-prints/yamagata_mock/logs/verify_r3.json",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "scripts/gacha-prints/yamagata_mock/probe.py",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "scripts/gacha-prints/yamagata_mock/render.py",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "scripts/gacha-prints/yamagata_mock/verify.py",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "scripts/gacha-prints/yamagata_mock/y1.py",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "scripts/gacha-prints/yamagata_mock/y1_1.py",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "scripts/gacha-prints/yamagata_mock/y1_1q.py",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "scripts/gacha-prints/yamagata_mock/y1_2.py",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "scripts/gacha-prints/yamagata_mock/y1_2q.py",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "scripts/gacha-prints/yamagata_mock/y1_2t.py",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "scripts/gacha-prints/yamagata_mock/y2.py",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "scripts/gacha-prints/yamagata_mock/y2_1.py",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "scripts/gacha-prints/yamagata_mock/y2_1q.py",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "scripts/gacha-prints/yamagata_mock/y2_1t.py",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "scripts/gacha-prints/yamagata_mock/y2_2.py",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "scripts/gacha-prints/yamagata_mock/y2_2q.py",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "scripts/gacha-prints/yamagata_mock/y2_2t.py",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "scripts/gacha-prints/yamagata_mock/y3.py",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "scripts/gacha-prints/yamagata_mock/y3_1.py",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "scripts/gacha-prints/yamagata_mock/y3_1a.py",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "scripts/gacha-prints/yamagata_mock/y3_1b.py",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "scripts/gacha-prints/yamagata_mock/y3_1q.py",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "scripts/gacha-prints/yamagata_mock/y3_1t.py",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
    "scripts/gacha-prints/yamaguchi_mock/logo_gray.png",
    "カードがまだ書かれていない新しいファイル。役割は要確認の係"
   ],
@@ -3299,6 +3583,10 @@
    "カードがまだ書かれていない新しいファイル。役割は要確認の係"
   ],
   [
+   "src/ads/adFree.ts",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
    "src/appState.ts",
    "カードがまだ書かれていない新しいファイル。役割は要確認の係"
   ],
@@ -3328,6 +3616,10 @@
   ],
   [
    "src/battle/core/gachaSets.ts",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "src/battle/core/printShelves.ts",
    "カードがまだ書かれていない新しいファイル。役割は要確認の係"
   ],
   [
@@ -3499,6 +3791,10 @@
    "カードがまだ書かれていない新しいファイル。役割は要確認の係"
   ],
   [
+   "src/components/gacha/collectionFilters.ts",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
    "src/components/home-companion.css",
    "カードがまだ書かれていない新しいファイル。役割は要確認の係"
   ],
@@ -3592,6 +3888,10 @@
   ],
   [
    "src/data/akitaMockPrints.ts",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "src/data/fukushimaMockPrints.ts",
    "カードがまだ書かれていない新しいファイル。役割は要確認の係"
   ],
   [
@@ -3995,6 +4295,10 @@
    "カードがまだ書かれていない新しいファイル。役割は要確認の係"
   ],
   [
+   "src/data/yamagataMockPrints.ts",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
    "src/features/listeningTranslation/segments.ts",
    "カードがまだ書かれていない新しいファイル。役割は要確認の係"
   ],
@@ -4092,6 +4396,10 @@
   ],
   [
    "src/hooks/useBattleReturn.ts",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "src/hooks/useJukuAdFree.ts",
    "カードがまだ書かれていない新しいファイル。役割は要確認の係"
   ],
   [
@@ -4823,11 +5131,19 @@
    "カードがまだ書かれていない新しいファイル。役割は要確認の係"
   ],
   [
+   "tests/fukushimaMockPrints.test.ts",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
    "tests/gachaBanner.test.ts",
    "カードがまだ書かれていない新しいファイル。役割は要確認の係"
   ],
   [
    "tests/gachaDeluxe.test.ts",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "tests/gachaPdfRarityFilters.test.ts",
    "カードがまだ書かれていない新しいファイル。役割は要確認の係"
   ],
   [
@@ -4883,6 +5199,10 @@
    "カードがまだ書かれていない新しいファイル。役割は要確認の係"
   ],
   [
+   "tests/jukuAdFree.test.ts",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
    "tests/kobeMockPrints.test.ts",
    "カードがまだ書かれていない新しいファイル。役割は要確認の係"
   ],
@@ -4908,6 +5228,10 @@
   ],
   [
    "tests/manualLogCore.test.ts",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "tests/mockPrintPairs.test.ts",
    "カードがまだ書かれていない新しいファイル。役割は要確認の係"
   ],
   [
@@ -4944,6 +5268,10 @@
   ],
   [
    "tests/prTool.test.ts",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
+   "tests/printShelves.test.ts",
    "カードがまだ書かれていない新しいファイル。役割は要確認の係"
   ],
   [
@@ -5103,6 +5431,10 @@
    "カードがまだ書かれていない新しいファイル。役割は要確認の係"
   ],
   [
+   "tests/yamagataMockPrints.test.ts",
+   "カードがまだ書かれていない新しいファイル。役割は要確認の係"
+  ],
+  [
    "src/assets/mntb_logo.png",
    "マナトビのロゴ画像を持つが、使う側が見つからない係"
   ],
@@ -5129,6 +5461,6 @@
    "英単語の出題範囲を表す名前を作り、範囲内か調べる係"
   ]
  ],
- "cards": 1874,
- "files": 11317
+ "cards": 1957,
+ "files": 11340
 }

@@ -1,14 +1,14 @@
 {
  "asOf": "2026年11月時点",
- "commit": "52705a74",
- "commitDate": "2026-11-03",
- "branch": "feat/elevenlabs-audio",
- "tracked": 11317,
- "srcFiles": 663,
- "srcLines": 132577,
+ "commit": "a625070c",
+ "commitDate": "2026-11-04",
+ "branch": "feat/niji-onomichi",
+ "tracked": 11340,
+ "srcFiles": 669,
+ "srcLines": 132849,
  "screens": 18,
- "testCases": 1477,
- "testFiles": 159,
+ "testCases": 1508,
+ "testFiles": 165,
  "listening": {
   "label": "英語リスニング",
   "chapters": 9,
@@ -31,16 +31,16 @@
  },
  "battleTotal": 10958,
  "audio": 374,
- "cardsFile": 1844,
+ "cardsFile": 1927,
  "cardsBundle": 30,
- "bundledFiles": 9473,
+ "bundledFiles": 9413,
  "folders": {
-  "public": 8733,
-  "scripts": 719,
-  "src": 671,
+  "public": 8673,
+  "scripts": 790,
+  "src": 677,
   "audio_sources": 500,
   "docs": 300,
-  "tests": 168,
+  "tests": 174,
   "store-assets": 111,
   "android": 55,
   "ios": 25,
@@ -50,38 +50,38 @@
   "message": 1
  },
  "tags": {
-  "設定": 201,
-  "音声・画像": 8388,
-  "データ": 1260,
-  "文書": 988,
+  "設定": 209,
+  "音声・画像": 8391,
+  "データ": 1325,
+  "文書": 928,
   "通信": 40,
-  "テスト": 185,
+  "テスト": 191,
   "画面": 53,
-  "部品": 202
+  "部品": 203
  },
  "conf": {
   "高": 607,
   "中": 4,
-  "低": 1263
+  "低": 1346
  },
  "sys": {
-  "native": 90,
-  "tools": 816,
+  "native": 91,
+  "tools": 887,
   "docs": 323,
   "server": 8,
-  "test": 184,
+  "test": 190,
   "boot": 8,
-  "content": 155,
-  "assets": 9230,
-  "screen": 227,
-  "battle": 123,
-  "logic": 135,
+  "content": 157,
+  "assets": 9170,
+  "screen": 228,
+  "battle": 124,
+  "logic": 136,
   "net": 18
  },
  "flow": {
   "solve": 83,
   "learn": 40,
   "review": 20,
-  "compete": 141
+  "compete": 142
  }
 }
