@@ -5,10 +5,11 @@
  */
 import { useEffect, useRef, useState } from 'react';
 import { Play, Square } from 'lucide-react';
-import { kyotsuAudioLabel, kyotsuAudioOf } from '../../data/kyotsuMockAudio';
+import { kyotsuAudioLabel, kyotsuAudioOf, kyotsuFullAudioOf } from '../../data/kyotsuMockAudio';
 
 export function KyotsuAudioPlayer({ printId }: { printId: string }) {
   const tracks = kyotsuAudioOf(printId);
+  const full = kyotsuFullAudioOf(printId);
   const audio = useRef<HTMLAudioElement>(null);
   const [playing, setPlaying] = useState<string | null>(null);
   const [error, setError] = useState('');
@@ -37,6 +38,13 @@ export function KyotsuAudioPlayer({ printId }: { printId: string }) {
     <details className="kyotsu-audio" data-kyotsu-audio={printId}>
       <summary>音声を聞く（{tracks.length}トラック）</summary>
       <audio ref={audio} preload="none" onEnded={() => setPlaying(null)} />
+      {/* F8：本番と同じ流れ（日本語の案内つき）で通して聞く */}
+      {full && (
+        <button type="button" className="kyotsu-audio-full" aria-pressed={playing === 'full'} data-kyotsu-track="full" onClick={() => void toggle('full', full)}>
+          {playing === 'full' ? <Square size={14} aria-hidden /> : <Play size={14} aria-hidden />}
+          通しで聞く（本番と同じ流れ）
+        </button>
+      )}
       {parts.map((part) => (
         <section key={part} aria-label={part}>
           <h4>

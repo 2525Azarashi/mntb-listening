@@ -12,6 +12,8 @@ import { kyotsuAudioOf } from '../../data/kyotsuMockAudio';
 import { mockUniversityOf, nijiDisclaimerFor } from '../../data/nijiMockPrints';
 import { DEFAULT_GACHA_POOL, type GachaPoolId } from '../../battle/core/gachaPools';
 import { ItemArt, RarityTag, pct } from '../GachaParts';
+import { KYOTSU_FREE_FULL_IDS, isFreeFullPrint } from '../../data/kyotsuMockPrints';
+import { openFullPrint } from './openFullPrint';
 
 /** 週番号を種にした決まった並べ替え（全員同じ・保存も乱数も使わない） */
 function rotate<T>(list: readonly T[], seed: number): T[] {
@@ -29,10 +31,14 @@ export function weeklyHero(items: readonly ItemDef[], week: number, urHero: Item
   return urHero;
 }
 
-/** 今週のピックアップ：中身を見られるもの（LR・厳選UR）から LR 2つ＋UR 3つ。目玉（hero）とは重ねない */
+/**
+ * 今週のピックアップ：中身を見られるもの（LR・厳選UR）から LR 2つ＋UR 3つ。目玉（hero）とは重ねない。
+ *   F5（2026-11-04）：全文を見られる第1回（KYOTSU_FREE_FULL_IDS）があるガチャでは、LR の枠の先頭に固定する。
+ */
 export function weeklyPickup(items: readonly ItemDef[], week: number, heroId?: string, lrCount = 2, urCount = 3): ItemDef[] {
   const pool = Object.keys(GACHA_PREVIEWS).map((id) => items.find((i) => i.id === id)).filter((i): i is ItemDef => !!i && i.id !== heroId);
-  const lr = rotate(pool.filter((i) => gachaRarityOf(i) === 'LR'), week).slice(0, lrCount);
+  const pinned = KYOTSU_FREE_FULL_IDS.map((id) => pool.find((i) => i.id === id)).filter((i): i is ItemDef => !!i);
+  const lr = [...pinned, ...rotate(pool.filter((i) => gachaRarityOf(i) === 'LR' && !pinned.includes(i)), week)].slice(0, lrCount);
   const ur = rotate(pool.filter((i) => gachaRarityOf(i) === 'UR'), week + 3).slice(0, urCount);
   return [...lr, ...ur];
 }
@@ -84,8 +90,13 @@ export function GachaItemDetail({ dialog, item, progress, pool = DEFAULT_GACHA_P
           {pages.map((src) => <img key={src} src={src} loading="lazy" alt={`${item.label} の一部（${src.match(/_p(\d+)\.webp$/)?.[1] ?? ''}ページ目の上半分）`} />)}
         </div>}
         {sample && <p className="gacha-detail-audio"><span>試し聞き（{sample.label}）</span><audio controls preload="none" src={sample.file} /></p>}
+        {item && print && isFreeFullPrint(item.id) && (
+          <button type="button" className="mt-btn mt-btn-gold mt-btn-block gacha-detail-full" data-gacha-free-open={item.id} onClick={() => openFullPrint(item.id, dialog)}>
+            第1回は無料｜ここを押して全文を見る（{print.pages}ページ）
+          </button>
+        )}
         {nijiUniv && <p className="gacha-detail-disclaimer" data-niji-disclaimer>※ {nijiDisclaimerFor(nijiUniv.name)}</p>}
-        <p className="gacha-detail-note">{pages.length ? '見られるのは一部の上半分だけ。全部はガチャで当てると「マイPDF」で保存できます。' : print ? 'ガチャで当てると「マイPDF」で保存できます。' : 'ガチャで当てると、とびら君に装備できます。'}</p>
+        <p className="gacha-detail-note">{isFreeFullPrint(item.id) ? '第1回は全文を見られます。見終わったら「‹ もどる」でこの画面に戻ります。' : pages.length ? '見られるのは一部の上半分だけ。全部はガチャで当てると「マイPDF」で保存できます。' : print ? 'ガチャで当てると「マイPDF」で保存できます。' : 'ガチャで当てると、とびら君に装備できます。'}</p>
       </div>}
     </dialog>
   );

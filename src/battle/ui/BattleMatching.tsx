@@ -47,6 +47,7 @@ import { Bot, Wifi, X, Zap } from 'lucide-react';
 import { subjectTheme } from '../../data/subjectTheme';
 import type { SubjectKey } from '../../data/allChapters';
 import { fetchMyRating, findOrEnqueue, leaveQueue, watchMatched } from '../data/battle';
+import { findOrEnqueueLobby, watchLobbyCreated } from '../data/battleLobby';
 import { auth } from '../../firebase';
 import { ghostProfileFor, type AiProfile } from '../core/aiOpponent';
 import { GHOST_AFTER_SEC, fallbackDecision, type GhostReason } from '../core/matchFallback';
@@ -113,13 +114,22 @@ const PHASES: { after: number; label: string; detail: string }[] = [
   },
 ];
 
-function phaseOf(elapsed: number) {
+/**
+ * ★F10（2026-11-05）対戦の部屋へのマッチ★ 教科を選ばずに相手をさがすので、「同じ教科」の文言を使わない。
+ * 段階の区切り（after）は PHASES と同じ。
+ */
+const LOBBY_PHASES: typeof PHASES = PHASES.map((p, i) => ({
+  ...p,
+  detail: ['全国から対戦相手を探しています', '対戦する相手を引き続き探しています', p.detail, p.detail][i] ?? p.detail,
+}));
+
+function phaseOf(elapsed: number, phases = PHASES) {
   // 後ろから見て、最初に条件を満たした段階を返す
-  for (let i = PHASES.length - 1; i >= 0; i -= 1) {
-    const p = PHASES[i];
+  for (let i = phases.length - 1; i >= 0; i -= 1) {
+    const p = phases[i];
     if (p && elapsed >= p.after) return p;
   }
-  return PHASES[0]!;
+  return phases[0]!;
 }
 
 export function BattleMatching({
@@ -128,8 +138,14 @@ export function BattleMatching({
   onCancel,
   onSwitchToAi,
   onGhostMatch,
+  lobby = false,
 }: {
   subject: string;
+  /**
+   * ★F10 対戦の部屋★ true なら教科を決めずにマッチし、onMatched には対戦の部屋（battle_lobbies）のIDが渡る。
+   * 部屋に入ってから2人がそれぞれ単元をえらぶ（BattleLobbyRoom）。
+   */
+  lobby?: boolean;
   onMatched: (roomId: string) => void;
   onCancel: () => void;
   /** 待ちが長いときに「AI と対戦する」導線（同じ教科で強さ選択へ） */
@@ -140,7 +156,8 @@ export function BattleMatching({
    */
   onGhostMatch?: (ghost: { profile: AiProfile; reason: GhostReason }) => void;
 }) {
-  const theme = subjectTheme(subject as SubjectKey);
+  const theme = subjectTheme((subject || undefined) as SubjectKey | undefined);
+  const titleText = lobby ? '全国対戦 ／ 対戦の部屋' : `${theme.label} ／ 全国対戦`;
   /** ★マッチング中の BGM（期待感のある短いループ。BGM 設定が OFF なら鳴らない）★ */
   const { play: playSfx } = useBattleAudio('matching');
   const [elapsed, setElapsed] = useState(0);
@@ -229,6 +246,28 @@ export function BattleMatching({
     let stopWatch: (() => void) | null = null;
     if (quotaBlocked || !online) return () => { alive = false; controller.abort(); };
 
+    if (lobby) {
+      // ★F10★ 対戦の部屋へのマッチ（仕組みは同じ：相手の票を消せた側が部屋を作る／待つ側は自分の部屋の1件だけを見張る）
+      findOrEnqueueLobby(searchId, controller.signal)
+        .then((lobbyId) => {
+          if (!alive) return;
+          if (lobbyId) { finish(lobbyId); return; }
+          stopWatch = watchLobbyCreated(searchId, (id) => { if (alive) finish(id); }, (err) => {
+            if (!alive) return;
+            retrySearch('対戦相手の検索に失敗しました。通信を確かめて、もう一度お試しください。', (err as { code?: string } | null)?.code);
+          });
+        })
+        .catch((e: Error & { code?: string }) => {
+          if (alive && !controller.signal.aborted) retrySearch(e.message, e.code);
+        });
+      return () => {
+        alive = false;
+        controller.abort();
+        stopWatch?.();
+        if (!doneRef.current) void leaveQueue(searchId);
+      };
+    }
+
     findOrEnqueue(subject, searchId, controller.signal)
       .then(({ roomId }) => {
         if (!alive) return;
@@ -271,7 +310,7 @@ export function BattleMatching({
     };
     // 検索は教科・やり直し回数・オンライン状態が変わったときだけ張り直す（コールバックの作り直しでは張り直さない）
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [subject, searchNo, online]);
+  }, [subject, searchNo, online, lobby]);
 
   /**
    * ★人がいない・サーバーが使えないときは AI プレイヤーを相手にする★
@@ -303,7 +342,8 @@ export function BattleMatching({
     onCancel();
   };
 
-  const phase = phaseOf(elapsed);
+  const phases = lobby ? LOBBY_PHASES : PHASES;
+  const phase = phaseOf(elapsed, phases);
   const mmss = `${Math.floor(elapsed / 60)}:${String(elapsed % 60).padStart(2, '0')}`;
 
   // ------------------------------------------------------------
@@ -312,7 +352,7 @@ export function BattleMatching({
   if (found) {
     return (
       <BattleShell className="arena-matching">
-        <BattleTitle subtitle={`${theme.label} ／ 全国対戦`} />
+        <BattleTitle subtitle={titleText} />
       <ArenaFighters matched />
         <div className="flex flex-1 flex-col items-center justify-center gap-6 py-10">
           <div className="relative flex h-32 w-32 items-center justify-center">
@@ -336,7 +376,7 @@ export function BattleMatching({
           </p>
           <p className="text-xs font-bold" style={{ color: INK_SUB }} data-ghost-reason={ghostReason || undefined}>
             {/* ★全国対戦では AI が相手でも「AI」とは出さない（2026-10-01 夜）★ data-ghost-reason はテスト用 */}
-            部屋を用意しています…
+            {lobby ? '対戦の部屋に入ります…' : '部屋を用意しています…'}
           </p>
         </div>
       </BattleShell>
@@ -367,7 +407,7 @@ export function BattleMatching({
         </div>
       }
     >
-      <BattleTitle subtitle={`${theme.label} ／ 全国対戦`} />
+      <BattleTitle subtitle={titleText} />
       <ArenaFighters waiting />
 
       <div className="arena-search-content flex flex-1 flex-col items-center justify-center gap-5 py-6">
@@ -411,7 +451,7 @@ export function BattleMatching({
           これは偽の進捗ではない。
         */}
         <ol className="flex items-center gap-1.5" aria-label="探索の段階">
-          {PHASES.map((p) => {
+          {phases.map((p) => {
             const on = elapsed >= p.after;
             return (
               <li
@@ -441,7 +481,9 @@ export function BattleMatching({
           style={{ color: INK_SUB }}
         >
           <Wifi size={12} className="shrink-0" />
-          相手が見つかると自動で始まります。この画面を離れると、さがすのをやめます。
+          {lobby
+            ? '相手が見つかると対戦の部屋に入り、2人で単元をえらびます。'
+            : '相手が見つかると自動で始まります。この画面を離れると、さがすのをやめます。'}
         </p>
       </div>
     </BattleShell>

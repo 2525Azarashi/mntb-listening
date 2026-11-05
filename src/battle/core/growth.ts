@@ -108,7 +108,7 @@ export function normalizeProgress(uid: string, raw: unknown): GrowthProgress {
     }
   }
   const owned = strList(r.owned).map((id) =>
-    id.replace(/^(print_lr_(?:kobe|ritsu|hokudai|tohoku|hirosaki|iwate|akita|yamagata|fukushima|utsunomiya|osaka))_[qa]_(\d+)$/, '$1_$2'),
+    id.replace(/^(print_lr_(?:kobe|ritsu|hokudai|tohoku|hirosaki|iwate|akita|yamagata|fukushima|utsunomiya|gunma|osaka))_[qa]_(\d+)$/, '$1_$2'),
   );
   return {
     uid,
@@ -176,14 +176,37 @@ function normalizeBestBy(raw: unknown, num: (v: unknown, d: number) => number): 
 // 演習（ひとりで解く）の報酬
 // ============================================================
 
-/** 演習で大問を1問得点したときの報酬 */
+/** 演習で大問を1問得点したときの報酬（coins は「ふつう」の目安。実際は studyCoinsFor で 2〜5枚） */
 export const STUDY_REWARD = { xp: 15, coins: 3 } as const;
 
-export function applyStudySolved(progress: GrowthProgress, today: string, now: number = Date.now(), streak = 0): { next: GrowthProgress; reward: { xp: number; coins: number } } {
+/**
+ * F3（2026-11-04）：正解したときのマナコインを 2〜5枚で上下させる。
+ *   基本 2枚
+ *   ＋スピード：制限時間の 40%以内で解けたら +2、70%以内なら +1（時間の記録がない問題は +1＝ふつう）
+ *   ＋れんぞく正解：3問以上つづけて正解していたら +1
+ *   → 2〜5枚に収める。同じ大問は1日1回だけ（今までどおり）。XP は 15 のまま。
+ */
+export const STUDY_COINS_MIN = 2;
+export const STUDY_COINS_MAX = 5;
+export function studyCoinsFor(opts: { timeUsed?: number; timeLimit?: number; streak?: number } = {}): number {
+  const { timeUsed, timeLimit, streak = 0 } = opts;
+  let coins = STUDY_COINS_MIN;
+  if (timeLimit && timeLimit > 0 && Number.isFinite(timeUsed) && (timeUsed as number) >= 0) {
+    const ratio = (timeUsed as number) / timeLimit;
+    coins += ratio <= 0.4 ? 2 : ratio <= 0.7 ? 1 : 0;
+  } else {
+    coins += 1;
+  }
+  if (streak >= 3) coins += 1;
+  return Math.max(STUDY_COINS_MIN, Math.min(STUDY_COINS_MAX, coins));
+}
+
+export function applyStudySolved(progress: GrowthProgress, today: string, now: number = Date.now(), streak = 0, timing: { timeUsed?: number; timeLimit?: number } = {}): { next: GrowthProgress; reward: { xp: number; coins: number } } {
+  const coins = studyCoinsFor({ ...timing, streak });
   const next: GrowthProgress = {
     ...progress,
     xp: progress.xp + STUDY_REWARD.xp,
-    coins: progress.coins + STUDY_REWARD.coins,
+    coins: progress.coins + coins,
     studySolved: progress.studySolved + 1,
     daily: bumpMissions(progress.daily, today, (m) => {
       if (m.kind === 'study') return 1;
@@ -192,7 +215,7 @@ export function applyStudySolved(progress: GrowthProgress, today: string, now: n
       return 0;
     }),
   };
-  return { next: withAchievements(next, now), reward: { ...STUDY_REWARD } };
+  return { next: withAchievements(next, now), reward: { xp: STUDY_REWARD.xp, coins } };
 }
 
 // ============================================================

@@ -90,3 +90,24 @@ export function groupStudyLogByDay(entries: StudyLogEntry[], now = Date.now()): 
   }
   return [...map.values()].sort((a, b) => (a.date < b.date ? 1 : -1));
 }
+
+/**
+ * F9（2026-11-04）：まちがえた小問を、あとで正解したか。
+ *   ・それより新しい記録（同じ大問・同じ小問）で正解している
+ *   ・または復習ノートで「正解した」になっている（correctKeys＝`章ID::大問ID::小問ID` で、まちがえた時刻より後）
+ */
+export function fixedLaterIds(entries: StudyLogEntry[], correctAt: ReadonlyMap<string, number> = new Map()): Set<string> {
+  const out = new Set<string>();
+  for (const e of entries) {
+    for (const i of e.items) {
+      if (i.correct) continue;
+      const id = `${e.key}|${i.id}`;
+      const reviewKey = e.chapterId && e.questionId ? `${e.chapterId}::${e.questionId}::${i.id}` : '';
+      if (reviewKey && (correctAt.get(reviewKey) ?? 0) > e.at) { out.add(id); continue; }
+      const later = entries.some((o) => o.at > e.at && o.kind === e.kind && o.chapterId === e.chapterId && o.questionId === e.questionId
+        && o.items.some((x) => x.id === i.id && x.correct));
+      if (later) out.add(id);
+    }
+  }
+  return out;
+}

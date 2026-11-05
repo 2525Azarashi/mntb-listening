@@ -30,11 +30,12 @@ describe('お供', () => {
     const got = equipItem({ ...p, owned: [...p.owned, 'comp_key_aurora'] }, 'comp_key_aurora');
     expect(equippedCompanion(got)).toBe('key_aurora');
   });
-  it('お供の見た目はすべて登録ずみ・ガチャから出るのは6色', () => {
+  it('お供の見た目はすべて登録ずみ・ガチャから出るのは18色・ショップに7色（F7 2026-11-04 増量）', () => {
     const comps = ITEMS.filter(i => i.kind === 'companion');
-    expect(comps.length).toBe(7);
+    expect(comps.length).toBe(26);
     for (const c of comps) expect(COMPANIONS[c.value], c.id).toBeTruthy();
-    expect(comps.filter(c => c.gacha).length).toBe(6);
+    expect(comps.filter(c => c.gacha).length).toBe(18);
+    expect(comps.filter(c => 'coins' in c.unlock).length).toBe(7);
     expect(itemById(DEFAULT_COMPANION)?.gacha).toBeFalsy();
   });
 });

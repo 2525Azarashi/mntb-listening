@@ -19,6 +19,8 @@ import { RarityTag, pct } from '../GachaParts';
 import { DEFAULT_GACHA_POOL, gachaPoolOf, type GachaPoolId } from '../../battle/core/gachaPools';
 import { NIJI_DISCLAIMER, mockUniversityOf, nijiUniversityOf } from '../../data/nijiMockPrints';
 import { PRINT_SHELVES, printShelfOf, type PrintShelfId } from '../../battle/core/printShelves';
+import { KYOTSU_FREE_FULL_IDS } from '../../data/kyotsuMockPrints';
+import { openFullPrint } from './openFullPrint';
 
 /** ピックアップに出すアイテム（LR → UR の順。画像があるものだけ） */
 export function pickupItems(items: readonly ItemDef[]): ItemDef[] {
@@ -110,6 +112,8 @@ export function GachaPickupModal({ dialog, items, progress, pool = DEFAULT_GACHA
 }) {
   const list = pickupItems(items);
   const def = gachaPoolOf(pool);
+  // F5（2026-11-04）：共通テストガチャは、第1回（全文を見られる）を一番上に固定する
+  const free = pool === 'kyotsu' ? KYOTSU_FREE_FULL_IDS.map((id) => printOf(id)).filter((p): p is NonNullable<typeof p> => !!p) : [];
   const lr = list.filter((i) => gachaRarityOf(i) === 'LR');
   const ur = list.filter((i) => gachaRarityOf(i) !== 'LR');
   const shelves = pickupShelves(lr);
@@ -140,6 +144,26 @@ export function GachaPickupModal({ dialog, items, progress, pool = DEFAULT_GACHA
             <summary>※ 各大学の過去問・公式問題ではありません（予想問題）。収録している大学を見る</summary>
             <p className="gacha-detail-disclaimer">※ {NIJI_DISCLAIMER}</p>
           </details>
+        )}
+        {free.length > 0 && (
+          <section className="gacha-pickup-free" aria-labelledby="gacha-pickup-free" data-gacha-free-full>
+            <h3 id="gacha-pickup-free">第1回は全文を見られます</h3>
+            <p>ここを押すと、全ページを見られます（ガチャで当てなくてOK）。見終わったら「‹ もどる」でこの画面に戻ります。</p>
+            <ul>
+              {free.map((p) => (
+                <li key={p.id}>
+                  <button type="button" className="gacha-pickup-free-btn" data-gacha-free-open={p.id} onClick={() => openFullPrint(p.id, dialog)}>
+                    <img src={p.thumb} alt="" loading="lazy" width={40} height={56} />
+                    <span>
+                      <span className="gacha-pickup-meta"><RarityTag rarity="LR" />{p.pages}ページ{kyotsuAudioOf(p.id).length ? ' · 音声つき' : ''}</span>
+                      <strong>{p.label}</strong>
+                    </span>
+                    <em>全文を見る</em>
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </section>
         )}
         <div className="gacha-pickup-tabs" role="tablist" aria-label="レア度">
           {([['LR', `LR ${def.lrName}`, lr.length], ['UR', '厳選UR 完全版の本', ur.length]] as const).map(([id, label, n]) => (

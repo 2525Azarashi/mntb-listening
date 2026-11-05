@@ -1,0 +1,678 @@
+{
+  "method": "vosk（英語・小）で単語の時刻を取り、台本（set{n}_l.py）と difflib で突き合わせ。問と問の境目は「前の問の最後の一致語〜次の問の最初の一致語」の間でいちばん静かな50ms。第1・2問(q01-q11)は同じ音声を4秒あけて2回つなぐ。libmp3lame -q:a 6・モノラル・44.1kHz",
+  "output_dir": "public/prints/kyotsu_assets/audio/",
+  "segments": [
+    {
+      "round": 2,
+      "source": "ElevenLabs_2026-11-03T14_48_11_Mark - Natural Conversations_pvc_sp100_s44_sb75_v4.mp3",
+      "start": 0.0,
+      "end": 3.67,
+      "out": "kyotsu_l2_q01.mp3"
+    },
+    {
+      "round": 2,
+      "source": "ElevenLabs_2026-11-03T14_48_11_Mark - Natural Conversations_pvc_sp100_s44_sb75_v4.mp3",
+      "start": 3.67,
+      "end": 8.4,
+      "out": "kyotsu_l2_q02.mp3"
+    },
+    {
+      "round": 2,
+      "source": "ElevenLabs_2026-11-03T14_48_11_Mark - Natural Conversations_pvc_sp100_s44_sb75_v4.mp3",
+      "start": 8.4,
+      "end": 12.55,
+      "out": "kyotsu_l2_q03.mp3"
+    },
+    {
+      "round": 2,
+      "source": "ElevenLabs_2026-11-03T14_48_11_Mark - Natural Conversations_pvc_sp100_s44_sb75_v4.mp3",
+      "start": 12.55,
+      "end": 16.26,
+      "out": "kyotsu_l2_q04.mp3"
+    },
+    {
+      "round": 2,
+      "source": "ElevenLabs_2026-11-03T14_48_11_Mark - Natural Conversations_pvc_sp100_s44_sb75_v4.mp3",
+      "start": 16.26,
+      "end": 20.97,
+      "out": "kyotsu_l2_q05.mp3"
+    },
+    {
+      "round": 2,
+      "source": "ElevenLabs_2026-11-03T14_48_11_Mark - Natural Conversations_pvc_sp100_s44_sb75_v4.mp3",
+      "start": 20.97,
+      "end": 23.99,
+      "out": "kyotsu_l2_q06.mp3"
+    },
+    {
+      "round": 2,
+      "source": "ElevenLabs_2026-11-03T14_48_11_Mark - Natural Conversations_pvc_sp100_s44_sb75_v4.mp3",
+      "start": 23.99,
+      "end": 26.44,
+      "out": "kyotsu_l2_q07.mp3"
+    },
+    {
+      "round": 2,
+      "source": "ElevenLabs_2026-11-03T14_56_23_Hope - upbeat and clear_pvc_sp96_s50_sb75_v4.mp3",
+      "start": 0.0,
+      "end": 16.55,
+      "out": "kyotsu_l2_q08.mp3"
+    },
+    {
+      "round": 2,
+      "source": "ElevenLabs_2026-11-03T14_56_23_Hope - upbeat and clear_pvc_sp96_s50_sb75_v4.mp3",
+      "start": 16.55,
+      "end": 28.62,
+      "out": "kyotsu_l2_q09.mp3"
+    },
+    {
+      "round": 2,
+      "source": "ElevenLabs_2026-11-03T14_56_23_Hope - upbeat and clear_pvc_sp96_s50_sb75_v4.mp3",
+      "start": 28.62,
+      "end": 45.19,
+      "out": "kyotsu_l2_q10.mp3"
+    },
+    {
+      "round": 2,
+      "source": "ElevenLabs_2026-11-03T14_56_23_Hope - upbeat and clear_pvc_sp96_s50_sb75_v4.mp3",
+      "start": 45.19,
+      "end": 57.63,
+      "out": "kyotsu_l2_q11.mp3"
+    },
+    {
+      "round": 2,
+      "source": "ElevenLabs_2026-11-03T15_04_05_Jenna - Warm, Soft, and Sultry_pvc_sp100_s50_sb75_v4.mp3",
+      "start": 0.0,
+      "end": 10.02,
+      "out": "kyotsu_l2_q12.mp3"
+    },
+    {
+      "round": 2,
+      "source": "ElevenLabs_2026-11-03T15_04_05_Jenna - Warm, Soft, and Sultry_pvc_sp100_s50_sb75_v4.mp3",
+      "start": 10.02,
+      "end": 21.07,
+      "out": "kyotsu_l2_q13.mp3"
+    },
+    {
+      "round": 2,
+      "source": "ElevenLabs_2026-11-03T15_04_05_Jenna - Warm, Soft, and Sultry_pvc_sp100_s50_sb75_v4.mp3",
+      "start": 21.07,
+      "end": 31.95,
+      "out": "kyotsu_l2_q14.mp3"
+    },
+    {
+      "round": 2,
+      "source": "ElevenLabs_2026-11-03T15_04_05_Jenna - Warm, Soft, and Sultry_pvc_sp100_s50_sb75_v4.mp3",
+      "start": 31.95,
+      "end": 43.18,
+      "out": "kyotsu_l2_q15.mp3"
+    },
+    {
+      "round": 2,
+      "source": "ElevenLabs_2026-11-03T15_04_05_Jenna - Warm, Soft, and Sultry_pvc_sp100_s50_sb75_v4.mp3",
+      "start": 43.18,
+      "end": 52.31,
+      "out": "kyotsu_l2_q16.mp3"
+    },
+    {
+      "round": 2,
+      "source": "ElevenLabs_2026-11-03T15_04_05_Jenna - Warm, Soft, and Sultry_pvc_sp100_s50_sb75_v4.mp3",
+      "start": 52.31,
+      "end": 62.12,
+      "out": "kyotsu_l2_q17.mp3"
+    },
+    {
+      "round": 2,
+      "source": "ElevenLabs_2026-11-03T15_08_41_Adam - Distinct, Deep and Engaging_pvc_sp100_s50_sb75_v4.mp3",
+      "start": 0.0,
+      "end": 16.76,
+      "out": "kyotsu_l2_q18-21.mp3"
+    },
+    {
+      "round": 2,
+      "source": "ElevenLabs_2026-11-03T15_08_41_Adam - Distinct, Deep and Engaging_pvc_sp100_s50_sb75_v4.mp3",
+      "start": 16.76,
+      "end": 36.64,
+      "out": "kyotsu_l2_q22-25.mp3"
+    },
+    {
+      "round": 2,
+      "source": "ElevenLabs_2026-11-03T15_08_41_Adam - Distinct, Deep and Engaging_pvc_sp100_s50_sb75_v4.mp3",
+      "start": 36.64,
+      "end": 69.92,
+      "out": "kyotsu_l2_q26.mp3"
+    },
+    {
+      "round": 2,
+      "source": "ElevenLabs_2026-11-03T15_08_41_Adam - Distinct, Deep and Engaging_pvc_sp100_s50_sb75_v4.mp3",
+      "start": 69.92,
+      "end": 129.21,
+      "out": "kyotsu_l2_q27-32.mp3"
+    },
+    {
+      "round": 2,
+      "source": "ElevenLabs_2026-11-03T15_08_41_Adam - Distinct, Deep and Engaging_pvc_sp100_s50_sb75_v4.mp3",
+      "start": 129.21,
+      "end": 143.96,
+      "out": "kyotsu_l2_q33.mp3"
+    },
+    {
+      "round": 2,
+      "source": "ElevenLabs_2026-11-03T15_12_19_Jarnathan - Confident and Versatile_pvc_sp100_s18_sb75_v4.mp3",
+      "start": 0.0,
+      "end": 29.06,
+      "out": "kyotsu_l2_q34-35.mp3"
+    },
+    {
+      "round": 2,
+      "source": "ElevenLabs_2026-11-03T15_12_19_Jarnathan - Confident and Versatile_pvc_sp100_s18_sb75_v4.mp3",
+      "start": 29.06,
+      "end": 61.23,
+      "out": "kyotsu_l2_q36-37.mp3"
+    },
+    {
+      "round": 3,
+      "source": "ElevenLabs_2026-11-03T15_18_18_Jessica - Playful, Bright, Warm_pvc_sp100_s50_sb75_v4.mp3",
+      "start": 0.0,
+      "end": 4.58,
+      "out": "kyotsu_l3_q01.mp3"
+    },
+    {
+      "round": 3,
+      "source": "ElevenLabs_2026-11-03T15_18_18_Jessica - Playful, Bright, Warm_pvc_sp100_s50_sb75_v4.mp3",
+      "start": 4.58,
+      "end": 8.03,
+      "out": "kyotsu_l3_q02.mp3"
+    },
+    {
+      "round": 3,
+      "source": "ElevenLabs_2026-11-03T15_18_18_Jessica - Playful, Bright, Warm_pvc_sp100_s50_sb75_v4.mp3",
+      "start": 8.03,
+      "end": 11.35,
+      "out": "kyotsu_l3_q03.mp3"
+    },
+    {
+      "round": 3,
+      "source": "ElevenLabs_2026-11-03T15_18_18_Jessica - Playful, Bright, Warm_pvc_sp100_s50_sb75_v4.mp3",
+      "start": 11.35,
+      "end": 15.54,
+      "out": "kyotsu_l3_q04.mp3"
+    },
+    {
+      "round": 3,
+      "source": "ElevenLabs_2026-11-03T15_18_18_Jessica - Playful, Bright, Warm_pvc_sp100_s50_sb75_v4.mp3",
+      "start": 15.54,
+      "end": 18.02,
+      "out": "kyotsu_l3_q05.mp3"
+    },
+    {
+      "round": 3,
+      "source": "ElevenLabs_2026-11-03T15_18_18_Jessica - Playful, Bright, Warm_pvc_sp100_s50_sb75_v4.mp3",
+      "start": 18.02,
+      "end": 19.98,
+      "out": "kyotsu_l3_q06.mp3"
+    },
+    {
+      "round": 3,
+      "source": "ElevenLabs_2026-11-03T15_18_18_Jessica - Playful, Bright, Warm_pvc_sp100_s50_sb75_v4.mp3",
+      "start": 19.98,
+      "end": 22.28,
+      "out": "kyotsu_l3_q07.mp3"
+    },
+    {
+      "round": 3,
+      "source": "ElevenLabs_2026-11-03T15_23_32_Hope - upbeat and clear_pvc_sp96_s50_sb75_v4.mp3",
+      "start": 0.0,
+      "end": 12.02,
+      "out": "kyotsu_l3_q08.mp3"
+    },
+    {
+      "round": 3,
+      "source": "ElevenLabs_2026-11-03T15_23_32_Hope - upbeat and clear_pvc_sp96_s50_sb75_v4.mp3",
+      "start": 12.02,
+      "end": 25.48,
+      "out": "kyotsu_l3_q09.mp3"
+    },
+    {
+      "round": 3,
+      "source": "ElevenLabs_2026-11-03T15_23_32_Hope - upbeat and clear_pvc_sp96_s50_sb75_v4.mp3",
+      "start": 25.48,
+      "end": 38.49,
+      "out": "kyotsu_l3_q10.mp3"
+    },
+    {
+      "round": 3,
+      "source": "ElevenLabs_2026-11-03T15_23_32_Hope - upbeat and clear_pvc_sp96_s50_sb75_v4.mp3",
+      "start": 38.49,
+      "end": 52.43,
+      "out": "kyotsu_l3_q11.mp3"
+    },
+    {
+      "round": 3,
+      "source": "ElevenLabs_2026-11-03T15_28_19_Mark - Natural Conversations_pvc_sp100_s44_sb75_v4.mp3",
+      "start": 0.0,
+      "end": 9.08,
+      "out": "kyotsu_l3_q12.mp3"
+    },
+    {
+      "round": 3,
+      "source": "ElevenLabs_2026-11-03T15_28_19_Mark - Natural Conversations_pvc_sp100_s44_sb75_v4.mp3",
+      "start": 9.08,
+      "end": 20.17,
+      "out": "kyotsu_l3_q13.mp3"
+    },
+    {
+      "round": 3,
+      "source": "ElevenLabs_2026-11-03T15_28_19_Mark - Natural Conversations_pvc_sp100_s44_sb75_v4.mp3",
+      "start": 20.17,
+      "end": 26.42,
+      "out": "kyotsu_l3_q14.mp3"
+    },
+    {
+      "round": 3,
+      "source": "ElevenLabs_2026-11-03T15_28_19_Mark - Natural Conversations_pvc_sp100_s44_sb75_v4.mp3",
+      "start": 26.42,
+      "end": 35.87,
+      "out": "kyotsu_l3_q15.mp3"
+    },
+    {
+      "round": 3,
+      "source": "ElevenLabs_2026-11-03T15_28_19_Mark - Natural Conversations_pvc_sp100_s44_sb75_v4.mp3",
+      "start": 35.87,
+      "end": 46.57,
+      "out": "kyotsu_l3_q16.mp3"
+    },
+    {
+      "round": 3,
+      "source": "ElevenLabs_2026-11-03T15_28_19_Mark - Natural Conversations_pvc_sp100_s44_sb75_v4.mp3",
+      "start": 46.57,
+      "end": 57.0,
+      "out": "kyotsu_l3_q17.mp3"
+    },
+    {
+      "round": 3,
+      "source": "ElevenLabs_2026-11-03T15_32_59_Lauren - Friendly, Comforting and Soft_pvc_sp100_s50_sb75_v4.mp3",
+      "start": 0.0,
+      "end": 27.47,
+      "out": "kyotsu_l3_q18-21.mp3"
+    },
+    {
+      "round": 3,
+      "source": "ElevenLabs_2026-11-03T15_32_59_Lauren - Friendly, Comforting and Soft_pvc_sp100_s50_sb75_v4.mp3",
+      "start": 27.47,
+      "end": 51.09,
+      "out": "kyotsu_l3_q22-25.mp3"
+    },
+    {
+      "round": 3,
+      "source": "ElevenLabs_2026-11-03T15_32_59_Lauren - Friendly, Comforting and Soft_pvc_sp100_s50_sb75_v4.mp3",
+      "start": 51.09,
+      "end": 90.47,
+      "out": "kyotsu_l3_q26.mp3"
+    },
+    {
+      "round": 3,
+      "source": "ElevenLabs_2026-11-03T15_32_59_Lauren - Friendly, Comforting and Soft_pvc_sp100_s50_sb75_v4.mp3",
+      "start": 90.47,
+      "end": 147.62,
+      "out": "kyotsu_l3_q27-32.mp3"
+    },
+    {
+      "round": 3,
+      "source": "ElevenLabs_2026-11-03T15_32_59_Lauren - Friendly, Comforting and Soft_pvc_sp100_s50_sb75_v4.mp3",
+      "start": 147.62,
+      "end": 164.91,
+      "out": "kyotsu_l3_q33.mp3"
+    },
+    {
+      "round": 3,
+      "source": "ElevenLabs_2026-11-03T15_35_48_Flint - Deep, Raspy, and Warm_pvc_sp100_s94_sb90_v4.mp3",
+      "start": 0.0,
+      "end": 23.76,
+      "out": "kyotsu_l3_q34-35.mp3"
+    },
+    {
+      "round": 3,
+      "source": "ElevenLabs_2026-11-03T15_35_48_Flint - Deep, Raspy, and Warm_pvc_sp100_s94_sb90_v4.mp3",
+      "start": 23.76,
+      "end": 57.08,
+      "out": "kyotsu_l3_q36-37.mp3"
+    },
+    {
+      "round": 4,
+      "source": "ElevenLabs_2026-11-03T15_45_17_Cassidy - Crisp, Direct and Clear_pvc_sp100_s50_sb75_v4.mp3",
+      "start": 0.0,
+      "end": 3.8,
+      "out": "kyotsu_l4_q01.mp3"
+    },
+    {
+      "round": 4,
+      "source": "ElevenLabs_2026-11-03T15_45_17_Cassidy - Crisp, Direct and Clear_pvc_sp100_s50_sb75_v4.mp3",
+      "start": 3.8,
+      "end": 6.88,
+      "out": "kyotsu_l4_q02.mp3"
+    },
+    {
+      "round": 4,
+      "source": "ElevenLabs_2026-11-03T15_45_17_Cassidy - Crisp, Direct and Clear_pvc_sp100_s50_sb75_v4.mp3",
+      "start": 6.88,
+      "end": 10.27,
+      "out": "kyotsu_l4_q03.mp3"
+    },
+    {
+      "round": 4,
+      "source": "ElevenLabs_2026-11-03T15_45_17_Cassidy - Crisp, Direct and Clear_pvc_sp100_s50_sb75_v4.mp3",
+      "start": 10.27,
+      "end": 14.34,
+      "out": "kyotsu_l4_q04.mp3"
+    },
+    {
+      "round": 4,
+      "source": "ElevenLabs_2026-11-03T15_45_17_Cassidy - Crisp, Direct and Clear_pvc_sp100_s50_sb75_v4.mp3",
+      "start": 14.34,
+      "end": 17.6,
+      "out": "kyotsu_l4_q05.mp3"
+    },
+    {
+      "round": 4,
+      "source": "ElevenLabs_2026-11-03T15_45_17_Cassidy - Crisp, Direct and Clear_pvc_sp100_s50_sb75_v4.mp3",
+      "start": 17.6,
+      "end": 18.87,
+      "out": "kyotsu_l4_q06.mp3"
+    },
+    {
+      "round": 4,
+      "source": "ElevenLabs_2026-11-03T15_45_17_Cassidy - Crisp, Direct and Clear_pvc_sp100_s50_sb75_v4.mp3",
+      "start": 18.87,
+      "end": 20.36,
+      "out": "kyotsu_l4_q07.mp3"
+    },
+    {
+      "round": 4,
+      "source": "ElevenLabs_2026-11-03T15_45_17_Cassidy - Crisp, Direct and Clear_pvc_sp100_s50_sb75_v4.mp3",
+      "start": 20.36,
+      "end": 34.09,
+      "out": "kyotsu_l4_q08.mp3"
+    },
+    {
+      "round": 4,
+      "source": "ElevenLabs_2026-11-03T15_45_17_Cassidy - Crisp, Direct and Clear_pvc_sp100_s50_sb75_v4.mp3",
+      "start": 34.09,
+      "end": 47.5,
+      "out": "kyotsu_l4_q09.mp3"
+    },
+    {
+      "round": 4,
+      "source": "ElevenLabs_2026-11-03T15_45_17_Cassidy - Crisp, Direct and Clear_pvc_sp100_s50_sb75_v4.mp3",
+      "start": 47.5,
+      "end": 61.07,
+      "out": "kyotsu_l4_q10.mp3"
+    },
+    {
+      "round": 4,
+      "source": "ElevenLabs_2026-11-03T15_45_17_Cassidy - Crisp, Direct and Clear_pvc_sp100_s50_sb75_v4.mp3",
+      "start": 61.07,
+      "end": 73.56,
+      "out": "kyotsu_l4_q11.mp3"
+    },
+    {
+      "round": 4,
+      "source": "ElevenLabs_2026-11-03T15_52_49_Mark - Natural Conversations_pvc_sp100_s44_sb75_v4.mp3",
+      "start": 0.0,
+      "end": 6.71,
+      "out": "kyotsu_l4_q12.mp3"
+    },
+    {
+      "round": 4,
+      "source": "ElevenLabs_2026-11-03T15_52_49_Mark - Natural Conversations_pvc_sp100_s44_sb75_v4.mp3",
+      "start": 6.71,
+      "end": 14.05,
+      "out": "kyotsu_l4_q13.mp3"
+    },
+    {
+      "round": 4,
+      "source": "ElevenLabs_2026-11-03T15_52_49_Mark - Natural Conversations_pvc_sp100_s44_sb75_v4.mp3",
+      "start": 14.05,
+      "end": 24.48,
+      "out": "kyotsu_l4_q14.mp3"
+    },
+    {
+      "round": 4,
+      "source": "ElevenLabs_2026-11-03T15_52_49_Mark - Natural Conversations_pvc_sp100_s44_sb75_v4.mp3",
+      "start": 24.48,
+      "end": 32.77,
+      "out": "kyotsu_l4_q15.mp3"
+    },
+    {
+      "round": 4,
+      "source": "ElevenLabs_2026-11-03T15_52_49_Mark - Natural Conversations_pvc_sp100_s44_sb75_v4.mp3",
+      "start": 32.77,
+      "end": 39.62,
+      "out": "kyotsu_l4_q16.mp3"
+    },
+    {
+      "round": 4,
+      "source": "ElevenLabs_2026-11-03T15_52_49_Mark - Natural Conversations_pvc_sp100_s44_sb75_v4.mp3",
+      "start": 39.62,
+      "end": 46.21,
+      "out": "kyotsu_l4_q17.mp3"
+    },
+    {
+      "round": 4,
+      "source": "ElevenLabs_2026-11-03T15_58_21_Mark - Natural Conversations_pvc_sp100_s44_sb75_v4.mp3",
+      "start": 0.0,
+      "end": 16.48,
+      "out": "kyotsu_l4_q18-21.mp3"
+    },
+    {
+      "round": 4,
+      "source": "ElevenLabs_2026-11-03T15_58_21_Mark - Natural Conversations_pvc_sp100_s44_sb75_v4.mp3",
+      "start": 16.48,
+      "end": 28.55,
+      "out": "kyotsu_l4_q22-25.mp3"
+    },
+    {
+      "round": 4,
+      "source": "ElevenLabs_2026-11-03T15_58_21_Mark - Natural Conversations_pvc_sp100_s44_sb75_v4.mp3",
+      "start": 28.55,
+      "end": 58.88,
+      "out": "kyotsu_l4_q26.mp3"
+    },
+    {
+      "round": 4,
+      "source": "ElevenLabs_2026-11-03T15_58_21_Mark - Natural Conversations_pvc_sp100_s44_sb75_v4.mp3",
+      "start": 58.88,
+      "end": 125.82,
+      "out": "kyotsu_l4_q27-32.mp3"
+    },
+    {
+      "round": 4,
+      "source": "ElevenLabs_2026-11-03T15_58_21_Mark - Natural Conversations_pvc_sp100_s44_sb75_v4.mp3",
+      "start": 125.82,
+      "end": 139.31,
+      "out": "kyotsu_l4_q33.mp3"
+    },
+    {
+      "round": 4,
+      "source": "ElevenLabs_2026-11-03T16_02_26_Cassidy - Crisp, Direct and Clear_pvc_sp100_s50_sb75_v4.mp3",
+      "start": 0.0,
+      "end": 23.6,
+      "out": "kyotsu_l4_q34-35.mp3"
+    },
+    {
+      "round": 4,
+      "source": "ElevenLabs_2026-11-03T16_02_26_Cassidy - Crisp, Direct and Clear_pvc_sp100_s50_sb75_v4.mp3",
+      "start": 23.6,
+      "end": 51.57,
+      "out": "kyotsu_l4_q36-37.mp3"
+    },
+    {
+      "round": 5,
+      "source": "第5回1_6A.mp3",
+      "start": 0.0,
+      "end": 3.96,
+      "out": "kyotsu_l5_q01.mp3"
+    },
+    {
+      "round": 5,
+      "source": "第5回1_6A.mp3",
+      "start": 3.96,
+      "end": 7.54,
+      "out": "kyotsu_l5_q02.mp3"
+    },
+    {
+      "round": 5,
+      "source": "第5回1_6A.mp3",
+      "start": 7.54,
+      "end": 9.87,
+      "out": "kyotsu_l5_q03.mp3"
+    },
+    {
+      "round": 5,
+      "source": "第5回1_6A.mp3",
+      "start": 9.87,
+      "end": 15.08,
+      "out": "kyotsu_l5_q04.mp3"
+    },
+    {
+      "round": 5,
+      "source": "第5回1_6A.mp3",
+      "start": 15.08,
+      "end": 17.13,
+      "out": "kyotsu_l5_q05.mp3"
+    },
+    {
+      "round": 5,
+      "source": "第5回1_6A.mp3",
+      "start": 17.13,
+      "end": 19.77,
+      "out": "kyotsu_l5_q06.mp3"
+    },
+    {
+      "round": 5,
+      "source": "第5回1_6A.mp3",
+      "start": 19.77,
+      "end": 22.81,
+      "out": "kyotsu_l5_q07.mp3"
+    },
+    {
+      "round": 5,
+      "source": "第5回1_6A.mp3",
+      "start": 22.81,
+      "end": 30.54,
+      "out": "kyotsu_l5_q08.mp3"
+    },
+    {
+      "round": 5,
+      "source": "第5回1_6A.mp3",
+      "start": 30.54,
+      "end": 42.61,
+      "out": "kyotsu_l5_q09.mp3"
+    },
+    {
+      "round": 5,
+      "source": "第5回1_6A.mp3",
+      "start": 42.61,
+      "end": 51.67,
+      "out": "kyotsu_l5_q10.mp3"
+    },
+    {
+      "round": 5,
+      "source": "第5回1_6A.mp3",
+      "start": 51.67,
+      "end": 66.75,
+      "out": "kyotsu_l5_q11.mp3"
+    },
+    {
+      "round": 5,
+      "source": "第5回1_6A.mp3",
+      "start": 66.75,
+      "end": 77.58,
+      "out": "kyotsu_l5_q12.mp3"
+    },
+    {
+      "round": 5,
+      "source": "第5回1_6A.mp3",
+      "start": 77.58,
+      "end": 83.79,
+      "out": "kyotsu_l5_q13.mp3"
+    },
+    {
+      "round": 5,
+      "source": "第5回1_6A.mp3",
+      "start": 83.79,
+      "end": 90.13,
+      "out": "kyotsu_l5_q14.mp3"
+    },
+    {
+      "round": 5,
+      "source": "第5回1_6A.mp3",
+      "start": 90.13,
+      "end": 100.7,
+      "out": "kyotsu_l5_q15.mp3"
+    },
+    {
+      "round": 5,
+      "source": "第5回1_6A.mp3",
+      "start": 100.7,
+      "end": 107.81,
+      "out": "kyotsu_l5_q16.mp3"
+    },
+    {
+      "round": 5,
+      "source": "第5回1_6A.mp3",
+      "start": 107.81,
+      "end": 118.41,
+      "out": "kyotsu_l5_q17.mp3"
+    },
+    {
+      "round": 5,
+      "source": "第5回1_6A.mp3",
+      "start": 118.41,
+      "end": 135.36,
+      "out": "kyotsu_l5_q18-21.mp3"
+    },
+    {
+      "round": 5,
+      "source": "第5回1_6A.mp3",
+      "start": 135.36,
+      "end": 149.15,
+      "out": "kyotsu_l5_q22-25.mp3"
+    },
+    {
+      "round": 5,
+      "source": "第5回1_6A.mp3",
+      "start": 149.15,
+      "end": 176.66,
+      "out": "kyotsu_l5_q26.mp3"
+    },
+    {
+      "round": 5,
+      "source": "第5回1_6A.mp3",
+      "start": 176.66,
+      "end": 240.9,
+      "out": "kyotsu_l5_q27-32.mp3"
+    },
+    {
+      "round": 5,
+      "source": "第5回1_6A.mp3",
+      "start": 240.9,
+      "end": 256.29,
+      "out": "kyotsu_l5_q33.mp3"
+    },
+    {
+      "round": 5,
+      "source": "第5回1_6A.mp3",
+      "start": 256.29,
+      "end": 280.45,
+      "out": "kyotsu_l5_q34-35.mp3"
+    },
+    {
+      "round": 5,
+      "source": "第5回6B.mp3",
+      "start": 0.0,
+      "end": 33.72,
+      "out": "kyotsu_l5_q36-37.mp3"
+    }
+  ]
+}

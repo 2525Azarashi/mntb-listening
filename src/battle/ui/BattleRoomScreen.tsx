@@ -56,6 +56,7 @@ export function BattleRoomScreen({
   onRetryWrong,
   onChangeSubject,
   onNationalAgain,
+  onBackToLobby,
   onHome,
 }: {
   roomId: string;
@@ -84,6 +85,8 @@ export function BattleRoomScreen({
   onChangeSubject?: (friend: boolean) => void;
   /** 全国戦の結果から「もう1回 全国対戦」 */
   onNationalAgain?: () => void;
+  /** F10：対戦の部屋（battle_lobbies）から始めた試合の結果 →「対戦の部屋に戻る」（同じ相手ともう1回） */
+  onBackToLobby?: (lobbyId: string) => void;
   /** 詳しい結果の「ホームに戻る」（アプリのホーム） */
   onHome?: () => void;
 }) {
@@ -227,13 +230,16 @@ export function BattleRoomScreen({
    * 失敗したときは結果画面に理由を出し、もう一度押せばやり直せる。
    */
   const isFriendRoom = !!room && (!!room.joinCode || (room as { mode?: unknown }).mode === 'friend');
+  /** ★F10★ 対戦の部屋から始めた試合は、教科選びではなく同じ対戦の部屋へ戻る */
+  const lobbyOfRoom = room?.lobbyId && onBackToLobby ? room.lobbyId : '';
   const backToRoom = !room ? undefined
+    : lobbyOfRoom ? () => onBackToLobby?.(lobbyOfRoom)
     : isFriendRoom && onSwitchRoom
       ? (isHostHere
         ? () => { if (!moving) void hostMove({ subject: room.subject, questionCount: room.questionIds.length as FriendRoomSettings['questionCount'], mode: friendModeOfRules(room.rules).id }); }
         : () => void guestFollow())
       : onChangeSubject ? () => onChangeSubject(isFriendRoom) : undefined;
-  const backToRoomLabel = !room ? '' : isFriendRoom
+  const backToRoomLabel = !room ? '' : lobbyOfRoom ? '対戦の部屋に戻る（同じ相手ともう1回）' : isFriendRoom
     ? moving === 'host' ? '部屋を用意しています…' : moving === 'guest' ? '相手の部屋を待っています…'
       : isHostHere ? '部屋に戻って科目などを選ぶ（同じ相手と再戦）' : '相手の部屋に戻って再戦を待つ'
     : '部屋に戻って次の教科を選ぶ（相手は自動で決まります）';

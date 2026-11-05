@@ -34,7 +34,7 @@ def lr_ids() -> list[str]:
     niji = (ROOT / 'src/data/nijiMockPrints.ts').read_text()
     for univ, n in re.findall(r'\b([a-z][a-z0-9]*)\((\d+), \d+, \d+\)', niji):
         out.append(f'print_lr_niji_{univ}_en_{n}')
-    for univ in ('kobe', 'osaka', 'ritsu', 'hokudai', 'tohoku', 'hirosaki', 'iwate', 'akita', 'yamagata', 'fukushima', 'utsunomiya'):
+    for univ in ('kobe', 'osaka', 'ritsu', 'hokudai', 'tohoku', 'hirosaki', 'iwate', 'akita', 'yamagata', 'fukushima', 'utsunomiya', 'gunma'):
         src = (ROOT / f'src/data/{univ}MockPrints.ts').read_text()
         for n in re.findall(r'round\((\d+), \d+, \d+\)', src):
             out.append(f'print_lr_{univ}_{n}')
@@ -43,7 +43,8 @@ def lr_ids() -> list[str]:
 
 def current_table() -> dict[str, list[str]]:
     src = (ROOT / 'src/data/gachaPreviews.generated.ts').read_text()
-    return json.loads(src[src.index('{'):src.rindex('}') + 1])
+    body = src[src.index('{'):src.rindex('}') + 1]
+    return json.loads(re.sub(r',(\s*[}\]])', r'\1', body))  # 手で足した末尾のカンマも読めるように
 
 
 def page_count(pdf: Path) -> int:

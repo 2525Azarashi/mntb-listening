@@ -42,3 +42,5 @@
 .sr-retry button:active:not(:disabled) { transform: translateY(1px); }
 .sr-retry button { white-space: nowrap; }
 @media (max-width: 380px) { .sr-retry button { font-size: 12px; padding: 0 6px; gap: 3px; } .sr-retry button small { display: none; } }
+/* F9（2026-11-04）まちがえたあとで正解した小問：○に変わり、「正解した」の小さな札 */
+.sr-fixed { display: inline-flex; align-items: center; padding: 0 8px; border-radius: 999px; background: var(--mt-done-soft); color: var(--mt-done); font-size: 12px; font-weight: 800; }
