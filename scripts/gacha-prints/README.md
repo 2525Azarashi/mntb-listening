@@ -641,6 +641,24 @@ python3 scripts/gacha-prints/build-previews.py print_lr_niji_ibaraki_en_1 print_
 - 照合用の過去問OCRテキスト（.tmpwork/ibaraki_ref）は著作物なので git に入れない。
 - render.py が検査すること：本文の語数（430〜640語）・全訳の段落数・下線の番号と設問の対応（1問で2か所を扱う refs も可）・注の印・採点基準と配点の合計・Ⅲの問いが疑問文で解答が2〜32語・Ⅳの解答例2つずつ。
 
+### 群馬大学 前期対策（情報学部・2026-11-05 追加）
+
+```bash
+# 中身は scripts/gacha-prints/gunma_mock/j{1,2,3}{a,b}.py＋j{n}.py（a＝大問1・2、b＝大問3）
+python3 scripts/gacha-prints/gunma_mock/check.py j1 j2 j3     # 過去問OCR・解答例との一致（英語4語・日本語13字）・禁止語・解説の引用・人名
+python3 scripts/gacha-prints/gunma_mock/render_j.py all       # → public/prints/print_lr_niji_gunmaj_en_{1,2,3}.pdf（問題＋解答解説を pdfunite）
+python3 scripts/gacha-prints/build-previews.py print_lr_niji_gunmaj_en_1 print_lr_niji_gunmaj_en_2 print_lr_niji_gunmaj_en_3
+# サムネ（表紙・360×510）は茨城大学と同じ作り方。src/data/nijiMockPrints.ts の pages / kb を実物に合わせる
+```
+
+- 群馬大学の個別試験「英語」は2種類（情報学部／理工学部・医学部保健学科は同じ問題）。今回は情報学部（数学と英語から1科目以上を選ぶ・120分・400点）の3回分。
+- 形式は公開されている令和6〜8年度の問題冊子の設問と解答例の「形」だけを参考にした（本文は大学のHPでも非掲載）：1・2 長文読解（語の選択・語の組み合わせ・下線部和訳・内容説明・内容一致〇×）／3 日本語の会話（3つのせりふ）を英語で表現。
+- 大問の配点（150・150・100）は編集部の想定。
+- 表紙と奥付に「群馬大学の過去問・公式問題ではありません。予想問題であり、大学とは関係がありません。」を明記。
+- 照合用の過去問OCRテキスト（.tmpwork/gunma_ref）は著作物なので git に入れない。
+- render_j.py が検査すること：本文の語数（620〜900語）・全訳の段落数・注の語が段落にあるか・下線と空所の記号（a, b, c…）の順番と設問の対応・選択肢4つで重複なし・記号の答えの偏り・採点基準と配点の合計・大問3の解答例と解説の数。
+- build-previews.py：gachaPreviews.generated.ts に手で足した末尾のカンマがあっても読めるようにした（出力は従来どおり）。
+
 ### 福島大 予想問題：品質・オリジナル性の検査（商用利用のため毎回実行）2026-11-04
 
 ```bash
