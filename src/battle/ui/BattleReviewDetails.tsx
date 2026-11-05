@@ -12,9 +12,9 @@ export async function loadReviewExplanation(question: BattleQuestion): Promise<s
   const problem = [...chapter.practiceProblems || [], ...mini].find((p: Problem) => p.id === question.problemId);
   const sub = problem?.subQuestions?.find((sq: SubQuestion) => sq.id === question.subQuestionId);
   if (!sub) return '';
-  // ★この1問の解説だけを出す（2026-10-04）★ 大問の解説（problem.explanation）は「問1〜問5の解答一覧」なので、
-  //   対戦で出た1問と対応しない。小問ごとの解説（detailedExplanation / explanation）だけを使う。
-  return subQuestionExplanation(sub);
+  // 英文法の演習解説は大問内に「問1〜問5」単位で保存されているため、
+  // 対戦で出た小問番号に対応する詳しい本文だけを取り出す。
+  return practiceQuestionExplanation(problem, sub, chapter.id);
 }
 
 /** 小問1つぶんの解説テキスト（ポイント・考え方の手順）。無ければ空文字 */
@@ -30,6 +30,47 @@ export function subQuestionExplanation(sub: SubQuestion | null | undefined): str
   }
   if (typeof sub?.explanation === 'string' && sub.explanation.trim()) parts.push(sub.explanation.trim());
   return parts.join('\n\n');
+}
+
+/** 英文法の大問解説から、番号が一致する小問の詳しい本文を取り出す。 */
+export function exerciseQuestionExplanation(explanation: unknown, questionNumber: number): string {
+  if (typeof explanation !== 'string' || questionNumber < 1) return '';
+  const lines = explanation.split(/\r?\n/u);
+  let currentNumber: number | null = null;
+  let currentLines: string[] = [];
+
+  for (const line of lines) {
+    const marker = line.match(/^\s*問(\d+)[\s　]+正解は(?:[\s　]|$)/u);
+    if (marker) {
+      if (currentNumber === questionNumber) return currentLines.slice(1).join('\n').trim();
+      currentNumber = Number(marker[1]);
+      currentLines = [line];
+      continue;
+    }
+    if (/^\s*【第\d+回のまとめ】/u.test(line)) {
+      if (currentNumber === questionNumber) return currentLines.slice(1).join('\n').trim();
+      break;
+    }
+    if (currentNumber !== null) currentLines.push(line);
+  }
+
+  return currentNumber === questionNumber ? currentLines.slice(1).join('\n').trim() : '';
+}
+
+/** 英文法は大問側の詳しい本文を優先し、他教科は従来の小問解説を維持する。 */
+export function practiceQuestionExplanation(
+  problem: Pick<Problem, 'explanation' | 'subQuestions'>,
+  sub: SubQuestion,
+  chapterId: string,
+): string {
+  if (chapterId.startsWith('eg')) {
+    const subIndex = problem.subQuestions?.findIndex((candidate) => candidate.id === sub.id) ?? -1;
+    if (subIndex >= 0) {
+      const detailed = exerciseQuestionExplanation(problem.explanation, subIndex + 1);
+      if (detailed) return detailed;
+    }
+  }
+  return subQuestionExplanation(sub);
 }
 
 export function BattleReviewDetails({ question, oneLine }: { question: BattleQuestion; oneLine?: string }) {
