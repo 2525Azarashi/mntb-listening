@@ -80,8 +80,8 @@
 export { COL_CODES, COL_HISTORY, COL_QUEUE, COL_RANKING, COL_ROOMS, ROOM_STALE_MINUTES, canPlaySubject, drawQuestionIds, fetchMyRating } from './battleShared';
 export { effectiveRule, loadBattleRuleOverrides } from './battleRuleOverrides';
 export { WRITE_TIMEOUT_MS, currentRttMs, subscribeRtt } from './battleTransport';
-export { NOT_FRIEND_MESSAGE, SUCCESSOR_ATTEMPTS, createFriendRoom, findSuccessorRoom, followSuccessorRoom, joinRoomByCode, joinRoomById, releaseRoomCode, successorCode } from './battleFriendRoom';
-export type { CreatedRoom } from './battleFriendRoom';
+export { NOT_FRIEND_MESSAGE, SUCCESSOR_ATTEMPTS, createFriendLobby, createFriendRoom, findSuccessorRoom, followSuccessorRoom, joinFriendLobbyByCode, joinRoomByCode, joinRoomById, releaseRoomCode, successorCode } from './battleFriendRoom';
+export type { CreatedRoom, FriendJoinTarget } from './battleFriendRoom';
 export { findOrEnqueue, leaveQueue, watchMatched } from './battleMatchmaking';
 export { abortRoom, advanceQuestion, attestResult, startBattle, submitAnswer, watchRoom } from './battleRoomActions';
 export { fetchHistory, saveHistory } from './battleHistory';

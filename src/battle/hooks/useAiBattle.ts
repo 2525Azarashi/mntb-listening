@@ -29,6 +29,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { auth } from '../../firebase';
 import { loadPool } from '../data/battlePool';
+import { questionInScope } from '../core/vocabRanges';
 import { drawQuestionIds, effectiveRule } from '../data/battle';
 import { resolveNickname } from '../../utils/leaderboard';
 import {
@@ -183,12 +184,16 @@ export function useAiBattle(
     setCurrentIndex(0);
     setDeadlineMs(0);
     (async () => {
+      if (fixedKey && !chapterId) throw new Error('間違えた問題を再戦するには、単元をえらんでください。');
       const ids = fixedKey ? fixedKey.split(',') : await drawQuestionIds(subject, rules, seedRef.current, chapterId);
       if (ids.length === 0) throw new Error('この教科は対戦できる問題がまだ足りません。');
       const pool = await loadPool(subject);
       const byId = new Map(pool.map((q) => [q.id, q]));
-      const qs = ids.map((id) => byId.get(id)).filter((q): q is BattleQuestion => Boolean(q));
+      const qs = ids.map((id) => byId.get(id)).filter((q): q is BattleQuestion =>
+        Boolean(q) && (!chapterId || questionInScope(q, chapterId)),
+      );
       if (!alive) return;
+      if (qs.length === 0) throw new Error('えらんだ単元に、まちがえた問題がありません。別の単元をえらんでください。');
       setQuestions(qs);
       movesRef.current = qs.map((q, i) =>
         decideAiMove(profile, q, resolveTimeLimit(q, rules), seedRef.current, i),

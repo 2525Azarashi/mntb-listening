@@ -24,6 +24,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import {
   abortRoom,
+  createFriendLobby,
   createFriendRoom,
   loadBattleRuleOverrides,
 } from '../data/battle';
@@ -171,6 +172,7 @@ export function BattleMode({
   const [roomId, setRoomId] = useState<string | null>(null);
   /** F10 いま入っている対戦の部屋（battle_lobbies）。試合中も覚えておき、結果から戻れるようにする */
   const [lobbyId, setLobbyId] = useState<string | null>(null);
+  const [lobbyKind, setLobbyKind] = useState<'national' | 'friend'>('national');
   const lobbyIdRef = useRef<string | null>(null);
   lobbyIdRef.current = lobbyId;
   /** 対戦の部屋を出る（部屋は閉じ、相手には「相手が部屋を出ました」と出る） */
@@ -179,6 +181,7 @@ export function BattleMode({
     if (id) void leaveLobby(id);
     lobbyIdRef.current = null;
     setLobbyId(null);
+    setLobbyKind('national');
   }, []);
   // 対戦モードごと抜けたときも部屋を閉じる（相手が待ちぼうけにならないように）
   useEffect(() => () => { const id = lobbyIdRef.current; if (id) void leaveLobby(id); }, []);
@@ -203,7 +206,7 @@ export function BattleMode({
   const retryWrong = useCallback((pick: string, ids: string[]) => {
     if (!ids.length) return;
     setSubject(pick); setGhost(null); setChapterId(undefined); setRetryIds(ids.slice(0, 30));
-    setAiMatchNo((n) => n + 1); setScreen('ai-room');
+    setScreen('subject-ai');
   }, []);
   const [notice, setNotice] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -221,12 +224,31 @@ export function BattleMode({
   // ------------------------------------------------------------
   // 入口の選択
   // ------------------------------------------------------------
+  const createFriendLobbyRoom = useCallback(async () => {
+    setScreen('creating');
+    setError(null);
+    try {
+      const created = await createFriendLobby();
+      if (!mountedRef.current) { void leaveLobby(created.lobbyId); return; }
+      setLobbyKind('friend');
+      setLobbyId(created.lobbyId);
+      setRoomId(null);
+      setScreen('lobby');
+    } catch (e) {
+      if (!mountedRef.current) return;
+      const message = e instanceof Error ? e.message : '部屋を作れませんでした。';
+      setError(message);
+      setNotice(message);
+      setScreen('home');
+    }
+  }, []);
+
   const handleHomeChoice = useCallback((choice: BattleHomeChoice) => {
     setNotice(null);
     setError(null);
     switch (choice) {
       case 'friend-create':
-        setScreen('subject-friend');
+        void createFriendLobbyRoom();
         break;
       case 'friend-join':
         setScreen('join');
@@ -237,6 +259,8 @@ export function BattleMode({
         setScreen('matching');
         break;
       case 'ai':
+        setRetryIds(null);
+        setChapterId(undefined);
         setScreen('subject-ai');
         break;
       case 'ranking':
@@ -251,7 +275,7 @@ export function BattleMode({
       case 'profile': setScreen('profile'); break;
       case 'missions': setScreen('missions'); break;
     }
-  }, []);
+  }, [createFriendLobbyRoom]);
 
   // ------------------------------------------------------------
   // 部屋を作る
@@ -358,11 +382,20 @@ export function BattleMode({
     case 'join':
       return (
         <BattleFriendJoin
-          onJoined={(id) => {
+          onJoined={(target) => {
             setChapterId(undefined);
             setQuestionCount(undefined);
-            setRoomId(id);
-            setScreen('room');
+            if (target.kind === 'lobby') {
+              setLobbyKind('friend');
+              setLobbyId(target.id);
+              setRoomId(null);
+              setScreen('lobby');
+            } else {
+              setLobbyKind('national');
+              setLobbyId(null);
+              setRoomId(target.id);
+              setScreen('room');
+            }
           }}
           onBack={() => setScreen('home')}
           onOpenFriends={onOpenFriends}
@@ -410,9 +443,10 @@ export function BattleMode({
         <BattleLobbyRoom
           key={lobbyId}
           lobbyId={lobbyId}
+          kind={lobbyKind}
           onEnterRoom={(id) => { setRoomId(id); setScreen('room'); }}
           onExit={() => leaveRoom()}
-          onNationalAgain={() => { closeLobby(); setScreen('matching'); }}
+          onNationalAgain={() => { const friend = lobbyKind === 'friend'; closeLobby(); setScreen(friend ? 'home' : 'matching'); }}
         />
       );
 
@@ -420,8 +454,9 @@ export function BattleMode({
       return (
         <BattleSubjectSelect
             currentSubject={subject}
-          title="AIと対戦 ／ 教科をえらぶ"
+          title={retryIds ? 'AIと対戦 ／ 間違えた問題の単元をえらぶ' : 'AIと対戦 ／ 教科をえらぶ'}
           allowQuestionCount
+          requireSpecificUnit
           showRecent
           onRetryWrong={retryWrong}
           onPick={(pick, count, unit) => {
@@ -430,7 +465,7 @@ export function BattleMode({
             setChapterId(unit);
             setScreen('ai-level');
           }}
-          onBack={() => setScreen('home')}
+          onBack={() => { setRetryIds(null); setChapterId(undefined); setScreen('home'); }}
         />
       );
 
@@ -441,7 +476,6 @@ export function BattleMode({
           onPick={(level) => {
             setAiLevel(level);
             setGhost(null);
-            setRetryIds(null);
             setAiMatchNo((n) => n + 1);
             setScreen('ai-room');
           }}
@@ -499,12 +533,17 @@ export function BattleMode({
           key={roomId}
           roomId={roomId}
           onExit={leaveRoom}
-          onRematch={rematch}
+          onRematch={lobbyId ? undefined : rematch}
           onSwitchRoom={(next) => setRoomId(next)}
-          onChangeSubject={(friend) => { setRoomId(null); setScreen(friend ? 'subject-friend' : 'matching'); }}
+          onChangeSubject={(friend) => {
+            setRoomId(null);
+            if (friend && lobbyId) setScreen('lobby');
+            else if (friend) void createFriendLobbyRoom();
+            else setScreen('matching');
+          }}
           // ★F10★ 対戦の部屋から始めた試合は、結果の「対戦の部屋に戻る」で同じ部屋（同じ相手）へ戻る
           onBackToLobby={(id) => { setRoomId(null); setLobbyId(id); setScreen('lobby'); }}
-          onNationalAgain={() => { closeLobby(); setRoomId(null); setScreen('matching'); }}
+          onNationalAgain={() => { const friend = lobbyKind === 'friend'; closeLobby(); setRoomId(null); setScreen(friend ? 'home' : 'matching'); }}
           onHome={onExit}
           onPractice={onPractice}
           onActiveChange={onActiveChange}

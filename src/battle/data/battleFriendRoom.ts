@@ -12,6 +12,7 @@ import type { BattlePlayer, BattleRule } from '../core/types';
 import { COL_CODES, COL_ROOMS, drawQuestionIds, fetchMyRating, friendlyError, myProfile, requireUid } from './battleShared';
 import { loadRuleSync } from './battleRuleOverrides';
 import { withRetry } from './battleTransport';
+const COL_LOBBIES = 'battle_lobbies';
 
 /**
  * 合言葉の文字集合。
@@ -182,6 +183,84 @@ export async function createFriendRoom(
   }
 
   throw new Error('部屋を作れませんでした。もう一度お試しください。');
+}
+
+/** フレンド用の単元選択ロビーを作り、従来どおり4文字コードを発行する。 */
+export async function createFriendLobby(): Promise<{ lobbyId: string; joinCode: string }> {
+  const uid = requireUid();
+  const rating = await fetchMyRating();
+  for (let attempt = 0; attempt < 6; attempt += 1) {
+    const joinCode = randomCode();
+    const lobbyRef = doc(collection(db, COL_LOBBIES));
+    const codeRef = doc(db, COL_CODES, joinCode);
+    try {
+      await runTransaction(db, async (tx) => {
+        const existing = await tx.get(codeRef);
+        if (existing.exists()) throw new Error('CODE_TAKEN');
+        tx.set(lobbyRef, {
+          id: lobbyRef.id, status: 'open', kind: 'friend', hostUid: uid, joinCode,
+          players: [uid], profiles: { [uid]: myProfile(rating) }, picks: {},
+          round: 0, roomId: '', chosen: null,
+          createdAt: serverTimestamp(), updatedAt: serverTimestamp(),
+        });
+        tx.set(codeRef, {
+          lobbyId: lobbyRef.id, kind: 'friend_lobby', hostUid: uid,
+          subject: 'lobby:v1', createdAt: serverTimestamp(),
+        });
+      });
+      return { lobbyId: lobbyRef.id, joinCode };
+    } catch (error) {
+      if ((error as Error).message === 'CODE_TAKEN') continue;
+      throw friendlyError(error, 'フレンドの対戦部屋を作れませんでした。');
+    }
+  }
+  throw new Error('部屋を作れませんでした。もう一度お試しください。');
+}
+
+export type FriendJoinTarget = { kind: 'lobby' | 'room'; id: string };
+
+/** 4文字コードから新しい選択ロビーへ参加。既存の対戦中コードは旧ルームへ案内する。 */
+export async function joinFriendLobbyByCode(rawCode: string): Promise<FriendJoinTarget> {
+  const joinCode = rawCode.trim().toUpperCase().replace(/[^A-Z0-9]/g, '');
+  if (joinCode.length !== CODE_LENGTH) throw new Error(`合言葉は${CODE_LENGTH}文字です。`);
+  const codeRef = doc(db, COL_CODES, joinCode);
+  const codeSnap = await withRetry(() => getDoc(codeRef), 8_000).catch((error) => {
+    throw friendlyError(error, '合言葉を確かめられませんでした。');
+  });
+  if (!codeSnap.exists()) throw new Error('その合言葉の部屋は見つかりませんでした。');
+  const lobbyId = String(codeSnap.get('lobbyId') || '');
+  if (!lobbyId) return { kind: 'room', id: await joinRoomByCode(joinCode) };
+
+  const uid = requireUid();
+  const rating = await fetchMyRating();
+  const lobbyRef = doc(db, COL_LOBBIES, lobbyId);
+  try {
+    await withRetry(() => runTransaction(db, async (tx) => {
+      const code = await tx.get(codeRef);
+      const lobby = await tx.get(lobbyRef);
+      if (!code.exists() || code.get('lobbyId') !== lobbyId) throw new Error('ROOM_GONE');
+      if (!lobby.exists() || lobby.get('kind') !== 'friend' || lobby.get('joinCode') !== joinCode) throw new Error('ROOM_GONE');
+      const players = (lobby.get('players') as string[]) || [];
+      if (players.includes(uid)) return;
+      if (lobby.get('status') !== 'open') throw new Error('ROOM_STARTED');
+      if (players.length >= 2) throw new Error('ROOM_FULL');
+      if (players.length !== 1 || players[0] !== lobby.get('hostUid')) throw new Error('ROOM_GONE');
+      const profiles = (lobby.get('profiles') as Record<string, BattlePlayer>) || {};
+      tx.update(lobbyRef, {
+        players: [...players, uid],
+        profiles: { ...profiles, [uid]: myProfile(rating) },
+        updatedAt: serverTimestamp(),
+      });
+    }), 12_000);
+  } catch (error) {
+    const message = (error as Error).message;
+    if (message === 'ROOM_GONE') throw new Error('その部屋はもう存在しません。');
+    if (message === 'ROOM_FULL') throw new Error('その部屋はもう満員です。');
+    if (message === 'ROOM_STARTED') throw new Error('その部屋はもう対戦が始まっています。');
+    if ((error as { code?: string }).code === 'permission-denied') throw new Error(`${NOT_FRIEND_MESSAGE}（部屋が閉じている場合もあります）`);
+    throw friendlyError(error, 'フレンドの部屋に入れませんでした。');
+  }
+  return { kind: 'lobby', id: lobbyId };
 }
 
 /**

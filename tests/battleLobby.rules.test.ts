@@ -6,7 +6,7 @@
  */
 import { afterAll, beforeAll, beforeEach, describe, it } from 'vitest';
 import { assertFails, assertSucceeds, initializeTestEnvironment, type RulesTestEnvironment } from '@firebase/rules-unit-testing';
-import { deleteField, doc, getDoc, serverTimestamp, setDoc, updateDoc, writeBatch } from 'firebase/firestore';
+import { deleteField, deleteDoc, doc, getDoc, serverTimestamp, setDoc, updateDoc, writeBatch } from 'firebase/firestore';
 import { mergedRules } from './helpers/battleRules';
 
 const HOST = 'uid_host';
@@ -17,6 +17,8 @@ const LOBBY = `lb_${SESSION}`;
 const ROOM = 'room_lobby_1';
 const SUBJECT = 'english_vocab';
 const OTHER_SUBJECT = 'english_grammar';
+const FRIEND_LOBBY = 'friend_lobby_test';
+const FRIEND_CODE = 'ABCD';
 
 let testEnv: RulesTestEnvironment;
 const dbCache = new Map<string, ReturnType<RulesTestEnvironment['authenticatedContext']>>();
@@ -44,6 +46,23 @@ const lobbyPayload = (over: Record<string, unknown> = {}) => ({
   createdAt: serverTimestamp(), updatedAt: serverTimestamp(), ...over,
 });
 const pick = (subject = SUBJECT, over: Record<string, unknown> = {}) => ({ subject, chapterId: '', count: 10, title: '全単元', ...over });
+const friendLobbyPayload = (over: Record<string, unknown> = {}) => ({
+  id: FRIEND_LOBBY, status: 'open', kind: 'friend', hostUid: HOST, joinCode: FRIEND_CODE,
+  players: [HOST], profiles: { [HOST]: profile(HOST) }, picks: {}, round: 0, roomId: '', chosen: null,
+  createdAt: new Date(), updatedAt: new Date(), ...over,
+});
+const friendCodePayload = (over: Record<string, unknown> = {}) => ({
+  lobbyId: FRIEND_LOBBY, kind: 'friend_lobby', hostUid: HOST, subject: 'lobby:v1', createdAt: new Date(), ...over,
+});
+async function seedFriendPair(a = HOST, b = GUEST) {
+  await testEnv.withSecurityRulesDisabled(async (ctx) => {
+    const db = ctx.firestore();
+    await Promise.all([
+      setDoc(doc(db, 'friends', a, 'items', b), { uid: b, nickname: b, photoURL: '', addedAt: new Date() }),
+      setDoc(doc(db, 'friends', b, 'items', a), { uid: a, nickname: a, photoURL: '', addedAt: new Date() }),
+    ]);
+  });
+}
 const seededLobby = (over: Record<string, unknown> = {}) => ({ ...lobbyPayload(), createdAt: new Date(), updatedAt: new Date(), ...over });
 const roomPayload = (over: Record<string, unknown> = {}) => ({
   id: ROOM, status: 'waiting', mode: 'lobby', subject: SUBJECT, joinCode: '', hostUid: HOST,
@@ -135,6 +154,12 @@ describe('battle_lobbies — 試合を始める（部屋主が2人の単元か�
     await seed(['battle_lobbies', LOBBY], bothPicked());
     await assertSucceeds(startBatch(HOST, roomPayload({ subject: OTHER_SUBJECT }), { chosen: chosen(HOST, OTHER_SUBJECT) }));
   });
+  it('★抽選結果の単元・問題数・名前を選択内容からすり替えられない★', async () => {
+    await seed(['battle_lobbies', LOBBY], bothPicked());
+    await assertFails(startBatch(HOST, roomPayload(), { chosen: { ...chosen(), chapterId: 'other_chapter' } }));
+    await assertFails(startBatch(HOST, roomPayload(), { chosen: { ...chosen(), count: 5 } }));
+    await assertFails(startBatch(HOST, roomPayload(), { chosen: { ...chosen(), title: '別の単元' } }));
+  });
   it('★2人のどちらもえらんでいない教科では始められない★', async () => {
     await seed(['battle_lobbies', LOBBY], bothPicked());
     await assertFails(startBatch(HOST, roomPayload({ subject: 'math_1a' }), { chosen: chosen(GUEST, 'math_1a') }));
@@ -175,5 +200,47 @@ describe('battle_lobbies — 部屋を出る', () => {
     await testEnv.withSecurityRulesDisabled(async () => undefined);
     const { deleteDoc } = await import('firebase/firestore');
     await assertFails(deleteDoc(doc(ctxFor(HOST), 'battle_lobbies', LOBBY)));
+  });
+});
+
+describe('battle_lobbies — フレンド対戦の単元選択ロビー', () => {
+  it('ホストはロビーと4文字コードを同じ書き込みで作れる', async () => {
+    const db = ctxFor(HOST);
+    const b = writeBatch(db);
+    b.set(doc(db, 'battle_lobbies', FRIEND_LOBBY), friendLobbyPayload({ createdAt: serverTimestamp(), updatedAt: serverTimestamp() }));
+    b.set(doc(db, 'battle_codes', FRIEND_CODE), friendCodePayload({ createdAt: serverTimestamp() }));
+    await assertSucceeds(b.commit());
+  });
+  it('ホストは友達が入る前に自分の単元を選べる', async () => {
+    await seed(['battle_lobbies', FRIEND_LOBBY], friendLobbyPayload());
+    await assertSucceeds(updateDoc(doc(ctxFor(HOST), 'battle_lobbies', FRIEND_LOBBY), {
+      [`picks.${HOST}`]: pick(), updatedAt: serverTimestamp(),
+    }));
+  });
+  it('相互フレンドは読み取り・2人目参加でき、自分のプロフィールを登録できる', async () => {
+    await seedFriendPair();
+    await seed(['battle_lobbies', FRIEND_LOBBY], friendLobbyPayload());
+    const ref = doc(ctxFor(GUEST), 'battle_lobbies', FRIEND_LOBBY);
+    await assertSucceeds(getDoc(ref));
+    await assertSucceeds(updateDoc(ref, {
+      players: [HOST, GUEST], profiles: { [HOST]: profile(HOST), [GUEST]: profile(GUEST) }, updatedAt: serverTimestamp(),
+    }));
+  });
+  it('相互フレンドでない利用者はロビーを読めず、2人目として入れない', async () => {
+    await seed(['battle_lobbies', FRIEND_LOBBY], friendLobbyPayload());
+    const ref = doc(ctxFor(OUTSIDER), 'battle_lobbies', FRIEND_LOBBY);
+    await assertFails(getDoc(ref));
+    await assertFails(updateDoc(ref, {
+      players: [HOST, OUTSIDER], profiles: { [HOST]: profile(HOST), [OUTSIDER]: profile(OUTSIDER) }, updatedAt: serverTimestamp(),
+    }));
+  });
+  it('相手はロビーを閉じた後に古い4文字コードを片付けられる', async () => {
+    await seedFriendPair();
+    await seed(['battle_lobbies', FRIEND_LOBBY], friendLobbyPayload({ players: [HOST, GUEST], profiles: { [HOST]: profile(HOST), [GUEST]: profile(GUEST) } }));
+    await seed(['battle_codes', FRIEND_CODE], friendCodePayload());
+    await assertSucceeds(updateDoc(doc(ctxFor(GUEST), 'battle_lobbies', FRIEND_LOBBY), {
+      status: 'closed', [`left.${GUEST}`]: serverTimestamp(), updatedAt: serverTimestamp(),
+    }));
+    await assertSucceeds(deleteDoc(doc(ctxFor(GUEST), 'battle_codes', FRIEND_CODE)));
   });
 });

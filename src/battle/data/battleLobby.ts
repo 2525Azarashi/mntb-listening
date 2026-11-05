@@ -33,6 +33,11 @@ export interface LobbyChosen extends LobbyPick { uid: string }
 export interface BattleLobbyDoc {
   id: string;
   status: 'open' | 'closed';
+  /** 全国対戦のマッチ部屋か、4文字コードで入るフレンド部屋か */
+  kind?: 'national' | 'friend';
+  /** フレンド部屋だけが持つ4文字コードとホスト */
+  joinCode?: string;
+  hostUid?: string;
   players: string[];
   profiles: Record<string, BattlePlayer>;
   picks: Record<string, LobbyPick>;
@@ -195,6 +200,12 @@ export async function leaveLobby(lobbyId: string): Promise<void> {
       const ref = doc(db, COL_LOBBIES, lobbyId);
       const snap = await tx.get(ref);
       if (!snap.exists() || snap.get('status') !== 'open' || snap.get('left')) return;
+      const joinCode = String(snap.get('joinCode') || '');
+      if (snap.get('kind') === 'friend' && joinCode) {
+        const codeRef = doc(db, 'battle_codes', joinCode);
+        const codeSnap = await tx.get(codeRef);
+        if (codeSnap.exists() && codeSnap.get('lobbyId') === lobbyId) tx.delete(codeRef);
+      }
       tx.update(ref, { status: 'closed', [`left.${uid}`]: serverTimestamp(), updatedAt: serverTimestamp() });
     });
   } catch {

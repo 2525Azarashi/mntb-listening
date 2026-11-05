@@ -12,6 +12,10 @@ const room = readFileSync('src/battle/ui/BattleRoomScreen.tsx', 'utf8');
 const lobby = readFileSync('src/battle/ui/BattleLobbyRoom.tsx', 'utf8');
 const matching = readFileSync('src/battle/ui/BattleMatching.tsx', 'utf8');
 const css = readFileSync('src/battle/ui/battle-lobby-room.css', 'utf8');
+const friendData = readFileSync('src/battle/data/battleFriendRoom.ts', 'utf8');
+const subjectSelect = readFileSync('src/battle/ui/BattleSubjectSelect.tsx', 'utf8');
+const aiHook = readFileSync('src/battle/hooks/useAiBattle.ts', 'utf8');
+const aiRoom = readFileSync('src/battle/ui/BattleAiRoomScreen.tsx', 'utf8');
 
 describe('F10 対戦の部屋：画面のつなぎ', () => {
   it('全国対戦ボタンは教科選びを飛ばして、対戦の部屋へのマッチに進む', () => {
@@ -56,6 +60,25 @@ describe('F10 対戦の部屋：画面のつなぎ', () => {
     expect(css).not.toMatch(/#[0-9a-fA-F]{3,8}\b/);
     for (const m of css.matchAll(/font-size:\s*(\d+)px/g)) expect(Number(m[1])).toBeGreaterThanOrEqual(12);
     expect(lobby).not.toContain('style={{');
+  });
+  it('フレンドは4文字コードで同じ選択ロビーに入り、両者が選んだ後に抽選する', () => {
+    expect(mode).toMatch(/case 'friend-create':[\s\S]{0,100}createFriendLobbyRoom/);
+    expect(mode).toContain('kind={lobbyKind}');
+    expect(friendData).toContain('export async function createFriendLobby');
+    expect(friendData).toContain('export async function joinFriendLobbyByCode');
+    expect(lobby).toContain('data-friend-code={lobby.joinCode}');
+    expect(lobby).toContain('フレンドに伝える4文字コード');
+    expect(lobby).toContain('startLobbyRound(snapshot)');
+  });
+  it('AIの通常選択では具体的な単元が必須で、全単元・全単元履歴から開始できない', () => {
+    expect(mode).toContain('requireSpecificUnit');
+    expect(subjectSelect).toMatch(/!requireSpecificUnit && <button[^>]*data-battle-unit="all"/);
+    expect(subjectSelect).toContain('recent.filter((r) => !!r.chapterId)');
+    expect(aiRoom).toContain('useAiBattle(subject, level, matchNo, questionCount, chapterId');
+    expect(aiHook).toContain('drawQuestionIds(subject, rules, seedRef.current, chapterId)');
+    expect(aiHook).toContain('questionInScope(q, chapterId)');
+    expect(aiHook).toContain('if (fixedKey && !chapterId)');
+    expect(mode).toMatch(/setRetryIds\(ids\.slice\(0, 30\)\);[\s\S]{0,80}setScreen\('subject-ai'\)/);
   });
 });
 

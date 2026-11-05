@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { ArrowLeft, LogIn, UserPlus } from 'lucide-react';
-import { abortRoom, joinRoomByCode } from '../data/battle';
+import { abortRoom, joinFriendLobbyByCode } from '../data/battle';
+import { leaveLobby } from '../data/battleLobby';
 import { AMBER, BattleButton, BattleNotice, BattleShell, BattleTitle, INK, INK_SUB, LINE } from './BattleParts';
 import { ConnectionCheckPanel } from './ConnectionCheckPanel';
 import { logRejection } from '../../utils/reportError';
@@ -14,7 +15,7 @@ export function normalizeFriendRoomCode(raw: string): string {
 export function BattleFriendJoin({ onJoined, onBack, onOpenFriends }: {
   /** フレンドでない相手だったときの「フレンドを追加する」ボタンの行き先 */
   onOpenFriends?: () => void;
-  onJoined: (roomId: string) => void;
+  onJoined: (target: { kind: 'lobby' | 'room'; id: string }) => void;
   onBack: () => void;
 }) {
   const [raw, setRaw] = useState('');
@@ -47,9 +48,10 @@ export function BattleFriendJoin({ onJoined, onBack, onOpenFriends }: {
     setBusy(true);
     setError(null);
     try {
-      const roomId = await joinRoomByCode(value);
-      if (mountedRef.current) onJoined(roomId);
-      else void abortRoom(roomId).catch(logRejection('battle.friendJoin.abortRoom'));
+      const target = await joinFriendLobbyByCode(value);
+      if (mountedRef.current) onJoined(target);
+      else if (target.kind === 'room') void abortRoom(target.id).catch(logRejection('battle.friendJoin.abortRoom'));
+      else void leaveLobby(target.id);
     } catch (e) {
       if (mountedRef.current) {
         setError(e instanceof Error ? e.message : '部屋に入れませんでした。');

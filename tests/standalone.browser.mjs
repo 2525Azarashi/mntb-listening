@@ -9,11 +9,12 @@ try {
   page.on('response',r=>{if(r.url().startsWith(url)&&r.status()===404&&!r.url().endsWith('/sw.js'))missing.push(r.url());});
   await page.route('**/*',r=>r.request().url().startsWith(url)?r.continue():r.abort());
   await page.addInitScript(()=>{
-    localStorage.setItem('savedAppState','home');localStorage.setItem('savedIsGuest','true');
+    localStorage.setItem('savedAppState','home');localStorage.setItem('screenshot_mode','true');
+    localStorage.setItem('login_fallback_local_v1','true');
     localStorage.setItem('savedSelectedSubject','math');localStorage.setItem('bgm_enabled','off');
   });
   await page.goto(url);assert.equal(await page.title(),'マナトビ リスニング');
-  await page.locator('.launch-start').click();await page.locator('.game-home').waitFor();
+  await page.locator('.game-home').waitFor();
   for(const [width,height] of [[320,568],[390,844],[1280,900]]) {
     await page.setViewportSize({width,height});
     // 1画面ホーム（B1）。3本柱：演習する／対戦する（同じ大きさ）＋横長の復習ノート
@@ -63,7 +64,9 @@ try {
   assert.equal(await page.getByRole('button',{name:/化学基礎|地理総合|生物基礎|数学/}).count(),0);
   assert.ok(await page.getByRole('button',{name:/英単語・英熟語/}).count()>=1,'英単語・英熟語 is kept as a battle subject');
   assert.ok(await page.getByRole('button',{name:/英文法/}).count()>=1,'英文法 is a battle subject');
-  await listening.click();await page.locator('[data-battle-unit="all"]').click();
+  await listening.click();
+  assert.equal(await page.locator('[data-battle-unit="all"]').count(),0,'AI must require a specific unit');
+  await page.locator('[data-battle-unit]:not([data-battle-unit="all"])').first().click();
   await page.locator('#battle-ai-easy').click();
   await page.getByRole('button',{name:'はじめる',exact:true}).click();
   await page.locator('.battle-listening-audio audio').waitFor({state:'attached',timeout:20000});
