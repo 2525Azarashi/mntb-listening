@@ -26,6 +26,8 @@ import { readAudioPreferences } from '../battle/audio/audioPreferences';
  * 登場の流れ（動画は約2.7秒。つなぎ目を作らない）:
  *   intro     … 動画の1コマ目（poster）→ 約2.7秒の登場動画
  *   crossfade … 動画の最後のコマを残したまま、同じ位置・同じ大きさの静止画シーンを重ねてフェード
+ *               F6（2026-11-04）静止画シーンの背景は、最後のコマからとびら君だけを消した画像（title-plate.webp）。
+ *               以前は光の輪と床を CSS で描いていたため、雲・星が消えて「別の絵」に切り替わって見えた
  *   done      … 動画を外し、静止画シーン（装備したポーズ・アクセサリ）だけが残る
  * 動画が使えない時（動きを減らす設定・データセーバー・読み込み失敗）は、歩いて登場する演出にする。
  *
@@ -145,8 +147,10 @@ export function LaunchScreen({ onStart, soundEnabled, onToggleSound }: {
       <div className="launch-stage" data-phase={phase} aria-label="とびら君の登場演出">
         <div className="launch-box">
           <div className="launch-scene" aria-hidden="true">
-            <div className="launch-halo" />
-            <div className="launch-ground" />
+            {/* F6（2026-11-04）動画の最後のコマから、とびら君だけを消した背景（雲・星・紙飛行機・光の輪・床）。
+                動画が終わっても背景が入れ替わらず、とびら君だけが静止画（装備したポーズ）に切り替わる */}
+            <img className="launch-plate" src="/cinematics/title-plate.webp" alt="" width={720} height={720} draggable={false} />
+            <div className="launch-sparkles"><i /><i /><i /><i /><i /><i /></div>
             <div className={`launch-arrival ${walk && walkReady ? 'walk-ready' : ''} ${!walk ? 'is-idle' : ''}`}>
               <div className="launch-gait">
                 <img className="launch-walking-pose" src="/mascots/walking.webp" alt="" draggable={false} onLoad={() => setWalkReady(true)} />

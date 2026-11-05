@@ -1,7 +1,8 @@
 /**
  * LR 共通テスト 英語リスニング 予想問題の音声（問題ごとに分けた mp3）。
- *   いま入っているのは第1回だけ（2026-10-26 ElevenLabs v4 で利用者が生成 → 問題ごとに切り分け）。
- *   元の6ファイルは audio_sources/commercial/elevenlabs_2026-10-26_kyotsu_l1/ に保管（区切りは split_manifest.json）。
+ *   第1回（2026-10-26）・第2〜5回（2026-11-03・04 F2）を ElevenLabs v4 で利用者が生成 → 問題ごとに切り分け。
+ *   元ファイルは audio_sources/commercial/elevenlabs_2026-10-26_kyotsu_l1/ と elevenlabs_2026-11-03_kyotsu_l2-5/ に保管（区切りは split_manifest.json）。
+ *   第2〜5回の区切りは、台本と音声の単語を突き合わせた時刻（問と問の間のいちばん静かな所）。
  *   第1問・第2問（問1〜11）は本番どおり2回読み（間に4秒）、第3問〜第6問は1回読み。
  *   ※ 問題番号の日本語アナウンスは入っていない（英語のみ）。
  *
@@ -29,14 +30,15 @@ export function kyotsuAudioLabel(q: string): string {
   return b ? `問${a}〜${b}` : `問${a}`;
 }
 
-const t = (part: string, q: string, sec: number): KyotsuAudioTrack => ({
+const tr = (round: number) => (part: string, q: string, sec: number): KyotsuAudioTrack => ({
   q,
   part,
   label: `${part} ${kyotsuAudioLabel(q)}`,
-  file: `/prints/kyotsu_assets/audio/kyotsu_l1_q${q}.mp3`,
+  file: `/prints/kyotsu_assets/audio/kyotsu_l${round}_q${q}.mp3`,
   sec,
   twice: Number(q.split('-')[0]) <= 11,
 });
+const t = tr(1);
 
 export const KYOTSU_MOCK_AUDIO: Readonly<Record<string, readonly KyotsuAudioTrack[]>> = {
   print_lr_kyotsu_l_1: [
@@ -48,8 +50,42 @@ export const KYOTSU_MOCK_AUDIO: Readonly<Record<string, readonly KyotsuAudioTrac
     t('第5問', '27-32', 68), t('第5問', '33', 17),
     t('第6問A', '34-35', 32), t('第6問B', '36-37', 48),
   ],
+  print_lr_kyotsu_l_2: (() => {
+    const t = tr(2);
+    return [
+      t('第1問A', '01', 11), t('第1問A', '02', 14), t('第1問A', '03', 12), t('第1問A', '04', 11), t('第1問B', '05', 13), t('第1問B', '06', 10), t('第1問B', '07', 9), t('第2問', '08', 37), t('第2問', '09', 28), t('第2問', '10', 37), t('第2問', '11', 29), t('第3問', '12', 10), t('第3問', '13', 11), t('第3問', '14', 11), t('第3問', '15', 11), t('第3問', '16', 9), t('第3問', '17', 10), t('第4問A', '18-21', 17), t('第4問A', '22-25', 20), t('第4問B', '26', 33), t('第5問', '27-32', 59), t('第5問', '33', 15), t('第6問A', '34-35', 29), t('第6問B', '36-37', 32),
+    ];
+  })(),
+  print_lr_kyotsu_l_3: (() => {
+    const t = tr(3);
+    return [
+      t('第1問A', '01', 13), t('第1問A', '02', 11), t('第1問A', '03', 11), t('第1問A', '04', 12), t('第1問B', '05', 9), t('第1問B', '06', 8), t('第1問B', '07', 9), t('第2問', '08', 28), t('第2問', '09', 31), t('第2問', '10', 30), t('第2問', '11', 32), t('第3問', '12', 9), t('第3問', '13', 11), t('第3問', '14', 6), t('第3問', '15', 9), t('第3問', '16', 11), t('第3問', '17', 10), t('第4問A', '18-21', 28), t('第4問A', '22-25', 24), t('第4問B', '26', 39), t('第5問', '27-32', 57), t('第5問', '33', 17), t('第6問A', '34-35', 24), t('第6問B', '36-37', 33),
+    ];
+  })(),
+  print_lr_kyotsu_l_4: (() => {
+    const t = tr(4);
+    return [
+      t('第1問A', '01', 12), t('第1問A', '02', 10), t('第1問A', '03', 11), t('第1問A', '04', 12), t('第1問B', '05', 11), t('第1問B', '06', 7), t('第1問B', '07', 7), t('第2問', '08', 32), t('第2問', '09', 31), t('第2問', '10', 31), t('第2問', '11', 29), t('第3問', '12', 7), t('第3問', '13', 7), t('第3問', '14', 10), t('第3問', '15', 8), t('第3問', '16', 7), t('第3問', '17', 7), t('第4問A', '18-21', 17), t('第4問A', '22-25', 12), t('第4問B', '26', 30), t('第5問', '27-32', 67), t('第5問', '33', 14), t('第6問A', '34-35', 24), t('第6問B', '36-37', 28),
+    ];
+  })(),
+  print_lr_kyotsu_l_5: (() => {
+    const t = tr(5);
+    return [
+      t('第1問A', '01', 12), t('第1問A', '02', 11), t('第1問A', '03', 9), t('第1問A', '04', 14), t('第1問B', '05', 8), t('第1問B', '06', 9), t('第1問B', '07', 10), t('第2問', '08', 19), t('第2問', '09', 28), t('第2問', '10', 22), t('第2問', '11', 34), t('第3問', '12', 11), t('第3問', '13', 6), t('第3問', '14', 6), t('第3問', '15', 11), t('第3問', '16', 7), t('第3問', '17', 11), t('第4問A', '18-21', 17), t('第4問A', '22-25', 14), t('第4問B', '26', 28), t('第5問', '27-32', 64), t('第5問', '33', 15), t('第6問A', '34-35', 24), t('第6問B', '36-37', 34),
+    ];
+  })(),
 };
 
 export function kyotsuAudioOf(printId: string): readonly KyotsuAudioTrack[] {
   return KYOTSU_MOCK_AUDIO[printId] ?? [];
+}
+
+/**
+ * F8（2026-11-04）：日本語の案内（共通の1本）と英語の問題音声をつないだ、本番と同じ流れの通し音声（約17〜19分）。
+ *   PDF の表紙の QR → public/prints/kyotsu_assets/full/l{n}.html（同じ通し音声＋1問ずつ）。作り方は .tmpwork ではなく
+ *   scripts/gacha-prints/kyotsu_mock/make_full_audio.py。
+ */
+export function kyotsuFullAudioOf(printId: string): string | null {
+  const m = /^print_lr_kyotsu_l_(\d)$/.exec(printId);
+  return m && KYOTSU_MOCK_AUDIO[printId] ? `/prints/kyotsu_assets/full/kyotsu_l${m[1]}_full.mp3` : null;
 }

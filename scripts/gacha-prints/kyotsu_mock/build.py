@@ -22,6 +22,8 @@ import copy  # noqa: E402
 
 ROOT = HERE.parents[2]
 OUT = ROOT / 'public' / 'prints'
+# F8（2026-11-04）：リスニングの表紙の QR の行き先（public/prints/kyotsu_assets/full/l{n}.html）
+AUDIO_BASE = 'https://mntb-listening.vercel.app/prints/kyotsu_assets/full'
 EXPECT = {
     'R': {'parts': 8, 'marks': 44, 'points': 100},
     'L': {'parts': 6, 'marks': 37, 'points': 100},
@@ -171,11 +173,12 @@ def build_listening(n, data):
         f'外　国　語\n〔英語（リスニング）〕',
         f'{data["theme"]}\n30分・100点・大問6・解答数{marks}　問題冊子＋全スクリプト（英文・全訳）＋解説',
         [('30分', '試験時間'), ('100点', '配点'), (f'{marks}', '解答数'), (f'約{words // 10 * 10:,}語', 'スクリプトの量')],
-        ['**音声は付いていません**。スクリプトを家族や友だちに読んでもらうか、読み上げアプリに貼って使う（第1・2問は2回、第3〜6問は1回だけ読む）。',
+        ['**音声は下の QR コードから聞けます**（日本語の案内つきで本番と同じ流れの通し音声・1問ずつの音声。第1・2問は2回、第3〜6問は1回流れます）。',
          '一人で使うなら：①問題冊子だけ見て設問と選択肢を先読み → ②スクリプトを1回黙読して解く（速読の練習）→ ③音読してから再挑戦。',
          '本番と同じく、第4問以降は**読み上げ前に表・ワークシート・図を見て「何を聞き取るか」を決める**のが得点の鍵。',
          'スクリプトには英国・非母語話者の話し手も入れています（話し手の欄に表示）。'],
-        [(p['label'], p['title']) for p in data['parts']])
+        [(p['label'], p['title']) for p in data['parts']],
+        qr=(f'{AUDIO_BASE}/l{n}.html', ('音声を聞く（スマホで読み取る）', '日本語の案内 → 問題の音声が本番と同じ順に流れます。1問ずつの聞き直しも同じページから。アプリ「マナトビ」のマイPDFでも聞けます。')))
 
     for p in data['parts']:
         story += [R.bar(f'{p["label"]}　（配点　{p["pts"]}）　音声は{p["sections"][0]["times"]}回流れます。'), Spacer(1, 3 * mm)]

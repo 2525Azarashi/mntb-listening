@@ -80,6 +80,13 @@ export interface ReviewItem {
    *   出会ったときに入る。
    */
   fingerprint?: string;
+  /**
+   * F9（2026-11-04）：いちばん新しい結果。演習・解き直し・「できた」で正解したら 'correct'、間違えたら 'wrong'。
+   *   'correct' のあいだは一覧に「正解した」と出す（次に間違えたらまた 'wrong'）。古い記録には無い＝今までどおり。
+   */
+  lastResult?: 'correct' | 'wrong';
+  /** F9：最後に正解した時刻（epoch ms） */
+  lastCorrectAt?: number;
 }
 
 function storageKey(uid: string | null | undefined): string {
@@ -163,6 +170,7 @@ export function upsertWrongAnswer(items: ReviewItem[], input: WrongAnswerInput):
       correctCount: 0,
       createdAt: now,
       updatedAt: now,
+      lastResult: 'wrong',
       // 登録した時点の問題の指紋を一緒に残す。
       // あとで問題を差し替えたときに「古い内容が居座っている」ことを
       // 機械的に検知できるようにするため（utils/problemVersion.ts）。
@@ -190,6 +198,7 @@ export function upsertWrongAnswer(items: ReviewItem[], input: WrongAnswerInput):
     dueAt: boxToDue(0, now),
     wrongCount: existing.wrongCount + 1,
     updatedAt: now,
+    lastResult: 'wrong',
     // 表示情報を最新で上書きしたので、指紋も同じ内容から取り直す。
     // ★ここで取り直さないと、本文だけ新しく指紋だけ古い★
     // という一番たちの悪い状態（検知しても直らない）になる。
@@ -241,6 +250,8 @@ export function markReviewedCorrect(uid: string | null | undefined, key: string)
       dueAt: boxToDue(nextBox, now),
       correctCount: it.correctCount + 1,
       updatedAt: now,
+      lastResult: 'correct' as const,
+      lastCorrectAt: now,
     };
   });
   saveReviewList(uid, next);
@@ -267,6 +278,7 @@ export function markReviewedWrong(uid: string | null | undefined, key: string): 
       dueAt: boxToDue(0, now),
       wrongCount: it.wrongCount + 1,
       updatedAt: now,
+      lastResult: 'wrong' as const,
     };
   });
   saveReviewList(uid, next);
@@ -412,6 +424,32 @@ export function groupReviewItems(items: ReviewItem[]): ReviewGroup[] {
     g.subQuestionIds = g.items.map(it => it.subQuestionId);
   }
   return [...map.values()];
+}
+
+/**
+ * F9（2026-11-04）：ふつうの演習・対戦でノートに入っている小問に正解したら「正解した」の印を付ける。
+ *   復習の予定（box・dueAt）は動かさない（「できた」や解き直しの正解だけが1段階進める）。
+ */
+export function noteCorrectAnswers(uid: string | null | undefined, keys: string[], now: number = Date.now()): void {
+  if (!keys.length) return;
+  const want = new Set(keys);
+  const items = loadReviewList(uid);
+  let changed = false;
+  const next = items.map((it) => {
+    if (!want.has(it.key) || (it.lastResult === 'correct' && (it.lastCorrectAt ?? 0) >= now)) return it;
+    changed = true;
+    return { ...it, lastResult: 'correct' as const, lastCorrectAt: now, updatedAt: now };
+  });
+  if (changed) saveReviewList(uid, next);
+}
+
+/** F9：一覧に「正解した」と出すか */
+export function isAnsweredCorrectly(item: Pick<ReviewItem, 'lastResult'>): boolean {
+  return item.lastResult === 'correct';
+}
+
+export function reviewKeyOf(chapterId: string, questionId: string, subQuestionId: string): string {
+  return makeItemKey(chapterId, questionId, subQuestionId);
 }
 
 /** 解き直しの結果を反映する：正解した小問は「できた」、間違えた小問は採点時に自動で当日へ戻る */

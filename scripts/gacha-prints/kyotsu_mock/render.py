@@ -621,8 +621,24 @@ def make_doc(out, title, page_label):
     return doc
 
 
-def cover_story(eyebrow, title, subtitle, stats, howto, toc):
-    """本番の問題冊子の表紙のつくり：科目名・試験時間・注意事項（白黒）"""
+def qr_flow(url, caption, size=26 * mm):
+    """F8（2026-11-04）：表紙の QR コード（読むと音声のページが開く）。左に QR・右に説明"""
+    import qrcode
+    from reportlab.platypus import Image as RLImage
+    img = qrcode.make(url, border=1, error_correction=qrcode.constants.ERROR_CORRECT_M)
+    tmp = Path(tempfile.mkdtemp()) / 'qr.png'; img.save(tmp)
+    cw = A4[0] - 48 * mm
+    txt = [Paragraph(f'<font name="JPB">{esc(caption[0])}</font>', S('qh', fontSize=11, leading=16)),
+           Paragraph(ml(caption[1]), S('qt', fontSize=9.5, leading=14)),
+           Paragraph(f'<font name="EN">{esc(url)}</font>', S('qu', fontSize=7.5, leading=10))]
+    t = Table([[RLImage(str(tmp), size, size), txt]], colWidths=[size + 6 * mm, cw - size - 6 * mm])
+    t.setStyle(TableStyle([('BOX', (0, 0), (-1, -1), 0.8, BLACK), ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+                           ('TOPPADDING', (0, 0), (-1, -1), 5), ('BOTTOMPADDING', (0, 0), (-1, -1), 5)]))
+    return t
+
+
+def cover_story(eyebrow, title, subtitle, stats, howto, toc, qr=None):
+    """本番の問題冊子の表紙のつくり：科目名・試験時間・注意事項（白黒）。qr=(url, (見出し, 説明)) で音声の QR を添える"""
     cw = A4[0] - 48 * mm
     story = [NextPageTemplate('body'), Spacer(1, 6 * mm),
              Paragraph(esc(eyebrow), S('e', fontSize=10, leading=14, alignment=1)), Spacer(1, 10 * mm),
@@ -638,7 +654,9 @@ def cover_story(eyebrow, title, subtitle, stats, howto, toc):
     nt = Table([[notes]], colWidths=[cw])
     nt.setStyle(TableStyle([('BOX', (0, 0), (-1, -1), 0.8, BLACK), ('LEFTPADDING', (0, 0), (-1, -1), 10), ('RIGHTPADDING', (0, 0), (-1, -1), 10),
                             ('TOPPADDING', (0, 0), (-1, -1), 8), ('BOTTOMPADDING', (0, 0), (-1, -1), 10)]))
-    story += [nt, Spacer(1, 6 * mm)]
+    story += [nt, Spacer(1, 4 * mm)]
+    if qr:
+        story += [qr_flow(*qr), Spacer(1, 4 * mm)]
     rows = [[Paragraph(f'<font name="JPB">{esc(a)}</font>', st['jas']), Paragraph(esc(b), st['jas'])] for a, b in toc]
     tt = Table(rows, colWidths=[24 * mm, cw - 24 * mm])
     tt.setStyle(TableStyle([('LINEBELOW', (0, 0), (-1, -1), 0.3, BLACK), ('TOPPADDING', (0, 0), (-1, -1), 1.5), ('BOTTOMPADDING', (0, 0), (-1, -1), 1.5)]))

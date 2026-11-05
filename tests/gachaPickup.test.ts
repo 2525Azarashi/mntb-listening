@@ -65,3 +65,33 @@ describe('ピックアップ一覧の整理（2026-11-04：PDF が増えても�
     expect(text.length).toBeLessThan(40);
   });
 });
+
+describe('F5 第1回の共通テスト予想問題は全文を見られる', () => {
+  it('第1回（リーディング・リスニング）だけが全文を見られる対象', async () => {
+    const { KYOTSU_FREE_FULL_IDS, isFreeFullPrint } = await import('../src/data/kyotsuMockPrints');
+    expect([...KYOTSU_FREE_FULL_IDS]).toEqual(['print_lr_kyotsu_r_1', 'print_lr_kyotsu_l_1']);
+    expect(isFreeFullPrint('print_lr_kyotsu_r_2')).toBe(false);
+    for (const id of KYOTSU_FREE_FULL_IDS) expect(existsSync(`public${printOf(id)!.file}`), id).toBe(true);
+  });
+  it('バナーのピックアップは毎週、第1回が LR の先頭に固定される', async () => {
+    const { weeklyPickup } = await import('../src/components/gacha/GachaItemDetail');
+    const items = gachaItems();
+    for (const week of [0, 1, 2, 3, 7, 40]) {
+      const ids = weeklyPickup(items, week).map((i) => i.id);
+      expect(ids.slice(0, 2)).toEqual(['print_lr_kyotsu_r_1', 'print_lr_kyotsu_l_1']);
+      expect(ids).toHaveLength(5);
+    }
+    // 目玉が第1回のときは重ねない（残りの第1回が先頭）
+    expect(weeklyPickup(items, 0, 'print_lr_kyotsu_r_1')[0].id).toBe('print_lr_kyotsu_l_1');
+  });
+  it('ピックアップ一覧と詳細窓に「全文を見る」があり、アプリ内の PDF ビューで開いて戻れる', () => {
+    const modal = readFileSync('src/components/gacha/GachaPickupModal.tsx', 'utf8');
+    const detail = readFileSync('src/components/gacha/GachaItemDetail.tsx', 'utf8');
+    const open = readFileSync('src/components/gacha/openFullPrint.ts', 'utf8');
+    expect(modal).toContain('data-gacha-free-full');
+    expect(modal).toContain('全文を見る');
+    expect(detail).toContain('ここを押して全文を見る');
+    expect(open).toContain('openPdf(');
+    expect(open).toContain('showModal()'); // PDF を閉じたら元のダイアログに戻る
+  });
+});
