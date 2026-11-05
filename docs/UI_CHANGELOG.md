@@ -637,6 +637,17 @@
 
 ---
 
+## 2026-11-04 2次試験ガチャの大当たりに長崎大学を追加（PR: feat/niji-nagasaki）
+
+| # | どこ | 変更 | ファイル |
+|---|---|---|---|
+| 1 | 2次試験ガチャの LR | 国公立2次 英語 予想問題 長崎大学 前期対策を6冊追加（A・B・D：多文化社会・経済・医・歯・薬・工・環境科学部ほか／A・B・C：教育学部〈文系以外〉・情報データ科学部〈理系受験〉 各3回）。ラベルに学部名を出す | `src/data/nijiMockPrints.ts`・`public/prints/print_lr_niji_nagasaki{d,c}_en_{1,2,3}.pdf`・thumbs・previews・`src/data/gachaPreviews.generated.ts` |
+| 2 | ピックアップの説明文 | 収録大学に長崎大学を追加（学部別に各3回の大学に並べる） | `src/battle/core/gachaPools.ts`・`nijiMockPrints.ts`（`NIJI_DISCLAIMER` は自動で長崎大学を含む） |
+
+**戻し方**：`nijiMockPrints.ts` の `nagasakid`・`nagasakic` の行（`NIJI_UNIVERSITIES` の2行・ヘルパー2行・台帳6行）を消し、`gachaPools.ts` の lrNote・`build-previews.py` の正規表現・`tests/nijiGacha.test.ts` の件数（87→81）を元に戻す。PDF・画像は消してよい。
+
+---
+
 ## 2026-11-04 2次試験ガチャの大当たりに島根大学を追加（PR: feat/niji-shimane）
 
 | # | どこ | 変更 | ファイル |

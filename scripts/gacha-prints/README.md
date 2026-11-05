@@ -529,6 +529,21 @@ python3 ../build-previews.py print_lr_niji_shimaneh_en_1 print_lr_niji_shimaneh_
   - shimanem（医学部医学科・120分300点）：1 70／2 80／3 医療・科学の長文 90／5 A 和文英訳・B 約80語の意見英作文 60
 - 配点は大学非公表のため本書の想定。照合元は島根大学の公開問題・出題意図（令和5〜7年度。画像PDFは全ページOCR）。英5語・日10字の一致と1文ごとの言い換えがどちらも0件。
 
+### 長崎大学 前期対策（2026-11-04 追加）
+
+```bash
+cd scripts/gacha-prints/niji_shikoku   # 四国・鳥取・島根と同じ道具（cfg.py に 'nagasakid'・'nagasakic' を追加）
+python3 nagasaki/fixwords.py nagasaki/r*_*.py   # 指示文の決まり文句を独自の言い回しに置き換え
+python3 run.py nagasakid 1 2 3 && python3 run.py nagasakic 1 2 3
+python3 plag.py nagasakid nagasakic && python3 strict/gate.py nagasakid nagasakic && python3 strict/para.py   # gate・para は 0 件（plag は学部名と記号の並びのみ）
+python3 ../build-previews.py print_lr_niji_nagasakid_en_1 print_lr_niji_nagasakid_en_2 print_lr_niji_nagasakid_en_3 print_lr_niji_nagasakic_en_1 print_lr_niji_nagasakic_en_2 print_lr_niji_nagasakic_en_3
+```
+
+- 2系統×3回。中身は `nagasaki/r{n}_a.py`（A 共通）・`r{n}_b.py`（B 共通）・`r{n}_cd.py`（SC＝C 語彙、SD＝D グラフ英作文）。形式は令和4〜8年度の公開問題（画像PDFは300dpiでOCR）に合わせた。
+  - nagasakid（多文化社会・教育〈文系〉・経済・医・歯・薬・情報データ科学〈文系〉・工・環境科学部）：A 長文（日本語で答える）70／B 物語文（英語で答える）70／D グラフを読んで100語程度×2 60
+  - nagasakic（教育〈文系以外〉・情報データ科学〈理系〉）：A 70／B 70／C 下線部の同意語句10問 60
+- 100分。配点は大学非公表のため本書の想定。`common.py` に下線だけ（ラベルなし）を引く `{_:語句}` を追加。照合元に `/home/user/work/kyushu/*/*.txt` を加えた。
+
 ### 山口大学 前期対策（2026-11-03 追加）
 
 ```bash
