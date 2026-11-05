@@ -443,6 +443,23 @@ python3 scripts/gacha-prints/build-previews.py print_lr_niji_saga_en_1 print_lr_
 - 過去問（R6〜R8・大学公開のスキャン画像）を OCR で文字に起こしたものと照合し、英5語・日12字の連続一致が0件であることを確認（設問の決まり文句も言い換えた）。
 - render.py が検査すること：配点の合計、日本語の解答例が80〜120字か、記号の答えが選択肢にあるか、3(3) の解答例が45〜75語か、4 の解答例が85〜115語か、採点の目安の合計が配点と合うか。
 
+
+### 北陸の国公立 前期対策：金沢大学・富山大学・福井大学・福井県立大学（2026-11-03 追加）
+
+```bash
+# 中身は webapp/pdf/{kanazawa,toyama,toyamamed,fukuie,fukuim,fukuig,fpu}/r{1,2,3}.py、紙面は共通の webapp/pdf/niji_common.py
+cd webapp/pdf/fpu && python3 build.py 1      # → 予想問題_福井県立大学_英語_第1回_{問題,解答解説}.pdf
+pdfunite 予想問題_福井県立大学_英語_第1回_問題.pdf 予想問題_福井県立大学_英語_第1回_解答解説.pdf public/prints/print_lr_niji_fpu_en_1.pdf
+python3 scripts/gacha-prints/build-previews.py print_lr_niji_fpu_en_1 …   # previews（thumbs は1ページ目を 360×510 webp）
+```
+
+- 学部で英語の問題が違う大学は、系統ごとに id を分けて各3回分。
+  - 金沢 `kanazawa`：全学域・学類共通
+  - 富山 `toyama`：人文・教育・経済・医学部看護学科の共通問題／`toyamamed`：医学部医学科
+  - 福井 `fukuie`：教育学部／`fukuim`：医学部医学科／`fukuig`：国際地域学部
+  - 福井県立 `fpu`：英語を課す学部・学科の共通問題（長文・和文英訳・自由英作文）・90分・100点
+- 北陸の公立大学のうち、2次（前期）で英語を課すのは福井県立大学のみ（公立小松大学・富山県立大学・石川県立大学などは確認のうえ対象外）。
+- 照合：`python3 work/plag/niji_check.py kanazawa toyama toyamamed fukuie fukuim fukuig fpu` で英5語・日12字の一致0件を確認。
 ### 九州大学 前期対策（2026-11-01 追加）
 
 ```bash
@@ -560,6 +577,49 @@ python3 scripts/gacha-prints/build-previews.py print_lr_niji_yamaguchi_en_1 prin
 - 照合：過去問（画像PDFは200dpiで全ページOCR）・解答例・出題の意図と、英語5語・日本語12字の連続一致が 0 件（指示文の決まり文句も言い換え済み）。照合用のテキストは著作物なので git に入れない。
 - render.py が検査すること：大問ごとの配点と合計200、本文の語数（880〜1080語）・全訳の段落数、下線部の位置、英語で答える問題の語数と「本文の語句で」の語が本文にあるか、頭文字つき空所の頭文字、T/F の偏り、出来事の順番が最初から正解の順になっていないこと、Ⅲ の空所数・解答例2つずつ・採点の目安の合計。
 
+
+### 東海の国公立 前期対策：岐阜・三重・名古屋工業・名古屋市立・愛知県立・愛知教育大学（2026-11-04 追加）
+
+```bash
+# 中身は webapp/pdf/{gifu,mie,nit,ncu,apua,apub,aue}/r{1,2,3}.py（愛知県立の共通Ⅰ・Ⅱは webapp/pdf/apu_shared/apu_c{1,2,3}.py）
+cd webapp/pdf/aue && python3 build.py 1      # → 予想問題_愛知教育大学_英語_第1回_{問題,解答解説}.pdf
+pdfunite 予想問題_愛知教育大学_英語_第1回_問題.pdf 予想問題_愛知教育大学_英語_第1回_解答解説.pdf public/prints/print_lr_niji_aue_en_1.pdf
+python3 scripts/gacha-prints/build-previews.py print_lr_niji_aue_en_1 …   # previews（thumbs は1ページ目を 360×510 webp）
+```
+
+- 岐阜 `gifu`・三重 `mie`・名古屋工業 `nit`・名古屋市立 `ncu`（前期・英語を課す学部の共通問題を想定）・愛知教育 `aue`（英語専修を想定）は各3回分。
+- 愛知県立大学は、Ⅰ・Ⅱが全学部共通で、外国語学部はⅣ、日本文化・教育福祉・看護学部はⅢを解く。系統別に `apua`（外国語学部）・`apub`（3学部）を各3回分。共通のⅠ・Ⅱは両方の冊子で同じ問題。
+- 大問の見出しを「Ⅳ Part A」のように出すため、`niji_common.py` の CFG に `sec_labels`（[(バッジ, 見出し), …]）を足した（他大学は従来どおり）。
+- 対象外：浜松医科・静岡県立・静岡文化芸術（別途対応）、名古屋市立の中期・薬学部、三重県立看護（前期の過去問が非公開のため保留）。
+- 照合：`python3 work/plag/niji_check.py gifu mie nit ncu apua apub aue` で英5語・日12字の一致0件を確認。
+
+### 鹿児島大学 前期対策（学部別2系統）（2026-11-04 追加）
+
+```bash
+# 中身は webapp/pdf/{kagoa,kagob}/r{1,2,3}.py（共通の 1〜4 は webapp/pdf/kago_shared/kago_c{1,2,3}.py）
+cd webapp/pdf/kagoa && python3 build.py 1      # → 予想問題_鹿児島大学_英語_第1回_{問題,解答解説}.pdf
+pdfunite 予想問題_鹿児島大学_英語_第1回_問題.pdf 予想問題_鹿児島大学_英語_第1回_解答解説.pdf public/prints/print_lr_niji_kagoa_en_1.pdf
+python3 scripts/gacha-prints/build-previews.py print_lr_niji_kagoa_en_1 …   # 実行後、gachaPreviews.generated.ts は既存の並びを保ち新しい項目だけ末尾に足す
+```
+
+- 1〜4（長文2題・文法の4択10問・対話の和文英訳4問）は全学部共通。5 は 5−1 自由英作文 100〜120語（`kagoa`：法文・教育・医・歯・共同獣医〈獣医〉）と 5−2 長文読解（`kagob`：理・工・農・水産・共同獣医〈畜産〉）。共通部分は両方の冊子で同じ問題。
+- 配点は編集部の想定（22・22・10・16・30）。
+- 照合：`python3 work/plag/niji_check.py kagoa kagob`（照合元に鹿児島大学 R6〜R8 の公開問題・解答例を追加）で英5語・日12字の一致0件を確認。
+
+### 宮崎大学 前期対策（学部別3系統）（2026-11-05 追加）
+
+```bash
+# 中身は webapp/pdf/{miyae,miyam,miyat}/r{1,2,3}.py
+cd webapp/pdf/miyae && python3 build.py 1      # → 予想問題_宮崎大学_英語_第1回_{問題,解答解説}.pdf
+pdfunite 予想問題_宮崎大学_英語_第1回_問題.pdf 予想問題_宮崎大学_英語_第1回_解答解説.pdf public/prints/print_lr_niji_miyae_en_1.pdf
+python3 scripts/gacha-prints/build-previews.py print_lr_niji_miyae_en_1 …   # 実行後、gachaPreviews.generated.ts は既存の並びを保ち新しい項目だけ末尾に足す
+```
+
+- `miyae`（教育・農〈獣医〉・90分）：会話文の語句補充・文補充、説明文、物語文（前半あらすじ＋後半英文）、自由英作文 120〜150語。
+- `miyam`（医学科・90分・設問は英語）：医療・健康の長文総合（和訳・日本語説明・整序・T/F 8問・約30語/約50語）、和文英訳、記事読解（語義の組み合わせ・T/F・30〜40語×2・約60語）。
+- `miyat`（工学部・60分）：短い説明文の空所補充、会話文と仕様表（条件に合う製品・プランを選ぶ）、随筆、説明文（和訳・整序・40字説明・文挿入・5語以上の感想）。
+- 地域資源創成学部は総合問題のため対象外。配点は編集部の想定（大学は配点を公表していない）。
+- 照合：`python3 work/plag/niji_check.py miyae miyam miyat`（照合元に宮崎大学 R7・R8 の公開問題・出題意図を追加）で英5語・日12字の一致0件を確認。
 ### 尾道市立大学 前期対策（経済情報学部・2026-11-04 追加）
 
 ```bash

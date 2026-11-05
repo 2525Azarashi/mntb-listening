@@ -96,8 +96,11 @@ describe('2次試験ガチャ：抽選', () => {
 
 describe('2次試験の予想問題 PDF', () => {
   it('台帳のページ数・ファイル・サムネイルが実物と合う', () => {
-    expect(NIJI_MOCK_PRINTS).toHaveLength(NIJI_UNIVERSITIES.length * 3); // 系統ごとに各3回。追加大学分を含めて台帳件数を検証    // ＋四国 27（香川 3・徳島 3・愛媛 法文工/教育/医 各3・高知 人文/国際/教育/医 各3）
-    // ＋福岡女子 3・東京外大 3・鳥取 3・山口 3・尾道市立 3・島根 2系統×3・群馬 情報 3
+    expect(NIJI_MOCK_PRINTS).toHaveLength(NIJI_UNIVERSITIES.length * 3); // 系統ごとに各3回。追加大学分を含めて台帳件数を検証
+    // 四国 27（香川 3・徳島 3・愛媛 法文工/教育/医 各3・高知 人文/国際/教育/医 各3）・福岡女子 3・東京外大 3・鳥取 3・山口 3・尾道市立 3・島根 2系統×3・群馬 情報 3
+    // ＋北陸 21（金沢 3・富山 共通/医学科 各3・福井 教育/医学科/国際地域 各3・福井県立 3）
+    // ＋東海 21（岐阜 3・三重 3・名古屋工業 3・名古屋市立 3・愛知県立 外国語/3学部 各3・愛知教育 3）
+    // ＋鹿児島 6（5−1 英作文の学部・5−2 長文の学部 各3）＋宮崎 9（教育・農／医学科／工学部 各3）
     for (const u of NIJI_UNIVERSITIES) expect(NIJI_MOCK_PRINTS.filter((p) => nijiUniversityOf(p.id)?.id === u.id).length, u.id).toBe(3);
     for (const p of NIJI_MOCK_PRINTS) {
       expect(existsSync(`public${p.file}`), p.id).toBe(true);
@@ -118,7 +121,7 @@ describe('2次試験の予想問題 PDF', () => {
       expect(t, p.id).toContain(nijiDisclaimerFor(u.name).replace(/\s+/g, ''));
       expect(t, p.id).not.toMatch(/的中|必ず出る|合格できる/);
     }
-  }, 90_000); // 全PDFを pdftotext で開くので既定の20秒では足りない
+  }, 180_000); // 全PDFを pdfinfo / pdftotext で開くので既定の20秒では足りない（150冊超）
   it('ガチャの詳細・ピックアップに注意書きを出す', () => {
     expect(NIJI_DISCLAIMER).toContain('過去問・公式問題ではありません');
     expect(readFileSync('src/components/gacha/GachaItemDetail.tsx', 'utf8')).toContain('nijiDisclaimerFor(nijiUniv.name)');
@@ -133,6 +136,21 @@ describe('2次試験の予想問題 PDF', () => {
     for (const n of ['香川大学', '徳島大学', '愛媛大学', '高知大学', '鳥取大学', '島根大学', '長崎大学']) expect(NIJI_DISCLAIMER.split(n).length - 1, n).toBe(1);
     for (const name of ['和歌山大学', '岡山大学', '広島大学']) expect(NIJI_DISCLAIMER, name).toContain(name);
     expect(nijiUniversityOf('print_lr_niji_hiroshima_en_2')?.name).toBe('広島大学');
+    for (const name of ['金沢大学', '富山大学', '福井大学', '福井県立大学']) expect(NIJI_DISCLAIMER, name).toContain(name);
+    expect(nijiUniversityOf('print_lr_niji_toyamamed_en_1')?.track).toBe('医学部医学科');
+    expect(nijiUniversityOf('print_lr_niji_fpu_en_3')?.name).toBe('福井県立大学');
+    for (const name of ['岐阜大学', '三重大学', '名古屋工業大学', '名古屋市立大学', '愛知県立大学', '愛知教育大学']) expect(NIJI_DISCLAIMER, name).toContain(name);
+    expect(NIJI_DISCLAIMER.split('愛知県立大学').length - 1).toBe(1);
+    expect(nijiUniversityOf('print_lr_niji_apua_en_2')?.track).toBe('外国語学部');
+    expect(NIJI_MOCK_PRINTS.find((p) => p.id === 'print_lr_niji_apub_en_1')!.label).toContain('日本文化・教育福祉・看護学部');
+    expect(nijiUniversityOf('print_lr_niji_aue_en_3')?.name).toBe('愛知教育大学');
+    expect(NIJI_DISCLAIMER.split('鹿児島大学').length - 1).toBe(1);
+    expect(nijiUniversityOf('print_lr_niji_kagoa_en_1')?.track).toContain('法文');
+    expect(nijiUniversityOf('print_lr_niji_kagob_en_3')?.track).toContain('畜産');
+    expect(NIJI_DISCLAIMER.split('宮崎大学').length - 1).toBe(1);
+    expect(nijiUniversityOf('print_lr_niji_miyae_en_2')?.track).toContain('教育');
+    expect(nijiUniversityOf('print_lr_niji_miyam_en_1')?.track).toBe('医学科');
+    expect(nijiUniversityOf('print_lr_niji_miyat_en_3')?.track).toBe('工学部');
     expect(NIJI_MOCK_PRINTS.find((p) => p.id === 'print_lr_niji_okayama_en_1')!.label).toBe('国公立2次 英語 予想問題 岡山大学 前期対策 第1回（問題＋解答・解説）');
     expect(readFileSync('src/components/gacha/GachaPickupModal.tsx', 'utf8')).toContain('NIJI_DISCLAIMER');
   });
