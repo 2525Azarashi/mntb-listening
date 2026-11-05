@@ -16,6 +16,11 @@
  *     ・120分・全学部共通。配点は大学非公表のため編集部の想定（32・32・16・20）。3回分。
  *   - 佐賀大学 前期対策（2026-11-01 追加）：大問1〜4（英文の要旨を100字前後の日本語で・会話文の空所4・図つきの長文と約60語の記述
  *     ・英文を読んで100語の英作文）・100分・100点（20・20・30・30）。教育・経済・医・農学部共通。3回分。図の数値は架空。
+ *   - 金沢大学 前期対策（2026-11-03 追加）：全学域・学類共通。3回分。
+ *   - 富山大学 前期対策（2026-11-03 追加）：人文・教育・経済・医学部看護学科の共通問題と、医学部医学科の問題が別のため、各3回分（計6冊）。
+ *   - 福井大学 前期対策（2026-11-03 追加）：教育学部・医学部医学科・国際地域学部で問題が異なるため、各3回分（計9冊）。
+ *   - 福井県立大学 前期対策（2026-11-03 追加）：英語を課す学部・学科の共通問題（長文・和文英訳・自由英作文）・90分・100点。3回分。
+ *     （北陸の公立大学で2次に英語を課すのは福井県立大学のみ）
  *   - 九州大学 前期対策（2026-11-01 追加）：大問〔1〕〜〔5〕（段落番号つきの長文3題・約100語の自由英作文・グラフを約80語で説明）
  *     ・120分・200点（40・45・45・40・30）。全学部共通。小問の配点は編集部の想定。3回分。
  *   - 福岡女子大学 前期対策（2026-11-02 追加）：問題Ⅰ〜Ⅲ（約700語の長文2題・和文英訳2問）・90分。3学科共通。
@@ -31,6 +36,21 @@
  *   - 山口大学 前期対策（2026-11-03 追加）：Ⅰ 約1000語の長文（設問・解答とも英語）・Ⅱ 約1000語のエッセイ／物語（設問は日本語）・
  *     Ⅲ-1 会話文の空所に英語・Ⅲ-2 日本語の指示を英語にしてメール完成・120分・200点（65・65・30・40）。全学部共通。
  *     小問の配点は編集部の想定。3回分。
+ *   - 岐阜大学 前期対策（2026-11-04 追加）：英語を課す学部の共通問題・3回分。
+ *   - 三重大学 前期対策（2026-11-04 追加）：英語を課す学部の共通問題（大問Ⅰ〜Ⅲ）・80分・100点。3回分。
+ *   - 名古屋工業大学 前期対策（2026-11-04 追加）：大問Ⅰ〜Ⅴ（短文読解・空所補充・長文・英文の計算/図表・図表を読む英作文）・80分・100点。3回分。
+ *   - 名古屋市立大学 前期対策（2026-11-04 追加）：英語を課す学部の共通問題を想定（長文3題＋自由英作文）・120分・100点。3回分。
+ *     （自由英作文は年度により出題されないことがあるが、演習のため毎回入れている）
+ *   - 愛知県立大学 前期対策（2026-11-04 追加）：Ⅰ・Ⅱは全学部共通、外国語学部はⅣ、日本文化・教育福祉・看護学部はⅢを解くため、
+ *     外国語学部用・3学部用を各3回分（計6冊）。90分・100点。設問の指示は英語。
+ *   - 愛知教育大学 前期対策（2026-11-04 追加）：大問Ⅰ〜Ⅳ（日本語で答える長文2題・誤り指摘/空所補充/英文要約・図表の要約と意見200語）
+ *     ・100分・100点（各25点）。英語専修の志望者を想定。3回分。図表の数値は架空。
+ *   - 鹿児島大学 前期対策（2026-11-04 追加）：1〜4 は全学部共通（長文2題・文法の4択10問・対話の和文英訳4問）、5 は学部で分かれる
+ *     （5−1 自由英作文 100〜120語：法文・教育・医・歯・共同獣医〈獣医〉／5−2 長文読解：理・工・農・水産・共同獣医〈畜産〉）。
+ *     系統別に各3回分（計6冊）。配点は編集部の想定（22・22・10・16・30）。
+ *   - 宮崎大学 前期対策（2026-11-05 追加）：学部で問題が分かれるので系統別に各3回分（計9冊）。
+ *     教育・農（獣医）＝会話文2題・説明文・物語文・自由英作文 120〜150語（90分）／医学科＝長文総合・和文英訳・記事読解と英語での意見記述
+ *     （90分・設問は英語）／工学部＝空所補充・会話文と仕様表・随筆・説明文（60分）。配点は編集部の想定。製品・料金などの数値は架空。
  *   - 尾道市立大学 前期対策（経済情報学部・2026-11-04 追加）：Ⅰ・Ⅱ 約500語の読解（並べ替え・空所の語選択・語義・指示内容・抜き出し・
  *     内容の○×）・Ⅲ 空所補充8（4択）・Ⅳ 日本文に合わせた8語の並べ替え6題（4番目と7番目）・80分・100点（33・33・16・18）。
  *     英語の個別試験は経済情報学部だけ。小問の配点は編集部の想定。3回分。
@@ -70,6 +90,13 @@ export const NIJI_UNIVERSITIES = [
   { id: 'ryukyu', name: '琉球大学', track: '' },
   { id: 'kumamoto', name: '熊本大学', track: '' },
   { id: 'saga', name: '佐賀大学', track: '' },
+  { id: 'kanazawa', name: '金沢大学', track: '' },
+  { id: 'toyama', name: '富山大学', track: '人文・教育・経済・看護' },
+  { id: 'toyamamed', name: '富山大学', track: '医学部医学科' },
+  { id: 'fukuie', name: '福井大学', track: '教育学部' },
+  { id: 'fukuim', name: '福井大学', track: '医学部医学科' },
+  { id: 'fukuig', name: '福井大学', track: '国際地域学部' },
+  { id: 'fpu', name: '福井県立大学', track: '' },
   { id: 'kyushu', name: '九州大学', track: '' },
   { id: 'fwu', name: '福岡女子大学', track: '' },
   { id: 'tufs', name: '東京外国語大学', track: '' },
@@ -84,6 +111,18 @@ export const NIJI_UNIVERSITIES = [
   { id: 'kochim', name: '高知大学', track: '医学部医学科' },
   { id: 'tottori', name: '鳥取大学', track: '' },
   { id: 'yamaguchi', name: '山口大学', track: '' },
+  { id: 'gifu', name: '岐阜大学', track: '' },
+  { id: 'mie', name: '三重大学', track: '' },
+  { id: 'nit', name: '名古屋工業大学', track: '' },
+  { id: 'ncu', name: '名古屋市立大学', track: '' },
+  { id: 'apua', name: '愛知県立大学', track: '外国語学部' },
+  { id: 'apub', name: '愛知県立大学', track: '日本文化・教育福祉・看護学部' },
+  { id: 'aue', name: '愛知教育大学', track: '' },
+  { id: 'kagoa', name: '鹿児島大学', track: '法文・教育・医・歯・共同獣医（獣医）' },
+  { id: 'kagob', name: '鹿児島大学', track: '理・工・農・水産・共同獣医（畜産）' },
+  { id: 'miyae', name: '宮崎大学', track: '教育・農（獣医）' },
+  { id: 'miyam', name: '宮崎大学', track: '医学科' },
+  { id: 'miyat', name: '宮崎大学', track: '工学部' },
   { id: 'ibaraki', name: '茨城大学', track: '' },
   { id: 'onomichi', name: '尾道市立大学', track: '経済情報学部' },
   { id: 'shimaneh', name: '島根大学', track: '法文・人間科学・総合理工・生物資源科学部' },
@@ -119,6 +158,13 @@ const gakugei = (n: number, pages: number, kb: number) => mock('gakugei', n, pag
 const ryukyu = (n: number, pages: number, kb: number) => mock('ryukyu', n, pages, kb);
 const kumamoto = (n: number, pages: number, kb: number) => mock('kumamoto', n, pages, kb);
 const saga = (n: number, pages: number, kb: number) => mock('saga', n, pages, kb);
+const kanazawa = (n: number, pages: number, kb: number) => mock('kanazawa', n, pages, kb);
+const toyama = (n: number, pages: number, kb: number) => mock('toyama', n, pages, kb);
+const toyamamed = (n: number, pages: number, kb: number) => mock('toyamamed', n, pages, kb);
+const fukuie = (n: number, pages: number, kb: number) => mock('fukuie', n, pages, kb);
+const fukuim = (n: number, pages: number, kb: number) => mock('fukuim', n, pages, kb);
+const fukuig = (n: number, pages: number, kb: number) => mock('fukuig', n, pages, kb);
+const fpu = (n: number, pages: number, kb: number) => mock('fpu', n, pages, kb);
 const kyushu = (n: number, pages: number, kb: number) => mock('kyushu', n, pages, kb);
 const fwu = (n: number, pages: number, kb: number) => mock('fwu', n, pages, kb);
 const tufs = (n: number, pages: number, kb: number) => mock('tufs', n, pages, kb);
@@ -133,6 +179,18 @@ const kochie = (n: number, pages: number, kb: number) => mock('kochie', n, pages
 const kochim = (n: number, pages: number, kb: number) => mock('kochim', n, pages, kb);
 const tottori = (n: number, pages: number, kb: number) => mock('tottori', n, pages, kb);
 const yamaguchi = (n: number, pages: number, kb: number) => mock('yamaguchi', n, pages, kb);
+const gifu = (n: number, pages: number, kb: number) => mock('gifu', n, pages, kb);
+const mie = (n: number, pages: number, kb: number) => mock('mie', n, pages, kb);
+const nit = (n: number, pages: number, kb: number) => mock('nit', n, pages, kb);
+const ncu = (n: number, pages: number, kb: number) => mock('ncu', n, pages, kb);
+const apua = (n: number, pages: number, kb: number) => mock('apua', n, pages, kb);
+const apub = (n: number, pages: number, kb: number) => mock('apub', n, pages, kb);
+const aue = (n: number, pages: number, kb: number) => mock('aue', n, pages, kb);
+const kagoa = (n: number, pages: number, kb: number) => mock('kagoa', n, pages, kb);
+const kagob = (n: number, pages: number, kb: number) => mock('kagob', n, pages, kb);
+const miyae = (n: number, pages: number, kb: number) => mock('miyae', n, pages, kb);
+const miyam = (n: number, pages: number, kb: number) => mock('miyam', n, pages, kb);
+const miyat = (n: number, pages: number, kb: number) => mock('miyat', n, pages, kb);
 const ibaraki = (n: number, pages: number, kb: number) => mock('ibaraki', n, pages, kb);
 const onomichi = (n: number, pages: number, kb: number) => mock('onomichi', n, pages, kb);
 const shimaneh = (n: number, pages: number, kb: number) => mock('shimaneh', n, pages, kb);
@@ -176,6 +234,27 @@ export const NIJI_MOCK_PRINTS: readonly GachaPrintDef[] = [
   saga(1, 20, 1559),
   saga(2, 20, 1549),
   saga(3, 20, 1566),
+  kanazawa(1, 20, 1853),
+  kanazawa(2, 19, 1843),
+  kanazawa(3, 20, 1857),
+  toyama(1, 20, 1878),
+  toyama(2, 20, 1874),
+  toyama(3, 20, 1871),
+  toyamamed(1, 21, 1849),
+  toyamamed(2, 20, 1836),
+  toyamamed(3, 20, 1842),
+  fukuie(1, 20, 1890),
+  fukuie(2, 20, 1883),
+  fukuie(3, 20, 1876),
+  fukuim(1, 25, 1875),
+  fukuim(2, 25, 1885),
+  fukuim(3, 25, 1897),
+  fukuig(1, 24, 1866),
+  fukuig(2, 24, 1871),
+  fukuig(3, 24, 1864),
+  fpu(1, 20, 1870),
+  fpu(2, 19, 1847),
+  fpu(3, 20, 1846),
   kyushu(1, 30, 1827),
   kyushu(2, 30, 1790),
   kyushu(3, 30, 1862),
@@ -218,6 +297,42 @@ export const NIJI_MOCK_PRINTS: readonly GachaPrintDef[] = [
   yamaguchi(1, 26, 1858),
   yamaguchi(2, 25, 1826),
   yamaguchi(3, 25, 1828),
+  gifu(1, 32, 1957),
+  gifu(2, 32, 1939),
+  gifu(3, 32, 1936),
+  mie(1, 21, 1907),
+  mie(2, 22, 1925),
+  mie(3, 22, 1903),
+  nit(1, 26, 1959),
+  nit(2, 26, 1944),
+  nit(3, 26, 1940),
+  ncu(1, 26, 1965),
+  ncu(2, 26, 1943),
+  ncu(3, 26, 1954),
+  apua(1, 31, 1928),
+  apua(2, 31, 1926),
+  apua(3, 30, 1922),
+  apub(1, 31, 1933),
+  apub(2, 31, 1934),
+  apub(3, 31, 1934),
+  aue(1, 25, 1996),
+  aue(2, 25, 2000),
+  aue(3, 24, 2007),
+  kagoa(1, 27, 1981),
+  kagoa(2, 27, 1964),
+  kagoa(3, 28, 1954),
+  kagob(1, 29, 2019),
+  kagob(2, 29, 2000),
+  kagob(3, 30, 2000),
+  miyae(1, 25, 1940),
+  miyae(2, 25, 1932),
+  miyae(3, 25, 1940),
+  miyam(1, 21, 1818),
+  miyam(2, 21, 1811),
+  miyam(3, 21, 1816),
+  miyat(1, 22, 1815),
+  miyat(2, 22, 1812),
+  miyat(3, 22, 1822),
   ibaraki(1, 23, 1898),
   ibaraki(2, 24, 1876),
   ibaraki(3, 23, 1925),
