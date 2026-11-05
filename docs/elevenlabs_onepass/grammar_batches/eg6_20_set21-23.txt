@@ -1,0 +1,29 @@
+“What's up? You look worried.” “Nothing much.”
+<break time="1.5s" />
+“I don't have any appetite. I don't want to eat anything.”
+<break time="1.5s" />
+“I have a sore throat. It hurts when I swallow.”
+<break time="1.5s" />
+“You have a fever, don't you?” “I don't know. I haven't taken my temperature yet.”
+<break time="1.5s" />
+“Have you recovered from your cold?” “Yes, thank you. I'm completely well now.”
+<break time="1.5s" />
+“I'll go home and rest.” “Take care of yourself. I hope you feel better soon.”
+<break time="1.5s" />
+“OK, everyone. Let's get down to business.”
+<break time="1.5s" />
+“Why don't we see the ball game tonight?” “Sorry, I'm busy. Can I take a rain check?”
+<break time="1.5s" />
+“Is this coming Thursday convenient for you?” “Yes, it's OK with me.”
+<break time="1.5s" />
+“The plan failed. We have to do it again from scratch.” “Well, you can't win them all.”
+<break time="1.5s" />
+“How do you like your new dress?” “I really like it.”
+<break time="1.5s" />
+“What do you think of the new teacher?” “She's very kind.”
+<break time="1.5s" />
+“Will you show me the handkerchief?” “Here it is.”
+<break time="1.5s" />
+“Here we are.” “Oh, are we already at Tokyo Station?”
+<break time="1.5s" />
+“May I ask your address?” “I beg your pardon?”

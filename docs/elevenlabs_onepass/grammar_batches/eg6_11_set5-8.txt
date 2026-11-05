@@ -1,0 +1,39 @@
+Whether we should change the plan is the main question.
+<break time="1.5s" />
+This job is attractive in that it allows you to work from home.
+<break time="1.5s" />
+The hotel was perfect except that it was a little far from the station.
+<break time="1.5s" />
+Please call me when you get home.
+<break time="1.5s" />
+I haven't heard from Emily since she moved to Canada.
+<break time="1.5s" />
+I'll call you after I finish my homework.
+<break time="1.5s" />
+It's been a long time since I last went skiing.
+<break time="1.5s" />
+Write down her address before you forget it.
+<break time="1.5s" />
+It won't be long before we move to a new house.
+<break time="1.5s" />
+It was not long before she got used to her new school.
+<break time="1.5s" />
+The first time I saw her, she was a high school student.
+<break time="1.5s" />
+There won't be any flights until the storm is over.
+<break time="1.5s" />
+Please wait here until I come back.
+<break time="1.5s" />
+By the time you get to the station, the train will have left.
+<break time="1.5s" />
+He said nothing for a long time, until at last he began to speak.
+<break time="1.5s" />
+You cannot appreciate the value of something until you lose it.
+<break time="1.5s" />
+She started crying as soon as she heard the news.
+<break time="1.5s" />
+The instant she saw me, she ran away.
+<break time="1.5s" />
+The moment he entered the room, he noticed the smell.
+<break time="1.5s" />
+I will come directly you tell me to.

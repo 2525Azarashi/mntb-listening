@@ -341,17 +341,77 @@ export const GACHA_PREVIEWS: Readonly<Record<string, readonly string[]>> = {
     "/prints/previews/print_lr_niji_yamaguchi_en_3_p2.webp",
     "/prints/previews/print_lr_niji_yamaguchi_en_3_p13.webp"
   ],
-  "print_lr_niji_ibaraki_en_1": [
-    "/prints/previews/print_lr_niji_ibaraki_en_1_p2.webp",
-    "/prints/previews/print_lr_niji_ibaraki_en_1_p12.webp"
+  "print_lr_niji_onomichi_en_1": [
+    "/prints/previews/print_lr_niji_onomichi_en_1_p2.webp",
+    "/prints/previews/print_lr_niji_onomichi_en_1_p11.webp"
   ],
-  "print_lr_niji_ibaraki_en_2": [
-    "/prints/previews/print_lr_niji_ibaraki_en_2_p2.webp",
-    "/prints/previews/print_lr_niji_ibaraki_en_2_p12.webp"
+  "print_lr_niji_onomichi_en_2": [
+    "/prints/previews/print_lr_niji_onomichi_en_2_p2.webp",
+    "/prints/previews/print_lr_niji_onomichi_en_2_p11.webp"
   ],
-  "print_lr_niji_ibaraki_en_3": [
-    "/prints/previews/print_lr_niji_ibaraki_en_3_p2.webp",
-    "/prints/previews/print_lr_niji_ibaraki_en_3_p12.webp"
+  "print_lr_niji_onomichi_en_3": [
+    "/prints/previews/print_lr_niji_onomichi_en_3_p2.webp",
+    "/prints/previews/print_lr_niji_onomichi_en_3_p11.webp"
+  ],
+  "print_lr_niji_shimaneh_en_1": [
+    "/prints/previews/print_lr_niji_shimaneh_en_1_p2.webp",
+    "/prints/previews/print_lr_niji_shimaneh_en_1_p9.webp"
+  ],
+  "print_lr_niji_shimaneh_en_2": [
+    "/prints/previews/print_lr_niji_shimaneh_en_2_p2.webp",
+    "/prints/previews/print_lr_niji_shimaneh_en_2_p9.webp"
+  ],
+  "print_lr_niji_shimaneh_en_3": [
+    "/prints/previews/print_lr_niji_shimaneh_en_3_p2.webp",
+    "/prints/previews/print_lr_niji_shimaneh_en_3_p9.webp"
+  ],
+  "print_lr_niji_shimanem_en_1": [
+    "/prints/previews/print_lr_niji_shimanem_en_1_p2.webp",
+    "/prints/previews/print_lr_niji_shimanem_en_1_p11.webp"
+  ],
+  "print_lr_niji_shimanem_en_2": [
+    "/prints/previews/print_lr_niji_shimanem_en_2_p2.webp",
+    "/prints/previews/print_lr_niji_shimanem_en_2_p11.webp"
+  ],
+  "print_lr_niji_shimanem_en_3": [
+    "/prints/previews/print_lr_niji_shimanem_en_3_p2.webp",
+    "/prints/previews/print_lr_niji_shimanem_en_3_p11.webp"
+  ],
+  "print_lr_niji_kankyo_en_1": [
+    "/prints/previews/print_lr_niji_kankyo_en_1_p2.webp",
+    "/prints/previews/print_lr_niji_kankyo_en_1_p10.webp"
+  ],
+  "print_lr_niji_kankyo_en_2": [
+    "/prints/previews/print_lr_niji_kankyo_en_2_p2.webp",
+    "/prints/previews/print_lr_niji_kankyo_en_2_p10.webp"
+  ],
+  "print_lr_niji_kankyo_en_3": [
+    "/prints/previews/print_lr_niji_kankyo_en_3_p2.webp",
+    "/prints/previews/print_lr_niji_kankyo_en_3_p10.webp"
+  ],
+  "print_lr_niji_nagasakid_en_1": [
+    "/prints/previews/print_lr_niji_nagasakid_en_1_p2.webp",
+    "/prints/previews/print_lr_niji_nagasakid_en_1_p9.webp"
+  ],
+  "print_lr_niji_nagasakid_en_2": [
+    "/prints/previews/print_lr_niji_nagasakid_en_2_p2.webp",
+    "/prints/previews/print_lr_niji_nagasakid_en_2_p9.webp"
+  ],
+  "print_lr_niji_nagasakid_en_3": [
+    "/prints/previews/print_lr_niji_nagasakid_en_3_p2.webp",
+    "/prints/previews/print_lr_niji_nagasakid_en_3_p9.webp"
+  ],
+  "print_lr_niji_nagasakic_en_1": [
+    "/prints/previews/print_lr_niji_nagasakic_en_1_p2.webp",
+    "/prints/previews/print_lr_niji_nagasakic_en_1_p9.webp"
+  ],
+  "print_lr_niji_nagasakic_en_2": [
+    "/prints/previews/print_lr_niji_nagasakic_en_2_p2.webp",
+    "/prints/previews/print_lr_niji_nagasakic_en_2_p9.webp"
+  ],
+  "print_lr_niji_nagasakic_en_3": [
+    "/prints/previews/print_lr_niji_nagasakic_en_3_p2.webp",
+    "/prints/previews/print_lr_niji_nagasakic_en_3_p9.webp"
   ],
   "print_lr_kobe_1": [
     "/prints/previews/print_lr_kobe_1_p2.webp",
@@ -473,6 +533,18 @@ export const GACHA_PREVIEWS: Readonly<Record<string, readonly string[]>> = {
     "/prints/previews/print_lr_fukushima_3_p2.webp",
     "/prints/previews/print_lr_fukushima_3_p11.webp"
   ],
+  "print_lr_utsunomiya_1": [
+    "/prints/previews/print_lr_utsunomiya_1_p2.webp",
+    "/prints/previews/print_lr_utsunomiya_1_p14.webp"
+  ],
+  "print_lr_utsunomiya_2": [
+    "/prints/previews/print_lr_utsunomiya_2_p2.webp",
+    "/prints/previews/print_lr_utsunomiya_2_p15.webp"
+  ],
+  "print_lr_utsunomiya_3": [
+    "/prints/previews/print_lr_utsunomiya_3_p2.webp",
+    "/prints/previews/print_lr_utsunomiya_3_p15.webp"
+  ],
   "print_book_listening_all": [
     "/prints/previews/print_book_listening_all_p2.webp",
     "/prints/previews/print_book_listening_all_p40.webp"
@@ -512,5 +584,17 @@ export const GACHA_PREVIEWS: Readonly<Record<string, readonly string[]>> = {
   "print_book_grammar_b4_bunpo": [
     "/prints/previews/print_book_grammar_b4_bunpo_p2.webp",
     "/prints/previews/print_book_grammar_b4_bunpo_p40.webp"
-  ]
+  ],
+  "print_lr_niji_ibaraki_en_1": [
+    "/prints/previews/print_lr_niji_ibaraki_en_1_p2.webp",
+    "/prints/previews/print_lr_niji_ibaraki_en_1_p12.webp"
+  ],
+  "print_lr_niji_ibaraki_en_2": [
+    "/prints/previews/print_lr_niji_ibaraki_en_2_p2.webp",
+    "/prints/previews/print_lr_niji_ibaraki_en_2_p12.webp"
+  ],
+  "print_lr_niji_ibaraki_en_3": [
+    "/prints/previews/print_lr_niji_ibaraki_en_3_p2.webp",
+    "/prints/previews/print_lr_niji_ibaraki_en_3_p12.webp"
+  ],
 };

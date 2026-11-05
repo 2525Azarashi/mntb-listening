@@ -1,0 +1,39 @@
+There are some reasons why I can't accept the offer.
+<break time="1.5s" />
+Tell me the reason why you were late.
+<break time="1.5s" />
+There is a difference in how respect is shown in English and Japanese.
+<break time="1.5s" />
+This is how I solved the problem.
+<break time="1.5s" />
+Judging from the way he talks, he must be from Kyushu.
+<break time="1.5s" />
+Put the scissors back where they were when you're done with them.
+<break time="1.5s" />
+He often tells lies. That is why I don't trust him.
+<break time="1.5s" />
+I missed the bus. That is why I was late.
+<break time="1.5s" />
+I live in Kobe, which is famous for its beef.
+<break time="1.5s" />
+We went to Nara, where we saw many deer.
+<break time="1.5s" />
+While I was studying in London, I met Mr. Brown, who was teaching there.
+<break time="1.5s" />
+Last spring I visited Kyoto, which wasn't as crowded as I had expected.
+<break time="1.5s" />
+He has four daughters, all of whom are musicians.
+<break time="1.5s" />
+He has many books, some of which are very old.
+<break time="1.5s" />
+She gave me two books, neither of which I have finished.
+<break time="1.5s" />
+Our train was delayed, which made us late for class.
+<break time="1.5s" />
+She said she was ill, which was not true.
+<break time="1.5s" />
+I tried to fix the bike by myself, which I found too difficult.
+<break time="1.5s" />
+My father gave me some advice, which advice I followed.
+<break time="1.5s" />
+What looks simple is sometimes very complicated.

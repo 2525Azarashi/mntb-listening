@@ -1,0 +1,29 @@
+My teacher gave me some useful advice about my future.
+<break time="1.5s" />
+Could you help me carry some heavy furniture upstairs?
+<break time="1.5s" />
+I didn't watch TV today, so I don't have much information about the election.
+<break time="1.5s" />
+Have you heard the news about the new teacher?
+<break time="1.5s" />
+Our teacher gave us a lot of homework during the summer vacation.
+<break time="1.5s" />
+When I came back from my trip, I had too much luggage to carry.
+<break time="1.5s" />
+The weather was terrible during our trip, so we stayed in the hotel.
+<break time="1.5s" />
+I made friends with a girl from Australia.
+<break time="1.5s" />
+You have to change trains at Shinjuku to get to the stadium.
+<break time="1.5s" />
+It's a long drive, so let's take turns driving.
+<break time="1.5s" />
+She took great pains to finish the report on time.
+<break time="1.5s" />
+Please give my best regards to your parents.
+<break time="1.5s" />
+Tom and Jim didn't speak to each other. They were not on good terms.
+<break time="1.5s" />
+I am on friendly terms with Mr. Brown.
+<break time="1.5s" />
+Everyone was in high spirits after the team won.

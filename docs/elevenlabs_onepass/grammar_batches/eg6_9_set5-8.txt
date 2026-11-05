@@ -1,0 +1,39 @@
+I owe it to my teacher that I passed the exam.
+<break time="1.5s" />
+The girls didn't have umbrellas of their own, so I lent them mine.
+<break time="1.5s" />
+He is a friend of mine.
+<break time="1.5s" />
+This old watch of mine was given to me by my grandfather.
+<break time="1.5s" />
+My parents have two cars, but neither of them is new.
+<break time="1.5s" />
+Neither of my two brothers lives in Tokyo.
+<break time="1.5s" />
+"Tea or coffee?" "I don't want either, thanks."
+<break time="1.5s" />
+There are trees on either side of the river.
+<break time="1.5s" />
+There are shops on both sides of the street.
+<break time="1.5s" />
+Luckily, none of the passengers were injured in the accident.
+<break time="1.5s" />
+I wanted some juice, but there was none left.
+<break time="1.5s" />
+Each student has a different textbook.
+<break time="1.5s" />
+Each of the five students has a smartphone.
+<break time="1.5s" />
+Both his parents are coming to the school festival.
+<break time="1.5s" />
+You can take any of these trains to the airport.
+<break time="1.5s" />
+I don't have any brothers.
+<break time="1.5s" />
+Lucy and I got acquainted with each other at the summer camp.
+<break time="1.5s" />
+"What would you do with the prize money?" "I'd like to visit every country in the world."
+<break time="1.5s" />
+Take this medicine every four hours.
+<break time="1.5s" />
+The World Cup is held every fourth year.

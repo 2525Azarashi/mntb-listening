@@ -1,0 +1,39 @@
+“Hello. May I speak to Mr. Brown, please?” “Just a moment, please.”
+<break time="1.5s" />
+“Hello. May I speak to Ms. Lee?” “Speaking. Who's calling, please?”
+<break time="1.5s" />
+“Is Mr. Yamada there?” “Who's calling, please?”
+<break time="1.5s" />
+“Is Ms. Kato in?” “Yes. Please hold on a moment. I'll get her.”
+<break time="1.5s" />
+“I'll check if he's at his desk. Please hold the line.”
+<break time="1.5s" />
+“Don't hang up yet, please. I have one more thing to tell you.”
+<break time="1.5s" />
+“Tom, you're wanted on the phone.” “OK, I'm coming.”
+<break time="1.5s" />
+“Mr. Ito is out right now. Shall I take a message?” “Yes, please.”
+<break time="1.5s" />
+“I'm sorry, she's in a meeting.” “I see. May I leave a message?”
+<break time="1.5s" />
+“Please ask him to call me back when he returns.”
+<break time="1.5s" />
+“Is this Green's Bakery?” “No, it isn't. I'm afraid you have the wrong number.”
+<break time="1.5s" />
+“I called Jack, but the line was busy. I'll try again later.”
+<break time="1.5s" />
+“Could you put me through to the sales department, please?”
+<break time="1.5s" />
+“Please get Mr. Yamada on the phone. I need to talk to him now.”
+<break time="1.5s" />
+“I'm cooking now. Could you answer the phone for me?”
+<break time="1.5s" />
+“Hello, I'd like to make a reservation for two for dinner tonight.”
+<break time="1.5s" />
+“I'd like to make an appointment with Dr. Smith. Is tomorrow afternoon OK?”
+<break time="1.5s" />
+“Ms. Kato is on another line right now. Can you hold?”
+<break time="1.5s" />
+“Hello? Are you there, Tom? I can't hear you.”
+<break time="1.5s" />
+“Hello, is Mr. Tanaka in?” “Sorry, but he's out now. He'll be back at three.”

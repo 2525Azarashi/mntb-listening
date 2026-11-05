@@ -1,0 +1,39 @@
+The more you practice, the better you will play.
+<break time="1.5s" />
+The earlier we start, the earlier we will finish.
+<break time="1.5s" />
+I respect her all the more for her honesty.
+<break time="1.5s" />
+The old car is none the worse for the long trip.
+<break time="1.5s" />
+A fish can no more live out of water than a horse can fly.
+<break time="1.5s" />
+I have no more than 500 yen with me now.
+<break time="1.5s" />
+Money is not everything in life, any more than fame is.
+<break time="1.5s" />
+Staying healthy is no less important than studying.
+<break time="1.5s" />
+No less than two thousand people came to the concert.
+<break time="1.5s" />
+Not more than twenty people will come.
+<break time="1.5s" />
+It took him not less than three weeks to finish the work.
+<break time="1.5s" />
+Don't drink coffee more than three times a day.
+<break time="1.5s" />
+She finished the race in less than ten minutes.
+<break time="1.5s" />
+She is an artist rather than a businesswoman.
+<break time="1.5s" />
+He knows better than to believe such a lie.
+<break time="1.5s" />
+I can't even read Chinese, much less speak it.
+<break time="1.5s" />
+Her plan is superior to mine.
+<break time="1.5s" />
+This old model is inferior to the new one.
+<break time="1.5s" />
+He is two years senior to me.
+<break time="1.5s" />
+She is two years junior to me.

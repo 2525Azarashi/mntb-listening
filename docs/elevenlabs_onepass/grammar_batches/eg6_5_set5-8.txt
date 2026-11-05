@@ -1,0 +1,39 @@
+He was too tired to do his homework last night.
+<break time="1.5s" />
+She is old enough to ride the roller coaster now.
+<break time="1.5s" />
+We don't have enough money to buy a new car.
+<break time="1.5s" />
+He is wise enough not to fall for such an obvious trick.
+<break time="1.5s" />
+Would you be so kind as to open the window?
+<break time="1.5s" />
+In order to get a good seat, we arrived at the stadium an hour early.
+<break time="1.5s" />
+Please speak quietly so as not to wake the baby.
+<break time="1.5s" />
+I saw a cat run across the road just now.
+<break time="1.5s" />
+My father let me use his car for the trip.
+<break time="1.5s" />
+The children were made to stay in the classroom after school.
+<break time="1.5s" />
+Can you help me carry these boxes to the car?
+<break time="1.5s" />
+“I'm worried about the test.” “All you have to do is review your notes.”
+<break time="1.5s" />
+I got my brother to help me with my homework.
+<break time="1.5s" />
+The new library is to open next spring.
+<break time="1.5s" />
+Not a single star was to be seen in the cloudy sky.
+<break time="1.5s" />
+She seems to know the answer, but she isn't saying anything.
+<break time="1.5s" />
+If you are to pass the exam, you must study every day.
+<break time="1.5s" />
+He speaks English, not to mention French and German.
+<break time="1.5s" />
+The service at that restaurant was slow, to say the least.
+<break time="1.5s" />
+Needless to say, health is more important than money.

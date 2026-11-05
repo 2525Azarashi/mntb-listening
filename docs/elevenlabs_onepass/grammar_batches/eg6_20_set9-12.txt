@@ -1,0 +1,39 @@
+Clerk: “Good afternoon. What can I do for you?” Customer: “I'm looking for a bag.”
+<break time="1.5s" />
+“May I help you?” “No, thank you. I'm just looking.”
+<break time="1.5s" />
+“Please feel free to look around. Let me know if you need any help.”
+<break time="1.5s" />
+“What's the price of this cap?” “It's 2,500 yen.”
+<break time="1.5s" />
+“How much is this T-shirt?” “It's 1,800 yen.”
+<break time="1.5s" />
+“I like this jacket. Can I try it on?” “Sure. The fitting room is over there.”
+<break time="1.5s" />
+“I'm looking for a present for my wife.” “Do you have anything in mind?”
+<break time="1.5s" />
+“Here's three dollars and fifty cents in change.” “Thank you.”
+<break time="1.5s" />
+(In a taxi) “That's 1,960 yen.” “Here's 2,000 yen. Keep the change.”
+<break time="1.5s" />
+“A hamburger and a cola, please.” “Anything else?” “No, that's all.”
+<break time="1.5s" />
+“Two cheeseburgers, please.” “For here or to go?” “For here.”
+<break time="1.5s" />
+“May I take your order?” “Yes. I'll have the fish, please.”
+<break time="1.5s" />
+“Are you ready to order?” “Not yet. Could we have a few more minutes?”
+<break time="1.5s" />
+“Have you been waited on, sir?” “No, not yet.”
+<break time="1.5s" />
+“What is your specialty?” “Our seafood pasta is very popular.”
+<break time="1.5s" />
+“I'll have the roast beef, please.” “Same here.”
+<break time="1.5s" />
+“Could you pass me the salt, please?” “Sure. Here you are.”
+<break time="1.5s" />
+“Would you like some more apple pie?” “No, thank you. I've had enough.”
+<break time="1.5s" />
+“Let's split the bill.” “OK. That's 1,500 yen each.”
+<break time="1.5s" />
+“Let me pay for dinner tonight. It's on me.” “Really? Thank you!”

@@ -1,0 +1,39 @@
+The illness deprived him of his ability to walk.
+<break time="1.5s" />
+A man robbed her of her bag on her way home.
+<break time="1.5s" />
+We were informed of the change in the schedule.
+<break time="1.5s" />
+Someone stole my wallet on the crowded train.
+<break time="1.5s" />
+This medicine will cure you of your cold.
+<break time="1.5s" />
+Lack of time prevented me from writing to you.
+<break time="1.5s" />
+The heavy snow kept us from going out.
+<break time="1.5s" />
+Students are prohibited from using their phones during the exam.
+<break time="1.5s" />
+The rain stopped the children from playing outside.
+<break time="1.5s" />
+The trip to Kyoto provided us with many wonderful experiences.
+<break time="1.5s" />
+The company supplies the hospital with medicine.
+<break time="1.5s" />
+They provided the homeless people with food. = They provided food for the homeless people.
+<break time="1.5s" />
+Humans share many common features with chimpanzees.
+<break time="1.5s" />
+Fill the bottle with water before you leave.
+<break time="1.5s" />
+It's not fair to blame others for your own mistakes.
+<break time="1.5s" />
+The driver was accused of causing the accident.
+<break time="1.5s" />
+He was punished for breaking the school rules.
+<break time="1.5s" />
+I can't thank you enough for your kindness.
+<break time="1.5s" />
+We would appreciate hearing from you soon.
+<break time="1.5s" />
+The teacher praised Ken for his hard work.

@@ -1,0 +1,39 @@
+We have to hurry. There is little time left before the movie starts.
+<break time="1.5s" />
+Only a few students passed the difficult exam.
+<break time="1.5s" />
+This village is quiet in winter. Few tourists visit it.
+<break time="1.5s" />
+My father doesn't drink much beer.
+<break time="1.5s" />
+Quite a few people came to see the new library.
+<break time="1.5s" />
+Not a few fans waited for the singer.
+<break time="1.5s" />
+May I have some water, please?
+<break time="1.5s" />
+There is a little milk in the fridge, so I don't need to buy any.
+<break time="1.5s" />
+"How was the comedy show?" "It was really amusing."
+<break time="1.5s" />
+I was deeply disappointed with my test results.
+<break time="1.5s" />
+The movie was so boring that I fell asleep.
+<break time="1.5s" />
+My mother looked pleased with my grades.
+<break time="1.5s" />
+Many first-year students feel confused by the new school rules.
+<break time="1.5s" />
+The news made the children so excited that they couldn't sleep.
+<break time="1.5s" />
+I couldn't help being satisfied with the result.
+<break time="1.5s" />
+The two sisters are so alike that people often mix them up.
+<break time="1.5s" />
+Look at those clouds. It is likely to rain this afternoon.
+<break time="1.5s" />
+My skin is very sensitive to sunlight.
+<break time="1.5s" />
+Students should be respectful to their elders.
+<break time="1.5s" />
+Japan exports many industrial products such as cars and machines.
