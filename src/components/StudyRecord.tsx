@@ -1,7 +1,8 @@
 import { useMemo, useState } from 'react';
 import { CheckCircle2, ChevronDown, PenLine, Play, RotateCcw, Swords, XCircle } from 'lucide-react';
 import { auth } from '../firebase';
-import { STUDY_LOG_DAYS, groupStudyLogByDay, loadStudyLog, type StudyLogEntry } from '../utils/studyLog';
+import { STUDY_LOG_DAYS, fixedLaterIds, groupStudyLogByDay, loadStudyLog, type StudyLogEntry } from '../utils/studyLog';
+import { loadReviewList } from '../utils/reviewList';
 import './study-record.css';
 import { KineticText, ScoreRing } from '../motion';
 import { CountUp } from './ui/CountUp';
@@ -18,9 +19,15 @@ export function StudyRecord({ onReview, onRetry, embedded = false }: { onReview?
   const uid = auth.currentUser?.uid || 'guest';
   const [filter, setFilter] = useState<'all' | 'wrong'>('all');
   const entries = useMemo(() => loadStudyLog(uid), [uid]);
-  const days = useMemo(() => groupStudyLogByDay(filter === 'wrong' ? entries.filter(e => e.items.some(i => !i.correct)) : entries), [entries, filter]);
+  // F9（2026-11-04）：まちがえたあとで正解した小問（新しい記録・復習ノートの正解から）。表示を「正解した」に変える
+  const fixed = useMemo(() => {
+    const at = new Map<string, number>();
+    for (const it of loadReviewList(uid)) if (it.lastResult === 'correct' && it.lastCorrectAt) at.set(it.key, it.lastCorrectAt);
+    return fixedLaterIds(entries, at);
+  }, [entries, uid]);
+  const days = useMemo(() => groupStudyLogByDay(filter === 'wrong' ? entries.filter(e => e.items.some(i => !i.correct && !fixed.has(`${e.key}|${i.id}`))) : entries), [entries, filter]);
   const total = entries.reduce((n, e) => n + e.items.length, 0);
-  const wrong = entries.reduce((n, e) => n + e.items.filter(i => !i.correct).length, 0);
+  const wrong = entries.reduce((n, e) => n + e.items.filter(i => !i.correct && !fixed.has(`${e.key}|${i.id}`)).length, 0);
   return (
     <section className={`study-record ${embedded ? 'is-embedded' : ''}`} aria-labelledby="study-record-title" data-study-record>
       <header className="sr-head">
@@ -43,15 +50,16 @@ export function StudyRecord({ onReview, onRetry, embedded = false }: { onReview?
       ) : days.map(day => (
         <section key={day.date} className="sr-day" aria-label={day.label}>
           <h2>{day.label}<small>{day.solved}問・まちがい{day.wrong}問</small></h2>
-          <ol>{day.entries.map(e => <EntryCard key={e.key} entry={e} onlyWrong={filter === 'wrong'} onRetry={onRetry} />)}</ol>
+          <ol>{day.entries.map(e => <EntryCard key={e.key} entry={e} fixed={fixed} onlyWrong={filter === 'wrong'} onRetry={onRetry} />)}</ol>
         </section>
       ))}
     </section>
   );
 }
 
-function EntryCard({ entry, onlyWrong, onRetry }: { entry: StudyLogEntry; onlyWrong: boolean; onRetry?: (t: StudyRetry) => void; key?: string }) {
-  const wrongItems = entry.items.filter(i => !i.correct);
+function EntryCard({ entry, fixed, onlyWrong, onRetry }: { entry: StudyLogEntry; fixed: Set<string>; onlyWrong: boolean; onRetry?: (t: StudyRetry) => void; key?: string }) {
+  const isFixed = (id: string) => fixed.has(`${entry.key}|${id}`);
+  const wrongItems = entry.items.filter(i => !i.correct && !isFixed(i.id));
   const [open, setOpen] = useState(false);
   const shown = onlyWrong ? wrongItems : entry.items;
   const time = new Date(entry.at);
@@ -63,7 +71,7 @@ function EntryCard({ entry, onlyWrong, onRetry }: { entry: StudyLogEntry; onlyWr
           <strong>{entry.title}</strong>
           <small>{entry.sub ? `${entry.sub}・` : ''}{String(time.getHours()).padStart(2, '0')}:{String(time.getMinutes()).padStart(2, '0')}</small>
           <span className="sr-marks" aria-label={`${entry.items.length}問中 まちがい${wrongItems.length}問`}>
-            {entry.items.map(i => <i key={i.id} data-ok={i.correct || undefined} title={i.label}>{i.correct ? '○' : '×'}</i>)}
+            {entry.items.map(i => <i key={i.id} data-ok={i.correct || isFixed(i.id) || undefined} data-fixed={(!i.correct && isFixed(i.id)) || undefined} title={!i.correct && isFixed(i.id) ? `${i.label}（あとで正解した）` : i.label}>{i.correct || isFixed(i.id) ? '○' : '×'}</i>)}
           </span>
         </span>
         <span className="sr-entry-score mo-rate"><ScoreRing rate={entry.items.length ? (entry.items.length - wrongItems.length) / entry.items.length : 0} size={20} stroke={4} tone={wrongItems.length === 0 ? 'done' : 'brand'} /><span>{entry.items.length - wrongItems.length}<small>/{entry.items.length}</small></span></span>
@@ -84,9 +92,9 @@ function EntryCard({ entry, onlyWrong, onRetry }: { entry: StudyLogEntry; onlyWr
       {open && (
         <ul className="sr-items">
           {shown.map(i => (
-            <li key={i.id} data-ok={i.correct || undefined}>
-              {i.correct ? <CheckCircle2 size={16} aria-hidden="true" /> : <XCircle size={16} aria-hidden="true" />}
-              <span><b>{i.label}</b>{i.prompt && <span className="sr-prompt">{i.prompt}</span>}{!i.correct && i.answer ? <em>正解 {i.answer}</em> : null}</span>
+            <li key={i.id} data-ok={i.correct || isFixed(i.id) || undefined}>
+              {i.correct || isFixed(i.id) ? <CheckCircle2 size={16} aria-hidden="true" /> : <XCircle size={16} aria-hidden="true" />}
+              <span><b>{i.label}</b>{!i.correct && isFixed(i.id) && <span className="sr-fixed" data-sr-fixed>正解した</span>}{i.prompt && <span className="sr-prompt">{i.prompt}</span>}{!i.correct && i.answer ? <em>正解 {i.answer}</em> : null}</span>
             </li>
           ))}
         </ul>

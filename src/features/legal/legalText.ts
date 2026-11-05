@@ -7,6 +7,8 @@
  */
 export const SUPPORT_EMAIL = 'mntobira@gmail.com';
 export const BUG_REPORT_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSfV2ztYvG9EBSmS_xKnGRzmenRMI_E8DRXEKguVlylUFPEl1Q/viewform?usp=publish-editor';
+/** F1（2026-11-04）：演習の結果画面「この問題の不具合を報告する」の行き先（問題の誤り専用のフォーム） */
+export const QUESTION_REPORT_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLScmdMBT8HN7ogR1pCp7q-2u_CJKFwMoWj2lwKdR05dcJ7DU-w/viewform?usp=header';
 export const LEGAL_UPDATED = '2026年10月2日';
 
 export interface LegalSection { heading: string; body: string[] }

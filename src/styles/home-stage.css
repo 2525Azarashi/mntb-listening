@@ -14,6 +14,13 @@
   --stage-candy: radial-gradient(circle at 20% 25%, #ffffff 0 4%, transparent 5%), radial-gradient(circle at 80% 35%, #ffffff 0 3%, transparent 4%), linear-gradient(180deg, #ffd0e8 0%, #ffe6b5 48%, #c4efff 82%, #ffffff 100%);
   --stage-aurora: radial-gradient(ellipse 80% 35% at 30% 30%, #43e97b55, transparent 70%), radial-gradient(ellipse 70% 30% at 75% 40%, #7a5cc766, transparent 70%), linear-gradient(180deg, #071a2c 0%, #0f3b4f 50%, #1d7f74 82%, #63c9a4 100%);
   --stage-neon: linear-gradient(0deg, #ff3fa433 0 2px, transparent 2px) 0 100%/100% 18px, linear-gradient(180deg, #0d0628 0%, #2a0b55 52%, #8e1471 80%, #ff9a4d 100%);
+  /* F7（2026-11-04）追加 */
+  --stage-meadow: radial-gradient(circle at 18% 82%, #ffd1e0 0 3%, transparent 4%), radial-gradient(circle at 70% 88%, #fff3a6 0 3%, transparent 4%), linear-gradient(180deg, #bfe6ff 0%, #e3f5ff 46%, #bfe5a0 74%, #8fcf72 100%);
+  --stage-snowfield: radial-gradient(ellipse 60% 25% at 50% 100%, #ffffff, transparent 70%), linear-gradient(180deg, #a9c8e8 0%, #d3e4f4 50%, #f1f6fb 80%, #ffffff 100%);
+  --stage-classroom: repeating-linear-gradient(90deg, #00000000 0 60px, #0000001a 60px 62px), linear-gradient(180deg, #ffb36b 0%, #e98a5a 40%, #6e5a4a 72%, #3e4b3a 100%);
+  --stage-desert: radial-gradient(circle at 78% 20%, #fff4d1 0 5%, transparent 9%), linear-gradient(180deg, #1c1640 0%, #3e2d66 50%, #a86a4e 80%, #d9a066 100%);
+  --stage-rainbow: radial-gradient(circle at 50% 110%, transparent 0 38%, #ff8fab55 39% 42%, #ffd43b55 43% 46%, #8ce99a55 47% 50%, #74c0fc55 51% 54%, transparent 55%), linear-gradient(180deg, #cfe9ff 0%, #f0f8ff 55%, #c5eab0 82%, #99d67f 100%);
+  --stage-starlit: radial-gradient(ellipse 80% 40% at 50% 0%, #3b4b9a66, transparent 70%), linear-gradient(180deg, #05081f 0%, #121a45 55%, #283a7a 85%, #4a5fa8 100%);
 }
 
 /* ---------- ホーム（ステージ本体）---------- */
@@ -25,6 +32,12 @@
 .game-home .game-mascot-stage[data-stage=candy] { background: var(--stage-candy); }
 .game-home .game-mascot-stage[data-stage=aurora] { background: var(--stage-aurora); }
 .game-home .game-mascot-stage[data-stage=neon] { background: var(--stage-neon); }
+.game-home .game-mascot-stage[data-stage=meadow] { background: var(--stage-meadow); }
+.game-home .game-mascot-stage[data-stage=snowfield] { background: var(--stage-snowfield); }
+.game-home .game-mascot-stage[data-stage=classroom] { background: var(--stage-classroom); }
+.game-home .game-mascot-stage[data-stage=desert] { background: var(--stage-desert); }
+.game-home .game-mascot-stage[data-stage=rainbow] { background: var(--stage-rainbow); }
+.game-home .game-mascot-stage[data-stage=starlit] { background: var(--stage-starlit); }
 
 /* 星（world.css の白い点）を背景ごとの「舞うもの」にする。world.css 側が変数で受けるので強制指定は要らない */
 .game-home .game-mascot-stage:is([data-stage=sunrise], [data-stage=candy]) { --stage-dot: #ffffff; --stage-dot-op: .85; }
@@ -34,9 +47,13 @@
 .game-home .game-mascot-stage[data-stage=library] { --stage-dot: #ffd98c; }
 .game-home .game-mascot-stage[data-stage=aurora] { --stage-dot: #b6ffe0; }
 .game-home .game-mascot-stage[data-stage=neon] { --stage-dot: #ff77c8; }
+.game-home .game-mascot-stage:is([data-stage=meadow], [data-stage=rainbow]) { --stage-dot: #ffffff; --stage-dot-op: .85; }
+.game-home .game-mascot-stage[data-stage=snowfield] { --stage-dot: #ffffff; --stage-dot-border: 1px solid #a9c8e8; }
+.game-home .game-mascot-stage[data-stage=classroom] { --stage-dot: #ffe3b0; }
+.game-home .game-mascot-stage:is([data-stage=desert], [data-stage=starlit]) { --stage-dot: #fff4d1; }
 
 /* 明るい背景では、ステージの文字を濃い色に（読みやすさ） */
-.game-home .game-mascot-stage:is([data-stage=sunrise], [data-stage=candy]) { --stage-label: #4a2c00; --stage-label-shadow: 0 1px 0 #fff8; --stage-label-b: var(--mt-ink-warm); }
+.game-home .game-mascot-stage:is([data-stage=sunrise], [data-stage=candy], [data-stage=meadow], [data-stage=snowfield], [data-stage=rainbow]) { --stage-label: #4a2c00; --stage-label-shadow: 0 1px 0 #fff8; --stage-label-b: var(--mt-ink-warm); }
 
 /* 背景ごとのゆっくりした動き（オーロラは揺らぐ・海はゆらめく・ネオンは点滅） */
 .game-home .game-mascot-stage[data-stage]::after { content: ''; position: absolute; inset: 0; z-index: 0; pointer-events: none; opacity: 0; }
@@ -65,4 +82,10 @@ span[data-stage-swatch] { background: var(--stage-cosmos); }
 [data-stage-swatch=candy] .stage-swatch-fill { fill: #ffd0e8; } span[data-stage-swatch=candy] { background: var(--stage-candy); }
 [data-stage-swatch=aurora] .stage-swatch-fill { fill: #1d7f74; } span[data-stage-swatch=aurora] { background: var(--stage-aurora); }
 [data-stage-swatch=neon] .stage-swatch-fill { fill: #5a0f63; } span[data-stage-swatch=neon] { background: var(--stage-neon); }
+[data-stage-swatch=meadow] .stage-swatch-fill { fill: #bfe5a0; } span[data-stage-swatch=meadow] { background: var(--stage-meadow); }
+[data-stage-swatch=snowfield] .stage-swatch-fill { fill: #d3e4f4; } span[data-stage-swatch=snowfield] { background: var(--stage-snowfield); }
+[data-stage-swatch=classroom] .stage-swatch-fill { fill: #e98a5a; } span[data-stage-swatch=classroom] { background: var(--stage-classroom); }
+[data-stage-swatch=desert] .stage-swatch-fill { fill: #3e2d66; } span[data-stage-swatch=desert] { background: var(--stage-desert); }
+[data-stage-swatch=rainbow] .stage-swatch-fill { fill: #cfe9ff; } span[data-stage-swatch=rainbow] { background: var(--stage-rainbow); }
+[data-stage-swatch=starlit] .stage-swatch-fill { fill: #121a45; } span[data-stage-swatch=starlit] { background: var(--stage-starlit); }
 svg[data-stage-swatch] { display: block; }

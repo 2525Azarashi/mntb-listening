@@ -6,6 +6,48 @@
 - 画面の変更はなし（ガチャの排出リスト・サムネイル・プレビュー画像が増えるだけ）。LR の説明文の大学名に群馬大学を追加。PDF の棚は「2次 関東・中部」。
 - 戻し方：`src/data/nijiMockPrints.ts` の `gunmaj` の3行と大学一覧の1行、`printShelves.ts` の `gunmaj` を消す。
 
+## 2026-11-05 全国対戦：マッチしたら「対戦の部屋」で2人が単元をえらび、どちらかで対戦（F10）
+
+| # | どこ | 変更 | ファイル |
+|---|---|---|---|
+| 1 | 対戦メニュー「全国対戦」 | 押すと教科選びを飛ばして、そのまま相手さがしへ。見つかったら「対戦の部屋」に入る | `src/battle/ui/BattleMode.tsx` |
+| 2 | 相手さがし | 対戦の部屋用の待機列（`lobby:v1`）でマッチ。見出しは「全国対戦 ／ 対戦の部屋」、説明は「相手が見つかると対戦の部屋に入り、2人で単元をえらびます。」。従来の教科ごとのマッチはそのまま残る | `src/battle/ui/BattleMatching.tsx` |
+| 3 | 対戦の部屋（新規） | 2人の席・それぞれの希望の単元（教科と単元名・問題数）を表示。「単元をえらぶ」→教科・単元・5/10/15問を選ぶ→「えらび直す」も可。2人ともえらぶと、2つから1つをランダムで決めて（部屋主の端末）試合を作る。決まった単元を1.8秒見せてから試合へ。下は「単元をえらぶ（えらび直す）」「部屋を出る」の2つ | 新規 `src/battle/ui/BattleLobbyRoom.tsx`・`src/battle/ui/battle-lobby-room.css`・`src/battle/ui/lobbyPickTitle.ts` |
+| 4 | 対戦の結果 | 対戦の部屋から始めた試合は、「対戦の部屋に戻る（同じ相手ともう1回）」を押すと同じ部屋に戻る（教科選びには戻らない）。戻るとまた単元をえらんで再戦 | `src/battle/ui/BattleRoomScreen.tsx`・`src/battle/ui/BattleMode.tsx` |
+| 5 | 相手が出たとき | 部屋は閉じ、「相手が部屋を出ました。」と「ちがう相手と全国対戦」「対戦メニューにもどる」を出す | `src/battle/ui/BattleLobbyRoom.tsx` |
+| 6 | 人がいないとき（AI プレイヤー） | これまでどおり AI が相手になるが、単元は対戦の部屋と同じく自分でえらんでから始める（タイトルは「対戦の部屋 ／ 希望の単元をえらぶ」） | `src/battle/ui/BattleMode.tsx` |
+
+- 見た目は既存の対戦画面と同じ材料（`BattleShell`・`BattleTitle`・`BattleButton`・`PlayerBadge`・`OpponentCard` と同じ札）。色は `tokens.css` の `--mt-*` だけを使い、新しい色は足していない。文字は12px以上、押せるところは44px以上。
+- 320×568・375×667・390×844・1280×800 で、対戦の部屋の4つの状態（えらぶ前／自分だけ／2人とも／相手が出た）と抽選の結果が、スクロールなしで1画面に収まることを確認。
+- ルール（`battle_lobbies`）と、試合作成時の部屋の検査（`battleLobbyStartOk`）は別コミット（0da9ae90）。**反映には `firebase deploy --only firestore:rules` が必要**。
+
+**戻し方**：このPRを revert。全国対戦は従来どおり「教科をえらぶ → 同じ教科の人とマッチ → すぐ試合」に戻る（`battle_lobbies` のコレクションは残るが、誰も読み書きしない）。ルールだけ先に戻すときは `firestore.rules` の `match /battle_lobbies` と `battleLobbyStartOk` の呼び出しを消して deploy する。
+
+---
+
+## 2026-11-05 修正F（F1〜F9・F11）結果の不具合報告・共通テスト予想の音声とQR・第1回全文・アイテム増量・タイトルの演出 ほか（PR: feat/revision-f-batch）
+
+| # | 何を | どう変えた | ファイル |
+|---|---|---|---|
+| F1 | 問題を解いた後の結果画面 | 下のバーに「この問題の不具合を報告する」（Googleフォームを開く） | `ResultSummary.tsx` `step-explanation.css` `legalText.ts` |
+| F2 | 共通テスト予想リスニング 第2〜5回 | 音声を問題ごとに切って追加（96本）。第5問のグラフ問題の音声は今のPDFのスクリプトと一致していたので、PDFの問題は変えていない | `kyotsuMockAudio.ts` `public/prints/kyotsu_assets/audio/` |
+| F8 | 同 PDF の表紙 | 日本語の案内つきの「通し音声」（第1〜5回）を作り、表紙にQRコード。マイPDFに「通しで聞く（本番と同じ流れ）」 | `build.py` `render.py` `make_full_audio.py` `KyotsuAudioPlayer.tsx` `public/prints/kyotsu_assets/full/` |
+| F11 | ショップ「セット収集」 | スマホで右にはみ出していたのを1列に | `gacha.css` |
+| F3 | 正解のマナコイン | 1問2〜5枚（速く・れんぞく正解で多め）。結果画面の説明も変更 | `growth.ts` `quizScoring.ts` `ResultSummary.tsx` |
+| F9 | 復習ノート・解いた問題 | あとで正解した問題は「正解した」表示（○） | `reviewList.ts` `StudyHub.tsx` `StudyRecord.tsx` `study-record.css` |
+| F5 | 共通テストガチャのピックアップ | 第1回（R・L）を一番上に固定し「全文を見る」。アプリ内のPDFで全ページ。「‹ もどる」で元の画面へ。バナーのピックアップも第1回が先頭 | `GachaPickupModal.tsx` `GachaItemDetail.tsx` `openFullPrint.ts` `kyotsuMockPrints.ts` `gacha.css` |
+| F7 | アイテム | ショップにどの種類も並ぶように大増量（お供は26種・帽子/メガネ/ほっぺ/オーラ/壁紙/ホーム背景も追加）。絵は今ある物の色ちがい | `growthItems.ts` `tobiraParts.ts` `companion.css` `home-stage.css` |
+| F6 | タイトル画面 | 動画が終わっても雲・星・紙飛行機が残り、とびら君だけ静止画に切り替わる（最後のコマからとびら君を消した背景）。星のまたたき・呼吸、ロゴ→コピー→ボタンが順にふわっと出る、「これ1本」にマーカー、「はじめる」に光。ボタンの位置は変えていない | `LaunchScreen.tsx` `launch-screen.css` `public/cinematics/title-plate.webp` |
+
+**戻し方**：
+- 丸ごと戻す：このPRを revert。
+- F1：`ResultSummary.tsx` の `data-practice-report` の `<a>` を消す。
+- F5：`GachaPickupModal.tsx` の `data-gacha-free-full` の `<section>`、`GachaItemDetail.tsx` の `gacha-detail-full` のボタンを消し、`weeklyPickup` の `pinned` を外す。
+- F6：`launch-screen.css` の末尾2つの「F6」のかたまりを消し、`LaunchScreen.tsx` の `.launch-plate` / `.launch-sparkles` を `.launch-halo` / `.launch-ground` に戻す。
+- F7：`growthItems.ts` の「F7（2026-11-04）アイテムの大増量」のかたまりを消す（持っている人がいる場合は表示されなくなるだけ）。
+
+---
+
 ## 2026-11-04 2次試験ガチャ LR に公立鳥取環境大学（前期・英語）予想問題3回分を追加（PR: feat/niji-kankyo）
 
 | 何を | どう変えた | ファイル |
@@ -104,8 +146,6 @@
 | ショップの PDF の棚 | 尾道市立大学を「2次 中国・四国」の棚に入れた | `src/battle/core/printShelves.ts` |
 
 **戻し方**：このPRを revert（PDF・サムネ・プレビューと台帳の3行・LR 説明の大学名・棚の1語がまとめて戻る）。
-
----
 
 ## 2026-11-04 塾クラスの生徒は広告なし・ショップの PDF を棚（地方・教科）で整理（PR: feat/juku-noads-pdf-shelf）
 
@@ -1509,3 +1549,13 @@
 | PDF の棚 | 宇都宮大の予想問題は「2次 関東・中部」の棚に並ぶ | `src/battle/core/printShelves.ts` |
 
 **戻し方**：`growthItems.ts` の `UTSUNOMIYA_MOCK_PRINTS`（import・ITEMS・printOf の3か所）と `gachaPools.ts` の import・`UNIV_MOCK_PRINT_IDS` から外し、`nijiMockPrints.ts` の `OTHER_MOCK_UNIVERSITIES`・`growth.ts` の旧ID正規化・`printShelves.ts` の `UNIV_REGION`・`tests/mockPrintPairs.test.ts` から utsunomiya を消す。`utsunomiyaMockPrints.ts`・`public/prints/*utsunomiya*`・`tests/utsunomiyaMockPrints.test.ts` を消して `build-previews.py` を流し直す。
+
+### 2026-11-05 2次試験ガチャ LR に群馬大学 前期 英語 予想問題を追加
+
+| 場所 | 変更 | ファイル |
+|---|---|---|
+| 2次試験ガチャの LR | 群馬大学 前期日程 英語（理工学部・医学部保健学科 共通）予想問題（第1〜3回。各回「問題＋解答・解説」を1冊に統合）の3種を追加。2次試験ガチャの LR はこの3種を加えた数で等分（LR の割合 1% は同じ）。共通テストガチャには出ない | `src/data/gunmaMockPrints.ts`（新規）、`src/battle/core/growthItems.ts`、`src/battle/core/gachaPools.ts`、`src/battle/core/growth.ts` |
+| 2次試験ガチャの表示 | LR の説明文とピックアップの注意書きに群馬大学を追加。群馬大の景品の詳細にも大学名入りの「過去問・公式問題ではありません」の注意書きを出す | `src/battle/core/gachaPools.ts`、`src/data/nijiMockPrints.ts` |
+| PDF の棚 | 群馬大の予想問題は「2次 関東・中部」の棚に並ぶ | `src/battle/core/printShelves.ts` |
+
+**戻し方**：`growthItems.ts` の `GUNMA_MOCK_PRINTS`（import・ITEMS・printOf の3か所）と `gachaPools.ts` の import・`UNIV_MOCK_PRINT_IDS` から外し、`nijiMockPrints.ts` の `OTHER_MOCK_UNIVERSITIES`・`growth.ts` の旧ID正規化・`printShelves.ts` の `UNIV_REGION`・`tests/mockPrintPairs.test.ts` から gunma を消す。`gunmaMockPrints.ts`・`public/prints/*gunma*`・`tests/gunmaMockPrints.test.ts` を消して `build-previews.py` を流し直す。

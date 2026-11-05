@@ -424,6 +424,11 @@ export interface BattleRoom {
    * 任意（試合が正常に終われば誰も書き込まない）。
    */
   left?: Record<string, unknown>;
+  /** 試合の種類（friend：合言葉／random：全国対戦／lobby：対戦の部屋から・F10） */
+  mode?: 'friend' | 'random' | 'lobby';
+  /** F10：この試合を始めた対戦の部屋（battle_lobbies）のID と、何戦目か */
+  lobbyId?: string;
+  lobbyRound?: number;
   /**
    * 結果の相互承認（uid → 自分が計算した勝敗）。
    * 両者の申告が一致したときだけレートに反映する。

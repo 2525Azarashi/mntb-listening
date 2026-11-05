@@ -20,15 +20,7 @@ import {
   CalendarDays,
 } from 'lucide-react';
 import { auth } from '../firebase';
-import {
-  getAllReviewItems,
-  getDueReviewItems,
-  createReviewActions,
-  isMastered,
-  groupReviewItems,
-  type ReviewGroup,
-  type ReviewItem,
-} from '../utils/reviewList';
+import { getAllReviewItems, getDueReviewItems, createReviewActions, isMastered, groupReviewItems, type ReviewGroup, type ReviewItem, isAnsweredCorrectly } from '../utils/reviewList';
 import { ForgettingCurveChart } from './ForgettingCurveChart';
 import { StudyRecord, type StudyRetry } from './StudyRecord';
 import './review-note.css';
@@ -134,7 +126,9 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ item, now, onCorrect, onWrong, 
   const retention = Math.round(retentionOf(item) * 100);
   const subject = subjectOfReviewItem(item);
   const detailId = `review-detail-${item.key}`;
-  const status = mastered ? 'done' : due ? 'doing' : 'todo';
+  // F9（2026-11-04）：最後に正解していたら「正解した」（間違えたら元に戻る）
+  const solved = !mastered && isAnsweredCorrectly(item);
+  const status = mastered || solved ? 'done' : due ? 'doing' : 'todo';
   const summary = summarizeQuestion(item.questionText);
 
   return (
@@ -147,7 +141,7 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ item, now, onCorrect, onWrong, 
           </span>
           <span className="rn-item-q">{summary || '（問題文なし）'}</span>
           <span className="rn-item-meta">
-            <span className="mt-status" data-status={status}>{mastered ? '習得済み' : due ? '今日やる' : formatDue(item.dueAt, now)}</span>
+            <span className="mt-status" data-status={status} data-answered-correct={solved || undefined}>{mastered ? '習得済み' : solved ? '正解した' : due ? '今日やる' : formatDue(item.dueAt, now)}</span>
             {item.wrongCount >= 2 && !mastered && <span className="rn-weak"><Flame size={13} aria-hidden="true" />{item.wrongCount}回ミス</span>}
             <span className="rn-retention" aria-label={`定着度 ${retention}%`}>
               <span className="mt-meter" data-status={mastered ? 'done' : undefined} aria-hidden="true"><i style={{ width: `${Math.max(retention, 4)}%` }} /></span>
@@ -197,7 +191,8 @@ const GroupCard: React.FC<Omit<ReviewCardProps, 'item' | 'onReview'> & { group: 
     onReview={onReview ? () => onReview({ ...head, subQuestionIds: group.subQuestionIds }) : undefined} />;
   const due = group.dueAt <= now;
   const mastered = group.items.every(isMastered);
-  const status = mastered ? 'done' : due ? 'doing' : 'todo';
+  const solved = !mastered && group.items.every(it => isMastered(it) || isAnsweredCorrectly(it));
+  const status = mastered || solved ? 'done' : due ? 'doing' : 'todo';
   const subject = subjectOfReviewItem(head);
   const labels = group.items.map((it, i) => (String(it.subLabel || '').match(/問\s*\d+/u)?.[0] ?? `(${i + 1})`).replace(/\s+/g, ''));
   const detailId = `review-group-${group.key}`;
@@ -210,11 +205,11 @@ const GroupCard: React.FC<Omit<ReviewCardProps, 'item' | 'onReview'> & { group: 
             <span>{formatScope(head)}</span>
           </span>
           <span className="rn-group-chips" aria-label={`間違えた問題 ${labels.join('・')}`}>
-            {labels.map((l, i) => <span key={i} data-mastered={isMastered(group.items[i]) || undefined}>{l}</span>)}
+            {labels.map((l, i) => <span key={i} data-mastered={isMastered(group.items[i]) || isAnsweredCorrectly(group.items[i]) || undefined}>{l}</span>)}
             <small>の{group.items.length}問だけ</small>
           </span>
           <span className="rn-item-meta">
-            <span className="mt-status" data-status={status}>{mastered ? '習得済み' : due ? '今日やる' : formatDue(group.dueAt, now)}</span>
+            <span className="mt-status" data-status={status} data-answered-correct={solved || undefined}>{mastered ? '習得済み' : solved ? '正解した' : due ? '今日やる' : formatDue(group.dueAt, now)}</span>
             {group.wrongCount >= 2 && !mastered && <span className="rn-weak"><Flame size={13} aria-hidden="true" />{group.wrongCount}回ミス</span>}
           </span>
         </button>

@@ -385,12 +385,13 @@ export const OTHER_MOCK_UNIVERSITIES = [
   { id: 'yamagata', name: '山形大学' },
   { id: 'fukushima', name: '福島大学' },
   { id: 'utsunomiya', name: '宇都宮大学' },
+  { id: 'gunma', name: '群馬大学' },
   { id: 'kobe', name: '神戸大学' },
   { id: 'osaka', name: '大阪大学' },
   { id: 'ritsu', name: '立命館大学' },
 ] as const;
 
-/** 2次試験ガチャの予想問題（id）がどの大学のものか（名古屋・静岡に加え、北大・東北大・弘前大・岩手大・秋田大・山形大・福島大・宇都宮大・神戸・阪大・立命館も）。予想問題でなければ undefined */
+/** 2次試験ガチャの予想問題（id）がどの大学のものか（名古屋・静岡に加え、北大・東北大・弘前大・岩手大・秋田大・山形大・福島大・宇都宮大・群馬大・神戸・阪大・立命館も）。予想問題でなければ undefined */
 export function mockUniversityOf(id: string): { id: string; name: string } | undefined {
   const m = id.match(/^print_lr_([a-z]+)_(?:[qa]_)?\d+$/);
   return m ? OTHER_MOCK_UNIVERSITIES.find((u) => u.id === m[1]) : nijiUniversityOf(id);

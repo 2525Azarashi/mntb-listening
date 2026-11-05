@@ -508,3 +508,22 @@
 /* 2026-11-04 提供割合の窓のコレクション一覧：文字を12px以上に（帯ラベル 8〜9px・所持状況 10px を上書き） */
 .gacha-odds .gacha-collection-grid li > span { font-size: 12px; }
 .gacha-odds .gacha-collection-grid .gacha-print-thumb em { display: none; } /* 種類（演習プリント等）は帯にせず、下の名前とレア度で判断できる */
+/* F8（2026-11-04）：通しで聞く（日本語の案内つき・本番と同じ流れ）。1問ずつのボタンの上に横いっぱい */
+.kyotsu-audio-full { display:flex; align-items:center; justify-content:center; gap:6px; width:100%; min-height:44px; margin:4px 0 6px; border:1.5px solid #d9c9a8; border-radius:12px; background:#fffaf0; color:#245e7a; font-weight:800; font-size:13px; }
+.kyotsu-audio-full[aria-pressed=true] { background:#245e7a; border-color:#245e7a; color:#fff; }
+/* F11（2026-11-04）セット収集がスマホで右にはみ出す：共通の .gacha-odds ul（2列）が効いていたので、セットの一覧だけ1列に戻す */
+.gacha-odds .gacha-set-list { grid-template-columns: minmax(0, 1fr); }
+.gacha-set-list > li { min-width: 0; }
+.gacha-set-parts { flex-wrap: wrap; }
+
+/* F5（2026-11-04）：第1回は全文を見られる（ピックアップの一番上に固定・詳細窓の「全文を見る」） */
+.gacha-pickup-free { display:grid; gap:6px; padding:8px; border:1.5px solid #a37ad6; border-radius:12px; background:#fbf7ff; }
+.gacha-pickup-free > h3 { margin:0; color:#59451f; font:800 14px/1.35 var(--mt-font-body); }
+.gacha-pickup-free > p { margin:0; font-size:12px; color:#6b5a3a; }
+.gacha-pickup-free > ul { display:grid; gap:6px; margin:0; padding:0; list-style:none; }
+.gacha-pickup-free-btn { display:flex; align-items:center; gap:8px; width:100%; min-height:56px; padding:6px 10px; border:1px solid #e7decb; border-radius:12px; background:#fffdf8; text-align:left; cursor:pointer; }
+.gacha-pickup-free-btn > img { flex-shrink:0; width:40px; height:56px; object-fit:cover; border:1px solid #e3d8c3; border-radius:4px; background:#fff; }
+.gacha-pickup-free-btn > span { flex:1; min-width:0; display:grid; gap:2px; }
+.gacha-pickup-free-btn strong { font-size:13px; line-height:1.35; color:#344451; }
+.gacha-pickup-free-btn > em { flex-shrink:0; font-style:normal; font-size:12px; font-weight:800; color:#7a4b12; }
+.gacha-detail-full { min-height:44px; font-size:13px; }

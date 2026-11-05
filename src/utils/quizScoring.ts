@@ -30,7 +30,7 @@ import {
   comboMultiplier,
   type ScoreBreakdown,
 } from './scoring';
-import { captureWrongAnswers, applyReviewRetry, type WrongAnswerInput } from './reviewList';
+import { captureWrongAnswers, applyReviewRetry, noteCorrectAnswers, reviewKeyOf, type WrongAnswerInput } from './reviewList';
 import { recordStudyLog } from './studyLog';
 import { focusedSubIds, readReviewFocus } from './reviewFocus';
 import { markProblemSolved } from './progress';
@@ -198,7 +198,7 @@ export function createScoreCurrentQuestion({
       // とびら君の成長（XP・マナコイン・ミッション）。同じ大問は1日1回。学習の保存とは独立で、失敗しても学習を止めない。
       if (uid && Number.isFinite(boostedScore) && boostedScore >= 1) {
         const key = `${chapter.id}::${currentQuestion.id}`;
-        void import('../battle/data/growthStore').then(({ recordStudyGrowth }) => recordStudyGrowth(uid, key)).catch(logRejection('growth.recordStudy'));
+        void import('../battle/data/growthStore').then(({ recordStudyGrowth }) => recordStudyGrowth(uid, key, { timeUsed, timeLimit: questionTimeLimit })).catch(logRejection('growth.recordStudy'));
       } else if (uid) {
         // 0点だった → 演習の「れんぞく正解」ミッションの連続を切る
         void import('../battle/data/growthStore').then(({ breakStudyStreak }) => breakStudyStreak()).catch(logRejection('growth.breakStreak'));
@@ -235,6 +235,10 @@ export function createScoreCurrentQuestion({
             wrongAnswer: (answers[sq.id] || '').trim(),
           }));
         if (wrongInputs.length > 0) captureWrongAnswers(uid, wrongInputs);
+        // F9：ノートに入っている小問に正解したら「正解した」の印（予定は動かさない）
+        noteCorrectAnswers(uid, subQuestions
+          .filter((sq) => !isDescriptive(sq) && isAnswerCorrect(sq, answers[sq.id]))
+          .map((sq) => reviewKeyOf(chapter.id, currentQuestion.id, String(sq.id))));
       }
     } catch (e) {
       console.error('[Quiz] captureWrongAnswers failed:', e);

@@ -34,7 +34,7 @@ def lr_ids() -> list[str]:
     niji = (ROOT / 'src/data/nijiMockPrints.ts').read_text()
     for univ, n in re.findall(r'\b([a-z][a-z0-9]*)\((\d+), \d+, \d+\)', niji):
         out.append(f'print_lr_niji_{univ}_en_{n}')
-    for univ in ('kobe', 'osaka', 'ritsu', 'hokudai', 'tohoku', 'hirosaki', 'iwate', 'akita', 'yamagata', 'fukushima', 'utsunomiya'):
+    for univ in ('kobe', 'osaka', 'ritsu', 'hokudai', 'tohoku', 'hirosaki', 'iwate', 'akita', 'yamagata', 'fukushima', 'utsunomiya', 'gunma'):
         src = (ROOT / f'src/data/{univ}MockPrints.ts').read_text()
         for n in re.findall(r'round\((\d+), \d+, \d+\)', src):
             out.append(f'print_lr_{univ}_{n}')

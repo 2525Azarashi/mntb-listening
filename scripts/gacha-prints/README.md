@@ -753,3 +753,28 @@ python3 check.py 1 2 3     # 英語4語／日本語13字の一致（宇都宮大
 for R in 1 2 3; do python3 verify.py $R; done   # 本文の語数・平均文長・難語率・設問数と種類・英作文の語数 → logs/verify_rN.json
 python3 probe.py '言い換え候補の文' …   # 書き直すときに，候補が過去問と重ならないかを先に試す
 ```
+
+### 群馬大 予想問題（2次試験ガチャ LR・第1〜3回）2026-11-05
+
+```bash
+# 必要なもの・フォントは神戸大と同じ（gunma_riko_mock/render.py は kobe_mock/render.py と hokudai_mock/render.py の部品を読み込む。両方を壊さないこと）
+cd scripts/gacha-prints/gunma_riko_mock && for R in 1 2 3; do python3 render.py $R; done
+# → .tmpwork/gunma_mock/manatobi_gunma_eng_yoso{n}_{mondai,kaitou}.pdf
+#   を「問題 → 解答・解説」の順に pdfunite で1冊にして public/prints/print_lr_gunma_{n}.pdf
+#   → サムネイル（1ページ目・72dpi・幅360で上510pxを webp q82）→ src/data/gunmaMockPrints.ts の pages / kb を合わせる
+#   → python3 scripts/gacha-prints/build-previews.py print_lr_gunma_1 print_lr_gunma_2 print_lr_gunma_3
+```
+- 対象：前期日程の「英語」のうち，理工学部・医学部保健学科で共通の問題冊子（マーク式）。情報学部は和訳・日本語説明のある別冊なので対象外。60分想定・独自配点 200点（第1問 90・第2問 50・第3問 60）。
+- 形式は公開されている問題（令和6〜8年度）と正解の「形」だけを参考にした：第1問 文法・語法の空所補充（A 10問）／誤り指摘（B 10問）／会話の空所補充（C 4会話・10か所）／第2問 長文2題（各 400〜600語・各5問，最後は表題）／第3問 物語・説明文2題の語の完成（語頭が示された空所 各10か所）。解答番号は1〜60。
+- 問題データは `gN.py`（配点・架空の固有名詞）・`gN_1.py`（第1問）・`gN_2.py`（第2問）・`gN_3.py`（第3問）。語の完成の記法：`{{語頭|残り}}`。
+- 表紙と奥付に「群馬大学の過去問・公式問題ではありません。予想問題であり，大学とは関係がありません。」（`tests/gunmaMockPrints.test.ts` が確認）。登場人物・団体・地名は架空（過去問に出てくる名前と重ならないことも確認）。
+- 分析に使った資料：大学公式サイトで公開されている令和6〜8年度の前期 英語問題・正解（OCR）と令和9年度募集要項。`.tmpwork/gunma_ref/` に置くだけで，本文・設問・解答は引用しない。
+
+### 群馬大 予想問題：品質・オリジナル性の検査（商用利用のため毎回実行）2026-11-05
+
+```bash
+cd scripts/gacha-prints/gunma_riko_mock
+python3 check.py 1 2 3     # 英語4語／日本語13字の一致（群馬大の公式PDF＋宇都宮大・福島大・山形大・秋田大・岩手大・弘前大・東北大・北大・神戸大・阪大・立命館）・人物名・禁止語・空所と選択肢・正解位置の偏り・語の完成の形・render.py の固定文言 → logs/check.json（ng が空であること）
+for R in 1 2 3; do python3 verify.py $R; done   # 長文の語数・平均文長・難語率・空所語の頻度・問題文の長さ → logs/verify_rN.json
+python3 probe.py '言い換え候補の文' …   # 書き直すときに，候補が過去問と重ならないかを先に試す
+```
