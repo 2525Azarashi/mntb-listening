@@ -48,7 +48,7 @@ import { logRejection } from '../../utils/reportError';
  * ここで全部飲み込むと、別の原因の不具合が
  * 「なぜかマッチしない」に化けて原因が追えなくなる。
  */
-async function fetchWaitingQueue(subject: string) {
+export async function fetchWaitingQueue(subject: string) {
   // ★条件は「教科が一致」の1つだけ★
   //
   //   以前は where('subject') + orderBy('createdAt') と書いていた。

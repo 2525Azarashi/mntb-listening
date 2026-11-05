@@ -1292,6 +1292,113 @@ service cloud.firestore {
     }
 
     // ===============================================================
+    // battle_lobbies/{lobbyId}  ★F10（2026-11-05）対戦の部屋★
+    //   全国対戦でマッチした2人が入る部屋。それぞれが単元をえらび、
+    //   部屋主（players[0]）がどちらかをランダムに選んで battle_rooms を作る。
+    //   試合が終わったら同じ部屋に戻って、えらび直して再戦できる。
+    // ===============================================================
+    match /battle_lobbies/{lobbyId} {
+      // まだ無い部屋は読める（待っている側が自分の部屋 lb_<自分の検索ID> ができるのを待つため。中身は無いので漏れない）
+      allow get: if battleSignedIn() && (resource == null || request.auth.uid in resource.data.players);
+      allow list: if battleSignedIn() && request.auth.uid in resource.data.players;
+
+      // 作れるのは、待機列（lobby:v1）で並んでいた相手の票を同じ書き込みで消した人だけ
+      //   （battle_rooms の random と同じ考え方。並んでいない人を勝手に部屋に入れられない）
+      allow create: if battleSignedIn() && lobbyValidNew(request.resource.data);
+      function lobbyValidNew(d) {
+        return d.keys().hasOnly(['id', 'status', 'players', 'profiles', 'picks', 'round',
+                                 'roomId', 'chosen', 'createdAt', 'updatedAt'])
+          && d.id == lobbyId
+          && d.status == 'open'
+          && d.players is list && d.players.size() == 2
+          && d.players[0] == request.auth.uid
+          && d.players[1] != request.auth.uid
+          && d.profiles is map && d.profiles.keys().hasOnly(d.players)
+          && d.picks is map && d.picks.size() == 0
+          && d.round == 0
+          && d.roomId == ''
+          && d.chosen == null
+          && d.createdAt == request.time
+          && d.updatedAt == request.time
+          && lobbyQueueConsumed(d.players[1])
+          // 部屋IDは「lb_＋相手の検索ID」に決まっている（相手はその1件だけを待てばよい）
+          && lobbyId == 'lb_' + get(/databases/$(database)/documents/battle_queue/$(d.players[1])).data.profile.get('matchSessionId', '');
+      }
+      function lobbyQueueConsumed(other) {
+        return exists(/databases/$(database)/documents/battle_queue/$(other))
+          && get(/databases/$(database)/documents/battle_queue/$(other)).data.subject == 'lobby:v1'
+          && !existsAfter(/databases/$(database)/documents/battle_queue/$(other));
+      }
+
+      allow update: if battleSignedIn()
+        && request.auth.uid in resource.data.players
+        && request.resource.data.updatedAt == request.time
+        && request.resource.data.keys().hasOnly(['id', 'status', 'players', 'profiles', 'picks', 'round',
+                                                 'roomId', 'chosen', 'createdAt', 'updatedAt', 'left'])
+        && lobbyUnchanged('id') && lobbyUnchanged('players')
+        && lobbyUnchanged('profiles') && lobbyUnchanged('createdAt')
+        && resource.data.status == 'open'
+        && (lobbyPicking() || lobbyStarting() || lobbyLeaving());
+
+      function lobbyUnchanged(f) {
+        return request.resource.data.get(f, null) == resource.data.get(f, null);
+      }
+      function lobbyOther() {
+        return resource.data.players[0] == request.auth.uid ? resource.data.players[1] : resource.data.players[0];
+      }
+
+      // 自分の単元をえらぶ・えらび直す（相手の分は触れない）
+      function lobbyPicking() {
+        let np = request.resource.data.picks;
+        return lobbyUnchanged('status') && lobbyUnchanged('round') && lobbyUnchanged('roomId')
+          && lobbyUnchanged('chosen') && lobbyUnchanged('left')
+          && np is map && np.keys().hasOnly(resource.data.players)
+          && np.get(lobbyOther(), null) == resource.data.picks.get(lobbyOther(), null)
+          && (!(request.auth.uid in np) || lobbyPickValid(np[request.auth.uid]));
+      }
+      function lobbyPickValid(p) {
+        return p is map
+          && p.keys().hasOnly(['subject', 'chapterId', 'count', 'title'])
+          && p.subject is string && p.subject.size() > 0 && p.subject.size() <= 40
+          && p.chapterId is string && p.chapterId.size() <= 80
+          && p.count in [5, 10, 15]
+          && p.title is string && p.title.size() <= 80;
+      }
+
+      // 部屋主が次の試合を始める（battle_rooms の作成と同じ一括書き込み）
+      function lobbyStarting() {
+        let nd = request.resource.data;
+        let roomPath = /databases/$(database)/documents/battle_rooms/$(nd.roomId);
+        return request.auth.uid == resource.data.players[0]
+          && lobbyUnchanged('status') && lobbyUnchanged('left')
+          && nd.round == resource.data.round + 1
+          && nd.picks is map && nd.picks.size() == 0
+          && nd.roomId is string && nd.roomId.size() > 0 && nd.roomId != resource.data.roomId
+          && existsAfter(roomPath)
+          && getAfter(roomPath).data.lobbyId == lobbyId
+          && getAfter(roomPath).data.lobbyRound == nd.round
+          && nd.chosen is map
+          && nd.chosen.keys().hasOnly(['uid', 'subject', 'chapterId', 'count', 'title'])
+          && nd.chosen.uid in resource.data.players
+          && resource.data.picks.get(nd.chosen.uid, null) != null
+          && nd.chosen.subject == resource.data.picks[nd.chosen.uid].subject
+          && nd.chosen.subject == getAfter(roomPath).data.subject;
+      }
+
+      // 部屋を出る（出たら閉じる。相手には「相手が部屋を出ました」と出る）
+      function lobbyLeaving() {
+        return request.resource.data.status == 'closed'
+          && lobbyUnchanged('picks') && lobbyUnchanged('round')
+          && lobbyUnchanged('roomId') && lobbyUnchanged('chosen')
+          && !('left' in resource.data)
+          && request.resource.data.left is map
+          && request.resource.data.left.keys().hasOnly([request.auth.uid]);
+      }
+
+      allow delete: if false;
+    }
+
+    // ===============================================================
     // battle_rooms/{roomId}
     //   1 試合＝1 ドキュメント。★購読はこの 1 本だけ★
     // ===============================================================
@@ -1305,11 +1412,11 @@ service cloud.firestore {
                  'id', 'status', 'mode', 'subject', 'joinCode', 'hostUid',
                  'players', 'profiles', 'questionIds', 'rules',
                  'currentIndex', 'deadlineAt', 'answers', 'attest',
-                 'createdAt', 'updatedAt'
+                 'createdAt', 'updatedAt', 'lobbyId', 'lobbyRound'
                ])
           && d.id == roomId
           && d.status == 'waiting'
-          && (d.mode == 'friend' || d.mode == 'random')
+          && (d.mode == 'friend' || d.mode == 'random' || d.mode == 'lobby')
           && d.subject is string && d.subject.size() <= 40
           && d.joinCode is string && d.joinCode.size() <= 8
           && d.hostUid == request.auth.uid
@@ -1355,7 +1462,9 @@ service cloud.firestore {
           && battleUnchanged('hostUid')
           && battleUnchanged('questionIds')
           && battleUnchanged('rules')
-          && battleUnchanged('createdAt');
+          && battleUnchanged('createdAt')
+          && request.resource.data.get('lobbyId', '') == resource.data.get('lobbyId', '')
+          && request.resource.data.get('lobbyRound', 0) == resource.data.get('lobbyRound', 0);
       }
 
       // -----------------------------------------------------------
@@ -1469,11 +1578,38 @@ service cloud.firestore {
       //              ＝相手が実際にこの教科で並んでいて、それを消費したことを要求する。
       //              findOrEnqueue は両者の票を消す＋部屋を作るを1トランザクションで行う。
       function battleRoomMembersLegit(d) {
-        return (d.mode == 'friend' && d.players.size() == 1)
+        return (d.mode == 'friend' && d.players.size() == 1 && !('lobbyId' in d))
           || (d.mode == 'random' && d.players.size() == 2
               && d.players[0] == request.auth.uid
               && d.players[1] != request.auth.uid
-              && battleQueueConsumed(d.players[1], d.subject));
+              && !('lobbyId' in d)
+              && battleQueueConsumed(d.players[1], d.subject))
+          || (d.mode == 'lobby' && d.players.size() == 2
+              && d.players[0] == request.auth.uid
+              && d.players[1] != request.auth.uid
+              && d.lobbyId is string && d.lobbyId.size() > 0 && d.lobbyId.size() <= 40
+              && d.lobbyRound is int
+              && battleLobbyStartOk(d));
+      }
+
+      // ★F10（2026-11-05）対戦の部屋（battle_lobbies）から始める試合★
+      //   ・部屋の2人とまったく同じ2人（並びも同じ＝部屋主が先頭）
+      //   ・2人とも単元をえらび終えている
+      //   ・教科は「2人がえらんだどちらか」だけ（勝手な教科で始められない）
+      //   ・何戦目か（lobbyRound）は部屋の round + 1（同じ回を2回始められない）
+      //   get() はこの書き込みの前の部屋（えらんだ単元が残っている状態）を読む。
+      function battleLobbyStartOk(d) {
+        let lobby = get(/databases/$(database)/documents/battle_lobbies/$(d.lobbyId)).data;
+        return lobby.status == 'open'
+          && lobby.players == d.players
+          && d.lobbyRound == lobby.round + 1
+          && d.players[0] in lobby.picks
+          && d.players[1] in lobby.picks
+          && (lobby.picks[d.players[0]].subject == d.subject
+              || lobby.picks[d.players[1]].subject == d.subject)
+          // 部屋の「次の回へ進める」書き込みと必ずセット（試合だけ何度も作れない）
+          && getAfter(/databases/$(database)/documents/battle_lobbies/$(d.lobbyId)).data.roomId == roomId
+          && getAfter(/databases/$(database)/documents/battle_lobbies/$(d.lobbyId)).data.round == d.lobbyRound;
       }
       function battleQueueConsumed(other, subject) {
         return exists(/databases/$(database)/documents/battle_queue/$(other))
@@ -2057,7 +2193,7 @@ service cloud.firestore {
           'players', 'profiles', 'questionIds', 'rules',
           'currentIndex', 'deadlineAt', 'answers', 'attest',
           'createdAt', 'updatedAt',
-          'startedAt', 'left', 'finishedAt'
+          'startedAt', 'left', 'finishedAt', 'lobbyId', 'lobbyRound'
         ]);
       }
 
