@@ -199,14 +199,14 @@ export async function openChest() {
  * 演習で大問に得点したとき。同じ大問は1日1回だけ報酬（何度解き直しても増えすぎない）。
  * 学習の保存（progress.ts）とは独立。失敗しても学習は止めない。
  */
-export async function recordStudyGrowth(uid: string, problemKey: string) {
+export async function recordStudyGrowth(uid: string, problemKey: string, timing: { timeUsed?: number; timeLimit?: number } = {}) {
   if (!problemKey || problemKey.length > 200 || scope() !== uid) return null;
   const out = await mutate((p, today, seen) => {
     const receipt = `study:${today}:${problemKey}`;
     if (seen.has(receipt)) return { next: p, extra: null };
     seen.add(receipt);
     studyStreak += 1;
-    const r = applyStudySolved(p, today, Date.now(), studyStreak);
+    const r = applyStudySolved(p, today, Date.now(), studyStreak, timing); // F3：速さ・れんぞく正解で 2〜5枚
     return { next: r.next, extra: r.reward };
   }, uid);
   if (out?.extra) { studySession.coins += out.extra.coins; studySession.xp += out.extra.xp; studySession.count += 1; studyListeners.forEach(f => f({ ...studySession })); }

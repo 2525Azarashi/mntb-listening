@@ -1,3 +1,26 @@
+## 2026-11-05 修正F（F1〜F9・F11）結果の不具合報告・共通テスト予想の音声とQR・第1回全文・アイテム増量・タイトルの演出 ほか（PR: feat/revision-f-batch）
+
+| # | 何を | どう変えた | ファイル |
+|---|---|---|---|
+| F1 | 問題を解いた後の結果画面 | 下のバーに「この問題の不具合を報告する」（Googleフォームを開く） | `ResultSummary.tsx` `step-explanation.css` `legalText.ts` |
+| F2 | 共通テスト予想リスニング 第2〜5回 | 音声を問題ごとに切って追加（96本）。第5問のグラフ問題の音声は今のPDFのスクリプトと一致していたので、PDFの問題は変えていない | `kyotsuMockAudio.ts` `public/prints/kyotsu_assets/audio/` |
+| F8 | 同 PDF の表紙 | 日本語の案内つきの「通し音声」（第1〜5回）を作り、表紙にQRコード。マイPDFに「通しで聞く（本番と同じ流れ）」 | `build.py` `render.py` `make_full_audio.py` `KyotsuAudioPlayer.tsx` `public/prints/kyotsu_assets/full/` |
+| F11 | ショップ「セット収集」 | スマホで右にはみ出していたのを1列に | `gacha.css` |
+| F3 | 正解のマナコイン | 1問2〜5枚（速く・れんぞく正解で多め）。結果画面の説明も変更 | `growth.ts` `quizScoring.ts` `ResultSummary.tsx` |
+| F9 | 復習ノート・解いた問題 | あとで正解した問題は「正解した」表示（○） | `reviewList.ts` `StudyHub.tsx` `StudyRecord.tsx` `study-record.css` |
+| F5 | 共通テストガチャのピックアップ | 第1回（R・L）を一番上に固定し「全文を見る」。アプリ内のPDFで全ページ。「‹ もどる」で元の画面へ。バナーのピックアップも第1回が先頭 | `GachaPickupModal.tsx` `GachaItemDetail.tsx` `openFullPrint.ts` `kyotsuMockPrints.ts` `gacha.css` |
+| F7 | アイテム | ショップにどの種類も並ぶように大増量（お供は26種・帽子/メガネ/ほっぺ/オーラ/壁紙/ホーム背景も追加）。絵は今ある物の色ちがい | `growthItems.ts` `tobiraParts.ts` `companion.css` `home-stage.css` |
+| F6 | タイトル画面 | 動画が終わっても雲・星・紙飛行機が残り、とびら君だけ静止画に切り替わる（最後のコマからとびら君を消した背景）。星のまたたき・呼吸、ロゴ→コピー→ボタンが順にふわっと出る、「これ1本」にマーカー、「はじめる」に光。ボタンの位置は変えていない | `LaunchScreen.tsx` `launch-screen.css` `public/cinematics/title-plate.webp` |
+
+**戻し方**：
+- 丸ごと戻す：このPRを revert。
+- F1：`ResultSummary.tsx` の `data-practice-report` の `<a>` を消す。
+- F5：`GachaPickupModal.tsx` の `data-gacha-free-full` の `<section>`、`GachaItemDetail.tsx` の `gacha-detail-full` のボタンを消し、`weeklyPickup` の `pinned` を外す。
+- F6：`launch-screen.css` の末尾2つの「F6」のかたまりを消し、`LaunchScreen.tsx` の `.launch-plate` / `.launch-sparkles` を `.launch-halo` / `.launch-ground` に戻す。
+- F7：`growthItems.ts` の「F7（2026-11-04）アイテムの大増量」のかたまりを消す（持っている人がいる場合は表示されなくなるだけ）。
+
+---
+
 ## 2026-11-04 2次試験ガチャ LR に公立鳥取環境大学（前期・英語）予想問題3回分を追加（PR: feat/niji-kankyo）
 
 | 何を | どう変えた | ファイル |
@@ -96,8 +119,6 @@
 | ショップの PDF の棚 | 尾道市立大学を「2次 中国・四国」の棚に入れた | `src/battle/core/printShelves.ts` |
 
 **戻し方**：このPRを revert（PDF・サムネ・プレビューと台帳の3行・LR 説明の大学名・棚の1語がまとめて戻る）。
-
----
 
 ## 2026-11-04 塾クラスの生徒は広告なし・ショップの PDF を棚（地方・教科）で整理（PR: feat/juku-noads-pdf-shelf）
 
