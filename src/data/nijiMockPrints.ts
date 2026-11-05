@@ -89,6 +89,7 @@ export const NIJI_UNIVERSITIES = [
   { id: 'shimaneh', name: '島根大学', track: '法文・人間科学・総合理工・生物資源科学部' },
   { id: 'shimanem', name: '島根大学', track: '医学部医学科' },
   { id: 'kankyo', name: '公立鳥取環境大学', track: '' },
+  { id: 'wakayamamed', name: '和歌山県立医科大学', track: '' },
 { id: 'nagasakid', name: '長崎大学', track: '多文化社会・経済・医・歯・薬・工・環境科学部ほか' },
   { id: 'nagasakic', name: '長崎大学', track: '教育学部（文系以外）・情報データ科学部（理系受験）' },
 ] as const;
@@ -137,6 +138,7 @@ const onomichi = (n: number, pages: number, kb: number) => mock('onomichi', n, p
 const shimaneh = (n: number, pages: number, kb: number) => mock('shimaneh', n, pages, kb);
 const shimanem = (n: number, pages: number, kb: number) => mock('shimanem', n, pages, kb);
 const kankyo = (n: number, pages: number, kb: number) => mock('kankyo', n, pages, kb);
+const wakayamamed = (n: number, pages: number, kb: number) => mock('wakayamamed', n, pages, kb);
 const nagasakid = (n: number, pages: number, kb: number) => mock('nagasakid', n, pages, kb);
 const nagasakic = (n: number, pages: number, kb: number) => mock('nagasakic', n, pages, kb);
 
@@ -231,6 +233,9 @@ export const NIJI_MOCK_PRINTS: readonly GachaPrintDef[] = [
   kankyo(1, 19, 1415),
   kankyo(2, 20, 1404),
   kankyo(3, 19, 1409),
+  wakayamamed(1, 26, 1815),
+  wakayamamed(2, 26, 1778),
+  wakayamamed(3, 26, 1819),
 nagasakid(1, 18, 346),
   nagasakid(2, 18, 329),
   nagasakid(3, 18, 338),

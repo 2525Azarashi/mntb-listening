@@ -597,4 +597,16 @@ export const GACHA_PREVIEWS: Readonly<Record<string, readonly string[]>> = {
     "/prints/previews/print_lr_niji_ibaraki_en_3_p2.webp",
     "/prints/previews/print_lr_niji_ibaraki_en_3_p12.webp"
   ],
+  "print_lr_niji_wakayamamed_en_1": [
+    "/prints/previews/print_lr_niji_wakayamamed_en_1_p2.webp",
+    "/prints/previews/print_lr_niji_wakayamamed_en_1_p13.webp"
+  ],
+  "print_lr_niji_wakayamamed_en_2": [
+    "/prints/previews/print_lr_niji_wakayamamed_en_2_p2.webp",
+    "/prints/previews/print_lr_niji_wakayamamed_en_2_p13.webp"
+  ],
+  "print_lr_niji_wakayamamed_en_3": [
+    "/prints/previews/print_lr_niji_wakayamamed_en_3_p2.webp",
+    "/prints/previews/print_lr_niji_wakayamamed_en_3_p13.webp"
+  ],
 };
