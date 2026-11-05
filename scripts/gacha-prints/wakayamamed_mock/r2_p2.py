@@ -14,7 +14,8 @@ P2 = {
         "The person who taught me otherwise was Mr. Okonjo, a retired teacher who had been admitted with heart failure. Every night at "
         "about three o\u2019clock, he pressed his bell. Every night I came, asked what he needed, and every night he said, "
         "\u201cNothing, really.\u201d For a week I found this {bA}. I had eleven other patients, and I could not afford to spend time on "
-        "someone who needed nothing.",
+        "someone who needed nothing. Once, I even suggested to the doctor that he might need something to help him sleep through "
+        "the night, as if his bell were a symptom to be treated.",
 
         "One night, too tired to hurry, I simply sat down on the chair beside his bed. Neither of us spoke for several minutes. Then he "
         "began to talk \u2014 not about his illness but about the village school where he had taught for forty years, and about a boy "
@@ -27,7 +28,8 @@ P2 = {
         "I had been trained to give; it was his way of finding out whether he was still connected to the world of the living}.",
 
         "Nursing schools teach us many skills, and all of them matter. But there is one that is rarely written into any textbook, "
-        "because it looks so much like doing nothing: the ability to wait with someone without trying to fix anything. I still work "
+        "because it looks so much like doing nothing: the ability to wait with someone without trying to fix anything. Most of the young nurses I train now are as I was then, eager to prove "
+        "that they are useful by staying in motion. I still work "
         "quickly when I need to. But I have learned that sometimes the most {bC} thing I can do is to sit down.",
     ],
     'source': '（Grace Tilden, //Night Ward//, 2020 より。編集部による架空の文章）',
