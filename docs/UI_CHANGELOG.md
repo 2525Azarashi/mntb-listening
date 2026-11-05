@@ -10,6 +10,17 @@
 
 ---
 
+## 2026-11-04 2次試験ガチャ LR に和歌山県立医科大学（前期・英語）予想問題3回分を追加（PR: feat/niji-wakayamamed）
+
+| 何を | どう変えた | ファイル |
+|---|---|---|
+| 2次試験ガチャの LR | 和歌山県立医科大学 前期（英語・医学部・薬学部共通）の予想問題を3冊追加（各回 問題13ページ＋解答・解説13ページ）。ピックアップ一覧・LR の説明にも大学名が出る | `public/prints/print_lr_niji_wakayamamed_en_{1,2,3}.pdf`・`src/data/nijiMockPrints.ts`・`src/battle/core/gachaPools.ts` |
+| ショップの PDF の棚 | 和歌山県立医科大学を「2次 近畿」の棚に入れる | `src/battle/core/printShelves.ts` |
+
+**戻し方**：このPRを revert（PDF・サムネ・プレビューも消える）。
+
+---
+
 ## 2026-11-04 2次試験ガチャ LR に公立鳥取環境大学（前期・英語）予想問題3回分を追加（PR: feat/niji-kankyo）
 
 | 何を | どう変えた | ファイル |
