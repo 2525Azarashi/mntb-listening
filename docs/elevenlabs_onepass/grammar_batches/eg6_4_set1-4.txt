@@ -1,0 +1,39 @@
+Ken is in Canada now. If he were here, he would tell us what to do.
+<break time="1.5s" />
+If I were you, I would apologize to her right away.
+<break time="1.5s" />
+If my brother were in my place, he would talk to the teacher about it.
+<break time="1.5s" />
+I miss you so much. If I had wings, I could fly to you.
+<break time="1.5s" />
+What would you buy if you won the lottery?
+<break time="1.5s" />
+If she had taken an earlier bus, she would have arrived on time.
+<break time="1.5s" />
+If we had left home ten minutes earlier, we would have caught the train.
+<break time="1.5s" />
+If it had not rained, we could have played the game.
+<break time="1.5s" />
+If I had taken the doctor's advice then, I would be healthier now.
+<break time="1.5s" />
+If she had accepted the job offer last year, she would be living in Paris now.
+<break time="1.5s" />
+If you were to win a million yen, what would you do with it?
+<break time="1.5s" />
+If anyone should call while I'm out, please take a message.
+<break time="1.5s" />
+If it should rain tomorrow, the event will be held in the gym.
+<break time="1.5s" />
+My sister wishes she were a little taller.
+<break time="1.5s" />
+I wish I had studied harder when I was in high school.
+<break time="1.5s" />
+I wish I could speak French as well as you.
+<break time="1.5s" />
+I wish my neighbor would stop playing music at night.
+<break time="1.5s" />
+If only I had a car! Then I could drive you home.
+<break time="1.5s" />
+I would rather you didn't use your phone during class.
+<break time="1.5s" />
+She talks as if she knew everything about the town, but she has never been there.

@@ -1,0 +1,17 @@
+The news about the accident was very shocking.
+<break time="1.5s" />
+Each of the students has a different textbook.
+<break time="1.5s" />
+The United Nations was founded in 1945.
+<break time="1.5s" />
+Three hours is too short a time to finish such a big job.
+<break time="1.5s" />
+Fifty dollars is too much to pay for this T-shirt.
+<break time="1.5s" />
+Anyone who wants to join the club should talk to Mr. Kato.
+<break time="1.5s" />
+Those who pass the exam will receive a certificate.
+<break time="1.5s" />
+The girls sitting by the window are my classmates.
+<break time="1.5s" />
+The key to the doors is on the table.

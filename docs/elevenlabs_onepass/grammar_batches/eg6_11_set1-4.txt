@@ -1,0 +1,39 @@
+The movie was long, but the audience enjoyed every minute of it.
+<break time="1.5s" />
+It was raining hard, so I stayed home.
+<break time="1.5s" />
+I can't swim, nor can my brother.
+<break time="1.5s" />
+The road was icy, yet we arrived at the hotel safely.
+<break time="1.5s" />
+He must be tired, for he worked all night.
+<break time="1.5s" />
+Leave home now, or you will miss the bus.
+<break time="1.5s" />
+Practice more, and you will win the game.
+<break time="1.5s" />
+Hurry up, and you'll be in time for the train.
+<break time="1.5s" />
+Walking is both good for your body and good for your mind.
+<break time="1.5s" />
+She is not a singer but an actress.
+<break time="1.5s" />
+This app is not only useful but fun to use.
+<break time="1.5s" />
+She speaks Chinese as well as English.
+<break time="1.5s" />
+You can pay either in cash or by card.
+<break time="1.5s" />
+Neither my mother nor my sister likes cats.
+<break time="1.5s" />
+Neither my sister nor I am good at cooking.
+<break time="1.5s" />
+Do you need to read the whole book to know that it is boring?
+<break time="1.5s" />
+It is true that he left the company.
+<break time="1.5s" />
+I couldn't accept the fact that he had lied to me.
+<break time="1.5s" />
+I wonder if she will come to the party.
+<break time="1.5s" />
+I don't know whether or not he will come.

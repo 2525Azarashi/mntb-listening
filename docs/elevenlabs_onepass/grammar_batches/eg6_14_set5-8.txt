@@ -1,0 +1,39 @@
+Let's take a break here, shall we?
+<break time="1.5s" />
+“Where does your English teacher come from?” “She's from New Zealand.”
+<break time="1.5s" />
+“What's the weather like in Sapporo today?” “It's snowing.”
+<break time="1.5s" />
+What do you think of my new hairstyle?
+<break time="1.5s" />
+Nobody knows what has become of the old castle.
+<break time="1.5s" />
+How come you didn't say anything in the meeting?
+<break time="1.5s" />
+What made you to learn Japanese?
+<break time="1.5s" />
+What did you go to the city for?
+<break time="1.5s" />
+You look sleepy. Why don't you go to bed early tonight?
+<break time="1.5s" />
+Why not take a taxi? It's too far to walk.
+<break time="1.5s" />
+It's a holiday tomorrow. Why don't we go to the zoo together?
+<break time="1.5s" />
+“Shall we go to the movies tonight?” = “What about going to the movies tonight?”
+<break time="1.5s" />
+What do you say to going for a walk after lunch?
+<break time="1.5s" />
+Nobody knows what will happen in the future. = Who knows what will happen in the future?
+<break time="1.5s" />
+What is the use of crying over spilt milk?
+<break time="1.5s" />
+What's the point of worrying about it now? It's too late.
+<break time="1.5s" />
+Never have I seen such a beautiful sunrise.
+<break time="1.5s" />
+Little did I dream that she would become a famous actress.
+<break time="1.5s" />
+At no time did the president admit his mistake.
+<break time="1.5s" />
+No sooner had he entered the room than the phone rang.

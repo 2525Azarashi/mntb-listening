@@ -1,0 +1,29 @@
+Even if it snows tomorrow, the game will be played.
+<break time="1.5s" />
+Tired as he was, he kept working.
+<break time="1.5s" />
+You must take the test whether you like it or not.
+<break time="1.5s" />
+Whether you take the bus or the train, it takes about an hour.
+<break time="1.5s" />
+The coffee was so hot that I couldn't drink it.
+<break time="1.5s" />
+He spoke so fast that nobody could follow him.
+<break time="1.5s" />
+It was such a cold morning that we stayed indoors.
+<break time="1.5s" />
+Such was his anger that he could not say a word.
+<break time="1.5s" />
+I left early so that I could catch the first bus.
+<break time="1.5s" />
+She studied hard in order that she could get a scholarship.
+<break time="1.5s" />
+Please open the box so I can see what you have in it.
+<break time="1.5s" />
+She wrote it down for fear she should forget it.
+<break time="1.5s" />
+Be careful lest you should fall on the ice.
+<break time="1.5s" />
+Take a jacket in case it gets cold.
+<break time="1.5s" />
+Now that I've taken it on, I intend to see it through.

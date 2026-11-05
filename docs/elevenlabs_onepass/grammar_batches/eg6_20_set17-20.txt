@@ -1,0 +1,39 @@
+“I really appreciate your help.” “I'm glad I could help.”
+<break time="1.5s" />
+“I would appreciate it if you could reply by Friday.”
+<break time="1.5s" />
+“Thanks for your help.” “Anytime. Just ask me again if you need anything.”
+<break time="1.5s" />
+“I'm sorry I told a lie.” “Never mind. Just don't do it again.”
+<break time="1.5s" />
+“I'm sorry to have kept you waiting so long.” “Don't worry about it.”
+<break time="1.5s" />
+“Excuse me, but could you tell me the way to the station?” “Sorry, I'm a stranger here myself.”
+<break time="1.5s" />
+“Sorry, I don't know where the post office is.” “I see. Thanks anyway.”
+<break time="1.5s" />
+“It was kind of you to help me with my luggage.” “No problem.”
+<break time="1.5s" />
+“Are you for or against the plan?” “I'm for it.”
+<break time="1.5s" />
+“I don't have any objection to your plan. Let's do it.”
+<break time="1.5s" />
+“I'm opposed to your plan. It's too expensive.”
+<break time="1.5s" />
+“I think we should start earlier.” “I couldn't agree with you more.”
+<break time="1.5s" />
+“So, do you all agree to my proposal?” “Yes, we do.”
+<break time="1.5s" />
+“Would you like a drink?” “Yes, a glass of orange juice, please.”
+<break time="1.5s" />
+“Can I get you some coffee?” “That would be nice, thanks.”
+<break time="1.5s" />
+“Would you care for an iced tea?” “Yes, please.”
+<break time="1.5s" />
+“Can I help you with your bags?” “Oh, thank you. They're really heavy.”
+<break time="1.5s" />
+“I'm afraid I can't accept your offer.” “I understand.”
+<break time="1.5s" />
+“Shall we go to karaoke tonight?” “I'll pass on that today. I'm tired.”
+<break time="1.5s" />
+“What's the matter with you?” “I ache all over.”

@@ -1,0 +1,29 @@
+Will you buy me a copy of today's newspaper?
+<break time="1.5s" />
+Drop me a line when you arrive in London.
+<break time="1.5s" />
+What line are you in?
+<break time="1.5s" />
+There is still room for improvement in your essay.
+<break time="1.5s" />
+Could you move a little and make room for this old man?
+<break time="1.5s" />
+The new sofa will take up a lot of room.
+<break time="1.5s" />
+Bus fares have gone up this year.
+<break time="1.5s" />
+The entrance fee for this museum is 500 yen.
+<break time="1.5s" />
+You have to pay a toll to use this highway.
+<break time="1.5s" />
+The lawyer has many clients in this city.
+<break time="1.5s" />
+The shop was full of customers during the sale.
+<break time="1.5s" />
+You've done a great job organizing the festival.
+<break time="1.5s" />
+About two-thirds of the students walk to school.
+<break time="1.5s" />
+Nine-tenths of the earth's water is in the oceans.
+<break time="1.5s" />
+It took me one and a half hours to get to the airport.

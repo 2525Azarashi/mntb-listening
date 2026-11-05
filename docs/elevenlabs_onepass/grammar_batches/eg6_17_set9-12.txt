@@ -1,0 +1,39 @@
+I'll get my brother to help me with my homework.
+<break time="1.5s" />
+I had the mechanic check my car before the long drive.
+<break time="1.5s" />
+I must get my hair cut before the ceremony.
+<break time="1.5s" />
+The strong wind broke our windows. = We had our windows broken by the strong wind.
+<break time="1.5s" />
+“This report must be ready by Monday morning.” “I know. I'll get it done this weekend.”
+<break time="1.5s" />
+He was made to clean the window again.
+<break time="1.5s" />
+Please let me know when you are free next week.
+<break time="1.5s" />
+Her parents won't let her go abroad alone.
+<break time="1.5s" />
+The heavy rain forced us to put off the picnic.
+<break time="1.5s" />
+The movie was so sad that it made me cry.
+<break time="1.5s" />
+I saw a boy run across the street against the red light.
+<break time="1.5s" />
+I heard my name called in the crowd.
+<break time="1.5s" />
+Lucy helped us prepare for the school festival.
+<break time="1.5s" />
+It's not good to let children have their own way all the time.
+<break time="1.5s" />
+His parents never allowed him to stay out after ten.
+<break time="1.5s" />
+Thanks to the scholarship, she was able to study abroad. = The scholarship enabled her to study abroad.
+<break time="1.5s" />
+She asked me to look after the dog while she was on vacation.
+<break time="1.5s" />
+The doctor advised me to get more sleep.
+<break time="1.5s" />
+The salesclerk tried to persuade me to buy a more expensive camera.
+<break time="1.5s" />
+What caused you to change your plans?

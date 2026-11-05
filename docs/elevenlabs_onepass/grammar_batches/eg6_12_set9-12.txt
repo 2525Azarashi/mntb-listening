@@ -1,0 +1,35 @@
+Keep this medicine out of the reach of children.
+<break time="1.5s" />
+The view from the top of the mountain was beautiful beyond description.
+<break time="1.5s" />
+Despite his hard work, he failed the entrance exam.
+<break time="1.5s" />
+Judging from his accent, he must be from the Kansai area.
+<break time="1.5s" />
+This anime is very popular among high school students in Japan.
+<break time="1.5s" />
+You have to choose between the red one and the blue one.
+<break time="1.5s" />
+The price of the tickets ranges between 3,000 and 8,000 yen.
+<break time="1.5s" />
+This candy tastes like strawberries.
+<break time="1.5s" />
+Unlike his brother, Ken is not interested in sports at all.
+<break time="1.5s" />
+He is known as one of the best guitarists in the world.
+<break time="1.5s" />
+I was talking with my cousin on the phone when you called.
+<break time="1.5s" />
+He patted his son on the back and said, “Well done!”
+<break time="1.5s" />
+The police officer caught the man by the arm.
+<break time="1.5s" />
+She looked me in the eye and told me the truth.
+<break time="1.5s" />
+Someone tapped me on the shoulder on the crowded train.
+<break time="1.5s" />
+This old chair is made of oak.
+<break time="1.5s" />
+Cheese is made from milk.
+<break time="1.5s" />
+My mother scolded me for coming home late.

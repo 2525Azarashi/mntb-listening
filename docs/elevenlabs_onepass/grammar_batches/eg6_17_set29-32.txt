@@ -1,0 +1,39 @@
+This bus will take you to the airport in about two hours.
+<break time="1.5s" />
+“What brought you to Japan?” “I came to study anime.”
+<break time="1.5s" />
+She owes her success to her parents' support.
+<break time="1.5s" />
+I asked my brother to help me with my homework.
+<break time="1.5s" />
+They need volunteers to help clean the beach.
+<break time="1.5s" />
+“How do I look in this jacket?” “It really suits you.”
+<break time="1.5s" />
+Blue really becomes you. You should wear it more often.
+<break time="1.5s" />
+That red tie doesn't match your gray suit.
+<break time="1.5s" />
+My shoes are too small for me now. = My shoes don't fit me anymore.
+<break time="1.5s" />
+“Does this hat go with my coat?” “Yes, they look nice together.”
+<break time="1.5s" />
+Excuse me, I'd like to borrow these DVDs. How long can I keep them?
+<break time="1.5s" />
+Could you lend me your dictionary for a moment?
+<break time="1.5s" />
+May I use your bathroom?
+<break time="1.5s" />
+“I don't think she will come,” said Bill. = Bill doubted that she would come.
+<break time="1.5s" />
+The police suspected that the man was lying.
+<break time="1.5s" />
+“How can I get to your house?” “It's easy. I'll draw you a map.”
+<break time="1.5s" />
+I can't stand this noise any longer. It's driving me crazy.
+<break time="1.5s" />
+This hotel is run by a family of four brothers.
+<break time="1.5s" />
+I can't put up with his rude behavior anymore.
+<break time="1.5s" />
+Fortunately, this hotel commands a view of the Alps.
