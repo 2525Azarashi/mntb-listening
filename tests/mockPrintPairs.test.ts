@@ -15,12 +15,14 @@ import { AKITA_MOCK_PRINTS } from '../src/data/akitaMockPrints';
 import { YAMAGATA_MOCK_PRINTS } from '../src/data/yamagataMockPrints';
 import { FUKUSHIMA_MOCK_PRINTS } from '../src/data/fukushimaMockPrints';
 import { UTSUNOMIYA_MOCK_PRINTS } from '../src/data/utsunomiyaMockPrints';
+import { GUNMA_MOCK_PRINTS } from '../src/data/gunmaMockPrints';
 
 const universities = [
   ['kobe', KOBE_MOCK_PRINTS], ['osaka', OSAKA_MOCK_PRINTS], ['ritsu', RITSU_MOCK_PRINTS],
   ['hokudai', HOKUDAI_MOCK_PRINTS], ['tohoku', TOHOKU_MOCK_PRINTS], ['hirosaki', HIROSAKI_MOCK_PRINTS],
   ['iwate', IWATE_MOCK_PRINTS], ['akita', AKITA_MOCK_PRINTS], ['yamagata', YAMAGATA_MOCK_PRINTS],
   ['fukushima', FUKUSHIMA_MOCK_PRINTS], ['utsunomiya', UTSUNOMIYA_MOCK_PRINTS],
+  ['gunma', GUNMA_MOCK_PRINTS],
 ] as const;
 const text = (file: string) => execFileSync('pdftotext', [`public${file}`, '-'], { encoding: 'utf8', maxBuffer: 64 << 20 }).replace(/\s+/g, '');
 
@@ -48,7 +50,7 @@ describe('大学別の問題＋解答・解説プリントは一回一冊', () =
       expect(migrated.filter((id) => id === print.id)).toHaveLength(1);
     }
   });
-  it('33冊すべてが2次試験ガチャのLRとして扱われる', () => {
+  it('36冊すべてが2次試験ガチャのLRとして扱われる', () => {
     const lrIds = new Set(gachaItemsByRarity('niji').LR.map((item) => item.id));
     for (const [, prints] of universities) for (const print of prints) expect(lrIds.has(print.id)).toBe(true);
   });
