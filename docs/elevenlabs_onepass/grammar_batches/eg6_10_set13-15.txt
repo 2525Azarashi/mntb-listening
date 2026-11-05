@@ -1,0 +1,27 @@
+This is the same watch as I lost yesterday.
+<break time="1.5s" />
+She found a quiet room in which to study.
+<break time="1.5s" />
+We must do whatever we can to help them.
+<break time="1.5s" />
+Whatever the reason may be, we should be careful.
+<break time="1.5s" />
+Take whatever you want from this box.
+<break time="1.5s" />
+She did not change her mind, no matter what her family said.
+<break time="1.5s" />
+Whoever comes to him for advice always gets help.
+<break time="1.5s" />
+Whichever team wins, the final will be exciting.
+<break time="1.5s" />
+Take whichever seat you like.
+<break time="1.5s" />
+My dog follows me wherever I go.
+<break time="1.5s" />
+Whenever I have to talk on the phone, I get nervous.
+<break time="1.5s" />
+However tired you are, you should brush your teeth before bed.
+<break time="1.5s" />
+However hard he tried, he couldn't open the door.
+<break time="1.5s" />
+No matter how hard it may be, you must keep trying.

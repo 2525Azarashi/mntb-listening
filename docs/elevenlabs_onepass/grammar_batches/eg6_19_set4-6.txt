@@ -1,0 +1,29 @@
+My aunt's son is my cousin.
+<break time="1.5s" />
+My father has a habit of reading the newspaper every morning.
+<break time="1.5s" />
+Bowing is a Japanese custom.
+<break time="1.5s" />
+It's very hot today. Let's sit in the shade of that tree.
+<break time="1.5s" />
+I have a toothache. I need to make an appointment with the dentist.
+<break time="1.5s" />
+I'd like to make a reservation for two nights at your hotel.
+<break time="1.5s" />
+The concert hall has a seating capacity of 2,000.
+<break time="1.5s" />
+"Excuse me, where is the post office?" "Sorry, I'm a stranger here."
+<break time="1.5s" />
+She is a complete stranger to me.
+<break time="1.5s" />
+I'm not much of a cook, but I can make curry.
+<break time="1.5s" />
+People say he is rich, but that is not the case.
+<break time="1.5s" />
+Someone broke into the safe and took all the money.
+<break time="1.5s" />
+Don't blame yourself. It's not your fault.
+<break time="1.5s" />
+He has a good command of English and French.
+<break time="1.5s" />
+I have no idea why she left early.

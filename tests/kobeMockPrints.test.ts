@@ -11,9 +11,9 @@ const hasPdf = (() => { try { execFileSync('pdftotext', ['-v'], { stdio: 'ignore
 const text = (file: string) => execFileSync('pdftotext', [`public${file}`, '-'], { encoding: 'utf8', maxBuffer: 64 << 20 }).replace(/\s+/g, '');
 
 describe('LR：神戸大学 前期 英語 予想問題', () => {
-  it('3回分 × 問題・解答解説の6種。ファイル・サムネイル・KB が実物と合う', () => {
-    expect(KOBE_MOCK_PRINTS.length).toBe(6);
-    for (const n of [1, 2, 3]) for (const k of ['q', 'a']) expect(KOBE_MOCK_PRINTS.some(p => p.id === `print_lr_kobe_${k}_${n}`)).toBe(true);
+  it('3回分を各1アイテム（問題＋解答・解説）。ファイル・サムネイル・KB が実物と合う', () => {
+    expect(KOBE_MOCK_PRINTS.length).toBe(3);
+    for (const n of [1, 2, 3]) expect(KOBE_MOCK_PRINTS.some(p => p.id === `print_lr_kobe_${n}`)).toBe(true);
     for (const p of KOBE_MOCK_PRINTS) {
       expect(existsSync(`public${p.file}`), p.id).toBe(true);
       expect(existsSync(`public${p.thumb}`), p.id).toBe(true);

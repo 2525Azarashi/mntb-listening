@@ -1,0 +1,39 @@
+Food prices have risen so quickly this year that many families are worried.
+<break time="1.5s" />
+My cat was lying on the sofa when I came home.
+<break time="1.5s" />
+Don't lie on the grass. It's wet.
+<break time="1.5s" />
+She laid her baby gently on the bed.
+<break time="1.5s" />
+Please raise your hand if you have a question.
+<break time="1.5s" />
+We talked about the environment in class today.
+<break time="1.5s" />
+I wouldn't say anything if I were you.
+<break time="1.5s" />
+Emma told me that she had lost her purse.
+<break time="1.5s" />
+He explained to us that the train would be late because of the snow.
+<break time="1.5s" />
+Could you tell me the way to the station?
+<break time="1.5s" />
+Can you speak French?
+<break time="1.5s" />
+I heard someone telling my mother about the accident, and I noticed the news upset her.
+<break time="1.5s" />
+In swimming class, I teach kids how to float by telling them to imagine they're lying on a bed.
+<break time="1.5s" />
+The newspaper says that the new bridge will open next month.
+<break time="1.5s" />
+I tried to talk her into attending the meeting.
+<break time="1.5s" />
+My friend talked me out of quitting the club.
+<break time="1.5s" />
+Whenever I see this photo, it reminds me of my school days.
+<break time="1.5s" />
+Please don't remind me of that awful day.
+<break time="1.5s" />
+Please remind me to water the plants while you're away.
+<break time="1.5s" />
+Have you informed the post office of your change of address yet?

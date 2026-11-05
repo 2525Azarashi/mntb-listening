@@ -18,11 +18,12 @@ describe('PDF の棚', () => {
   it('代表的な振り分け', () => {
     const shelf = (id: string) => printShelfOf(printOf(id)!);
     expect(shelf('print_lr_kyotsu_r_1')).toBe('kyotsu');
-    expect(shelf('print_lr_hokudai_q_1')).toBe('hokkaido_tohoku');
+    expect(shelf('print_lr_hokudai_1')).toBe('hokkaido_tohoku');
     expect(shelf('print_lr_niji_nagoya_en_1')).toBe('kanto_chubu');
-    expect(shelf('print_lr_kobe_a_1')).toBe('kinki');
+    expect(shelf('print_lr_kobe_1')).toBe('kinki');
     expect(shelf('print_lr_niji_kochim_en_2')).toBe('chugoku_shikoku');
     expect(shelf('print_lr_niji_ryukyu_en_3')).toBe('kyushu_okinawa');
+    expect(shelf('print_lr_niji_nagasakid_en_1')).toBe('kyushu_okinawa');
     expect(shelf('print_trend_cb_all')).toBe('trend');
     expect(shelf('print_cb_ch1')).toBe('chemistry');
   });

@@ -1,0 +1,29 @@
+Neither my parents nor my sister is going to the concert tonight.
+<break time="1.5s" />
+Either you or Ken has to write the report by Friday.
+<break time="1.5s" />
+Not only the players but also the coach was disappointed with the result.
+<break time="1.5s" />
+The teacher, as well as her students, is looking forward to the school trip.
+<break time="1.5s" />
+Both my brother and I are good at playing the guitar.
+<break time="1.5s" />
+Most of the information on that website is out of date.
+<break time="1.5s" />
+Some of the students in my class are from other countries.
+<break time="1.5s" />
+Half of the money was stolen from the safe.
+<break time="1.5s" />
+I was surprised to find that there were so many tall buildings in the small city.
+<break time="1.5s" />
+There is a lot of homework to do this weekend.
+<break time="1.5s" />
+There is a pen and two notebooks on the desk.
+<break time="1.5s" />
+The number of people who use smartphones is increasing every year.
+<break time="1.5s" />
+A number of students were absent from school because of the flu last week.
+<break time="1.5s" />
+The number of tourists visiting the island has doubled in the past five years.
+<break time="1.5s" />
+Mathematics was my best subject when I was in junior high school.

@@ -107,6 +107,9 @@ export function normalizeProgress(uid: string, raw: unknown): GrowthProgress {
       if (missionById(k)) progress[k] = num(v, 0);
     }
   }
+  const owned = strList(r.owned).map((id) =>
+    id.replace(/^(print_lr_(?:kobe|ritsu|hokudai|tohoku|hirosaki|iwate|akita|yamagata|fukushima|utsunomiya|osaka))_[qa]_(\d+)$/, '$1_$2'),
+  );
   return {
     uid,
     xp: num(r.xp, 0),
@@ -130,7 +133,7 @@ export function normalizeProgress(uid: string, raw: unknown): GrowthProgress {
     lastCompleteDate: str(r.lastCompleteDate, ''),
     subjects,
     badges,
-    owned: [...new Set([DEFAULT_POSE, DEFAULT_FRAME, DEFAULT_COMPANION, ...strList(r.owned)])],
+    owned: [...new Set([DEFAULT_POSE, DEFAULT_FRAME, DEFAULT_COMPANION, ...owned])],
     equipped: {
       title: str(eq.title, ''),
       pose: str(eq.pose, DEFAULT_POSE),
