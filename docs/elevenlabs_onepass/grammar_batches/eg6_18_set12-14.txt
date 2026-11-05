@@ -1,0 +1,29 @@
+I bought some bread on my way home.
+<break time="1.5s" />
+My sister wants to study abroad next year.
+<break time="1.5s" />
+I'll go upstairs to get my book.
+<break time="1.5s" />
+The exam was pretty difficult, but I passed.
+<break time="1.5s" />
+He studied hard, but he couldn't pass the exam.
+<break time="1.5s" />
+The audience was mostly young people.
+<break time="1.5s" />
+The baby was sound asleep in her bed.
+<break time="1.5s" />
+Tom and Mary are 15 and 13 years old, respectively.
+<break time="1.5s" />
+Have you ever been to Okinawa?
+<break time="1.5s" />
+Fortunately, the rain stopped before the game.
+<break time="1.5s" />
+This jacket is much too big for me.
+<break time="1.5s" />
+The old bridge is badly in need of repair.
+<break time="1.5s" />
+At first, I didn't like natto, but now I love it.
+<break time="1.5s" />
+Take a taxi; otherwise you'll be late.
+<break time="1.5s" />
+The hotel was small, but otherwise it was perfect.

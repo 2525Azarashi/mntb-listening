@@ -1,0 +1,29 @@
+My brother would not listen to my advice, so he failed the exam again.
+<break time="1.5s" />
+Would you mind opening the door for me? My hands are full.
+<break time="1.5s" />
+“Shall we eat out tonight?” “I'd rather eat at home. I'm a little tired.”
+<break time="1.5s" />
+I would rather not discuss this matter today.
+<break time="1.5s" />
+You look pale. You had better go home and get some rest.
+<break time="1.5s" />
+“I'll call her now.” “It's midnight. You had better not call her now.”
+<break time="1.5s" />
+I am used to living in the city now, but at first it was hard for me.
+<break time="1.5s" />
+There used to be a small bookstore on this corner, but it closed ten years ago.
+<break time="1.5s" />
+When I was a child, my grandfather would often take me fishing on Sundays.
+<break time="1.5s" />
+Her eyes are red and swollen. She must have cried last night.
+<break time="1.5s" />
+Ken can't have eaten the whole cake by himself. It was far too big for one person.
+<break time="1.5s" />
+Ken looks very happy today. He may have heard some good news.
+<break time="1.5s" />
+I can't find my key anywhere. I might have left it at the office.
+<break time="1.5s" />
+He looks very sleepy. He must have stayed up late last night.
+<break time="1.5s" />
+You should have studied harder. Then you would have passed the test.

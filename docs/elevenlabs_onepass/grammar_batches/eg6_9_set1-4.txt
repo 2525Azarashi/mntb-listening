@@ -1,0 +1,39 @@
+"Do you have a bike?" "Yes, I bought one last month."
+<break time="1.5s" />
+I lost my umbrella, so I have to look for it.
+<break time="1.5s" />
+I like this bag better than the one with the red ribbon.
+<break time="1.5s" />
+"Which jacket do you want?" "I want a black one."
+<break time="1.5s" />
+This dictionary is better than the one I used before.
+<break time="1.5s" />
+I like hot milk better than cold.
+<break time="1.5s" />
+These shoes are too small. Do you have bigger ones?
+<break time="1.5s" />
+This shirt is too small. Do you have a bigger one?
+<break time="1.5s" />
+The new models are more popular than the old ones.
+<break time="1.5s" />
+The climate of Osaka is milder than that of Sapporo.
+<break time="1.5s" />
+The summer in Kyoto is hotter than that in Tokyo.
+<break time="1.5s" />
+The food culture of Japan is quite different from that of other countries.
+<break time="1.5s" />
+The prices in this shop are higher than those in that shop.
+<break time="1.5s" />
+The novels written by her are different from those of other writers.
+<break time="1.5s" />
+Those who exercise every day stay healthy.
+<break time="1.5s" />
+All those present agreed with the idea.
+<break time="1.5s" />
+He is a child, and must be treated as such.
+<break time="1.5s" />
+It surprised Ken to learn that she had changed schools.
+<break time="1.5s" />
+I thought it strange that he left without a word.
+<break time="1.5s" />
+The new train makes it possible for us to get there in an hour.
