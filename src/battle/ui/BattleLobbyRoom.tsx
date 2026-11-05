@@ -235,7 +235,7 @@ export function BattleLobbyRoom({
     <BattleShell
       className="lobby-room"
       footer={
-        <div className="grid gap-2.5">
+        <div className="lobby-footer-actions">
           {myPick
             ? <BattleButton variant="ghost" onClick={() => void repick()} disabled={ready && !drawError} icon={<RotateCcw size={18} />} data-lobby-repick>えらび直す</BattleButton>
             : <BattleButton onClick={() => setPicking(true)} icon={<ListChecks size={18} />} data-lobby-pick>単元をえらぶ</BattleButton>}
