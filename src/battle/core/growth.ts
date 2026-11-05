@@ -108,7 +108,7 @@ export function normalizeProgress(uid: string, raw: unknown): GrowthProgress {
     }
   }
   const owned = strList(r.owned).map((id) =>
-    id.replace(/^(print_lr_(?:kobe|ritsu|hokudai|tohoku|hirosaki|iwate|akita|yamagata|fukushima|utsunomiya|osaka))_[qa]_(\d+)$/, '$1_$2'),
+    id.replace(/^(print_lr_(?:kobe|ritsu|hokudai|tohoku|hirosaki|iwate|akita|yamagata|fukushima|utsunomiya|gunma|osaka))_[qa]_(\d+)$/, '$1_$2'),
   );
   return {
     uid,
