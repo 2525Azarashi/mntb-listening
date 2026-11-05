@@ -584,5 +584,17 @@ export const GACHA_PREVIEWS: Readonly<Record<string, readonly string[]>> = {
   "print_book_grammar_b4_bunpo": [
     "/prints/previews/print_book_grammar_b4_bunpo_p2.webp",
     "/prints/previews/print_book_grammar_b4_bunpo_p40.webp"
-  ]
+  ],
+  "print_lr_niji_ibaraki_en_1": [
+    "/prints/previews/print_lr_niji_ibaraki_en_1_p2.webp",
+    "/prints/previews/print_lr_niji_ibaraki_en_1_p12.webp"
+  ],
+  "print_lr_niji_ibaraki_en_2": [
+    "/prints/previews/print_lr_niji_ibaraki_en_2_p2.webp",
+    "/prints/previews/print_lr_niji_ibaraki_en_2_p12.webp"
+  ],
+  "print_lr_niji_ibaraki_en_3": [
+    "/prints/previews/print_lr_niji_ibaraki_en_3_p2.webp",
+    "/prints/previews/print_lr_niji_ibaraki_en_3_p12.webp"
+  ],
 };

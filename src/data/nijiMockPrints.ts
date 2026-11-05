@@ -84,6 +84,7 @@ export const NIJI_UNIVERSITIES = [
   { id: 'kochim', name: '高知大学', track: '医学部医学科' },
   { id: 'tottori', name: '鳥取大学', track: '' },
   { id: 'yamaguchi', name: '山口大学', track: '' },
+  { id: 'ibaraki', name: '茨城大学', track: '' },
   { id: 'onomichi', name: '尾道市立大学', track: '経済情報学部' },
   { id: 'shimaneh', name: '島根大学', track: '法文・人間科学・総合理工・生物資源科学部' },
   { id: 'shimanem', name: '島根大学', track: '医学部医学科' },
@@ -131,6 +132,7 @@ const kochie = (n: number, pages: number, kb: number) => mock('kochie', n, pages
 const kochim = (n: number, pages: number, kb: number) => mock('kochim', n, pages, kb);
 const tottori = (n: number, pages: number, kb: number) => mock('tottori', n, pages, kb);
 const yamaguchi = (n: number, pages: number, kb: number) => mock('yamaguchi', n, pages, kb);
+const ibaraki = (n: number, pages: number, kb: number) => mock('ibaraki', n, pages, kb);
 const onomichi = (n: number, pages: number, kb: number) => mock('onomichi', n, pages, kb);
 const shimaneh = (n: number, pages: number, kb: number) => mock('shimaneh', n, pages, kb);
 const shimanem = (n: number, pages: number, kb: number) => mock('shimanem', n, pages, kb);
@@ -214,6 +216,9 @@ export const NIJI_MOCK_PRINTS: readonly GachaPrintDef[] = [
   yamaguchi(1, 26, 1858),
   yamaguchi(2, 25, 1826),
   yamaguchi(3, 25, 1828),
+  ibaraki(1, 23, 1898),
+  ibaraki(2, 24, 1876),
+  ibaraki(3, 23, 1925),
   onomichi(1, 22, 1693),
   onomichi(2, 22, 1686),
   onomichi(3, 22, 1654),
