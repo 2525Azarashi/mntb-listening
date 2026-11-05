@@ -32,7 +32,7 @@ export const PRINT_SHELVES: readonly { id: PrintShelfId; label: string }[] = [
 export const UNIV_REGION: Readonly<Record<string, PrintShelfId>> = {
   hokudai: 'hokkaido_tohoku', tohoku: 'hokkaido_tohoku', hirosaki: 'hokkaido_tohoku', iwate: 'hokkaido_tohoku', akita: 'hokkaido_tohoku',
   yamagata: 'hokkaido_tohoku', fukushima: 'hokkaido_tohoku',
-  utsunomiya: 'kanto_chubu', ibaraki: 'kanto_chubu', gakugei: 'kanto_chubu', tufs: 'kanto_chubu', nagoya: 'kanto_chubu', shizuoka: 'kanto_chubu',
+  utsunomiya: 'kanto_chubu', ibaraki: 'kanto_chubu', gunmaj: 'kanto_chubu', gakugei: 'kanto_chubu', tufs: 'kanto_chubu', nagoya: 'kanto_chubu', shizuoka: 'kanto_chubu',
   kanazawa: 'kanto_chubu', toyama: 'kanto_chubu', toyamamed: 'kanto_chubu', fukuie: 'kanto_chubu', fukuim: 'kanto_chubu',
   fukuig: 'kanto_chubu', fpu: 'kanto_chubu',
   gifu: 'kanto_chubu', mie: 'kanto_chubu', nit: 'kanto_chubu', ncu: 'kanto_chubu', apua: 'kanto_chubu', apub: 'kanto_chubu',

@@ -43,7 +43,8 @@ def lr_ids() -> list[str]:
 
 def current_table() -> dict[str, list[str]]:
     src = (ROOT / 'src/data/gachaPreviews.generated.ts').read_text()
-    return json.loads(src[src.index('{'):src.rindex('}') + 1])
+    body = src[src.index('{'):src.rindex('}') + 1]
+    return json.loads(re.sub(r',(\s*[}\]])', r'\1', body))  # 手で足した末尾のカンマも読めるように
 
 
 def page_count(pdf: Path) -> int:
