@@ -269,6 +269,36 @@ export function useTitleBgmController({ appState, hasEntered }: { appState: stri
     };
   }, []);
 
+  // iPhoneのロック画面にBGMをメディア再生として残さない。
+  // BGMはアプリを見ている間だけ再生し、バックグラウンドへ移ったら即停止する。
+  useEffect(() => {
+    const syncVisibility = () => {
+      const audio = audioRef.current;
+      if (!audio) return;
+      if (document.visibilityState === 'hidden') {
+        markBgmPlaying(false);
+        audio.pause();
+        return;
+      }
+      const { isBgmEnabled, isAudioValid, appState } = bgmStateRef.current;
+      if (!isBgmEnabled || !isAudioValid || !hasInteracted || !hasEntered || BGM_SILENT_STATES.includes(appState)) return;
+      unlockTitleBgm(audio, appBgmVolume(bgmVolumeRef.current, bgmElapsedMs()));
+      void audio.play().catch(() => undefined);
+    };
+    const stopOnPageHide = () => {
+      const audio = audioRef.current;
+      if (!audio) return;
+      markBgmPlaying(false);
+      audio.pause();
+    };
+    document.addEventListener('visibilitychange', syncVisibility);
+    window.addEventListener('pagehide', stopOnPageHide);
+    return () => {
+      document.removeEventListener('visibilitychange', syncVisibility);
+      window.removeEventListener('pagehide', stopOnPageHide);
+    };
+  }, [hasEntered, hasInteracted]);
+
   useEffect(() => {
     // 画面を移るたびに viewport を通常の device-width・等倍へ戻す。
     // 一度 maximum-scale=1.0 で固定してから次フレームで拡大許可を戻すことで、
