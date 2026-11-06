@@ -11,6 +11,7 @@ import { getDaysUntilExam, EXAM_DATE_LABEL } from '../utils/examCountdown';
 import { fadeOutLaunchSfx, launchCueSchedule, playLaunchSfx, preloadLaunchSfx, type LaunchSfx } from '../battle/audio/launchSfx';
 import { resumeSharedAudio } from '../battle/audio/sharedAudioContext';
 import { readAudioPreferences } from '../battle/audio/audioPreferences';
+import { TOEIC_DISCLAIMER } from '../utils/toeicDisclaimer';
 
 /**
  * タイトル画面（2026-09-30 作り直し）。保存された画面やアカウントには一切触れない（見た目だけ）。
@@ -139,7 +140,7 @@ export function LaunchScreen({ onStart }: {
     return () => window.removeEventListener('keydown', onKey);
   });
   const enter = () => onStart();
-  if (gate === 'emblem') return <main className="launch-emblem" data-phase={emblemPhase} data-skip={emblemSkipped || undefined} aria-label="マナトビ 起動エンブレム（タップで進む）" role="button" tabIndex={0} onClick={skipEmblem} onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); skipEmblem(); } }}><div className="launch-emblem-inner"><img className="launch-emblem-applogo" src="/brand/app-icon-logo.webp" alt="マナトビ" width={640} height={640}/><h1>聞いて、解いて、<br/>競って、<em>これ1本</em>で。</h1></div></main>;
+  if (gate === 'emblem') return <main className="launch-emblem" data-phase={emblemPhase} data-skip={emblemSkipped || undefined} aria-label={`マナトビ 起動エンブレム（タップで進む）。${TOEIC_DISCLAIMER}`} role="button" tabIndex={0} onClick={skipEmblem} onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); skipEmblem(); } }}><div className="launch-emblem-inner"><img className="launch-emblem-applogo" src="/brand/app-icon-logo.webp" alt="マナトビ" width={640} height={640}/><h1>聞いて、解いて、<br/>競って、<em>これ1本</em>で。</h1></div><p className="launch-emblem-disclaimer">{TOEIC_DISCLAIMER}</p></main>;
   if (gate === 'philosophy') return <PhilosophyPage onBack={() => setGate('title')} />;
   // C13（2026-10-29）：「学ぶ入口を、もっと快適に。」のお知らせ画面は削除。共通テストまでの日数はホームにあるので、はじめる → そのままホームへ入る。
   return <main className="launch-screen" aria-label="マナトビ タイトル画面" data-launch-screen>

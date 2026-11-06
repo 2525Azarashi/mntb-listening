@@ -1,3 +1,10 @@
+## 2026-11-06 TOEIC®対策のApp Store掲載と起動時の免責表示
+
+- App Store掲載文にTOEIC® L&R TEST対策（Part 5〜7）のオリジナル問題を明記し、ETSの登録商標・非承認の英文注記を長文・短文の両方に追加。
+- アプリ起動時のエンブレム画面に読みやすい日本語注記を表示。TOEIC学習画面の注記と同じ文言を軽量な共有ファイルから読み込む。
+- 対象：`docs/APP_STORE_WHATS_NEW_2026-11.md`、`src/components/LaunchScreen.tsx`、`src/components/launch-screen.css`、`src/utils/toeicDisclaimer.ts`。
+- 戻し方：この変更を revert。
+
 ## 2026-11-06 起動画面のBGMボタン削除と起動音の安定化
 
 - 起動画面のBGM ON/OFFボタンを削除し、起動演出の効果音は常時有効にする（音量は設定値を使用）。
