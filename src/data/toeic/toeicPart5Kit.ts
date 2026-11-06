@@ -81,6 +81,8 @@ export const TOEIC_P5_QUESTIONS_PER_ROUND = 30;
 /** 1回30問の目安時間（1問20秒）。超えても止めない（既存の演習と同じ「超過」表示） */
 export const TOEIC_P5_TIME_LIMIT_SEC = 600;
 
+export { TOEIC_DISCLAIMER } from '../../utils/toeicDisclaimer';
+
 /* ───────── 正解位置の決め方 ───────── */
 
 /** 回番号から決まる疑似乱数（毎回同じ並びになる） */

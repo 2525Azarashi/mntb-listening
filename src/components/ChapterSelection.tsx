@@ -9,7 +9,7 @@ import { subjectTheme } from '../data/subjectTheme';
 import { ListeningAudioPlayer } from './ListeningAudioPlayer';
 import type { Chapter } from '../types/curriculum';
 import { buildListeningRounds } from '../utils/listeningRounds';
-import { TOEIC_DISCLAIMER } from '../features/legal/toeicTrademarkNotice';
+import { TOEIC_DISCLAIMER } from '../utils/toeicDisclaimer';
 import { problemKey, readSolvedMap } from '../utils/progress';
 // 章 × モードごとの保存キー名は utils/quizStorageKeys.ts が唯一の定義
 import {

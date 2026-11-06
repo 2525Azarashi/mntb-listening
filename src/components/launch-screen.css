@@ -63,7 +63,13 @@
   .launch-actions { gap: 2px; }
   .launch-note { min-height: 32px; }
   .launch-philosophy { min-height: 36px; }
-  .launch-trademark-disclaimer { line-height: 1.3; }
+  .launch-content { gap: 2px; padding-top: 4px; }
+  .launch-stage { min-height: 80px; max-height: 130px; }
+  .launch-copy { font-size: 18px; line-height: 1.15; }
+  .launch-start { min-height: 44px; }
+  .launch-note { min-height: 28px; }
+  .launch-philosophy { min-height: 32px; }
+  .launch-trademark-disclaimer { font-size: 11px; line-height: 1.2; }
 }
 
 /* 歩いて登場（動画が使えないとき） */
@@ -78,7 +84,7 @@
   .launch-equipped-pose { opacity: 1 !important; }
 }
 
-.launch-emblem { height:100dvh; overflow:hidden; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:22px; padding:20px; background:var(--mt-paper); color:#344451; font-family:var(--mt-font-body); }
+.launch-emblem { position:relative; height:100dvh; overflow:hidden; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:22px; padding:20px; background:var(--mt-paper); color:#344451; font-family:var(--mt-font-body); }
 .launch-emblem img { width:min(260px,70vw); height:auto; }
 .launch-emblem h1 { font:400 clamp(20px,5.5vw,28px)/1.6 var(--font-handwriting); text-align:center; letter-spacing:.04em; }
 .launch-emblem p { font-size:12px; letter-spacing:.2em; color:#6b6047; }
@@ -86,6 +92,7 @@
 .launch-emblem-mark svg:first-child { width:56px; height:56px; color:#987735; }
 .launch-emblem-mark svg:last-child { position:absolute; right:8px; bottom:9px; width:34px; height:34px; background:#fff7e6; border-radius:50%; color:#3e7289; }
 .launch-emblem button { min-height:44px; padding:0 16px; font-size:12px; color:#596673; border:1px solid #d8caa9; border-radius:20px; }
+.launch-emblem-disclaimer { position:absolute; inset-inline:max(16px, env(safe-area-inset-left)); bottom:calc(env(safe-area-inset-bottom) + 10px); max-width:720px; margin:0 auto; font-size:12px; line-height:1.45; letter-spacing:0; text-align:center; color:#596673; }
 
 /* 2026-10-02 D2：起動エンブレムを市販アプリのスプラッシュの間合いに（白→フェードイン→保持→フェードアウト→タイトル） */
 .launch-emblem { background:#fff; cursor:pointer; -webkit-tap-highlight-color:transparent; outline:none; }
