@@ -445,9 +445,8 @@
   .gacha-banner-picks button { min-height: 52px; padding: 2px 2px 10px; }
   .gacha-banner-picks .gacha-print-thumb { width: 28px !important; height: 36px !important; }
   .gacha-banner-buddy .tb-bubble { padding: 4px 8px; font-size: 12px; line-height: 1.25; }
-  .gacha-banner-links { gap: 4px; }
+.gacha-banner-links { gap: 4px; }
 }
-@media (max-height: 640px) { .gacha-banner-buddy { display: none; } }
 @media (prefers-reduced-motion: reduce) { .gacha-banner-hero, .gacha-banner-hero::after, .gacha-banner-shine, .gacha-banner-sparks i, .gacha-banner-hero .gacha-banner-art { animation: none !important; } .gacha-banner-shine { display: none; } }
 
 /* ===== 2026-10-29 ガチャの種類（共通テスト／2次試験）を左右スワイプで切り替え =====
