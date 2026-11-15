@@ -13,13 +13,15 @@ import type { Problem, SubQuestion } from '../../types/curriculum';
  * 2026-10-13 のリファクタリングで Explanation.tsx から切り出した。JSX・クラス名・文言は元のまま。
  * 状態（selectedSqId / openExplanationBySq）は親が持ったまま、setter を受け取って呼ぶだけ。
  */
-export function MobileResultChips({ question, objectiveSqs, answers, selectedSqId, setSelectedSqId, setOpenExplanationBySq }: {
+export function MobileResultChips({ question, objectiveSqs, answers, selectedSqId, setSelectedSqId, setOpenExplanationBySq, isEnglishChapter = false, noMath }: {
   question: Problem;
   objectiveSqs: SubQuestion[];
   answers: Record<string, string>;
   selectedSqId: string | null;
   setSelectedSqId: React.Dispatch<React.SetStateAction<string | null>>;
   setOpenExplanationBySq: React.Dispatch<React.SetStateAction<Record<string, boolean>>>;
+  isEnglishChapter?: boolean;
+  noMath?: boolean;
 }) {
   return (
                                     <div className="grid grid-cols-4 gap-2">
@@ -58,7 +60,7 @@ export function MobileResultChips({ question, objectiveSqs, answers, selectedSqI
                                             <span className={`font-bold text-[13px] leading-tight break-all ${
                                               !attempted ? 'text-gray-500' : ok ? 'text-emerald-700' : 'text-red-600'
                                             }`}>
-                                              {formatText(shortMarker)}
+                                              {formatText(shortMarker, [], { prose: isEnglishChapter, noMath })}
                                             </span>
                                             {!attempted
                                               ? <Circle size={16} className="text-gray-400" />

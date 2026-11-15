@@ -181,36 +181,59 @@
 /* 手がかりのマーカー：英文法・リスニング（.listening-evidence）と同じ見た目 */
 .tp-cue { background: #ffed9e; color: #43361b; border-bottom: 2px solid #b58c26; border-radius: 3px; padding: 1px 2px; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
 .tp-cue sup { font: 800 12px/1 sans-serif; margin-right: 2px; color: #79530e; vertical-align: 4px; }
+.tp-blank-compare { display: inline-flex; flex-wrap: wrap; align-items: baseline; gap: 3px; margin: 0 2px; vertical-align: baseline; }
+.tp-blank-compare .tp-blank { min-width: auto; margin: 0; padding: 0 5px; }
+.tp-blank-arrow { font-size: 13px; font-weight: 900; color: #64748b; line-height: 1; }
 
-/* 解説：入れ子の枠を減らし、上の細線と余白で区切る */
+/* 解説：まなとび英検（ecp-ex-body）＆英文法（styleReasonLine）と同じ左色札の横並び高密度ボックス */
 .tp-ex { margin: 8px 0 0; border-top: 1px solid #e5e7eb; }
-.tp-ex > summary { display: flex; align-items: center; gap: 6px; min-height: 44px; padding: 0 4px; cursor: pointer; font-size: 14px; font-weight: 800; color: #1f3566; list-style: none; }
+.tp-ex > summary { display: flex; align-items: center; gap: 6px; min-height: 44px; padding: 0 4px; cursor: pointer; font-size: 13.5px; font-weight: 800; color: #1f3566; list-style: none; }
 .tp-ex > summary::-webkit-details-marker { display: none; }
 .tp-ex-chev { margin-left: auto; transition: transform .15s; }
 .tp-ex[open] .tp-ex-chev { transform: rotate(180deg); }
 .tp-ex > summary:focus-visible { outline: 3px solid #3d5a99; outline-offset: -3px; border-radius: 8px; }
-.tp-ex-body { display: grid; gap: 12px; padding: 2px 0 6px; }
-.tp-ex-recap { margin: 0; font-size: 15px; font-weight: 700; line-height: 1.8; color: #111827; font-family: var(--font-modern); overflow-wrap: break-word; }
+.tp-ex-body { display: grid; gap: 6px; padding: 8px 10px; border-radius: 10px; background: #f8faf9; border: 1px solid #dce8e4; }
+.tp-ex-recap { margin: 0; flex: 1; min-width: 0; font-size: 14px; font-weight: 700; line-height: 1.55; color: #111827; font-family: var(--font-modern); overflow-wrap: break-word; }
 .tp-sec { display: grid; gap: 4px; }
-.tp-sec p, .tp-sec li { margin: 0; font-size: 14px; line-height: 1.7; color: #1f2937; }
+.tp-sec.tp-sec-inline { display: flex; align-items: flex-start; gap: 7px; }
+.tp-sec-content { flex: 1; min-width: 0; }
+.tp-sec p, .tp-sec li { margin: 0; font-size: 13.5px; line-height: 1.55; color: #1f2937; font-family: var(--font-modern); overflow-wrap: break-word; }
 .tp-sec ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 4px; }
 /* 札：英文法の【着眼点】【ポイント】【選択肢】【入試ではここ】と同じ色（白文字・角丸の小札）＋アイコン＋文言 */
-.tp-lbl { display: inline-flex; align-items: center; gap: 4px; justify-self: start; margin: 0; padding: 1px 8px; border-radius: 6px; font-size: 12px; font-weight: 800; line-height: 20px; color: #fff; background: #5a6573; }
+.tp-lbl { flex-shrink: 0; display: inline-flex; align-items: center; gap: 3px; justify-self: start; margin: 1px 0 0; padding: 1px 7px; border-radius: 5px; font-size: 12px; font-weight: 800; line-height: 19px; color: #fff; background: #5a6573; }
 .tp-lbl[data-role=hint] { background: #2f7c74; }
 .tp-lbl[data-role=rule] { background: #b0464f; }
 .tp-lbl[data-role=choices] { background: #5a6573; }
 .tp-lbl[data-role=tip] { background: #1f5fa8; }
-.tp-lbl[data-role=tr], .tp-lbl[data-role=kw] { background: none; color: #475569; padding: 0; }
-/* いちばん先に読む「正解の理由」：紺の札＋淡い紺の面＋左の太線＋太字 */
-.tp-sec-key { padding: 10px 12px; border-radius: 10px; background: #eef2fb; box-shadow: inset 4px 0 0 #1f3566; }
-.tp-sec-key .tp-lbl { background: #1f3566; font-size: 13px; }
-.tp-sec-key p { font-size: 15px; font-weight: 700; color: #111827; }
+.tp-lbl[data-role=tr] { background: #e2ece9; color: #264a43; }
+.tp-lbl[data-role=kw] { background: #e8eef7; color: #1f3566; }
+/* いちばん先に読む「要点（正解の理由）」：紺の札＋淡い紺の面＋左の太線＋太字 */
+.tp-sec-key { padding: 6px 8px; border-radius: 8px; background: #eef2fb; box-shadow: inset 3.5px 0 0 #1f3566; }
+.tp-sec-key .tp-lbl { background: #1f3566; font-size: 12px; }
+.tp-sec-key p { font-size: 14px; font-weight: 700; color: #111827; }
 .tp-sec[data-role=tip] p { font-weight: 700; color: #1f3f6a; }
 .tp-ex-choices li { display: flex; gap: 6px; align-items: baseline; }
 .tp-ex-mark { flex-shrink: 0; width: 1.2em; font-weight: 900; color: var(--mt-danger); }
 .tp-ex-choices li[data-correct] .tp-ex-mark { color: #166534; }
 .tp-ex-choices li[data-correct] b { color: #166534; }
-.tp-sec[data-role=tr] p, .tp-sec[data-role=kw] li { color: #374151; }
+.tp-sec[data-role=tr] p, .tp-sec[data-role=kw] li { color: #334155; font-weight: 600; }
+
+/* まなとび英検 ecp-ex-subtools 方式：完成文の音声読み上げ（英文を聞く / 0.8x）＋他の選択肢・ポイントの開閉 */
+.tp-ex-subtools { display: flex; flex-wrap: nowrap; align-items: center; justify-content: space-between; gap: 4px; margin-top: 1px; padding-top: 5px; border-top: 1px dashed #cfe0da; }
+.tp-ex-audio-btns { display: inline-flex; align-items: center; gap: 4px; flex-shrink: 0; }
+.tp-ex-speak-btn { display: inline-flex; align-items: center; justify-content: center; gap: 4px; min-width: 44px; min-height: 44px; padding: 0 10px; border-radius: 999px; border: 1px solid #9fd4c4; background: #fff; color: #165b4c; font-size: 12px; font-weight: 800; white-space: nowrap; cursor: pointer; transition: background-color .12s ease, border-color .12s ease, color .12s ease; }
+.tp-ex-speak-btn:hover { background: #ecfdf5; border-color: #2f7c74; }
+.tp-ex-speak-btn.is-slow { padding: 0 8px; color: #475569; border-color: #cbd5e1; font-variant-numeric: tabular-nums; }
+.tp-ex-speak-btn[data-speaking] { background: #1f7a52; border-color: #1f7a52; color: #fff; }
+.tp-ex-more-btn { margin-left: auto; display: inline-flex; align-items: center; gap: 3px; min-height: 44px; padding: 0 6px; border: 0; border-radius: 8px; background: transparent; color: #1f5c53; font-size: 12px; font-weight: 800; white-space: nowrap; cursor: pointer; }
+.tp-ex-more-btn:hover { background: #eef6f4; }
+.tp-ex-chev-sub { transition: transform .15s; }
+.tp-ex-chev-sub.is-open { transform: rotate(180deg); }
+.tp-ex-more-body { display: grid; gap: 7px; padding-top: 6px; border-top: 1px dashed #cfe0da; }
+.tp-ex-vocab-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.tp-ex-vocab-chip { display: inline-flex; align-items: center; gap: 5px; min-height: 28px; padding: 2px 10px; border-radius: 999px; border: 1px solid #d5e3df; background: #fff; font-size: 12.5px; color: #1e293b; }
+.tp-ex-vocab-chip b { font-family: var(--font-modern); font-weight: 800; color: #0f3d3e; }
+.tp-ex-vocab-chip span { color: #334155; font-weight: 600; }
 
 /* 広い画面：結果の帯を問題の列（最大832px）と同じ幅で中央に置く（上の基本の指定より後ろに書く） */
 @media (min-width: 1024px) {

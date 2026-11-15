@@ -232,10 +232,6 @@ describe('6. Wave-2 深掘り監査の回帰テスト（状態機械・権限境
       displayName: null,
       authEmail: null,
       contactEmail: 'student@example.com',
-      context: null,
-      userAgent: 'UA',
-      viewport: '390x844',
-      appVersion: '1.0.0',
       createdAtIso: '2026-11-15T00:00:00.000Z',
       status: 'new',
     };

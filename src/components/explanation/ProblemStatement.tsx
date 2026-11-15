@@ -6,6 +6,7 @@ import { QuestionFigure } from '../QuestionFigure';
 import { ListeningAudioPlayer } from '../ListeningAudioPlayer';
 import { getFigureNumber } from '../../utils/figureNumbering';
 import { buildSubQuestionList, isSubQuestionListRedundant, extractInlineQuestionRows, extractListeningQuestionRows, cleanQuestionText, findSubQuestionSentence } from '../../utils/questionDisplay';
+import { splitDialogueTurns } from './helpers';
 import type { Problem } from '../../types/curriculum';
 import type { ResultPage } from './explanationLogic';
 
@@ -30,13 +31,28 @@ export interface ProblemStatementProps {
   handleSaveNote: (question: Problem, index: number) => void;
   reorderMobile: boolean;
   isEnglishChapter: boolean;
+  noMath?: boolean;
   figureNumberMap: Record<string, number>;
   // このリポジトリは @types/react を導入していないため、JSX の key が
   // props として型チェックされる（ExplanationBody.tsx と同じ書き方）。
   key?: React.Key;
 }
 
-export function ProblemStatement({ question, qIndex, scorePercentage, singleQuestionIndex, rangeOffset, pagerOn, resultPages, safeResultPage, savingNote, handleSaveNote, reorderMobile, isEnglishChapter, figureNumberMap }: ProblemStatementProps) {
+export function ProblemStatement({ question, qIndex, scorePercentage, singleQuestionIndex, rangeOffset, pagerOn, resultPages, safeResultPage, savingNote, handleSaveNote, reorderMobile, isEnglishChapter, noMath, figureNumberMap }: ProblemStatementProps) {
+  const fmtOpts = { prose: isEnglishChapter, noMath };
+  const renderBlankAwareEnglish = (raw: string) => {
+    const parts = raw.split(/(\(\s*\)|_{3,})/);
+    if (parts.length <= 1) return formatText(raw, [], fmtOpts);
+    return (
+      <>
+        {parts.map((part, i) => (
+          /^(?:\(\s*\)|_{3,})$/.test(part)
+            ? <span key={i} className="ex-inline-blank" aria-label="空所" />
+            : <React.Fragment key={i}>{formatText(part, [], fmtOpts)}</React.Fragment>
+        ))}
+      </>
+    );
+  };
   return (
                   <div className="space-y-4 md:space-y-6">
                     {singleQuestionIndex === undefined && (
@@ -188,7 +204,7 @@ export function ProblemStatement({ question, qIndex, scorePercentage, singleQues
                                     {row.marker}
                                   </span>
                                   <span className="min-w-0 whitespace-pre-line break-words [overflow-wrap:anywhere]">
-                                    {formatText(sentence || row.body, [], { prose: true })}
+                                    {formatText(sentence || row.body, [], { prose: true, noMath })}
                                   </span>
                                 </li>
                                 );
@@ -196,15 +212,30 @@ export function ProblemStatement({ question, qIndex, scorePercentage, singleQues
                             </ul>
                           );
                         }
+                        const cleaned = cleanQuestionText(question.text);
+                        const dialogue = isEnglishChapter ? splitDialogueTurns(cleaned) : null;
+                        if (dialogue) {
+                          return (
+                            <ul className="ex-dialogue-list">
+                              {dialogue.map((turn, tIdx) => (
+                                <li key={tIdx} className="ex-dialogue-turn" lang="en">
+                                  <span className="ex-speaker-chip" aria-label={`話者 ${turn.speaker}`}>{turn.speaker}</span>
+                                  <span className="ex-dialogue-text">{renderBlankAwareEnglish(turn.text)}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          );
+                        }
                         const inline = reorderMobile
-                          ? extractInlineQuestionRows(cleanQuestionText(question.text))
+                          ? extractInlineQuestionRows(cleaned)
                           : null;
                         if (!inline) {
                           return (
                             <ExplanationBody
-                              text={cleanQuestionText(question.text)}
+                              text={cleaned}
                               tone={'light'}
                               prose={isEnglishChapter}
+                              noMath={noMath}
                             />
                           );
                         }
@@ -215,6 +246,7 @@ export function ProblemStatement({ question, qIndex, scorePercentage, singleQues
                                 text={inline.lead}
                                 tone={'light'}
                                 prose={isEnglishChapter}
+                                noMath={noMath}
                               />
                             )}
                             {/* grid ではなく flex-wrap（想定より長い項目が来ても
@@ -227,11 +259,11 @@ export function ProblemStatement({ question, qIndex, scorePercentage, singleQues
                                 >
                                   {row.marker && (
                                     <span className="shrink-0 font-bold text-gray-500">
-                                      {formatText(row.marker)}
+                                      {formatText(row.marker, [], fmtOpts)}
                                     </span>
                                   )}
                                   {/* 英語は散文として組む（化学式扱いのセリフ体を避ける） */}
-                                  <span className="min-w-0">{formatText(row.body, [], { prose: isEnglishChapter })}</span>
+                                  <span className="min-w-0">{formatText(row.body, [], fmtOpts)}</span>
                                 </li>
                               ))}
                             </ul>
@@ -287,11 +319,11 @@ export function ProblemStatement({ question, qIndex, scorePercentage, singleQues
                                     <span className={`shrink-0 font-bold text-xs px-2 py-0.5 rounded-md border mt-0.5 ${
                                       'bg-gray-50 text-gray-600 border-gray-200'
                                     }`}>
-                                      {formatText(item.marker)}
+                                      {formatText(item.marker, [], fmtOpts)}
                                     </span>
                                   )}
                                   <span className="min-w-0 leading-relaxed">
-                                    {formatText(item.body, [], { prose: isEnglishChapter })}
+                                    {formatText(item.body, [], fmtOpts)}
                                   </span>
                                 </li>
                               ))}

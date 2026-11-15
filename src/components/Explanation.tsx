@@ -21,7 +21,8 @@ import { ReviewTopNav } from './explanation/ReviewTopNav';
 
 import { computeQuestionScore, computeWeakAreas, buildResultPages, scopeQuestionsToFocus } from './explanation/explanationLogic';
 // 画面に依存しない小さな関数（isAttempted / textTracksOf / formatResultTime / pictureCellOf）
-import { isAttempted, textTracksOf } from './explanation/helpers';
+import { isAttempted, isEnglishProseChapter, isNoMathChapter, textTracksOf } from './explanation/helpers';
+import { isToeicPageChapter } from './toeic/toeicPageModel';
 import './listening-explanation.css';
 import { buildFigureNumberMap } from '../utils/figureNumbering';
 import { isAnswerCorrect } from '../utils/answerJudge';
@@ -277,10 +278,10 @@ export function Explanation({ mode: initialMode, chapter, answers, onBack, onRet
    *   問題データそのものの事実で判定する（科目名で分岐しない）。
    */
   const isEnglishChapter = useMemo(() => {
-    return allQuestions.some((q) => {
-      return textTracksOf(q).length > 0;
-    });
-  }, [allQuestions]);
+    return isEnglishProseChapter(chapter.id, allQuestions);
+  }, [chapter.id, allQuestions]);
+  const noMath = useMemo(() => isNoMathChapter(chapter.id), [chapter.id]);
+  const isToeicChapter = useMemo(() => isToeicPageChapter(chapter.id), [chapter.id]);
 
   const BODY_FONT_FAMILY = 'font-modern';
 
@@ -625,7 +626,9 @@ export function Explanation({ mode: initialMode, chapter, answers, onBack, onRet
             // 「問題文（上・sticky）→ 正誤一覧＋解説（下）」の上下2ペイン。
             // 演習画面と同じ「上＝問題文 / 下＝解答」の並びで迷わない。
             ? "flex flex-col"
-            : isMobile
+            : isToeicChapter
+              ? "grid grid-cols-1 max-w-3xl mx-auto w-full gap-4 p-0 flex-1 overflow-y-auto"
+              : isMobile
             ? "grid grid-cols-1 lg:grid-cols-2 gap-6 p-4 sm:p-6 md:p-8"
             : isResultView
               ? "grid grid-cols-1 lg:grid-cols-[minmax(0,1.38fr)_minmax(0,1fr)] gap-6 p-0 items-start"
@@ -640,7 +643,11 @@ export function Explanation({ mode: initialMode, chapter, answers, onBack, onRet
                 ★スマホの1問ごとの答え合わせ（reorderMobile）では、演習画面と同じ
                   「上＝問題文ペイン」として sticky で画面上部に固定する。
                   下の解説をスクロールしても問題文が常に見える（ご要望
-                  「解答と解説・問題は一緒に一画面で見える状態で出したい」）。 */}
+                  「解答と解説・問題は一緒に一画面で見える状態で出したい」）。
+                ★TOEIC は ToeicReviewCard 自体が演習画面と同じ設問文・文書・音声を
+                  そのまま持つため、上の定型3段落（「第1回 TOEIC… 空所に入れるのに…」）を
+                  二重に出さない（約270px の無駄を解消して1画面に収める）。 */}
+            {!isToeicChapter && (
             <div className={reorderMobile
               ? `sticky ${reviewNav ? 'top-[calc(57px+env(safe-area-inset-top,0px))]' : 'top-[env(safe-area-inset-top,0px)]'} z-20 min-w-0 bg-[#FFFDF9] border-b-2 border-[#E6DCCB] shadow-md flex flex-col`
               : `space-y-6 pb-8 min-w-0 ${isResultView ? 'lg:pr-4' : 'lg:overflow-y-auto lg:h-full lg:pr-4'}`}>
@@ -680,13 +687,14 @@ export function Explanation({ mode: initialMode, chapter, answers, onBack, onRet
                 questions.map((question, qIndex: number) => {
                 const scorePercentage = calculateScore(question);
                 return (
-                  <ProblemStatement key={question.id} question={question} qIndex={qIndex} scorePercentage={scorePercentage} singleQuestionIndex={singleQuestionIndex} rangeOffset={rangeOffset} pagerOn={pagerOn} resultPages={resultPages} safeResultPage={safeResultPage} savingNote={savingNote} handleSaveNote={handleSaveNote} reorderMobile={reorderMobile} isEnglishChapter={isEnglishChapter} figureNumberMap={figureNumberMap} />
+                  <ProblemStatement key={question.id} question={question} qIndex={qIndex} scorePercentage={scorePercentage} singleQuestionIndex={singleQuestionIndex} rangeOffset={rangeOffset} pagerOn={pagerOn} resultPages={resultPages} safeResultPage={safeResultPage} savingNote={savingNote} handleSaveNote={handleSaveNote} reorderMobile={reorderMobile} isEnglishChapter={isEnglishChapter} noMath={noMath} figureNumberMap={figureNumberMap} />
                 );
               })
               ) : null}
               </div>
               
             </div>
+            )}
 
             {/* RIGHT COLUMN: Answers, grading, and explanations
                 （スマホの1問ごとの答え合わせでは問題文ペインの下＝下ペインとして表示） */}
@@ -694,16 +702,18 @@ export function Explanation({ mode: initialMode, chapter, answers, onBack, onRet
               // 下部固定ナビ（問題に戻る/次の問題へ）に最後のカードが隠れない
               // よう、下余白を大きめに取る。
               ? 'order-2 px-3 pt-3 pb-[calc(6rem+env(safe-area-inset-bottom))]'
-              : 'pb-8'} ${isResultView ? '' : 'lg:overflow-y-auto lg:h-full'}${pcListening ? ' lx-pc-right' : ''}`}>
+              : isToeicChapter
+                ? 'pb-36'
+                : 'pb-8'} ${isResultView || isToeicChapter ? '' : 'lg:overflow-y-auto lg:h-full'}${pcListening && !isToeicChapter ? ' lx-pc-right' : ''}`}>
               {questions.length > 0 ? (
                 questions.map((question, qIndex: number) => {
                 return (
-                  <div key={`right-${question.id}`} className={reorderMobile ? 'space-y-2' : pcListening ? 'space-y-6 lx-pc-flat' : 'space-y-6'}>
-                    <div className={reorderMobile ? 'space-y-2' : pcListening ? 'space-y-6 md:space-y-8 lx-pc-flat' : 'space-y-6 md:space-y-8'}>
+                  <div key={`right-${question.id}`} className={reorderMobile ? 'space-y-2' : pcListening && !isToeicChapter ? 'space-y-6 lx-pc-flat' : 'space-y-6'}>
+                    <div className={reorderMobile ? 'space-y-2' : pcListening && !isToeicChapter ? 'space-y-6 md:space-y-8 lx-pc-flat' : 'space-y-6 md:space-y-8'}>
                       {/* 大問1つぶんの採点結果・解説。中身は explanation/ExplanationAnswerItem.tsx（元の JSX のまま・C-03） */}
                       {renderExplanationAnswerItem({
                         question, answers, allQuestions, reorderMobile, pcListening, focusSubQuestionId,
-                        isMobile, isPracticeMode, isEnglishChapter, answerBoxBaseClass, explBodyBaseClass, explBodyFontClass,
+                        isMobile, isPracticeMode, isEnglishChapter, noMath, chapter, chapterId: chapter.id, isGuest, answerBoxBaseClass, explBodyBaseClass, explBodyFontClass,
                         openExplanationBySq, openThinkingBySq, setOpenExplanationBySq, setOpenThinkingBySq,
                         selectedSqId, setSelectedSqId,
                       })}
@@ -729,7 +739,8 @@ export function Explanation({ mode: initialMode, chapter, answers, onBack, onRet
             questions={questions}
            
             isEnglishChapter={isEnglishChapter}
-            foldable={reorderMobile || pcListening}
+            noMath={noMath}
+            foldable={reorderMobile || pcListening || isToeicChapter}
             openByDefault={pcListening}
             qNumberOf={(qIndex) => (singleQuestionIndex !== undefined ? singleQuestionIndex : rangeOffset + (pagerOn ? (resultPages[safeResultPage]?.qIndex ?? qIndex) : qIndex)) + 1}
           />

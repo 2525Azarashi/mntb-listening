@@ -127,8 +127,8 @@
 .practice-pager.is-review { position: sticky; top: 0; z-index: 56; margin: 0; width: 100%; max-width: none; box-sizing: border-box; flex-shrink: 0; border-radius: 0; border-width: 0 0 1px; padding: calc(6px + env(safe-area-inset-top, 0px)) 8px 6px; box-shadow: 0 2px 10px #2c3e5010; }
 .practice-pager.is-review .practice-pager-row { gap: 4px; }
 .practice-pager.is-review .practice-pager-back { flex-shrink: 0; min-height: 44px; }
-.practice-pager.is-review .practice-pager-arrow { width: 40px; }
-.practice-pager.is-review .practice-pager-chips button { min-width: 40px; height: 40px; font-size: 14px; }
+.practice-pager.is-review .practice-pager-arrow { width: 44px; height: 44px; }
+.practice-pager.is-review .practice-pager-chips button { min-width: 44px; height: 44px; font-size: 14px; }
 @media (min-width: 768px) { .practice-pager.is-review .practice-pager-row { justify-content: center; } .practice-pager.is-review .practice-pager-chips { flex: 0 1 auto; } }
 
 /* ── 解答・解説画面（Explanation.tsx 系）の紙トーン調和・カード立体縁・ボタン押下感 ── */
@@ -234,10 +234,90 @@
 @media (max-height: 700px) { .practice-stage { min-height: 0; } .practice-stage-tobira { width: 100px; } }
 
 
-/* D2（2026-10-30）詳しい解説の下：次の回へ（主）＋単元選択／ホーム＋控えめな「間違えた問題だけ解き直す」 */
+/* D2（2026-10-30）詳しい解説の下：次の回へ（主）＋単元選択／ホーム＋控えめな「間違いだけ復習」
+   3行積みを最大2行に抑え（全ボタン高さ44px以上）、スマホ1画面で問題・選択肢・解説の核心が見える高さを確保する */
+.practice-bottom-bar.is-review { gap: 6px; padding: 8px 12px calc(8px + env(safe-area-inset-bottom)); }
+.practice-bottom-spacer.is-review { height: calc(116px + env(safe-area-inset-bottom)); }
+.pbb-primary-row { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 8px; align-items: center; }
+.pbb-retry-btn { min-height: 46px; display: inline-flex; align-items: center; justify-content: center; gap: 5px; padding: 0 12px; border-radius: 12px; border: 1.5px solid #e5b93c; background: #fff9e6; color: #7a5200; font-weight: 800; font-size: 13px; white-space: nowrap; box-shadow: 0 2px 0 #ead07a, inset 0 1px 0 rgba(255, 255, 255, .92); cursor: pointer; transition: transform .1s ease, box-shadow .15s ease, background-color .15s ease; }
+@media (hover: hover) { .pbb-retry-btn:hover:not(:disabled) { background: #fff3cc; } }
+.pbb-retry-btn:active:not(:disabled) { transform: translateY(1.5px); box-shadow: 0 0.5px 0 #ead07a; }
+.pbb-primary-row .pbb-main { min-height: 46px; font-size: 14px; padding: 0 12px; }
 .pbb-retry { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; gap: 6px; border: 0; background: transparent; color: var(--mt-ink-3); font-weight: 700; font-size: 13px; text-decoration: underline; text-underline-offset: 3px; }
-.practice-bottom-bar.is-review:has(.pbb-retry) { gap: 4px; }
-.practice-bottom-spacer.is-review:has(+ .practice-bottom-bar .pbb-retry) { height: calc(186px + env(safe-area-inset-bottom)); }
+
+/* ── 英語対話文（A: ... / B: ...）の話者バッジ＋空所下線（問題画面と同じ視認性） ── */
+.ex-dialogue-list { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; font-family: var(--font-modern); }
+.ex-dialogue-turn { display: flex; align-items: baseline; gap: 8px; font-size: 15px; font-weight: 700; line-height: 1.7; color: #111827; }
+.ex-speaker-chip { flex-shrink: 0; display: inline-grid; place-items: center; min-width: 28px; height: 24px; padding: 0 6px; border-radius: 6px; background: #eef2fb; border: 1px solid #c3cfea; color: #1f3566; font-size: 12px; font-weight: 800; line-height: 1; }
+.ex-dialogue-text { min-width: 0; overflow-wrap: break-word; }
+.ex-inline-blank { display: inline-block; min-width: 4em; height: 1.35em; margin: 0 3px; border-bottom: 2.5px solid #1f3566; border-radius: 4px 4px 0 0; background: #eef2fb; vertical-align: -3px; }
+
+/* ── TOEIC 解答・解説カード（まなとび英検 EikenClozePageQuiz ＆ 英文法解説と同じ色札・空所対比・音声ボタン・1画面設計） ── */
+.tp-review-stack { display: grid; gap: 6px; font-family: var(--font-modern); }
+.tp-review-stack .tpl-audio-card { margin: 0; padding: 8px 10px; gap: 5px; }
+.tp-review-stack.is-compact .tpl-audio-guide { display: none; }
+.tp-review-doc-fold { border: 1px solid #c3cfea; border-radius: 11px; background: #fff; box-shadow: inset 0 1px 0 rgba(255, 255, 255, .95), 0 1.5px 0 #dce4f3; overflow: hidden; }
+.tp-review-doc-fold > summary { display: flex; min-height: 44px; align-items: center; gap: 6px; padding: 0 10px; font-size: 12.5px; font-weight: 800; color: #1f3566; cursor: pointer; list-style: none; }
+.tp-review-doc-fold > summary::-webkit-details-marker { display: none; }
+.tp-review-doc-fold[open] > summary { border-bottom: 1px solid #e2e8f0; background: #f8faff; }
+.tp-review-doc-fold[open] > summary .tp-ex-chev { transform: rotate(180deg); }
+.tp-review-doc-body { padding: 10px; max-height: 44dvh; overflow-y: auto; -webkit-overflow-scrolling: touch; background: #fbfcff; }
+.tp-review-doc-body .tp-doc,
+.tp-review-doc-body .tp7-docs { margin: 0; }
+
+.tp-review-card { padding: 8px 10px; display: grid; gap: 6px; }
+.tp-review-head { display: flex; align-items: center; justify-content: space-between; gap: 6px; min-width: 0; }
+.tp-review-head-left { display: flex; flex-wrap: wrap; align-items: center; gap: 5px 6px; min-width: 0; flex: 1; }
+.tp-review-save { flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; gap: 4px; min-width: 44px; min-height: 44px; padding: 0 10px; border-radius: 999px; border: 1px solid #f5d06f; background: #fffbeb; font-size: 12px; font-weight: 800; color: #92400e; white-space: nowrap; cursor: pointer; box-shadow: inset 0 1px 0 rgba(255, 255, 255, .9), 0 1px 0 #ead07a; transition: background-color .12s ease, transform .1s ease; }
+.tp-review-save:hover:not(:disabled) { background: #fef3c7; }
+.tp-review-save:active:not(:disabled) { transform: translateY(1px); }
+.tp-review-save[data-saved] { border-color: #e5e7eb; background: #f3f4f6; color: #4b5563; box-shadow: none; cursor: default; }
+
+.tp-review-stem { font-size: 15px; line-height: 1.55; }
+.tp-blank-compare { display: inline-flex; flex-wrap: wrap; align-items: baseline; gap: 3px; margin: 0 2px; vertical-align: baseline; }
+.tp-blank-compare .tp-blank { min-width: auto; margin: 0; padding: 0 5px; }
+.tp-blank-arrow { font-size: 13px; font-weight: 900; color: #64748b; line-height: 1; }
+.tp-review-choices.tp-choices.is-scored { margin-top: 2px; padding-top: 5px; row-gap: 8px; }
+.tp-review-stack.is-compact .tp-review-choices.is-single .tp-choice { min-height: 40px; padding: 3px 8px 3px 4px; }
+.tp-review-stack.is-compact .tp-review-choices.is-single .tp-bubble { width: 26px; height: 26px; font-size: 12px; }
+.tp-review-stack.is-compact .tp-review-choices.is-single .tp-choice-text { font-size: 13.5px; line-height: 1.32; }
+
+/* まなとび英検 ecp-ex-body ＆ 英文法 styleReasonLine の色札にそろえた高密度解説ボックス */
+.tp-review-ex-box { display: grid; gap: 5px; margin-top: 2px; padding: 7px 9px; border-radius: 10px; background: #f8faf9; border: 1px solid #dce8e4; }
+.tp-review-line { display: flex; align-items: flex-start; gap: 6px; }
+.tp-review-line.is-key { padding: 5px 7px; border-radius: 8px; background: #eef2fb; box-shadow: inset 3.5px 0 0 #1f3566; }
+.tp-review-tag { flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; min-width: 40px; height: 20px; margin-top: 1px; padding: 0 6px; border-radius: 5px; font-size: 12px; font-weight: 800; line-height: 1; color: #fff; background: #5a6573; }
+.tp-review-tag[data-role="key"] { background: #1f3566; }
+.tp-review-tag[data-role="tr"] { background: #e2ece9; color: #264a43; }
+.tp-review-tag[data-role="hint"] { background: #2f7c74; }
+.tp-review-tag[data-role="rule"] { background: #b0464f; }
+.tp-review-tag[data-role="choices"] { background: #5a6573; }
+.tp-review-tag[data-role="tip"] { background: #1f5fa8; }
+
+.tp-review-line-text { margin: 0; flex: 1; min-width: 0; font-size: 13px; font-weight: 600; line-height: 1.5; color: #1f2937; font-family: var(--font-modern); overflow-wrap: break-word; }
+.tp-review-line.is-key .tp-review-line-text { font-size: 13.5px; font-weight: 700; color: #111827; }
+.tp-review-line-text.is-en { font-size: 13.5px; font-weight: 700; color: #111827; line-height: 1.48; }
+.tp-review-line-text.is-tr { color: #334155; }
+.tp-review-line-text.is-tip { font-weight: 700; color: #1f3f6a; }
+
+.tp-review-subtools { display: flex; flex-wrap: nowrap; align-items: center; justify-content: space-between; gap: 4px; margin-top: 1px; padding-top: 4px; border-top: 1px dashed #cfe0da; }
+.tp-review-audio-btns { display: inline-flex; align-items: center; gap: 4px; flex-shrink: 0; }
+.tp-review-speak-btn { display: inline-flex; align-items: center; justify-content: center; gap: 3px; min-width: 44px; min-height: 44px; padding: 0 9px; border-radius: 999px; border: 1px solid #9fd4c4; background: #fff; color: #165b4c; font-size: 12px; font-weight: 800; white-space: nowrap; cursor: pointer; transition: background-color .12s ease, border-color .12s ease, color .12s ease; }
+.tp-review-speak-btn:hover { background: #ecfdf5; border-color: #2f7c74; }
+.tp-review-speak-btn.is-slow { padding: 0 8px; color: #475569; border-color: #cbd5e1; font-variant-numeric: tabular-nums; }
+.tp-review-speak-btn[data-speaking] { background: #1f7a52; border-color: #1f7a52; color: #fff; }
+
+.tp-review-more-btn { margin-left: auto; display: inline-flex; align-items: center; gap: 3px; min-height: 44px; padding: 0 6px; border: 0; border-radius: 8px; background: transparent; color: #1f5c53; font-size: 12px; font-weight: 800; white-space: nowrap; cursor: pointer; }
+.tp-review-more-btn:hover { background: #eef6f4; }
+.tp-review-more-btn .tp-ex-chev.is-open { transform: rotate(180deg); }
+
+.tp-review-more-body { display: grid; gap: 7px; padding-top: 6px; border-top: 1px dashed #cfe0da; }
+.tp-review-choice-reasons { flex: 1; min-width: 0; margin: 0; padding: 0; list-style: none; display: grid; gap: 3px; }
+.tp-review-choice-reasons li { font-size: 13px; line-height: 1.52; color: #334155; }
+.tp-review-vocab-chips { display: flex; flex-wrap: wrap; gap: 6px; padding-top: 2px; }
+.tp-review-vocab-chip { display: inline-flex; align-items: center; gap: 5px; min-height: 28px; padding: 2px 10px; border-radius: 999px; border: 1px solid #d5e3df; background: #fff; font-size: 12.5px; color: #1e293b; }
+.tp-review-vocab-chip strong { font-family: var(--font-modern); font-weight: 800; color: #0f3d3e; }
+.tp-review-vocab-chip span { color: #334155; font-weight: 600; }
 
 /* F1（2026-11-04）結果の下のバー：「詳しい解説を見る」の下に小さな「この問題の不具合を報告する」（文字リンク・押せる高さは44px） */
 .practice-bottom-bar.is-summary { display: grid; gap: 0; padding-top: 8px; }

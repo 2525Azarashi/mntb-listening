@@ -66,7 +66,7 @@ function RetentionBadge({ eligible, retained, label }: { eligible: boolean; reta
   );
 }
 
-function FormatRow({ row }: { row: UnseenTrajectoryRow }) {
+function FormatRow({ row }: { row: UnseenTrajectoryRow; key?: string | number }) {
   return (
     <div className="rounded-xl border border-[#EAE0CF] bg-white p-3.5 space-y-2">
       <div className="flex flex-wrap items-center justify-between gap-2">

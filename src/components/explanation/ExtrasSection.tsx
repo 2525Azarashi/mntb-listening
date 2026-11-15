@@ -14,14 +14,16 @@ import type { Problem } from '../../types/curriculum';
  *   foldable      … スマホ or PC のリスニング（＝周辺知識を折りたたみの details で包む条件の前半）
  *   openByDefault … PC のリスニング（details を最初から開く）
  */
-export function ExtrasSection({ wrapClassName, questions, isEnglishChapter, foldable, openByDefault, qNumberOf }: {
+export function ExtrasSection({ wrapClassName, questions, isEnglishChapter, noMath, foldable, openByDefault, qNumberOf }: {
   wrapClassName: string;
   questions: Problem[];
   isEnglishChapter: boolean;
+  noMath?: boolean;
   foldable: boolean;
   openByDefault: boolean;
   qNumberOf: (qIndex: number) => number;
 }) {
+  const fmtOpts = { prose: isEnglishChapter, noMath };
   return (
           <div className={wrapClassName}>
             {/* PC のリスニング：この単元の思考の型は右列の先頭に（開いた状態で） */}
@@ -31,8 +33,8 @@ export function ExtrasSection({ wrapClassName, questions, isEnglishChapter, fold
               
               if (!hasKnowledge && !hasDeepDive) return null;
 
-              // ★スマホのリスニング解説：周辺知識・深掘りも「押したら開く」（1画面で完結させる）
-              const foldExtras = foldable && textTracksOf(question).length > 0;
+              // ★スマホのリスニング・TOEIC 解説：周辺知識・深掘りも「押したら開く」（1画面で完結させる）
+              const foldExtras = foldable && (textTracksOf(question).length > 0 || Boolean(noMath));
               // 折りたたむときは <details>/<div>、折りたたまないときは <div>/<Fragment> で包む（属性はそれぞれ下で出し分ける）
               const ExtraWrap: React.ElementType = foldExtras ? 'details' : 'div';
               const ExtraInner: React.ElementType = foldExtras ? 'div' : React.Fragment;
@@ -67,18 +69,18 @@ export function ExtrasSection({ wrapClassName, questions, isEnglishChapter, fold
                                   {/* 見出しバッジも prose 対象。英語では見出しに英単語が
                                       そのまま入ることがあり、ここを素の formatText に
                                       すると見出しだけセリフ体に化けてしまう。 */}
-                                  {formatText(titleMatch[1].replace(/[【】]/g, ''), [], { prose: isEnglishChapter })}
+                                  {formatText(titleMatch[1].replace(/[【】]/g, ''), [], fmtOpts)}
                                 </div>
                                 <div className={`text-xs md:text-sm leading-relaxed whitespace-pre-wrap ${'text-gray-700'}`}>
                                   {/* 英語は prose で組む（英単語がセリフ体の化学式に化けるのを防ぐ） */}
-                                  {formatText(titleMatch[2].trim(), [], { prose: isEnglishChapter })}
+                                  {formatText(titleMatch[2].trim(), [], fmtOpts)}
                                 </div>
                               </div>
                             );
                           }
                           return (
                             <div key={idx} className={`p-4 md:p-5 rounded-xl border shadow-[inset_0_1px_0_rgba(255,255,255,0.9),0_2px_0_#e8dfd0] text-xs md:text-sm leading-relaxed whitespace-pre-wrap ${'bg-[#FFFDF9] border-[#E6DCCB] text-gray-700'}`}>
-                              {formatText(k, [], { prose: isEnglishChapter })}
+                              {formatText(k, [], fmtOpts)}
                             </div>
                           );
                         })}
@@ -115,10 +117,10 @@ export function ExtrasSection({ wrapClassName, questions, isEnglishChapter, fold
                                 {/* 【】が無い深掘りでは title = 1行目まるごとになり、
                                     英文（usually / on weekdays など）を含みうる。
                                     そのためここも prose で組む。 */}
-                                {formatText(title, [], { prose: isEnglishChapter })}
+                                {formatText(title, [], fmtOpts)}
                               </div>
                               <div className={`text-xs md:text-sm leading-relaxed whitespace-pre-wrap ${'text-gray-700'}`}>
-                                {formatText(content, [], { prose: isEnglishChapter })}
+                                {formatText(content, [], fmtOpts)}
                               </div>
                             </div>
                           );
