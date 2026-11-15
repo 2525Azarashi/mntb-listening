@@ -1,0 +1,179 @@
+import { describe, expect, it } from 'vitest';
+import { readFileSync } from 'node:fs';
+import path from 'node:path';
+import { sanitizeInlineHtml, escapeHtml, stripHtmlToText } from '../src/utils/sanitizeHtml';
+import { escapeCsvCell, buildCsvText } from '../src/utils/studySummaryCsv';
+import { safeParseJson, isPlainObject } from '../src/utils/safeLocalStorage';
+import { mergeSolvedMaps } from '../src/utils/studySyncCore';
+import { isSafeSameOriginPdfPath } from '../src/utils/pdfViewer';
+import { safeAvatarUrl } from '../src/features/safety/avatarUrl';
+import { isAllowedFeedbackWebhookUrl } from '../src/utils/feedbackPayload';
+import { mergeOutcomesStores, fromSyncedOutcomesSummary } from '../src/utils/learningOutcomes';
+
+const ROOT = path.resolve(__dirname, '..');
+
+describe('1. XSS / CSS / SVG / Null-Byte サニタイズ防御', () => {
+  it('script / img onerror / foreignObject / svg animate を完全に無害化する', () => {
+    const dirty = [
+      '<script>alert(1)</script>',
+      '<img src="x" onerror="alert(2)">',
+      '<svg><foreignObject><body onload="alert(3)">evil</body></foreignObject><animate attributeName="href" to="javascript:alert(4)"/><path d="M0 0 L10 10"/></svg>',
+      '<a href="javascript:alert(5)" onclick="alert(6)">リンク文字</a>',
+    ].join('');
+    const out = sanitizeInlineHtml(dirty);
+    expect(out).not.toContain('<script');
+    expect(out).not.toContain('onerror');
+    expect(out).not.toContain('onload');
+    expect(out).not.toContain('onclick');
+    expect(out).not.toContain('javascript:');
+    expect(out).not.toContain('foreignObject');
+    expect(out).not.toContain('animate');
+    expect(out).toContain('<path d="M0 0 L10 10" />');
+    expect(out).toContain('リンク文字');
+  });
+
+  it('CSS バックスラッシュエスケープ・image-set・data:・CSS変数上書き（--mt-*）を遮断する', () => {
+    expect(sanitizeInlineHtml('<span style="background: \\75\\72\\6c(https://evil.example/x)">A</span>')).toBe('<span>A</span>');
+    expect(sanitizeInlineHtml('<span style="background-image: image-set(\'https://evil.example/a.png\' 1x)">B</span>')).toBe('<span>B</span>');
+    expect(sanitizeInlineHtml('<span style="--mt-bg: #000000; color: red">C</span>')).toBe('<span>C</span>');
+    expect(sanitizeInlineHtml('<span style="background: data:text/html,<script>alert(1)</script>">D</span>')).toBe('<span>D</span>');
+    // 正当なインライン数式スタイルは通す
+    expect(sanitizeInlineHtml('<span style="vertical-align: -0.2em; font-size: 0.85em">x</span>')).toContain('vertical-align');
+  });
+
+  it('SVG 属性（d / viewBox / width / height / xmlns）に不正値が入ったら属性ごと落とす', () => {
+    expect(sanitizeInlineHtml('<svg width="100%" viewBox="0 0 400 20"><path d="M0 0 L10 10"/></svg>'))
+      .toBe('<svg width="100%" viewBox="0 0 400 20"><path d="M0 0 L10 10" /></svg>');
+    expect(sanitizeInlineHtml('<svg width="calc(100vw)" viewBox="javascript:1" xmlns="https://evil.example"><path d="M0 0; alert(1)"/></svg>'))
+      .toBe('<svg><path /></svg>');
+  });
+
+  it('NULL バイト（\\u0000）混入によるパーサー差分バイパスを除去する', () => {
+    expect(sanitizeInlineHtml('<scr\u0000ipt>alert(1)</scr\u0000ipt>safe')).toBe('safe');
+    expect(escapeHtml('a\u0000<b>')).toBe('a&lt;b&gt;');
+    expect(stripHtmlToText('<p>hel\u0000lo</p>')).toBe('hello');
+  });
+});
+
+describe('2. URL プロトコル・同一オリジン PDF・アバター・Webhook 境界防御', () => {
+  it('PDF パスは同一オリジン相対 .pdf のみ許可し、//evil, .., javascript:, バックスラッシュを拒否する', () => {
+    expect(isSafeSameOriginPdfPath('/prints/listening-guide.pdf')).toBe(true);
+    expect(isSafeSameOriginPdfPath('//evil.example/p.pdf')).toBe(false);
+    expect(isSafeSameOriginPdfPath('/prints/../secret.pdf')).toBe(false);
+    expect(isSafeSameOriginPdfPath('javascript:alert(1)//.pdf')).toBe(false);
+    expect(isSafeSameOriginPdfPath('https://evil.example/a.pdf')).toBe(false);
+    expect(isSafeSameOriginPdfPath('/prints/a\\b.pdf')).toBe(false);
+  });
+
+  it('safeAvatarUrl は Google アイコン配信元の https のみ許可し、トラッキング画像・認証情報付きURL・javascript: を拒否する', () => {
+    expect(safeAvatarUrl('https://lh3.googleusercontent.com/a/ACg8ocL=s96-c')).toContain('https://lh3.googleusercontent.com/');
+    expect(safeAvatarUrl('http://lh3.googleusercontent.com/a/x')).toBe('');
+    expect(safeAvatarUrl('https://user:pass@lh3.googleusercontent.com/a/x')).toBe('');
+    expect(safeAvatarUrl('https://tracker.evil.example/pixel.png')).toBe('');
+    expect(safeAvatarUrl('javascript:alert(1)')).toBe('');
+    expect(safeAvatarUrl('data:image/svg+xml,<svg onload=alert(1)>')).toBe('');
+  });
+
+  it('Feedback Webhook はビルド時承認URLと完全一致する Google Apps Script HTTPS URL 以外は拒否する', () => {
+    const prev = process.env.VITE_FEEDBACK_WEBHOOK_URL;
+    const approved = `https://script.google.com/macros/s/${'A'.repeat(40)}/exec`;
+    process.env.VITE_FEEDBACK_WEBHOOK_URL = approved;
+    try {
+      expect(isAllowedFeedbackWebhookUrl(approved)).toBe(true);
+      expect(isAllowedFeedbackWebhookUrl(`${approved}/`)).toBe(true);
+      expect(isAllowedFeedbackWebhookUrl('https://evil.example/steal')).toBe(false);
+      expect(isAllowedFeedbackWebhookUrl(`https://script.google.com/macros/s/${'B'.repeat(40)}/exec`)).toBe(false);
+      expect(isAllowedFeedbackWebhookUrl(`http://script.google.com/macros/s/${'A'.repeat(40)}/exec`)).toBe(false);
+      expect(isAllowedFeedbackWebhookUrl(`https://user:pass@script.google.com/macros/s/${'A'.repeat(40)}/exec`)).toBe(false);
+    } finally {
+      if (prev === undefined) delete process.env.VITE_FEEDBACK_WEBHOOK_URL;
+      else process.env.VITE_FEEDBACK_WEBHOOK_URL = prev;
+    }
+  });
+});
+
+describe('3. CSV 数式インジェクション（空白前置・改行前置・パイプ DDE バイパス対策）', () => {
+  it('= + - @ | や空白・改行前置の数式セルをすべて先頭シングルクォートで無害化する', () => {
+    expect(escapeCsvCell('=cmd|\'/C calc\'!A0')).toBe("'=cmd|'/C calc'!A0");
+    expect(escapeCsvCell('  =SUM(A1:A2)')).toBe("'  =SUM(A1:A2)");
+    expect(escapeCsvCell('\n+HYPERLINK("https://evil.example")')).toBe('"\'\n+HYPERLINK(""https://evil.example"")"');
+    expect(escapeCsvCell('|/bin/sh')).toBe("'|/bin/sh");
+    expect(escapeCsvCell('山田 太郎')).toBe('山田 太郎');
+
+    const csv = buildCsvText(['名前'], [[' =1+1']], false);
+    expect(csv).toBe("名前\r\n' =1+1\r\n");
+  });
+});
+
+describe('4. プロトタイプ汚染（__proto__ / constructor / prototype）防御', () => {
+  it('safeParseJson は __proto__ / constructor / prototype キーを破棄し Object.prototype を汚さない', () => {
+    const malicious = '{"__proto__":{"polluted":true},"constructor":{"prototype":{"polluted":true}},"ok":42}';
+    const parsed = safeParseJson<Record<string, unknown>>(malicious, {});
+    expect(parsed.ok).toBe(42);
+    expect(({} as { polluted?: unknown }).polluted).toBeUndefined();
+    expect(Object.prototype.hasOwnProperty.call(parsed, '__proto__')).toBe(false);
+    expect(Object.prototype.hasOwnProperty.call(parsed, 'constructor')).toBe(false);
+    expect(isPlainObject(parsed)).toBe(true);
+    expect(isPlainObject(new Date())).toBe(false);
+  });
+
+  it('mergeSolvedMaps / mergeOutcomesStores / fromSyncedOutcomesSummary も危険キーを無視する', () => {
+    const fakeMap = JSON.parse('{"__proto__": 123, "el1_A::q1": 1000}') as Record<string, number>;
+    const merged = mergeSolvedMaps(fakeMap, { 'el1_A::q2': 2000 });
+    expect(merged['el1_A::q1']).toBe(1000);
+    expect(merged['el1_A::q2']).toBe(2000);
+    expect(({} as { polluted?: unknown }).polluted).toBeUndefined();
+
+    const out = mergeOutcomesStores(null, null);
+    expect(out.version).toBe(1);
+    expect(fromSyncedOutcomesSummary({ v: 1, firstDay: 'bad-date', daily: { '2026-11-01': 5, bad: 99 }, battles: {}, formats: {} })?.firstDay).toBeNull();
+  });
+});
+
+describe('5. リポジトリ横断のセキュリティ不変条件（noopener・ヘッダー・SW・Rules）', () => {
+  it('すべての target="_blank" リンクが rel="noopener noreferrer" を持つ', () => {
+    const files = [
+      'src/components/Intro.tsx',
+      'src/components/PdfViewer.tsx',
+      'src/components/UsageMeterPanel.tsx',
+      'src/components/explanation/ResultSummary.tsx',
+    ];
+    for (const rel of files) {
+      const src = readFileSync(path.join(ROOT, rel), 'utf8')
+        .replace(/\/\*[\s\S]*?\*\//g, '')
+        .replace(/^\s*\/\/.*$/gm, '');
+      const matches = src.match(/<a\b[^>]*target="_blank"[^>]*>/g) ?? [];
+      expect(matches.length).toBeGreaterThan(0);
+      for (const tag of matches) {
+        expect(tag).toMatch(/rel="noopener noreferrer"/);
+      }
+    }
+  });
+
+  it('公開フローチャート HTML に外部トラッキングスクリプトや innerHTML 代入が残っていない', () => {
+    const html = readFileSync(path.join(ROOT, 'public/flowcharts/chem-basic-acid-redox-flowchart.html'), 'utf8');
+    expect(html).not.toContain('cloudflareinsights.com');
+    expect(html).not.toContain('footer.innerHTML');
+  });
+
+  it('vercel.json に CSP / HSTS / XFO / CORP / nosniff が揃い unsafe-eval を含まない', () => {
+    const vercel = JSON.parse(readFileSync(path.join(ROOT, 'vercel.json'), 'utf8'));
+    const mainHeaders = vercel.headers[0].headers as Array<{ key: string; value: string }>;
+    const byKey = Object.fromEntries(mainHeaders.map((h) => [h.key, h.value]));
+    expect(byKey['Content-Security-Policy']).toContain("default-src 'self'");
+    expect(byKey['Content-Security-Policy']).toContain("frame-ancestors 'none'");
+    expect(byKey['Content-Security-Policy']).toContain("object-src 'none'");
+    expect(byKey['Content-Security-Policy']).not.toContain('unsafe-eval');
+    expect(byKey['Strict-Transport-Security']).toContain('max-age=63072000');
+    expect(byKey['X-Content-Type-Options']).toBe('nosniff');
+    expect(byKey['X-Frame-Options']).toBe('DENY');
+    expect(byKey['Cross-Origin-Resource-Policy']).toBe('same-origin');
+  });
+
+  it('firestore.rules に isSafePhotoUrl 検証と outcomes.battles の厳格な整数上限が入っている', () => {
+    const rules = readFileSync(path.join(ROOT, 'firestore.rules'), 'utf8');
+    expect(rules).toContain('function isSafePhotoUrl(url)');
+    expect(rules).toContain("data.outcomes.battles.keys().hasOnly(['total', 'toReview', 'toPractice', 'converted'])");
+    expect(rules).toContain("request.resource.data.keys().hasOnly(['studentUid', 'teacherUid', 'classId', 'grantedAt'])");
+  });
+});

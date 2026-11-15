@@ -210,21 +210,26 @@ function appendUnseenToTrack(prev: FormatUnseenTrack | undefined, correct: boole
   return base;
 }
 
+const SAFE_OUTCOME_KEY = (k: string): boolean =>
+  Boolean(k) && k !== '__proto__' && k !== 'constructor' && k !== 'prototype' && k.length <= 160;
+
 function pruneOutcomesStore(store: LearningOutcomesStore): LearningOutcomesStore {
-  const days = Object.keys(store.dailyAnswers).sort();
+  const days = Object.keys(store.dailyAnswers)
+    .filter((d) => /^\d{4}-\d{2}-\d{2}$/.test(d))
+    .sort();
   const dailyAnswers: Record<string, number> = {};
   for (const d of days.slice(-MAX_DAILY_DAYS)) {
-    const v = Math.max(0, Math.round(Number(store.dailyAnswers[d]) || 0));
+    const v = Math.min(100000, Math.max(0, Math.round(Number(store.dailyAnswers[d]) || 0)));
     if (v > 0) dailyAnswers[d] = v;
   }
 
   const seen: Record<string, 0 | 1> = {};
-  for (const [k, v] of Object.entries(store.seen).slice(-MAX_SEEN_KEYS)) {
+  for (const [k, v] of Object.entries(store.seen).filter(([k]) => SAFE_OUTCOME_KEY(k)).slice(-MAX_SEEN_KEYS)) {
     seen[k] = v === 1 ? 1 : 0;
   }
 
   const battleEntries = Object.entries(store.battles)
-    .filter(([, b]) => b && typeof b === 'object' && Number.isFinite(b.at))
+    .filter(([k, b]) => SAFE_OUTCOME_KEY(k) && b && typeof b === 'object' && Number.isFinite(b.at))
     .sort((a, b) => a[1].at - b[1].at)
     .slice(-MAX_BATTLES);
   const battles: Record<string, BattleConversionEntry> = {};
@@ -283,10 +288,10 @@ export function recordOutcomeAttempts(
   let unseenCorrect = 0;
 
   for (const it of items) {
-    if (!it.itemKey) continue;
-    const seenBefore = it.itemKey in store.seen || Boolean(it.alreadyKnownSeen);
+    if (!SAFE_OUTCOME_KEY(it.itemKey)) continue;
+    const seenBefore = Object.prototype.hasOwnProperty.call(store.seen, it.itemKey) || Boolean(it.alreadyKnownSeen);
     if (seenBefore) {
-      if (!(it.itemKey in store.seen)) store.seen[it.itemKey] = it.correct ? 1 : 0;
+      if (!Object.prototype.hasOwnProperty.call(store.seen, it.itemKey)) store.seen[it.itemKey] = it.correct ? 1 : 0;
       continue;
     }
     store.seen[it.itemKey] = it.correct ? 1 : 0;
@@ -312,7 +317,8 @@ export function recordBattleFinished(
   if (!uid || !battleKey) return;
   const store = loadOutcomesStore(uid);
   const safeKey = battleKey.slice(0, 120);
-  if (!store.battles[safeKey]) {
+  if (!SAFE_OUTCOME_KEY(safeKey)) return;
+  if (!Object.prototype.hasOwnProperty.call(store.battles, safeKey)) {
     store.battles[safeKey] = { at: now, conv: 0 };
     trackEvent('outcome_battle_done');
   }
@@ -338,9 +344,11 @@ export function recordBattleFollowup(
     const withinWindow = store.lastBattleKey && store.lastBattleAt && now - store.lastBattleAt <= 30 * 60 * 1000;
     if (withinWindow && store.lastBattleKey) targetKey = store.lastBattleKey;
   }
-  if (!targetKey) return false;
+  if (!SAFE_OUTCOME_KEY(targetKey)) return false;
 
-  const prev = store.battles[targetKey] ?? { at: now, conv: 0 as const };
+  const prev = Object.prototype.hasOwnProperty.call(store.battles, targetKey)
+    ? store.battles[targetKey]!
+    : { at: now, conv: 0 as const };
   const bit: 1 | 2 = action === 'review' ? 1 : 2;
   const nextConv = ((prev.conv | bit) as 0 | 1 | 2 | 3);
   const wasUnconverted = prev.conv === 0;
@@ -383,11 +391,15 @@ export function mergeOutcomesStores(
     }
   }
 
-  const seen: Record<string, 0 | 1> = { ...b.seen, ...a.seen };
+  const seen: Record<string, 0 | 1> = {};
+  for (const [k, v] of [...Object.entries(b.seen), ...Object.entries(a.seen)]) {
+    if (SAFE_OUTCOME_KEY(k)) seen[k] = v === 1 ? 1 : 0;
+  }
   const battles: Record<string, BattleConversionEntry> = {};
   for (const k of new Set([...Object.keys(a.battles), ...Object.keys(b.battles)])) {
-    const ba = a.battles[k];
-    const bb = b.battles[k];
+    if (!SAFE_OUTCOME_KEY(k)) continue;
+    const ba = Object.prototype.hasOwnProperty.call(a.battles, k) ? a.battles[k] : undefined;
+    const bb = Object.prototype.hasOwnProperty.call(b.battles, k) ? b.battles[k] : undefined;
     if (ba && bb) {
       battles[k] = { at: Math.min(ba.at || Date.now(), bb.at || Date.now()), conv: ((ba.conv | bb.conv) & 3) as 0 | 1 | 2 | 3 };
     } else if (ba || bb) {

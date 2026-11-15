@@ -200,13 +200,19 @@ service cloud.firestore {
     // アバターURL（lh3.googleusercontent.com/...）が十分収まる長さで、
     // かつデータURL等を押し込めない値として選んだもの。
 
+    // URL の安全性（空文字または https:// かつ 512 文字以内。javascript: / data: / http: を排除）
+    function isSafePhotoUrl(url) {
+      return url is string
+        && url.size() <= 512
+        && (url == '' || url.matches('^https://[^\\s"\'<>]{1,504}$'));
+    }
+
     // 表示名の妥当性。フレンド系（friend_profiles など）と同じ 24 文字上限で揃える。
     function isValidRankingIdentity(data) {
       return data.nickname is string
         && data.nickname.size() > 0
         && data.nickname.size() <= 24
-        && data.photoURL is string
-        && data.photoURL.size() <= 512;
+        && isSafePhotoUrl(data.photoURL);
     }
 
     // 章ごとのベストスコア。ドキュメントID = `${chapterId}_${uid}`
@@ -314,7 +320,9 @@ service cloud.firestore {
       return request.resource.data.uid == request.auth.uid
         && request.resource.data.keys().hasOnly(['uid', 'nickname', 'photoURL', 'updatedAt'])
         && request.resource.data.nickname is string
-        && request.resource.data.nickname.size() <= 24;
+        && request.resource.data.nickname.size() <= 24
+        && (!('photoURL' in request.resource.data) || isSafePhotoUrl(request.resource.data.photoURL))
+        && (!('updatedAt' in request.resource.data) || request.resource.data.updatedAt == request.time);
     }
 
     // ============================================================
@@ -407,9 +415,15 @@ service cloud.firestore {
       allow list: if false;
 
       allow create, update: if isOwner(userId)
+        && request.resource.data.keys().hasOnly(['uid', 'nickname', 'photoURL', 'friendCode', 'updatedAt'])
         && request.resource.data.uid == request.auth.uid
         && request.resource.data.nickname is string
-        && request.resource.data.nickname.size() <= 24;
+        && request.resource.data.nickname.size() <= 24
+        && (!('photoURL' in request.resource.data) || isSafePhotoUrl(request.resource.data.photoURL))
+        && (!('friendCode' in request.resource.data)
+            || (request.resource.data.friendCode is string
+                && request.resource.data.friendCode.matches('^MNTB-[A-Z0-9]{4}-[A-Z0-9]{4}$')))
+        && (!('updatedAt' in request.resource.data) || request.resource.data.updatedAt == request.time);
       allow delete: if isOwner(userId);
     }
 
@@ -436,6 +450,7 @@ service cloud.firestore {
               'createdAt', 'updatedAt'])
         && request.resource.data.fromNickname is string
         && request.resource.data.fromNickname.size() <= 24
+        && (!('fromPhotoURL' in request.resource.data) || isSafePhotoUrl(request.resource.data.fromPhotoURL))
         // 新規申請は必ず pending から始まる
         && request.resource.data.status == 'pending'
         // すでにフレンドなら申請不要
@@ -483,6 +498,8 @@ service cloud.firestore {
         && request.resource.data.uid == friendUid
         && friendUid != userId
         && request.resource.data.keys().hasOnly(['uid', 'nickname', 'photoURL', 'addedAt'])
+        && (!('nickname' in request.resource.data) || (request.resource.data.nickname is string && request.resource.data.nickname.size() <= 24))
+        && (!('photoURL' in request.resource.data) || isSafePhotoUrl(request.resource.data.photoURL))
         && (
           // (1) 受信者が承認する場合:
           //     自分の配下に「自分へ申請してきた相手」を登録する
@@ -505,6 +522,8 @@ service cloud.firestore {
       allow update: if isAuthenticated()
         && request.resource.data.uid == resource.data.uid
         && request.resource.data.keys().hasOnly(['uid', 'nickname', 'photoURL', 'addedAt'])
+        && (!('nickname' in request.resource.data) || (request.resource.data.nickname is string && request.resource.data.nickname.size() <= 24))
+        && (!('photoURL' in request.resource.data) || isSafePhotoUrl(request.resource.data.photoURL))
         && (
           isOwner(userId)
           || (request.auth.uid == friendUid && requestUsableForFriendship(userId, friendUid))
@@ -680,7 +699,7 @@ service cloud.firestore {
           // 文字列項目の長さ制限（ストレージの暴走防止）
           && (!('displayName' in data) || data.displayName == null || (data.displayName is string && data.displayName.size() <= 100))
           && (!('email' in data) || data.email == null || (data.email is string && data.email.size() <= 200))
-          && (!('photoUrl' in data) || data.photoUrl == null || (data.photoUrl is string && data.photoUrl.size() <= 500))
+          && (!('photoUrl' in data) || data.photoUrl == null || isSafePhotoUrl(data.photoUrl))
           && (!('profileName' in data) || data.profileName == null || (data.profileName is string && data.profileName.size() <= 100))
           && (!('grade' in data) || data.grade == null || (data.grade is string && data.grade.size() <= 50))
           && (!('createdAtIso' in data) || data.createdAtIso == null || (data.createdAtIso is string && data.createdAtIso.size() <= 40))
@@ -759,6 +778,7 @@ service cloud.firestore {
           && data.uid == userId
           && data.uid == request.auth.uid
           && data.solved is map
+          && data.solved.size() <= 5000
           && data.reviewItems is list
           // 復習リストは studySyncCore.MAX_SYNCED_REVIEW_ITEMS = 600 で
           // 上限を掛けている。ドキュメント1MiB制限に触れる前に弾く。
@@ -767,9 +787,14 @@ service cloud.firestore {
                data.outcomes is map
                && data.outcomes.keys().hasOnly(['v', 'firstDay', 'daily', 'battles', 'formats'])
                && data.outcomes.v == 1
-               && (data.outcomes.firstDay == null || (data.outcomes.firstDay is string && data.outcomes.firstDay.size() <= 10))
+               && (data.outcomes.firstDay == null || (data.outcomes.firstDay is string && data.outcomes.firstDay.matches('^[0-9]{4}-[0-9]{2}-[0-9]{2}$')))
                && data.outcomes.daily is map && data.outcomes.daily.size() <= 60
-               && data.outcomes.battles is map && data.outcomes.battles.size() <= 8
+               && data.outcomes.battles is map
+               && data.outcomes.battles.keys().hasOnly(['total', 'toReview', 'toPractice', 'converted'])
+               && (!('total' in data.outcomes.battles) || (data.outcomes.battles.total is int && data.outcomes.battles.total >= 0 && data.outcomes.battles.total <= 100000))
+               && (!('toReview' in data.outcomes.battles) || (data.outcomes.battles.toReview is int && data.outcomes.battles.toReview >= 0 && data.outcomes.battles.toReview <= 100000))
+               && (!('toPractice' in data.outcomes.battles) || (data.outcomes.battles.toPractice is int && data.outcomes.battles.toPractice >= 0 && data.outcomes.battles.toPractice <= 100000))
+               && (!('converted' in data.outcomes.battles) || (data.outcomes.battles.converted is int && data.outcomes.battles.converted >= 0 && data.outcomes.battles.converted <= 100000))
                && data.outcomes.formats is map && data.outcomes.formats.size() <= 16
              ))
           && (!('solvedTotal' in data) || (data.solvedTotal is int && data.solvedTotal >= 0))
@@ -800,10 +825,10 @@ service cloud.firestore {
       allow create: if request.resource.data.keys().hasOnly([
             'day', 'platform', 'appVersion', 'install', 'signedIn', 'durationSec',
             'screens', 'screenSec', 'events', 'errors', 'createdAt'])
-        && request.resource.data.day is string && request.resource.data.day.size() == 10
+        && request.resource.data.day is string && request.resource.data.day.matches('^[0-9]{4}-[0-9]{2}-[0-9]{2}$')
         && request.resource.data.platform in ['web', 'ios', 'android']
         && request.resource.data.appVersion is string && request.resource.data.appVersion.size() <= 40
-        && request.resource.data.install is string && request.resource.data.install.size() == 16
+        && request.resource.data.install is string && request.resource.data.install.matches('^[A-Za-z0-9_-]{16}$')
         && request.resource.data.signedIn is bool
         && request.resource.data.durationSec is int && request.resource.data.durationSec >= 0 && request.resource.data.durationSec <= 86400
         && smallMap(request.resource.data.screens) && smallMap(request.resource.data.screenSec)
@@ -873,9 +898,13 @@ service cloud.firestore {
       // ドキュメントIDを `${studentUid}_${teacherUid}` に固定することで、
       // 中身とIDの食い違い（別人の許可をこっそり作る）を防ぐ。
       allow create, update: if isAuthenticated()
+        && request.resource.data.keys().hasOnly(['studentUid', 'teacherUid', 'classId', 'grantedAt'])
         && request.resource.data.studentUid == request.auth.uid
         && request.resource.data.teacherUid is string
+        && request.resource.data.teacherUid.size() > 0 && request.resource.data.teacherUid.size() <= 128
         && request.resource.data.classId is string
+        && request.resource.data.classId.size() > 0 && request.resource.data.classId.size() <= 80
+        && (!('grantedAt' in request.resource.data) || request.resource.data.grantedAt == request.time)
         && accessId == request.resource.data.studentUid + '_' + request.resource.data.teacherUid;
 
       // 取り消せるのは生徒本人のみ（先生に許可を消させない＝
@@ -966,6 +995,9 @@ service cloud.firestore {
       // 生徒の参加先をすり替えることを防ぐ）
       allow update: if isAuthenticated()
         && resource.data.teacherUid == request.auth.uid
+        && request.resource.data.keys().hasOnly(['classId', 'teacherUid', 'createdAt'])
+        && request.resource.data.classId is string
+        && request.resource.data.classId.size() <= 80
         && request.resource.data.teacherUid == resource.data.teacherUid;
 
       allow delete: if isAuthenticated() && resource.data.teacherUid == request.auth.uid;
@@ -1298,8 +1330,7 @@ service cloud.firestore {
         && request.resource.data.profile.uid == uid
         && request.resource.data.profile.nickname is string
         && request.resource.data.profile.nickname.size() <= 40
-        && request.resource.data.profile.photoURL is string
-        && request.resource.data.profile.photoURL.size() <= 500
+        && isSafePhotoUrl(request.resource.data.profile.photoURL)
         && request.resource.data.profile.rating is number
         && request.resource.data.profile.rating >= 0
         && request.resource.data.profile.rating <= 4000
@@ -1365,7 +1396,7 @@ service cloud.firestore {
           && p.keys().hasOnly(['uid', 'nickname', 'photoURL', 'rating'])
           && p.uid == playerUid
           && p.nickname is string && p.nickname.size() <= 40
-          && p.photoURL is string && p.photoURL.size() <= 500
+          && isSafePhotoUrl(p.photoURL)
           && p.rating is number && p.rating >= 0 && p.rating <= 4000;
       }
       function lobbyValidFriendNew(d) {
@@ -2489,7 +2520,7 @@ service cloud.firestore {
                ])
           && d.uid == uid
           && d.nickname is string && d.nickname.size() <= 40
-          && d.photoURL is string && d.photoURL.size() <= 500
+          && isSafePhotoUrl(d.photoURL)
           && d.rating is number && d.rating >= 800 && d.rating <= 4000
           && d.wins is number && d.wins >= 0
           && d.losses is number && d.losses >= 0
