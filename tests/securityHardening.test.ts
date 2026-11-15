@@ -156,24 +156,52 @@ describe('5. リポジトリ横断のセキュリティ不変条件（noopener�
     expect(html).not.toContain('footer.innerHTML');
   });
 
-  it('vercel.json に CSP / HSTS / XFO / CORP / nosniff が揃い unsafe-eval を含まない', () => {
+  it('vercel.json / public/_headers / firebase.json の CSP が完全一致し、HSTS / XFO / CORP / nosniff が揃っている', () => {
     const vercel = JSON.parse(readFileSync(path.join(ROOT, 'vercel.json'), 'utf8'));
+    const firebaseCfg = JSON.parse(readFileSync(path.join(ROOT, 'firebase.json'), 'utf8'));
+    const headersTxt = readFileSync(path.join(ROOT, 'public/_headers'), 'utf8');
+
     const mainHeaders = vercel.headers[0].headers as Array<{ key: string; value: string }>;
     const byKey = Object.fromEntries(mainHeaders.map((h) => [h.key, h.value]));
+    const fbHeaders = firebaseCfg.hosting.headers[0].headers as Array<{ key: string; value: string }>;
+    const fbByKey = Object.fromEntries(fbHeaders.map((h) => [h.key, h.value]));
+    const cfCspLine = headersTxt.split('\n').find((l) => l.trim().startsWith('Content-Security-Policy:'))!;
+    const cfCsp = cfCspLine.split('Content-Security-Policy:')[1]!.trim();
+
     expect(byKey['Content-Security-Policy']).toContain("default-src 'self'");
     expect(byKey['Content-Security-Policy']).toContain("frame-ancestors 'none'");
     expect(byKey['Content-Security-Policy']).toContain("object-src 'none'");
     expect(byKey['Content-Security-Policy']).not.toContain('unsafe-eval');
+    expect(fbByKey['Content-Security-Policy']).toBe(byKey['Content-Security-Policy']);
+    expect(cfCsp).toBe(byKey['Content-Security-Policy']);
     expect(byKey['Strict-Transport-Security']).toContain('max-age=63072000');
     expect(byKey['X-Content-Type-Options']).toBe('nosniff');
     expect(byKey['X-Frame-Options']).toBe('DENY');
     expect(byKey['Cross-Origin-Resource-Policy']).toBe('same-origin');
+    expect(fbByKey['Cross-Origin-Resource-Policy']).toBe('same-origin');
   });
 
-  it('firestore.rules に isSafePhotoUrl 検証と outcomes.battles の厳格な整数上限が入っている', () => {
+  it('firestore.rules に isSafePhotoUrl・匿名プロバイダ拒否・退会時匿名化・outcomes.battles 境界が入っている', () => {
     const rules = readFileSync(path.join(ROOT, 'firestore.rules'), 'utf8');
     expect(rules).toContain('function isSafePhotoUrl(url)');
+    expect(rules).toContain('function isNotAnonymousAuth()');
+    expect(rules).toContain('function battleSelfAnonymize()');
     expect(rules).toContain("data.outcomes.battles.keys().hasOnly(['total', 'toReview', 'toPractice', 'converted'])");
     expect(rules).toContain("request.resource.data.keys().hasOnly(['studentUid', 'teacherUid', 'classId', 'grantedAt'])");
+  });
+
+  it('GAS Webhook・デプロイWorkflow・AndroidManifest の運用セキュリティガードが有効である', () => {
+    const gas = readFileSync(path.join(ROOT, 'docs/feedback-gas.js'), 'utf8');
+    expect(gas).toContain('function safeSheetCell(value, maxLen)');
+    expect(gas).toContain('/^[A-Za-z_$][A-Za-z0-9_$.]{0,63}$/');
+    expect(gas).not.toContain("status += '\\nmail: ' + (CONFIG.SEND_EMAIL ? 'ON -> ' + CONFIG.NOTIFY_EMAIL");
+
+    const wf = readFileSync(path.join(ROOT, 'docs/deploy-firestore-rules.workflow.yml'), 'utf8');
+    expect(wf).toContain('permissions:');
+    expect(wf).toContain("mntb-listening");
+    expect(wf).toContain('if [ "$FIREBASE_PROJECT_ID" = "mntb-4ef06" ]');
+
+    const manifest = readFileSync(path.join(ROOT, 'android/app/src/main/AndroidManifest.xml'), 'utf8');
+    expect(manifest).toContain('android:allowBackup="false"');
   });
 });

@@ -99,8 +99,15 @@ service cloud.firestore {
     // ---------------------------------------------------------------
     // Helper Functions
     // ---------------------------------------------------------------
+    function isNotAnonymousAuth() {
+      return request.auth != null
+        && (!('firebase' in request.auth.token)
+            || !('sign_in_provider' in request.auth.token.firebase)
+            || request.auth.token.firebase.sign_in_provider != 'anonymous');
+    }
+
     function isAuthenticated() {
-      return request.auth != null;
+      return request.auth != null && isNotAnonymousAuth();
     }
 
     function isOwner(userId) {
@@ -1200,7 +1207,7 @@ service cloud.firestore {
     // 画面側でボタンを隠すだけでは、SDK を直接叩けば書き込めてしまう。
     // 「uid が無ければ何も書けない」ことをここで保証する。
     function battleSignedIn() {
-      return request.auth != null && request.auth.uid != null;
+      return request.auth != null && request.auth.uid != null && isNotAnonymousAuth();
     }
 
     // 自分がこの部屋の参加者か。
@@ -2547,31 +2554,41 @@ service cloud.firestore {
       //   3. lastRoomId が必ず変わる（同じ試合の二重反映を防ぐ）
       //   4. lastRoomId の部屋が実在し、自分が参加して決着している
       //      （これが無いと 1〜3 は全部回避できる。上の battleRoomProof 参照）
+      // 退会時の自己匿名化：レート・勝敗数・lastRoomId は1ミリも変えず、名前とアイコンだけを消す操作に限定
+      function battleSelfAnonymize() {
+        return request.resource.data.nickname == '退会したユーザー'
+          && request.resource.data.photoURL == ''
+          && request.resource.data.rating == resource.data.rating
+          && request.resource.data.wins == resource.data.wins
+          && request.resource.data.losses == resource.data.losses
+          && request.resource.data.draws == resource.data.draws
+          && request.resource.data.lastRoomId == resource.data.lastRoomId;
+      }
+
       allow update: if isOwner(uid)
         && battleValidRankingRow(request.resource.data)
-        // 1. 変化量
-        && request.resource.data.rating
-           <= resource.data.rating + battleRatingDelta()
-        && request.resource.data.rating
-           >= resource.data.rating - battleRatingDelta()
-        // 2. 勝敗数は減らせない／増えるのはちょうど 1
-        //
-        //    ★「<= 1」ではなく「== 1」にする理由★
-        //    以前は <= 1 だったので「0 件」も通っていた。
-        //    つまり勝敗数を一切増やさずに
-        //    レートだけを毎回 +60 する更新が許されていた。
-        //    正しい反映は必ず勝ち・負け・引き分けのどれかが1増える。
-        && request.resource.data.wins >= resource.data.wins
-        && request.resource.data.losses >= resource.data.losses
-        && request.resource.data.draws >= resource.data.draws
-        && (request.resource.data.wins - resource.data.wins)
-           + (request.resource.data.losses - resource.data.losses)
-           + (request.resource.data.draws - resource.data.draws) == 1
-        // 3. 同じ試合を 2 回反映できない
-        && request.resource.data.lastRoomId != resource.data.lastRoomId
-        && request.resource.data.lastRoomId.size() > 0
-        // 4. その試合が本当にあったか
-        && battleRoomProof();
+        && (
+          battleSelfAnonymize()
+          || (
+            // 1. 変化量
+            request.resource.data.rating
+               <= resource.data.rating + battleRatingDelta()
+            && request.resource.data.rating
+               >= resource.data.rating - battleRatingDelta()
+            // 2. 勝敗数は減らせない／増えるのはちょうど 1
+            && request.resource.data.wins >= resource.data.wins
+            && request.resource.data.losses >= resource.data.losses
+            && request.resource.data.draws >= resource.data.draws
+            && (request.resource.data.wins - resource.data.wins)
+               + (request.resource.data.losses - resource.data.losses)
+               + (request.resource.data.draws - resource.data.draws) == 1
+            // 3. 同じ試合を 2 回反映できない
+            && request.resource.data.lastRoomId != resource.data.lastRoomId
+            && request.resource.data.lastRoomId.size() > 0
+            // 4. その試合が本当にあったか
+            && battleRoomProof()
+          )
+        );
 
       // ★削除を禁止する理由★
       // 負けたレートを消して作り直せると、レートが意味を失う。
