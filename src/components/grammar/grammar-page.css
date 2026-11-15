@@ -1,0 +1,1308 @@
+/* 英文法（第1〜20章）専用：問題画面と完全一体型のカード演習＆コンパクト解説・結果UI
+   文字はすべて 12px 以上、色トークンは src/styles/tokens.css（--mt-*）に準拠し、!important は使わない。
+   フォントは var(--mt-font-body)（Inter + ゴシック）に完全統一。 */
+
+.gp-root {
+  --gp-accent: #3e9c93;
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  display: flex;
+  flex-direction: column;
+  background: var(--mt-paper);
+  color: #1f2937;
+  font-family: var(--mt-font-body);
+}
+
+.gp-battle-return {
+  min-height: 44px;
+  flex-shrink: 0;
+  border: 0;
+  border-bottom: 1px solid #bfdbfe;
+  background: #eff6ff;
+  padding: 8px 12px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #1e3a8a;
+  cursor: pointer;
+}
+
+/* 上の帯（固定）：戻る・演習/完了バッジ・単元名・回・回答数 */
+.gp-head {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: calc(6px + env(safe-area-inset-top, 0px)) 8px 6px;
+  border-bottom: 1px solid #eadfc8;
+  background: #fffaf0;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.gp-back {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  border: 0;
+  background: transparent;
+  border-radius: 999px;
+  color: #54626f;
+  cursor: pointer;
+  transition: background-color 0.14s ease, color 0.14s ease;
+}
+
+.gp-back:hover {
+  background: var(--mt-rare-n-bg);
+  color: #1f2937;
+}
+
+.gp-home-btn {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  border-radius: 999px;
+  border: 1px solid #e4dccb;
+  background: #ffffff;
+  color: #475569;
+  cursor: pointer;
+}
+
+.gp-home-btn:hover {
+  background: #f5f0e5;
+  color: #1f2937;
+}
+
+.gp-mode {
+  flex-shrink: 0;
+  border-radius: 999px;
+  background: #f3c64f;
+  padding: 0 8px;
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 22px;
+  color: #5b3d00;
+}
+
+.gp-mode-done {
+  background: var(--mt-done);
+  color: #ffffff;
+}
+
+.gp-title-wrap {
+  min-width: 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.gp-title {
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 1.25;
+  color: #2c3e50;
+}
+
+.gp-sub {
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.2;
+  color: #5a6573;
+}
+
+.gp-stats {
+  display: flex;
+  flex-shrink: 0;
+  gap: 4px;
+  margin: 0;
+}
+
+.gp-stats > div {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  border-radius: 999px;
+  background: var(--mt-rare-n-bg);
+  padding: 4px 10px;
+}
+
+.gp-stats dt {
+  display: flex;
+  color: #4b5563;
+}
+
+.gp-stats dd {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 700;
+  color: #4b5563;
+  white-space: nowrap;
+}
+
+.gp-stats dd b {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 14px;
+  color: #2c3e50;
+}
+
+.gp-stats dd small {
+  margin-left: 1px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* サブバー：タイマー＋設問ジャンプドット＋消去法案内 */
+.gp-subbar {
+  flex: none;
+  background: #fffdf8;
+  border-bottom: 1px solid #e7decb;
+}
+
+.gp-subbar-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 5px 12px 4px;
+}
+
+.gp-timer-label {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin: 0;
+  font-size: 12px;
+  font-weight: 700;
+  color: #334155;
+  font-variant-numeric: tabular-nums;
+}
+
+.gp-timer-limit {
+  color: #64748b;
+  font-weight: 600;
+}
+
+.gp-subbar[data-state='low'] .gp-timer-label {
+  color: #7c4a03;
+}
+
+.gp-subbar[data-state='over'] .gp-timer-label,
+.gp-subbar[data-state='done'] .gp-timer-label {
+  color: #475569;
+}
+
+.gp-q-dots {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 4px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.gp-q-dots::-webkit-scrollbar {
+  display: none;
+}
+
+.gp-q-dot {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  min-width: 34px;
+  min-height: 28px;
+  padding: 0 8px;
+  border-radius: 999px;
+  border: 1px solid #dfd5c2;
+  background: #ffffff;
+  color: #54626f;
+  font-size: 12px;
+  font-weight: 800;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.gp-q-dot em {
+  font-style: normal;
+  font-weight: 900;
+}
+
+.gp-q-dot[data-qstate='answered'] {
+  border-color: var(--gp-accent);
+  background: #eaf8f6;
+  color: #133c36;
+}
+
+.gp-q-dot[data-qstate='working'] {
+  border-style: dashed;
+  border-color: #94a3b8;
+  background: #f8fafc;
+}
+
+.gp-q-dot[data-qstate='correct'] {
+  border-color: #3fae7d;
+  background: #eaf8f1;
+  color: #166534;
+}
+
+.gp-q-dot[data-qstate='wrong'],
+.gp-q-dot[data-qstate='blank'] {
+  border-color: #e0786f;
+  background: #fdeeed;
+  color: #991b1b;
+}
+
+.gp-elim-tip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #6b7280;
+  white-space: nowrap;
+}
+
+@media (max-width: 639px) {
+  .gp-elim-tip {
+    display: none;
+  }
+}
+
+.gp-timer-track {
+  height: 3px;
+  background: #efe8d8;
+  overflow: hidden;
+}
+
+.gp-timer-fill {
+  height: 100%;
+  background: var(--gp-accent);
+  transition: width 0.25s linear;
+}
+
+.gp-subbar[data-state='low'] .gp-timer-fill {
+  background: #b7791f;
+}
+
+.gp-subbar[data-state='over'] .gp-timer-fill,
+.gp-subbar[data-state='done'] .gp-timer-fill {
+  background: #94a3b8;
+}
+
+/* スクロール領域 */
+.gp-scroll {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+}
+
+/* 採点後・結果画面のコンパクトサマリー帯 */
+.gp-summary {
+  display: grid;
+  gap: 8px;
+  margin: 10px 12px 0;
+  padding: 10px 12px;
+  border-radius: 14px;
+  border: 1px solid #bde0d7;
+  background: #f2faf8;
+  color: #134e4a;
+}
+
+.gp-summary[data-perfect] {
+  border-color: #8fd3b8;
+  background: #eaf9f2;
+  color: #14532d;
+}
+
+.gp-summary-top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.gp-score-row {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+
+.gp-score-fraction {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 2px;
+}
+
+.gp-score-fraction b {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 22px;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.gp-score-fraction small {
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.gp-score-pct {
+  padding: 2px 8px;
+  border-radius: 6px;
+  background: #dff3ee;
+  color: #15534a;
+  font-size: 12px;
+  font-weight: 900;
+  font-variant-numeric: tabular-nums;
+}
+
+.gp-pill-meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: #ffffff;
+  border: 1px solid #cfe3dc;
+  color: #334155;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.gp-pill-coin {
+  background: #fffbeb;
+  border-color: #fde68a;
+  color: #92400e;
+}
+
+.gp-jump-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.gp-jump-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  min-width: 44px;
+  min-height: 32px;
+  padding: 0 8px;
+  border-radius: 8px;
+  border: 1.5px solid #cbd5e1;
+  background: #ffffff;
+  color: #334155;
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+  font-variant-numeric: tabular-nums;
+}
+
+.gp-jump-chip[data-result='correct'] {
+  border-color: #4db386;
+  background: #eaf8f1;
+  color: #166534;
+}
+
+.gp-jump-chip[data-result='wrong'],
+.gp-jump-chip[data-result='blank'] {
+  border-color: #e0786f;
+  background: #fdeeed;
+  color: #991b1b;
+}
+
+.gp-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+.gp-filter-pills {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.gp-filter-pill {
+  min-height: 32px;
+  padding: 0 10px;
+  border-radius: 999px;
+  border: 1px solid #bdd8cf;
+  background: #ffffff;
+  color: #1f4f48;
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.gp-filter-pill[data-active] {
+  border-color: #1f5c53;
+  background: #1f5c53;
+  color: #ffffff;
+}
+
+.gp-bulk-btns {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.gp-bulk-btn {
+  min-height: 32px;
+  padding: 0 10px;
+  border-radius: 8px;
+  border: 1px solid #cbd5e1;
+  background: #ffffff;
+  color: #334155;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* 問題カードのグリッド（スマホ1列・PC 2列） */
+.gp-list {
+  display: grid;
+  gap: 10px;
+  padding: 12px 12px 18px;
+  max-width: 1180px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+@media (min-width: 960px) {
+  .gp-head {
+    padding: 10px 24px;
+    gap: 12px;
+  }
+
+  .gp-title {
+    font-size: 16px;
+  }
+
+  .gp-subbar-row {
+    padding: 6px 24px 5px;
+  }
+
+  .gp-summary {
+    max-width: 1132px;
+    margin: 12px auto 0;
+  }
+
+  .gp-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
+    gap: 12px 14px;
+    padding: 14px 24px 24px;
+  }
+}
+
+/* 1問カード */
+.gp-item {
+  border: 1px solid #e4dccb;
+  border-left-width: 4px;
+  border-left-color: #d7cebc;
+  border-radius: 14px;
+  background: #ffffff;
+  padding: 12px 13px 10px;
+  box-shadow: 0 1px 2px rgba(44, 62, 80, 0.04);
+}
+
+.gp-item[data-status='answered'] {
+  border-left-color: var(--gp-accent);
+}
+
+.gp-item[data-status='unanswered'] {
+  border-left-color: #d97706;
+}
+
+.gp-item[data-status='correct'] {
+  border-color: #9fd8c3;
+  border-left-color: var(--mt-done);
+}
+
+.gp-item[data-status='wrong'],
+.gp-item[data-status='blank'] {
+  border-color: #f0b8b3;
+  border-left-color: #c9483e;
+}
+
+/* 設問文・対話文 */
+.gp-stem-block {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.gp-sentence {
+  margin: 0;
+  white-space: pre-wrap;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.72;
+  color: #111827;
+  font-family: var(--mt-font-body);
+  overflow-wrap: anywhere;
+}
+
+.gp-no {
+  display: inline-grid;
+  place-items: center;
+  min-width: 24px;
+  height: 24px;
+  margin-right: 7px;
+  padding: 0 5px;
+  border-radius: 999px;
+  background: #2c3e50;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1;
+  vertical-align: 1px;
+}
+
+.gp-focus-tag {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 1px 8px;
+  border-radius: 999px;
+  background: #f5f0e5;
+  color: #54626f;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 18px;
+  vertical-align: 1px;
+}
+
+.gp-unanswered-tag {
+  display: inline-block;
+  margin-left: 6px;
+  border-radius: 999px;
+  border: 1px solid #f5c26b;
+  background: #fff7e6;
+  padding: 0 8px;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 20px;
+  color: #92400e;
+  vertical-align: 1px;
+}
+
+/* 会話ターン（A / B ピル） */
+.gp-dialogue-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.gp-dialogue-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+
+.gp-dialogue-kicker {
+  font-size: 12px;
+  font-weight: 800;
+  color: #54626f;
+  background: #f5f0e5;
+  border-radius: 999px;
+  padding: 1px 8px;
+}
+
+.gp-dialogue-turns {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  background: #faf7f0;
+  border: 1px solid #ede5d4;
+}
+
+.gp-turn {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.gp-speaker-pill {
+  flex-shrink: 0;
+  display: inline-grid;
+  place-items: center;
+  min-width: 24px;
+  height: 24px;
+  margin-top: 2px;
+  padding: 0 6px;
+  border-radius: 999px;
+  background: #2c3e50;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.gp-speaker-pill[data-speaker='B'] {
+  background: #2f7c74;
+}
+
+.gp-turn-text {
+  margin: 0;
+  flex: 1;
+  min-width: 0;
+  font-size: 15.5px;
+  font-weight: 700;
+  line-height: 1.65;
+  color: #111827;
+  font-family: var(--mt-font-body);
+  overflow-wrap: anywhere;
+}
+
+/* インライン空所ボックス ＆ [誤答 → 正解] 比較 */
+.gp-blank {
+  display: inline-block;
+  min-width: 4.5em;
+  margin: 0 3px;
+  padding: 0 7px;
+  border-bottom: 2.5px solid #2c3e50;
+  border-radius: 4px 4px 0 0;
+  background: #eef4f3;
+  line-height: 1.42;
+  text-align: center;
+  vertical-align: baseline;
+  font-weight: 800;
+}
+
+.gp-blank[data-filled] {
+  color: #1b4f4a;
+}
+
+.gp-blank[data-result='right'] {
+  border-bottom-color: var(--mt-done);
+  background: #ecfdf5;
+  color: #166534;
+}
+
+.gp-blank[data-result='wrong'] {
+  border-bottom-color: var(--mt-danger);
+  background: #fef2f2;
+  color: #991b1b;
+  text-decoration: line-through;
+  text-decoration-thickness: 2px;
+}
+
+.gp-blank-compare {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px;
+  margin: 0 3px;
+  vertical-align: baseline;
+}
+
+.gp-blank-compare .gp-blank {
+  min-width: 0;
+  margin: 0;
+}
+
+.gp-blank-arrow {
+  font-size: 13px;
+  font-weight: 900;
+  color: #64748b;
+  line-height: 1;
+}
+
+.gp-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* 選択肢カード（2×2、長い語句は1列） */
+.gp-choices {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px 8px;
+  margin: 9px 0 0;
+  outline: none;
+}
+
+.gp-choices.is-single {
+  grid-template-columns: 1fr;
+}
+
+.gp-choices.is-scored {
+  row-gap: 12px;
+  padding-top: 6px;
+}
+
+.gp-choice {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 5px 8px 5px 6px;
+  border: 1.5px solid #ebe4d5;
+  border-radius: 10px;
+  background: #fcfaf6;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.gp-choice:hover {
+  border-color: #cbbda7;
+  background: #ffffff;
+}
+
+.gp-choices[aria-disabled='true'] .gp-choice {
+  cursor: default;
+}
+
+.gp-bubble {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  border: 1.5px solid #6b7280;
+  background: #ffffff;
+  font-size: 13px;
+  font-weight: 800;
+  color: #374151;
+}
+
+.gp-choice-body {
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.gp-choice-text {
+  min-width: 0;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.38;
+  color: #1f2937;
+  font-family: var(--mt-font-body);
+  overflow-wrap: break-word;
+}
+
+.gp-choice-check {
+  margin-left: auto;
+  flex-shrink: 0;
+  color: var(--gp-accent);
+}
+
+.gp-choice[data-checked] {
+  border-color: var(--gp-accent);
+  background: #edf8f6;
+}
+
+.gp-choice[data-checked] .gp-choice-text {
+  font-weight: 800;
+  color: #133c36;
+}
+
+.gp-choice[data-checked] .gp-bubble {
+  border-width: 2.5px;
+  border-color: var(--gp-accent);
+  background: var(--gp-accent);
+  color: #ffffff;
+}
+
+.gp-choice[data-result='right'] {
+  border-color: var(--mt-done);
+  background: #ecfdf5;
+}
+
+.gp-choice[data-result='right'] .gp-bubble {
+  border-width: 2.5px;
+  border-color: var(--mt-done);
+  background: var(--mt-done);
+  color: #ffffff;
+}
+
+.gp-choice[data-result='right'] .gp-choice-text {
+  font-weight: 800;
+  color: #14532d;
+}
+
+.gp-choice[data-result='wrong'] {
+  border-color: var(--mt-danger);
+  background: #fef2f2;
+}
+
+.gp-choice[data-result='wrong'] .gp-bubble {
+  border-color: var(--mt-danger);
+  background: var(--mt-danger);
+  color: #ffffff;
+}
+
+.gp-choice-badge {
+  position: absolute;
+  top: -9px;
+  right: 6px;
+  z-index: 1;
+  border-radius: 999px;
+  padding: 1px 8px;
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 16px;
+  color: #ffffff;
+  white-space: nowrap;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.14);
+}
+
+.gp-choice-badge[data-tone='right'] {
+  background: #1d7a50;
+}
+
+.gp-choice-badge[data-tone='wrong'] {
+  background: #c9483e;
+}
+
+/* 消去法スラッシュ */
+.gp-choice[data-eliminated] {
+  background: #f6f4ef;
+  border-color: #ded7c9;
+  border-style: dashed;
+}
+
+.gp-choice[data-eliminated] .gp-bubble {
+  border-color: #b4b9c2;
+  background: #eceae4;
+  color: #9ca3af;
+  text-decoration: line-through;
+}
+
+.gp-choice[data-eliminated] .gp-choice-text {
+  color: #9ca3af;
+  text-decoration: line-through;
+  text-decoration-thickness: 1.8px;
+}
+
+.gp-elim-btn {
+  margin-left: auto;
+  flex-shrink: 0;
+  display: inline-grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: #9ca3af;
+  cursor: pointer;
+}
+
+.gp-elim-btn:hover,
+.gp-elim-btn:focus-visible {
+  color: #475569;
+  background: #f1ede4;
+}
+
+.gp-elim-btn[data-active] {
+  color: #991b1b;
+  background: #fee2e2;
+  border-color: #fca5a5;
+}
+
+/* 採点後の超コンパクト解説ブロック */
+.gp-compact-review {
+  margin: 8px 0 0;
+  padding-top: 6px;
+  border-top: 1px solid #ede6d7;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.gp-review-bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+}
+
+.gp-disclosure-btn {
+  flex: 1;
+  min-width: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 34px;
+  padding: 2px 6px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: #1f5c53;
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+  text-align: left;
+}
+
+.gp-disclosure-btn:hover {
+  background: #f5f9f8;
+}
+
+.gp-judge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 13.5px;
+  font-weight: 800;
+}
+
+.gp-judge[data-result='correct'] {
+  color: #166534;
+}
+
+.gp-judge[data-result='wrong'],
+.gp-judge[data-result='blank'] {
+  color: #991b1b;
+}
+
+.gp-ex-toggle-hint {
+  margin-left: auto;
+  font-size: 12px;
+  font-weight: 700;
+  color: #54626f;
+}
+
+.gp-chev {
+  flex-shrink: 0;
+  color: #64748b;
+  transition: transform 0.15s ease;
+}
+
+.gp-chev.is-open {
+  transform: rotate(180deg);
+}
+
+.gp-save-btn {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  min-height: 32px;
+  padding: 0 10px;
+  border-radius: 999px;
+  border: 1px solid #f5d06f;
+  background: #fffbeb;
+  font-size: 12px;
+  font-weight: 800;
+  color: #92400e;
+  cursor: pointer;
+}
+
+.gp-save-btn[data-saved] {
+  border-color: #e5e7eb;
+  background: var(--mt-rare-n-bg);
+  color: #4b5563;
+  cursor: default;
+}
+
+/* 和訳・要点・補足・音声サブツール */
+.gp-ex-body {
+  display: grid;
+  gap: 6px;
+  padding: 2px 2px 4px;
+}
+
+.gp-ex-line {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin: 0;
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: #1f2937;
+}
+
+.gp-ex-line-key {
+  padding: 5px 8px;
+  border-radius: 8px;
+  background: #f0f9f7;
+  border-left: 3px solid #2f7c74;
+  font-weight: 700;
+  color: #111827;
+}
+
+.gp-ex-line-tip {
+  padding: 4px 8px;
+  border-radius: 8px;
+  background: #f4f7fc;
+  border-left: 3px solid #1f5fa8;
+  font-weight: 600;
+  color: #1e3a5f;
+}
+
+.gp-ex-pill {
+  flex-shrink: 0;
+  display: inline-block;
+  padding: 1px 6px;
+  border-radius: 5px;
+  background: #e2e8f0;
+  color: #334155;
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1.4;
+}
+
+.gp-ex-pill-key {
+  background: #2f7c74;
+  color: #ffffff;
+}
+
+.gp-ex-pill-tip {
+  background: #1f5fa8;
+  color: #ffffff;
+}
+
+.gp-ex-subtools {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  padding-top: 2px;
+}
+
+.gp-speak-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-height: 30px;
+  padding: 0 10px;
+  border-radius: 999px;
+  border: 1px solid #a7d7c8;
+  background: #ffffff;
+  color: #165b4c;
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.gp-speak-btn.is-slow {
+  color: #475569;
+  border-color: #cbd5e1;
+}
+
+.gp-speak-btn[data-speaking] {
+  background: var(--mt-done);
+  border-color: var(--mt-done);
+  color: #ffffff;
+}
+
+.gp-key-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  min-height: 28px;
+  padding: 2px 10px;
+  border-radius: 999px;
+  border: 1px solid #dce6ea;
+  background: #f8fbfc;
+  color: #1e293b;
+  font-size: 12px;
+}
+
+.gp-key-chip strong {
+  font-weight: 800;
+  color: #0f3d3e;
+}
+
+.gp-key-chip span {
+  color: #475569;
+  font-weight: 600;
+}
+
+/* 他の選択肢の理由・プラス解説の折りたたみ */
+.gp-reasons-fold {
+  margin-top: 1px;
+}
+
+.gp-reasons-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-height: 30px;
+  padding: 2px 6px;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 800;
+  color: #475569;
+  border-radius: 6px;
+}
+
+.gp-reasons-btn:hover {
+  background: #f3efe4;
+  color: #1f2937;
+}
+
+.gp-ex-choices {
+  margin: 4px 0 0;
+  padding: 6px 8px;
+  border-radius: 8px;
+  background: #faf8f3;
+  border: 1px solid #ece5d5;
+  list-style: none;
+  display: grid;
+  gap: 4px;
+}
+
+.gp-ex-choices li {
+  display: flex;
+  gap: 6px;
+  align-items: baseline;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #334155;
+}
+
+.gp-ex-mark {
+  flex-shrink: 0;
+  width: 1.2em;
+  font-weight: 900;
+  color: var(--mt-danger);
+}
+
+.gp-ex-choices li[data-correct] .gp-ex-mark,
+.gp-ex-choices li[data-correct] b {
+  color: #166534;
+}
+
+/* 1行スリムフッター（高さ 56px 程度・スクロール領域を圧迫しない） */
+.gp-foot {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px calc(8px + env(safe-area-inset-bottom, 0px));
+  border-top: 1px solid #e5decb;
+  background: #ffffff;
+}
+
+.gp-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  min-height: 46px;
+  border-radius: 999px;
+  padding: 0 15px;
+  font-size: 14px;
+  font-weight: 800;
+  cursor: pointer;
+  border: 0;
+  white-space: nowrap;
+}
+
+.gp-btn-sub {
+  flex-shrink: 0;
+  border: 1.5px solid #ded6c4;
+  background: #ffffff;
+  color: #374151;
+}
+
+.gp-btn-sub:disabled {
+  color: #9ca3af;
+  cursor: not-allowed;
+}
+
+.gp-btn-retry {
+  flex-shrink: 0;
+  border: 1.5px solid #e7b5ae;
+  background: #fff6f5;
+  color: #991b1b;
+}
+
+.gp-btn-main {
+  margin-left: auto;
+  min-width: 0;
+  flex: 1;
+  max-width: 420px;
+  background: #2c3e50;
+  color: #ffffff;
+}
+
+.gp-unanswered-count {
+  flex-shrink: 0;
+  font-size: 13px;
+  font-weight: 700;
+  color: #92400e;
+}
+
+.gp-empty {
+  padding: 24px;
+  text-align: center;
+  font-size: 14px;
+  color: #4b5563;
+}
+
+@media (max-width: 390px) {
+  .gp-head {
+    gap: 5px;
+    padding-left: 5px;
+    padding-right: 6px;
+  }
+
+  .gp-stats > div {
+    padding: 4px 8px;
+  }
+
+  .gp-list {
+    padding: 10px 9px 16px;
+    gap: 9px;
+  }
+
+  .gp-item {
+    padding: 11px 10px 9px;
+  }
+
+  .gp-btn {
+    padding: 0 11px;
+    font-size: 13px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gp-chev,
+  .gp-timer-fill {
+    transition: none;
+  }
+}

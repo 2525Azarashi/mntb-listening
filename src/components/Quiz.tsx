@@ -33,6 +33,8 @@ import { ListeningBriefing } from './ListeningBriefing';
 import { QuizEmptyState } from './QuizEmptyState';
 import { ToeicPageQuiz } from './toeic/ToeicPageQuiz';
 import { isToeicPageChapter } from './toeic/toeicPageModel';
+import { GrammarPageQuiz } from './grammar/GrammarPageQuiz';
+import { isGrammarPageChapterId } from './grammar/grammarPageModel';
 // 「解答と解説を見る」を押した瞬間の採点処理（137行）は utils/quizScoring.ts へ
 import { createScoreCurrentQuestion } from '../utils/quizScoring';
 import { createQuizFocusActions, createQuizStepActions } from '../utils/quizNavigationActions';
@@ -136,6 +138,10 @@ export function Quiz(props: QuizProps) {
   if (isToeicPageChapter(props.chapter?.id)) {
     const { isMobileView: _mobile, ...rest } = props;
     return <ToeicPageQuiz {...rest} />;
+  }
+  if (isGrammarPageChapterId(props.chapter?.id)) {
+    const { isMobileView: _mobile, ...rest } = props;
+    return <GrammarPageQuiz {...rest} />;
   }
   return <QuizBody {...props} />;
 }
