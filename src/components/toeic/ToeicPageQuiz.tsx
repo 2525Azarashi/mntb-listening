@@ -445,14 +445,20 @@ export function ToeicPageQuiz({
         : !chosen ? 'blank' : ok ? 'correct' : 'wrong';
       const filled = chosen ? (texts[sq.options.indexOf(chosen)] ?? '') : '';
       const ex = pageScored ? toeicExplanationFor(sq) : null;
+      const correctText = ex?.choices.find((c) => c.correct)?.text ?? (texts[sq.options.indexOf(sq.correctAnswer)] ?? '');
       const labelId = `tp-q-${sq.id}`;
       return (
         <article key={sq.id} id={`tp-item-${sq.id}`} className="tp-item" data-status={status} data-toeic-question={no}>
           <p className="tp-sentence" id={labelId}>
             <span className="tp-no" aria-hidden="true">{no}</span>
             <span className="tp-sr">問{no}　</span>
-            <StemWithBlank stem={stemOf(currentQuestion, sq, pageScored)} filled={filled}
-              result={pageScored && chosen ? (ok ? 'right' : 'wrong') : undefined} cues={isP6 || isP7 || isListening ? undefined : ex?.cues} />
+            <StemWithBlank
+              stem={stemOf(currentQuestion, sq, pageScored)}
+              filled={pageScored && ok ? correctText : filled}
+              correctWord={pageScored ? correctText : undefined}
+              result={pageScored ? (ok ? 'right' : chosen ? 'wrong' : 'blank') : undefined}
+              cues={isP6 || isP7 || isListening ? undefined : ex?.cues}
+            />
             {(status === 'unanswered' || status === 'blank') && <span className="tp-tag" data-toeic-unanswered>未回答</span>}
           </p>
           <div

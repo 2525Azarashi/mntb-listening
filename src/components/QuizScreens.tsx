@@ -71,11 +71,16 @@ import React from 'react';
 import { applyReviewFocus, readReviewFocus, type ReviewTargetItem } from '../utils/reviewFocus';
 import { Quiz } from './Quiz';
 import { Explanation } from './Explanation';
+import { GrammarResultView } from './grammar/GrammarResultView';
+import { isGrammarPageChapterId } from './grammar/grammarPageModel';
+import { ToeicResultView } from './toeic/ToeicResultView';
+import { isToeicPageChapter } from './toeic/toeicPageModel';
 import { ErrorBoundary } from './ErrorBoundary';
 import { ScreenUnavailable } from './ScreenStatus';
 import { findChapterById, getChaptersOfSubject } from '../data/allChapters';
 import type { Chapter } from '../types/curriculum';
 import { showInterstitialAd } from '../utils/adService';
+import { logRejection } from '../utils/reportError';
 
 /** Quiz が結果として返す採点内容（App.tsx 側の onFinish にそのまま渡す） */
 type QuizFinishResult = Parameters<React.ComponentProps<typeof Quiz>['onFinish']>[1];
@@ -212,9 +217,87 @@ export function QuizScreens({
   // 結果・解説画面からの画面遷移（区切り）時に頻度制限付きインタースティシャル広告を試行
   // 広告の失敗（在庫なし・頻度制限・Web）で画面遷移を止めない
   const triggerAdAndAction = (action?: () => void) => {
-    showInterstitialAd().catch(() => {});
+    showInterstitialAd().catch(logRejection('quizScreens.interstitial'));
     action?.();
   };
+
+  const nextActionHandler =
+    nextRoundIndex >= 0 && onNextRound
+      ? () => {
+          triggerAdAndAction();
+          onNextRound(chapter.id, nextRoundIndex);
+        }
+      : nextChapter && onNextChapter
+      ? () => {
+          triggerAdAndAction();
+          onNextChapter(nextChapter.id);
+        }
+      : undefined;
+
+  const nextActionLabel =
+    nextRoundIndex >= 0 && onNextRound
+      ? `第${nextRoundIndex + 1}回`
+      : nextChapter?.abstractTitle || nextChapter?.realTitle || undefined;
+
+  if (isGrammarPageChapterId(chapter.id)) {
+    return (
+      <ErrorBoundary label="結果・解説画面" onReset={onBack}>
+        <GrammarResultView
+          mode={mode}
+          chapter={chapter}
+          answers={answers}
+          onBack={() => triggerAdAndAction(onBack)}
+          onReturnToBattle={onReturnToBattle ? () => triggerAdAndAction(onReturnToBattle) : undefined}
+          isGuest={isGuest}
+          resultTotalCorrect={resultTotalCorrect}
+          resultTotalJudgeable={resultTotalJudgeable}
+          resultTotalTimeSec={resultTotalTimeSec}
+          questionRange={questionRange}
+          onRetryWrong={
+            onRetryWrong
+              ? (targets) => {
+                  triggerAdAndAction();
+                  onRetryWrong(chapter.id, targets);
+                }
+              : undefined
+          }
+          onNextAction={nextActionHandler}
+          nextActionLabel={nextActionLabel}
+          onHome={onHome ? () => triggerAdAndAction(onHome) : undefined}
+        />
+      </ErrorBoundary>
+    );
+  }
+
+  if (isToeicPageChapter(chapter.id)) {
+    return (
+      <ErrorBoundary label="結果・解説画面" onReset={onBack}>
+        <ToeicResultView
+          mode={mode}
+          chapter={chapter}
+          answers={answers}
+          onBack={() => triggerAdAndAction(onBack)}
+          onReturnToBattle={onReturnToBattle ? () => triggerAdAndAction(onReturnToBattle) : undefined}
+          isGuest={isGuest}
+          resultTotalCorrect={resultTotalCorrect}
+          resultTotalJudgeable={resultTotalJudgeable}
+          resultTotalTimeSec={resultTotalTimeSec}
+          questionRange={questionRange}
+          onRetryWrong={
+            onRetryWrong
+              ? (targets) => {
+                  triggerAdAndAction();
+                  onRetryWrong(chapter.id, targets);
+                }
+              : undefined
+          }
+          onNextAction={nextActionHandler}
+          nextActionLabel={nextActionLabel}
+          onHome={onHome ? () => triggerAdAndAction(onHome) : undefined}
+        />
+      </ErrorBoundary>
+    );
+  }
 
   return (
     /* 結果・ランキング画面は問題データを一括で描画するため、
@@ -239,10 +322,9 @@ export function QuizScreens({
         // 解いていない回まで答え合わせに並ぶと、どこまでやったか分からなくなる。
         questionRange={questionRange}
         onRetryWrong={onRetryWrong ? (targets) => { triggerAdAndAction(); onRetryWrong(chapter.id, targets); } : undefined}
-        onNextChapter={nextRoundIndex >= 0 && onNextRound ? () => { triggerAdAndAction(); onNextRound(chapter.id, nextRoundIndex); }
-          : nextChapter && onNextChapter ? () => { triggerAdAndAction(); onNextChapter(nextChapter.id); } : undefined}
+        onNextChapter={nextActionHandler}
         onHome={onHome ? () => triggerAdAndAction(onHome) : undefined}
-        nextChapterTitle={nextRoundIndex >= 0 && onNextRound ? `第${nextRoundIndex + 1}回` : nextChapter?.abstractTitle || nextChapter?.realTitle || undefined}
+        nextChapterTitle={nextActionLabel}
       />
     </ErrorBoundary>
   );
