@@ -11,53 +11,61 @@ export interface AlphaClipSpec {
   durationSec: number;
 }
 
+export interface FullFrameMovieSpec {
+  mp4: string;
+  poster: string;
+  width: number;
+  height: number;
+  durationSec: number;
+}
+
+/**
+ * ① tobirakun_home_github.mp4 を ISNet 1024px ＋ 音波形ロックで完全に切り抜いた透過クリップ。
+ * - タイトル画面のとびら君ステージ（モンスト風OPの後）
+ * - 対戦モードのカウントダウン（3・2・1・START! 同期）
+ * の両方で使用する。
+ */
 export const ALPHA_CINEMATIC_CLIPS = {
   battleCountdown: {
     webm: '/cinematics/battle_countdown.webm',
     sbsMp4: '/cinematics/battle_countdown-sbs.mp4',
     poster: '/cinematics/battle_countdown-poster.webp',
     endPlate: '/cinematics/battle_countdown-end.webp',
-    width: 360,
-    height: 630,
+    width: 420,
+    height: 736,
     durationSec: 5.16,
   },
-  titleLandscape: {
-    webm: '/cinematics/title_duo_landscape.webm',
-    sbsMp4: '/cinematics/title_duo_landscape-sbs.mp4',
-    poster: '/cinematics/title_duo_landscape-poster.webp',
-    endPlate: '/cinematics/title_duo_landscape-end.webp',
-    width: 640,
-    height: 360,
-    durationSec: 15.0,
-  },
-  titlePortrait: {
-    webm: '/cinematics/title_duo_portrait.webm',
-    sbsMp4: '/cinematics/title_duo_portrait-sbs.mp4',
-    poster: '/cinematics/title_duo_portrait-poster.webp',
-    endPlate: '/cinematics/title_duo_portrait-end.webp',
-    width: 384,
-    height: 682,
-    durationSec: 15.0,
-  },
-  gachaOverlay: {
-    webm: '/cinematics/gacha_duo_overlay.webm',
-    sbsMp4: '/cinematics/gacha_duo_overlay-sbs.mp4',
-    poster: '/cinematics/gacha_duo_overlay-poster.webp',
-    endPlate: '/cinematics/gacha_duo_overlay-end.webp',
-    width: 360,
-    height: 640,
-    durationSec: 7.25,
-  },
-  gachaFull: {
-    webm: '/cinematics/gacha_duo_full.webm',
-    sbsMp4: '/cinematics/gacha_duo_full-sbs.mp4',
-    poster: '/cinematics/gacha_duo_full-poster.webp',
-    endPlate: '/cinematics/gacha_duo_full-end.webp',
-    width: 360,
-    height: 640,
-    durationSec: 14.66,
-  },
 } as const satisfies Record<string, AlphaClipSpec>;
+
+/**
+ * 切り抜かずに美しい星空・水面反射・光粒子をそのまま見せるフル画角ムービー（1MB未満）。
+ * - ② titleOpLandscape : PC・横向きオープニング演出（15秒）
+ * - ③ titleOpPortrait  : スマホ・縦向きオープニング演出（15秒）
+ * - ④ gachaDuoIntro    : ガチャ確定演出・応援報酬動画（約14.7秒）
+ */
+export const FULLFRAME_CINEMATIC_MOVIES = {
+  titleOpLandscape: {
+    mp4: '/cinematics/title_op_landscape.mp4',
+    poster: '/cinematics/title_op_landscape-poster.webp',
+    width: 960,
+    height: 548,
+    durationSec: 15.08,
+  },
+  titleOpPortrait: {
+    mp4: '/cinematics/title_op_portrait.mp4',
+    poster: '/cinematics/title_op_portrait-poster.webp',
+    width: 548,
+    height: 960,
+    durationSec: 15.08,
+  },
+  gachaDuoIntro: {
+    mp4: '/cinematics/gacha_duo_intro.mp4',
+    poster: '/cinematics/gacha_duo_intro-poster.webp',
+    width: 540,
+    height: 960,
+    durationSec: 14.70,
+  },
+} as const satisfies Record<string, FullFrameMovieSpec>;
 
 export type AlphaCinematicName = keyof typeof ALPHA_CINEMATIC_CLIPS;
 
@@ -167,7 +175,6 @@ function AlphaPlayback({
     };
   }, []);
 
-  // Playback lifecycle + watchdog
   useEffect(() => {
     if (!allowed || stopped || !videoRef.current) return;
     let disposed = false;
@@ -194,7 +201,6 @@ function AlphaPlayback({
     };
   }, [allowed, stopped, playbackRate, startAtSec, clip.durationSec, watchdogMs]);
 
-  // Optional smooth fade-out right before end (for non-held overlays like Battle Countdown / Gacha)
   useEffect(() => {
     if (!playing || held || fadeOutBeforeEndMs <= 0 || !videoRef.current) return;
     const el = videoRef.current;
@@ -207,7 +213,6 @@ function AlphaPlayback({
     return () => el.removeEventListener('timeupdate', onTime);
   }, [playing, held, fadeOutBeforeEndMs, clip.durationSec]);
 
-  // iOS Safari Canvas 2D Stacked RGB+Alpha real-time compositor
   useEffect(() => {
     if (!useCanvas || !allowed || stopped || !playing) return;
     const video = videoRef.current;
@@ -240,7 +245,7 @@ function AlphaPlayback({
         const td = top.data;
         const bd = bot.data;
         for (let i = 0, len = td.length; i < len; i += 4) {
-          td[i + 3] = bd[i]; // copy grayscale alpha channel
+          td[i + 3] = bd[i];
         }
         octx.putImageData(top, 0, 0);
       }
@@ -269,7 +274,6 @@ function AlphaPlayback({
       data-fade-in={fadeInMs}
       data-fade-out={fadeOutBeforeEndMs}
     >
-      {/* 読み込み中も絵が飛ばない1コマ目透過ポスター（再生開始後は自動で隠れる） */}
       {!playing && !held && (
         <img className="alpha-cinematic-poster" src={clip.poster} alt="" width={clip.width} height={clip.height} draggable={false} aria-hidden="true" />
       )}
@@ -299,7 +303,6 @@ function AlphaPlayback({
           aria-hidden="true"
         />
       )}
-      {/* hold 時は最終コマと100%一致する高精細透過プレートを重ねて保持し、ポンと切り替わる違和感を完全に防ぐ */}
       {held && (
         <img className="alpha-cinematic-endplate" src={clip.endPlate} alt="" width={clip.width} height={clip.height} draggable={false} aria-hidden="true" />
       )}

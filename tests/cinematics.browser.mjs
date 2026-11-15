@@ -12,6 +12,11 @@ try {
   await page.goto(production);
   const emblem = page.locator('.launch-emblem');
   if (await emblem.count()) await emblem.click();
+  const opStage = page.locator('[data-launch-op]');
+  if (await opStage.count()) {
+    await page.waitForFunction(() => document.querySelector('.launch-op-video')?.currentTime > .05);
+    await page.locator('.launch-op-skip').click();
+  }
   await page.waitForFunction(() => document.querySelector('.launch-stage video')?.currentTime > .05);
   assert.ok(await page.locator('.launch-start').isEnabled());
   await page.getByRole('button', { name: '演出をスキップ', exact: true }).click();
@@ -33,6 +38,8 @@ try {
     assert.equal(result.width, 720); assert.ok(result.time > 2);
   }
   await page.goto(dev);
+  if (await page.locator('.launch-emblem').count()) await page.locator('.launch-emblem').click();
+  if (await page.locator('.launch-op-skip').count()) await page.locator('.launch-op-skip').click();
   await page.locator('.launch-start').waitFor();
   await page.locator('.launch-start').click(); // audible playback gesture; movie never gates entry
   await page.evaluate(async () => {

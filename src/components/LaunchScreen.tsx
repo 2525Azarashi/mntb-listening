@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { AlphaCinematicClip, ALPHA_CINEMATIC_CLIPS } from './AlphaCinematicClip';
+import { AlphaCinematicClip, ALPHA_CINEMATIC_CLIPS, FULLFRAME_CINEMATIC_MOVIES } from './AlphaCinematicClip';
 import { TitleBgmMuteButton, TITLE_SCREEN_BGM_SRC, useLaunchTitleBgm } from './TitleBgmControl';
 import { ArrowRight, BookHeart, Headphones, PenLine, Repeat2, Swords } from 'lucide-react';
 import { PhilosophyPage } from './PhilosophyPage';
@@ -15,17 +15,20 @@ import { readAudioPreferences } from '../battle/audio/audioPreferences';
 import { TOEIC_DISCLAIMER } from '../utils/toeicDisclaimer';
 
 /**
- * タイトル画面（2026-11-15 とびら君＆カギノスケ 透過演出＋ループBGM対応）。
+ * タイトル画面（2026-11-15 モンスト風フル画面オープニングムービー ＋ ①高精度切り抜きとびら君登場演出）。
  *
- * - 横向き／PC（orientation: landscape かつ min-width: 768px）＝ ② title_duo_landscape（15秒）
- * - 縦向き／スマホ（それ以外）＝ ③ title_duo_portrait（15秒）
- * - キャラと邪魔にならない発光だけを透過合成し、終了時は最終コマと 100% 同じ位置・大きさ・ポーズの
- *   2人透過プレート（title_duo_*-end.webp）＋微細な呼吸・キラキラのアイドルループへクロスフェード（ポンと切り替わらない）。
- * - いつでも「演出をスキップ」で即座に待機状態へ移行可能。
- * - BGM は④の音声から抽出したループ音源（/bgm/title_intro_bgm.mp3）を初回ユーザー操作後に控えめな音量でループ再生し、
- *   右上のミュート切替ボタンで ON/OFF できる。
+ * 起動の流れ:
+ *   1. gate = 'emblem' : マナトビ起動エンブレム（白→フェードイン→保持→フェードアウト）
+ *   2. gate = 'op'     : エンブレムがフェードアウトした直後、画面向き・幅に応じて
+ *                        ・横向き／PC（orientation: landscape かつ min-width: 768px）＝ ② title_op_landscape.mp4（15秒フル画面）
+ *                        ・縦向き／スマホ（それ以外）＝ ③ title_op_portrait.mp4（15秒フル画面）
+ *                        を切り抜かず星空・水面反射そのまま再生。画面タップまたは「スキップ」でいつでも即スキップ可能。
+ *   3. gate = 'title'  : OP終了（またはスキップ）で既存のタイトル画面へ遷移し、
+ *                        とびら君ステージの位置で高精度切り抜きした ①（battle_countdown）のジャンプ登場演出を再生 →
+ *                        そのままタイトル画面のとびら君待機ポーズへシームレスに移行する。
  */
 type Phase = 'intro' | 'crossfade' | 'done';
+type Gate = 'emblem' | 'op' | 'title' | 'philosophy';
 
 const LANDSCAPE_QUERY = '(orientation: landscape) and (min-width: 768px)';
 
@@ -51,25 +54,35 @@ export function LaunchScreen({ onStart }: {
 }) {
   const { progress } = useGrowthProgress();
   const isLandscape = useLandscapeTitle();
-  const titleClip = isLandscape ? ALPHA_CINEMATIC_CLIPS.titleLandscape : ALPHA_CINEMATIC_CLIPS.titlePortrait;
+  const opMovie = isLandscape ? FULLFRAME_CINEMATIC_MOVIES.titleOpLandscape : FULLFRAME_CINEMATIC_MOVIES.titleOpPortrait;
 
   const [phase, setPhase] = useState<Phase>('intro');
-  const [gate, setGate] = useState<'emblem' | 'title' | 'philosophy'>('emblem');
+  const [gate, setGate] = useState<Gate>('emblem');
   const [emblemPhase, setEmblemPhase] = useState<'in' | 'hold' | 'out'>('in');
   const [emblemSkipped, setEmblemSkipped] = useState(false);
+  const [opFadingOut, setOpFadingOut] = useState(false);
 
-  const { audioRef: titleBgmRef, muted: titleBgmMuted, toggleMute: toggleTitleBgm } = useLaunchTitleBgm(gate === 'title');
+  const { audioRef: titleBgmRef, muted: titleBgmMuted, toggleMute: toggleTitleBgm } = useLaunchTitleBgm(gate === 'op' || gate === 'title');
 
   const sfxTimers = useRef<number[]>([]);
   const bloomDone = useRef(false);
   const skipRequested = useRef(false);
+  const opDoneRef = useRef(false);
+  const opVideoRef = useRef<HTMLVideoElement>(null);
+
   const cue = (name: LaunchSfx) => { playLaunchSfx(name, readAudioPreferences().volume); };
   const clearSfxTimers = () => { sfxTimers.current.forEach(t => window.clearTimeout(t)); sfxTimers.current = []; };
+
+  const advancepastEmblem = () => {
+    const reduce = typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+    const saveData = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection?.saveData;
+    setGate(g => (g === 'emblem' ? (reduce || saveData ? 'title' : 'op') : g));
+  };
 
   useEffect(() => {
     if (gate !== 'emblem') return;
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const at = reduced ? { hold: 0, out: 900, title: 1100 } : { hold: 700, out: 2500, title: 3400 };
+    const at = reduced ? { hold: 0, out: 900, next: 1100 } : { hold: 700, out: 2500, next: 3400 };
     let alive = true;
     const visualTimers: number[] = [];
     void preloadLaunchSfx().then(() => {
@@ -79,9 +92,9 @@ export function LaunchScreen({ onStart }: {
       visualTimers.push(
         window.setTimeout(() => setEmblemPhase(p => (p === 'in' ? 'hold' : p)), at.hold),
         window.setTimeout(() => setEmblemPhase('out'), at.out),
-        window.setTimeout(() => setGate(g => (g === 'emblem' ? 'title' : g)), at.title),
+        window.setTimeout(advancepastEmblem, at.next),
       );
-      for (const c of launchCueSchedule(at.title)) {
+      for (const c of launchCueSchedule(at.next)) {
         if (c.name === 'title_bloom') continue;
         const wait = c.at - (performance.now() - t0);
         if (wait < -500) continue;
@@ -90,6 +103,48 @@ export function LaunchScreen({ onStart }: {
     });
     return () => { alive = false; visualTimers.forEach(t => window.clearTimeout(t)); clearSfxTimers(); };
   }, [gate]);
+
+  const finishOpToTitle = () => {
+    if (opDoneRef.current) return;
+    opDoneRef.current = true;
+    opVideoRef.current?.pause();
+    setOpFadingOut(true);
+    window.setTimeout(() => {
+      setGate(g => (g === 'op' ? 'title' : g));
+    }, 320);
+  };
+
+  // OPムービー再生ライフサイクル＆セーフティタイマー
+  useEffect(() => {
+    if (gate !== 'op') return;
+    opDoneRef.current = false;
+    setOpFadingOut(false);
+    const el = opVideoRef.current;
+    if (!el) {
+      finishOpToTitle();
+      return;
+    }
+    let disposed = false;
+    let started = false;
+    const onPlay = () => { started = true; };
+    el.addEventListener('playing', onPlay);
+    const loadWatchdog = window.setTimeout(() => {
+      if (!disposed && !started) finishOpToTitle();
+    }, 4500);
+    const maxWatchdog = window.setTimeout(() => {
+      if (!disposed) finishOpToTitle();
+    }, Math.ceil(opMovie.durationSec * 1000) + 2500);
+    el.play().catch(() => {
+      if (!disposed) finishOpToTitle();
+    });
+    return () => {
+      disposed = true;
+      el.removeEventListener('playing', onPlay);
+      window.clearTimeout(loadWatchdog);
+      window.clearTimeout(maxWatchdog);
+      el.pause();
+    };
+  }, [gate, opMovie.mp4, opMovie.durationSec]);
 
   useEffect(() => {
     if (gate !== 'title' || bloomDone.current) return;
@@ -109,33 +164,26 @@ export function LaunchScreen({ onStart }: {
   const skipEmblem = () => {
     if (emblemPhase === 'out') return;
     skipRequested.current = true;
-    setEmblemSkipped(true); setEmblemPhase('out');
-    clearSfxTimers(); resumeSharedAudio();
+    setEmblemSkipped(true);
+    setEmblemPhase('out');
+    clearSfxTimers();
+    resumeSharedAudio();
     void preloadLaunchSfx().then(() => {
       resumeSharedAudio();
-      window.setTimeout(() => setGate(g => (g === 'emblem' ? 'title' : g)), 450);
+      window.setTimeout(advancepastEmblem, 420);
     });
   };
 
   const [played, setPlayed] = useState(false);
   const [walkReady, setWalkReady] = useState(false);
 
-  // 画面の向き（PC横 ↔ スマホ縦）を切り替えたとき、再生中なら新しい向きの動画にスムーズに合わせる
-  const lastOrientation = useRef(isLandscape);
-  useEffect(() => {
-    if (lastOrientation.current === isLandscape) return;
-    lastOrientation.current = isLandscape;
-    if (phase === 'intro') setPlayed(false);
-  }, [isLandscape, phase]);
-
   useEffect(() => {
     if (phase !== 'crossfade') return;
-    const t = setTimeout(() => setPhase('done'), 420);
+    const t = setTimeout(() => setPhase('done'), 380);
     return () => clearTimeout(t);
   }, [phase]);
 
   const finishIntro = () => setPhase(p => (p === 'intro' ? (played ? 'crossfade' : 'done') : p));
-  // 動画を再生できなかった時（データセーバー・動きを減らす設定など）だけフォールバック登場
   const walk = phase === 'done' && !played;
 
   useEffect(() => {
@@ -158,6 +206,41 @@ export function LaunchScreen({ onStart }: {
       <audio ref={titleBgmRef} src={TITLE_SCREEN_BGM_SRC} loop preload="auto" playsInline data-title-screen-bgm="" />
       {gate === 'emblem' ? (
         <main className="launch-emblem" data-phase={emblemPhase} data-skip={emblemSkipped || undefined} aria-label={`マナトビ 起動エンブレム（タップで進む）。${TOEIC_DISCLAIMER}`} role="button" tabIndex={0} onClick={skipEmblem} onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); skipEmblem(); } }}><div className="launch-emblem-inner"><img className="launch-emblem-applogo" src="/brand/app-icon-logo.webp" alt="マナトビ" width={640} height={640}/><h1>聞いて、解いて、<br/>競って、<em>これ1本</em>で。</h1></div><p className="launch-emblem-disclaimer">{TOEIC_DISCLAIMER}</p></main>
+      ) : gate === 'op' ? (
+        <main
+          className={`launch-op-stage ${opFadingOut ? 'is-fading-out' : ''}`}
+          data-launch-op
+          data-orientation={isLandscape ? 'landscape' : 'portrait'}
+          aria-label="マナトビ オープニングムービー（タップでスキップ）"
+          onClick={finishOpToTitle}
+        >
+          <video
+            key={opMovie.mp4}
+            ref={opVideoRef}
+            className="launch-op-video"
+            src={opMovie.mp4}
+            poster={opMovie.poster}
+            muted
+            playsInline
+            preload="auto"
+            disablePictureInPicture
+            onEnded={finishOpToTitle}
+            onError={finishOpToTitle}
+          />
+          <div className="launch-op-hud" onClick={e => e.stopPropagation()}>
+            <TitleBgmMuteButton muted={titleBgmMuted} onToggle={toggleTitleBgm} />
+          </div>
+          <div className="launch-op-bottom">
+            <img className="launch-op-brand" src="/brand/manatobi-logo.webp" width={1008} height={321} alt="マナトビ" draggable={false} />
+            <button
+              type="button"
+              className="launch-op-skip"
+              onClick={e => { e.stopPropagation(); finishOpToTitle(); }}
+            >
+              タップしてスキップ
+            </button>
+          </div>
+        </main>
       ) : gate === 'philosophy' ? (
         <PhilosophyPage onBack={() => setGate('title')} />
       ) : (
@@ -165,27 +248,13 @@ export function LaunchScreen({ onStart }: {
           <TitleBgmMuteButton muted={titleBgmMuted} onToggle={toggleTitleBgm} />
           <div className="launch-content">
             <h1 className="launch-brand"><img src="/brand/manatobi-logo.webp" width={1008} height={321} alt="マナトビ" fetchPriority="high" /></h1>
-            <div className="launch-stage" data-phase={phase} aria-label="とびら君とカギノスケの登場演出">
-              <div className={`launch-box ${isLandscape ? 'is-landscape' : 'is-portrait'}`}>
+            <div className="launch-stage" data-phase={phase} aria-label="とびら君の登場演出">
+              <div className="launch-box">
                 <div className="launch-scene" aria-hidden="true">
-                  {/* 背後のやわらかい光背と接地影（紙色になじみ、2人を自然に引き立てる） */}
-                  <div className="launch-duo-aura" />
-                  <div className="launch-duo-ground" />
+                  {/* 既存の美しい紙色背景プレート（雲・星・紙飛行機・光の輪・床）をそのまま活かす */}
+                  <img className="launch-plate" src="/cinematics/title-plate.webp" alt="" width={720} height={720} draggable={false} />
                   <div className="launch-sparkles"><i /><i /><i /><i /><i /><i /></div>
-                  {played ? (
-                    /* 案A：動画の最終フレームと位置・大きさ・ポーズが100%一致する2人の高画質透過プレート＋微細な呼吸アイドルループ */
-                    <div className="launch-duo-idle">
-                      <img
-                        className="launch-duo-plate launch-equipped-pose"
-                        src={titleClip.endPlate}
-                        alt=""
-                        width={titleClip.width}
-                        height={titleClip.height}
-                        draggable={false}
-                      />
-                    </div>
-                  ) : (
-                    /* 動画を再生しない環境（省データ・動きを減らす設定）用の既存とびら君フォールバック */
+                  {phase !== 'intro' && (
                     <div className={`launch-arrival ${walk && walkReady ? 'walk-ready' : ''} ${!walk ? 'is-idle' : ''}`}>
                       <div className="launch-gait">
                         <img className="launch-walking-pose" src="/mascots/walking.webp" alt="" draggable={false} onLoad={() => setWalkReady(true)} />
@@ -195,17 +264,22 @@ export function LaunchScreen({ onStart }: {
                     </div>
                   )}
                 </div>
+                {/* タイトル画面のとびら君の位置に、高精度で切り抜いた ①（battle_countdown）を重ねて再生 */}
                 {phase !== 'done' && (
-                  <AlphaCinematicClip
-                    clip={titleClip}
-                    hold
-                    eager
-                    skippable
-                    fadeInMs={420}
-                    label="とびら君とカギノスケの登場動画"
-                    onActiveChange={active => { if (active) setPlayed(true); }}
-                    onComplete={finishIntro}
-                  />
+                  <div className="launch-tobira-cutout-wrap">
+                    <img className="launch-plate launch-plate-under-video" src="/cinematics/title-plate.webp" alt="" width={720} height={720} draggable={false} aria-hidden="true" />
+                    <AlphaCinematicClip
+                      clip={ALPHA_CINEMATIC_CLIPS.battleCountdown}
+                      className="launch-tobira-cutout"
+                      hold
+                      eager
+                      skippable
+                      fadeInMs={280}
+                      label="とびら君の登場動画"
+                      onActiveChange={active => { if (active) setPlayed(true); }}
+                      onComplete={finishIntro}
+                    />
+                  </div>
                 )}
               </div>
             </div>

@@ -212,7 +212,7 @@ html[data-perf=lite] .launch-sparkles > i, html[data-perf=lite] .launch-arrival.
 html[data-perf=lite] :is(.launch-brand, .launch-copy, .launch-chips li, .launch-actions) { animation: none; }
 html[data-perf=lite] .launch-copy em::after, html[data-perf=lite] .launch-start::after { animation: none; }
 
-/* ===== 2026-11-15 とびら君＆カギノスケ 透過登場演出 ＋ タイトルBGMミュート切替 ===== */
+/* ===== 2026-11-15 モンスト風フル画面OPムービー（②横/③縦）＋ ①高精度切り抜きとびら君登場演出 ＋ タイトルBGMミュート切替 ===== */
 .launch-bgm-toggle {
   position: absolute;
   top: max(10px, env(safe-area-inset-top));
@@ -241,21 +241,108 @@ html[data-perf=lite] .launch-copy em::after, html[data-perf=lite] .launch-start:
   .launch-bgm-toggle { padding: 0; justify-content: center; }
 }
 
-.launch-box.is-landscape {
+/* モンスト風フル画面オープニングステージ（切り抜きなし・星空と水面反射の15秒本編をそのまま全画面表示） */
+.launch-op-stage {
+  position: relative;
+  width: 100%;
+  height: 100dvh;
+  overflow: hidden;
+  background: #060b18;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  animation: launch-op-fade-in .45s ease-out both;
+  transition: opacity .32s ease;
+}
+.launch-op-stage.is-fading-out {
+  opacity: 0;
+  pointer-events: none;
+}
+@keyframes launch-op-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.launch-op-video {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
-  aspect-ratio: auto;
-  max-width: 680px;
+  object-fit: cover;
+  object-position: 50% 50%;
+  background: #060b18;
+  pointer-events: none;
 }
-.launch-box.is-portrait {
-  height: 100%;
-  width: auto;
-  max-width: 100%;
-  aspect-ratio: 384 / 682;
+.launch-op-hud {
+  position: absolute;
+  inset: 0 0 auto 0;
+  z-index: 4;
+  pointer-events: auto;
+}
+.launch-op-hud .launch-bgm-toggle {
+  border-color: rgba(255, 236, 190, 0.45);
+  background: rgba(10, 18, 36, 0.68);
+  color: #fff8e8;
+}
+.launch-op-hud .launch-bgm-toggle[aria-pressed=false] {
+  color: rgba(255, 248, 232, 0.72);
+  background: rgba(10, 18, 36, 0.48);
+}
+.launch-op-bottom {
+  position: absolute;
+  inset: auto 0 0 0;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 36px 20px max(22px, env(safe-area-inset-bottom));
+  background: linear-gradient(180deg, rgba(6, 11, 24, 0) 0%, rgba(6, 11, 24, 0.62) 55%, rgba(6, 11, 24, 0.88) 100%);
+  pointer-events: none;
+}
+.launch-op-brand {
+  width: min(240px, 60vw);
+  height: auto;
+  filter: drop-shadow(0 4px 14px rgba(0, 0, 0, 0.65));
+}
+.launch-op-skip {
+  pointer-events: auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0 22px;
+  border-radius: 999px;
+  border: 1.5px solid rgba(255, 226, 162, 0.78);
+  background: rgba(12, 22, 44, 0.76);
+  color: #fff9ec;
+  font: 800 13px/1 var(--mt-font-body);
+  letter-spacing: 0.06em;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+  cursor: pointer;
+}
+
+/* 既存のタイトル画面ステージ：背景プレートの上に①（battle_countdown）高精度切り抜きとびら君をぴたりと重ねる */
+.launch-tobira-cutout-wrap {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.launch-plate-under-video {
+  z-index: 0;
+}
+.launch-box .launch-tobira-cutout {
+  position: absolute;
+  left: 16%;
+  top: 4%;
+  width: 68%;
+  height: 83%;
+  z-index: 2;
+  pointer-events: auto;
 }
 .launch-box .cinematic-skip.alpha-cinematic-skip {
   font-size: 12px;
   min-height: 44px;
+  bottom: -2%;
+  right: -12%;
 }
 .launch-box .cinematic-clip.alpha-cinematic video,
 .launch-box .alpha-cinematic canvas,
@@ -263,48 +350,10 @@ html[data-perf=lite] .launch-copy em::after, html[data-perf=lite] .launch-start:
   -webkit-mask-image: none;
   mask-image: none;
   object-fit: contain;
-  object-position: 50% 92%;
+  object-position: 50% 100%;
 }
-.launch-duo-aura {
-  position: absolute;
-  left: 50%;
-  top: 48%;
-  width: min(84%, 360px);
-  aspect-ratio: 1;
-  transform: translate(-50%, -50%);
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(255, 253, 245, 0.95) 0%, rgba(250, 236, 203, 0.52) 52%, transparent 74%);
-  pointer-events: none;
+.launch-stage[data-phase=crossfade] .launch-tobira-cutout-wrap {
+  opacity: 0;
+  transition: opacity .38s ease;
 }
-.launch-duo-ground {
-  position: absolute;
-  left: 50%;
-  bottom: 4%;
-  width: min(78%, 340px);
-  height: 11%;
-  transform: translateX(-50%);
-  border-radius: 50%;
-  background: radial-gradient(ellipse at 50% 45%, rgba(214, 189, 138, 0.48) 0%, rgba(230, 210, 171, 0.24) 58%, transparent 78%);
-  pointer-events: none;
-}
-.launch-duo-idle {
-  position: absolute;
-  inset: 0;
-  display: grid;
-  place-items: center;
-  transform-origin: 50% 90%;
-  pointer-events: none;
-}
-.launch-duo-plate {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  object-position: 50% 92%;
-}
-@media (prefers-reduced-motion: no-preference) {
-  .launch-stage[data-phase=done] .launch-duo-idle {
-    animation: launch-idle-breathe 3.8s ease-in-out .25s infinite;
-  }
-}
-html[data-perf=lite] .launch-stage[data-phase=done] .launch-duo-idle { animation: none; }
 

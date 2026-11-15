@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { execFileSync } from 'node:child_process';
 import { existsSync, readFileSync, statSync } from 'node:fs';
 import { resolve } from 'node:path';
-import { ALPHA_CINEMATIC_CLIPS } from '../src/components/AlphaCinematicClip';
+import { ALPHA_CINEMATIC_CLIPS, FULLFRAME_CINEMATIC_MOVIES } from '../src/components/AlphaCinematicClip';
 import { TITLE_SCREEN_BGM_SRC, TITLE_SCREEN_BGM_SUBTLE_GAIN } from '../src/components/TitleBgmControl';
 
 const probe = (file: string) => {
@@ -19,8 +19,8 @@ const probe = (file: string) => {
   }
 };
 
-describe('2026-11-15 透過演出動画4種＋タイトルBGMループ', () => {
-  it('すべての透過WebM・iOS用SBS MP4・ポスター・終了プレートが実在し、1MB未満かつ音声トラック無し', () => {
+describe('2026-11-15 モンスト風OPムービー（②横/③縦）＋ ①高精度切り抜きとびら君 ＋ ④ガチャ演出＆タイトルBGM', () => {
+  it('①透過WebM・iOS用SBS MP4・ポスター・終了プレートと②③④フル画角ムービーがすべて1MB未満かつ音声トラック無し', () => {
     for (const [name, clip] of Object.entries(ALPHA_CINEMATIC_CLIPS)) {
       for (const rel of [clip.webm, clip.sbsMp4, clip.poster, clip.endPlate]) {
         const file = resolve('public', '.' + rel);
@@ -38,16 +38,31 @@ describe('2026-11-15 透過演出動画4種＋タイトルBGMループ', () => {
         expect([v.width, v.height], `${name} sbs stacked dimensions`).toEqual([clip.width, clip.height * 2]);
       }
     }
+
+    for (const [name, movie] of Object.entries(FULLFRAME_CINEMATIC_MOVIES)) {
+      for (const rel of [movie.mp4, movie.poster]) {
+        const file = resolve('public', '.' + rel);
+        expect(existsSync(file), `${name}: ${rel}`).toBe(true);
+        expect(statSync(file).size, `${name} size: ${rel}`).toBeLessThan(1_000_000);
+      }
+      const mp4Info = probe(resolve('public', '.' + movie.mp4));
+      if (mp4Info) {
+        expect(mp4Info.streams.some((s: { codec_type: string }) => s.codec_type === 'audio'), `${name} mp4 muted`).toBe(false);
+        const v = mp4Info.streams.find((s: { codec_type: string }) => s.codec_type === 'video');
+        expect([v.width, v.height], `${name} mp4 dimensions`).toEqual([movie.width, movie.height]);
+      }
+    }
   });
 
-  it('タイトル画面が横向き／縦向きを動的に切り替え、スキップ可能で、BGMミュート切替を備える', () => {
+  it('タイトル画面が「エンブレム → モンスト風OP（②横/③縦・タップスキップ可）→ 既存タイトル画面で①切り抜き演出 → 待機」を備える', () => {
     const launch = readFileSync('src/components/LaunchScreen.tsx', 'utf8');
     expect(launch).toContain('(orientation: landscape) and (min-width: 768px)');
-    expect(launch).toContain('ALPHA_CINEMATIC_CLIPS.titleLandscape');
-    expect(launch).toContain('ALPHA_CINEMATIC_CLIPS.titlePortrait');
-    expect(launch).toContain('skippable');
+    expect(launch).toContain('FULLFRAME_CINEMATIC_MOVIES.titleOpLandscape');
+    expect(launch).toContain('FULLFRAME_CINEMATIC_MOVIES.titleOpPortrait');
+    expect(launch).toContain('ALPHA_CINEMATIC_CLIPS.battleCountdown');
+    expect(launch).toContain('data-launch-op');
+    expect(launch).toContain('タップしてスキップ');
     expect(launch).toContain('TitleBgmMuteButton');
-    expect(launch).toContain('titleClip.endPlate');
 
     const bgmFile = resolve('public', '.' + TITLE_SCREEN_BGM_SRC);
     expect(existsSync(bgmFile)).toBe(true);
@@ -62,10 +77,10 @@ describe('2026-11-15 透過演出動画4種＋タイトルBGMループ', () => {
     expect(countdown).toContain("label === 'START!'");
 
     const gachaReveal = readFileSync('src/components/GachaReveal.tsx', 'utf8');
-    expect(gachaReveal).toContain('ALPHA_CINEMATIC_CLIPS.gachaOverlay');
+    expect(gachaReveal).toContain('FULLFRAME_CINEMATIC_MOVIES.gachaDuoIntro');
     expect(gachaReveal).toContain('GACHA_REVEAL_CLIPS[rarity]');
 
     const rewardVideo = readFileSync('src/components/RewardVideo.tsx', 'utf8');
-    expect(rewardVideo).toContain('ALPHA_CINEMATIC_CLIPS.gachaOverlay');
+    expect(rewardVideo).toContain('FULLFRAME_CINEMATIC_MOVIES.gachaDuoIntro');
   });
 });
