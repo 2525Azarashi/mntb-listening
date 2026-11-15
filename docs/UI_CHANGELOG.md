@@ -1,3 +1,17 @@
+## 2026-11-15 単元・回一覧の「満点 0/3」廃止と明確な進捗表示への刷新 ＋ 学習成果4指標の実データ導入
+
+- 「満点 0/3」表記の廃止と「何問中何問進捗があったか」の明確化（`UnitCard.tsx` / `ChapterSelection.tsx` / `ReadingQuiz.tsx`）：
+  - 単元カード（`UnitCard`）のバッジから「満点 0/3」等の表記を完全に撤廃し、未着手は `0/N問`（英文法は `0/N回`）、進行中は `X/N問 完了`（英文法は `X/N回 完了`）、全問完了時は `全N問 完了`（`全N回 完了`）を直感的に表示。
+  - リスニング・TOEIC® の回選択一覧（`ChapterSelection`）の上部サマリーを `進捗 X/N回（全N回）` に統一し、各回カードも「満点 0/3」ではなく未着手／`最高 X%`（または `解答済`）／`完了` を表示。英文解釈（`ReadingQuiz`）の一覧も `進捗 X/N題`・各文章 `X/Y問` 表記に統一。
+- 実データ計測＆オフライン／マルチデバイス同期（`learningOutcomes.ts` / `learningOutcomesAnalytics.ts` / `userDataSyncCore.ts` / `studySync.ts` / `classroomAnalytics.ts` / `firestore.rules`）：
+  - 演習本編・TOEIC® L&R（`quizScoring.ts`）、英単語4択（`VocabQuiz.tsx`）、英文解釈（`ReadingQuiz.tsx`）、オンライン／AI対戦リザルト＆復習・演習導線（`BattleResult.tsx` / `BattleResultLive.tsx` / `useQuizLaunch.ts` / `StudyRecordBattleActions.tsx`）に計測フックを統合。
+  - 解き直し・復習モードと既見設問を除外した「真の未見問題」のみを形式別に抽出し、初回10問ベースライン・直近20問・10問ビン推移を記録。`user_data/{uid}`（`s_outcomes`、3-way CRDT マージ）と `study_progress/{uid}.outcomes`（追加 Firestore read ゼロ）、および匿名セッション（`usage_sessions`）へ自動連携。
+- 3層の可視化画面＆CSVエクスポート（`OutcomesTab.tsx` / `TeacherDashboard.tsx` / `OutcomeAdminPanel.tsx` / `FeedbackAdminPanel.tsx` / `PersonalOutcomesCard.tsx` / `StudyRecord.tsx` / `study-record.css`）：
+  - 先生ダッシュボードに「学習成果」タブを新設し、クラスの D7 / D30 コホート継続率、1人あたり週の解答数（4週間推移つき）、対戦→復習・演習転換率、形式別の未見問題正答率推移スパークチャート、生徒別一覧、Excel 対応 BOM 付き「成果指標CSVで出す」を実装。
+  - 運営管理画面（`FeedbackAdminPanel`）にクラス未所属の一般学習者も含むアプリ全体の匿名セッション成果集計パネル（`OutcomeAdminPanel`）を追加し、個人の「解いた問題」（`StudyRecord`）上部にも自分の伸び・定着カード（`PersonalOutcomesCard`）を追加。
+- 対象：`src/utils/learningOutcomes.ts`、`src/utils/learningOutcomesAnalytics.ts`、`src/utils/quizScoring.ts`、`src/components/VocabQuiz.tsx`、`src/components/ReadingQuiz.tsx`、`src/battle/ui/BattleResult.tsx`、`src/battle/ui/BattleResultLive.tsx`、`src/hooks/useQuizLaunch.ts`、`src/components/StudyRecordBattleActions.tsx`、`src/utils/userDataSyncCore.ts`、`src/utils/studySync.ts`、`src/utils/studySummary.ts`、`src/utils/studySummaryTypes.ts`、`src/utils/classroomAnalytics.ts`、`firestore.rules`、`src/components/teacher/OutcomesTab.tsx`、`src/components/TeacherDashboard.tsx`、`src/components/OutcomeAdminPanel.tsx`、`src/components/FeedbackAdminPanel.tsx`、`src/components/PersonalOutcomesCard.tsx`、`src/components/StudyRecord.tsx`、`src/components/study-record.css`。
+- 戻し方：この変更を revert。
+
 ## 2026-11-14 既存の温かい紙・文具トーンを保ったまま全画面（全76ファイル）のUI質感・押下感・演習／解答解説／TOEIC／対戦／クラス・先生／フレンド／マイページの調和を徹底向上（＋PR #206 商標注記の統合）
 
 - 共通プリミティブ・下部ナビ／PCサイドバー・起動画面・基本サーフェス・読み込み扉（`system.css` / `nav.css` / `LaunchScreen.tsx` / `launch-screen.css` / `surfaces.css` / `screen-loading.css`）：

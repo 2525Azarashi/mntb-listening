@@ -3,6 +3,8 @@ import { BookOpen, NotebookPen } from 'lucide-react';
 import { BattleText } from '../battle/ui/BattleText';
 import type { BattleQuestion } from '../battle/core/types';
 import { captureWrongAnswers, loadReviewList, reviewKeyOf, type WrongAnswerInput } from '../utils/reviewList';
+import { recordBattleFollowup } from '../utils/learningOutcomes';
+import { schedulePush } from '../utils/studySync';
 import type { StudyLogEntry, StudyLogItem } from '../utils/studyLog';
 
 type StudyRetryRequest = { chapterId: string; questionId: string; wrongOnly: boolean; subQuestionIds: string[] };
@@ -116,6 +118,11 @@ export function StudyRecordBattleActions({
         throw new Error('復習ノートに保存できませんでした');
       }
       setSaved(true);
+      try {
+        const rawKey = entry.key.startsWith('battle:') ? entry.key.slice('battle:'.length) : entry.key;
+        recordBattleFollowup(uid, 'review', rawKey);
+        schedulePush();
+      } catch { /* 成果記録の失敗で保存表示は止めない */ }
       window.dispatchEvent(new Event('review-list-changed'));
     } catch (cause) {
       setError(cause instanceof Error ? cause.message : '復習ノートに保存できませんでした');
@@ -130,6 +137,11 @@ export function StudyRecordBattleActions({
     setError('');
     try {
       const result = await loadQuestion();
+      try {
+        const rawKey = entry.key.startsWith('battle:') ? entry.key.slice('battle:'.length) : entry.key;
+        recordBattleFollowup(uid, 'practice', rawKey);
+        schedulePush();
+      } catch { /* 成果記録の失敗で演習遷移は止めない */ }
       onRetry({
         chapterId: result.question.chapterId,
         questionId: result.question.problemId,

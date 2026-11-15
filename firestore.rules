@@ -751,7 +751,7 @@ service cloud.firestore {
 
       function isValidProgress(data) {
         return data.keys().hasOnly([
-                 'uid', 'solved', 'reviewItems',
+                 'uid', 'solved', 'reviewItems', 'outcomes',
                  'solvedTotal', 'reviewTotal', 'lastStudiedAt', 'updatedAt'
                ])
           // uid の偽装を防ぐ（他人の進捗として書き込めない）
@@ -763,6 +763,15 @@ service cloud.firestore {
           // 復習リストは studySyncCore.MAX_SYNCED_REVIEW_ITEMS = 600 で
           // 上限を掛けている。ドキュメント1MiB制限に触れる前に弾く。
           && data.reviewItems.size() <= 600
+          && (!('outcomes' in data) || (
+               data.outcomes is map
+               && data.outcomes.keys().hasOnly(['v', 'firstDay', 'daily', 'battles', 'formats'])
+               && data.outcomes.v == 1
+               && (data.outcomes.firstDay == null || (data.outcomes.firstDay is string && data.outcomes.firstDay.size() <= 10))
+               && data.outcomes.daily is map && data.outcomes.daily.size() <= 60
+               && data.outcomes.battles is map && data.outcomes.battles.size() <= 8
+               && data.outcomes.formats is map && data.outcomes.formats.size() <= 16
+             ))
           && (!('solvedTotal' in data) || (data.solvedTotal is int && data.solvedTotal >= 0))
           && (!('reviewTotal' in data) || (data.reviewTotal is int && data.reviewTotal >= 0))
           && (!('lastStudiedAt' in data) || data.lastStudiedAt is int)
@@ -821,7 +830,7 @@ service cloud.firestore {
         return data.keys().hasOnly([
                  'uid', 'updatedAt',
                  's_growth', 's_vocabQuiz', 's_vocabPrefs', 's_support', 's_studyTime', 's_studyLog',
-                 's_unitStats', 's_stageHistory', 's_battleLog', 's_profile', 's_completed', 's_notes', 's_streak', 's_reading', 's_manualLog'
+                 's_unitStats', 's_stageHistory', 's_battleLog', 's_profile', 's_completed', 's_notes', 's_streak', 's_reading', 's_manualLog', 's_outcomes'
                ])
           && data.uid == userId
           && data.uid == request.auth.uid
@@ -829,7 +838,7 @@ service cloud.firestore {
           && sec(data, 's_support') && sec(data, 's_studyTime') && sec(data, 's_studyLog')
           && sec(data, 's_unitStats') && sec(data, 's_stageHistory') && sec(data, 's_battleLog')
           && sec(data, 's_profile') && sec(data, 's_completed') && sec(data, 's_notes') && sec(data, 's_streak')
-          && sec(data, 's_reading') && sec(data, 's_manualLog')
+          && sec(data, 's_reading') && sec(data, 's_manualLog') && sec(data, 's_outcomes')
           && (!('updatedAt' in data) || data.updatedAt == request.time);
       }
       allow get: if isOwner(userId);

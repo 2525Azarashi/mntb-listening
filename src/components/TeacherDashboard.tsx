@@ -14,11 +14,13 @@ import { buildKantenReport, type KantenReport } from '../utils/kantenReport';
 import { getChapterCatalog, SUBJECT_LABELS } from '../data/chapterCatalog';
 import { aggregateClass, type ClassroomDoc } from '../utils/classroomCore';
 import { buildStudentCsv, type StudentSummary } from '../utils/studySummary';
+import { buildOutcomesCsv, type StudentOutcomeRow } from '../utils/learningOutcomes';
 import { subjectTheme } from '../data/subjectTheme';
 import { toDateKey } from '../utils/studySummary';
 import { DEFAULT_CLASS_SUBJECT } from './teacher/teacherSubjects';
 import { EmptyState } from './teacher/EmptyState';
 import { StudentsTab } from './teacher/StudentsTab';
+import { OutcomesTab } from './teacher/OutcomesTab';
 import { KantenTab } from './teacher/KantenTab';
 import { ClassesTab } from './teacher/ClassesTab';
 import { CreateClassModal } from './teacher/CreateClassModal';
@@ -67,7 +69,7 @@ interface TeacherDashboardProps {
   onBack: () => void;
 }
 
-type Tab = 'students' | 'kanten' | 'juku' | 'classes';
+type Tab = 'students' | 'outcomes' | 'kanten' | 'juku' | 'classes';
 
 
 export function TeacherDashboard({ onBack }: TeacherDashboardProps) {
@@ -284,12 +286,9 @@ export function TeacherDashboard({ onBack }: TeacherDashboardProps) {
    * ファイル名にクラス名と日付を入れる。先生は複数クラス分を
    * ダウンロードフォルダに溜めるので、名前で判別できないと使えない。
    */
-  const handleExportCsv = () => {
-    if (students.length === 0) return;
-    const csv = buildStudentCsv(students);
+  const downloadCsv = (csv: string, prefix: string) => {
     const className = (activeClass?.className || 'クラス').replace(/[\\/:*?"<>|]/g, '_');
-    const fileName = `学習状況_${className}_${toDateKey(Date.now())}.csv`;
-
+    const fileName = `${prefix}_${className}_${toDateKey(Date.now())}.csv`;
     const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
@@ -299,6 +298,16 @@ export function TeacherDashboard({ onBack }: TeacherDashboardProps) {
     link.click();
     document.body.removeChild(link);
     URL.revokeObjectURL(url);
+  };
+
+  const handleExportCsv = () => {
+    if (students.length === 0) return;
+    downloadCsv(buildStudentCsv(students), '学習状況');
+  };
+
+  const handleExportOutcomesCsv = (rows: readonly StudentOutcomeRow[]) => {
+    if (rows.length === 0) return;
+    downloadCsv(buildOutcomesCsv(rows), '学習成果指標');
   };
 
   // ---------------------------------------------------------------
@@ -382,9 +391,10 @@ export function TeacherDashboard({ onBack }: TeacherDashboardProps) {
 
         {/* タブ */}
         {classrooms.length > 0 && (
-          <div className="grid grid-cols-4 sm:flex gap-1 p-1 bg-[#F2EADE] border border-[#E4D8C5] rounded-xl mb-5 sm:w-fit shadow-[inset_0_1px_2px_rgba(28,42,57,0.04)]">
+          <div className="flex overflow-x-auto gap-1 p-1 bg-[#F2EADE] border border-[#E4D8C5] rounded-xl mb-5 sm:w-fit shadow-[inset_0_1px_2px_rgba(28,42,57,0.04)]">
             {([
               { id: 'students' as Tab, label: '生徒の様子' },
+              { id: 'outcomes' as Tab, label: '学習成果' },
               { id: 'kanten' as Tab, label: '観点別評価' },
               { id: 'juku' as Tab, label: '課題・理由' },
               { id: 'classes' as Tab, label: 'クラス設定' },
@@ -392,7 +402,7 @@ export function TeacherDashboard({ onBack }: TeacherDashboardProps) {
               <button
                 key={item.id}
                 onClick={() => setTab(item.id)}
-                className={`min-h-[44px] px-1 sm:px-4 rounded-lg text-xs sm:text-sm whitespace-nowrap transition-all ${
+                className={`shrink-0 min-h-[44px] px-3 sm:px-4 rounded-lg text-xs sm:text-sm whitespace-nowrap transition-all ${
                   tab === item.id ? 'bg-[#FFFDF8] font-bold text-[#1B2631] shadow-[0_2px_0_#E2D4BC,inset_0_1px_0_rgba(255,255,255,0.9)]' : 'text-[#5C4F3D]'
                 }`}
               >
@@ -433,6 +443,15 @@ export function TeacherDashboard({ onBack }: TeacherDashboardProps) {
             onChangeEditingName={setEditingName}
             onSaveEdit={handleSaveRosterName}
             onCancelEdit={() => setEditingUid('')}
+          />
+        ) : tab === 'outcomes' ? (
+          <OutcomesTab
+            students={students}
+            loading={loadingStudents}
+            theme={theme}
+            activeClass={activeClass}
+            onRefresh={() => void loadStudents(activeClassId)}
+            onExportCsv={handleExportOutcomesCsv}
           />
         ) : tab === 'kanten' ? (
           <KantenTab

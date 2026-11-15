@@ -24,7 +24,7 @@ import { UnitCard } from './UnitCard';
 import { ListeningTechniqueCard } from './ListeningTechniqueCard';
 import './unit-select.css';
 import { accuracyOf, readUnitStats } from '../utils/unitStats';
-import { STAGE_CLEAR_PERFECTS, isStageCleared, readStageRecords, stageKey } from '../utils/stageRecords';
+import { isStageCleared, readStageRecords, stageKey } from '../utils/stageRecords';
 import { safeGetItem, safeParseJson } from '../utils/safeLocalStorage';
 import { getChapterGroups, getGrammarPartGroups, collectAudioSets, splitTabTitle } from '../utils/chapterGroups';
 
@@ -325,7 +325,7 @@ export function ChapterSelection({ mode, onSelectChapter, onBack, subject = 'eng
                         )}
                         <p className="mt-1 text-xs font-bold text-[#5C4F3D]">
                           {rounds.length > 0
-                            ? `全${rounds.length}回 ／ 達成 ${rounds.filter((r) => isStageCleared(stageRecords[stageKey(chapter.id, r.questionId)])).length}回（満点${STAGE_CLEAR_PERFECTS}回で達成）`
+                            ? `進捗 ${rounds.filter((r) => !!solvedMap[problemKey(chapter.id, r.questionId)] || !!stageRecords[stageKey(chapter.id, r.questionId)]).length}/${rounds.length}回（全${rounds.length}回）`
                             : 'この大問の問題は準備中です'}
                         </p>
                         {isToeic && <p className="mt-1 text-xs leading-relaxed text-[#6E604C]" data-toeic-disclaimer>{TOEIC_DISCLAIMER}</p>}
@@ -370,12 +370,11 @@ export function ChapterSelection({ mode, onSelectChapter, onBack, subject = 'eng
                                     </span>
                                     {solved ? (
                                       <span className="round-done mt-status shrink-0" data-status="done">
-                                        達成
+                                        完了
                                       </span>
-                                    ) : tried && !isToeic ? (
-                                      // 2026-10-29 TOEIC は「満点 0/3」を出さない（ご要望）。達成の表示はそのまま
+                                    ) : tried ? (
                                       <span className="round-done mt-status shrink-0" data-status="doing">
-                                        満点 {roundStage?.p ?? 0}/{STAGE_CLEAR_PERFECTS}
+                                        {roundStage ? `最高 ${roundStage.b}%` : '解答済'}
                                       </span>
                                     ) : (
                                       <ChevronRight size={13} className="shrink-0 text-[#A9CCE3]" />
@@ -453,9 +452,10 @@ export function ChapterSelection({ mode, onSelectChapter, onBack, subject = 'eng
                 const roundTried = isGrammar && questions.some((q) => stageRecords[stageKey(chapter.id, q.id)]);
                 // D1：英文法で「いまやる回」＝途中保存があればその回、なければ未達成の最初の回
                 const grammarTarget = isGrammar ? Math.min(Math.max(0, questions.length - 1), hasSavedProgress ? savedIndex : nextRound) : 0;
+                const grammarSolvedRounds = isGrammar ? questions.filter((q) => !!solvedMap[problemKey(chapter.id, q.id)] || !!stageRecords[stageKey(chapter.id, q.id)]).length : solvedCount;
                 const status = isGrammar
-                  ? (questions.length > 0 && clearedRounds === questions.length ? 'done' : (solvedCount > 0 || hasSavedProgress || !!stat || roundTried) ? 'doing' : 'todo')
-                  : isStageCleared(stage) ? 'done' : (solvedCount > 0 || hasSavedProgress || !!stat || !!stage) ? 'doing' : 'todo';
+                  ? (questions.length > 0 && grammarSolvedRounds === questions.length ? 'done' : (grammarSolvedRounds > 0 || hasSavedProgress || !!stat || roundTried) ? 'doing' : 'todo')
+                  : (questions.length > 0 && solvedCount === questions.length) || isStageCleared(stage) ? 'done' : (solvedCount > 0 || hasSavedProgress || !!stat || !!stage) ? 'doing' : 'todo';
 
                 // ★見出しつきの小分け（数学の段階・地理の単元演習/模試・準備中）★ src/data/unitSections.ts
                 const section = unitSectionByChapter.get(chapter.id);
@@ -477,10 +477,12 @@ export function ChapterSelection({ mode, onSelectChapter, onBack, subject = 'eng
                     title={chapter.abstractTitle}
                     topics={chapter.topics}
                     questionCount={questions.length}
+                    solvedCount={isGrammar ? grammarSolvedRounds : solvedCount}
                     status={status}
                     accuracy={accuracyOf(stat)}
-                    perfects={isGrammar ? undefined : stage?.p ?? 0}
-                    progressLabel={isGrammar && status === 'doing' ? `達成 ${clearedRounds}/${questions.length}回` : undefined}
+                    progressLabel={isGrammar
+                      ? (status === 'done' ? `全${questions.length}回 完了` : status === 'doing' ? `${grammarSolvedRounds}/${questions.length}回 完了` : `0/${questions.length}回`)
+                      : undefined}
                     hasSavedProgress={hasSavedProgress}
                     expanded={expanded}
                     accent={theme.accent}
@@ -504,10 +506,10 @@ export function ChapterSelection({ mode, onSelectChapter, onBack, subject = 'eng
                       <div className="grammar-rounds" data-grammar-rounds>
                         <p className="grammar-rounds-head">
                           <span>全{questions.length}回（1回5問）</span>
-                          <span className="grammar-rounds-meter" aria-label={`達成 ${clearedRounds}/${questions.length}回`}>
-                            {roundCleared.map((c, i) => <i key={i} data-on={c || undefined} data-next={i === grammarTarget || undefined} />)}
+                          <span className="grammar-rounds-meter" aria-label={`進捗 ${grammarSolvedRounds}/${questions.length}回`}>
+                            {questions.map((q, i) => <i key={i} data-on={(!!solvedMap[problemKey(chapter.id, q.id)] || !!stageRecords[stageKey(chapter.id, q.id)]) || undefined} data-next={i === grammarTarget || undefined} />)}
                           </span>
-                          <b>達成 {clearedRounds}/{questions.length}</b>
+                          <b>{grammarSolvedRounds}/{questions.length}回 完了</b>
                         </p>
                         <ol className="grammar-rounds-list">
                           {questions.map((question, questionIndex: number) => {
