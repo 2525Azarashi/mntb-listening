@@ -36,6 +36,13 @@
 - 元動画（Firefly の書き出し）はリポジトリに入れていない（17＋5本・約22MB）。作り直すときは videos.py のプロンプトで撮り直し、unify_background.py の区間を合わせる。
 - 商用：Adobe Firefly の生成物（商用利用可）。参照画像は運営者自身のキャラクター画像。
 
+## 2026-11-15 とびら君＆カギノスケ 透過登場演出・対戦カウントダウン・ガチャ重ね演出（4本の取り込み）
+- `src/components/AlphaCinematicClip.tsx` の `ALPHA_CINEMATIC_CLIPS` にて、背景を完全除去しキャラクターと発光粒子のみを切り抜いた透過動画（Chrome/Android/PC 向け VP9 Alpha `.webm` ＋ Safari/iOS WKWebView 向け上下スタック H.264 `-sbs.mp4` Canvas 合成）を管理。すべて1ファイル 1MB 未満・音声トラック無し。
+- `battle_countdown.{webm,webp}` / `battle_countdown-sbs.mp4`：対戦準備画面の `3・2・1・START!` に同期してとびら君がチャージ→ハイジャンプ→着地する演出。
+- `title_duo_landscape.{webm,webp}` / `title_duo_portrait.{webm,webp}`：タイトル画面の横向き（PC・タブレット横）／縦向き（スマホ縦）を `matchMedia` で切り替え、終了時は最終コマと完全一致する `*-end.webp` プレート＋呼吸アイドルループへクロスフェード（「演出をスキップ」ボタン付き）。
+- `gacha_duo_overlay.{webm,webp}` / `gacha_duo_full.{webm,webp}`：`GachaReveal` および `RewardVideo` で既存の演出の上に重ねて盛り上げる2人＋光粒子の透過レイヤー。
+- `/bgm/title_intro_bgm.mp3`：動画④の音声から前後の無音を除去しクロスフェードループ化したタイトル画面専用BGM（初回操作後に控えめな音量でループ再生、右上にミュート切替ボタンを設置）。
+
 ## 2026-11-04 E6
 - E6：タイトルの title.mp4 を、E4 で使わなかったもう1本（「…heartwarming 200121 Aoq.mp4」）から作り直し。崩れるコマ（44〜56）より後ろの 57〜120コマだけを使い、つなぎ目は作らない。最後のコマのとびら君の位置（x 138〜578 / y 120〜577）は、タイトルの静止画シーン（x 149〜569 / y 124〜576）とほぼ同じなので、CSS は変えていない。
 

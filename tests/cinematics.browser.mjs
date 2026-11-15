@@ -10,8 +10,11 @@ try {
   const errors = [];
   page.on('pageerror', e => errors.push(e.message));
   await page.goto(production);
+  const emblem = page.locator('.launch-emblem');
+  if (await emblem.count()) await emblem.click();
   await page.waitForFunction(() => document.querySelector('.launch-stage video')?.currentTime > .05);
   assert.ok(await page.locator('.launch-start').isEnabled());
+  await page.getByRole('button', { name: '演出をスキップ', exact: true }).click();
   await page.waitForFunction(() => !document.querySelector('.launch-stage video'));
   assert.equal(await page.locator('.launch-equipped-pose').evaluate(e => getComputedStyle(e).visibility), 'visible');
   for (const name of ['attack', 'gacha', 'victory']) {

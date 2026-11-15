@@ -26,6 +26,7 @@ import type { CSSProperties } from 'react';
 import { Check, Flame, Hourglass, Pencil, FileText, X } from 'lucide-react';
 
 import { maskNickname } from '../../utils/nicknamePrivacy';
+import { AlphaCinematicClip, ALPHA_CINEMATIC_CLIPS } from '../../components/AlphaCinematicClip';
 import {
   formatScore,
   SCORE_TWEEN_MS,
@@ -357,12 +358,53 @@ const TOAST_STYLE: Record<LiveToastData['kind'], { bg: string; fg: string; borde
 // カウントダウン
 // ============================================================
 
-export function CountdownOverlay({ label }: { label: string | null }) {
+const BATTLE_CLIP = ALPHA_CINEMATIC_CLIPS.battleCountdown;
+/** 3・2・1・START!（3000ms + 600ms = 3600ms）に 5.16秒のとびら君ジャンプ動画を同期させる閾値 */
+const COUNTDOWN_ACTION_WINDOW_MS = 3850;
+
+export function CountdownOverlay({ label, preStartMs }: { label: string | null; preStartMs?: number }) {
+  const [clipActive, setClipActive] = useState(false);
+  const clipStartRef = useRef<number | null>(null);
+  const inActionPhase = label === 'START!' || (label !== null && Number(label) <= 3) || (preStartMs !== undefined && preStartMs <= COUNTDOWN_ACTION_WINDOW_MS);
+
+  if (inActionPhase && clipStartRef.current === null) {
+    // 途中参加（例：リスニング55秒問題で「2」から始まる場合）でも残り時間に合わせて途中フレームから同期
+    if (preStartMs !== undefined && preStartMs < COUNTDOWN_ACTION_WINDOW_MS - 300) {
+      const ratio = 1 - Math.max(0, preStartMs) / COUNTDOWN_ACTION_WINDOW_MS;
+      clipStartRef.current = Math.min(BATTLE_CLIP.durationSec - 0.5, Math.max(0, ratio * BATTLE_CLIP.durationSec));
+    } else {
+      clipStartRef.current = 0;
+    }
+  }
+
   if (!label) return null;
   const isStart = label === 'START!';
-  return <section className="battle-ready-screen" aria-label="対戦開始の準備">
+  const playbackRate = 1.38; // 5.16s / 1.38 ≈ 3.74s（3→2→1→START! と完全に一致）
+
+  return <section className={`battle-ready-screen ${inActionPhase ? 'is-action-phase' : ''}`} aria-label="対戦開始の準備">
     <span className="battle-ready-kicker">BATTLE READY</span>
-    <div className="battle-ready-tools" aria-hidden="true"><FileText /><Pencil /></div>
+    <div className="battle-ready-mascot-slot" aria-hidden="true">
+      {inActionPhase ? (
+        <div className="battle-ready-cinema">
+          <AlphaCinematicClip
+            clip={BATTLE_CLIP}
+            startAtSec={clipStartRef.current ?? 0}
+            playbackRate={playbackRate}
+            eager
+            fadeInMs={280}
+            fadeOutBeforeEndMs={320}
+            label="対戦開始のとびら君ジャンプ演出"
+            onActiveChange={setClipActive}
+          />
+          {!clipActive && <img className="battle-ready-fallback-plate" src={BATTLE_CLIP.poster} alt="" width={BATTLE_CLIP.width} height={BATTLE_CLIP.height} draggable={false} />}
+        </div>
+      ) : (
+        <div className="battle-ready-standby">
+          <img className="battle-ready-standby-img" src={BATTLE_CLIP.poster} alt="" width={BATTLE_CLIP.width} height={BATTLE_CLIP.height} draggable={false} />
+          <div className="battle-ready-tools"><FileText /><Pencil /></div>
+        </div>
+      )}
+    </div>
     <h2>紙と筆記用具を<br />用意してください</h2>
     <p>計算やメモの準備をして、スタートを待とう。</p>
     {/* 点数とごほうび（2026-10-20：対戦画面のタグから、ここへ移した） */}
