@@ -7,7 +7,10 @@ import { safeParseJson, isPlainObject } from '../src/utils/safeLocalStorage';
 import { mergeSolvedMaps } from '../src/utils/studySyncCore';
 import { isSafeSameOriginPdfPath } from '../src/utils/pdfViewer';
 import { safeAvatarUrl } from '../src/features/safety/avatarUrl';
-import { isAllowedFeedbackWebhookUrl } from '../src/utils/feedbackPayload';
+import { isAllowedFeedbackWebhookUrl, buildFeedbackMailto, buildFeedbackPayload } from '../src/utils/feedbackPayload';
+import { buildReplyMailto, type AdminFeedbackItem } from '../src/utils/feedbackReply';
+import { formatText } from '../src/utils/textFormatter';
+import { safeBattlePhotoUrl } from '../src/battle/data/battleShared';
 import { mergeOutcomesStores, fromSyncedOutcomesSummary } from '../src/utils/learningOutcomes';
 
 const ROOT = path.resolve(__dirname, '..');
@@ -203,5 +206,76 @@ describe('5. リポジトリ横断のセキュリティ不変条件（noopener�
 
     const manifest = readFileSync(path.join(ROOT, 'android/app/src/main/AndroidManifest.xml'), 'utf8');
     expect(manifest).toContain('android:allowBackup="false"');
+  });
+});
+
+describe('6. Wave-2 深掘り監査の回帰テスト（状態機械・権限境界・プレースホルダ衝突・mailto 注入）', () => {
+  it('formatText は入力中の制御文字（\\u0000 / \\u0001）を入口で除去し、タグ・数式プレースホルダ衝突を起こさない', () => {
+    const rendered = formatText('H2O\u00000\u0000\u00010\u0001 **重要**', [], { prose: false });
+    expect(rendered).not.toBeNull();
+    const html = JSON.stringify(rendered);
+    expect(html).not.toContain('\u0000');
+    expect(html).not.toContain('\u0001');
+    expect(html).toContain('重要');
+    expect(formatText('\u0000\u0001')).toBeNull();
+  });
+
+  it('buildReplyMailto / buildFeedbackMailto は制御文字・改行・不正宛先（ヘッダー注入）を拒否・無害化する', () => {
+    const baseItem: AdminFeedbackItem = {
+      docId: 'doc1',
+      id: 'fb_1',
+      screen: 'title',
+      category: 'bug',
+      rating: 4,
+      message: 'テスト本文',
+      uid: null,
+      displayName: null,
+      authEmail: null,
+      contactEmail: 'student@example.com',
+      context: null,
+      userAgent: 'UA',
+      viewport: '390x844',
+      appVersion: '1.0.0',
+      createdAtIso: '2026-11-15T00:00:00.000Z',
+      status: 'new',
+    };
+    expect(buildReplyMailto(baseItem)).toMatch(/^mailto:student%40example\.com\?subject=/);
+    expect(buildReplyMailto({ ...baseItem, contactEmail: 'evil@example.com\r\nBcc:victim@example.com' })).toBeNull();
+    expect(buildReplyMailto({ ...baseItem, contactEmail: 'evil@example.com?bcc=victim@example.com<>' })).toBeNull();
+    expect(buildReplyMailto({ ...baseItem, contactEmail: 'not-an-email' })).toBeNull();
+
+    const payload = buildFeedbackPayload({ screen: 'title', category: 'bug', rating: 5, message: '意見' });
+    const fallbackMailto = buildFeedbackMailto(payload, 'evil@example.com?bcc=steal@example.com');
+    expect(fallbackMailto).not.toContain('steal%40example.com');
+    expect(fallbackMailto).toContain('mntobira%40gmail.com');
+  });
+
+  it('safeBattlePhotoUrl は https:// 以外のアイコンURL（http: / javascript: / data: / 空白混入 / 長大文字列）を空文字に落とす', () => {
+    expect(safeBattlePhotoUrl('https://lh3.googleusercontent.com/a/avatar=s96-c')).toBe('https://lh3.googleusercontent.com/a/avatar=s96-c');
+    expect(safeBattlePhotoUrl('http://lh3.googleusercontent.com/a/avatar')).toBe('');
+    expect(safeBattlePhotoUrl('javascript:alert(1)')).toBe('');
+    expect(safeBattlePhotoUrl('data:image/png;base64,AAAA')).toBe('');
+    expect(safeBattlePhotoUrl(`https://example.com/${'a'.repeat(520)}`)).toBe('');
+  });
+
+  it('firestore.rules に Wave-2 の教室・対戦プロフィール・レート表示名更新・閲覧許可の検証が入っている', () => {
+    const rules = readFileSync(path.join(ROOT, 'firestore.rules'), 'utf8');
+    // 1) battle_rooms の profiles スキーマ検査（コメントだけでなく実体があること）
+    expect(rules).toContain('function battleRoomProfileValid(p, playerUid)');
+    expect(rules).toContain("p.keys().hasOnly(['uid', 'nickname', 'photoURL', 'rating', 'matchSessionId'])");
+    // 2) battle_lobbies 全国マッチ時の profiles 検査
+    expect(rules).toContain('lobbyProfileValid(d.profiles[d.players[0]], d.players[0])');
+    expect(rules).toContain('lobbyProfileValid(d.profiles[d.players[1]], d.players[1])');
+    // 3) battle_ranking の表示名変更専用分岐（syncRankingNickname が死なないこと）
+    expect(rules).toContain('function battleIdentityOnlyUpdate()');
+    // 4) class_members の受付終了バイパス防止 & 生徒/担任の役割分離
+    expect(rules).toContain('get(/databases/$(database)/documents/classrooms/$(request.resource.data.classId)).data.joinOpen == true');
+    expect(rules).toContain("request.resource.data.get('rosterName', null) == resource.data.get('rosterName', null)");
+    expect(rules).toContain('request.resource.data.displayName == resource.data.displayName');
+    // 5) study_access の担任・在籍検証
+    expect(rules).toContain('get(/databases/$(database)/documents/classrooms/$(request.resource.data.classId)).data.teacherUid == request.resource.data.teacherUid');
+    // 6) classrooms の id 一致・memberCount 上限
+    expect(rules).toContain("(!('id' in data) || (data.id is string && data.id == classId))");
+    expect(rules).toContain('data.memberCount >= 0 && data.memberCount <= 10000');
   });
 });

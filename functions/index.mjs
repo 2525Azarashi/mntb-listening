@@ -245,8 +245,8 @@ export async function handleAchievements(req) {
   await root.set({xp:agg.xp,level:agg.level,stagesCleared:agg.stagesCleared,devices:devices.size,updatedAt:stamp()});
   const pub=db.collection('public_study_profiles').doc(uid);
   await db.runTransaction(async tx=>{const s=await tx.get(pub); if(s.exists && s.get('public')===true) tx.update(pub,{stagesCleared:agg.stagesCleared,level:agg.level});});
-  const stages={}; for(const [k,v] of Object.entries(agg.stages)) if(v.n>0) stages[k]=v;
-  return {stages,stagesCleared:agg.stagesCleared,level:agg.level,xp:agg.xp};
+  const stages=Object.create(null); for(const [k,v] of Object.entries(agg.stages)) if(v.n>0) stages[k]=v;
+  return {stages:{...stages},stagesCleared:agg.stagesCleared,level:agg.level,xp:agg.xp};
 }
 export const achievements=onCall({region,maxInstances:20,timeoutSeconds:30,enforceAppCheck},handleAchievements);
 
