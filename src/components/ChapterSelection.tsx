@@ -168,7 +168,7 @@ export function ChapterSelection({ mode, onSelectChapter, onBack, subject = 'eng
   }, []);
 
   return (
-    <div className="mtb-page chapter-route flex h-[calc(100dvh-env(safe-area-inset-top)-env(safe-area-inset-bottom))] min-h-0 w-full flex-col overflow-hidden notebook-paper p-3 pb-[calc(5.75rem+env(safe-area-inset-bottom))] sm:p-5 sm:pb-[calc(5.75rem+env(safe-area-inset-bottom))] md:p-6 md:pb-[calc(5.75rem+env(safe-area-inset-bottom))] relative font-handwriting">
+    <div className="mtb-page chapter-route flex h-[calc(100dvh-env(safe-area-inset-top)-env(safe-area-inset-bottom))] min-h-0 w-full flex-col overflow-hidden notebook-paper p-3 pb-[calc(5.75rem+env(safe-area-inset-bottom))] sm:p-5 sm:pb-[calc(5.75rem+env(safe-area-inset-bottom))] md:p-6 md:pb-[calc(5.75rem+env(safe-area-inset-bottom))] relative">
       {/* ★見出しは1行・80px以内（UIの決まり）★
           以前は「科目名の小見出し／演習問題／学習したい単元を選択してください／科目を変更」の4段で
           スマホの縦の1/4を使っていた。戻る・科目名・とびら君を1行にまとめる。 */}
@@ -183,7 +183,7 @@ export function ChapterSelection({ mode, onSelectChapter, onBack, subject = 'eng
         <DoorMascot subject={subject} showSpeech={false} size="mini" className="unit-head-mascot w-auto" />
       </header>
 
-      <div className="chapter-workspace flex min-h-0 flex-1 flex-col font-handwriting">
+      <div className="chapter-workspace flex min-h-0 flex-1 flex-col">
         {/* ================================================================
             章／大問の一覧
             ================================================================
@@ -331,21 +331,29 @@ export function ChapterSelection({ mode, onSelectChapter, onBack, subject = 'eng
                         {isToeic && <p className="mt-1 text-xs leading-relaxed text-[#6E604C]" data-toeic-disclaimer>{TOEIC_DISCLAIMER}</p>}
                       </div>
 
-                      {rounds.length > 0 ? (
+                      {rounds.length > 0 ? (() => {
+                        const firstNextRoundId = rounds.find(
+                          (r) => !isStageCleared(stageRecords[stageKey(chapter.id, r.questionId)]),
+                        )?.questionId;
+                        return (
                         <div className="round-grid grid grid-cols-1 gap-1.5 min-[420px]:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                           {rounds.map((round) => {
                             const roundStage = stageRecords[stageKey(chapter.id, round.questionId)];
                             const solved = isStageCleared(roundStage);
                             const tried = !!solvedMap[problemKey(chapter.id, round.questionId)] || !!roundStage;
+                            const isNextRound = round.questionId === firstNextRoundId;
                             const audio = audioSets.find((s) => s.id === round.questionId);
                             return (
                               <div
                                 key={round.questionId}
                                 data-round
-                                data-status={solved ? 'done' : 'todo'}
+                                data-status={solved ? 'done' : tried ? 'doing' : 'todo'}
+                                data-next={isNextRound || undefined}
                                 className={`round-card flex items-stretch gap-1.5 rounded-xl border p-1.5 text-left shadow-xs transition-all ${
                                   solved
                                     ? 'border-[#5BC0BE]/60 bg-[#EAF9F6]'
+                                    : isNextRound
+                                    ? 'border-[#F29A1F] bg-[#FFF8E8]'
                                     : 'border-yellow-200/80 bg-[#FFFDF2]/90'
                                 }`}
                               >
@@ -376,6 +384,8 @@ export function ChapterSelection({ mode, onSelectChapter, onBack, subject = 'eng
                                       <span className="round-done mt-status shrink-0" data-status="doing">
                                         {roundStage ? `最高 ${roundStage.b}%` : '解答済'}
                                       </span>
+                                    ) : isNextRound ? (
+                                      <span className="round-next-chip shrink-0">つぎはここ</span>
                                     ) : (
                                       <ChevronRight size={13} className="shrink-0 text-[#A9CCE3]" />
                                     )}
@@ -413,7 +423,8 @@ export function ChapterSelection({ mode, onSelectChapter, onBack, subject = 'eng
                             );
                           })}
                         </div>
-                      ) : (
+                        );
+                      })() : (
                         <div className="rounded-xl border border-[#E5DCCC] bg-[#FFFDF8]/85 p-4 text-center text-xs font-bold text-[#7A6A52]">
                           準備中（問題は順次追加しています）
                         </div>

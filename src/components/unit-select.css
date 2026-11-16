@@ -56,6 +56,8 @@
 
 /* リスニングの回：1行・約60px。左＝その回を解く／右＝音源だけ聞く */
 .chapter-route [data-listening-rounds] .round-card { box-shadow: 0 2px 0 #ebe1cd, inset 0 1px 0 rgba(255, 255, 255, .92); transition: border-color .15s ease, box-shadow .15s ease, transform .1s ease; }
+.chapter-route [data-listening-rounds] .round-card[data-next] { border-width: 1.5px; box-shadow: 0 3px 0 #e6b767, inset 0 1px 0 rgba(255, 255, 255, .92); }
+.chapter-route [data-listening-rounds] .round-next-chip { display: inline-flex; align-items: center; padding: 2px 8px; border-radius: 999px; background: var(--mt-accent, #f29a1f); color: var(--mt-ink, #1c2a39); font: 800 12px/1.35 var(--mt-font-body); box-shadow: 0 1.5px 0 #c97d0e; }
 @media (hover: hover) {
   .chapter-route [data-listening-rounds] .round-card:hover { border-color: #dec183; box-shadow: 0 3px 0 #e2cfa8, 0 6px 12px rgba(80, 60, 30, .06), inset 0 1px 0 rgba(255, 255, 255, .95); }
 }
