@@ -96,7 +96,7 @@ export const NOTES_03: ToeicP5Note[] = [
     h: '空所の後ろの out of service と、後半の please use the stairs を見る。使えない状態の長さを考える。',
     r: '副詞の語彙問題では、文の状況に合う「時間の長さ」や「程度」を表す語を選ぶ。',
     tip: '設備の案内文では temporarily closed や temporarily unavailable の組み合わせで一時的な停止を伝える。',
-    cues: [] },
+    cues: [{ p: 'out of service', w: '使えない' }, { p: 'use the stairs', w: '階段の利用' }] },
   { // 20 as
     h: '空所の前の twice as fast を見る。as 〜 as の前半の as がすでにあることに気づく。',
     r: '倍数は「twice／three times＋as 〜 as …」で表す。as で始めたら後ろも as でそろえる。',

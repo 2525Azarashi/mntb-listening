@@ -153,7 +153,10 @@ export function ToeicExplanationPanel({ ex, correctText, open, onToggle }: {
                   {ex.choices.map((c) => (
                     <li key={c.mark} data-correct={c.correct || undefined}>
                       <span className="tp-ex-mark" aria-hidden="true">{c.correct ? '○' : '×'}</span>
-                      <span><b lang="en">{c.mark} {c.text}</b>　{c.correct ? '正解' : c.reason}</span>
+                      <span>
+                        <b lang="en">{c.mark} {c.text}</b>
+                        　{c.correct ? `正解 — ${ex.why}` : c.reason}
+                      </span>
                     </li>
                   ))}
                 </ul>

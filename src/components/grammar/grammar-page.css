@@ -736,6 +736,42 @@
   line-height: 1;
 }
 
+/* 番号つき手がかりマーカー（¹ ²・問題文と要点を視覚連動） */
+.gp-cue {
+  background: #ffed9e;
+  color: #43361b;
+  border-bottom: 2px solid #b58c26;
+  border-radius: 3px;
+  padding: 1px 3px;
+  font-weight: 800;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+.gp-cue sup {
+  margin-right: 2px;
+  font-size: 12px;
+  font-weight: 900;
+  color: #7c4a03;
+  vertical-align: 1px;
+}
+
+/* (a) / (b) 等の複数行書き換え問題文 */
+.gp-multiline-stem {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 6px 9px;
+  border-radius: 10px;
+  background: #faf7f0;
+  border: 1px solid #ede5d4;
+}
+
+.gp-sentence-line {
+  font-size: 15.5px;
+  line-height: 1.65;
+}
+
 .gp-sr {
   position: absolute;
   width: 1px;
@@ -1092,6 +1128,19 @@
   color: #ffffff;
 }
 
+.gp-ex-line-hint {
+  padding: 4px 8px;
+  border-radius: 8px;
+  background: #f5f8f7;
+  border-left: 3px solid #54626f;
+  color: #1f2937;
+}
+
+.gp-ex-pill-hint {
+  background: #54626f;
+  color: #ffffff;
+}
+
 .gp-ex-subtools {
   display: flex;
   flex-wrap: wrap;
@@ -1206,6 +1255,21 @@
   color: #166534;
 }
 
+.gp-ex-choice-body {
+  min-width: 0;
+  line-height: 1.52;
+}
+
+.gp-ex-choice-word {
+  margin-right: 7px;
+  font-weight: 800;
+  color: #111827;
+}
+
+.gp-ex-choice-reason {
+  color: #334155;
+}
+
 /* 1行スリムフッター（高さ 56px 程度・スクロール領域を圧迫しない） */
 .gp-foot {
   flex: none;
@@ -1304,5 +1368,133 @@
   .gp-chev,
   .gp-timer-fill {
     transition: none;
+  }
+}
+
+/* =========================================================
+   結果画面（summary）⇔ 詳しい解説・答え合わせ（detail）の2段構成
+   ========================================================= */
+.gp-result-summary-body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px 12px 18px;
+  max-width: 744px;
+  width: 100%;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+.gp-result-qcard {
+  max-width: 720px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 10px 12px;
+  border-radius: 14px;
+  background: #ffffff;
+  border: 1px solid #e4dccb;
+  box-shadow: 0 1px 2px rgba(44, 62, 80, 0.04);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  box-sizing: border-box;
+}
+
+.gp-result-qcard-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 800;
+  color: #475569;
+}
+
+.gp-result-qcard-hint {
+  font-size: 12px;
+  font-weight: 700;
+  color: #64748b;
+}
+
+.gp-summary-foot {
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px 12px calc(10px + env(safe-area-inset-bottom, 0px));
+  border-top: 1px solid #e5decb;
+  background: #fffdf8;
+  box-shadow: 0 -4px 16px rgba(44, 62, 80, 0.06);
+}
+
+.gp-summary-foot-inner {
+  max-width: 720px;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.gp-btn-detail {
+  width: 100%;
+  min-height: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-radius: 14px;
+  background: #f4d03f;
+  color: #2c2206;
+  font-size: 15px;
+  font-weight: 800;
+  border: 0;
+  box-shadow: 0 3px 0 #c9a227;
+  cursor: pointer;
+}
+
+.gp-btn-detail:active {
+  transform: translateY(1px);
+  box-shadow: 0 2px 0 #c9a227;
+}
+
+.gp-summary-subactions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.gp-summary-subactions .gp-btn {
+  min-height: 44px;
+}
+
+.gp-back-summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  min-height: 40px;
+  padding: 0 11px 0 8px;
+  border-radius: 999px;
+  border: 1px solid #d9d0bd;
+  background: #faf7ef;
+  color: #2c3e50;
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.gp-back-summary:hover {
+  background: #f2ece0;
+}
+
+@media (max-width: 390px) {
+  .gp-summary-subactions {
+    gap: 6px;
+  }
+
+  .gp-summary-subactions .gp-btn {
+    padding: 0 10px;
+    font-size: 12px;
   }
 }

@@ -30,7 +30,7 @@ export const ROUND_08: ToeicP5Item[] = [
   { k: '語彙', t: '名詞', d: 1, sc: '広報・メディア',
     s: 'Subscribers will receive the next ______ of the magazine in early June.',
     c: 'issue', w: [['tenant', '「借家人・テナント」。雑誌について受け取るものではない'], ['venue', '「会場」。文意に合わない'], ['ingredient', '「材料」。文意に合わない']],
-    why: '定期購読者が受け取るのは雑誌の次の「号」。',
+    why: '定期購読者が6月上旬に受け取るのは雑誌の次の「号」にあたるため、出版物の号を表す issue を選ぶ。',
     tr: '定期購読者は、雑誌の次の号を6月上旬に受け取る。', kw: [['subscriber', '定期購読者']] },
   { k: '関係詞', t: '非制限用法 which', d: 2, sc: '広報・メディア',
     s: 'The magazine, ______ was first published in 1985, now has over one million readers.',

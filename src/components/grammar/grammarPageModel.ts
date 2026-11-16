@@ -30,6 +30,21 @@ export interface GrammarChoiceDetail {
   reason: string;
 }
 
+export interface GrammarResolvedCue {
+  n: number;
+  phrase: string;
+  /** 問題文（空所 `______` を残した stem）の中での開始位置 */
+  start: number;
+  /** 要点（`why`）の中で対応する語句とその開始位置 */
+  anchor: string;
+  whyStart: number;
+}
+
+export interface GrammarMarkedPiece {
+  text: string;
+  cue?: number;
+}
+
 export interface GrammarParsedCard {
   sq: SubQuestion;
   displayNo: number;
@@ -49,6 +64,7 @@ export interface GrammarParsedCard {
   examTip: string;
   memorizeSet: string;
   choices: GrammarChoiceDetail[];
+  cues: GrammarResolvedCue[];
 }
 
 export interface GrammarSubReview extends GrammarParsedCard {
@@ -283,6 +299,115 @@ function parseGrammarExplanationSlice(
   };
 }
 
+const GRAMMAR_BLANK_RE = /_{3,}|\(\s*_{0,6}\s*\)/;
+
+/**
+ * 英文（`stem`）と要点解説（`why`）の両方に共通して現れる英語手がかり語句を最大2つ特定し、
+ * 問題文と要点の双方に番号つきマーカー（`¹` `²`）を引ける座標へ変換する。
+ */
+export function resolveGrammarCues(stem: string, why: string): GrammarResolvedCue[] {
+  if (!stem || !why) return [];
+  const blankMatch = stem.match(GRAMMAR_BLANK_RE);
+  const blankStart = blankMatch && blankMatch.index !== undefined ? blankMatch.index : -1;
+  const blankEnd = blankStart >= 0 && blankMatch ? blankStart + blankMatch[0].length : -1;
+  const jpHeadEnd =
+    stem.includes('【並べかえ】') && stem.includes('」') ? stem.indexOf('」') + 1 : 0;
+
+  const candidates: { phrase: string; whyStart: number; anchor: string }[] = [];
+  const quoteRe = /[“"]([^”"]{1,42})[”"]|「([A-Za-z][^」]{0,42})」/g;
+  let qm: RegExpExecArray | null = quoteRe.exec(why);
+  while (qm !== null) {
+    const raw = (qm[1] || qm[2] || '').trim().replace(/[.,]+$/, '');
+    if (raw) {
+      const innerStart = qm.index + qm[0].indexOf(raw);
+      candidates.push({ phrase: raw, whyStart: innerStart, anchor: raw });
+    }
+    qm = quoteRe.exec(why);
+  }
+
+  const enRe = /[A-Za-z][A-Za-z0-9'’-]*(?:\s+[A-Za-z0-9'’-]+){0,4}/g;
+  let em: RegExpExecArray | null = enRe.exec(why);
+  while (em !== null) {
+    const p = em[0].trim();
+    if (p.length >= 2) {
+      candidates.push({ phrase: p, whyStart: em.index, anchor: p });
+    }
+    em = enRe.exec(why);
+  }
+
+  const out: GrammarResolvedCue[] = [];
+  for (const cand of candidates) {
+    if (out.length >= 2) break;
+    const p = cand.phrase;
+    if (!p || /^(?:SV|SVO|SVC|SVOO|SVOC)$/.test(p)) continue;
+
+    let searchFrom = jpHeadEnd;
+    let foundAt = -1;
+    while (true) {
+      let idx = stem.indexOf(p, searchFrom);
+      if (idx < 0) {
+        idx = stem.toLowerCase().indexOf(p.toLowerCase(), searchFrom);
+      }
+      if (idx < 0) break;
+      const end = idx + p.length;
+      const overlapsBlank = blankStart >= 0 && idx < blankEnd && end > blankStart;
+      const prevCh = idx > 0 ? stem[idx - 1] : '';
+      const nextCh = end < stem.length ? stem[end] : '';
+      const wordOk =
+        !(/[A-Za-z]/.test(p[0]) && /[A-Za-z]/.test(prevCh)) &&
+        !(/[A-Za-z]/.test(p[p.length - 1]) && /[A-Za-z]/.test(nextCh));
+      const overlapsPrev = out.some((c) => idx < c.start + c.phrase.length && end > c.start);
+      if (!overlapsBlank && wordOk && !overlapsPrev) {
+        foundAt = idx;
+        break;
+      }
+      searchFrom = idx + 1;
+    }
+    if (foundAt < 0) continue;
+
+    const whyIdx = cand.whyStart;
+    const overlapsWhy = out.some(
+      (c) => whyIdx < c.whyStart + c.anchor.length && whyIdx + cand.anchor.length > c.whyStart,
+    );
+    if (overlapsWhy) continue;
+
+    out.push({
+      n: out.length + 1,
+      phrase: stem.slice(foundAt, foundAt + p.length),
+      start: foundAt,
+      anchor: cand.anchor,
+      whyStart: whyIdx,
+    });
+  }
+
+  return out;
+}
+
+/** 文字列を通常部分と番号つき手がかり（`cue`）に分割する */
+export function splitGrammarByMarks(
+  text: string,
+  marks: readonly { start: number; length: number; n: number }[],
+): GrammarMarkedPiece[] {
+  const sorted = marks
+    .filter((m) => m.start >= 0 && m.length > 0 && m.start + m.length <= text.length)
+    .slice()
+    .sort((a, b) => a.start - b.start);
+  const out: GrammarMarkedPiece[] = [];
+  let pos = 0;
+  for (const m of sorted) {
+    if (m.start < pos) continue;
+    if (m.start > pos) out.push({ text: text.slice(pos, m.start) });
+    out.push({ text: text.slice(m.start, m.start + m.length), cue: m.n });
+    pos = m.start + m.length;
+  }
+  if (pos < text.length) out.push({ text: text.slice(pos) });
+  return out;
+}
+
+export function grammarCueMarksInWhy(cues: readonly GrammarResolvedCue[]) {
+  return cues.map((c) => ({ start: c.whyStart, length: c.anchor.length, n: c.n }));
+}
+
 /**
  * 1つの `GrammarProblem`（通常5問・復習フォーカス時は対象小問のみ）をカード一覧データへ変換する。
  */
@@ -331,6 +456,7 @@ export function parseGrammarProblemCards(
       ? sq.oneLine.replace(/^[^。]+。\s*/, '').trim()
       : '';
     const why = parsedExp.rule || correctChoiceReason || oneLineClean || parsedExp.hint;
+    const cues = resolveGrammarCues(stem, why);
 
     return {
       sq,
@@ -351,6 +477,7 @@ export function parseGrammarProblemCards(
       examTip: parsedExp.examTip,
       memorizeSet: parsedExp.memorizeSet,
       choices: parsedExp.choices,
+      cues,
     };
   });
 }

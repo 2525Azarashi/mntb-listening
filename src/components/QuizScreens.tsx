@@ -69,6 +69,9 @@
  */
 import React from 'react';
 import { applyReviewFocus, readReviewFocus, type ReviewTargetItem } from '../utils/reviewFocus';
+import { parseStoredNonNegativeInteger } from '../utils/progress';
+import { safeGetItem } from '../utils/safeLocalStorage';
+import { quizIndexKey } from '../utils/quizStorageKeys';
 import { Quiz } from './Quiz';
 import { Explanation } from './Explanation';
 import { GrammarResultView } from './grammar/GrammarResultView';
@@ -175,13 +178,28 @@ export function QuizScreens({
    */
   if (!chapter) return <ScreenUnavailable message="単元が見つかりません。教材の一覧から選び直してください。" onBack={onBack} />;
 
+  // 英文法は「1回（5問）＝1ステージ」。範囲未指定で開かれた経路でも、復習ノートの絞り込み中でなければ保存位置の1回分だけを範囲にする
+  const hasReviewFocus = Boolean(readReviewFocus()?.chapterId === chapter.id);
+  const effectiveRange = (() => {
+    if (questionRange) return questionRange;
+    if (isGrammarPageChapterId(chapter.id) && !hasReviewFocus) {
+      const pool = mode === 'mini_test' ? (chapter.miniTest || []) : (chapter.practiceProblems || []);
+      const idx = parseStoredNonNegativeInteger(
+        safeGetItem(quizIndexKey(chapter.id, mode)),
+        Math.max(0, pool.length - 1),
+      );
+      return { startIndex: idx, endIndex: idx };
+    }
+    return questionRange;
+  })();
+
   /*
    * 同じ科目の中で「問題を持つ次の単元」。
-   * 1回分だけ（questionRange あり）を解いた場合は、同じ単元に次の回が残っているので
+   * 1回分だけ（effectiveRange あり）を解いた場合は、同じ単元に次の回が残っているので
    * 単元を飛び越えない（次の回は単元一覧で選ぶ）。
    */
   const nextChapter = (() => {
-    if (screen !== 'explanation' || questionRange || !subject) return null;
+    if (screen !== 'explanation' || effectiveRange || !subject) return null;
     const list = getChaptersOfSubject(subject);
     const at = list.findIndex((c: Chapter) => c.id === chapter.id);
     if (at < 0) return null;
@@ -191,9 +209,9 @@ export function QuizScreens({
 
   // 1回だけ解いた → 同じ単元の次の回（無ければ単元一覧へ戻る）
   const nextRoundIndex = (() => {
-    if (screen !== 'explanation' || !questionRange || questionRange.startIndex !== questionRange.endIndex) return -1;
+    if (screen !== 'explanation' || !effectiveRange || effectiveRange.startIndex !== effectiveRange.endIndex) return -1;
     const pool = mode === 'mini_test' ? (chapter.miniTest || []) : (chapter.practiceProblems || []);
-    return questionRange.endIndex + 1 < pool.length ? questionRange.endIndex + 1 : -1;
+    return effectiveRange.endIndex + 1 < pool.length ? effectiveRange.endIndex + 1 : -1;
   })();
 
   if (screen === 'quiz') {
@@ -208,7 +226,7 @@ export function QuizScreens({
           isGuest={isGuest}
           isMobileView={isMobileView}
           onExplanationChange={onExplanationChange}
-          questionRange={questionRange}
+          questionRange={effectiveRange}
         />
       </ErrorBoundary>
     );
@@ -252,7 +270,7 @@ export function QuizScreens({
           resultTotalCorrect={resultTotalCorrect}
           resultTotalJudgeable={resultTotalJudgeable}
           resultTotalTimeSec={resultTotalTimeSec}
-          questionRange={questionRange}
+          questionRange={effectiveRange}
           onRetryWrong={
             onRetryWrong
               ? (targets) => {
@@ -282,7 +300,7 @@ export function QuizScreens({
           resultTotalCorrect={resultTotalCorrect}
           resultTotalJudgeable={resultTotalJudgeable}
           resultTotalTimeSec={resultTotalTimeSec}
-          questionRange={questionRange}
+          questionRange={effectiveRange}
           onRetryWrong={
             onRetryWrong
               ? (targets) => {

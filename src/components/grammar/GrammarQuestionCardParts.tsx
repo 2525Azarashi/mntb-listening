@@ -1,8 +1,9 @@
 /**
  * 英文法カード共通パーツ：
- *   - `GrammarInlineBlank`：英文中の `______` を下線空所ボックスに変換し、採点後は `[誤答 → 正解]` をインライン比較表示
- *   - `GrammarQuestionStem`：`A` / `B` 話者ピル付きの会話ターンまたは番号バッジ付きの1文表示
- *   - `GrammarCompactReview`：正解時は1行折りたたみ、誤答・未回答時は「和訳」「要点」「入試のコツ」「音声」「他の選択肢の理由」を表示
+ *   - `GrammarMarkedText`：手がかり語句に番号つき黄色マーカー（`¹` `²`）を描画
+ *   - `GrammarInlineBlank`：英文中の `______` を下線空所ボックスに変換し、採点後は `[誤答 → 正解]` 比較＋手がかりマーカーを表示
+ *   - `GrammarQuestionStem`：`A` / `B` 話者ピル付きの会話ターン、`(a)/(b)` 等の複数行書き換え、または番号バッジ付き1文表示
+ *   - `GrammarCompactReview`：正解時は1行折りたたみ、誤答・未回答時は「和訳」「要点（手がかりマーカー連動）」「音声」「着眼点・4択すべての理由・補足・入試ポイント」を表示
  */
 import React, { useState } from 'react';
 import {
@@ -17,7 +18,10 @@ import {
 } from 'lucide-react';
 import { formatText } from '../../utils/textFormatter';
 import {
+  grammarCueMarksInWhy,
+  splitGrammarByMarks,
   splitGrammarDialogueTurns,
+  type GrammarResolvedCue,
   type GrammarSubReview,
 } from './grammarPageModel';
 import {
@@ -26,28 +30,68 @@ import {
   stopGrammarSpeech,
 } from './grammarSpeech';
 
+export function GrammarMarkedText({
+  text,
+  marks,
+}: {
+  text: string;
+  marks?: readonly { start: number; length: number; n: number }[];
+}) {
+  if (!text) return null;
+  if (!marks || marks.length === 0) {
+    return <span>{formatText(text, [], { prose: true, noMath: true })}</span>;
+  }
+  return (
+    <>
+      {splitGrammarByMarks(text, marks).map((piece, i) =>
+        piece.cue ? (
+          <mark
+            key={i}
+            className="gp-cue"
+            data-grammar-cue={piece.cue}
+            aria-label={`手がかり${piece.cue}`}
+          >
+            <sup aria-hidden="true">{piece.cue}</sup>
+            {piece.text}
+          </mark>
+        ) : (
+          <span key={i}>{formatText(piece.text, [], { prose: true, noMath: true })}</span>
+        ),
+      )}
+    </>
+  );
+}
+
 export function GrammarInlineBlank({
   line,
   filled,
   correctWord,
   result,
+  marks,
 }: {
   line: string;
   filled: string;
   correctWord?: string;
   result?: 'right' | 'wrong' | 'blank';
+  marks?: readonly { start: number; length: number; n: number }[];
 }) {
   const match = line.match(/_{3,}|\(\s*_{0,6}\s*\)/);
   if (!match || match.index === undefined) {
-    return <span>{formatText(line, [], { prose: true, noMath: true })}</span>;
+    return <GrammarMarkedText text={line} marks={marks} />;
   }
-  const before = line.slice(0, match.index);
-  const after = line.slice(match.index + match[0].length);
+  const blankStart = match.index;
+  const blankLen = match[0].length;
+  const before = line.slice(0, blankStart);
+  const after = line.slice(blankStart + blankLen);
+  const afterMarks = (marks || []).map((m) => ({
+    ...m,
+    start: m.start - blankStart - blankLen,
+  }));
   const showCorrection = (result === 'wrong' || result === 'blank') && Boolean(correctWord);
 
   return (
     <>
-      {before && <span>{formatText(before, [], { prose: true, noMath: true })}</span>}
+      {before && <GrammarMarkedText text={before} marks={marks} />}
       {showCorrection ? (
         <span className="gp-blank-compare" data-grammar-blank>
           {result === 'wrong' && filled && (
@@ -74,9 +118,30 @@ export function GrammarInlineBlank({
           {filled ? formatText(filled, [], { prose: true, noMath: true }) : <span className="gp-sr">空所</span>}
         </span>
       )}
-      {after && <span>{formatText(after, [], { prose: true, noMath: true })}</span>}
+      {after && <GrammarMarkedText text={after} marks={afterMarks} />}
     </>
   );
+}
+
+function sliceMarksForSubstring(
+  fullStem: string,
+  subText: string,
+  fromOffset: number,
+  cues?: readonly GrammarResolvedCue[],
+): { nextOffset: number; marks: { start: number; length: number; n: number }[] } {
+  if (!cues || cues.length === 0) {
+    return { nextOffset: fromOffset + subText.length, marks: [] };
+  }
+  const foundIdx = fullStem.indexOf(subText, fromOffset);
+  const base = foundIdx >= 0 ? foundIdx : fromOffset;
+  const marks = cues
+    .map((c) => ({
+      start: c.start - base,
+      length: c.phrase.length,
+      n: c.n,
+    }))
+    .filter((m) => m.start >= 0 && m.start + m.length <= subText.length);
+  return { nextOffset: base + subText.length, marks };
 }
 
 export function GrammarQuestionStem({
@@ -88,6 +153,7 @@ export function GrammarQuestionStem({
   unansweredTag,
   focusLabel,
   labelId,
+  cues,
 }: {
   displayNo: number;
   stem: string;
@@ -97,9 +163,12 @@ export function GrammarQuestionStem({
   unansweredTag?: boolean;
   focusLabel?: string;
   labelId: string;
+  cues?: readonly GrammarResolvedCue[];
 }) {
+  const activeCues = result ? cues : undefined;
   const turns = splitGrammarDialogueTurns(stem);
   if (turns) {
+    let cursor = 0;
     return (
       <div className="gp-dialogue-wrap" id={labelId}>
         <div className="gp-dialogue-head">
@@ -115,26 +184,82 @@ export function GrammarQuestionStem({
           )}
         </div>
         <div className="gp-dialogue-turns">
-          {turns.map((turn, idx) => (
-            <div key={idx} className="gp-turn" data-speaker={turn.speaker}>
-              <span className="gp-speaker-pill" data-speaker={turn.speaker} aria-hidden="true">
-                {turn.speaker}
-              </span>
-              <span className="gp-sr">{turn.speaker}: </span>
-              <p className="gp-turn-text" lang="en">
-                <GrammarInlineBlank
-                  line={turn.text}
-                  filled={filled}
-                  correctWord={correctWord}
-                  result={result}
-                />
-              </p>
-            </div>
-          ))}
+          {turns.map((turn, idx) => {
+            const sliced = sliceMarksForSubstring(stem, turn.text, cursor, activeCues);
+            cursor = sliced.nextOffset;
+            return (
+              <div key={idx} className="gp-turn" data-speaker={turn.speaker}>
+                <span className="gp-speaker-pill" data-speaker={turn.speaker} aria-hidden="true">
+                  {turn.speaker}
+                </span>
+                <span className="gp-sr">{turn.speaker}: </span>
+                <p className="gp-turn-text" lang="en">
+                  <GrammarInlineBlank
+                    line={turn.text}
+                    filled={filled}
+                    correctWord={correctWord}
+                    result={result}
+                    marks={sliced.marks}
+                  />
+                </p>
+              </div>
+            );
+          })}
         </div>
       </div>
     );
   }
+
+  // `(a) ... \n (b) ...` などの複数行問題文は行ごとに見やすく整形して描画する
+  const stemLines = stem.includes('\n')
+    ? stem
+        .split('\n')
+        .map((l) => l.trim())
+        .filter(Boolean)
+    : null;
+
+  if (stemLines && stemLines.length >= 2) {
+    let lineCursor = 0;
+    return (
+      <div className="gp-stem-block" id={labelId}>
+        <div className="gp-dialogue-head">
+          <span className="gp-no" aria-hidden="true">
+            {displayNo}
+          </span>
+          <span className="gp-sr">問{displayNo}　</span>
+          {focusLabel && result && <span className="gp-focus-tag">{focusLabel}</span>}
+          {unansweredTag && (
+            <span className="gp-unanswered-tag" data-grammar-unanswered>
+              未回答
+            </span>
+          )}
+        </div>
+        <div className="gp-multiline-stem">
+          {stemLines.map((line, i) => {
+            const sliced = sliceMarksForSubstring(stem, line, lineCursor, activeCues);
+            lineCursor = sliced.nextOffset;
+            return (
+              <p key={i} className="gp-sentence gp-sentence-line" lang="en">
+                <GrammarInlineBlank
+                  line={line}
+                  filled={filled}
+                  correctWord={correctWord}
+                  result={result}
+                  marks={sliced.marks}
+                />
+              </p>
+            );
+          })}
+        </div>
+      </div>
+    );
+  }
+
+  const fullMarks = (activeCues || []).map((c) => ({
+    start: c.start,
+    length: c.phrase.length,
+    n: c.n,
+  }));
 
   return (
     <div className="gp-stem-block" id={labelId}>
@@ -144,7 +269,13 @@ export function GrammarQuestionStem({
         </span>
         <span className="gp-sr">問{displayNo}　</span>
         <span lang="en">
-          <GrammarInlineBlank line={stem} filled={filled} correctWord={correctWord} result={result} />
+          <GrammarInlineBlank
+            line={stem}
+            filled={filled}
+            correctWord={correctWord}
+            result={result}
+            marks={fullMarks}
+          />
         </span>
         {focusLabel && result && <span className="gp-focus-tag">{focusLabel}</span>}
         {unansweredTag && (
@@ -181,10 +312,12 @@ export function GrammarCompactReview({
     status,
     translation,
     why,
+    hint,
     examTip,
     memorizeSet,
     plus,
     choices,
+    cues,
     audioUrl,
     completedSentence,
     keyPhrase,
@@ -210,6 +343,8 @@ export function GrammarCompactReview({
   };
 
   const hasChoiceReasons = choices.some((c) => Boolean(c.reason));
+  const showHintInDetail = Boolean(hint && hint !== why);
+  const whyMarks = grammarCueMarksInWhy(cues || []);
 
   return (
     <div className="gp-compact-review" data-grammar-explanation>
@@ -264,7 +399,9 @@ export function GrammarCompactReview({
           {why && (
             <p className="gp-ex-line gp-ex-line-key" data-role="key">
               <span className="gp-ex-pill gp-ex-pill-key">要点</span>
-              <span>{formatText(why, [], { prose: true, noMath: true })}</span>
+              <span>
+                <GrammarMarkedText text={why} marks={whyMarks} />
+              </span>
             </p>
           )}
           {memorizeSet && (
@@ -312,7 +449,7 @@ export function GrammarCompactReview({
             </div>
           )}
 
-          {(hasChoiceReasons || examTip || plus) && (
+          {(showHintInDetail || hasChoiceReasons || examTip || plus) && (
             <div className="gp-reasons-fold">
               <button
                 type="button"
@@ -325,6 +462,12 @@ export function GrammarCompactReview({
               </button>
               {reasonsOpen && (
                 <div className="gp-ex-body">
+                  {showHintInDetail && !why.includes(hint.replace(/。$/, '')) && (
+                    <p className="gp-ex-line gp-ex-line-hint" data-role="hint">
+                      <span className="gp-ex-pill gp-ex-pill-hint">着眼点</span>
+                      <span>{formatText(hint, [], { prose: true, noMath: true })}</span>
+                    </p>
+                  )}
                   {hasChoiceReasons && (
                     <ul className="gp-ex-choices">
                       {choices.map((c) => (
@@ -332,11 +475,13 @@ export function GrammarCompactReview({
                           <span className="gp-ex-mark" aria-hidden="true">
                             {c.correct ? '○' : '×'}
                           </span>
-                          <span>
-                            <b lang="en">
+                          <span className="gp-ex-choice-body">
+                            <b className="gp-ex-choice-word" lang="en">
                               {c.mark} {formatText(c.text, [], { prose: true, noMath: true })}
                             </b>
-                            　{c.reason ? formatText(c.reason, [], { prose: true, noMath: true }) : c.correct ? '正解' : ''}
+                            <span className="gp-ex-choice-reason">
+                              {c.reason ? formatText(c.reason, [], { prose: true, noMath: true }) : c.correct ? '正解' : ''}
+                            </span>
                           </span>
                         </li>
                       ))}
