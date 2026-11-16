@@ -141,7 +141,7 @@ export const NOTES_04: ToeicP5Note[] = [
     h: '空所が文頭にあり、直後にカンマがあることを見る。後ろの文全体についての評価を表す位置。',
     r: '文頭でカンマを伴い、文全体を修飾するのは副詞。fortunate（形容詞）や fortune（名詞）は置けない。',
     tip: '文頭の「＿, 」の形では、-ly の副詞を選ぶ。意味は後ろの出来事が良い知らせか悪い知らせかで確かめる。',
-    cues: [] },
+    cues: [{ p: 'arrived just before the deadline', w: '締め切り直前に届いた' }] },
   { // 29 within
     h: '空所の後ろの ten business days と、さらに後ろの of receiving the returned item を見る。',
     r: 'within ＋期間 は「〜以内に」。within 〜 of …の形で「…から〜以内に」と起点まで表せる。',

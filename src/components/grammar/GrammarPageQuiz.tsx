@@ -36,6 +36,7 @@ import { createScoreCurrentQuestion } from '../../utils/quizScoring';
 import { createQuizStepActions } from '../../utils/quizNavigationActions';
 import { loadRun, type ChapterRunState } from '../../utils/quizRunState';
 import { resolveQuizRange } from '../../utils/quizRange';
+import { readReviewFocus } from '../../utils/reviewFocus';
 import {
   quizAnswersKey,
   quizElimKey,
@@ -61,6 +62,7 @@ import { formatText } from '../../utils/textFormatter';
 import { logRejection } from '../../utils/reportError';
 import {
   buildGrammarSubReviews,
+  prefersMobileSingleColumnGrammarChoices,
   prefersSingleColumnGrammarChoices,
 } from './grammarPageModel';
 import {
@@ -142,9 +144,24 @@ export function GrammarPageQuiz({
     ),
   );
 
+  const hasReviewFocus = useMemo(() => {
+    const f = readReviewFocus();
+    return Boolean(f && f.chapterId === chapter.id);
+  }, [chapter.id]);
+
+  // 英文法は「1回（5問）＝1ステージ」。範囲未指定で開かれても復習ノートの絞り込み中でなければ1回ごとに区切る
+  const effectiveRange = useMemo(
+    () =>
+      questionRange ??
+      (hasReviewFocus
+        ? null
+        : { startIndex: currentQuestionIndex, endIndex: currentQuestionIndex }),
+    [questionRange, hasReviewFocus, currentQuestionIndex],
+  );
+
   const { rangeStart, rangeEnd } = resolveQuizRange(
     questions.length,
-    questionRange,
+    effectiveRange,
     currentQuestionIndex,
   );
 
@@ -319,7 +336,7 @@ export function GrammarPageQuiz({
     isGuest,
     questions,
     answers,
-    questionRange,
+    questionRange: effectiveRange,
     rangeStart,
     rangeEnd,
     currentQuestionIndex,
@@ -388,6 +405,14 @@ export function GrammarPageQuiz({
 
   const handleForward = () => {
     if (!pageScored) {
+      if (!hasNextRound) {
+        // 1回（5問）完結：採点と同時に結果画面（ResultInsight + ResultStage）へ進む
+        if (!currentQuestion || subs.length === 0) return;
+        setAttemptedRound((prev) => ({ ...prev, [currentQuestion.id]: true }));
+        scoreRound();
+        finishAllRounds();
+        return;
+      }
       handleScore();
       return;
     }
@@ -511,7 +536,9 @@ export function GrammarPageQuiz({
 
   const roundLabel = String(currentQuestion.category || `第${currentQuestionIndex + 1}回`);
   const forwardLabel = !pageScored
-    ? `この${subs.length}問を採点する`
+    ? hasNextRound
+      ? `この${subs.length}問を採点する`
+      : '採点して結果を見る'
     : hasNextRound
     ? '次の回へ'
     : '結果を見る';
@@ -569,8 +596,8 @@ export function GrammarPageQuiz({
         <div className="gp-subbar-row">
           <p className="gp-timer-label">
             <Clock size={13} aria-hidden="true" />
-            <span>経過 {fmtClock(elapsedSec)}</span>
-            <span className="gp-timer-limit">／目安 {fmtClock(roundLimitSec)}</span>
+            <span>{fmtClock(elapsedSec)}</span>
+            <span className="gp-timer-limit">／{fmtClock(roundLimitSec)}</span>
           </p>
 
           <ol className="gp-q-dots" aria-label="この回の問題へ移動">
@@ -691,6 +718,7 @@ export function GrammarPageQuiz({
               focusLabel,
               stem,
               choices,
+              cues,
               chosen,
               status: scoredStatus,
               filledWord,
@@ -705,9 +733,9 @@ export function GrammarPageQuiz({
                 : 'todo'
               : scoredStatus;
 
-            const singleCol = prefersSingleColumnGrammarChoices(
-              choices.map((c) => c.text),
-            );
+            const choiceTextsList = choices.map((c) => c.text);
+            const singleCol = prefersSingleColumnGrammarChoices(choiceTextsList);
+            const mobileSingleCol = prefersMobileSingleColumnGrammarChoices(choiceTextsList);
             const labelId = `gp-q-${sq.id}`;
             const exOpen = openEx[sq.id] ?? scoredStatus !== 'correct';
             const sqElims = eliminated[sq.id] || [];
@@ -741,6 +769,7 @@ export function GrammarPageQuiz({
                   }
                   focusLabel={focusLabel}
                   labelId={labelId}
+                  cues={pageScored ? cues : undefined}
                 />
 
                 <div
@@ -753,8 +782,8 @@ export function GrammarPageQuiz({
                   }}
                   onKeyDown={(e) => onGroupKeyDown(e, sq, idx)}
                   className={`gp-choices${singleCol ? ' is-single' : ''}${
-                    pageScored ? ' is-scored' : ''
-                  }`}
+                    mobileSingleCol ? ' is-mobile-single' : ''
+                  }${pageScored ? ' is-scored' : ''}`}
                 >
                   {choices.map((c) => {
                     const checked = chosen === c.mark;
@@ -897,7 +926,9 @@ export function GrammarPageQuiz({
           onClick={handleForward}
         >
           <span>{forwardLabel}</span>
-          {pageScored && <ChevronRight size={18} aria-hidden="true" />}
+          {(pageScored || !hasNextRound) && (
+            <ChevronRight size={18} aria-hidden="true" />
+          )}
         </button>
       </footer>
 

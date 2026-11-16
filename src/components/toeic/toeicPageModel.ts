@@ -155,6 +155,15 @@ export function prefersSingleColumn(texts: readonly string[] | undefined): boole
   return (texts || []).some((t) => String(t).length > LONG_CHOICE_CHARS);
 }
 
+/** スマホ（600px未満）で2×2だと窮屈になる選択肢（14文字以上または3語以上）を1列にする判定 */
+export function prefersMobileSingleColumn(texts: readonly string[] | undefined): boolean {
+  return (texts || []).some((raw) => {
+    const t = String(raw || '').trim();
+    if (t.length >= 14) return true;
+    return t.split(/\s+/).filter(Boolean).length >= 3;
+  });
+}
+
 /** ページの採点記録のキー。既存の「大問ID::小問ID」と同じ形（ページ先頭の小問IDを使う） */
 export function pageScoreKey(problem: Pick<Problem, 'id'>, page: readonly Pick<SubQuestion, 'id'>[]): string {
   return stepScoreKey(problem.id, page[0]?.id ?? '');

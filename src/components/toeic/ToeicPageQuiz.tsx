@@ -39,7 +39,7 @@ import {
 } from './toeicTimeBudget';
 import {
   countUnanswered, isToeicListeningChapter, isToeicPart6Chapter, isToeicPart7Chapter, p6SetOf, p6Snippet, p7EvidenceDoc, p7SetOf, p7Stem, pageFromStoredStep, pageScoreKey,
-  perPageOf, prefersSingleColumn, splitToeicPages, toeicExplanationFor,
+  perPageOf, prefersMobileSingleColumn, prefersSingleColumn, splitToeicPages, toeicExplanationFor,
 } from './toeicPageModel';
 import { toeicListeningChoiceTexts, toeicListeningPageAudioOf, toeicListeningStem } from '../../data/toeic/toeicListeningPage';
 import { ToeicListeningAudioBar } from './ToeicListeningAudioBar';
@@ -468,7 +468,7 @@ export function ToeicPageQuiz({
             tabIndex={0}
             ref={(el) => { groupRefs.current[sq.id] = el; }}
             onKeyDown={(e) => onGroupKeyDown(e, sq, idx)}
-            className={`tp-choices${prefersSingleColumn(texts) ? ' is-single' : ''}${pageScored ? ' is-scored' : ''}`}
+            className={`tp-choices${prefersSingleColumn(texts) ? ' is-single' : ''}${prefersMobileSingleColumn(texts) ? ' is-mobile-single' : ''}${pageScored ? ' is-scored' : ''}`}
           >
             {sq.options.map((mark, i) => {
               const checked = chosen === mark;

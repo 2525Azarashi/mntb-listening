@@ -27,7 +27,10 @@
 import type { BattleAnswerFormat, BattleQuestion } from '../core/types';
 
 /** 教科ごとの収録数（UIで「この教科は◯問あります」と出すために使う） */
-export const POOL_COUNTS: Readonly<Record<string, number>> = {"english_listening":254,"english_grammar":1163,"english_vocab":9541};
+export const POOL_COUNTS: Readonly<Record<string, number>> = {
+  english_listening: 254,
+  english_grammar: 1163,
+};
 
 /**
  * 教科ごと・回答形式ごとの収録数。
@@ -50,7 +53,10 @@ export const POOL_COUNTS: Readonly<Record<string, number>> = {"english_listening
  */
 export const POOL_FORMAT_COUNTS: Readonly<
   Record<string, Readonly<Partial<Record<BattleAnswerFormat, number>>>>
-> = {"english_listening":{"choice4":254},"english_grammar":{"choice4":1163},"english_vocab":{"choice4":9541}};
+> = {
+  english_listening: { choice4: 254 },
+  english_grammar: { choice4: 1163 },
+};
 
 /**
  * その教科で「指定の形式のうち」何問使えるかを数える。
@@ -111,8 +117,6 @@ async function loadRaw(subject: string): Promise<readonly unknown[][]> {
       return (await import('./pool.english_listening.generated')).POOL;
     case 'english_grammar':
       return (await import('./pool.english_grammar.generated')).POOL;
-    case 'english_vocab':
-      return (await import('./pool.english_vocab.generated')).POOL;
     default:
       return [];
   }
@@ -203,7 +207,10 @@ export function loadedPool(subject: string): readonly BattleQuestion[] {
  * リザルト画面が「この教科は解答が出ます／出ません」を
  * データ本体を読まずに判断するために置いてある。
  */
-export const ANSWER_COUNTS: Readonly<Record<string, number>> = {"english_listening":0,"english_grammar":1163,"english_vocab":9541};
+export const ANSWER_COUNTS: Readonly<Record<string, number>> = {
+  english_listening: 0,
+  english_grammar: 1163,
+};
 
 async function loadAnswerRaw(subject: string): Promise<readonly (readonly [string, string])[]> {
   switch (subject) {
@@ -211,8 +218,6 @@ async function loadAnswerRaw(subject: string): Promise<readonly (readonly [strin
       return (await import('./answer.english_listening.generated')).ANSWERS;
     case 'english_grammar':
       return (await import('./answer.english_grammar.generated')).ANSWERS;
-    case 'english_vocab':
-      return (await import('./answer.english_vocab.generated')).ANSWERS;
     default:
       return [];
   }

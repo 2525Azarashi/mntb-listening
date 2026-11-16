@@ -60,7 +60,7 @@ export const ROUND_07: ToeicP5Item[] = [
   { k: '語彙', t: '形容詞（過去分詞）', d: 2, sc: '出張・物流',
     s: 'Passengers are reminded that smoking is ______ on all flights.',
     c: 'prohibited', w: [['qualified', '「資格のある」。喫煙には使わない'], ['inclined', 'be inclined to do「〜したい気がする」の形で人に使う'], ['equipped', 'be equipped with 〜「〜を備えている」の形で使う']],
-    why: '機内での喫煙は「禁止されている」。',
+    why: '乗客への注意喚起として、すべての便（機内）での喫煙が「禁止されている」ことを表す prohibited を選ぶ。',
     tr: '乗客の皆様には、すべての便で喫煙が禁止されていることをお知らせします。', kw: [['be reminded that', '〜を念押しされる']] },
   { k: '代名詞', t: 'none of', d: 2, sc: '人事・研修',
     s: 'Although many applicants were interviewed, ______ of them had the required experience.',

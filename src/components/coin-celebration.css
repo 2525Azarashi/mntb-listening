@@ -4,6 +4,9 @@
  *   押せない（pointer-events: none）ので操作の邪魔をしない。動きは opacity / translate / scale / rotate だけ。
  */
 .coin-cele { position: fixed; left: 50%; top: calc(env(safe-area-inset-top, 0px) + 64px); z-index: 10003; translate: -50% 0; display: grid; place-items: center; pointer-events: none; }
+@media (max-width: 640px) {
+  .coin-cele { top: calc(env(safe-area-inset-top, 0px) + 10px); }
+}
 .coin-cele-pill { position: relative; z-index: 2; display: inline-flex; align-items: baseline; gap: 4px; padding: 8px 16px; border-radius: var(--mt-r-pill); background: linear-gradient(180deg, #fff7dc, #ffe39a); border: 2px solid #f2c14e; box-shadow: 0 4px 0 #d9a227, 0 10px 24px rgba(160, 110, 0, .28); color: var(--mt-accent-ink); font: 800 13px/1 var(--mt-font-body); white-space: nowrap; }
 .coin-cele-pill svg { align-self: center; color: #d79a00; }
 .coin-cele-pill b { font: 900 22px/1 var(--mt-font-display); color: #b26b00; }
