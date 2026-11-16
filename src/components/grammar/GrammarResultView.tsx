@@ -38,6 +38,7 @@ import { ResultInsight } from '../explanation/ResultInsight';
 import { ResultStage } from '../explanation/ResultSummary';
 import {
   buildGrammarSubReviews,
+  prefersMobileSingleColumnGrammarChoices,
   prefersSingleColumnGrammarChoices,
   type GrammarSubReview,
 } from './grammarPageModel';
@@ -417,17 +418,19 @@ export function GrammarResultView({
                 onClick={() => openDetailScreen()}
               >
                 <BookOpen size={18} aria-hidden="true" />
-                <span>
-                  詳しい解説・答え合わせを見る
-                  {wrongCount > 0 ? `（まちがい${wrongCount}問）` : ''}
-                </span>
+                <span className="gp-btn-detail-label">詳しい解説・答え合わせを見る</span>
+                {wrongCount > 0 ? (
+                  <span className="gp-btn-detail-badge">誤答 {wrongCount}問</span>
+                ) : (
+                  <span className="gp-btn-detail-badge is-perfect">全問正解</span>
+                )}
                 <ChevronRight size={18} aria-hidden="true" />
               </button>
 
               <div className="gp-summary-subactions">
                 <button type="button" className="gp-btn gp-btn-sub" onClick={onBack}>
                   <ArrowLeft size={16} aria-hidden="true" />
-                  <span>単元一覧</span>
+                  <span>一覧</span>
                 </button>
 
                 {retryTargets.length > 0 && onRetryWrong && (
@@ -437,7 +440,7 @@ export function GrammarResultView({
                     onClick={() => onRetryWrong(retryTargets)}
                   >
                     <RotateCcw size={15} aria-hidden="true" />
-                    <span>誤答だけ解き直す ({wrongCount})</span>
+                    <span>解き直す ({wrongCount})</span>
                   </button>
                 )}
 
@@ -499,71 +502,73 @@ export function GrammarResultView({
                     className="gp-bulk-btn"
                     onClick={() => setAllOpen(true)}
                   >
-                    解説をすべて開く
+                    全開
                   </button>
                   <button
                     type="button"
                     className="gp-bulk-btn"
                     onClick={() => setAllOpen(false)}
                   >
-                    すべて閉じる
+                    全閉
                   </button>
                 </div>
               </div>
 
-              {entries.length > 1 && (
-                <ol className="gp-jump-strip" aria-label="設問ごとの正誤">
-                  {entries.map(({ rev }) => {
-                    const sym =
-                      rev.status === 'correct'
-                        ? '○'
-                        : rev.status === 'wrong'
-                        ? '×'
-                        : '−';
-                    return (
-                      <li key={rev.sq.id}>
-                        <button
-                          type="button"
-                          className="gp-jump-chip"
-                          data-result={rev.status}
-                          onClick={() => jumpToQuestion(rev.sq.id)}
-                          aria-label={`問${rev.displayNo}（${
-                            rev.status === 'correct'
-                              ? '正解'
-                              : rev.status === 'wrong'
-                              ? '不正解'
-                              : '未回答'
-                          }）へ移動`}
-                        >
-                          <span>{rev.displayNo}</span>
-                          <b aria-hidden="true">{sym}</b>
-                        </button>
-                      </li>
-                    );
-                  })}
-                </ol>
-              )}
+              {(entries.length > 1 || wrongCount > 0) && (
+                <div className="gp-summary-navrow">
+                  {entries.length > 1 && (
+                    <ol className="gp-jump-strip" aria-label="設問ごとの正誤">
+                      {entries.map(({ rev }) => {
+                        const sym =
+                          rev.status === 'correct'
+                            ? '○'
+                            : rev.status === 'wrong'
+                            ? '×'
+                            : '−';
+                        return (
+                          <li key={rev.sq.id}>
+                            <button
+                              type="button"
+                              className="gp-jump-chip"
+                              data-result={rev.status}
+                              onClick={() => jumpToQuestion(rev.sq.id)}
+                              aria-label={`問${rev.displayNo}（${
+                                rev.status === 'correct'
+                                  ? '正解'
+                                  : rev.status === 'wrong'
+                                  ? '不正解'
+                                  : '未回答'
+                              }）へ移動`}
+                            >
+                              <span>{rev.displayNo}</span>
+                              <b aria-hidden="true">{sym}</b>
+                            </button>
+                          </li>
+                        );
+                      })}
+                    </ol>
+                  )}
 
-              {wrongCount > 0 && (
-                <div className="gp-toolbar">
-                  <div className="gp-filter-pills" role="group" aria-label="問題の絞り込み">
-                    <button
-                      type="button"
-                      className="gp-filter-pill"
-                      data-active={filter === 'all' || undefined}
-                      onClick={() => setFilter('all')}
-                    >
-                      全問 ({entries.length})
-                    </button>
-                    <button
-                      type="button"
-                      className="gp-filter-pill"
-                      data-active={filter === 'wrong' || undefined}
-                      onClick={() => setFilter('wrong')}
-                    >
-                      誤答・未回答のみ ({wrongCount})
-                    </button>
-                  </div>
+                  {wrongCount > 0 && (
+                    <div className="gp-filter-pills" role="group" aria-label="問題の絞り込み">
+                      <button
+                        type="button"
+                        className="gp-filter-pill"
+                        data-active={filter === 'all' || undefined}
+                        onClick={() => setFilter('all')}
+                      >
+                        全問 ({entries.length})
+                      </button>
+                      <button
+                        type="button"
+                        className="gp-filter-pill"
+                        data-active={filter === 'wrong' || undefined}
+                        onClick={() => setFilter('wrong')}
+                      >
+                        誤答のみ ({wrongCount})
+                      </button>
+                    </div>
+                  )}
                 </div>
               )}
             </section>
@@ -582,9 +587,9 @@ export function GrammarResultView({
                   filledWord,
                   correctWord,
                 } = rev;
-                const singleCol = prefersSingleColumnGrammarChoices(
-                  choices.map((c) => c.text),
-                );
+                const choiceTextsList = choices.map((c) => c.text);
+                const singleCol = prefersSingleColumnGrammarChoices(choiceTextsList);
+                const mobileSingleCol = prefersMobileSingleColumnGrammarChoices(choiceTextsList);
                 const labelId = `gp-res-q-${sq.id}`;
                 const isOpen = openEx[sq.id] ?? status !== 'correct';
 
@@ -618,7 +623,9 @@ export function GrammarResultView({
                       role="group"
                       aria-labelledby={labelId}
                       aria-disabled="true"
-                      className={`gp-choices is-scored${singleCol ? ' is-single' : ''}`}
+                      className={`gp-choices is-scored${singleCol ? ' is-single' : ''}${
+                        mobileSingleCol ? ' is-mobile-single' : ''
+                      }`}
                     >
                       {choices.map((c) => {
                         const checked = chosen === c.mark;
@@ -675,7 +682,7 @@ export function GrammarResultView({
           <footer className="gp-foot">
             <button type="button" className="gp-btn gp-btn-sub" onClick={onBack}>
               <ArrowLeft size={16} aria-hidden="true" />
-              <span>単元一覧</span>
+              <span>一覧</span>
             </button>
 
             {retryTargets.length > 0 && onRetryWrong && (
@@ -685,7 +692,7 @@ export function GrammarResultView({
                 onClick={() => onRetryWrong(retryTargets)}
               >
                 <RotateCcw size={15} aria-hidden="true" />
-                <span>誤答だけ解き直す ({wrongCount})</span>
+                <span>解き直す ({wrongCount})</span>
               </button>
             )}
 

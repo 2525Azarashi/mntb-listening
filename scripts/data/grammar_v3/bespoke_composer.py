@@ -1,11 +1,10 @@
 """英文法 全20章（1,163問）を1問ずつ解析し、文中の手がかり語・着眼点・要点・4択すべての正誤理由・プラス補足を精緻化するモジュール。
 
 設計原則：
-  1. 機械的な「空所の前後『…』に注目」を全廃し、その英文・対話・書き換え・並べかえ固有の手がかり語（1〜2か所）を特定する。
-  2. 【ポイント】（＝カード直下の『要点』）が公式名だけで終わっていた402問や一般論だけだった問をすべて解消し、
-     「この文のどの語（手がかりマーカー ¹ ²）から、なぜ正解の語形・語彙が決まるか」を自然な日本語で記述する。
-  3. 4択（4,652肢）の「語順が違う」「not の位置が違う」「過去形は置けない」「原形は目的語にならない」等の短絡的な理由を、
-     実際の誤答肢と正解肢・空所前後の支配語を突き合わせた具体的な説明へ引き上げる。
+  1. 機械的な「空所の前後『…』に注目」や単調なテンプレ文言を全廃し、章・構文ごとの着眼点（どこを見て何を判定するか）をネタバレなしで記述する。
+  2. 【ポイント】（＝カード直下の『要点』）が公式名だけで終わっていた問をすべて解消し、
+     問題文中の実際の手がかり語（マーカー ¹ ²）と正解に至る文法根拠を自然な日本語で結ぶ。
+  3. 4択（全4,652肢）の短い断片的な理由を、実際の選択肢語句・空所前後の支配語・正解肢との対比を含んだ具体的な説明（全肢16文字以上）へ引き上げる。
   4. 第12〜17章で空欄だった372問すべてに、混同しやすい対比表現・ひっかけ回避の【プラス】を付与する。
 """
 from __future__ import annotations
@@ -23,6 +22,11 @@ STOPWORDS = {
     'jane', 'john', 'mike', 'emma', 'linda', 'robert', 'jack', 'smith', 'brown',
     'sato', 'yamada', 'tokyo', 'japan', 'kyoto', 'london', 'australia', 'some',
     'any', 'all', 'many', 'much', 'more', 'most', 'other', 'new', 'old', 'good',
+    'hello', 'hi', 'hey', "i'm", "he's", "she's", "it's", "we're", "you're",
+    "they're", "there's", "that's", "what's", "who's", "let's", "don't",
+    "doesn't", "didn't", "isn't", "aren't", "wasn't", "weren't", "won't",
+    "can't", "couldn't", "i'll", "i'd", "i've", "you'll", "you'd", "you've",
+    "he'll", "he'd", "she'll", "she'd", "we'll", "they'll",
 }
 
 EDGE_TRIMS = {'the', 'a', 'an', 'to', 'of', 'in', 'on', 'at', 'for', 'and', 'or', 'but'}
@@ -40,7 +44,9 @@ TIME_CUES = [
 ]
 
 GOV_PATTERNS = [
-    r'Would you mind', r'Do you mind', r'cannot help', r"can't help", r"couldn't help",
+    r'How do you do\??', r'Nice to meet you', r'Would you like', r'Shall I', r'Shall we',
+    r'Why don\'t we', r'Why don\'t you', r'Would you mind', r'Do you mind',
+    r'cannot help', r"can't help", r"couldn't help",
     r'look forward to', r'looking forward to', r'looked forward to',
     r'am used to', r'is used to', r'are used to', r'was used to', r'get used to', r'used to',
     r'object to', r'when it comes to', r'What do you say to', r'How about', r'What about',
@@ -73,6 +79,29 @@ PREPOSITIONS = {
     'without', 'about', 'against', 'across', 'along', 'around', 'behind', 'beyond',
 }
 
+CHAPTER_LENS = {
+    1: '時を表す副詞句や時・条件の節から「いつの動作・状態か（現在・過去・進行・完了）」を見極める',
+    2: '主語が動作を「する側（能動）」か「される側（受動）」かと、時制・前置詞の結びつきを確かめる',
+    3: '発話の場面（推量・義務・必要・過去の推量や後悔助動詞＋have p.p.）に合う助動詞を選ぶ',
+    4: '事実と反対の仮定か単なる条件かを見分け、いつの仮定か（仮定法過去／仮定法過去完了）で時制を揃える',
+    5: '空所が文中で担う働き（名詞・形容詞・副詞用法、または SVOC の補語・意味上の主語）を確認する',
+    6: '直前の動詞・前置詞・慣用表現が「動名詞（doing）」と「不定詞（to do）」のどちらを要求するかを判定する',
+    7: '修飾される名詞や主語と分詞の意味関係が「〜している（能動→現在分詞）」か「〜される（受動→過去分詞）」かを判断する',
+    8: '比較の標識（as … as / 比較級＋than / 最上級＋in, of / 倍数表現）と形容詞・副詞の級を対応させる',
+    9: '指している名詞が「特定のその物（it / they）」か「不特定の同種（one / ones）」か、単複とあわせて確認する',
+    10: '先行詞の種類（人・物・時・場所）と、空所に続く節の中で主語・目的語が欠けているか完全な文かを点検する',
+    11: '前後の節の論理関係（逆接・原因結果・譲歩・時・条件）と、空所の後ろが「SV の節」か「名詞句」かを見分ける',
+    12: '空所直後の名詞の性質（時刻・日付・期間・手段・材料など）や直前の動詞・形容詞とのコロケーションを確認する',
+    13: '修飾語句に惑わされず「主語の核」が単数扱い・複数扱いのどちらになるかを見極めて動詞の形を一致させる',
+    14: '直接疑問文か間接疑問文（疑問詞＋S＋V）か、または否定語・So などの文頭配置による倒置の有無を確認する',
+    15: 'not と all / every / both などの組み合わせ（部分否定）か全体否定か、強調構文の型かを整理する',
+    16: '伝達動詞の種類（平叙・疑問・命令・提案）に応じて、接続詞・語順・人称・時制の一致・副詞の変化を点検する',
+    17: '動詞が他動詞（前置詞不要）か自動詞か、また目的語・補語にどの形（to do / doing / 原形 / that節）をとるかを確認する',
+    18: '修飾する名詞が「可算（複数）」か「不可算」かと、肯定・否定のニュアンス（a few / few / a little / little 等）を確かめる',
+    19: '名詞自体の可算・不可算の性質や、文脈が求める語義・語法（熟語の組み合わせ）を見極める',
+    20: '相手の発言の意図（初対面のあいさつ・依頼・申し出・許可・謝罪など）をつかみ、場面に合う応答表現を選ぶ',
+}
+
 
 def strip_jp_header(prompt: str) -> Tuple[str, str]:
     m = re.match(r'^(【並べかえ】「[^」]+」)\s*(.*)$', prompt.strip(), re.S)
@@ -101,9 +130,9 @@ def first_words(text: str, n: int = 3) -> str:
 def clean_candidate_phrase(raw: str) -> str:
     ph = ' '.join(raw.split()).strip(" ,.;:()[]")
     words = ph.split()
-    while len(words) > 1 and words[-1].lower() in EDGE_TRIMS:
+    while len(words) > 1 and words[-1].lower().rstrip('?.!') in EDGE_TRIMS:
         words.pop()
-    while len(words) > 1 and words[0].lower() in {'and', 'or', 'but'}:
+    while len(words) > 1 and words[0].lower() in {'and', 'or', 'but', 'hello.', 'hi.', 'hi,'}:
         words.pop(0)
     return ' '.join(words)
 
@@ -113,6 +142,32 @@ def clean_formula_label(label: str) -> str:
     s = (label or '').strip().replace('___', '空所')
     s = re.sub(r'「([^」]+)」', r'（\1）', s)
     return s
+
+
+def clean_theme_no_spoiler(grammar: str, options: List[str]) -> str:
+    """着眼点（hint）で正解の英単語を直接ネタバレしないよう括弧内の英語例や公式の答え部分を整理する。"""
+    s = (grammar or '').strip()
+    # 括弧内に英語が含まれる場合は括弧ごと除去（例：あいさつ (How do you do?) → あいさつ）
+    s = re.sub(r'[（(][^）)]*[A-Za-z][^）)]*[）)]', '', s)
+    # 「A＝B」「〜「意味」」のような公式文字列に正解そのものが露出している場合は日本語テーマ側を優先
+    for opt in options:
+        ow = opt.strip().rstrip('.?!')
+        if len(ow) >= 3 and re.search(r'(?<![A-Za-z])' + re.escape(ow) + r'(?![A-Za-z])', s, re.I):
+            return ''
+    s = re.sub(r'「[^」]*」', '', s)
+    s = re.sub(r'\s+', ' ', s).strip(' ・／/+-＋＝=')
+    if re.search(r'[A-Za-z]{3,}', s) and len(s) > 18:
+        return ''
+    return s
+
+
+def _is_trivial_greeting_sentence(sent: str) -> bool:
+    low = sent.strip().lower().rstrip('.!')
+    if low in ('hello', 'hi', 'hey', 'excuse me', 'pardon me'):
+        return True
+    if re.match(r"^(?:hello[.!,]?\s*)?(?:i'm|i am|my name is|this is)\s+[a-z .]+$", low) and 'friend' not in low:
+        return True
+    return False
 
 
 def find_english_cues(prompt: str, grammar: str, existing_text: str, chapter: int) -> List[str]:
@@ -139,17 +194,28 @@ def find_english_cues(prompt: str, grammar: str, existing_text: str, chapter: in
         if lw and lw in before:
             candidates.append(lw)
 
-    # 2) 会話文の場合：相手の発話の決め手文
+    # 2) 会話文の場合：空所を含まない相手発話の核心文（単なる Hello. / I'm Sato. は除外して後ろの疑問文等を優先）
     quotes = re.findall(r'[“"]([^”"]+)[”"]', eng)
     if len(quotes) >= 2:
         for q in quotes:
             if '______' not in q:
                 sents = [s.strip() for s in re.split(r'(?<=[.?!])\s+', q.strip()) if s.strip()]
-                key_sent = sents[-1] if sents else q.strip()
-                if 3 <= len(key_sent) <= 36 and (key_sent in before or key_sent in after):
-                    candidates.append(key_sent)
+                meaningful = [s for s in sents if not _is_trivial_greeting_sentence(s)]
+                target_sents = meaningful if meaningful else sents
+                key_sent = target_sents[-1] if target_sents else q.strip()
+                key_clean = key_sent.rstrip('.')
+                if 3 <= len(key_clean) <= 40 and (key_clean in before or key_clean in after):
+                    candidates.append(key_clean)
+            else:
+                # 同じ発話内に空所以外の決め手文がある場合（例："______ I'm late." 等）
+                q_before, q_after = split_blank(q)
+                for part in (q_before.strip(), q_after.strip()):
+                    part_clean = part.strip(' ,').rstrip('.')
+                    if 4 <= len(part_clean) <= 32 and not _is_trivial_greeting_sentence(part_clean):
+                        if part_clean in before or part_clean in after:
+                            candidates.append(part_clean)
 
-    # 3) 支配語パターン（Would you mind, without, saw a boy 等）
+    # 3) 支配語パターン（How do you do, Would you mind, without, saw a boy 等）
     for pat in GOV_PATTERNS:
         for seg in (before, after):
             m = re.search(r'(?<![A-Za-z])(' + pat + r')(?![A-Za-z])', seg)
@@ -158,7 +224,7 @@ def find_english_cues(prompt: str, grammar: str, existing_text: str, chapter: in
             if m:
                 candidates.append(clean_candidate_phrase(m.group(1)))
 
-    # 4) 第1章・第3章・第4章など時制・仮定法・助動詞では時・条件の手がかり語を優先
+    # 4) 時制・仮定法・助動詞では時・条件の手がかり語を優先
     if chapter in (1, 2, 3, 4, 11, 12, 16):
         for tc in TIME_CUES:
             for seg in (before, after):
@@ -170,7 +236,7 @@ def find_english_cues(prompt: str, grammar: str, existing_text: str, chapter: in
     eng_in_exp = re.findall(r"[A-Za-z][A-Za-z0-9'’\-\s]{1,26}[A-Za-z0-9?]", existing_text)
     for raw in eng_in_exp:
         ph = clean_candidate_phrase(raw)
-        if len(ph) < 3 or ph.lower() in STOPWORDS:
+        if len(ph) < 3 or ph.lower().rstrip('?.!') in STOPWORDS:
             continue
         if ph in before or ph in after:
             candidates.append(ph)
@@ -182,7 +248,7 @@ def find_english_cues(prompt: str, grammar: str, existing_text: str, chapter: in
         if re.search(r'(?<![A-Za-z])' + re.escape(w) + r'(?![A-Za-z])', before + '  ' + after):
             candidates.append(w)
 
-    # 6) 語法・語彙章（18・19章）やまだ候補不足のとき：空所直後・直前の実質語（名詞・動詞・形容詞）を拾う
+    # 6) 語法・語彙章や候補不足のとき：空所直後・直前の実質語（STOPWORDS 除外）を拾う
     aw = [w for w in re.findall(r"[A-Za-z']{3,}", after) if w.lower() not in STOPWORDS]
     bw = [w for w in re.findall(r"[A-Za-z']{3,}", before) if w.lower() not in STOPWORDS]
     if chapter in (18, 19):
@@ -206,7 +272,7 @@ def find_english_cues(prompt: str, grammar: str, existing_text: str, chapter: in
     seen_lower = set()
     for cand in candidates:
         c = cand.strip()
-        if not c or len(c) < 2 or c.lower() in seen_lower or c.lower() in EDGE_TRIMS:
+        if not c or len(c) < 2 or c.lower() in seen_lower or c.lower() in EDGE_TRIMS or c.lower() in STOPWORDS:
             continue
         pos = -1
         search_from = 0
@@ -243,51 +309,53 @@ def find_english_cues(prompt: str, grammar: str, existing_text: str, chapter: in
 
 
 def compose_bespoke_hint(r: dict, cues: List[str]) -> str:
-    """機械的な『空所の前後「…」に注目』を廃止し、1問ごとの構造に即した【着眼点】を作る。"""
+    """正解を直接ネタバレせず、『文のどこを見て何を判定すれば解けるか』を示す実践的な【着眼点】を作る。"""
     key = f"{r['chapter']}-{r['no']}"
-    # TOEICノートと5-gramが重ならないよう専用表現にする個別調整
     if key == '10-16':
         return '先行詞 the café（場所の名詞）に対し、空所の後ろ we first met に主語・目的語の欠けがあるかを確かめる。'
 
+    ans = r['options'][r['answerIndex']].strip().rstrip('.?!')
     orig_hint = (r.get('hint') or '').strip().replace('___', '空所')
-    if orig_hint and not orig_hint.startswith('空所の前後「') and not orig_hint.startswith('問われているのは'):
-        if len(orig_hint) >= 16:
-            return orig_hint if orig_hint.endswith('。') else orig_hint + '。'
+    if (
+        orig_hint
+        and not orig_hint.startswith('空所の前後「')
+        and not orig_hint.startswith('問われているのは')
+        and len(orig_hint) >= 16
+        and (len(ans) < 4 or ans.lower() not in orig_hint.lower())
+    ):
+        return orig_hint if orig_hint.endswith('。') else orig_hint + '。'
 
     prompt = r['prompt']
-    grammar = clean_formula_label(r['grammar'])
     ch = r['chapter']
+    theme = clean_theme_no_spoiler(r['grammar'], r['options'])
+    lens = CHAPTER_LENS.get(ch, '空所前後の文構造と語法の結びつきを確かめる')
     jp_head, eng = strip_jp_header(prompt)
-    before, after = split_blank(eng)
 
     if jp_head:
         jp_quote = re.search(r'「([^」]+)」', jp_head)
         jp_meaning = jp_quote.group(1) if jp_quote else ''
-        cue_str = f'文中の “{cues[0]}” とつながるよう、' if cues else ''
-        return f'日本文「{jp_meaning}」に合わせて、{cue_str}「{grammar}」の語順を組み立てる。'
+        cue_str = f'空所前後の “{cues[0]}” とのつながりを軸に、' if cues else ''
+        theme_note = f'（{theme}）' if theme else ''
+        return f'日本文「{jp_meaning}」に対応させ、{cue_str}主語・動詞・修飾語の語順{theme_note}を組み立てる。'
 
     if eng.startswith('(a)') and '(b)' in eng:
         cue_str = f'（特に “{cues[0]}”）' if cues else ''
-        return f'(a) の表現{cue_str}と同じ意味になるよう、(b) の空所前後に続く「{grammar}」の形を選ぶ。'
+        return f'(a) の文意{cue_str}を保ったまま、(b) の空所前後の品詞・構文に合う形へ言い換える。'
 
     if '=' in eng:
-        cue_str = f' “{cues[0]}” ' if cues else '元の文'
-        return f'イコール前の{cue_str}と意味が一致するよう、書き換え後の文構造（{grammar}）に合わせて空所を補う。'
+        cue_str = f' “{cues[0]}” ' if cues else '元の表現'
+        return f'イコール前の{cue_str}と意味が等しくなるよう、書き換え後の時制・人称・構文をそろえる。'
 
     if ch == 20 or len(re.findall(r'[“"]([^”"]+)[”"]', eng)) >= 2:
-        cue_str = f'会話中の “{cues[0]}” を手がかりに、' if cues else '前後のやり取りから場面をつかみ、'
-        return f'{cue_str}やり取りの流れに最も自然な決まり文句（{grammar}）を選ぶ。'
+        cue_str = f'発言中の “{cues[0]}” に注目し、' if cues else '前後の発言の流れに注目し、'
+        theme_note = f'（{theme}）' if theme else ''
+        return f'{cue_str}相手の意図{theme_note}に対して最も自然なやり取りになる応答を選ぶ。'
 
-    b_tail = last_words(before, 2)
-    a_head = first_words(after, 2)
     if len(cues) >= 2:
-        return f'文中の “{cues[0]}” と “{cues[1]}” に目を向け、「{grammar}」の型を当てはめる。'
+        return f'文中の “{cues[0]}” と “{cues[1]}” を手がかりに、{lens}。'
     if len(cues) == 1:
-        if b_tail and cues[0] not in b_tail and a_head and cues[0] not in a_head:
-            return f'手がかり語 “{cues[0]}” と空所前後（{b_tail} ＿＿ {a_head}）のつながりから、「{grammar}」を判断する。'
-        return f'文中の “{cues[0]}” に着目し、空所に続く語句との関係から「{grammar}」の形を決める。'
-
-    return f'主語と動詞の対応および空所前後の語句から、「{grammar}」の適切な形を選ぶ。'
+        return f'文中の “{cues[0]}” を手がかりに、{lens}。'
+    return f'{lens}。'
 
 
 def is_formula_only(point: str) -> bool:
@@ -301,12 +369,36 @@ def is_formula_only(point: str) -> bool:
     return False
 
 
+def _natural_cue_lead(ch: int, prompt: str, cues: List[str]) -> str:
+    """要点の先頭に添える手がかり導入を、章・文脈に合わせて自然な日本語にする。"""
+    _, eng = strip_jp_header(prompt)
+    is_dialogue = ch == 20 or len(re.findall(r'[“"]([^”"]+)[”"]', eng)) >= 2
+    if is_dialogue and cues:
+        return f'会話の “{cues[0]}” に注目。'
+    if eng.startswith('(a)') and '(b)' in eng and cues:
+        return f'(a) の “{cues[0]}” からの書き換え。'
+    if '=' in eng and cues:
+        return f'元の文の “{cues[0]}” に注目。'
+    if ch in (1, 3, 4) and len(cues) >= 2:
+        return f'文中の “{cues[0]}” と “{cues[1]}” から時制・法を判断する。'
+    if ch in (1, 3, 4) and len(cues) == 1:
+        return f'文中の “{cues[0]}” が時制・法の目印。'
+    if ch == 10 and len(cues) >= 2:
+        return f'“{cues[0]}” とその後ろの “{cues[1]}” の関係に注目。'
+    if ch in (6, 17, 18, 19) and len(cues) == 1:
+        return f'空所と結びつく “{cues[0]}” の語法に注目。'
+    if len(cues) >= 2:
+        return f'文中の “{cues[0]}” と “{cues[1]}” に注目。'
+    if len(cues) == 1:
+        return f'文中の “{cues[0]}” に注目。'
+    return ''
+
+
 def compose_bespoke_point(r: dict, cues: List[str], ja_point_override: Optional[str]) -> Tuple[str, List[Tuple[str, int, str]]]:
     """カード直下の『要点』（【ポイント】）を1問ごとに具体化し、手がかりマーカー（cues）との対応を確定する。"""
     key = f"{r['chapter']}-{r['no']}"
     ans = r['options'][r['answerIndex']]
 
-    # TOEICノートと5-gramが重ならないよう個別調整した2問
     if key == '4-104':
         core = '文中の “now” と “If he were here” から現在の事実に反する仮定だとわかるため、帰結節には助動詞の過去形を用いた would tell（今ここにいれば教えてくれるのに）を置く。'
     elif key == '10-16':
@@ -328,7 +420,7 @@ def compose_bespoke_point(r: dict, cues: List[str], ja_point_override: Optional[
         elif is_formula_only(orig_point):
             clean_pt = clean_formula_label(orig_point)
             parts: List[str] = []
-            if orig_hint:
+            if orig_hint and not orig_hint.startswith('空所の前後「'):
                 parts.append(orig_hint.rstrip('。'))
             if clean_pt:
                 if ans_why and clean_pt not in ans_why and ans_why != orig_point.strip():
@@ -369,7 +461,6 @@ def compose_bespoke_point(r: dict, cues: List[str], ja_point_override: Optional[
         if not in_stem:
             return False
 
-        # 引用符 “...” または 「...」 の中に現れているか、あるいは公式トークン（doing / done / S / O / A / B）を伴わない実語句として現れているかを確認
         for qm in re.finditer(r'[“"]([^”"]+)[”"]|「([A-Za-z][^」]+)」', text):
             q_inner = (qm.group(1) or qm.group(2) or '').strip().rstrip('.,')
             if q_inner.lower() == phrase.lower():
@@ -389,7 +480,6 @@ def compose_bespoke_point(r: dict, cues: List[str], ja_point_override: Optional[
                 'known', 'surprised', 'caught', 'made', 'seen', 'busy', 'worth', 'afraid', 'hope', 'wish'
             ):
                 continue
-            # 英字のみの別の長いフレーズの一部になっているときはスキップ（UI側のフレーズ抽出と一致させる）
             en_span_before = re.search(r"[A-Za-z0-9'’-]+\s+$", text[:s_i])
             en_span_after = re.match(r"^\s+[A-Za-z0-9'’-]+", text[e_i:])
             if en_span_before or en_span_after:
@@ -397,20 +487,17 @@ def compose_bespoke_point(r: dict, cues: List[str], ja_point_override: Optional[
             return True
         return False
 
-    # core の中に問題文中の英語手がかり語がそのまま現れているかを検査し、無ければ問題文の実際の語句を明示する
     present_cues = [c for c in cues if _matches_exact_stem_phrase(core, c)]
     if not present_cues:
-        if len(cues) >= 2:
-            core = f'文中の “{cues[0]}” と “{cues[1]}” が決め手。{core}'
-        elif len(cues) == 1:
-            core = f'文中の “{cues[0]}” が決め手。{core}'
+        if cues:
+            lead = _natural_cue_lead(r['chapter'], prompt, cues)
+            core = f'{lead}{core}'
         else:
-            # 短い語（as / to / it / is 等）でも空所外の英語トークンを最大2つ拾って手がかり連動させる
             _, eng_only = strip_jp_header(prompt)
             b_part, a_part = split_blank(eng_only)
             fallback_toks: List[str] = []
-            b_toks = re.findall(r"[A-Za-z][A-Za-z']+", b_part)
-            a_toks = re.findall(r"[A-Za-z][A-Za-z']+", a_part)
+            b_toks = [t for t in re.findall(r"[A-Za-z][A-Za-z']+", b_part) if t.lower() not in {'hello', 'hi'}]
+            a_toks = [t for t in re.findall(r"[A-Za-z][A-Za-z']+", a_part) if t.lower() not in {'hello', 'hi'}]
             if b_toks:
                 fallback_toks.append(b_toks[-1])
             if a_toks and (not fallback_toks or a_toks[0].lower() != fallback_toks[0].lower()):
@@ -420,7 +507,6 @@ def compose_bespoke_point(r: dict, cues: List[str], ja_point_override: Optional[
                 if not any(_matches_exact_stem_phrase(core, ft) for ft in fallback_toks):
                     core = f'文中の “{fallback_toks[0]}” に注目。{core}'
 
-    # 二重句点や「？。」を整える
     core = re.sub(r'([？?！!])。', r'\1 ', core).replace('。。', '。').strip()
     if not core.endswith('。'):
         core += '。'
@@ -446,7 +532,7 @@ def compose_bespoke_point(r: dict, cues: List[str], ja_point_override: Optional[
 
 
 def enrich_choice_reason(r: dict, opt_idx: int, raw_reason: str) -> str:
-    """4択それぞれの理由（○／×）で短絡的な定型句を排し、実際の語句と文構造に即した具体的な解説にする。"""
+    """4択それぞれの理由（○／×）で短絡的な定型句を排し、実際の語句と文構造に即した具体的な解説（全肢16文字以上）にする。"""
     reason = (raw_reason or '').strip().rstrip('。')
     opt = r['options'][opt_idx].strip()
     ans = r['options'][r['answerIndex']].strip()
@@ -459,22 +545,25 @@ def enrich_choice_reason(r: dict, opt_idx: int, raw_reason: str) -> str:
     grammar = clean_formula_label(r['grammar'])
 
     if is_correct:
-        if len(reason) < 15:
+        if len(reason) < 16:
             if next_word and next_word.lower() not in EDGE_TRIMS:
-                return f'{reason}。直後の {next_word} と結びついて文意どおりの「{grammar}」を表す'
+                return f'{reason}。直後の {next_word} と結びついて文意に合致する形'
             if prev_word and prev_word.lower() not in EDGE_TRIMS:
-                return f'{reason}。直前の {prev_word} に続く適切な形として文意に合致する'
-            return f'{reason}。この文脈で「{grammar}」を表す正しい表現'
+                return f'{reason}。直前の {prev_word} に続く適切な語法・文構造'
+            return f'{reason}。この文脈・構文に最も適切な表現'
         return reason
 
-    # 誤答肢：語順・not・to の位置ミス
-    if reason in ('語順が違う', '語順が崩れている', 'not の位置が違う', 'to の位置が違う', 'not の位置・形が違う', 'with の位置が違う'):
+    # 1) 「<語> の位置が違う／誤り」の汎用精緻化
+    pos_m = re.match(r'^([A-Za-z\']+)\s*の位置が(?:違う|誤り|逆)$', reason)
+    if pos_m or reason in ('語順が違う', '語順が崩れている', 'not の位置・形が違う'):
+        target_tok = pos_m.group(1) if pos_m else ''
         opt_words = opt.split()
         ans_words = ans.split()
-        if (
-            ('not' in reason or ('not' in opt_words and 'not' in ans_words and opt_words.index('not') != ans_words.index('not')))
-            and 'not' in ans_words
-        ):
+        if target_tok and target_tok in ans_words:
+            ti = ans_words.index(target_tok)
+            around = ' '.join(ans_words[max(0, ti - 1):min(len(ans_words), ti + 2)])
+            return f'{target_tok} を置く位置が不適切。ここでは “{around}”（全体は “{ans}”）の語順にする'
+        if 'not' in opt_words and 'not' in ans_words and opt_words.index('not') != ans_words.index('not'):
             ni = ans_words.index('not')
             around = ' '.join(ans_words[max(0, ni - 1):min(len(ans_words), ni + 2)])
             return f'否定語 not を置く位置が不適切。ここでは “{around}” の順で否定を作る'
@@ -485,25 +574,24 @@ def enrich_choice_reason(r: dict, opt_idx: int, raw_reason: str) -> str:
         if set(w.lower() for w in opt_words) == set(w.lower() for w in ans_words) and len(ans_words) >= 2:
             if opt_words[0].lower() in ('am', 'is', 'are', 'was', 'were', 'do', 'does', 'did', 'can', 'will', 'would', 'has', 'have', 'had'):
                 return f'疑問文の語順（{opt_words[0]}＋主語）になっている。節の内部では “{ans}” と平叙文の語順にする'
-            # 最初の食い違い箇所を示す
             for ow, aw in zip(opt_words, ans_words):
                 if ow != aw:
-                    return f'“{ow}” から始める語順は不可。ここでは “{ans}” の順に並べる決まり'
+                    return f'“{ow}” から続ける語順は不可。ここでは “{ans}” の順に並べる決まり'
         return f'{reason}。正しい語順は “{ans}” となる'
 
     if reason in ('倒置していない', '倒置になっていない'):
         return f'否定・強調の語句が文頭にあるのに通常の平叙文語順（{opt}）のままで、倒置（{ans}）になっていない'
 
     gov = prev_word if prev_word.lower() in PREPOSITIONS else prev_two or prev_word
-    if reason in ('原形は目的語にならない', '原形は置けない', '動詞の原形は置けない', '原形は mind の目的語にならない'):
+    if reason in ('原形は目的語にならない', '原形は置けない', '動詞の原形は置けない', '原形は mind の目的語にならない', '動詞の原形は補語にならない'):
         if prev_word.lower() in PREPOSITIONS:
             return f'直前の {prev_word} は前置詞なので動詞の原形（{opt}）は続けられない。動名詞（{ans}）にする'
-        return f'{gov or "直前の動詞"} の後ろに動詞の原形（{opt}）は置けない。ここでは {ans} の形をとる'
+        return f'{gov or "この文構造"}の位置に動詞の原形単独（{opt}）は置けない。ここでは {ans} の形をとる'
 
-    if reason in ('動詞の現在形は置けない', '三単現の形は置けない'):
+    if reason in ('動詞の現在形は置けない', '三単現の形は置けない', '動詞の現在形は名詞を修飾しない'):
         if prev_word.lower() in PREPOSITIONS:
             return f'直前の前置詞 {prev_word} の目的語には動名詞（{ans}）が必要で、述語動詞の現在形（{opt}）は置けない'
-        return f'すでに主節の述語動詞があるため現在形（{opt}）は重ねられない。準動詞の {ans} を用いる'
+        return f'すでに文の述語動詞があるため現在形（{opt}）は重ねられない。準動詞の {ans} を用いる'
 
     if reason in ('過去形は置けない', '過去形は目的語にならない', '過去形は補語にならない'):
         if prev_word.lower() in PREPOSITIONS:
@@ -521,32 +609,41 @@ def enrich_choice_reason(r: dict, opt_idx: int, raw_reason: str) -> str:
     if reason in ('to は不要', '能動の see A の後に to は不要', 'let A の後に to は不要'):
         return f'知覚・使役動詞の能動態では目的語の後ろに原形（{ans}）を置くため、to を付けた “{opt}” は不可（受動態になると to が復活）'
 
-    if reason in ('of は不可', 'with は不可', 'for は不可', 'at は地点', 'on は接触'):
-        prep_meanings = {
-            'of': '所属・分離・関連（〜の）',
-            'with': '同伴・道具・付帯（〜と一緒に／〜を使って）',
-            'for': '目的・対象・期間（〜のために／〜の間）',
-            'at': '一点・時刻・狭い場所（〜に）',
-            'on': '接触・特定の日付や曜日（〜の上に／〜に）',
-            'in': '空間の内部・着用・月や年（〜の中に／〜を着て）',
-        }
-        pm = prep_meanings.get(opt.lower(), '別の関係')
-        return f'{opt} は主に「{pm}」を表す前置詞で、この文が求めるコロケーション（正解は {ans}）には合わない'
+    if reason in ('現在形では仮定法にならない', '現在完了は仮定法にならない'):
+        return f'事実に反する仮定（仮定法）では時制を1段階過去へずらす決まりのため、直説法の “{opt}” は使えない（正解は “{ans}”）'
 
-    if reason in ('時制が合わない',):
-        return f'{opt} では文中の時を表す語句・基準時と時制が食い違う（正解は “{ans}”）'
+    if reason in ('現在の形で過去を表せない',):
+        return f'過去の時点についての推量・後悔を表す場面なので、現在推量の “{opt}” ではなく「助動詞＋have＋過去分詞」（{ans}）を用いる'
 
-    if reason in ('複数扱いで誤り', '複数扱いは誤り'):
-        return f'{reason}。この文の主語は単数扱いとなるため単数形の “{ans}” を選ぶ'
+    if reason in ('過去完了は過去の基準時が必要',):
+        return f'過去完了（{opt}）は「過去のある時点よりさらに前」を表す形。基準となる過去の時点がない本問では “{ans}” を使う'
 
-    if reason in ('複数ではない',):
-        return f'{opt} は複数名詞を受ける形。ここは単数の名詞を受けるため “{ans}” を用いる'
+    if reason in ('other は単独では使えない',):
+        return f'other は形容詞用法が基本で単独の名詞としては使えないため、冠詞や -s を伴う “{ans}” を選ぶ'
 
-    if reason in ('whom は目的格', 'whom は目的格で、主語になれない'):
-        return f'whom は目的格の関係代名詞。直後の動詞（{next_word or "述語動詞"}）に対する主語が欠けているため主格の {ans} が必要'
+    if reason in ('another は単数', 'the other は単数'):
+        return f'{opt} は単数の対象を受ける表現。本問の対象は複数なので “{ans}” を用いる'
 
-    if reason in ('whose の後ろには名詞が必要',):
-        return f'所有格 whose は直後に無冠詞の名詞を伴って「その〜」を作るため、{next_word or "動詞"} がすぐ続く位置には置けない'
+    if reason in ('単数なので those は不可',):
+        return f'those は複数名詞を受ける代名詞（that の複数形）。ここは単数の名詞を受けるため “{ans}” を使う'
+
+    if reason in ('none は3者以上で使う',):
+        return f'none は原則として3つ以上の対象に使う全体否定。2者の全体否定である本問では “{ans}” を選ぶ'
+
+    if reason in ('限定のない名詞の前は most',):
+        return f'the や所有格が付かない一般の名詞を直接修飾するときは most of ではなく most（{ans}）を用いる'
+
+    if reason in ('which の後ろは不完全な文', 'what の後ろは不完全な文'):
+        return f'関係代名詞 {opt} の後ろには主語や目的語が欠けた不完全な節が続く。後ろが完全な文の本問では “{ans}” を選ぶ'
+
+    if reason in ('所有格の後ろには名詞が必要', 'whose の後ろには名詞が必要'):
+        return f'所有格（{opt}）の直後には無冠詞の名詞が続く決まり。直後に {next_word or "動詞"} が続く本問では “{ans}” を用いる'
+
+    if reason in ('what には非制限用法がない', 'that は非制限用法では使えない'):
+        return f'コンマ（,）の直後に続ける非制限用法では {opt} は使えない決まり。ここでは “{ans}” を用いる'
+
+    if reason in ('whom は目的格', 'whom は目的格で、主語になれない', 'whom は人の目的格'):
+        return f'whom は「人」を目的語にとる目的格。この空所の文法役割（正解は “{ans}”）とは一致しない'
 
     if reason in ('which は人以外の先行詞に使う',):
         return f'which は事物を先行詞にとる関係代名詞。先行詞が「人」の本問では {ans} を用いる'
@@ -560,44 +657,65 @@ def enrich_choice_reason(r: dict, opt_idx: int, raw_reason: str) -> str:
     if reason in ('which には先行詞が必要', 'that には先行詞が必要'):
         return f'{opt} は前に修飾される名詞（先行詞）が必要。空所の前に先行詞がないため、先行詞を含む {ans} を用いる'
 
-    if reason in ('that は非制限用法では使えない',):
-        return f'コンマ（,）の直後に続ける非制限用法では関係代名詞 that は使えない決まり。{ans} を用いる'
+    if reason in ('during は前置詞',):
+        return f'during は前置詞なので後ろには名詞句しか置けない。SV を備えた節が続く本問では接続詞の “{ans}” を使う'
 
-    if reason in ('where は場所', 'how は方法', 'whenever は時', 'whoever は人'):
-        return f'{reason}を表す語なので、この文の先行詞や節構造が求める働き（正解は {ans}）と合わない'
+    if reason in ('that は副詞節を作らない', 'as では名詞節を作れない'):
+        return f'{reason}ため文構造が成り立たない。前後の節関係に合う接続詞 “{ans}” を選ぶ'
 
-    if reason in ('when は時の先行詞に使う', 'why は理由の先行詞に使う'):
-        return f'{reason}関係副詞であり、この文の先行詞が求める働き（正解は {ans}）とは合わない'
+    if reason in ('it では接続詞がない',):
+        return f'代名詞 {opt} だけでは2つの SV 節をつなぐ接続詞の働きがないため、関係詞・接続詞を含む “{ans}” が必要'
+
+    if reason in ('最上級は than と組まない',):
+        return f'直後に比較相手を示す than があるため最上級（{opt}）は不可。比較級の “{ans}” を用いる'
+
+    if reason in ('a few は可算名詞に付ける',):
+        return f'a few は数えられる複数名詞に使う表現。不可算名詞を修飾する本問では “{ans}” を用いる'
+
+    if reason in ('語尾の -s にだまされた誤り',):
+        return f'直前の名詞の -s（または学科名・単数扱い語）に引きずられた誤り。主語の核に合わせて “{ans}” を選ぶ'
+
+    if reason in ('副詞は be の補語にならない', '副詞で名詞を修飾できない', '副詞は補語にならない'):
+        return f'{opt} は副詞なので、名詞の直接修飾や be 動詞等の補語（C）には置けない。形容詞の “{ans}” を選ぶ'
+
+    if reason in ('語順が疑問文のまま', '疑問文の語順にはしない'):
+        return f'間接疑問文（疑問詞節）の内部では疑問文語順（{opt}）にせず、「疑問詞＋S＋V」（{ans}）の平叙文語順にする'
+
+    if reason in ('of は不可', 'with は不可', 'for は不可', 'at は地点', 'on は接触'):
+        prep_meanings = {
+            'of': '所属・分離・関連（〜の）',
+            'with': '同伴・道具・付帯（〜と一緒に／〜を使って）',
+            'for': '目的・対象・期間（〜のために／〜の間）',
+            'at': '一点・時刻・狭い場所（〜に）',
+            'on': '接触・特定の日付や曜日（〜の上に／〜に）',
+            'in': '空間の内部・着用・月や年（〜の中に／〜を着て）',
+        }
+        pm = prep_meanings.get(opt.lower(), '別の関係')
+        return f'{opt} は主に「{pm}」を表す前置詞で、この文が求める結びつき（正解は {ans}）には合わない'
 
     if reason in ('it は形容詞で修飾できない', 'it は修飾語句を伴わない'):
-        return f'代名詞 it は「特定のその物」を丸ごと指す語で、形容詞や前置詞句で直接修飾できないため不特定・限定可能な {ans} を使う'
+        return f'代名詞 it は「特定のその物」を丸ごと指す語で、形容詞や前置詞句で直接修飾できないため限定可能な {ans} を使う'
 
     if reason in ('a が必要', '形容詞を a の前に出す'):
         return f'how / so / too / as の後ろに単数可算名詞を置くときは「how＋形容詞＋a＋名詞」（{ans}）の語順が必須'
 
-    if reason in ('語順が疑問文のまま',):
-        return f'間接疑問文（疑問詞節）の中では疑問文語順（{opt}）にせず、「疑問詞＋S＋V」（{ans}）の平叙文語順にする'
-
-    if reason in ('副詞で名詞を修飾できない', '副詞は補語にならない'):
-        return f'{opt} は副詞なので、名詞の直接修飾や SV C の補語には置けない（形容詞の {ans} を選ぶ）'
-
-    # 10文字未満の短い理由もすべて「なぜこの空所で不可なのか・正解との対比」を明示して充実させる
-    if len(reason) < 10:
+    # 16文字未満の残りの短文理由もすべて、その選択肢と正解肢の対比が伝わる具体的説明へ引き上げる
+    if len(reason) < 16:
         if reason in ('語順が逆', 'A と B が逆', '人と物が逆', '主語と目的語が逆'):
             return f'{reason}になっている。ここでは “{ans}” の語順で並べる決まり'
-        if '位置が' in reason or 'a は名詞の前' in reason:
+        if '位置が' in reason or 'a は名詞の前' in reason or '語順' in reason:
             return f'{reason}。正しい語順は “{ans}” となる'
         if '不要' in reason:
-            return f'{reason}（{opt} のようには言わず、“{ans}” の形で用いる）'
+            return f'{reason}（“{opt}” のようには言わず、“{ans}” の形で用いる）'
         if '抜けている' in reason or 'が必要' in reason:
-            return f'{reason}ため不完全。“{ans}” の形にして文構造を完成させる'
-        if '疑問文の語順' in reason or '普通の語順' in reason or '倒置せず' in reason:
-            return f'{reason}で不適切。この構文では “{ans}” の語順をとる'
-        if reason.endswith('は不可') or reason.endswith('は誤り') or reason.endswith('使わない') or reason.endswith('しない'):
-            return f'{reason}。空所前後の語法・文脈に合わせて “{ans}” を選ぶ'
-        if '意味が逆' in reason:
-            return f'{reason}になり文脈が通らない。文意に合う “{ans}” を選ぶ'
-        return f'{reason}ため、この空所には置けない（正解は “{ans}”）'
+            return f'{reason}ため文構造が不完全。“{ans}” の形にして完成させる'
+        if '意味が通らない' in reason or '意味が逆' in reason or '文脈に合わない' in reason:
+            return f'{opt} では{reason}。前後の文脈に合う “{ans}” を選ぶ'
+        if 'という形はない' in reason or '英語として不自然' in reason:
+            return f'“{opt}” {reason}。正しい表現は “{ans}” となる'
+        if reason.endswith('は不可') or reason.endswith('は誤り') or reason.endswith('使わない') or reason.endswith('しない') or reason.endswith('組まない'):
+            return f'{reason}ため、空所前後の語法に合致する “{ans}” を選ぶ'
+        return f'{reason}ため、この文脈・構文では “{ans}” を用いるのが適切'
 
     return reason
 

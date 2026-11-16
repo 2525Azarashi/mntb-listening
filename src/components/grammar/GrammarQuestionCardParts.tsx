@@ -18,6 +18,7 @@ import {
 } from 'lucide-react';
 import { formatText } from '../../utils/textFormatter';
 import {
+  conciseGrammarFocusTag,
   grammarCueMarksInWhy,
   splitGrammarByMarks,
   splitGrammarDialogueTurns,
@@ -166,6 +167,7 @@ export function GrammarQuestionStem({
   cues?: readonly GrammarResolvedCue[];
 }) {
   const activeCues = result ? cues : undefined;
+  const tagText = conciseGrammarFocusTag(focusLabel, Boolean(result));
   const turns = splitGrammarDialogueTurns(stem);
   if (turns) {
     let cursor = 0;
@@ -176,7 +178,7 @@ export function GrammarQuestionStem({
             {displayNo}
           </span>
           <span className="gp-sr">問{displayNo}　</span>
-          <span className="gp-dialogue-kicker">{focusLabel || '会話表現'}</span>
+          <span className="gp-dialogue-kicker">{tagText || '会話表現'}</span>
           {unansweredTag && (
             <span className="gp-unanswered-tag" data-grammar-unanswered>
               未回答
@@ -227,7 +229,7 @@ export function GrammarQuestionStem({
             {displayNo}
           </span>
           <span className="gp-sr">問{displayNo}　</span>
-          {focusLabel && result && <span className="gp-focus-tag">{focusLabel}</span>}
+          {tagText && result && <span className="gp-focus-tag">{tagText}</span>}
           {unansweredTag && (
             <span className="gp-unanswered-tag" data-grammar-unanswered>
               未回答
@@ -277,7 +279,7 @@ export function GrammarQuestionStem({
             marks={fullMarks}
           />
         </span>
-        {focusLabel && result && <span className="gp-focus-tag">{focusLabel}</span>}
+        {tagText && result && <span className="gp-focus-tag">{tagText}</span>}
         {unansweredTag && (
           <span className="gp-unanswered-tag" data-grammar-unanswered>
             未回答

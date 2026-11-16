@@ -44,6 +44,9 @@
 /* 選択肢：2×2（(A)(B) が上段、(C)(D) が下段）。長い選択肢がある問題だけ1列 */
 .tp-choices { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 8px; margin: 8px 0 0; border-radius: 10px; outline: none; }
 .tp-choices.is-single { grid-template-columns: 1fr; }
+@media (max-width: 599px) {
+  .tp-choices.is-mobile-single { grid-template-columns: 1fr; }
+}
 .tp-choices:focus-visible { box-shadow: 0 0 0 3px #3d5a99; }
 
 .tp-choice { display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 4px 8px 4px 4px; border: 1.5px solid transparent; border-radius: 10px; cursor: pointer; -webkit-tap-highlight-color: transparent; }

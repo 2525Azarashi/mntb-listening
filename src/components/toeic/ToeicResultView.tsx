@@ -46,6 +46,7 @@ import {
   isToeicPart7Chapter,
   p6Snippet,
   p7Stem,
+  prefersMobileSingleColumn,
   prefersSingleColumn,
   toeicExplanationFor,
 } from './toeicPageModel';
@@ -470,17 +471,19 @@ export function ToeicResultView({
                 onClick={() => openDetailScreen()}
               >
                 <BookOpen size={18} aria-hidden="true" />
-                <span>
-                  詳しい解説・答え合わせを見る
-                  {wrongCount > 0 ? `（まちがい${wrongCount}問）` : ''}
-                </span>
+                <span className="gp-btn-detail-label">詳しい解説・答え合わせを見る</span>
+                {wrongCount > 0 ? (
+                  <span className="gp-btn-detail-badge">誤答 {wrongCount}問</span>
+                ) : (
+                  <span className="gp-btn-detail-badge is-perfect">全問正解</span>
+                )}
                 <ChevronRight size={18} aria-hidden="true" />
               </button>
 
               <div className="gp-summary-subactions">
                 <button type="button" className="gp-btn gp-btn-sub" onClick={onBack}>
                   <ArrowLeft size={16} aria-hidden="true" />
-                  <span>単元一覧</span>
+                  <span>一覧</span>
                 </button>
 
                 {retryTargets.length > 0 && onRetryWrong && (
@@ -490,7 +493,7 @@ export function ToeicResultView({
                     onClick={() => onRetryWrong(retryTargets)}
                   >
                     <RotateCcw size={15} aria-hidden="true" />
-                    <span>誤答だけ解き直す ({wrongCount})</span>
+                    <span>解き直す ({wrongCount})</span>
                   </button>
                 )}
 
@@ -548,10 +551,10 @@ export function ToeicResultView({
 
                 <div className="gp-bulk-btns">
                   <button type="button" className="gp-bulk-btn" onClick={() => setAllOpen(true)}>
-                    解説をすべて開く
+                    全開
                   </button>
                   <button type="button" className="gp-bulk-btn" onClick={() => setAllOpen(false)}>
-                    すべて閉じる
+                    全閉
                   </button>
                 </div>
               </div>
@@ -665,7 +668,7 @@ export function ToeicResultView({
                       aria-disabled="true"
                       className={`tp-choices is-scored${
                         prefersSingleColumn(texts) ? ' is-single' : ''
-                      }`}
+                      }${prefersMobileSingleColumn(texts) ? ' is-mobile-single' : ''}`}
                     >
                       {sq.options.map((mark, i) => {
                         const checked = chosen === mark;
@@ -768,7 +771,7 @@ export function ToeicResultView({
           <footer className="gp-foot">
             <button type="button" className="gp-btn gp-btn-sub" onClick={onBack}>
               <ArrowLeft size={16} aria-hidden="true" />
-              <span>単元一覧</span>
+              <span>一覧</span>
             </button>
 
             {retryTargets.length > 0 && onRetryWrong && (
@@ -778,7 +781,7 @@ export function ToeicResultView({
                 onClick={() => onRetryWrong(retryTargets)}
               >
                 <RotateCcw size={15} aria-hidden="true" />
-                <span>誤答だけ解き直す ({wrongCount})</span>
+                <span>解き直す ({wrongCount})</span>
               </button>
             )}
 

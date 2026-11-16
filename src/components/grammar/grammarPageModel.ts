@@ -16,6 +16,7 @@ import { isAnswerCorrect } from '../../utils/answerJudge';
 
 const GRAMMAR_CHAPTER_RE = /^eg\d+_\d+$/;
 const LONG_CHOICE_CHARS = 24;
+const MOBILE_SINGLE_COL_CHARS = 13;
 
 export interface DialogueTurn {
   speaker: string;
@@ -79,6 +80,38 @@ export function isGrammarPageChapterId(chapterId: string | null | undefined): bo
 
 export function prefersSingleColumnGrammarChoices(texts: readonly string[]): boolean {
   return texts.some((t) => String(t || '').trim().length > LONG_CHOICE_CHARS);
+}
+
+/** スマホ幅（600px未満）で2列だと窮屈になる中長フレーズ選択肢を1列に切り替える判定 */
+export function prefersMobileSingleColumnGrammarChoices(texts: readonly string[]): boolean {
+  return texts.some((raw) => {
+    const t = String(raw || '').trim();
+    if (t.length > MOBILE_SINGLE_COL_CHARS) return true;
+    return t.split(/\s+/).filter(Boolean).length >= 3;
+  });
+}
+
+/**
+ * 問題カード見出し用の簡潔なテーマ名を作る。
+ * - 採点前（`scored = false`）：括弧内の英語例や公式を隠し、答えの手がかりを漏らさない。
+ * - 採点後（`scored = true`）：長すぎる公式文字列（「Aほど〜ではない」等）は要点欄に任せて見出しタグの重複を防ぐ。
+ */
+export function conciseGrammarFocusTag(focusLabel: string | undefined, scored: boolean): string {
+  const raw = String(focusLabel || '').trim();
+  if (!raw) return '';
+  const withoutParenEn = raw
+    .replace(/[（(][^）)]*[A-Za-z][^）)]*[）)]/g, '')
+    .replace(/「[^」]*」/g, '')
+    .trim();
+  if (!scored) {
+    if (/[A-Za-z]{2,}/.test(withoutParenEn)) return '会話表現';
+    return withoutParenEn || '会話表現';
+  }
+  if (raw.length <= 18) return raw;
+  if (withoutParenEn && withoutParenEn.length <= 18 && !/[＋+=＝]/.test(withoutParenEn)) {
+    return withoutParenEn;
+  }
+  return '';
 }
 
 /**
@@ -449,7 +482,19 @@ export function parseGrammarProblemCards(
       track?.script?.trim() ||
       (stem.includes('______') ? stem.replace('______', correctWord) : stem);
     const translation = track?.translation?.trim() || parsedExp.fallbackTranslation || '';
-    const keyPhrase = track?.keyPhrases?.[0];
+    const rawKeyPhrase = track?.keyPhrases?.[0];
+    const cleanKpPhrase = rawKeyPhrase?.phrase?.trim() || '';
+    const cleanKpMeaning = rawKeyPhrase?.meaning?.trim() || '';
+    // 話者をまたぐ断片（例: "How do you do? I'm"）や要点と完全重複するラベルは除外し、本当に役立つ熟語チップだけ残す
+    const isCrossTurnFragment = /[?.!]\s+[A-Z]/.test(cleanKpPhrase) && cleanKpPhrase !== correctWord;
+    const isDuplicateOfWhy =
+      !cleanKpPhrase ||
+      isCrossTurnFragment ||
+      (cleanKpPhrase.toLowerCase() === correctWord.trim().toLowerCase() &&
+        (!cleanKpMeaning || cleanKpMeaning === focusLabel));
+    const keyPhrase = !isDuplicateOfWhy
+      ? { phrase: cleanKpPhrase, meaning: cleanKpMeaning === focusLabel ? '' : cleanKpMeaning }
+      : undefined;
 
     const correctChoiceReason = parsedExp.choices.find((c) => c.correct)?.reason || '';
     const oneLineClean = sq.oneLine
@@ -469,7 +514,7 @@ export function parseGrammarProblemCards(
       completedSentence,
       translation,
       audioUrl: track?.audioUrl,
-      keyPhrase: keyPhrase?.phrase ? { phrase: keyPhrase.phrase, meaning: keyPhrase.meaning || '' } : undefined,
+      keyPhrase,
       why,
       hint: parsedExp.hint,
       rule: parsedExp.rule,

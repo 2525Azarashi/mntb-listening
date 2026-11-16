@@ -62,6 +62,7 @@ import { formatText } from '../../utils/textFormatter';
 import { logRejection } from '../../utils/reportError';
 import {
   buildGrammarSubReviews,
+  prefersMobileSingleColumnGrammarChoices,
   prefersSingleColumnGrammarChoices,
 } from './grammarPageModel';
 import {
@@ -595,8 +596,8 @@ export function GrammarPageQuiz({
         <div className="gp-subbar-row">
           <p className="gp-timer-label">
             <Clock size={13} aria-hidden="true" />
-            <span>経過 {fmtClock(elapsedSec)}</span>
-            <span className="gp-timer-limit">／目安 {fmtClock(roundLimitSec)}</span>
+            <span>{fmtClock(elapsedSec)}</span>
+            <span className="gp-timer-limit">／{fmtClock(roundLimitSec)}</span>
           </p>
 
           <ol className="gp-q-dots" aria-label="この回の問題へ移動">
@@ -732,9 +733,9 @@ export function GrammarPageQuiz({
                 : 'todo'
               : scoredStatus;
 
-            const singleCol = prefersSingleColumnGrammarChoices(
-              choices.map((c) => c.text),
-            );
+            const choiceTextsList = choices.map((c) => c.text);
+            const singleCol = prefersSingleColumnGrammarChoices(choiceTextsList);
+            const mobileSingleCol = prefersMobileSingleColumnGrammarChoices(choiceTextsList);
             const labelId = `gp-q-${sq.id}`;
             const exOpen = openEx[sq.id] ?? scoredStatus !== 'correct';
             const sqElims = eliminated[sq.id] || [];
@@ -781,8 +782,8 @@ export function GrammarPageQuiz({
                   }}
                   onKeyDown={(e) => onGroupKeyDown(e, sq, idx)}
                   className={`gp-choices${singleCol ? ' is-single' : ''}${
-                    pageScored ? ' is-scored' : ''
-                  }`}
+                    mobileSingleCol ? ' is-mobile-single' : ''
+                  }${pageScored ? ' is-scored' : ''}`}
                 >
                   {choices.map((c) => {
                     const checked = chosen === c.mark;
