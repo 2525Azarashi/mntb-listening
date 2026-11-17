@@ -688,7 +688,7 @@
 "name": "CINEMATICS.md",
 "folder": "docs",
 "one": "とびら君の演出動画が何本あり、どう点検したかを記録する台帳の係",
-"detail": "主な見出し：とびら君の演出動画の台帳／2026-10-26 Adobe Firefly で C01〜C16 を作り直して全部差し替え／2026-11-04 E6。",
+"detail": "主な見出し：とびら君の演出動画の台帳／2026-10-26 Adobe Firefly で C01〜C16 を作り直して全部差し替え／2026-11-15 とびら君＆カギノスケ 透過登場演出・対戦カウントダウン・ガチャ重ね演出（4本の取り込み）。",
 "links": [
 {
 "dir": "ref",
@@ -703,7 +703,7 @@
 "path": "docs/TOBIRA_MOTION_PROMPTS.md"
 }
 ],
-"lines": 63,
+"lines": 70,
 "tag": "文書",
 "conf": "高",
 "kind": "file",
@@ -1848,6 +1848,10 @@
 {
 "dir": "ref",
 "path": "EXPORT_MANIFEST.json"
+},
+{
+"dir": "ref",
+"path": "src/utils/audioElements.ts"
 }
 ],
 "lines": 2,
@@ -2803,10 +2807,6 @@
 "links": [
 {
 "dir": "ref",
-"path": "src/data/grammarAudioManifest.ts"
-},
-{
-"dir": "ref",
 "path": "src/features/readAlong/readAlong.ts"
 }
 ],
@@ -3502,7 +3502,7 @@
 "path": "src/firebase.ts"
 }
 ],
-"lines": 804,
+"lines": 811,
 "tag": "画面",
 "conf": "高",
 "kind": "file",
@@ -3664,6 +3664,10 @@
 {
 "dir": "ref",
 "path": "EXPORT_MANIFEST.json"
+},
+{
+"dir": "ref",
+"path": "src/utils/audioElements.ts"
 }
 ],
 "lines": 0,
@@ -4164,7 +4168,7 @@
 "name": "aiOpponent.ts",
 "folder": "src",
 "one": "AI対戦相手の強さと、いつ何を答えるかを決める係",
-"detail": "冒頭の説明：「AI 対戦相手 — 強さのプリセットと「いつ・何を答えるか」の決定 ★この葉モジュールは Firebase も React も import しない★ 対戦の点数計算（battle…」AiLevel・AI_LEVELS・AiProfile など16個を公開する。読み込むもの：types.ts・battleCore.ts・kanaKeyboard.ts。useAiBattle.ts・BattleAiRoomScreen.tsx など6ファイルから読み込まれる。",
+"detail": "冒頭の説明：「AI 対戦相手 — 強さのプリセットと「いつ・何を答えるか」の決定 ★この葉モジュールは Firebase も React も import しない★ 対戦の点数計算（battle…」AiLevel・AI_LEVELS・AiProfile など18個を公開する。読み込むもの：types.ts・battleCore.ts・kanaKeyboard.ts。useAiBattle.ts・BattleAiRoomScreen.tsx など6ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -4179,7 +4183,7 @@
 "path": "src/battle/core/types.ts"
 }
 ],
-"lines": 364,
+"lines": 456,
 "tag": "データ",
 "conf": "高",
 "kind": "file",
@@ -4187,11 +4191,11 @@
 "AiLevel",
 "AI_LEVELS",
 "AiProfile",
+"GhostArchetypeId",
 "AI_PROFILES",
 "aiProfileOf",
 "AI_UID_PREFIX",
-"aiUidOf",
-"aiReadSeconds"
+"aiUidOf"
 ],
 "nImports": 3,
 "nBy": 6,
@@ -4208,7 +4212,7 @@
 "name": "arenaEconomy.ts",
 "folder": "src",
 "one": "ガチャの値段や重複時に返すコインなどの決まりを持つ係",
-"detail": "GACHA_COST・GACHA_MULTI_COST・GACHA_MULTI_COUNT など17個を公開する。読み込むもの：growth.ts・gachaPools.ts・gachaSets.ts。gachaFeatured.ts・growthStore.ts など34ファイルから読み込まれる。",
+"detail": "GACHA_COST・GACHA_MULTI_COST・UNIV_GACHA_COST など21個を公開する。読み込むもの：growth.ts・gachaPools.ts・gachaSets.ts。gachaFeatured.ts・growthStore.ts など35ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -4223,22 +4227,22 @@
 "path": "src/battle/core/growth.ts"
 }
 ],
-"lines": 110,
+"lines": 122,
 "tag": "データ",
 "conf": "高",
 "kind": "file",
 "exports": [
 "GACHA_COST",
 "GACHA_MULTI_COST",
+"UNIV_GACHA_COST",
+"UNIV_GACHA_MULTI_COST",
 "GACHA_MULTI_COUNT",
 "VIDEO_GACHA_DAILY_LIMIT",
 "GACHA_DUPLICATE_REFUND",
-"GACHA_DUPLICATE_REFUND_BY_RARITY",
-"gachaItems",
-"GACHA_RARITY_RATES"
+"GACHA_DUPLICATE_REFUND_BY_RARITY"
 ],
 "nImports": 3,
-"nBy": 34,
+"nBy": 35,
 "draft": false,
 "changed": true,
 "sys": "battle",
@@ -4679,7 +4683,7 @@
 "RushResult"
 ],
 "nImports": 5,
-"nBy": 72,
+"nBy": 74,
 "draft": false,
 "changed": true,
 "sys": "battle",
@@ -4693,7 +4697,7 @@
 "name": "kanaKeyboard.ts",
 "folder": "src",
 "one": "1文字ずつ入力する五十音キーボードの並びを決める係",
-"detail": "冒頭の説明：「kanaKeyboard — 五十音キーボード（「みんはや」方式の1文字ずつ入力） ★このファイルは他を一切 import しない（葉モジュール）。★ 出題プールの生成器（scri…」KANA_KEYS・KANA_KEY_INDEX・KANA_LAYOUT など9個を公開する。gen-battle-pool.mts・authoredConvert.ts など9ファイルから読み込まれる。",
+"detail": "冒頭の説明：「kanaKeyboard — 五十音キーボード（「みんはや」方式の1文字ずつ入力） ★このファイルは他を一切 import しない（葉モジュール）。★ 出題プールの生成器（scri…」KANA_KEYS・KANA_KEY_INDEX・KANA_LAYOUT など9個を公開する。gen-battle-pool.mts・authoredConvert.ts など10ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -4719,7 +4723,7 @@
 "kanaKeysOf"
 ],
 "nImports": 0,
-"nBy": 9,
+"nBy": 10,
 "draft": false,
 "sys": "battle",
 "flow": [
@@ -4922,7 +4926,7 @@
 "name": "types.ts",
 "folder": "src",
 "one": "対戦で使う問題・部屋・ルールなどの型をまとめる係",
-"detail": "冒頭の説明：「対戦モード — 型定義（葉モジュール・依存ゼロ） ★このファイルは他の src を一切 import しない。★ 理由: 対戦の型は「純粋ロジック（core/）」「Firestor…」BattleAnswerFormat・BattleQuestion・BattleTiebreak など16個を公開する。aiOpponent.ts・arenaRules.ts など42ファイルから読み込まれる。",
+"detail": "冒頭の説明：「対戦モード — 型定義（葉モジュール・依存ゼロ） ★このファイルは他の src を一切 import しない。★ 理由: 対戦の型は「純粋ロジック（core/）」「Firestor…」BattleAnswerFormat・BattleQuestion・BattleTiebreak など16個を公開する。aiOpponent.ts・arenaRules.ts など44ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -4948,7 +4952,7 @@
 "answerKeyOf"
 ],
 "nImports": 0,
-"nBy": 42,
+"nBy": 44,
 "draft": false,
 "sys": "battle",
 "flow": [
@@ -5165,7 +5169,7 @@
 "name": "battlePool.ts",
 "folder": "src",
 "one": "対戦で出す問題の一覧を教科ごとに読み込む係",
-"detail": "冒頭の説明：「対戦用 出題プールの読み込み口（自動生成・手で編集しないこと） ★このファイルは scripts/gen-battle-pool.mts が生成する。★ ■ 役割 教科ごとに分かれ…」POOL_COUNTS・POOL_FORMAT_COUNTS・poolCountOf など9個を公開する。読み込むもの：types.ts・englishListeningData.ts・answer.english_grammar.generated.ts など8ファイル。battleShared.ts・useAiBattle.ts など11ファイルから読み込まれる。",
+"detail": "冒頭の説明：「対戦用 出題プールの読み込み口（自動生成・手で編集しないこと） ★このファイルは scripts/gen-battle-pool.mts が生成する。★ ■ 役割 教科ごとに分かれ…」POOL_COUNTS・POOL_FORMAT_COUNTS・poolCountOf など9個を公開する。読み込むもの：types.ts・englishListeningData.ts・answer.english_grammar.generated.ts など8ファイル。battleShared.ts・useAiBattle.ts など12ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -5195,7 +5199,7 @@
 "ANSWER_COUNTS"
 ],
 "nImports": 8,
-"nBy": 11,
+"nBy": 12,
 "draft": false,
 "sys": "battle",
 "flow": [
@@ -5454,7 +5458,7 @@
 "name": "growthStore.ts",
 "folder": "src",
 "one": "成長の記録を端末の中に、アカウントごとに保存する係",
-"detail": "冒頭の説明：「Device-local, account-scoped personal progression.」GROWTH_STORAGE_PREFIX・MissionAnnouncement・subscribeCoinGain など30個を公開する。読み込むもの：firebase.ts・growth.ts・safeLocalStorage.ts など8ファイル。BattleGrowthReward.tsx・BattleMissions.tsx など25ファイルから読み込まれる。",
+"detail": "冒頭の説明：「Device-local, account-scoped personal progression.」GROWTH_STORAGE_PREFIX・MissionAnnouncement・subscribeCoinGain など30個を公開する。読み込むもの：firebase.ts・growth.ts・safeLocalStorage.ts など8ファイル。BattleGrowthReward.tsx・BattleMissions.tsx など27ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -5469,7 +5473,7 @@
 "path": "src/firebase.ts"
 }
 ],
-"lines": 384,
+"lines": 388,
 "tag": "データ",
 "conf": "高",
 "kind": "file",
@@ -5484,7 +5488,7 @@
 "subscribeGrowth"
 ],
 "nImports": 8,
-"nBy": 25,
+"nBy": 27,
 "draft": false,
 "changed": true,
 "sys": "battle",
@@ -5764,7 +5768,7 @@
 "name": "BattleAiRoomScreen.tsx",
 "folder": "src",
 "one": "AI対戦の準備・対戦・結果を1つの画面で見せる係",
-"detail": "冒頭の説明：「BattleAiRoomScreen — AI 対戦の1試合（準備 → 対戦 → 結果） 人間どうしの BattleRoomScreen と同じ部品（BattleQuestionV…」BattleAiRoomScreenを公開する。読み込むもの：firebase.ts・reportError.ts・allChapters.ts など15ファイル、外部部品 lucide-react・react。BattleMode.tsxから読み込まれる。",
+"detail": "冒頭の説明：「BattleAiRoomScreen — AI 対戦の1試合（準備 → 対戦 → 結果） 人間どうしの BattleRoomScreen と同じ部品（BattleQuestionV…」BattleAiRoomScreenを公開する。読み込むもの：firebase.ts・allChapters.ts・reportError.ts など15ファイル、外部部品 lucide-react・react。BattleMode.tsxから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -5776,7 +5780,7 @@
 },
 {
 "dir": "to",
-"path": "src/utils/reportError.ts"
+"path": "src/data/allChapters.ts"
 }
 ],
 "lines": 383,
@@ -6019,7 +6023,7 @@
 "name": "BattleLiveParts.tsx",
 "folder": "src",
 "one": "得点表など「相手の存在を感じる」画面部品を持つ係",
-"detail": "冒頭の説明：「BattleLiveParts — 「相手の存在を感じる」ための画面部品 ■ ここに置くもの LiveScoreboard … 上部の得点表（🔵自分／🔴相手、数字が滑らかに増える、…」ME_BLUE・OPP_RED・useTweenedScore など11個を公開する。読み込むもの：BattleParts.tsx・battleLive.ts・nicknamePrivacy.ts など4ファイル、外部部品 lucide-react・react。BattleLiveStage.tsx・BattleResultLive.tsxから読み込まれる。",
+"detail": "冒頭の説明：「BattleLiveParts — 「相手の存在を感じる」ための画面部品 ■ ここに置くもの LiveScoreboard … 上部の得点表（🔵自分／🔴相手、数字が滑らかに増える、…」ME_BLUE・OPP_RED・useTweenedScore など11個を公開する。読み込むもの：BattleParts.tsx・battleLive.ts・nicknamePrivacy.ts など5ファイル、外部部品 lucide-react・react。BattleLiveStage.tsx・BattleResultLive.tsxから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -6034,7 +6038,7 @@
 "path": "src/battle/ui/BattleParts.tsx"
 }
 ],
-"lines": 416,
+"lines": 458,
 "tag": "部品",
 "conf": "高",
 "kind": "file",
@@ -6048,7 +6052,7 @@
 "LiveToast",
 "CountdownOverlay"
 ],
-"nImports": 4,
+"nImports": 5,
 "nBy": 2,
 "draft": false,
 "sys": "battle",
@@ -6474,7 +6478,7 @@
 "name": "BattleReviewDetails.tsx",
 "folder": "src",
 "one": "結果画面で開いた問題の解説を、そのとき読み込む係",
-"detail": "冒頭の説明：「Only called after a result's explanation is opened.」loadReviewExplanation・subQuestionExplanation・BattleReviewDetailsを公開する。読み込むもの：curriculum.ts・types.ts・allChapters.ts など4ファイル、外部部品 react。retention.test.ts・BattleResultReviewSection.tsxから読み込まれる。",
+"detail": "冒頭の説明：「Only called after a result's explanation is opened.」loadReviewExplanation・subQuestionExplanation・exerciseQuestionExplanation など5個を公開する。読み込むもの：curriculum.ts・types.ts・allChapters.ts など4ファイル、外部部品 react。retention.test.ts・BattleResultReviewSection.tsx など3ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -6489,18 +6493,21 @@
 "path": "src/types/curriculum.ts"
 }
 ],
-"lines": 59,
+"lines": 100,
 "tag": "部品",
 "conf": "高",
 "kind": "file",
 "exports": [
 "loadReviewExplanation",
 "subQuestionExplanation",
+"exerciseQuestionExplanation",
+"practiceQuestionExplanation",
 "BattleReviewDetails"
 ],
 "nImports": 4,
-"nBy": 2,
+"nBy": 3,
 "draft": false,
+"changed": true,
 "sys": "battle",
 "flow": [
 "compete"
@@ -6586,7 +6593,7 @@
 "name": "BattleText.tsx",
 "folder": "src",
 "one": "対戦画面の問題文と選択肢の文字を読みやすく描く係",
-"detail": "冒頭の説明：「BattleText — 対戦画面の問題文・選択肢の描画 ご指摘（原文）： > 後文字をしっかりと反映させろって言ったよね？」BattleTextを公開する。読み込むもの：textFormatter.tsx・sanitizeHtml.ts・mathTypeset.ts、外部部品 react。BattleLiveStage.tsx・BattleQuestionView.tsx など7ファイルから読み込まれる。",
+"detail": "冒頭の説明：「BattleText — 対戦画面の問題文・選択肢の描画 ご指摘（原文）： > 後文字をしっかりと反映させろって言ったよね？」BattleTextを公開する。読み込むもの：textFormatter.tsx・sanitizeHtml.ts・mathTypeset.ts、外部部品 react。BattleLiveStage.tsx・BattleQuestionView.tsx など8ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -6609,7 +6616,7 @@
 "BattleText"
 ],
 "nImports": 3,
-"nBy": 7,
+"nBy": 8,
 "draft": false,
 "sys": "battle",
 "flow": [
@@ -7134,7 +7141,7 @@
 "name": "growthItems.ts",
 "folder": "src",
 "one": "とびら君の装備・ガチャ景品の一覧と、解放や購入を扱う係",
-"detail": "冒頭の説明：「growth.ts から分割（growthItems）。外部からは従来どおり growth.ts 経由で import できる。」DEFAULT_POSE・DEFAULT_FRAME・DEFAULT_COMPANION など30個を公開する。読み込むもの：tobiraParts.ts・kyotsuMockPrints.ts・nijiMockPrints.ts など19ファイル。growth.tsから読み込まれる。",
+"detail": "冒頭の説明：「growth.ts から分割（growthItems）。外部からは従来どおり growth.ts 経由で import できる。」DEFAULT_POSE・DEFAULT_FRAME・DEFAULT_COMPANION など30個を公開する。読み込むもの：tobiraParts.ts・nijiMockPrints.ts・kyotsuMockPrints.ts など19ファイル。growth.tsから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -7146,7 +7153,7 @@
 },
 {
 "dir": "to",
-"path": "src/data/kyotsuMockPrints.ts"
+"path": "src/data/nijiMockPrints.ts"
 }
 ],
 "lines": 535,
@@ -7221,19 +7228,19 @@
 "name": "growthMissions.ts",
 "folder": "src",
 "one": "その日のミッションを選び、達成の進み具合を数える係",
-"detail": "冒頭の説明：「growth.ts から分割（growthMissions）。外部からは従来どおり growth.ts 経由で import できる。」localDateKey・isNextDay・rolloverDaily など21個を公開する。読み込むもの：types.ts・battleCore.ts・growthTypes.ts。growth.tsから読み込まれる。",
+"detail": "冒頭の説明：「growth.ts から分割（growthMissions）。外部からは従来どおり growth.ts 経由で import できる。」localDateKey・isNextDay・rolloverDaily など21個を公開する。読み込むもの：types.ts・battleCore.ts・growthTypes.ts。growth.ts・studyReminders.tsから読み込まれる。",
 "links": [
 {
 "dir": "from",
 "path": "src/battle/core/growth.ts"
 },
 {
-"dir": "to",
-"path": "src/battle/core/types.ts"
+"dir": "from",
+"path": "src/utils/studyReminders.ts"
 },
 {
 "dir": "to",
-"path": "src/battle/core/battleCore.ts"
+"path": "src/battle/core/types.ts"
 }
 ],
 "lines": 273,
@@ -7251,7 +7258,7 @@
 "MissionDestination"
 ],
 "nImports": 3,
-"nBy": 1,
+"nBy": 2,
 "draft": false,
 "sys": "battle",
 "flow": [
@@ -7417,7 +7424,7 @@
 "path": "src/utils/storageGuard.ts"
 }
 ],
-"lines": 434,
+"lines": 439,
 "tag": "音声・画像",
 "conf": "高",
 "kind": "file",
@@ -7667,7 +7674,7 @@
 "name": "ChapterSelection.tsx",
 "folder": "src",
 "one": "単元（章）の一覧を見せ、選んだ単元の演習へ進ませる画面の係",
-"detail": "冒頭の説明：「教科ごとの parts は data/allChapters.ts から引く （以前はこのファイルで6教科ぶんを個別に import していた）」ChapterSelectionを公開する。読み込むもの：firebase.ts・safeLocalStorage.ts・curriculum.ts など18ファイル、外部部品 lucide-react・motion・react。App.tsx・useScreenPrefetch.tsから読み込まれる。",
+"detail": "冒頭の説明：「教科ごとの parts は data/allChapters.ts から引く （以前はこのファイルで6教科ぶんを個別に import していた）」ChapterSelectionを公開する。読み込むもの：firebase.ts・curriculum.ts・safeLocalStorage.ts など18ファイル、外部部品 lucide-react・motion・react。App.tsx・useScreenPrefetch.tsから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -7682,7 +7689,7 @@
 "path": "src/firebase.ts"
 }
 ],
-"lines": 619,
+"lines": 620,
 "tag": "画面",
 "conf": "高",
 "kind": "file",
@@ -7703,7 +7710,7 @@
 "name": "CinematicClip.tsx",
 "folder": "src",
 "one": "とびら君の演出動画を、アプリ内のファイルから再生する係",
-"detail": "冒頭の説明：「Locally hosted generated clips; no paid API or session-cookie URLs at runtime.」CINEMATIC_CLIPS・CinematicName・GACHA_REVEAL_CLIPS など6個を公開する。読み込むもの：cinematic-celebration.css、外部部品 react・react-dom。ArenaFighters.tsx・BattleResult.tsx など9ファイルから読み込まれる。",
+"detail": "冒頭の説明：「Locally hosted generated clips; no paid API or session-cookie URLs at runtime.」CINEMATIC_CLIPS・CinematicName・GACHA_REVEAL_CLIPS など6個を公開する。読み込むもの：cinematic-celebration.css、外部部品 react・react-dom。ArenaFighters.tsx・BattleResult.tsx など8ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -7731,7 +7738,7 @@
 "CinematicClip"
 ],
 "nImports": 1,
-"nBy": 9,
+"nBy": 8,
 "draft": false,
 "changed": true,
 "sys": "screen",
@@ -8316,7 +8323,7 @@
 "path": "src/utils/dialog.ts"
 }
 ],
-"lines": 307,
+"lines": 325,
 "tag": "部品",
 "conf": "高",
 "kind": "file",
@@ -8326,6 +8333,7 @@
 "nImports": 16,
 "nBy": 1,
 "draft": false,
+"changed": true,
 "sys": "screen",
 "flow": [
 "compete"
@@ -8337,7 +8345,7 @@
 "name": "GachaReveal.tsx",
 "folder": "src",
 "one": "ガチャを引いたとき、光の色でレア度を明かす演出の係",
-"detail": "冒頭の説明：「ガチャの確定演出。光が 青→金→虹→大当たり と上がっていき、引いたレア度で止まって弾ける。」GachaReveal・RarityStarsを公開する。読み込むもの：growth.ts・feedback.ts・CinematicClip.tsx など5ファイル、外部部品 react。GachaRoom.tsx・GachaResultStage.tsxから読み込まれる。",
+"detail": "冒頭の説明：「ガチャの確定演出。光が 青→金→虹→大当たり と上がっていき、引いたレア度で止まって弾ける。」GachaReveal・RarityStarsを公開する。読み込むもの：growth.ts・feedback.ts・CinematicClip.tsx など6ファイル、外部部品 react。GachaRoom.tsx・GachaResultStage.tsxから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -8352,7 +8360,7 @@
 "path": "src/battle/core/growth.ts"
 }
 ],
-"lines": 64,
+"lines": 78,
 "tag": "部品",
 "conf": "高",
 "kind": "file",
@@ -8360,9 +8368,10 @@
 "GachaReveal",
 "RarityStars"
 ],
-"nImports": 5,
+"nImports": 6,
 "nBy": 2,
 "draft": false,
+"changed": true,
 "sys": "screen",
 "flow": []
 },
@@ -8387,14 +8396,14 @@
 "path": "src/battle/core/growth.ts"
 }
 ],
-"lines": 356,
+"lines": 425,
 "tag": "画面",
 "conf": "高",
 "kind": "file",
 "exports": [
 "GachaRoom"
 ],
-"nImports": 18,
+"nImports": 19,
 "nBy": 2,
 "draft": false,
 "changed": true,
@@ -8576,7 +8585,7 @@
 "name": "LaunchScreen.tsx",
 "folder": "src",
 "one": "アプリを開いたとき最初に出るタイトル画面の係",
-"detail": "冒頭の説明：「タイトル画面（2026-09-30 作り直し）。保存された画面やアカウントには一切触れない（見た目だけ）。」LaunchScreenを公開する。読み込むもの：firebase.ts・growth.ts・useGrowthProgress.ts など11ファイル、外部部品 lucide-react・react。App.tsxから読み込まれる。",
+"detail": "冒頭の説明：「タイトル画面（2026-11-15 とびら君＆カギノスケ 透過演出＋ループBGM対応）。」LaunchScreenを公開する。読み込むもの：firebase.ts・growth.ts・useGrowthProgress.ts など13ファイル、外部部品 lucide-react・react。App.tsxから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -8591,14 +8600,14 @@
 "path": "src/battle/core/growth.ts"
 }
 ],
-"lines": 184,
+"lines": 231,
 "tag": "画面",
 "conf": "高",
 "kind": "file",
 "exports": [
 "LaunchScreen"
 ],
-"nImports": 11,
+"nImports": 13,
 "nBy": 1,
 "draft": false,
 "changed": true,
@@ -9359,7 +9368,7 @@
 "name": "Quiz.tsx",
 "folder": "src",
 "one": "1つの単元の問題を出し、答えさせて採点へ進ませる演習画面の係",
-"detail": "冒頭の説明：「記号パレット（解答入力の補助キーボード）は components/SymbolPalette.tsx にある。」Quizを公開する。読み込むもの：safeLocalStorage.ts・curriculum.ts・reportError.ts など35ファイル、外部部品 react。QuizScreens.tsxから読み込まれる。",
+"detail": "冒頭の説明：「記号パレット（解答入力の補助キーボード）は components/SymbolPalette.tsx にある。」Quizを公開する。読み込むもの：curriculum.ts・safeLocalStorage.ts・reportError.ts など35ファイル、外部部品 react。QuizScreens.tsxから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -9367,11 +9376,11 @@
 },
 {
 "dir": "to",
-"path": "src/utils/safeLocalStorage.ts"
+"path": "src/types/curriculum.ts"
 },
 {
 "dir": "to",
-"path": "src/types/curriculum.ts"
+"path": "src/utils/safeLocalStorage.ts"
 }
 ],
 "lines": 922,
@@ -9492,7 +9501,7 @@
 "name": "RewardVideo.tsx",
 "folder": "src",
 "one": "ガチャの「動画で1回」で、アプリ内の応援動画を流す係",
-"detail": "冒頭の説明：「An in-app support clip, NOT a simulated commercial ad or revenue-producing integration.」RewardVideoを公開する。読み込むもの：growthStore.ts、外部部品 react。GachaRoom.tsxから読み込まれる。",
+"detail": "冒頭の説明：「An in-app support clip, NOT a simulated commercial ad or revenue-producing integration.」RewardVideoを公開する。読み込むもの：growthStore.ts・AlphaCinematicClip.tsx、外部部品 react。GachaRoom.tsxから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -9501,16 +9510,20 @@
 {
 "dir": "to",
 "path": "src/battle/data/growthStore.ts"
+},
+{
+"dir": "to",
+"path": "src/components/AlphaCinematicClip.tsx"
 }
 ],
-"lines": 33,
+"lines": 34,
 "tag": "音声・画像",
 "conf": "高",
 "kind": "file",
 "exports": [
 "RewardVideo"
 ],
-"nImports": 1,
+"nImports": 2,
 "nBy": 1,
 "draft": false,
 "sys": "screen",
@@ -9730,7 +9743,7 @@
 "name": "StudyRecord.tsx",
 "folder": "src",
 "one": "直近3日に解いた問題とまちがえた所を記録として見せる係",
-"detail": "冒頭の説明：「学習記録（2026-10-04 ご要望） 直近3日ぶん、一人で学ぶ・対戦で「どの問題を解いて、どこを間違えたか」を時系列で見る画面。」StudyRetry・StudyRecordを公開する。読み込むもの：firebase.ts・reviewList.ts・index.ts など6ファイル、外部部品 lucide-react・react。GrowthHub.tsx・StudyHub.tsxから読み込まれる。",
+"detail": "冒頭の説明：「学習記録（2026-10-04 ご要望） 直近3日ぶん、一人で学ぶ・対戦で「どの問題を解いて、どこを間違えたか」を時系列で見る画面。」StudyRetry・StudyRecordを公開する。読み込むもの：firebase.ts・reviewList.ts・index.ts など7ファイル、外部部品 lucide-react・react。GrowthHub.tsx・StudyHub.tsxから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -9745,7 +9758,7 @@
 "path": "src/firebase.ts"
 }
 ],
-"lines": 104,
+"lines": 108,
 "tag": "部品",
 "conf": "高",
 "kind": "file",
@@ -9753,7 +9766,7 @@
 "StudyRetry",
 "StudyRecord"
 ],
-"nImports": 6,
+"nImports": 7,
 "nBy": 2,
 "draft": false,
 "sys": "screen",
@@ -10169,7 +10182,7 @@
 "path": "src/utils/textFormatter.tsx"
 }
 ],
-"lines": 306,
+"lines": 305,
 "tag": "部品",
 "conf": "高",
 "kind": "file",
@@ -10424,7 +10437,7 @@
 "path": "src/types/curriculum.ts"
 }
 ],
-"lines": 48,
+"lines": 49,
 "tag": "データ",
 "conf": "高",
 "kind": "file",
@@ -10522,7 +10535,7 @@
 "path": "src/utils/safeLocalStorage.ts"
 }
 ],
-"lines": 69,
+"lines": 70,
 "tag": "部品",
 "conf": "高",
 "kind": "file",
@@ -10617,7 +10630,7 @@
 "path": "src/components/GachaRoom.tsx"
 }
 ],
-"lines": 529,
+"lines": 627,
 "tag": "部品",
 "conf": "高",
 "kind": "file",
@@ -10781,7 +10794,7 @@
 "path": "src/components/LaunchScreen.tsx"
 }
 ],
-"lines": 219,
+"lines": 310,
 "tag": "部品",
 "conf": "高",
 "kind": "file",
@@ -10789,6 +10802,7 @@
 "nImports": 0,
 "nBy": 1,
 "draft": false,
+"changed": true,
 "sys": "screen",
 "flow": []
 },
@@ -11075,7 +11089,7 @@
 "path": "src/components/StudyRecord.tsx"
 }
 ],
-"lines": 46,
+"lines": 47,
 "tag": "部品",
 "conf": "高",
 "kind": "file",
@@ -11694,7 +11708,7 @@
 "name": "allChapters.ts",
 "folder": "src",
 "one": "教科ごとの単元の一覧を集め、単元を探せるようにする入口の係",
-"detail": "冒頭の説明：「教科データの入口（章の一覧・章の検索） 画面は教科データ本体（parts / chapters のネスト）を直接触らず、ここを通して章を引く。」SUBJECTS・getChaptersOfSubject・getPartsOfSubject など5個を公開する。読み込むもの：curriculum.ts・englishListeningData.ts・subjects.ts など5ファイル。gen-battle-pool.mts・gen-chapter-index.mts など29ファイルから読み込まれる。",
+"detail": "冒頭の説明：「教科データの入口（章の一覧・章の検索） 画面は教科データ本体（parts / chapters のネスト）を直接触らず、ここを通して章を引く。」SUBJECTS・getChaptersOfSubject・getPartsOfSubject など5個を公開する。読み込むもの：curriculum.ts・englishListeningData.ts・subjects.ts など5ファイル。gen-battle-pool.mts・gen-chapter-index.mts など31ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -11721,7 +11735,7 @@
 "miniTestProblemsOf"
 ],
 "nImports": 5,
-"nBy": 29,
+"nBy": 31,
 "draft": false,
 "sys": "content",
 "flow": [
@@ -12127,7 +12141,7 @@
 "name": "englishListeningData.ts",
 "folder": "src",
 "one": "共通テスト英語リスニングの単元の並びと中身を持つ係",
-"detail": "冒頭の説明：「「英語リスニング」（共通テスト）の単元データ 位置づけ - 既存の `chemistryData.ts`（化学基礎）／`chemistryAdvancedData.ts`（化学）と…」ListeningChapter・ListeningPart・englishListeningData など9個を公開する。読み込むもの：curriculum.ts・englishListeningQ1AProblems.ts・englishListeningQ1ASets.ts など9ファイル。export-listening-audio-prompts.mts・gen-chapter-index.mts など19ファイルから読み込まれる。",
+"detail": "冒頭の説明：「「英語リスニング」（共通テスト）の単元データ 位置づけ - 既存の `chemistryData.ts`（化学基礎）／`chemistryAdvancedData.ts`（化学）と…」ListeningChapter・ListeningPart・englishListeningData など9個を公開する。読み込むもの：curriculum.ts・englishListeningQ1AProblems.ts・listeningPostProcess.ts など9ファイル。export-listening-audio-prompts.mts・gen-chapter-index.mts など19ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -12434,7 +12448,7 @@
 "name": "listeningPictureAspect.ts",
 "folder": "src",
 "one": "リスニングのイラストのうち、正方形でない絵の縦横比を持つ係",
-"detail": "冒頭の説明：「絵の問題（第1問B・第2問）のイラストのうち、正方形でないものの 横÷縦（2026-10-08 自動作成）。」LISTENING_PICTURE_ASPECTを公開する。ReviewPictureGrid.tsx・helpers.tsから読み込まれる。",
+"detail": "冒頭の説明：「絵の問題（第1問B・第2問）のイラストのうち、正方形でないものの 横÷縦（2026-10-08 自動作成）。」LISTENING_PICTURE_ASPECTを公開する。ReviewPictureGrid.tsx・helpers.ts など3ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -12445,7 +12459,7 @@
 "path": "src/components/explanation/helpers.ts"
 }
 ],
-"lines": 19,
+"lines": 18,
 "tag": "データ",
 "conf": "高",
 "kind": "file",
@@ -12453,7 +12467,7 @@
 "LISTENING_PICTURE_ASPECT"
 ],
 "nImports": 0,
-"nBy": 2,
+"nBy": 3,
 "draft": false,
 "sys": "content",
 "flow": [
@@ -12466,7 +12480,7 @@
 "name": "listeningPostProcess.ts",
 "folder": "src",
 "one": "英語2教科の解説の後処理を、共通の手順で行う係",
-"detail": "冒頭の説明：「英語2教科（リスニング・英文法）の「解説の後処理」 ■ なぜこのファイルがあるか englishListeningData.ts と englishGrammarData.ts の…」applyListeningPostProcessを公開する。読み込むもの：curriculum.ts・listeningExplanation.ts・explanationFormat.ts。englishGrammarData.ts・englishListeningData.ts など6ファイルから読み込まれる。",
+"detail": "冒頭の説明：「英語2教科（リスニング・英文法）の「解説の後処理」 ■ なぜこのファイルがあるか englishListeningData.ts と englishGrammarData.ts の…」applyListeningPostProcessを公開する。読み込むもの：curriculum.ts・listeningExplanation.ts・explanationFormat.ts。englishGrammarData.ts・englishListeningData.ts など7ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -12489,7 +12503,7 @@
 "applyListeningPostProcess"
 ],
 "nImports": 3,
-"nBy": 6,
+"nBy": 7,
 "draft": false,
 "sys": "content",
 "flow": [
@@ -12611,7 +12625,7 @@
 "name": "problemCount.ts",
 "folder": "src",
 "one": "1つの単元に大問が何問入っているかを数える共通の係",
-"detail": "冒頭の説明：「「章に大問が何問入っているか」を数えるための共通関数 アプリの中では「1つの章に含まれる大問の数」を、 (c.miniTest?.length || 0) + (c.practic…」countChapterProblems・countProblemsInChaptersを公開する。englishGrammarData.ts・englishListeningData.ts など5ファイルから読み込まれる。",
+"detail": "冒頭の説明：「「章に大問が何問入っているか」を数えるための共通関数 アプリの中では「1つの章に含まれる大問の数」を、 (c.miniTest?.length || 0) + (c.practic…」countChapterProblems・countProblemsInChaptersを公開する。englishGrammarData.ts・englishListeningData.ts など6ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -12631,7 +12645,7 @@
 "countProblemsInChapters"
 ],
 "nImports": 0,
-"nBy": 5,
+"nBy": 6,
 "draft": false,
 "sys": "content",
 "flow": [
@@ -12659,7 +12673,7 @@
 "path": "src/data/reading/meta.ts"
 }
 ],
-"lines": 121,
+"lines": 122,
 "tag": "データ",
 "conf": "高",
 "kind": "file",
@@ -12907,7 +12921,7 @@
 "path": "src/utils/updateNotices.ts"
 }
 ],
-"lines": 339,
+"lines": 375,
 "tag": "データ",
 "conf": "高",
 "kind": "file",
@@ -13386,7 +13400,7 @@
 "path": "src/firebase.ts"
 }
 ],
-"lines": 129,
+"lines": 141,
 "tag": "部品",
 "conf": "高",
 "kind": "file",
@@ -14235,7 +14249,7 @@
 "name": "curriculum.ts",
 "folder": "src",
 "one": "単元・大問・小問・音源など、教材データの共通の形を決める係",
-"detail": "冒頭の説明：「教材データ（単元・大問・小問・音源）の共通の型。」DetailedExplanation・Distractor・SubQuestion など12個を公開する。BattleReviewDetails.tsx・AnswerPane.tsx など68ファイルから読み込まれる。",
+"detail": "冒頭の説明：「教材データ（単元・大問・小問・音源）の共通の型。」DetailedExplanation・Distractor・SubQuestion など12個を公開する。BattleReviewDetails.tsx・AnswerPane.tsx など71ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -14261,7 +14275,7 @@
 "Problem"
 ],
 "nImports": 0,
-"nBy": 68,
+"nBy": 71,
 "draft": false,
 "sys": "content",
 "flow": []
@@ -14510,7 +14524,7 @@
 "name": "audioElements.ts",
 "folder": "src",
 "one": "ページ上の音声をまとめて止め、二重に鳴るのを防ぐ係",
-"detail": "冒頭の説明：「ページ上の <audio> 要素をまとめて止める（二重再生の防止）。」pauseAllAudioを公開する。FoundationPage.tsx・FoundationWords.tsx など8ファイルから読み込まれる。",
+"detail": "冒頭の説明：「ページ上の <audio> 要素をまとめて止める（二重再生の防止）。」PauseAllAudioOptions・pauseAllAudioを公開する。FoundationPage.tsx・FoundationWords.tsx など9ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -14521,16 +14535,18 @@
 "path": "src/components/FoundationWords.tsx"
 }
 ],
-"lines": 24,
+"lines": 32,
 "tag": "音声・画像",
 "conf": "高",
 "kind": "file",
 "exports": [
+"PauseAllAudioOptions",
 "pauseAllAudio"
 ],
 "nImports": 0,
-"nBy": 8,
+"nBy": 9,
 "draft": false,
+"changed": true,
 "sys": "logic",
 "flow": [
 "solve"
@@ -15385,7 +15401,7 @@
 "name": "listeningSpeech.ts",
 "folder": "src",
 "one": "音源ファイルが無いとき、端末の読み上げで英語を流す係",
-"detail": "冒頭の説明：「listeningSpeech.ts ― リスニング音源の「MP3が無いとき」の読み上げ ■ なぜ必要か 配布PDFから取り込んだ類題集（第1問A 13セット＋第1問B 15セット…」isSpeechSupported・pickEnglishVoice・pickEnglishVoicePair など10個を公開する。読み込むもの：vocabAudio.ts。FoundationPage.tsx・FoundationWords.tsx など7ファイルから読み込まれる。",
+"detail": "冒頭の説明：「listeningSpeech.ts ― リスニング音源の「MP3が無いとき」の読み上げ ■ なぜ必要か 配布PDFから取り込んだ類題集（第1問A 13セット＋第1問B 15セット…」isSpeechSupported・pickEnglishVoice・pickEnglishVoicePair など10個を公開する。読み込むもの：vocabAudio.ts。FoundationPage.tsx・FoundationWords.tsx など8ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -15415,7 +15431,7 @@
 "speak"
 ],
 "nImports": 1,
-"nBy": 7,
+"nBy": 8,
 "draft": false,
 "sys": "logic",
 "flow": [
@@ -15677,7 +15693,7 @@
 "name": "progress.ts",
 "folder": "src",
 "one": "どの大問を解いたかという学習の進み具合を記録する係",
-"detail": "冒頭の説明：「学習進捗の記録（大問ベース・1点でも取れば「解いた」とみなす） ■ なぜ専用の仕組みが必要だったのか（元の不具合） タイトル画面（ホーム）の「学習進捗」は、以前は localSto…」SOLVED_KEY_PREFIX・isPlainRecord・parseStoredStringRecord など11個を公開する。読み込むもの：safeLocalStorage.ts・curriculum.ts・userStorageKeys.ts など4ファイル。App.tsx・ChapterSelection.tsx など12ファイルから読み込まれる。",
+"detail": "冒頭の説明：「学習進捗の記録（大問ベース・1点でも取れば「解いた」とみなす） ■ なぜ専用の仕組みが必要だったのか（元の不具合） タイトル画面（ホーム）の「学習進捗」は、以前は localSto…」SOLVED_KEY_PREFIX・isPlainRecord・parseStoredStringRecord など11個を公開する。読み込むもの：curriculum.ts・safeLocalStorage.ts・userStorageKeys.ts など4ファイル。App.tsx・ChapterSelection.tsx など12ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -15689,7 +15705,7 @@
 },
 {
 "dir": "to",
-"path": "src/utils/safeLocalStorage.ts"
+"path": "src/types/curriculum.ts"
 }
 ],
 "lines": 376,
@@ -16105,7 +16121,7 @@
 "name": "reviewList.ts",
 "folder": "src",
 "one": "間違えた問題を集め、忘却曲線に沿って復習日を決める係",
-"detail": "冒頭の説明：「復習リスト（間違えた問題）ユーティリティ 設計方針: - 端末内 localStorage をソース・オブ・トゥルースとして完結（オフラインでも動作）。」REVIEW_INTERVALS_DAYS・ReviewItem・loadReviewList など21個を公開する。読み込むもの：safeLocalStorage.ts・reportError.ts・growthStore.ts など5ファイル。BattleResultLive.tsx・ForgettingCurveChart.tsx など18ファイルから読み込まれる。",
+"detail": "冒頭の説明：「復習リスト（間違えた問題）ユーティリティ 設計方針: - 端末内 localStorage をソース・オブ・トゥルースとして完結（オフラインでも動作）。」REVIEW_INTERVALS_DAYS・ReviewItem・loadReviewList など21個を公開する。読み込むもの：safeLocalStorage.ts・reportError.ts・growthStore.ts など5ファイル。BattleResultLive.tsx・ForgettingCurveChart.tsx など19ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -16135,7 +16151,7 @@
 "markReviewedCorrect"
 ],
 "nImports": 5,
-"nBy": 18,
+"nBy": 19,
 "draft": false,
 "changed": true,
 "sys": "logic",
@@ -16460,7 +16476,7 @@
 "name": "studyLog.ts",
 "folder": "src",
 "one": "直近3日にどの問題を解き、どこを間違えたかを記録する係",
-"detail": "冒頭の説明：「学習記録（2026-10-04 ご要望） 「直近（3日ぶん）に、どの問題を解いて、どこを間違えたか」を 一人で学ぶ・対戦の両方から1つの時系列に残す。端末内（localStorag…」STUDY_LOG_DAYS・StudyLogItem・StudyLogEntry など8個を公開する。読み込むもの：safeLocalStorage.ts。BattleResult.tsx・StudyRecord.tsx など5ファイルから読み込まれる。",
+"detail": "冒頭の説明：「学習記録（2026-10-04 ご要望） 「直近（3日ぶん）に、どの問題を解いて、どこを間違えたか」を 一人で学ぶ・対戦の両方から1つの時系列に残す。端末内（localStorag…」STUDY_LOG_DAYS・StudyLogItem・StudyLogEntry など8個を公開する。読み込むもの：safeLocalStorage.ts。BattleResult.tsx・StudyRecord.tsx など6ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -16490,7 +16506,7 @@
 "fixedLaterIds"
 ],
 "nImports": 1,
-"nBy": 5,
+"nBy": 6,
 "draft": false,
 "changed": true,
 "sys": "logic",
@@ -16667,7 +16683,7 @@
 "name": "studyTime.ts",
 "folder": "src",
 "one": "学習時間を日ごとに記録し、操作が無い時間は数えない係",
-"detail": "冒頭の説明：「学習時間の記録（2026-09-30・設定のプロフィールカード A14）。」StudyTimeLog・studyTimeKey・STUDY_IDLE_MS など7個を公開する。読み込むもの：safeLocalStorage.ts・userStorageKeys.ts。OpponentCard.tsx・FriendPanel.tsx など13ファイルから読み込まれる。",
+"detail": "冒頭の説明：「学習時間の記録（2026-09-30・設定のプロフィールカード A14）。」StudyTimeLog・studyTimeKey・STUDY_IDLE_MS など7個を公開する。読み込むもの：safeLocalStorage.ts・userStorageKeys.ts。OpponentCard.tsx・FriendPanel.tsx など14ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -16696,7 +16712,7 @@
 "formatStudyTime"
 ],
 "nImports": 2,
-"nBy": 13,
+"nBy": 14,
 "draft": false,
 "sys": "logic",
 "flow": [
@@ -16709,7 +16725,7 @@
 "name": "textFormatter.tsx",
 "folder": "src",
 "one": "本文の太字や数式を、表示用の形に置き換える係",
-"detail": "冒頭の説明：「数学記法エンジンは mathNotation.ts へ移した。外向きの名前は変えない。」convertBoldMarkdown・FormatTextOptions・setFormatMathContext など6個を公開する。読み込むもの：sanitizeHtml.ts・mathTypeset.ts・mathNotation.ts、外部部品 react。BattleText.tsx・AnswerPane.tsx など18ファイルから読み込まれる。",
+"detail": "冒頭の説明：「数学記法エンジンは mathNotation.ts へ移した。外向きの名前は変えない。」convertBoldMarkdown・FormatTextOptions・setFormatMathContext など6個を公開する。読み込むもの：sanitizeHtml.ts・mathTypeset.ts・mathNotation.ts、外部部品 react。BattleText.tsx・AnswerPane.tsx など19ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -16737,7 +16753,7 @@
 "convertMathNotation"
 ],
 "nImports": 3,
-"nBy": 18,
+"nBy": 19,
 "draft": false,
 "changed": true,
 "sys": "logic",
@@ -17350,14 +17366,14 @@
 "name": "audioElements.test.ts",
 "folder": "tests",
 "one": "音声の二重再生を防ぐ「まとめて止める」処理を確かめる係",
-"detail": "4件の確認（it）を持つ。主な確認：「pauseAllAudio（音声の二重再生防止を1か所に集約）」「再生中の音源をすべて止める」。対象：audioElements.ts。",
+"detail": "6件の確認（it）を持つ。主な確認：「pauseAllAudio（音声の二重再生防止を1か所に集約）」「再生中の音源をすべて止める」。対象：audioElements.ts。",
 "links": [
 {
 "dir": "to",
 "path": "src/utils/audioElements.ts"
 }
 ],
-"lines": 36,
+"lines": 58,
 "tag": "テスト",
 "conf": "高",
 "kind": "file",
@@ -17485,19 +17501,27 @@
 "name": "battlePictureListening.test.ts",
 "folder": "tests",
 "one": "対戦画面が問題の絵を表示し、先読みしているかを確かめる係",
-"detail": "3件の確認（it）を持つ。主な確認：「対戦の絵と先読み」「対戦画面は問題の絵（imageUrl）を描き、読み込み失敗時は読み直せる」。対象：preload.ts。",
+"detail": "4件の確認（it）を持つ。主な確認：「対戦の絵と先読み」「対戦画面は問題の絵（imageUrl）を描き、読み込み失敗時は読み直せる」。対象：preload.ts・pictureGrid.generated.ts・listeningPictureAspect.ts。",
 "links": [
 {
 "dir": "to",
 "path": "src/battle/core/preload.ts"
+},
+{
+"dir": "to",
+"path": "src/data/listeningPictureAspect.ts"
+},
+{
+"dir": "to",
+"path": "src/battle/data/pictureGrid.generated.ts"
 }
 ],
-"lines": 31,
+"lines": 49,
 "tag": "テスト",
 "conf": "高",
 "kind": "file",
 "exports": [],
-"nImports": 1,
+"nImports": 3,
 "nBy": 0,
 "draft": false,
 "sys": "test",
@@ -17601,7 +17625,7 @@
 "path": "EXPORT_MANIFEST.json"
 }
 ],
-"lines": 108,
+"lines": 111,
 "tag": "テスト",
 "conf": "高",
 "kind": "file",
@@ -18241,7 +18265,7 @@
 },
 {
 "dir": "to",
-"path": "src/utils/explanationFormat.ts"
+"path": "src/data/listeningPostProcess.ts"
 }
 ],
 "lines": 354,
@@ -18321,7 +18345,7 @@
 "name": "matchFallback.test.ts",
 "folder": "tests",
 "one": "相手がいない・サーバーが使えないとき、AIに切り替わるか確かめる係",
-"detail": "11件の確認（it）を持つ。主な確認：「全国対戦：相手がいない／サーバーが使えないときは AI プレイヤー」「人を待つのは GHOST_AFTER_SEC 秒まで」。対象：aiOpponent.ts・matchFallback.ts。",
+"detail": "12件の確認（it）を持つ。主な確認：「全国対戦：相手がいない／サーバーが使えないときは AI プレイヤー」「人を待つのは GHOST_AFTER_SEC 秒まで」。対象：aiOpponent.ts・matchFallback.ts。",
 "links": [
 {
 "dir": "to",
@@ -18332,7 +18356,7 @@
 "path": "src/battle/core/aiOpponent.ts"
 }
 ],
-"lines": 102,
+"lines": 119,
 "tag": "テスト",
 "conf": "高",
 "kind": "file",
@@ -18340,6 +18364,7 @@
 "nImports": 2,
 "nBy": 0,
 "draft": false,
+"changed": true,
 "sys": "test",
 "flow": []
 },
@@ -18664,7 +18689,7 @@
 "path": "src/battle/data/growthStore.ts"
 }
 ],
-"lines": 74,
+"lines": 88,
 "tag": "テスト",
 "conf": "高",
 "kind": "file",
@@ -19421,6 +19446,34 @@
 "flow": []
 },
 {
+"id": "docs/APP_STORE_WHATS_NEW_2026-11.md",
+"path": "docs/APP_STORE_WHATS_NEW_2026-11.md",
+"name": "APP_STORE_WHATS_NEW_2026-11.md",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "主な見出し：App Store掲載文案：このバージョンの新機能／推奨文面（そのまま掲載できます）／短い文面（入力欄が短い場合）。",
+"links": [
+{
+"dir": "ref",
+"path": "docs/UI_CHANGELOG.md"
+},
+{
+"dir": "ref",
+"path": "tests/toeicDisclaimer.test.ts"
+}
+],
+"lines": 33,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
 "id": "docs/COMMERCIAL_AUDIO_MIGRATION.md",
 "path": "docs/COMMERCIAL_AUDIO_MIGRATION.md",
 "name": "COMMERCIAL_AUDIO_MIGRATION.md",
@@ -19626,7 +19679,7 @@
 "name": "UI_CHANGELOG.md",
 "folder": "docs",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "主な見出し：2026-11-05 2次試験ガチャ LR に群馬大学 情報学部 前期 英語予想問題3回分を追加（PR: feat/niji-gunma）／2026-11-05 全国対戦：マッチしたら「対戦の部屋」で2人が単元をえらび、どちらかで対戦（F10）／2026-11-05 修正F（F1〜F9・F11）結果の不具合報告・共通テスト予想の音声とQR・第1回全文・アイテム増量・タイトルの演出 ほか（PR: feat/revision-f-batch）。",
+"detail": "主な見出し：2026-11-12 英単語再生時のBGM維持・全国対戦AIバリエーション拡充・TOEIC リスニング全15回追加／2026-11-12 フレンド一覧「…」メニューからのプロフィール表示と大学選択ガチャ（1回500枚）の新設／2026-11-12 TOEIC 回答中の時間カウントバーで現在の経過時間を可視化。",
 "links": [
 {
 "dir": "ref",
@@ -19641,7 +19694,7 @@
 "path": "scripts/pr/prCore.mts"
 }
 ],
-"lines": 1573,
+"lines": 1636,
 "tag": "文書",
 "conf": "低",
 "kind": "file",
@@ -21579,6 +21632,2342 @@
 "detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
 "links": [],
 "lines": 1163,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/ElevenLabs_TOEICリスニング_全15回_原稿.pdf",
+"path": "docs/elevenlabs_toeic_listening/ElevenLabs_TOEICリスニング_全15回_原稿.pdf",
+"name": "ElevenLabs_TOEICリスニング_全15回_原稿.pdf",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [
+{
+"dir": "ref",
+"path": "scripts/toeic-listening-audio/build_elevenlabs_pdf.py"
+}
+],
+"lines": 1728,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/manifest.json",
+"path": "docs/elevenlabs_toeic_listening/manifest.json",
+"name": "manifest.json",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "主な項目：generatedAt・chapterId・rounds・questionsPerRound・totalQuestions。",
+"links": [
+{
+"dir": "ref",
+"path": "EXPORT_MANIFEST.json"
+},
+{
+"dir": "ref",
+"path": "android/app/src/main/AndroidManifest.xml"
+},
+{
+"dir": "ref",
+"path": "audio_sources/commercial/elevenlabs_2026-09-28_q6b/receipt/edit_note.json"
+}
+],
+"lines": 4184,
+"tag": "設定",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r01_p2_q1.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r01_p2_q1.txt",
+"name": "tpl_r01_p2_q1.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 7,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r01_p2_q2.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r01_p2_q2.txt",
+"name": "tpl_r01_p2_q2.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 7,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r01_p2_q3.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r01_p2_q3.txt",
+"name": "tpl_r01_p2_q3.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 7,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r01_p2_q4.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r01_p2_q4.txt",
+"name": "tpl_r01_p2_q4.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 7,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r01_p2_q5.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r01_p2_q5.txt",
+"name": "tpl_r01_p2_q5.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 7,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r01_p2_q6.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r01_p2_q6.txt",
+"name": "tpl_r01_p2_q6.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 7,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r01_p3.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r01_p3.txt",
+"name": "tpl_r01_p3.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 9,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r01_p4.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r01_p4.txt",
+"name": "tpl_r01_p4.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 5,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r02_p2_q1.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r02_p2_q1.txt",
+"name": "tpl_r02_p2_q1.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 7,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r02_p2_q2.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r02_p2_q2.txt",
+"name": "tpl_r02_p2_q2.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 7,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r02_p2_q3.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r02_p2_q3.txt",
+"name": "tpl_r02_p2_q3.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 7,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r02_p2_q4.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r02_p2_q4.txt",
+"name": "tpl_r02_p2_q4.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 7,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r02_p2_q5.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r02_p2_q5.txt",
+"name": "tpl_r02_p2_q5.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 7,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r02_p2_q6.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r02_p2_q6.txt",
+"name": "tpl_r02_p2_q6.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 7,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r02_p3.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r02_p3.txt",
+"name": "tpl_r02_p3.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 9,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r02_p4.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r02_p4.txt",
+"name": "tpl_r02_p4.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 5,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r03_p2_q1.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r03_p2_q1.txt",
+"name": "tpl_r03_p2_q1.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 7,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r03_p2_q2.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r03_p2_q2.txt",
+"name": "tpl_r03_p2_q2.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 7,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r03_p2_q3.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r03_p2_q3.txt",
+"name": "tpl_r03_p2_q3.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 7,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r03_p2_q4.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r03_p2_q4.txt",
+"name": "tpl_r03_p2_q4.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 7,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r03_p2_q5.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r03_p2_q5.txt",
+"name": "tpl_r03_p2_q5.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 7,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r03_p2_q6.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r03_p2_q6.txt",
+"name": "tpl_r03_p2_q6.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 7,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r03_p3.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r03_p3.txt",
+"name": "tpl_r03_p3.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 9,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r03_p4.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r03_p4.txt",
+"name": "tpl_r03_p4.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 5,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r04_p2_q1.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r04_p2_q1.txt",
+"name": "tpl_r04_p2_q1.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 7,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r04_p2_q2.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r04_p2_q2.txt",
+"name": "tpl_r04_p2_q2.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 7,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r04_p2_q3.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r04_p2_q3.txt",
+"name": "tpl_r04_p2_q3.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 7,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r04_p2_q4.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r04_p2_q4.txt",
+"name": "tpl_r04_p2_q4.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 7,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r04_p2_q5.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r04_p2_q5.txt",
+"name": "tpl_r04_p2_q5.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 7,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r04_p2_q6.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r04_p2_q6.txt",
+"name": "tpl_r04_p2_q6.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 7,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r04_p3.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r04_p3.txt",
+"name": "tpl_r04_p3.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 9,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r04_p4.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r04_p4.txt",
+"name": "tpl_r04_p4.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 5,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r05_p2_q1.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r05_p2_q1.txt",
+"name": "tpl_r05_p2_q1.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 7,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r05_p2_q2.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r05_p2_q2.txt",
+"name": "tpl_r05_p2_q2.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 7,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r05_p2_q3.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r05_p2_q3.txt",
+"name": "tpl_r05_p2_q3.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 7,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r05_p2_q4.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r05_p2_q4.txt",
+"name": "tpl_r05_p2_q4.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 7,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r05_p2_q5.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r05_p2_q5.txt",
+"name": "tpl_r05_p2_q5.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 7,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r05_p2_q6.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r05_p2_q6.txt",
+"name": "tpl_r05_p2_q6.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 7,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r05_p3.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r05_p3.txt",
+"name": "tpl_r05_p3.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 9,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r05_p4.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r05_p4.txt",
+"name": "tpl_r05_p4.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 5,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r06_p2_q1.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r06_p2_q1.txt",
+"name": "tpl_r06_p2_q1.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 7,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r06_p2_q2.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r06_p2_q2.txt",
+"name": "tpl_r06_p2_q2.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 7,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r06_p2_q3.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r06_p2_q3.txt",
+"name": "tpl_r06_p2_q3.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 7,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r06_p2_q4.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r06_p2_q4.txt",
+"name": "tpl_r06_p2_q4.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 7,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r06_p2_q5.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r06_p2_q5.txt",
+"name": "tpl_r06_p2_q5.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 7,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r06_p2_q6.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r06_p2_q6.txt",
+"name": "tpl_r06_p2_q6.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 7,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r06_p3.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r06_p3.txt",
+"name": "tpl_r06_p3.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 9,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r06_p4.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r06_p4.txt",
+"name": "tpl_r06_p4.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 5,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r07_p2_q1.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r07_p2_q1.txt",
+"name": "tpl_r07_p2_q1.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 7,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r07_p2_q2.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r07_p2_q2.txt",
+"name": "tpl_r07_p2_q2.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 7,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r07_p2_q3.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r07_p2_q3.txt",
+"name": "tpl_r07_p2_q3.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 7,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r07_p2_q4.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r07_p2_q4.txt",
+"name": "tpl_r07_p2_q4.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 7,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r07_p2_q5.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r07_p2_q5.txt",
+"name": "tpl_r07_p2_q5.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 7,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r07_p2_q6.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r07_p2_q6.txt",
+"name": "tpl_r07_p2_q6.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 7,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r07_p3.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r07_p3.txt",
+"name": "tpl_r07_p3.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 11,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r07_p4.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r07_p4.txt",
+"name": "tpl_r07_p4.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 5,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r08_p2_q1.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r08_p2_q1.txt",
+"name": "tpl_r08_p2_q1.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 7,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r08_p2_q2.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r08_p2_q2.txt",
+"name": "tpl_r08_p2_q2.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 7,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r08_p2_q3.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r08_p2_q3.txt",
+"name": "tpl_r08_p2_q3.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 7,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r08_p2_q4.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r08_p2_q4.txt",
+"name": "tpl_r08_p2_q4.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 7,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r08_p2_q5.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r08_p2_q5.txt",
+"name": "tpl_r08_p2_q5.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 7,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r08_p2_q6.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r08_p2_q6.txt",
+"name": "tpl_r08_p2_q6.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 7,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r08_p3.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r08_p3.txt",
+"name": "tpl_r08_p3.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 11,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r08_p4.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r08_p4.txt",
+"name": "tpl_r08_p4.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 5,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r09_p2_q1.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r09_p2_q1.txt",
+"name": "tpl_r09_p2_q1.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 7,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r09_p2_q2.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r09_p2_q2.txt",
+"name": "tpl_r09_p2_q2.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 7,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r09_p2_q3.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r09_p2_q3.txt",
+"name": "tpl_r09_p2_q3.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 7,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r09_p2_q4.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r09_p2_q4.txt",
+"name": "tpl_r09_p2_q4.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 7,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r09_p2_q5.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r09_p2_q5.txt",
+"name": "tpl_r09_p2_q5.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 7,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r09_p2_q6.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r09_p2_q6.txt",
+"name": "tpl_r09_p2_q6.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 7,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r09_p3.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r09_p3.txt",
+"name": "tpl_r09_p3.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 11,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r09_p4.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r09_p4.txt",
+"name": "tpl_r09_p4.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 5,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r10_p2_q1.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r10_p2_q1.txt",
+"name": "tpl_r10_p2_q1.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 7,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r10_p2_q2.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r10_p2_q2.txt",
+"name": "tpl_r10_p2_q2.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 7,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r10_p2_q3.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r10_p2_q3.txt",
+"name": "tpl_r10_p2_q3.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 7,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r10_p2_q4.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r10_p2_q4.txt",
+"name": "tpl_r10_p2_q4.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 7,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r10_p2_q5.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r10_p2_q5.txt",
+"name": "tpl_r10_p2_q5.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 7,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r10_p2_q6.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r10_p2_q6.txt",
+"name": "tpl_r10_p2_q6.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 7,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r10_p3.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r10_p3.txt",
+"name": "tpl_r10_p3.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 11,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r10_p4.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r10_p4.txt",
+"name": "tpl_r10_p4.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 5,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r11_p2_q1.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r11_p2_q1.txt",
+"name": "tpl_r11_p2_q1.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 7,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r11_p2_q2.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r11_p2_q2.txt",
+"name": "tpl_r11_p2_q2.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 7,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r11_p2_q3.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r11_p2_q3.txt",
+"name": "tpl_r11_p2_q3.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 7,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r11_p2_q4.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r11_p2_q4.txt",
+"name": "tpl_r11_p2_q4.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 7,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r11_p2_q5.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r11_p2_q5.txt",
+"name": "tpl_r11_p2_q5.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 7,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r11_p2_q6.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r11_p2_q6.txt",
+"name": "tpl_r11_p2_q6.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 7,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r11_p3.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r11_p3.txt",
+"name": "tpl_r11_p3.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 11,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r11_p4.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r11_p4.txt",
+"name": "tpl_r11_p4.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 5,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r12_p2_q1.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r12_p2_q1.txt",
+"name": "tpl_r12_p2_q1.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 7,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r12_p2_q2.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r12_p2_q2.txt",
+"name": "tpl_r12_p2_q2.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 7,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r12_p2_q3.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r12_p2_q3.txt",
+"name": "tpl_r12_p2_q3.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 7,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r12_p2_q4.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r12_p2_q4.txt",
+"name": "tpl_r12_p2_q4.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 7,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r12_p2_q5.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r12_p2_q5.txt",
+"name": "tpl_r12_p2_q5.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 7,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r12_p2_q6.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r12_p2_q6.txt",
+"name": "tpl_r12_p2_q6.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 7,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r12_p3.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r12_p3.txt",
+"name": "tpl_r12_p3.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 11,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r12_p4.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r12_p4.txt",
+"name": "tpl_r12_p4.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 5,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r13_p2_q1.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r13_p2_q1.txt",
+"name": "tpl_r13_p2_q1.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 7,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r13_p2_q2.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r13_p2_q2.txt",
+"name": "tpl_r13_p2_q2.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 7,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r13_p2_q3.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r13_p2_q3.txt",
+"name": "tpl_r13_p2_q3.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 7,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r13_p2_q4.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r13_p2_q4.txt",
+"name": "tpl_r13_p2_q4.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 7,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r13_p2_q5.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r13_p2_q5.txt",
+"name": "tpl_r13_p2_q5.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 7,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r13_p2_q6.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r13_p2_q6.txt",
+"name": "tpl_r13_p2_q6.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 7,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r13_p3.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r13_p3.txt",
+"name": "tpl_r13_p3.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 11,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r13_p4.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r13_p4.txt",
+"name": "tpl_r13_p4.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 5,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r14_p2_q1.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r14_p2_q1.txt",
+"name": "tpl_r14_p2_q1.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 7,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r14_p2_q2.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r14_p2_q2.txt",
+"name": "tpl_r14_p2_q2.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 7,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r14_p2_q3.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r14_p2_q3.txt",
+"name": "tpl_r14_p2_q3.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 7,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r14_p2_q4.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r14_p2_q4.txt",
+"name": "tpl_r14_p2_q4.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 7,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r14_p2_q5.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r14_p2_q5.txt",
+"name": "tpl_r14_p2_q5.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 7,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r14_p2_q6.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r14_p2_q6.txt",
+"name": "tpl_r14_p2_q6.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 7,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r14_p3.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r14_p3.txt",
+"name": "tpl_r14_p3.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 11,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r14_p4.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r14_p4.txt",
+"name": "tpl_r14_p4.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 5,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r15_p2_q1.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r15_p2_q1.txt",
+"name": "tpl_r15_p2_q1.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 7,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r15_p2_q2.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r15_p2_q2.txt",
+"name": "tpl_r15_p2_q2.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 7,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r15_p2_q3.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r15_p2_q3.txt",
+"name": "tpl_r15_p2_q3.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 7,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r15_p2_q4.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r15_p2_q4.txt",
+"name": "tpl_r15_p2_q4.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 7,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r15_p2_q5.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r15_p2_q5.txt",
+"name": "tpl_r15_p2_q5.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 7,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r15_p2_q6.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r15_p2_q6.txt",
+"name": "tpl_r15_p2_q6.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 7,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r15_p3.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r15_p3.txt",
+"name": "tpl_r15_p3.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 11,
+"tag": "文書",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "docs",
+"flow": []
+},
+{
+"id": "docs/elevenlabs_toeic_listening/txt/tpl_r15_p4.txt",
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r15_p4.txt",
+"name": "tpl_r15_p4.txt",
+"folder": "docs",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 5,
 "tag": "文書",
 "conf": "低",
 "kind": "file",
@@ -25487,6 +27876,38 @@
 "flow": []
 },
 {
+"id": "public/audio/toeic_listening/index.json",
+"path": "public/audio/toeic_listening/index.json",
+"name": "index.json",
+"folder": "public",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "主な項目：version・rev・ids。",
+"links": [
+{
+"dir": "ref",
+"path": "docs/UI_CHANGELOG.md"
+},
+{
+"dir": "ref",
+"path": "docs/elevenlabs_toeic_listening/manifest.json"
+},
+{
+"dir": "ref",
+"path": "docs/elevenlabs_vocab/README.md"
+}
+],
+"lines": 5,
+"tag": "設定",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "assets",
+"flow": []
+},
+{
 "id": "public/data/listeningTranslations.json",
 "path": "public/data/listeningTranslations.json",
 "name": "listeningTranslations.json",
@@ -25519,6 +27940,25 @@
 "flow": [
 "solve"
 ]
+},
+{
+"id": "public/docs/ElevenLabs_TOEIC_Listening_Rounds01_15.pdf",
+"path": "public/docs/ElevenLabs_TOEIC_Listening_Rounds01_15.pdf",
+"name": "ElevenLabs_TOEIC_Listening_Rounds01_15.pdf",
+"folder": "public",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "中身の説明が書かれていないため、ファイル名と内容から役割を判断した。",
+"links": [],
+"lines": 1728,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "assets",
+"flow": []
 },
 {
 "id": "public/notify_chime.wav",
@@ -25702,8 +28142,12 @@
 "name": "check-toeic-notes.mts",
 "folder": "scripts",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「TOEIC Part 5 の追加解説（着眼点・ポイント・TOEICでのコツ）が、 英文法の解説やほかの文章を写していないかを確かめる。」読み込むもの：toeicPart5Rounds.ts・toeicPart6Rounds.ts・toeicPart7Rounds.ts など5ファイル。",
+"detail": "冒頭の説明：「TOEIC Part 5 の追加解説（着眼点・ポイント・TOEICでのコツ）が、 英文法の解説やほかの文章を写していないかを確かめる。」読み込むもの：toeicListeningRounds.ts・toeicPart5Rounds.ts・toeicPart6Rounds.ts など6ファイル。",
 "links": [
+{
+"dir": "to",
+"path": "src/data/toeic/toeicListeningRounds.ts"
+},
 {
 "dir": "to",
 "path": "src/data/toeic/toeicPart5Rounds.ts"
@@ -25711,18 +28155,14 @@
 {
 "dir": "to",
 "path": "src/data/toeic/toeicPart6Rounds.ts"
-},
-{
-"dir": "to",
-"path": "src/data/toeic/toeicPart7Rounds.ts"
 }
 ],
-"lines": 188,
+"lines": 230,
 "tag": "データ",
 "conf": "低",
 "kind": "file",
 "exports": [],
-"nImports": 5,
+"nImports": 6,
 "nBy": 0,
 "draft": true,
 "sys": "tools",
@@ -25763,6 +28203,10 @@
 {
 "dir": "ref",
 "path": "docs/elevenlabs_onepass/README.md"
+},
+{
+"dir": "ref",
+"path": "scripts/toeic-listening-audio/build_elevenlabs_pdf.py"
 }
 ],
 "lines": 168,
@@ -46806,6 +49250,79 @@
 "flow": []
 },
 {
+"id": "scripts/toeic-listening-audio/build_elevenlabs_pdf.py",
+"path": "scripts/toeic-listening-audio/build_elevenlabs_pdf.py",
+"name": "build_elevenlabs_pdf.py",
+"folder": "scripts",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「TOEIC® L&R リスニング（全15回・120トラック・180問）の ElevenLabs 読み上げ原稿 PDF を作成する。」",
+"links": [],
+"lines": 332,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "tools",
+"flow": []
+},
+{
+"id": "scripts/toeic-listening-audio/export-manifest.mts",
+"path": "scripts/toeic-listening-audio/export-manifest.mts",
+"name": "export-manifest.mts",
+"folder": "scripts",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「TOEIC リスニング 全15回（120トラック・180問）の ElevenLabs 用データを JSON に書き出す。」ExportedTrackを公開する。読み込むもの：toeicListeningKit.ts・toeicListeningRounds.ts。",
+"links": [
+{
+"dir": "to",
+"path": "src/data/toeic/toeicListeningKit.ts"
+},
+{
+"dir": "to",
+"path": "src/data/toeic/toeicListeningRounds.ts"
+}
+],
+"lines": 139,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [
+"ExportedTrack"
+],
+"nImports": 2,
+"nBy": 0,
+"draft": true,
+"sys": "tools",
+"flow": []
+},
+{
+"id": "scripts/toeic-listening-audio/import_mp3.py",
+"path": "scripts/toeic-listening-audio/import_mp3.py",
+"name": "import_mp3.py",
+"folder": "scripts",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「ElevenLabs 録音済み MP3 を public/audio/toeic_listening/ に取り込み、 public/audio/toeic_listening/in…」",
+"links": [
+{
+"dir": "ref",
+"path": "scripts/toeic-listening-audio/build_elevenlabs_pdf.py"
+}
+],
+"lines": 60,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "tools",
+"flow": []
+},
+{
 "id": "scripts/vocab-audio/cut.py",
 "path": "scripts/vocab-audio/cut.py",
 "name": "cut.py",
@@ -47019,7 +49536,7 @@
 "name": "launchSfx.ts",
 "folder": "src",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「起動エンブレム〜タイトルの効果音（2026-10-17・宣伝動画の冒頭と同じ3つの音）。」LAUNCH_SFX・LaunchSfx・SWELL_LEAD_MS など7個を公開する。読み込むもの：sharedAudioContext.ts。LaunchScreen.tsx・vocabRangeQuiz.test.tsから読み込まれる。",
+"detail": "冒頭の説明：「起動エンブレム〜タイトルの効果音（2026-10-17・宣伝動画の冒頭と同じ3つの音）。」LAUNCH_SFX・LaunchSfx・SWELL_LEAD_MS など7個を公開する。読み込むもの：sharedAudioContext.ts。LaunchScreen.tsx・launchSfx.test.ts など3ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -47027,14 +49544,14 @@
 },
 {
 "dir": "from",
-"path": "tests/vocabRangeQuiz.test.ts"
+"path": "tests/launchSfx.test.ts"
 },
 {
 "dir": "to",
 "path": "src/battle/audio/sharedAudioContext.ts"
 }
 ],
-"lines": 100,
+"lines": 111,
 "tag": "データ",
 "conf": "低",
 "kind": "file",
@@ -47048,7 +49565,7 @@
 "fadeOutLaunchSfx"
 ],
 "nImports": 1,
-"nBy": 2,
+"nBy": 3,
 "draft": true,
 "sys": "battle",
 "flow": [
@@ -47164,7 +49681,7 @@
 "name": "gachaPools.ts",
 "folder": "src",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「ガチャの種類（2026-10-29 追加）：共通テストガチャ（これまでの1つ）と、2次試験ガチャ。」GachaPoolId・GachaPoolDef・GACHA_POOLS など10個を公開する。読み込むもの：nijiMockPrints.ts・akitaMockPrints.ts・fukushimaMockPrints.ts など13ファイル。arenaEconomy.ts・gachaFeatured.ts など9ファイルから読み込まれる。",
+"detail": "冒頭の説明：「ガチャの種類（2026-10-29 追加）：共通テストガチャ（これまでの1つ）と、2次試験ガチャ。」GachaPoolId・GachaPoolDef・GACHA_POOLS など15個を公開する。読み込むもの：nijiMockPrints.ts・printShelves.ts・akitaMockPrints.ts など14ファイル。arenaEconomy.ts・gachaFeatured.ts など11ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -47179,7 +49696,7 @@
 "path": "src/data/nijiMockPrints.ts"
 }
 ],
-"lines": 99,
+"lines": 180,
 "tag": "データ",
 "conf": "低",
 "kind": "file",
@@ -47193,8 +49710,8 @@
 "UNIV_MOCK_PRINT_IDS",
 "NIJI_ONLY_IDS"
 ],
-"nImports": 13,
-"nBy": 9,
+"nImports": 14,
+"nBy": 11,
 "draft": true,
 "sys": "battle",
 "flow": [
@@ -47246,7 +49763,7 @@
 "name": "printShelves.ts",
 "folder": "src",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「PDF の棚（2026-11-04 ご要望「ショップの PDF があふれているので分野ごとに整理（地方ごとなど）」）。」PrintShelfId・PRINT_SHELVES・UNIV_REGION など5個を公開する。読み込むもの：gachaPrints.generated.ts。MyCollection.tsx・GachaCollectionModal.tsx など4ファイルから読み込まれる。",
+"detail": "冒頭の説明：「PDF の棚（2026-11-04 ご要望「ショップの PDF があふれているので分野ごとに整理（地方ごとなど）」）。」PrintShelfId・PRINT_SHELVES・UNIV_REGION など5個を公開する。読み込むもの：gachaPrints.generated.ts。MyCollection.tsx・gachaPools.ts など7ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -47254,7 +49771,7 @@
 },
 {
 "dir": "from",
-"path": "src/components/gacha/GachaCollectionModal.tsx"
+"path": "src/battle/core/gachaPools.ts"
 },
 {
 "dir": "to",
@@ -47273,7 +49790,7 @@
 "printShelfOf"
 ],
 "nImports": 1,
-"nBy": 4,
+"nBy": 7,
 "draft": true,
 "sys": "battle",
 "flow": [
@@ -47814,7 +50331,7 @@
 "path": "src/battle/ui/BattleLobbyRoom.tsx"
 }
 ],
-"lines": 38,
+"lines": 55,
 "tag": "部品",
 "conf": "低",
 "kind": "file",
@@ -48201,7 +50718,7 @@
 "path": "src/utils/studyReminders.ts"
 }
 ],
-"lines": 57,
+"lines": 58,
 "tag": "部品",
 "conf": "低",
 "kind": "file",
@@ -48210,6 +50727,40 @@
 "AnalyticsSetting"
 ],
 "nImports": 3,
+"nBy": 1,
+"draft": true,
+"sys": "screen",
+"flow": []
+},
+{
+"id": "src/components/StudyRecordBattleActions.tsx",
+"path": "src/components/StudyRecordBattleActions.tsx",
+"name": "StudyRecordBattleActions.tsx",
+"folder": "src",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "StudyRecordBattleActionsを公開する。読み込むもの：types.ts・allChapters.ts・reviewList.ts など7ファイル、外部部品 lucide-react・react。StudyRecord.tsxから読み込まれる。",
+"links": [
+{
+"dir": "from",
+"path": "src/components/StudyRecord.tsx"
+},
+{
+"dir": "to",
+"path": "src/battle/core/types.ts"
+},
+{
+"dir": "to",
+"path": "src/data/allChapters.ts"
+}
+],
+"lines": 185,
+"tag": "部品",
+"conf": "低",
+"kind": "file",
+"exports": [
+"StudyRecordBattleActions"
+],
+"nImports": 7,
 "nBy": 1,
 "draft": true,
 "sys": "screen",
@@ -48434,7 +50985,7 @@
 "path": "src/utils/answerJudge.ts"
 }
 ],
-"lines": 253,
+"lines": 270,
 "tag": "部品",
 "conf": "低",
 "kind": "file",
@@ -48596,7 +51147,7 @@
 "path": "src/battle/core/arenaEconomy.ts"
 }
 ],
-"lines": 209,
+"lines": 211,
 "tag": "部品",
 "conf": "低",
 "kind": "file",
@@ -48630,7 +51181,7 @@
 "path": "src/battle/core/growth.ts"
 }
 ],
-"lines": 103,
+"lines": 104,
 "tag": "部品",
 "conf": "低",
 "kind": "file",
@@ -48667,7 +51218,7 @@
 "path": "src/battle/core/growth.ts"
 }
 ],
-"lines": 203,
+"lines": 205,
 "tag": "部品",
 "conf": "低",
 "kind": "file",
@@ -48691,7 +51242,7 @@
 "name": "GachaPoolCarousel.tsx",
 "folder": "src",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「ガチャの種類を左右スワイプで切り替えるバナー（2026-10-29 追加：共通テストガチャ／2次試験ガチャ）。」HERO_SHOW_MS・HERO_FADE_MS・GachaPoolCarouselを公開する。読み込むもの：growth.ts・arenaEconomy.ts・gachaPools.ts など7ファイル、外部部品 lucide-react・react。GachaRoom.tsxから読み込まれる。",
+"detail": "冒頭の説明：「ガチャの種類を左右スワイプで切り替えるバナー（2026-10-29 追加：共通テストガチャ／2次試験ガチャ／大学選択ガチャ）。」HERO_SHOW_MS・HERO_FADE_MS・GachaPoolCarouselを公開する。読み込むもの：growth.ts・arenaEconomy.ts・gachaPools.ts など7ファイル、外部部品 lucide-react・react。GachaRoom.tsxから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -48706,7 +51257,7 @@
 "path": "src/battle/core/arenaEconomy.ts"
 }
 ],
-"lines": 219,
+"lines": 249,
 "tag": "部品",
 "conf": "低",
 "kind": "file",
@@ -48742,7 +51293,7 @@
 "path": "src/battle/core/arenaEconomy.ts"
 }
 ],
-"lines": 192,
+"lines": 194,
 "tag": "部品",
 "conf": "低",
 "kind": "file",
@@ -48787,6 +51338,40 @@
 "GachaSetsPanel"
 ],
 "nImports": 6,
+"nBy": 1,
+"draft": true,
+"sys": "screen",
+"flow": []
+},
+{
+"id": "src/components/gacha/GachaUniversityModal.tsx",
+"path": "src/components/gacha/GachaUniversityModal.tsx",
+"name": "GachaUniversityModal.tsx",
+"folder": "src",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「大学選択ガチャ（1回500マナコイン）で狙う大学を選ぶダイアログ。」GachaUniversityModalを公開する。読み込むもの：growth.ts・gachaPools.ts・nijiMockPrints.ts など4ファイル、外部部品 lucide-react・react。GachaRoom.tsxから読み込まれる。",
+"links": [
+{
+"dir": "from",
+"path": "src/components/GachaRoom.tsx"
+},
+{
+"dir": "to",
+"path": "src/battle/core/growth.ts"
+},
+{
+"dir": "to",
+"path": "src/battle/core/gachaPools.ts"
+}
+],
+"lines": 163,
+"tag": "部品",
+"conf": "低",
+"kind": "file",
+"exports": [
+"GachaUniversityModal"
+],
+"nImports": 4,
 "nBy": 1,
 "draft": true,
 "sys": "screen",
@@ -49228,6 +51813,41 @@
 "flow": []
 },
 {
+"id": "src/components/toeic/ToeicListeningAudioBar.tsx",
+"path": "src/components/toeic/ToeicListeningAudioBar.tsx",
+"name": "ToeicListeningAudioBar.tsx",
+"folder": "src",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「TOEIC リスニング（tpl_1）の音声再生バー＋採点後スクリプト表示（2026-11-12） ・Part 2 のページでは「問1を再生 / 問2を再生 / 問3を再生」または「…」ToeicListeningAudioBarProps・ToeicListeningAudioBarを公開する。読み込むもの：textFormatter.tsx・toeicListeningPage.ts・toeicListeningAudio.ts、外部部品 lucide-react・react。ToeicPageQuiz.tsxから読み込まれる。",
+"links": [
+{
+"dir": "from",
+"path": "src/components/toeic/ToeicPageQuiz.tsx"
+},
+{
+"dir": "to",
+"path": "src/utils/textFormatter.tsx"
+},
+{
+"dir": "to",
+"path": "src/data/toeic/toeicListeningPage.ts"
+}
+],
+"lines": 140,
+"tag": "部品",
+"conf": "低",
+"kind": "file",
+"exports": [
+"ToeicListeningAudioBarProps",
+"ToeicListeningAudioBar"
+],
+"nImports": 3,
+"nBy": 1,
+"draft": true,
+"sys": "screen",
+"flow": []
+},
+{
 "id": "src/components/toeic/ToeicP6Passage.tsx",
 "path": "src/components/toeic/ToeicP6Passage.tsx",
 "name": "ToeicP6Passage.tsx",
@@ -49301,7 +51921,7 @@
 "name": "ToeicPageQuiz.tsx",
 "folder": "src",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「TOEIC Part 5 の演習画面：1ページに複数問・マーク式（2026-10-28） 紙の問題集に近い並び（問題番号・英文・(A)〜(D) を2×2）で、各選択肢の頭のマーク（…」ToeicPageQuizProps・ToeicPageQuizを公開する。読み込むもの：firebase.ts・safeLocalStorage.ts・curriculum.ts など25ファイル、外部部品 lucide-react・react。Quiz.tsxから読み込まれる。",
+"detail": "冒頭の説明：「TOEIC Part 5 の演習画面：1ページに複数問・マーク式（2026-10-28） 紙の問題集に近い並び（問題番号・英文・(A)〜(D) を2×2）で、各選択肢の頭のマーク（…」ToeicPageQuizProps・ToeicPageQuizを公開する。読み込むもの：firebase.ts・curriculum.ts・safeLocalStorage.ts など27ファイル、外部部品 lucide-react・react。Quiz.tsxから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -49313,10 +51933,10 @@
 },
 {
 "dir": "to",
-"path": "src/utils/safeLocalStorage.ts"
+"path": "src/types/curriculum.ts"
 }
 ],
-"lines": 670,
+"lines": 706,
 "tag": "部品",
 "conf": "低",
 "kind": "file",
@@ -49324,7 +51944,7 @@
 "ToeicPageQuizProps",
 "ToeicPageQuiz"
 ],
-"nImports": 25,
+"nImports": 27,
 "nBy": 1,
 "draft": true,
 "sys": "screen",
@@ -49336,7 +51956,7 @@
 "name": "ToeicTimer.tsx",
 "folder": "src",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「TOEIC Part 5 の演習画面の時間表示（2026-10-29） 共通の QuizTimerBar（リスニング・英文法が使う）は変えずに、TOEIC 用に見た目だけ控えめにし…」ToeicTimerを公開する。読み込むもの：useLatest.ts、外部部品 lucide-react・react。ToeicPageQuiz.tsxから読み込まれる。",
+"detail": "冒頭の説明：「TOEIC Part 5・6・7 の演習画面の時間表示（2026-10-29 → 2026-11-12 経過時間の可視化） 共通の QuizTimerBar（リスニング・英文法が使…」ToeicTimerを公開する。読み込むもの：useLatest.ts、外部部品 lucide-react・react。ToeicPageQuiz.tsxから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -49347,7 +51967,7 @@
 "path": "src/hooks/useLatest.ts"
 }
 ],
-"lines": 90,
+"lines": 102,
 "tag": "部品",
 "conf": "低",
 "kind": "file",
@@ -49373,7 +51993,7 @@
 "path": "src/components/toeic/ToeicPageQuiz.tsx"
 }
 ],
-"lines": 360,
+"lines": 424,
 "tag": "部品",
 "conf": "低",
 "kind": "file",
@@ -49390,7 +52010,7 @@
 "name": "toeicNote.ts",
 "folder": "src",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「TOEIC Part 5 の「ノートに保存」（1問ずつ）（2026-10-29） 英文法の「ノートに保存」（utils/questionNote.ts の saveQuestion…」toeicNoteId・isToeicNoteSaved・toeicNoteText など4個を公開する。読み込むもの：safeLocalStorage.ts・curriculum.ts・toeicPageModel.ts。ToeicPageQuiz.tsx・toeicPart5Notes.test.tsから読み込まれる。",
+"detail": "冒頭の説明：「TOEIC Part 5 の「ノートに保存」（1問ずつ）（2026-10-29） 英文法の「ノートに保存」（utils/questionNote.ts の saveQuestion…」toeicNoteId・isToeicNoteSaved・toeicNoteText など4個を公開する。読み込むもの：curriculum.ts・safeLocalStorage.ts・toeicPageModel.ts。ToeicPageQuiz.tsx・toeicPart5Notes.test.tsから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -49402,7 +52022,7 @@
 },
 {
 "dir": "to",
-"path": "src/utils/safeLocalStorage.ts"
+"path": "src/types/curriculum.ts"
 }
 ],
 "lines": 78,
@@ -49427,7 +52047,7 @@
 "name": "toeicPageModel.ts",
 "folder": "src",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「TOEIC Part 5「1ページに複数問・マーク式」演習の計算部分（2026-10-28） 画面（ToeicPageQuiz.tsx）から React を使わない計算だけを分けた…」QUESTIONS_PER_PAGE・LONG_CHOICE_CHARS・isToeicPageChapter など30個を公開する。読み込むもの：curriculum.ts・toeicPart5Kit.ts・toeicPart6Kit.ts など10ファイル。Quiz.tsx・ToeicExplanationPanel.tsx など10ファイルから読み込まれる。",
+"detail": "冒頭の説明：「TOEIC Part 5「1ページに複数問・マーク式」演習の計算部分（2026-10-28） 画面（ToeicPageQuiz.tsx）から React を使わない計算だけを分けた…」QUESTIONS_PER_PAGE・LONG_CHOICE_CHARS・isToeicPageChapter など30個を公開する。読み込むもの：curriculum.ts・toeicPart5Kit.ts・toeicPart5NoteTypes.ts など11ファイル。Quiz.tsx・ToeicExplanationPanel.tsx など12ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -49442,7 +52062,7 @@
 "path": "src/types/curriculum.ts"
 }
 ],
-"lines": 442,
+"lines": 453,
 "tag": "データ",
 "conf": "低",
 "kind": "file",
@@ -49456,8 +52076,8 @@
 "p6SetOf",
 "splitP6Pages"
 ],
-"nImports": 10,
-"nBy": 10,
+"nImports": 11,
+"nBy": 12,
 "draft": true,
 "sys": "screen",
 "flow": []
@@ -49468,7 +52088,7 @@
 "name": "toeicTimeBudget.ts",
 "folder": "src",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "ToeicTimePresetId・ToeicTimeKind・TOEIC_TIME_PRESETS など10個を公開する。読み込むもの：curriculum.ts。ToeicPageQuiz.tsx・toeicPart7Notes.test.ts など3ファイルから読み込まれる。",
+"detail": "ToeicTimePresetId・ToeicTimeKind・TOEIC_TIME_PRESETS など15個を公開する。読み込むもの：curriculum.ts。ToeicPageQuiz.tsx・toeicListening.test.ts など4ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -49476,14 +52096,14 @@
 },
 {
 "dir": "from",
-"path": "tests/toeicPart7Notes.test.ts"
+"path": "tests/toeicListening.test.ts"
 },
 {
 "dir": "to",
 "path": "src/types/curriculum.ts"
 }
 ],
-"lines": 106,
+"lines": 177,
 "tag": "データ",
 "conf": "低",
 "kind": "file",
@@ -49498,7 +52118,7 @@
 "formatToeicBudgetDelta"
 ],
 "nImports": 1,
-"nBy": 3,
+"nBy": 4,
 "draft": true,
 "sys": "screen",
 "flow": []
@@ -49671,7 +52291,7 @@
 "name": "grammarAudioManifest.ts",
 "folder": "src",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「英文法：音源のある問題の名簿（2026-10-31 E9 の下準備） ご要望：英文法の解説も、リスニングのように「音声に合わせて表示」できるように準備する。」GRAMMAR_AUDIO_DIR・GRAMMAR_AUDIO_IDS・grammarAudioUrlを公開する。読み込むもの：grammarAudioIds.generated.ts。englishGrammarKit.ts・grammarAudioManifest.test.tsから読み込まれる。",
+"detail": "冒頭の説明：「英文法：登録済みMP3音源へのURL割り当て public/grammar_audio/<問題ID>.mp3 の音源を、grammarAudioIds.generated.ts の…」GRAMMAR_AUDIO_DIR・GRAMMAR_AUDIO_IDS・grammarAudioUrlを公開する。読み込むもの：grammarAudioIds.generated.ts。englishGrammarKit.ts・grammarAudioManifest.test.tsから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -49686,7 +52306,7 @@
 "path": "src/data/grammarAudioIds.generated.ts"
 }
 ],
-"lines": 37,
+"lines": 28,
 "tag": "データ",
 "conf": "低",
 "kind": "file",
@@ -50013,7 +52633,7 @@
 "name": "nijiMockPrints.ts",
 "folder": "src",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「LR（レジェンドレア）：2次試験ガチャの大当たり＝国公立2次 英語 予想問題（各大学 前期の形式に沿った書き下ろし）。」NIJI_UNIVERSITIES・NijiUniversityId・NIJI_MOCK_PRINTS など8個を公開する。読み込むもの：gachaPrints.generated.ts。growthItems.ts・gachaPools.ts など7ファイルから読み込まれる。",
+"detail": "冒頭の説明：「LR（レジェンドレア）：2次試験ガチャの大当たり＝国公立2次 英語 予想問題（各大学 前期の形式に沿った書き下ろし）。」NIJI_UNIVERSITIES・NijiUniversityId・NIJI_MOCK_PRINTS など8個を公開する。読み込むもの：gachaPrints.generated.ts。growthItems.ts・gachaPools.ts など8ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -50043,7 +52663,7 @@
 "NIJI_DISCLAIMER"
 ],
 "nImports": 1,
-"nBy": 7,
+"nBy": 8,
 "draft": true,
 "sys": "content",
 "flow": []
@@ -50579,7 +53199,7 @@
 "name": "toeicData.ts",
 "folder": "src",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「TOEIC の教科データ（2026-10-31）：Part 5（短文穴埋め）と Part 6（長文穴埋め）を1つの教科にまとめる。」toeicData・getToeicStatsを公開する。読み込むもの：toeicPart5Data.ts・toeicPart6Data.ts・toeicPart7Data.ts。gen-chapter-index.mts・allChapters.tsから読み込まれる。",
+"detail": "冒頭の説明：「TOEIC の教科データ（2026-10-31）：Part 5（短文穴埋め）と Part 6（長文穴埋め）を1つの教科にまとめる。」toeicData・getToeicStatsを公開する。読み込むもの：toeicPart5Data.ts・toeicPart6Data.ts・toeicListeningData.ts など4ファイル。gen-chapter-index.mts・allChapters.tsから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -50594,7 +53214,7 @@
 "path": "src/data/toeic/toeicPart5Data.ts"
 }
 ],
-"lines": 26,
+"lines": 33,
 "tag": "データ",
 "conf": "低",
 "kind": "file",
@@ -50602,8 +53222,310 @@
 "toeicData",
 "getToeicStats"
 ],
-"nImports": 3,
+"nImports": 4,
 "nBy": 2,
+"draft": true,
+"sys": "content",
+"flow": []
+},
+{
+"id": "src/data/toeic/toeicListeningData.ts",
+"path": "src/data/toeic/toeicListeningData.ts",
+"name": "toeicListeningData.ts",
+"folder": "src",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「TOEIC® L&R リスニング（Part 2・Part 3・Part 4）データ（2026-11-12） Part 5・Part 6・Part 7 と同じ「parts → cha…」toeicListeningData・getAllToeicListeningChapters・getToeicListeningStatsを公開する。読み込むもの：curriculum.ts・toeicListeningKit.ts・listeningPostProcess.ts など6ファイル。toeicData.tsから読み込まれる。",
+"links": [
+{
+"dir": "from",
+"path": "src/data/toeic/toeicData.ts"
+},
+{
+"dir": "to",
+"path": "src/types/curriculum.ts"
+},
+{
+"dir": "to",
+"path": "src/data/toeic/toeicListeningKit.ts"
+}
+],
+"lines": 70,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [
+"toeicListeningData",
+"getAllToeicListeningChapters",
+"getToeicListeningStats"
+],
+"nImports": 6,
+"nBy": 1,
+"draft": true,
+"sys": "content",
+"flow": []
+},
+{
+"id": "src/data/toeic/toeicListeningKit.ts",
+"path": "src/data/toeic/toeicListeningKit.ts",
+"name": "toeicListeningKit.ts",
+"folder": "src",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「TOEIC® L&R リスニング（Part 2・Part 3・Part 4）1回12問の型と組み立て道具（2026-11-12） ■ 位置づけ Part 5・Part 6・Part…」ToeicListeningSkill・TOEIC_P2_MARKS・ToeicP2Item など22個を公開する。読み込むもの：curriculum.ts・toeicPart5Kit.ts・toeicPart5NoteTypes.ts。export-manifest.mts・toeicListeningData.ts など10ファイルから読み込まれる。",
+"links": [
+{
+"dir": "from",
+"path": "scripts/toeic-listening-audio/export-manifest.mts"
+},
+{
+"dir": "from",
+"path": "src/data/toeic/toeicListeningData.ts"
+},
+{
+"dir": "to",
+"path": "src/types/curriculum.ts"
+}
+],
+"lines": 423,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [
+"ToeicListeningSkill",
+"TOEIC_P2_MARKS",
+"ToeicP2Item",
+"ToeicTalkQ",
+"ToeicP3Set",
+"ToeicP4Set",
+"ToeicListeningRoundData",
+"TOEIC_LISTENING_CHAPTER_ID"
+],
+"nImports": 3,
+"nBy": 10,
+"draft": true,
+"sys": "content",
+"flow": []
+},
+{
+"id": "src/data/toeic/toeicListeningPage.ts",
+"path": "src/data/toeic/toeicListeningPage.ts",
+"name": "toeicListeningPage.ts",
+"folder": "src",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「TOEIC® L&R リスニング（tpl_1）のページ分割・解説引き当て・音声トラック案内（2026-11-12） toeicPageModel.ts を肥大化させないため、リスニ…」TOEIC_LISTENING_PER_PAGE・ToeicListeningPartKind・LocatedToeicListening など12個を公開する。読み込むもの：curriculum.ts・toeicPart5Kit.ts・toeicPageModel.ts など5ファイル。ToeicListeningAudioBar.tsx・ToeicPageQuiz.tsx など4ファイルから読み込まれる。",
+"links": [
+{
+"dir": "from",
+"path": "src/components/toeic/ToeicListeningAudioBar.tsx"
+},
+{
+"dir": "from",
+"path": "src/components/toeic/ToeicPageQuiz.tsx"
+},
+{
+"dir": "to",
+"path": "src/types/curriculum.ts"
+}
+],
+"lines": 270,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [
+"TOEIC_LISTENING_PER_PAGE",
+"ToeicListeningPartKind",
+"LocatedToeicListening",
+"isToeicListeningChapter",
+"locateToeicListening",
+"splitToeicListeningPages",
+"toeicListeningStem",
+"toeicListeningChoiceTexts"
+],
+"nImports": 5,
+"nBy": 4,
+"draft": true,
+"sys": "content",
+"flow": []
+},
+{
+"id": "src/data/toeic/toeicListeningRounds.ts",
+"path": "src/data/toeic/toeicListeningRounds.ts",
+"name": "toeicListeningRounds.ts",
+"folder": "src",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「TOEIC® L&R リスニング（Part 2・Part 3・Part 4）全15回（各回12問＝180問・120トラック）」TOEIC_LISTENING_ROUNDSを公開する。読み込むもの：toeicListeningKit.ts・toeicListeningRounds01_03.ts・toeicListeningRounds04_06.ts など6ファイル。check-toeic-notes.mts・export-manifest.mts など5ファイルから読み込まれる。",
+"links": [
+{
+"dir": "from",
+"path": "scripts/check-toeic-notes.mts"
+},
+{
+"dir": "from",
+"path": "scripts/toeic-listening-audio/export-manifest.mts"
+},
+{
+"dir": "to",
+"path": "src/data/toeic/toeicListeningKit.ts"
+}
+],
+"lines": 17,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [
+"TOEIC_LISTENING_ROUNDS"
+],
+"nImports": 6,
+"nBy": 5,
+"draft": true,
+"sys": "content",
+"flow": []
+},
+{
+"id": "src/data/toeic/toeicListeningRounds01_03.ts",
+"path": "src/data/toeic/toeicListeningRounds01_03.ts",
+"name": "toeicListeningRounds01_03.ts",
+"folder": "src",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「TOEIC リスニング 第1回〜第3回（各回12問：Part 2 応答6問・Part 3 会話3問・Part 4 説明文3問） すべてマナトビのオリジナル問題。社名・人名・地名はす…」TOEIC_LISTENING_ROUNDS_01_03を公開する。読み込むもの：toeicListeningKit.ts。toeicListeningRounds.tsから読み込まれる。",
+"links": [
+{
+"dir": "from",
+"path": "src/data/toeic/toeicListeningRounds.ts"
+},
+{
+"dir": "to",
+"path": "src/data/toeic/toeicListeningKit.ts"
+}
+],
+"lines": 769,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [
+"TOEIC_LISTENING_ROUNDS_01_03"
+],
+"nImports": 1,
+"nBy": 1,
+"draft": true,
+"sys": "content",
+"flow": []
+},
+{
+"id": "src/data/toeic/toeicListeningRounds04_06.ts",
+"path": "src/data/toeic/toeicListeningRounds04_06.ts",
+"name": "toeicListeningRounds04_06.ts",
+"folder": "src",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「TOEIC リスニング 第4回〜第6回（各回12問：Part 2 応答6問・Part 3 会話3問・Part 4 説明文3問） すべてマナトビのオリジナル問題。社名・人名・地名はす…」TOEIC_LISTENING_ROUNDS_04_06を公開する。読み込むもの：toeicListeningKit.ts。toeicListeningRounds.tsから読み込まれる。",
+"links": [
+{
+"dir": "from",
+"path": "src/data/toeic/toeicListeningRounds.ts"
+},
+{
+"dir": "to",
+"path": "src/data/toeic/toeicListeningKit.ts"
+}
+],
+"lines": 769,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [
+"TOEIC_LISTENING_ROUNDS_04_06"
+],
+"nImports": 1,
+"nBy": 1,
+"draft": true,
+"sys": "content",
+"flow": []
+},
+{
+"id": "src/data/toeic/toeicListeningRounds07_09.ts",
+"path": "src/data/toeic/toeicListeningRounds07_09.ts",
+"name": "toeicListeningRounds07_09.ts",
+"folder": "src",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「TOEIC リスニング 第7回〜第9回（各回12問：Part 2 応答6問・Part 3 会話3問・Part 4 説明文3問） すべてマナトビのオリジナル問題。社名・人名・地名はす…」TOEIC_LISTENING_ROUNDS_07_09を公開する。読み込むもの：toeicListeningKit.ts。toeicListeningRounds.tsから読み込まれる。",
+"links": [
+{
+"dir": "from",
+"path": "src/data/toeic/toeicListeningRounds.ts"
+},
+{
+"dir": "to",
+"path": "src/data/toeic/toeicListeningKit.ts"
+}
+],
+"lines": 772,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [
+"TOEIC_LISTENING_ROUNDS_07_09"
+],
+"nImports": 1,
+"nBy": 1,
+"draft": true,
+"sys": "content",
+"flow": []
+},
+{
+"id": "src/data/toeic/toeicListeningRounds10_12.ts",
+"path": "src/data/toeic/toeicListeningRounds10_12.ts",
+"name": "toeicListeningRounds10_12.ts",
+"folder": "src",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「TOEIC リスニング 第10回〜第12回（各回12問：Part 2 応答6問・Part 3 会話3問・Part 4 説明文3問） すべてマナトビのオリジナル問題。社名・人名・地名…」TOEIC_LISTENING_ROUNDS_10_12を公開する。読み込むもの：toeicListeningKit.ts。toeicListeningRounds.tsから読み込まれる。",
+"links": [
+{
+"dir": "from",
+"path": "src/data/toeic/toeicListeningRounds.ts"
+},
+{
+"dir": "to",
+"path": "src/data/toeic/toeicListeningKit.ts"
+}
+],
+"lines": 772,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [
+"TOEIC_LISTENING_ROUNDS_10_12"
+],
+"nImports": 1,
+"nBy": 1,
+"draft": true,
+"sys": "content",
+"flow": []
+},
+{
+"id": "src/data/toeic/toeicListeningRounds13_15.ts",
+"path": "src/data/toeic/toeicListeningRounds13_15.ts",
+"name": "toeicListeningRounds13_15.ts",
+"folder": "src",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「TOEIC リスニング 第13回〜第15回（各回12問：Part 2 応答6問・Part 3 会話3問・Part 4 説明文3問） すべてマナトビのオリジナル問題。社名・人名・地名…」TOEIC_LISTENING_ROUNDS_13_15を公開する。読み込むもの：toeicListeningKit.ts。toeicListeningRounds.tsから読み込まれる。",
+"links": [
+{
+"dir": "from",
+"path": "src/data/toeic/toeicListeningRounds.ts"
+},
+{
+"dir": "to",
+"path": "src/data/toeic/toeicListeningKit.ts"
+}
+],
+"lines": 772,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [
+"TOEIC_LISTENING_ROUNDS_13_15"
+],
+"nImports": 1,
+"nBy": 1,
 "draft": true,
 "sys": "content",
 "flow": []
@@ -50614,7 +53536,7 @@
 "name": "toeicPart5Data.ts",
 "folder": "src",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「TOEIC® L&R Part 5（短文穴埋め）データ（2026-10-28） 英文法（englishGrammarData.ts）・英語リスニングと同じ「parts → chap…」ToeicChapter・ToeicPart・toeicPart5Data など5個を公開する。読み込むもの：curriculum.ts・toeicPart5Kit.ts・listeningPostProcess.ts など5ファイル。toeicData.ts・toeicPart6Data.ts など6ファイルから読み込まれる。",
+"detail": "冒頭の説明：「TOEIC® L&R Part 5（短文穴埋め）データ（2026-10-28） 英文法（englishGrammarData.ts）・英語リスニングと同じ「parts → chap…」ToeicChapter・ToeicPart・toeicPart5Data など5個を公開する。読み込むもの：curriculum.ts・toeicPart5Kit.ts・listeningPostProcess.ts など5ファイル。toeicData.ts・toeicListeningData.ts など7ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -50622,7 +53544,7 @@
 },
 {
 "dir": "from",
-"path": "src/data/toeic/toeicPart6Data.ts"
+"path": "src/data/toeic/toeicListeningData.ts"
 },
 {
 "dir": "to",
@@ -50641,7 +53563,7 @@
 "getToeicPart5Stats"
 ],
 "nImports": 5,
-"nBy": 6,
+"nBy": 7,
 "draft": true,
 "sys": "content",
 "flow": []
@@ -50652,7 +53574,7 @@
 "name": "toeicPart5Kit.ts",
 "folder": "src",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「TOEIC® L&R Part 5（短文穴埋め） 1回30問の型と組み立て道具（2026-10-28） ■ 位置づけ 英文法（englishGrammarKit.ts）と同じ「手書…」ToeicSkill・ToeicScene・ToeicLevel など18個を公開する。読み込むもの：curriculum.ts。ChapterSelection.tsx・toeicPageModel.ts など26ファイルから読み込まれる。",
+"detail": "冒頭の説明：「TOEIC® L&R Part 5（短文穴埋め） 1回30問の型と組み立て道具（2026-10-28） ■ 位置づけ 英文法（englishGrammarKit.ts）と同じ「手書…」ToeicSkill・ToeicScene・ToeicLevel など18個を公開する。読み込むもの：curriculum.ts・toeicDisclaimer.ts。ChapterSelection.tsx・toeicPageModel.ts など29ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -50667,7 +53589,7 @@
 "path": "src/types/curriculum.ts"
 }
 ],
-"lines": 238,
+"lines": 236,
 "tag": "データ",
 "conf": "低",
 "kind": "file",
@@ -50681,8 +53603,8 @@
 "TOEIC_P5_CHAPTER_ID",
 "TOEIC_P5_QUESTIONS_PER_ROUND"
 ],
-"nImports": 1,
-"nBy": 26,
+"nImports": 2,
+"nBy": 29,
 "draft": true,
 "sys": "content",
 "flow": []
@@ -50693,7 +53615,7 @@
 "name": "toeicPart5NoteTypes.ts",
 "folder": "src",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「TOEIC Part 5 解説の追加項目（任意）の型（2026-10-29） 問題データ（toeicPart5RoundNN.ts の問題文・選択肢・正解・既存の解説）は1文字も変…」ToeicCue・ToeicP5Noteを公開する。toeicPageModel.ts・toeicPart5Notes.ts など20ファイルから読み込まれる。",
+"detail": "冒頭の説明：「TOEIC Part 5 解説の追加項目（任意）の型（2026-10-29） 問題データ（toeicPart5RoundNN.ts の問題文・選択肢・正解・既存の解説）は1文字も変…」ToeicCue・ToeicP5Noteを公開する。toeicPageModel.ts・toeicListeningKit.ts など21ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -50701,7 +53623,7 @@
 },
 {
 "dir": "from",
-"path": "src/data/toeic/toeicPart5Notes.ts"
+"path": "src/data/toeic/toeicListeningKit.ts"
 }
 ],
 "lines": 30,
@@ -50713,7 +53635,7 @@
 "ToeicP5Note"
 ],
 "nImports": 0,
-"nBy": 20,
+"nBy": 21,
 "draft": true,
 "sys": "content",
 "flow": []
@@ -52953,7 +55875,7 @@
 "name": "PublicProfileTabs.tsx",
 "folder": "src",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「D6（2026-10-30）公開プロフィール＝「その人のマイページ全体」のタブの中身。」PublicCalendar・PublicOutfit・PublicBadges など4個を公開する。読み込むもの：growth.ts・GrowthParts.tsx・publicStudyProfile.ts など7ファイル、外部部品 lucide-react・react。PublicProfileView.tsxから読み込まれる。",
+"detail": "冒頭の説明：「D6（2026-10-30）公開プロフィール＝「その人のマイページ全体」のタブの中身。」PublicCalendar・PublicOutfit・PublicBadges など4個を公開する。読み込むもの：growth.ts・GrowthParts.tsx・manualLogCore.ts など7ファイル、外部部品 lucide-react・react。PublicProfileView.tsxから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -52990,7 +55912,7 @@
 "name": "PublicProfileView.tsx",
 "folder": "src",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「公開プロフィール（ほかの人から見えるページ）2026-10-26 ・ランキング／フレンド一覧の名前を押すと開く（UserProfileDialog） ・マイページの「ほかの人からの…」PublicBattleStats・lookToProgress・PublicProfileViewを公開する。読み込むもの：growth.ts・GrowthParts.tsx・publicStudyProfile.ts など14ファイル、外部部品 lucide-react・react。MyProfileCard.tsx・UserProfileDialog.tsxから読み込まれる。",
+"detail": "冒頭の説明：「公開プロフィール（ほかの人から見えるページ）2026-10-26 ・ランキング／フレンド一覧の名前を押すと開く（UserProfileDialog） ・マイページの「ほかの人からの…」PublicBattleStats・lookToProgress・PublicProfileViewを公開する。読み込むもの：growth.ts・GrowthParts.tsx・manualLogCore.ts など14ファイル、外部部品 lucide-react・react。MyProfileCard.tsx・UserProfileDialog.tsxから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -53026,7 +55948,7 @@
 "name": "UserProfileDialog.tsx",
 "folder": "src",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「ほかの人の公開プロフィールを開く窓（2026-10-26）。」ProfileTarget・UserProfileDialogを公開する。読み込むもの：publicStudyProfile.ts・battleRanking.ts・nicknameFilter.ts など7ファイル、外部部品 lucide-react・react。FriendPanel.tsx・Leaderboard.tsxから読み込まれる。",
+"detail": "冒頭の説明：「ほかの人の公開プロフィールを開く窓（2026-10-26）。」ProfileTarget・UserProfileDialogを公開する。読み込むもの：manualLogCore.ts・publicStudyProfile.ts・studyTime.ts など9ファイル、外部部品 lucide-react・react。FriendPanel.tsx・Leaderboard.tsxから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -53038,10 +55960,10 @@
 },
 {
 "dir": "to",
-"path": "src/utils/publicStudyProfile.ts"
+"path": "src/features/studylog/manualLogCore.ts"
 }
 ],
-"lines": 93,
+"lines": 118,
 "tag": "データ",
 "conf": "低",
 "kind": "file",
@@ -53049,7 +55971,7 @@
 "ProfileTarget",
 "UserProfileDialog"
 ],
-"nImports": 7,
+"nImports": 9,
 "nBy": 2,
 "draft": true,
 "sys": "screen",
@@ -53264,7 +56186,7 @@
 "name": "manualLogCore.ts",
 "folder": "src",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「手動の学習記録・教材・目標・集計（2026-10-27「学習コミュニティ」第2・3段階） Firebase に依存しない純粋ロジック（テストで直接呼ぶ・端末どうしの合わせ方にも使う…」RECORD_MINUTES_MAX・DAY_MINUTES_MAX・MATERIAL_NAME_MAX など30個を公開する。PublicProfileTabs.tsx・PublicProfileView.tsx など13ファイルから読み込まれる。",
+"detail": "冒頭の説明：「手動の学習記録・教材・目標・集計（2026-10-27「学習コミュニティ」第2・3段階） Firebase に依存しない純粋ロジック（テストで直接呼ぶ・端末どうしの合わせ方にも使う…」RECORD_MINUTES_MAX・DAY_MINUTES_MAX・MATERIAL_NAME_MAX など30個を公開する。PublicProfileTabs.tsx・PublicProfileView.tsx など14ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -53290,7 +56212,7 @@
 "RECORDS_KEEP"
 ],
 "nImports": 0,
-"nBy": 13,
+"nBy": 14,
 "draft": true,
 "sys": "screen",
 "flow": []
@@ -54127,7 +57049,7 @@
 "path": "src/index.css"
 }
 ],
-"lines": 643,
+"lines": 655,
 "tag": "部品",
 "conf": "低",
 "kind": "file",
@@ -55489,7 +58411,7 @@
 "name": "questionNote.ts",
 "folder": "src",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「解説ページの「ノートに保存」：1問ぶんのノートを端末（localStorage の notes_<uid>）に足す。」saveQuestionNoteを公開する。読み込むもの：safeLocalStorage.ts・curriculum.ts。Explanation.tsx・questionNote.test.tsから読み込まれる。",
+"detail": "冒頭の説明：「解説ページの「ノートに保存」：1問ぶんのノートを端末（localStorage の notes_<uid>）に足す。」saveQuestionNoteを公開する。読み込むもの：curriculum.ts・safeLocalStorage.ts。Explanation.tsx・questionNote.test.tsから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -55501,7 +58423,7 @@
 },
 {
 "dir": "to",
-"path": "src/utils/safeLocalStorage.ts"
+"path": "src/types/curriculum.ts"
 }
 ],
 "lines": 40,
@@ -55849,7 +58771,7 @@
 "name": "studyReminders.ts",
 "folder": "src",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「学習のお知らせ（通知）2026-10-19 ■ 出すのは2種類だけ（出しすぎると切られるので、役に立つものに絞る） ① 復習の期限 … 間違えた問題の「復習日」が来たら、その日の夕…」ReminderPrefs・DEFAULT_REMINDER_PREFS・readReminderPrefs など10個を公開する。読み込むもの：safeLocalStorage.ts。ReminderSettings.tsx・studyRemindersRuntime.ts など3ファイルから読み込まれる。",
+"detail": "冒頭の説明：「学習のお知らせ（通知）2026-10-19 ■ 出すのは2種類だけ（出しすぎると切られるので、役に立つものに絞る） ① 復習の期限 … 間違えた問題の「復習日」が来たら、その日の夕…」ReminderPrefs・DEFAULT_REMINDER_PREFS・readReminderPrefs など11個を公開する。読み込むもの：safeLocalStorage.ts・growthMissions.ts。ReminderSettings.tsx・studyRemindersRuntime.ts など3ファイルから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -55864,7 +58786,7 @@
 "path": "src/utils/safeLocalStorage.ts"
 }
 ],
-"lines": 98,
+"lines": 108,
 "tag": "データ",
 "conf": "低",
 "kind": "file",
@@ -55878,7 +58800,7 @@
 "REVIEW_HOUR",
 "STREAK_HOUR"
 ],
-"nImports": 1,
+"nImports": 2,
 "nBy": 3,
 "draft": true,
 "sys": "logic",
@@ -55890,7 +58812,7 @@
 "name": "studyRemindersRuntime.ts",
 "folder": "src",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "冒頭の説明：「通知を実際に予約する層（studyReminders.ts の計画を、端末 or ブラウザへ渡す）。」ReminderPermission・reminderPermission・requestReminderPermission など7個を公開する。読み込むもの：firebase.ts・safeLocalStorage.ts・userStorageKeys.ts など6ファイル、外部部品 @capacitor/local-notifications。ReminderSettings.tsx・useAppBackgroundSync.tsから読み込まれる。",
+"detail": "冒頭の説明：「通知を実際に予約する層（studyReminders.ts の計画を、端末 or ブラウザへ渡す）。」ReminderPermission・reminderPermission・requestReminderPermission など7個を公開する。読み込むもの：firebase.ts・safeLocalStorage.ts・growthStore.ts など7ファイル、外部部品 @capacitor/local-notifications。ReminderSettings.tsx・useAppBackgroundSync.tsから読み込まれる。",
 "links": [
 {
 "dir": "from",
@@ -55905,7 +58827,7 @@
 "path": "src/firebase.ts"
 }
 ],
-"lines": 132,
+"lines": 134,
 "tag": "データ",
 "conf": "低",
 "kind": "file",
@@ -55918,7 +58840,7 @@
 "sendTestReminder",
 "rescheduleReminders"
 ],
-"nImports": 6,
+"nImports": 7,
 "nBy": 2,
 "draft": true,
 "sys": "logic",
@@ -55985,6 +58907,77 @@
 "StudentSummary"
 ],
 "nImports": 0,
+"nBy": 2,
+"draft": true,
+"sys": "logic",
+"flow": []
+},
+{
+"id": "src/utils/toeicDisclaimer.ts",
+"path": "src/utils/toeicDisclaimer.ts",
+"name": "toeicDisclaimer.ts",
+"folder": "src",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「ETSの商標ガイドラインに沿って、TOEIC学習画面と起動時に表示する注記。」TOEIC_DISCLAIMERを公開する。LaunchScreen.tsx・toeicPart5Kit.ts など3ファイルから読み込まれる。",
+"links": [
+{
+"dir": "from",
+"path": "src/components/LaunchScreen.tsx"
+},
+{
+"dir": "from",
+"path": "src/data/toeic/toeicPart5Kit.ts"
+}
+],
+"lines": 3,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [
+"TOEIC_DISCLAIMER"
+],
+"nImports": 0,
+"nBy": 3,
+"draft": true,
+"sys": "logic",
+"flow": []
+},
+{
+"id": "src/utils/toeicListeningAudio.ts",
+"path": "src/utils/toeicListeningAudio.ts",
+"name": "toeicListeningAudio.ts",
+"folder": "src",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "冒頭の説明：「TOEIC® L&R リスニング音源再生（2026-11-12） ■ しくみ 1.」TOEIC_LISTENING_AUDIO_BASE・toeicListeningAudioUrl・loadToeicListeningAudioIndex など10個を公開する。読み込むもの：audioElements.ts・listeningSpeech.ts。ToeicListeningAudioBar.tsx・toeicListening.test.tsから読み込まれる。",
+"links": [
+{
+"dir": "from",
+"path": "src/components/toeic/ToeicListeningAudioBar.tsx"
+},
+{
+"dir": "from",
+"path": "tests/toeicListening.test.ts"
+},
+{
+"dir": "to",
+"path": "src/utils/audioElements.ts"
+}
+],
+"lines": 175,
+"tag": "データ",
+"conf": "低",
+"kind": "file",
+"exports": [
+"TOEIC_LISTENING_AUDIO_BASE",
+"toeicListeningAudioUrl",
+"loadToeicListeningAudioIndex",
+"prefetchToeicListeningAudioIndex",
+"hasToeicListeningMp3",
+"getPlayingToeicTrack",
+"stopToeicListeningAudio",
+"PlayToeicTrackInput"
+],
+"nImports": 2,
 "nBy": 2,
 "draft": true,
 "sys": "logic",
@@ -56315,15 +59308,15 @@
 "links": [
 {
 "dir": "ref",
-"path": "public/read_along/listening_audio/el3_set12_q3.json"
+"path": "docs/elevenlabs_toeic_listening/manifest.json"
 },
 {
 "dir": "ref",
-"path": "public/read_along/listening_q6/q6set04_A.json"
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r10_p2_q6.txt"
 },
 {
 "dir": "ref",
-"path": "scripts/data/listening_premium_manifest.json"
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r11_p2_q4.txt"
 }
 ],
 "lines": 0,
@@ -56502,15 +59495,15 @@
 "links": [
 {
 "dir": "ref",
-"path": "public/read_along/listening_audio/el3_set12_q3.json"
+"path": "docs/elevenlabs_toeic_listening/manifest.json"
 },
 {
 "dir": "ref",
-"path": "public/read_along/listening_q6/q6set04_A.json"
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r10_p2_q6.txt"
 },
 {
 "dir": "ref",
-"path": "scripts/data/listening_premium_manifest.json"
+"path": "docs/elevenlabs_toeic_listening/txt/tpl_r11_p2_q4.txt"
 }
 ],
 "lines": 0,
@@ -58810,6 +61803,38 @@
 "flow": []
 },
 {
+"id": "tests/battleGrammarExplanation.test.ts",
+"path": "tests/battleGrammarExplanation.test.ts",
+"name": "battleGrammarExplanation.test.ts",
+"folder": "tests",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "3件の確認（it）を持つ。主な確認：「Battle English grammar explanations」「extracts the requested exercise question block without neigh」。対象：types.ts・BattleReviewDetails.tsx・allChapters.ts。",
+"links": [
+{
+"dir": "to",
+"path": "src/battle/core/types.ts"
+},
+{
+"dir": "to",
+"path": "src/data/allChapters.ts"
+},
+{
+"dir": "to",
+"path": "src/battle/ui/BattleReviewDetails.tsx"
+}
+],
+"lines": 95,
+"tag": "テスト",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 3,
+"nBy": 0,
+"draft": true,
+"sys": "test",
+"flow": []
+},
+{
 "id": "tests/battleLobby.rules.test.ts",
 "path": "tests/battleLobby.rules.test.ts",
 "name": "battleLobby.rules.test.ts",
@@ -58863,14 +61888,14 @@
 "name": "battleLobbyUi.test.ts",
 "folder": "tests",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "14件の確認（it）を持つ。主な確認：「F10 対戦の部屋：画面のつなぎ」「全国対戦ボタンは教科選びを飛ばして、対戦の部屋へのマッチに進む」。対象：lobbyPickTitle.ts。",
+"detail": "15件の確認（it）を持つ。主な確認：「F10 対戦の部屋：画面のつなぎ」「全国対戦ボタンは教科選びを飛ばして、対戦の部屋へのマッチに進む」。対象：lobbyPickTitle.ts。",
 "links": [
 {
 "dir": "to",
 "path": "src/battle/ui/lobbyPickTitle.ts"
 }
 ],
-"lines": 97,
+"lines": 108,
 "tag": "テスト",
 "conf": "低",
 "kind": "file",
@@ -59230,7 +62255,7 @@
 "name": "gachaBanner.test.ts",
 "folder": "tests",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "5件の確認（it）を持つ。主な確認：「ガチャのバナー（2026-10-28 A10・モンスト風）」「今週のピックアップは LR 2つ＋UR 3つ。目玉とは重ならない」。対象：arenaEconomy.ts・growth.ts・GachaItemDetail.tsx。",
+"detail": "6件の確認（it）を持つ。主な確認：「ガチャのバナー（2026-10-28 A10・モンスト風）」「今週のピックアップは LR 2つ＋UR 3つ。目玉とは重ならない」。対象：arenaEconomy.ts・growth.ts・GachaItemDetail.tsx。",
 "links": [
 {
 "dir": "to",
@@ -59245,7 +62270,7 @@
 "path": "src/components/gacha/GachaItemDetail.tsx"
 }
 ],
-"lines": 34,
+"lines": 42,
 "tag": "テスト",
 "conf": "低",
 "kind": "file",
@@ -59851,6 +62876,30 @@
 "flow": []
 },
 {
+"id": "tests/launchSfx.test.ts",
+"path": "tests/launchSfx.test.ts",
+"name": "launchSfx.test.ts",
+"folder": "tests",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "1件の確認（it）を持つ。主な確認：「起動効果音の読み込み」「AudioContextを作成・再開してから3つの音源を読み込む」。対象：launchSfx.ts。",
+"links": [
+{
+"dir": "to",
+"path": "src/battle/audio/launchSfx.ts"
+}
+],
+"lines": 41,
+"tag": "テスト",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 1,
+"nBy": 0,
+"draft": true,
+"sys": "test",
+"flow": []
+},
+{
 "id": "tests/listeningTechniques.test.ts",
 "path": "tests/listeningTechniques.test.ts",
 "name": "listeningTechniques.test.ts",
@@ -60093,7 +63142,7 @@
 "name": "nijiGacha.test.ts",
 "folder": "tests",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "17件の確認（it）を持つ。主な確認：「2次試験ガチャ：景品」「ガチャは2種類（共通テスト→2次試験の順）」。対象：arenaEconomy.ts・gachaPools.ts・gachaSets.ts。",
+"detail": "17件の確認（it）を持つ。主な確認：「2次試験ガチャ：景品」「ガチャは3種類（共通テスト→2次試験→大学選択の順）」。対象：arenaEconomy.ts・gachaPools.ts・gachaSets.ts。",
 "links": [
 {
 "dir": "to",
@@ -60759,12 +63808,31 @@
 "flow": []
 },
 {
+"id": "tests/study-record-battle-actions.test.ts",
+"path": "tests/study-record-battle-actions.test.ts",
+"name": "study-record-battle-actions.test.ts",
+"folder": "tests",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "3件の確認（it）を持つ。主な確認：「対戦の解いた問題からの復習・解き直し」「解いた問題の各対戦小問に問題表示と復習登録を出す」。ソースコードを文字として読み込んで検査する。",
+"links": [],
+"lines": 29,
+"tag": "テスト",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "test",
+"flow": []
+},
+{
 "id": "tests/studyCatalog.test.ts",
 "path": "tests/studyCatalog.test.ts",
 "name": "studyCatalog.test.ts",
 "folder": "tests",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "1件の確認（it）を持つ。主な確認：「TOEIC spotlight card」「presents Part 5, Part 6 and Part 7 as the TOEIC offering」。対象：studyCatalog.ts。",
+"detail": "1件の確認（it）を持つ。主な確認：「TOEIC spotlight card」「presents Listening and Part 5-7 as the TOEIC offering」。対象：studyCatalog.ts。",
 "links": [
 {
 "dir": "to",
@@ -60879,6 +63947,62 @@
 "flow": []
 },
 {
+"id": "tests/toeicDisclaimer.test.ts",
+"path": "tests/toeicDisclaimer.test.ts",
+"name": "toeicDisclaimer.test.ts",
+"folder": "tests",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "2件の確認（it）を持つ。主な確認：「TOEIC disclaimer is shared and displayed on the opening scre」「long and short App Store copy explicitly names TOEIC and inc」。対象：toeicDisclaimer.ts。",
+"links": [
+{
+"dir": "to",
+"path": "src/utils/toeicDisclaimer.ts"
+}
+],
+"lines": 21,
+"tag": "テスト",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 1,
+"nBy": 0,
+"draft": true,
+"sys": "test",
+"flow": []
+},
+{
+"id": "tests/toeicListening.test.ts",
+"path": "tests/toeicListening.test.ts",
+"name": "toeicListening.test.ts",
+"folder": "tests",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "16件の確認（it）を持つ。主な確認：「TOEIC リスニング（全15回・180問・120トラック）」「全15回あり、各回 Part 2（6問）＋Part 3（3問）＋Part 4（3問）＝12問・8トラック」。対象：toeicPageModel.ts・toeicTimeBudget.ts・toeicListeningKit.ts。",
+"links": [
+{
+"dir": "to",
+"path": "src/data/toeic/toeicPart5Kit.ts"
+},
+{
+"dir": "to",
+"path": "src/components/toeic/toeicPageModel.ts"
+},
+{
+"dir": "to",
+"path": "src/data/toeic/toeicListeningKit.ts"
+}
+],
+"lines": 236,
+"tag": "テスト",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 8,
+"nBy": 0,
+"draft": true,
+"sys": "test",
+"flow": []
+},
+{
 "id": "tests/toeicPageModel.test.ts",
 "path": "tests/toeicPageModel.test.ts",
 "name": "toeicPageModel.test.ts",
@@ -60980,11 +64104,11 @@
 "links": [
 {
 "dir": "from",
-"path": "tests/toeicPart6Notes.test.ts"
+"path": "tests/toeicListening.test.ts"
 },
 {
 "dir": "from",
-"path": "tests/toeicPart7Notes.test.ts"
+"path": "tests/toeicPart6Notes.test.ts"
 },
 {
 "dir": "to",
@@ -61001,7 +64125,7 @@
 "textWidth"
 ],
 "nImports": 7,
-"nBy": 2,
+"nBy": 3,
 "draft": true,
 "sys": "test",
 "flow": []
@@ -61108,14 +64232,14 @@
 "name": "toeicTimeBudget.test.ts",
 "folder": "tests",
 "one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
-"detail": "4件の確認（it）を持つ。主な確認：「TOEIC Part 5 page time budgets」「calculates target and limit lines from each page composition」。対象：toeicTimeBudget.ts。",
+"detail": "6件の確認（it）を持つ。主な確認：「TOEIC Part 5 page time budgets」「calculates target and limit lines from each page composition」。対象：toeicTimeBudget.ts。",
 "links": [
 {
 "dir": "to",
 "path": "src/components/toeic/toeicTimeBudget.ts"
 }
 ],
-"lines": 62,
+"lines": 96,
 "tag": "テスト",
 "conf": "低",
 "kind": "file",
@@ -61204,6 +64328,38 @@
 "kind": "file",
 "exports": [],
 "nImports": 0,
+"nBy": 0,
+"draft": true,
+"sys": "test",
+"flow": []
+},
+{
+"id": "tests/univGachaAndFriendProfile.test.ts",
+"path": "tests/univGachaAndFriendProfile.test.ts",
+"name": "univGachaAndFriendProfile.test.ts",
+"folder": "tests",
+"one": "カードがまだ書かれていない新しいファイル。役割は要確認の係",
+"detail": "7件の確認（it）を持つ。主な確認：「大学選択ガチャ（1回500マナコイン）」「1回500マナコイン（10＋1連は5000枚）、既存の共通テスト・2次試験は100枚のまま」。対象：arenaEconomy.ts・gachaPools.ts・growth.ts。",
+"links": [
+{
+"dir": "to",
+"path": "src/battle/core/growth.ts"
+},
+{
+"dir": "to",
+"path": "src/battle/core/arenaEconomy.ts"
+},
+{
+"dir": "to",
+"path": "src/battle/data/growthStore.ts"
+}
+],
+"lines": 132,
+"tag": "テスト",
+"conf": "低",
+"kind": "file",
+"exports": [],
+"nImports": 5,
 "nBy": 0,
 "draft": true,
 "sys": "test",
@@ -61464,7 +64620,7 @@
 "conf": "高",
 "kind": "bundle",
 "count": 7,
-"bytes": 3074066,
+"bytes": 3074024,
 "exts": {
 ".ts": 7
 },
@@ -61491,12 +64647,12 @@
 "one": "単元の索引・英文法の問題・単語数などを生成して持つ係",
 "detail": "chapterIndex（gen-chapter-index.mts）、egV3Items（grammar_v3/build_ts.py）、listeningVocabularyMeta（gen-listening-vocabulary.mts）、gachaPrints の各生成物。手で編集しない。",
 "links": [],
-"lines": 2464,
+"lines": 2470,
 "tag": "データ",
 "conf": "高",
 "kind": "bundle",
 "count": 6,
-"bytes": 1668938,
+"bytes": 1669117,
 "exts": {
 ".ts": 6
 },
@@ -61667,7 +64823,7 @@
 "conf": "高",
 "kind": "bundle",
 "count": 108,
-"bytes": 12778727,
+"bytes": 13600631,
 "exts": {
 ".jpg": 108
 },

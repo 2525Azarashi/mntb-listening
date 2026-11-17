@@ -226,6 +226,40 @@
 .gacha-room .gacha-reveal { min-height: 260px; }
 .gacha-room .gacha-reveal > .gacha-reveal-caption { color: #fff; font-family: var(--mt-font-display); }
 @media (min-width: 1100px) { .mana-hub-gacha .gacha-room.is-busy > .gacha-reveal { min-height: min(440px, calc(100dvh - 240px)); } }
+.gacha-reveal-duo-backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0.72;
+}
+.gacha-reveal-duo-backdrop video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 45%;
+  display: block;
+}
+.gacha-reveal[data-burst] .gacha-reveal-duo-backdrop {
+  opacity: 0;
+  transform: scale(1.08);
+  transition: opacity .32s ease-out, transform .32s ease-out;
+}
+.reward-video-stage {
+  position: relative;
+  width: 100%;
+  max-width: 280px;
+  margin: 0 auto;
+  border-radius: 16px;
+  overflow: hidden;
+}
+.reward-video-base {
+  width: 100%;
+  display: block;
+  border-radius: 16px;
+}
 .gacha-outcome .gacha-reveal-rarity .gacha-stars { font-size: 18px; }
 .gacha-multi-result .gacha-reveal-rarity .gacha-stars { font-size: 14px; }
 
