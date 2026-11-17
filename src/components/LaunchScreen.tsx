@@ -62,7 +62,12 @@ export function LaunchScreen({ onStart }: {
   const [emblemSkipped, setEmblemSkipped] = useState(false);
   const [opFadingOut, setOpFadingOut] = useState(false);
 
-  const { audioRef: titleBgmRef, muted: titleBgmMuted, toggleMute: toggleTitleBgm } = useLaunchTitleBgm(gate === 'op' || gate === 'title');
+  const {
+    audioRef: titleBgmRef,
+    muted: titleBgmMuted,
+    toggleMute: toggleTitleBgm,
+    stopTitleBgm,
+  } = useLaunchTitleBgm(gate === 'op' || gate === 'title');
 
   const sfxTimers = useRef<number[]>([]);
   const bloomDone = useRef(false);
@@ -149,6 +154,10 @@ export function LaunchScreen({ onStart }: {
   useEffect(() => {
     if (gate !== 'title' || bloomDone.current) return;
     bloomDone.current = true;
+    // タイトル専用BGM（title_intro_bgm.mp3）が有効／再生中のときは /tanjou.mp3 用 E メジャー和音（title_bloom）を重ねない
+    const bgmEl = titleBgmRef.current;
+    const titleBgmPlaying = Boolean(bgmEl && !bgmEl.paused && !titleBgmMuted && bgmEl.volume > 0);
+    if (titleBgmPlaying || !titleBgmMuted) return;
     let alive = true;
     void preloadLaunchSfx().then(() => {
       if (!alive) return;
@@ -156,10 +165,18 @@ export function LaunchScreen({ onStart }: {
       cue('title_bloom');
     });
     return () => { alive = false; };
-  }, [gate]);
+  }, [gate, titleBgmMuted, titleBgmRef]);
 
-  useEffect(() => { if (gate === 'philosophy') fadeOutLaunchSfx(); }, [gate]);
-  useEffect(() => () => fadeOutLaunchSfx(), []);
+  useEffect(() => {
+    if (gate === 'philosophy') {
+      fadeOutLaunchSfx();
+      stopTitleBgm();
+    }
+  }, [gate]);
+  useEffect(() => () => {
+    fadeOutLaunchSfx();
+    stopTitleBgm();
+  }, []);
 
   const skipEmblem = () => {
     if (emblemPhase === 'out') return;
@@ -199,7 +216,11 @@ export function LaunchScreen({ onStart }: {
     return () => window.removeEventListener('keydown', onKey);
   });
 
-  const enter = () => onStart();
+  const enter = () => {
+    fadeOutLaunchSfx();
+    stopTitleBgm();
+    onStart();
+  };
 
   return (
     <>

@@ -111,7 +111,18 @@ export function useLaunchTitleBgm(active: boolean) {
     }
   };
 
-  return { audioRef, muted, toggleMute };
+  const stopTitleBgm = () => {
+    activeRef.current = false;
+    const audio = audioRef.current;
+    if (!audio) return;
+    setTitleBgmVolume(audio, 0);
+    audio.pause();
+    try {
+      audio.currentTime = 0;
+    } catch { /* ignore seek before metadata */ }
+  };
+
+  return { audioRef, muted, toggleMute, stopTitleBgm };
 }
 
 export function TitleBgmMuteButton({ muted, onToggle }: { muted: boolean; onToggle: () => void }) {
