@@ -1,32 +1,43 @@
 /**
- * TOEIC（リスニング・Part 5・Part 6・Part 7）専用：問題一体型コンパクト結果・解説画面
+ * TOEIC（リスニング・Part 5・Part 6・Part 7）専用：2段構成の結果＆解説画面
  *
- * ■ 特徴
- *   ・演習画面（ToeicPageQuiz）と同じ白カード・インライン `[誤答 → 正解]` 空所・2×2選択肢・Interゴシック書体でそのまま振り返り
- *   ・スリムな結果サマリー（正解数・正答率・所要時間・獲得マナコイン・分野別正答数・番号ジャンプチップ・`全問`/`誤答のみ` フィルタ・一括解説開閉）
- *   ・下部高さ56pxの1行フッター（`単元一覧` / `誤答だけ解き直す` / `次の回へ >`）
+ * ■ 流れ
+ *   1. 結果画面（`step === 'summary'`・初期表示）：
+ *      ・`ResultInsight`（正答率リング・正解数・所要時間・挑戦回数・前回比・自己ベスト・満点3回目標・回の棒グラフ）
+ *      ・分野別正答数＋設問ごとの正誤ジャンプチップ（タップで該当問のカード解説へ直接移動）
+ *      ・`ResultStage`（とびら君イラスト／全問正解動画・吹き出し・獲得マナコイン＆XP）
+ *      ・主ボタン「詳しい解説・答え合わせを見る」＋「単元一覧」「誤答だけ解き直す」「次の回へ」
+ *   2. 詳しい解説・答え合わせ（`step === 'detail'`）：
+ *      ・演習画面そのままの白カード一覧・インライン `[誤答 → 正解]` 空所・番号つき手がかりマーカー `¹` `²`・各肢理由
+ *      ・「← 結果へ」でいつでも結果画面へ戻れる
  */
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import {
   ArrowLeft,
+  BookOpen,
   Bookmark,
   BookmarkCheck,
   CheckCircle2,
+  ChevronLeft,
   ChevronRight,
   Clock,
   Coins,
+  Flag,
   Home,
   MinusCircle,
   RotateCcw,
   XCircle,
 } from 'lucide-react';
 import { auth } from '../../firebase';
+import { QUESTION_REPORT_FORM_URL } from '../../features/legal/legalText';
 import type { Chapter, Problem, SubQuestion } from '../../types/curriculum';
 import type { ReviewTargetItem } from '../../utils/reviewFocus';
 import { isAnswerCorrect } from '../../utils/answerJudge';
 import { notify } from '../../utils/dialog';
 import { formatText } from '../../utils/textFormatter';
 import { logRejection } from '../../utils/reportError';
+import { ResultInsight } from '../explanation/ResultInsight';
+import { ResultStage } from '../explanation/ResultSummary';
 import { StemWithBlank, ToeicExplanationPanel } from './ToeicExplanationPanel';
 import { isToeicNoteSaved, saveToeicNote } from './toeicNote';
 import {
@@ -35,6 +46,7 @@ import {
   isToeicPart7Chapter,
   p6Snippet,
   p7Stem,
+  prefersMobileSingleColumn,
   prefersSingleColumn,
   toeicExplanationFor,
 } from './toeicPageModel';
@@ -42,6 +54,7 @@ import {
   toeicListeningChoiceTexts,
   toeicListeningStem,
 } from '../../data/toeic/toeicListeningPage';
+import '../step-explanation.css';
 import './toeic-page.css';
 import '../grammar/grammar-page.css';
 
@@ -60,6 +73,7 @@ export interface ToeicResultViewProps {
   onNextAction?: () => void;
   nextActionLabel?: string;
   onHome?: () => void;
+  initialStep?: 'summary' | 'detail';
 }
 
 const markLetter = (mark: string) => mark.replace(/[()]/g, '');
@@ -116,9 +130,18 @@ export function ToeicResultView({
   onNextAction,
   nextActionLabel,
   onHome,
+  initialStep = 'summary',
 }: ToeicResultViewProps) {
+  const [step, setStep] = useState<'summary' | 'detail'>(initialStep);
+
   const allQuestions: Problem[] =
     mode === 'mini_test' ? chapter.miniTest || [] : chapter.practiceProblems || [];
+
+  const singleIndex = useMemo(() => {
+    if (!questionRange || questionRange.startIndex !== questionRange.endIndex) return null;
+    if (allQuestions.length === 0) return null;
+    return Math.min(Math.max(0, questionRange.startIndex), allQuestions.length - 1);
+  }, [questionRange, allQuestions.length]);
 
   const scopedQuestions = useMemo(() => {
     if (!questionRange) {
@@ -178,7 +201,11 @@ export function ToeicResultView({
     return [...map.entries()];
   }, [entries]);
 
-  const [studyReward, setStudyReward] = useState<{ coins: number; xp: number } | null>(null);
+  const [studyReward, setStudyReward] = useState<{
+    coins: number;
+    xp: number;
+    count: number;
+  } | null>(null);
   useEffect(() => {
     let off = () => {};
     let alive = true;
@@ -249,6 +276,36 @@ export function ToeicResultView({
     setOpenEx(next);
   };
 
+  const openDetailScreen = (targetSqId?: string) => {
+    if (targetSqId && filter === 'wrong') {
+      const hit = entries.find((e) => e.sq.id === targetSqId);
+      if (hit?.status === 'correct') setFilter('all');
+    }
+    setStep('detail');
+    window.requestAnimationFrame(() => {
+      if (targetSqId) {
+        const el = document.getElementById(`tp-res-item-${targetSqId}`);
+        if (el) {
+          el.scrollIntoView({
+            block: 'start',
+            behavior: window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
+              ? 'auto'
+              : 'smooth',
+          });
+          return;
+        }
+      }
+      scrollRef.current?.scrollTo({ top: 0 });
+    });
+  };
+
+  const backToSummaryScreen = () => {
+    setStep('summary');
+    window.requestAnimationFrame(() => {
+      scrollRef.current?.scrollTo({ top: 0 });
+    });
+  };
+
   const jumpToQuestion = (sqId: string) => {
     if (filter === 'wrong') {
       const hit = entries.find((e) => e.sq.id === sqId);
@@ -273,7 +330,7 @@ export function ToeicResultView({
       : `全${scopedQuestions.length}回`;
 
   return (
-    <div className="gp-root" data-toeic-result>
+    <div className="gp-root" data-toeic-result data-result-step={step}>
       {onReturnToBattle && (
         <button type="button" onClick={onReturnToBattle} className="gp-battle-return">
           バトル結果・解説に戻る
@@ -281,16 +338,31 @@ export function ToeicResultView({
       )}
 
       <header className="gp-head" data-quiz-header>
-        <button
-          type="button"
-          className="gp-back"
-          onClick={onBack}
-          aria-label="単元一覧に戻る"
-          title="単元一覧に戻る"
-        >
-          <ArrowLeft size={18} aria-hidden="true" />
-        </button>
-        <span className="gp-mode gp-mode-done">結果・解説</span>
+        {step === 'detail' ? (
+          <button
+            type="button"
+            className="gp-back-summary"
+            data-back-to-summary
+            onClick={backToSummaryScreen}
+            aria-label="結果画面に戻る"
+          >
+            <ChevronLeft size={16} aria-hidden="true" />
+            <span>結果へ</span>
+          </button>
+        ) : (
+          <button
+            type="button"
+            className="gp-back"
+            onClick={onBack}
+            aria-label="単元一覧に戻る"
+            title="単元一覧に戻る"
+          >
+            <ArrowLeft size={18} aria-hidden="true" />
+          </button>
+        )}
+        <span className="gp-mode gp-mode-done">
+          {step === 'summary' ? '演習結果' : '答え合わせ'}
+        </span>
         <div className="gp-title-wrap">
           <h2 className="gp-title">{chapter.abstractTitle || chapter.realTitle}</h2>
           <p className="gp-sub">{roundSubTitle}</p>
@@ -308,288 +380,431 @@ export function ToeicResultView({
         )}
       </header>
 
-      <div ref={scrollRef} className="gp-scroll">
-        <section
-          className="gp-summary"
-          data-perfect={wrongCount === 0 && totalCount > 0 ? true : undefined}
-          aria-label="演習結果サマリー"
-        >
-          <div className="gp-summary-top">
-            <div className="gp-score-row">
-              <CheckCircle2 size={18} aria-hidden="true" />
-              <span className="gp-score-fraction">
-                <b>{correctCount}</b>
-                <small>/{totalCount}問正解</small>
-              </span>
-              <span className="gp-score-pct">{pct}%</span>
-              {durationText && (
-                <span className="gp-pill-meta">
-                  <Clock size={12} aria-hidden="true" />
-                  <span>{durationText}</span>
-                </span>
-              )}
-              {!isGuest && studyReward && studyReward.coins > 0 && (
-                <span className="gp-pill-meta gp-pill-coin">
-                  <Coins size={12} aria-hidden="true" />
-                  <span>+{studyReward.coins}</span>
-                </span>
-              )}
-            </div>
+      {step === 'summary' ? (
+        <>
+          <div ref={scrollRef} className="gp-scroll">
+            <div className="gp-result-summary-body">
+              <ResultInsight
+                chapterId={chapter.id}
+                allQuestions={allQuestions}
+                singleIndex={singleIndex}
+                correct={correctCount}
+                judgeable={totalCount}
+                timeSec={resultTotalTimeSec ?? 0}
+              />
 
-            <div className="gp-bulk-btns">
-              <button type="button" className="gp-bulk-btn" onClick={() => setAllOpen(true)}>
-                解説をすべて開く
-              </button>
-              <button type="button" className="gp-bulk-btn" onClick={() => setAllOpen(false)}>
-                すべて閉じる
-              </button>
+              {(skillSummary.length > 0 || entries.length > 0) && (
+                <section className="gp-result-qcard" aria-label="分野別・設問ごとの正誤">
+                  {skillSummary.length > 0 && (
+                    <p className="tp-result-skills" data-toeic-result-skills>
+                      {skillSummary.map(([k, v]) => (
+                        <span key={k} className="tp-result-skill">
+                          <span>{k}</span>
+                          <b>
+                            {v.c}/{v.n}
+                          </b>
+                        </span>
+                      ))}
+                    </p>
+                  )}
+                  {entries.length > 1 && (
+                    <>
+                      <div className="gp-result-qcard-head">
+                        <span>設問ごとの結果</span>
+                        <span className="gp-result-qcard-hint">番号を押すとその解説へ移動</span>
+                      </div>
+                      <ol className="gp-jump-strip" aria-label="設問ごとの正誤">
+                        {entries.map((entry) => {
+                          const sym =
+                            entry.status === 'correct'
+                              ? '○'
+                              : entry.status === 'wrong'
+                              ? '×'
+                              : '−';
+                          return (
+                            <li key={entry.sq.id}>
+                              <button
+                                type="button"
+                                className="gp-jump-chip"
+                                data-result={entry.status}
+                                onClick={() => openDetailScreen(entry.sq.id)}
+                                aria-label={`問${entry.no}の解説を見る`}
+                              >
+                                <span>{entry.no}</span>
+                                <b aria-hidden="true">{sym}</b>
+                              </button>
+                            </li>
+                          );
+                        })}
+                      </ol>
+                    </>
+                  )}
+                </section>
+              )}
+
+              <ResultStage
+                resultTotalJudgeable={totalCount}
+                resultTotalCorrect={correctCount}
+                studyReward={studyReward}
+                isGuest={isGuest}
+              />
+
+              <a
+                className="practice-report-link"
+                data-practice-report
+                href={QUESTION_REPORT_FORM_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Flag size={15} aria-hidden="true" />
+                この問題の不具合を報告する
+              </a>
             </div>
           </div>
 
-          {skillSummary.length > 0 && (
-            <p className="tp-result-skills" data-toeic-result-skills>
-              {skillSummary.map(([k, v]) => (
-                <span key={k} className="tp-result-skill">
-                  <span>{k}</span>
-                  <b>
-                    {v.c}/{v.n}
-                  </b>
-                </span>
-              ))}
-            </p>
-          )}
+          <footer className="gp-summary-foot" data-practice-summary-actions>
+            <div className="gp-summary-foot-inner">
+              <button
+                type="button"
+                className="gp-btn-detail"
+                data-practice-open-detail
+                onClick={() => openDetailScreen()}
+              >
+                <BookOpen size={18} aria-hidden="true" />
+                <span className="gp-btn-detail-label">詳しい解説・答え合わせを見る</span>
+                {wrongCount > 0 ? (
+                  <span className="gp-btn-detail-badge">誤答 {wrongCount}問</span>
+                ) : (
+                  <span className="gp-btn-detail-badge is-perfect">全問正解</span>
+                )}
+                <ChevronRight size={18} aria-hidden="true" />
+              </button>
 
-          {entries.length > 1 && (
-            <ol className="gp-jump-strip" aria-label="設問ごとの正誤">
-              {entries.map((entry) => {
-                const sym =
-                  entry.status === 'correct' ? '○' : entry.status === 'wrong' ? '×' : '−';
-                return (
-                  <li key={entry.sq.id}>
-                    <button
-                      type="button"
-                      className="gp-jump-chip"
-                      data-result={entry.status}
-                      onClick={() => jumpToQuestion(entry.sq.id)}
-                      aria-label={`問${entry.no}へ移動`}
-                    >
-                      <span>{entry.no}</span>
-                      <b aria-hidden="true">{sym}</b>
+              <div className="gp-summary-subactions">
+                <button type="button" className="gp-btn gp-btn-sub" onClick={onBack}>
+                  <ArrowLeft size={16} aria-hidden="true" />
+                  <span>一覧</span>
+                </button>
+
+                {retryTargets.length > 0 && onRetryWrong && (
+                  <button
+                    type="button"
+                    className="gp-btn gp-btn-retry"
+                    onClick={() => onRetryWrong(retryTargets)}
+                  >
+                    <RotateCcw size={15} aria-hidden="true" />
+                    <span>解き直す ({wrongCount})</span>
+                  </button>
+                )}
+
+                {onNextAction ? (
+                  <button
+                    type="button"
+                    className="gp-btn gp-btn-main"
+                    data-summary-next
+                    onClick={onNextAction}
+                  >
+                    <span>{nextActionLabel ? `${nextActionLabel}へ` : '次へ進む'}</span>
+                    <ChevronRight size={18} aria-hidden="true" />
+                  </button>
+                ) : (
+                  onHome && (
+                    <button type="button" className="gp-btn gp-btn-main" onClick={onHome}>
+                      <Home size={16} aria-hidden="true" />
+                      <span>ホームへ</span>
                     </button>
-                  </li>
-                );
-              })}
-            </ol>
-          )}
-
-          {wrongCount > 0 && (
-            <div className="gp-toolbar">
-              <div className="gp-filter-pills" role="group" aria-label="問題の絞り込み">
-                <button
-                  type="button"
-                  className="gp-filter-pill"
-                  data-active={filter === 'all' || undefined}
-                  onClick={() => setFilter('all')}
-                >
-                  全問 ({entries.length})
-                </button>
-                <button
-                  type="button"
-                  className="gp-filter-pill"
-                  data-active={filter === 'wrong' || undefined}
-                  onClick={() => setFilter('wrong')}
-                >
-                  誤答・未回答のみ ({wrongCount})
-                </button>
+                  )
+                )}
               </div>
             </div>
-          )}
-        </section>
-
-        <div className="gp-list is-scored">
-          {visibleEntries.map((entry) => {
-            const { problem, sq, no, chosen, status } = entry;
-            const texts = isListening
-              ? toeicListeningChoiceTexts(sq, true)
-              : sq.optionTexts || [];
-            const ex = toeicExplanationFor(sq);
-            const filled = chosen ? texts[sq.options.indexOf(chosen)] ?? '' : '';
-            const correctText =
-              ex?.choices.find((c) => c.correct)?.text ??
-              texts[sq.options.indexOf(sq.correctAnswer)] ??
-              '';
-            const labelId = `tp-res-q-${sq.id}`;
-
-            return (
-              <article
-                key={sq.id}
-                id={`tp-res-item-${sq.id}`}
-                className="tp-item"
-                data-status={status}
-                data-toeic-question={no}
-              >
-                <p className="tp-sentence" id={labelId}>
-                  <span className="tp-no" aria-hidden="true">
-                    {no}
+          </footer>
+        </>
+      ) : (
+        <>
+          <div ref={scrollRef} className="gp-scroll">
+            <section
+              className="gp-summary"
+              data-perfect={wrongCount === 0 && totalCount > 0 ? true : undefined}
+              aria-label="演習結果サマリー"
+            >
+              <div className="gp-summary-top">
+                <div className="gp-score-row">
+                  <CheckCircle2 size={18} aria-hidden="true" />
+                  <span className="gp-score-fraction">
+                    <b>{correctCount}</b>
+                    <small>/{totalCount}問正解</small>
                   </span>
-                  <span className="tp-sr">問{no}　</span>
-                  <StemWithBlank
-                    stem={stemForResult(problem, sq, chapter.id)}
-                    filled={status === 'correct' ? correctText : filled}
-                    correctWord={correctText}
-                    result={
-                      status === 'correct'
-                        ? 'right'
-                        : status === 'wrong'
-                        ? 'wrong'
-                        : 'blank'
-                    }
-                    cues={isP6 || isP7 || isListening ? undefined : ex?.cues}
-                  />
-                  {status === 'blank' && <span className="tp-tag">未回答</span>}
-                </p>
+                  <span className="gp-score-pct">{pct}%</span>
+                  {durationText && (
+                    <span className="gp-pill-meta">
+                      <Clock size={12} aria-hidden="true" />
+                      <span>{durationText}</span>
+                    </span>
+                  )}
+                  {!isGuest && studyReward && studyReward.coins > 0 && (
+                    <span className="gp-pill-meta gp-pill-coin">
+                      <Coins size={12} aria-hidden="true" />
+                      <span>+{studyReward.coins}</span>
+                    </span>
+                  )}
+                </div>
 
-                <div
-                  role="group"
-                  aria-labelledby={labelId}
-                  aria-disabled="true"
-                  className={`tp-choices is-scored${
-                    prefersSingleColumn(texts) ? ' is-single' : ''
-                  }`}
-                >
-                  {sq.options.map((mark, i) => {
-                    const checked = chosen === mark;
-                    const isRight = mark === sq.correctAnswer;
-                    const isWrongPick = checked && !isRight;
+                <div className="gp-bulk-btns">
+                  <button type="button" className="gp-bulk-btn" onClick={() => setAllOpen(true)}>
+                    全開
+                  </button>
+                  <button type="button" className="gp-bulk-btn" onClick={() => setAllOpen(false)}>
+                    全閉
+                  </button>
+                </div>
+              </div>
+
+              {skillSummary.length > 0 && (
+                <p className="tp-result-skills" data-toeic-result-skills>
+                  {skillSummary.map(([k, v]) => (
+                    <span key={k} className="tp-result-skill">
+                      <span>{k}</span>
+                      <b>
+                        {v.c}/{v.n}
+                      </b>
+                    </span>
+                  ))}
+                </p>
+              )}
+
+              {entries.length > 1 && (
+                <ol className="gp-jump-strip" aria-label="設問ごとの正誤">
+                  {entries.map((entry) => {
+                    const sym =
+                      entry.status === 'correct' ? '○' : entry.status === 'wrong' ? '×' : '−';
                     return (
-                      <div
-                        key={mark}
-                        className="tp-choice"
-                        data-checked={checked || undefined}
-                        data-result={
-                          isRight ? 'right' : isWrongPick ? 'wrong' : undefined
-                        }
-                      >
-                        <span className="tp-bubble" aria-hidden="true">
-                          {markLetter(mark)}
-                        </span>
-                        <span className="tp-choice-body">
-                          <span className="tp-choice-text">
-                            {formatText(texts[i] ?? mark, [], {
-                              prose: true,
-                              noMath: true,
-                            })}
-                          </span>
-                        </span>
-                        {(isRight || isWrongPick) && (
-                          <span
-                            className="tp-choice-badge"
-                            data-tone={isRight ? 'right' : 'wrong'}
-                          >
-                            {isRight && checked
-                              ? 'あなた・正解'
-                              : isRight
-                              ? '正解'
-                              : 'あなた'}
-                          </span>
-                        )}
-                      </div>
+                      <li key={entry.sq.id}>
+                        <button
+                          type="button"
+                          className="gp-jump-chip"
+                          data-result={entry.status}
+                          onClick={() => jumpToQuestion(entry.sq.id)}
+                          aria-label={`問${entry.no}へ移動`}
+                        >
+                          <span>{entry.no}</span>
+                          <b aria-hidden="true">{sym}</b>
+                        </button>
+                      </li>
                     );
                   })}
-                </div>
+                </ol>
+              )}
 
-                <div className="tp-meta">
-                  <p className="tp-judge" data-result={status}>
-                    {status === 'correct' ? (
-                      <CheckCircle2 size={17} aria-hidden="true" />
-                    ) : status === 'wrong' ? (
-                      <XCircle size={17} aria-hidden="true" />
-                    ) : (
-                      <MinusCircle size={17} aria-hidden="true" />
-                    )}
-                    <span>
-                      {status === 'correct'
-                        ? '正解'
-                        : status === 'wrong'
-                        ? `不正解（正解 ${sq.correctAnswer}）`
-                        : `未回答（正解 ${sq.correctAnswer}）`}
-                    </span>
-                  </p>
-                  {ex && (
-                    <span className="tp-skill">
-                      {ex.skill}
-                      <small>{ex.subType}</small>
-                    </span>
-                  )}
-                  {ex && (
+              {wrongCount > 0 && (
+                <div className="gp-toolbar">
+                  <div className="gp-filter-pills" role="group" aria-label="問題の絞り込み">
                     <button
                       type="button"
-                      className="tp-save"
-                      data-saved={isSaved(sq.id) || undefined}
-                      onClick={() => saveNote(entry)}
-                      disabled={isSaved(sq.id)}
+                      className="gp-filter-pill"
+                      data-active={filter === 'all' || undefined}
+                      onClick={() => setFilter('all')}
                     >
-                      {isSaved(sq.id) ? (
-                        <BookmarkCheck size={15} aria-hidden="true" />
-                      ) : (
-                        <Bookmark size={15} aria-hidden="true" />
-                      )}
-                      <span>{isSaved(sq.id) ? '保存済み' : '保存'}</span>
+                      全問 ({entries.length})
                     </button>
-                  )}
+                    <button
+                      type="button"
+                      className="gp-filter-pill"
+                      data-active={filter === 'wrong' || undefined}
+                      onClick={() => setFilter('wrong')}
+                    >
+                      誤答・未回答のみ ({wrongCount})
+                    </button>
+                  </div>
                 </div>
+              )}
+            </section>
 
-                {ex && (
-                  <ToeicExplanationPanel
-                    ex={ex}
-                    correctText={correctText}
-                    open={openEx[sq.id] ?? status !== 'correct'}
-                    onToggle={(next) =>
-                      setOpenEx((prev) => ({ ...prev, [sq.id]: next }))
-                    }
-                  />
-                )}
-              </article>
-            );
-          })}
-        </div>
-      </div>
+            <div className="gp-list is-scored">
+              {visibleEntries.map((entry) => {
+                const { problem, sq, no, chosen, status } = entry;
+                const texts = isListening
+                  ? toeicListeningChoiceTexts(sq, true)
+                  : sq.optionTexts || [];
+                const ex = toeicExplanationFor(sq);
+                const filled = chosen ? texts[sq.options.indexOf(chosen)] ?? '' : '';
+                const correctText =
+                  ex?.choices.find((c) => c.correct)?.text ??
+                  texts[sq.options.indexOf(sq.correctAnswer)] ??
+                  '';
+                const labelId = `tp-res-q-${sq.id}`;
 
-      <footer className="gp-foot">
-        <button type="button" className="gp-btn gp-btn-sub" onClick={onBack}>
-          <ArrowLeft size={16} aria-hidden="true" />
-          <span>単元一覧</span>
-        </button>
+                return (
+                  <article
+                    key={sq.id}
+                    id={`tp-res-item-${sq.id}`}
+                    className="tp-item"
+                    data-status={status}
+                    data-toeic-question={no}
+                  >
+                    <p className="tp-sentence" id={labelId}>
+                      <span className="tp-no" aria-hidden="true">
+                        {no}
+                      </span>
+                      <span className="tp-sr">問{no}　</span>
+                      <StemWithBlank
+                        stem={stemForResult(problem, sq, chapter.id)}
+                        filled={status === 'correct' ? correctText : filled}
+                        correctWord={correctText}
+                        result={
+                          status === 'correct'
+                            ? 'right'
+                            : status === 'wrong'
+                            ? 'wrong'
+                            : 'blank'
+                        }
+                        cues={isP6 || isP7 || isListening ? undefined : ex?.cues}
+                      />
+                      {status === 'blank' && <span className="tp-tag">未回答</span>}
+                    </p>
 
-        {retryTargets.length > 0 && onRetryWrong && (
-          <button
-            type="button"
-            className="gp-btn gp-btn-retry"
-            onClick={() => onRetryWrong(retryTargets)}
-          >
-            <RotateCcw size={15} aria-hidden="true" />
-            <span>誤答だけ解き直す ({wrongCount})</span>
-          </button>
-        )}
+                    <div
+                      role="group"
+                      aria-labelledby={labelId}
+                      aria-disabled="true"
+                      className={`tp-choices is-scored${
+                        prefersSingleColumn(texts) ? ' is-single' : ''
+                      }${prefersMobileSingleColumn(texts) ? ' is-mobile-single' : ''}`}
+                    >
+                      {sq.options.map((mark, i) => {
+                        const checked = chosen === mark;
+                        const isRight = mark === sq.correctAnswer;
+                        const isWrongPick = checked && !isRight;
+                        return (
+                          <div
+                            key={mark}
+                            className="tp-choice"
+                            data-checked={checked || undefined}
+                            data-result={
+                              isRight ? 'right' : isWrongPick ? 'wrong' : undefined
+                            }
+                          >
+                            <span className="tp-bubble" aria-hidden="true">
+                              {markLetter(mark)}
+                            </span>
+                            <span className="tp-choice-body">
+                              <span className="tp-choice-text">
+                                {formatText(texts[i] ?? mark, [], {
+                                  prose: true,
+                                  noMath: true,
+                                })}
+                              </span>
+                            </span>
+                            {(isRight || isWrongPick) && (
+                              <span
+                                className="tp-choice-badge"
+                                data-tone={isRight ? 'right' : 'wrong'}
+                              >
+                                {isRight && checked
+                                  ? 'あなた・正解'
+                                  : isRight
+                                  ? '正解'
+                                  : 'あなた'}
+                              </span>
+                            )}
+                          </div>
+                        );
+                      })}
+                    </div>
 
-        {onNextAction ? (
-          <button
-            type="button"
-            className="gp-btn gp-btn-main"
-            onClick={onNextAction}
-          >
-            <span>{nextActionLabel ? `${nextActionLabel}へ` : '次へ進む'}</span>
-            <ChevronRight size={18} aria-hidden="true" />
-          </button>
-        ) : (
-          onHome && (
-            <button type="button" className="gp-btn gp-btn-main" onClick={onHome}>
-              <Home size={16} aria-hidden="true" />
-              <span>ホームへ</span>
+                    <div className="tp-meta">
+                      <p className="tp-judge" data-result={status}>
+                        {status === 'correct' ? (
+                          <CheckCircle2 size={17} aria-hidden="true" />
+                        ) : status === 'wrong' ? (
+                          <XCircle size={17} aria-hidden="true" />
+                        ) : (
+                          <MinusCircle size={17} aria-hidden="true" />
+                        )}
+                        <span>
+                          {status === 'correct'
+                            ? '正解'
+                            : status === 'wrong'
+                            ? `不正解（正解 ${sq.correctAnswer}）`
+                            : `未回答（正解 ${sq.correctAnswer}）`}
+                        </span>
+                      </p>
+                      {ex && (
+                        <span className="tp-skill">
+                          {ex.skill}
+                          <small>{ex.subType}</small>
+                        </span>
+                      )}
+                      {ex && (
+                        <button
+                          type="button"
+                          className="tp-save"
+                          data-saved={isSaved(sq.id) || undefined}
+                          onClick={() => saveNote(entry)}
+                          disabled={isSaved(sq.id)}
+                        >
+                          {isSaved(sq.id) ? (
+                            <BookmarkCheck size={15} aria-hidden="true" />
+                          ) : (
+                            <Bookmark size={15} aria-hidden="true" />
+                          )}
+                          <span>{isSaved(sq.id) ? '保存済み' : '保存'}</span>
+                        </button>
+                      )}
+                    </div>
+
+                    {ex && (
+                      <ToeicExplanationPanel
+                        ex={ex}
+                        correctText={correctText}
+                        open={openEx[sq.id] ?? status !== 'correct'}
+                        onToggle={(next) =>
+                          setOpenEx((prev) => ({ ...prev, [sq.id]: next }))
+                        }
+                      />
+                    )}
+                  </article>
+                );
+              })}
+            </div>
+          </div>
+
+          <footer className="gp-foot">
+            <button type="button" className="gp-btn gp-btn-sub" onClick={onBack}>
+              <ArrowLeft size={16} aria-hidden="true" />
+              <span>一覧</span>
             </button>
-          )
-        )}
-      </footer>
+
+            {retryTargets.length > 0 && onRetryWrong && (
+              <button
+                type="button"
+                className="gp-btn gp-btn-retry"
+                onClick={() => onRetryWrong(retryTargets)}
+              >
+                <RotateCcw size={15} aria-hidden="true" />
+                <span>解き直す ({wrongCount})</span>
+              </button>
+            )}
+
+            {onNextAction ? (
+              <button
+                type="button"
+                className="gp-btn gp-btn-main"
+                onClick={onNextAction}
+              >
+                <span>{nextActionLabel ? `${nextActionLabel}へ` : '次へ進む'}</span>
+                <ChevronRight size={18} aria-hidden="true" />
+              </button>
+            ) : (
+              onHome && (
+                <button type="button" className="gp-btn gp-btn-main" onClick={onHome}>
+                  <Home size={16} aria-hidden="true" />
+                  <span>ホームへ</span>
+                </button>
+              )
+            )}
+          </footer>
+        </>
+      )}
     </div>
   );
 }

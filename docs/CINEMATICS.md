@@ -36,6 +36,16 @@
 - 元動画（Firefly の書き出し）はリポジトリに入れていない（17＋5本・約22MB）。作り直すときは videos.py のプロンプトで撮り直し、unify_background.py の区間を合わせる。
 - 商用：Adobe Firefly の生成物（商用利用可）。参照画像は運営者自身のキャラクター画像。
 
+## 2026-11-15 オープニングムービー（モンスト風OP）＋とびら君高精細透過切り抜き＋ガチャフルフレーム演出（4本取り込み v3）
+- `src/components/AlphaCinematicClip.tsx` の `ALPHA_CINEMATIC_CLIPS` および `FULLFRAME_CINEMATIC_MOVIES` にて管理。すべて `public/cinematics/` 配置・1ファイル 1MB 未満・音声トラック無し。
+- **① `battle_countdown.{webm,webp}` / `battle_countdown-sbs.mp4`（420×736・5.16秒）**：`tobirakun_home_github.mp4` から ISNet 1024px 高精細セグメンテーション＋壁影除去でとびら君のみを完全切り抜き（Chrome/Android/PC 向け VP9 Alpha `.webm` ＋ Safari/iOS WKWebView 向け上下スタック H.264 `-sbs.mp4` Canvas 合成）。
+  - **対戦準備画面（`BattleLiveParts.tsx`）**：`3・2・1・START!` のカウントダウンに同期（1.38倍速および短縮時のシーク対応）してチャージ→ハイジャンプ→着地。
+  - **タイトル画面（`LaunchScreen.tsx`）**：OPムービー終了またはスキップ直後のタイトル画面とびら君枠で再生し、完了後は既存の着せ替え立ち絵へシームレスにクロスフェード。
+- **② `title_op_landscape.mp4`（960×548・15.08秒） / ③ `title_op_portrait.mp4`（548×960・15.08秒）**：マナトビ起動アイコン（`emblem`）のフェードアウト直後にフル画面で再生されるモンスト風オープニングムービー。画面の向き・幅（`(orientation: landscape) and (min-width: 768px)`）で横向きPC用（②）と縦向きスマホ用（③）を自動出し分け。画面どこでもタップ／「タップしてスキップ」で即座にタイトル画面へ遷移。
+- **④ `gacha_duo_intro.mp4`（540×960・14.70秒）＋ `/bgm/title_intro_bgm.mp3`**：
+  - 冒頭の白フラッシュ（0.38秒）を除去したフルフレーム映像を `GachaReveal` のレアリティオーブ背面レイヤーおよび `RewardVideo` に採用。
+  - 音声から前後の無音を除去しクロスフェードループ化したタイトル専用BGM（`/bgm/title_intro_bgm.mp3`・-23 LUFS）を初回操作後のOP・タイトル画面で控えめにループ再生（右上に44px以上の `BGM ON/OFF` ミュートボタン設置）。
+
 ## 2026-11-04 E6
 - E6：タイトルの title.mp4 を、E4 で使わなかったもう1本（「…heartwarming 200121 Aoq.mp4」）から作り直し。崩れるコマ（44〜56）より後ろの 57〜120コマだけを使い、つなぎ目は作らない。最後のコマのとびら君の位置（x 138〜578 / y 120〜577）は、タイトルの静止画シーン（x 149〜569 / y 124〜576）とほぼ同じなので、CSS は変えていない。
 

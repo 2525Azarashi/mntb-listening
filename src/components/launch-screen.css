@@ -226,3 +226,174 @@ html[data-perf=lite] .launch-sparkles > i, html[data-perf=lite] .launch-arrival.
 }
 html[data-perf=lite] :is(.launch-brand, .launch-copy, .launch-chips li, .launch-actions) { animation: none; }
 html[data-perf=lite] .launch-copy em::after, html[data-perf=lite] .launch-start::after { animation: none; }
+
+/* ===== 2026-11-15 モンスト風フル画面OPムービー（②横/③縦）＋ ①高精度切り抜きとびら君登場演出 ＋ タイトルBGMミュート切替 ===== */
+.launch-bgm-toggle {
+  position: absolute;
+  top: max(10px, env(safe-area-inset-top));
+  right: max(12px, env(safe-area-inset-right));
+  z-index: 8;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  min-height: 44px;
+  min-width: 44px;
+  padding: 0 12px;
+  border-radius: 999px;
+  border: 1.5px solid #e1d3b4;
+  background: rgba(255, 252, 245, 0.92);
+  color: #4a3d24;
+  font: 800 12px/1 var(--mt-font-body);
+  box-shadow: 0 2px 6px rgba(28, 42, 57, 0.08);
+  cursor: pointer;
+}
+.launch-bgm-toggle[aria-pressed=false] {
+  color: #766a54;
+  background: rgba(248, 244, 235, 0.85);
+}
+@media (max-width: 380px) {
+  .launch-bgm-toggle span { display: none; }
+  .launch-bgm-toggle { padding: 0; justify-content: center; }
+}
+
+/* モンスト風フル画面オープニングステージ（切り抜きなし・星空と水面反射の15秒本編をそのまま全画面表示） */
+.launch-op-stage {
+  position: relative;
+  width: 100%;
+  height: 100dvh;
+  overflow: hidden;
+  background: #060b18;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  animation: launch-op-fade-in .45s ease-out both;
+  transition: opacity .32s ease;
+}
+.launch-op-stage.is-fading-out {
+  opacity: 0;
+  pointer-events: none;
+}
+@keyframes launch-op-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.launch-op-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 50%;
+  background: #060b18;
+  pointer-events: none;
+}
+.launch-op-hud {
+  position: absolute;
+  inset: 0 0 auto 0;
+  z-index: 4;
+  pointer-events: auto;
+}
+.launch-op-hud .launch-bgm-toggle {
+  border-color: rgba(255, 236, 190, 0.45);
+  background: rgba(10, 18, 36, 0.68);
+  color: #fff8e8;
+}
+.launch-op-hud .launch-bgm-toggle[aria-pressed=false] {
+  color: rgba(255, 248, 232, 0.72);
+  background: rgba(10, 18, 36, 0.48);
+}
+.launch-op-bottom {
+  position: absolute;
+  inset: auto 0 0 0;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 36px 20px max(22px, env(safe-area-inset-bottom));
+  background: linear-gradient(180deg, rgba(6, 11, 24, 0) 0%, rgba(6, 11, 24, 0.62) 55%, rgba(6, 11, 24, 0.88) 100%);
+  pointer-events: none;
+}
+.launch-op-brand {
+  width: min(240px, 60vw);
+  height: auto;
+  filter: drop-shadow(0 4px 14px rgba(0, 0, 0, 0.65));
+}
+.launch-op-skip {
+  pointer-events: auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0 22px;
+  border-radius: 999px;
+  border: 1.5px solid rgba(255, 226, 162, 0.78);
+  background: rgba(12, 22, 44, 0.76);
+  color: #fff9ec;
+  font: 800 13px/1 var(--mt-font-body);
+  letter-spacing: 0.06em;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+  cursor: pointer;
+}
+.launch-op-sound-start {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 4;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 52px;
+  padding: 0 24px;
+  border-radius: 999px;
+  border: 1.5px solid rgba(255, 232, 178, 0.92);
+  background: rgba(10, 19, 38, 0.86);
+  color: #fffaf0;
+  font: 800 14px/1.2 var(--mt-font-body);
+  letter-spacing: 0.04em;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.48), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  cursor: pointer;
+  white-space: nowrap;
+}
+.launch-op-sound-start:active {
+  transform: translate(-50%, calc(-50% + 1.5px));
+}
+
+/* 既存のタイトル画面ステージ：背景プレートの上に①（battle_countdown）高精度切り抜きとびら君をぴたりと重ねる */
+.launch-tobira-cutout-wrap {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.launch-plate-under-video {
+  z-index: 0;
+}
+.launch-box .launch-tobira-cutout {
+  position: absolute;
+  left: 16%;
+  top: 4%;
+  width: 68%;
+  height: 83%;
+  z-index: 2;
+  pointer-events: auto;
+}
+.launch-box .cinematic-skip.alpha-cinematic-skip {
+  font-size: 12px;
+  min-height: 44px;
+  bottom: -2%;
+  right: -12%;
+}
+.launch-box .cinematic-clip.alpha-cinematic video,
+.launch-box .alpha-cinematic canvas,
+.launch-box .alpha-cinematic img {
+  -webkit-mask-image: none;
+  mask-image: none;
+  object-fit: contain;
+  object-position: 50% 100%;
+}
+.launch-stage[data-phase=crossfade] .launch-tobira-cutout-wrap {
+  opacity: 0;
+  transition: opacity .38s ease;
+}
+

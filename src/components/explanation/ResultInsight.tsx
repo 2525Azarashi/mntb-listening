@@ -123,13 +123,23 @@ export function ResultInsight({ chapterId, allQuestions, singleIndex, correct, j
               })}
             </svg>
           </div>
-          <ol className="ri-rounds-x">
-            {data.rounds.map((r, i) => (
-              <li key={i} data-current={r.current || undefined}>
-                <b>{r.best == null ? '—' : `${r.best}`}</b>
-                <span>{r.current ? '今回' : r.label.replace('第', '').replace('回', '')}</span>
-              </li>
-            ))}
+          <ol className="ri-rounds-x" data-dense={data.rounds.length > 12 || undefined}>
+            {data.rounds.map((r, i) => {
+              const total = data.rounds.length;
+              const curIdx = singleIndex ?? -1;
+              const dense = total > 12;
+              const nearCurrent = curIdx >= 0 && i !== curIdx && Math.abs(i - curIdx) <= (total > 20 ? 2 : 1);
+              const showTick =
+                !dense ||
+                r.current ||
+                (!nearCurrent && (i === 0 || i === total - 1 || (i + 1) % 5 === 0));
+              return (
+                <li key={i} data-current={r.current || undefined} data-muted={!showTick || undefined}>
+                  <b>{!showTick ? '' : r.best == null ? '—' : `${r.best}`}</b>
+                  <span>{!showTick ? '' : r.current ? '今回' : r.label.replace('第', '').replace('回', '')}</span>
+                </li>
+              );
+            })}
           </ol>
         </figure>
       )}

@@ -210,7 +210,7 @@ export function BattleLiveStage(p: BattleLiveStageProps) {
   // Keep questions and options out of the DOM until the shared start time.
   if (counting) return <div className="battle-ready-stage">
     {p.notices}
-    <CountdownOverlay label={countLabel} />
+    <CountdownOverlay label={countLabel} preStartMs={p.preStartMs} />
     <div className="battle-ready-footer">{p.footer}</div>
   </div>;
   return (

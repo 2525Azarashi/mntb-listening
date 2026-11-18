@@ -197,7 +197,7 @@ export function ToeicExplanationPanel({ ex, correctText, open, onToggle, disable
                 onClick={() => setMoreOpen((prev) => !prev)}
                 data-toeic-more-toggle
               >
-                <span>{moreOpen ? '詳細を閉じる' : '選択肢の理由・ポイント'}</span>
+                <span>{moreOpen ? '選択肢の理由・コツを閉じる' : '他の選択肢の理由・コツを見る'}</span>
                 <ChevronDown size={15} className={`tp-ex-more-chev${moreOpen ? ' is-open' : ''}`} aria-hidden="true" />
               </button>
             )}
@@ -212,7 +212,10 @@ export function ToeicExplanationPanel({ ex, correctText, open, onToggle, disable
                 {ex.choices.map((c) => (
                   <li key={c.mark} data-correct={c.correct || undefined}>
                     <span className="tp-ex-mark" aria-hidden="true">{c.correct ? '○' : '×'}</span>
-                    <span><b lang="en">{c.mark} {formatText(c.text, [], { prose: true, noMath: true })}</b>　{c.correct ? '正解' : c.reason}</span>
+                    <span>
+                      <b lang="en">{c.mark} {formatText(c.text, [], { prose: true, noMath: true })}</b>
+                      　{c.correct ? `正解 — ${ex.why}` : c.reason}
+                    </span>
                   </li>
                 ))}
               </ul>

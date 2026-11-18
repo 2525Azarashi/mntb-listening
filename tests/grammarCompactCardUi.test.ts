@@ -1,13 +1,13 @@
 /**
- * 英文法・TOEIC 新カードUI＆コンパクト解説の単体・過去データ完全互換テスト
+ * 英文法・TOEIC 新カードUI＆1問ごとの詳細解説・手がかりマーカー・過去データ完全互換テスト
  *
  * ■ 検証すること
  *   1. 単元分け・章ID・大問ID・小問ID・選択肢の保存値（①〜④ / (A)〜(D)）が1文字も変わっていないこと
- *   2. 英文法 全20章・全1,163問がカードモデルへ欠落ゼロで変換でき、会話文207問が話者ピル A/B に分解されること
+ *   2. 英文法 全20章・全1,163問がカードモデルへ欠落ゼロで変換でき、全問に固有の着眼点・要点・4択それぞれの理由・補足解説・手がかりマーカー（`¹` `²`）が備わっていること
  *   3. すでに旧UIで解いていたユーザーの保存データ（`solved_problems_v1_*` / `stage_records_v1_*` /
  *      `unit_stats_v1_*` / `quiz_answers_*` / `quiz_run_*` / `review_focus_v1`）をそのまま読め、
  *      新UIで採点した記録も同じキー形式で積み上がること
- *   4. アプリ内のお知らせ（`UPDATE_NOTICES`）の先頭に今回の改善と記録引き継ぎの案内が入っていること
+ *   4. アプリ内のお知らせ（`UPDATE_NOTICES`）の先頭に今回の解説強化と記録引き継ぎの案内が入っていること
  */
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import React from 'react';
@@ -31,7 +31,7 @@ import { applyReviewFocus, type ReviewFocus } from '../src/utils/reviewFocus';
 import { quizAnswersKey, quizRunKey } from '../src/utils/quizStorageKeys';
 import { loadRun, saveRun } from '../src/utils/quizRunState';
 
-describe('英文法・TOEIC カードUI＆過去データ引き継ぎ互換', () => {
+describe('英文法・TOEIC カードUI＆個別詳細解説・過去データ引き継ぎ互換', () => {
   const store = new Map<string, string>();
 
   beforeEach(() => {
@@ -57,7 +57,7 @@ describe('英文法・TOEIC カードUI＆過去データ引き継ぎ互換', ()
     vi.unstubAllGlobals();
   });
 
-  it('英文法の単元構成（全20章・eg6_1〜eg6_20・1回5問・全1163問）と保存用ID・選択肢①〜④が不変', () => {
+  it('英文法の単元構成（全20章・eg6_1〜eg6_20・1回5問・全1163問）と保存用ID・選択肢①〜④が不変で、全問に具体解説とマーカーがある', () => {
     const chapters = getAllGrammarChapters();
     expect(chapters.map((c) => c.id)).toEqual(
       Array.from({ length: 20 }, (_, i) => `eg6_${i + 1}`),
@@ -70,6 +70,8 @@ describe('英文法・TOEIC カードUI＆過去データ引き継ぎ互換', ()
 
     let totalCards = 0;
     let dialogueCards = 0;
+    let cardsWithCues = 0;
+    let cardsWithPlus = 0;
     for (const ch of chapters) {
       for (const p of ch.practiceProblems) {
         expect(p.id.startsWith(`q_${ch.id}_set`)).toBe(true);
@@ -80,8 +82,19 @@ describe('英文法・TOEIC カードUI＆過去データ引き継ぎ互換', ()
           expect(card.sq.options).toEqual(['①', '②', '③', '④']);
           expect(card.choiceTexts).toHaveLength(4);
           expect(card.translation.length).toBeGreaterThan(2);
-          expect(card.why.length).toBeGreaterThan(2);
+          expect(card.why.length).toBeGreaterThanOrEqual(20);
+          expect(card.hint.length).toBeGreaterThanOrEqual(12);
+          expect(card.hint.startsWith('空所の前後「')).toBe(false);
           expect(card.choices).toHaveLength(4);
+          for (const chDetail of card.choices) {
+            expect(chDetail.reason.length).toBeGreaterThanOrEqual(8);
+          }
+          if (card.cues.length >= 1) {
+            cardsWithCues += 1;
+          }
+          if (card.plus.length > 0) {
+            cardsWithPlus += 1;
+          }
           if (splitGrammarDialogueTurns(card.stem)) {
             dialogueCards += 1;
           }
@@ -89,7 +102,8 @@ describe('英文法・TOEIC カードUI＆過去データ引き継ぎ互換', ()
       }
     }
     expect(totalCards).toBe(1163);
-    // 第20章（会話表現）を中心に2ターン以上の対話文164問が話者ピル A/B ターンとして整形される
+    expect(cardsWithCues).toBeGreaterThanOrEqual(1160);
+    expect(cardsWithPlus).toBe(1163);
     expect(dialogueCards).toBeGreaterThanOrEqual(160);
   });
 
@@ -99,7 +113,6 @@ describe('英文法・TOEIC カードUI＆過去データ引き継ぎ互換', ()
     const p1 = ch1.practiceProblems[0]; // q_eg6_1_set1
     const p2 = ch1.practiceProblems[1]; // q_eg6_1_set2
 
-    // 1. 旧UI時代に第1回を満点3回で「達成」していた記録をシード
     markProblemSolved(uid, ch1.id, p1.id, 100);
     recordUnitResult(uid, ch1.id, 5, 5);
     store.set(
@@ -109,10 +122,9 @@ describe('英文法・TOEIC カードUI＆過去データ引き継ぎ互換', ()
       }),
     );
 
-    // 2. 旧UI時代に第2回の途中（問1・問2だけ回答済み）で中断していたデータをシード
     const partialAnswers: Record<string, string> = {
-      [p2.subQuestions[0].id]: p2.subQuestions[0].correctAnswer, // 正解
-      [p2.subQuestions[1].id]: '①', // 誤答（正解は④）
+      [p2.subQuestions[0].id]: p2.subQuestions[0].correctAnswer,
+      [p2.subQuestions[1].id]: '①',
     };
     store.set(quizAnswersKey(ch1.id, 'practice'), JSON.stringify(partialAnswers));
     saveRun(ch1.id, 'practice', {
@@ -142,14 +154,12 @@ describe('英文法・TOEIC カードUI＆過去データ引き継ぎ互換', ()
       },
     });
 
-    // 検証A：単元一覧が読む台帳がそのまま維持されている
     const solved = readSolvedMap(uid);
     expect(solved[problemKey(ch1.id, p1.id)]).toBeGreaterThan(0);
     const stages = readStageRecords(uid);
     expect(isStageCleared(stages[stageKey(ch1.id, p1.id)])).toBe(true);
     expect(accuracyOf(readUnitStats(uid)[ch1.id])).toBe(100);
 
-    // 検証B：途中再開の回答とラン状態がそのまま復元でき、新UIのレビュー生成でインライン比較データになる
     expect(store.get(quizRunKey(ch1.id, 'practice'))).toBeTruthy();
     const restoredRun = loadRun(ch1.id, 'practice');
     expect(restoredRun.totalScore).toBe(120);
@@ -161,7 +171,6 @@ describe('英文法・TOEIC カードUI＆過去データ引き継ぎ互換', ()
     expect(reviews[1].correctWord).toBe(expectedCards[1].correctWord);
     expect(reviews[2].status).toBe('blank');
 
-    // 検証C：「誤答だけ解き直す」の絞り込みでも元の問番号（問2）と選択肢が保たれる
     const focus: ReviewFocus = {
       chapterId: ch1.id,
       targets: [{ questionId: p2.id, subQuestionIds: [p2.subQuestions[1].id] }],
@@ -174,61 +183,107 @@ describe('英文法・TOEIC カードUI＆過去データ引き継ぎ互換', ()
     expect(narrowedCards[0].correctWord).toBe(expectedCards[1].correctWord);
   });
 
-  it('GrammarResultView と ToeicResultView がインライン空所比較 [誤答 → 正解] とコンパクト解説をSSR描画できる', () => {
+  it('GrammarResultView と ToeicResultView が初期表示で結果画面（ResultInsight + ResultStage）を出し、detail ではインライン空所比較 [誤答 → 正解]・手がかりマーカー・カード解説を描画できる', () => {
     const ch20 = getAllGrammarChapters().find((c) => c.id === 'eg6_20')!;
     const p20 = ch20.practiceProblems[0];
-    const grammarHtml = renderToStaticMarkup(
+    const grammarAnswers = {
+      [p20.subQuestions[0].id]: '①',
+      [p20.subQuestions[1].id]: p20.subQuestions[1].correctAnswer,
+    };
+
+    // 1画面目（既定 step='summary'）：結果画面（正答率リング・前回比・とびら君・「詳しい解説・答え合わせを見る」・「第2回へ」）
+    const grammarSummaryHtml = renderToStaticMarkup(
       React.createElement(GrammarResultView, {
         mode: 'practice',
         chapter: ch20,
-        answers: {
-          [p20.subQuestions[0].id]: '①', // 誤答: How have you been? -> 正解: How do you do?
-          [p20.subQuestions[1].id]: p20.subQuestions[1].correctAnswer, // 正解
-        },
+        answers: grammarAnswers,
         onBack: () => {},
         isGuest: true,
         questionRange: { startIndex: 0, endIndex: 0 },
+        onNextAction: () => {},
+        nextActionLabel: '第2回',
       }),
     );
-    expect(grammarHtml).toContain('data-grammar-result');
-    expect(grammarHtml).toContain('gp-speaker-pill');
-    expect(grammarHtml).toContain('gp-blank-compare');
-    expect(grammarHtml).toContain('How have you been?');
-    expect(grammarHtml).toContain('How do you do?');
-    expect(grammarHtml).toContain('和訳');
-    expect(grammarHtml).toContain('要点');
+    expect(grammarSummaryHtml).toContain('data-grammar-result');
+    expect(grammarSummaryHtml).toContain('data-result-step="summary"');
+    expect(grammarSummaryHtml).toContain('data-result-insight');
+    expect(grammarSummaryHtml).toContain('data-practice-stage');
+    expect(grammarSummaryHtml).toContain('data-practice-open-detail');
+    expect(grammarSummaryHtml).toContain('詳しい解説・答え合わせを見る');
+    expect(grammarSummaryHtml).toContain('第2回へ');
+
+    // 2画面目（step='detail'）：1問ずつではなく全問カード一覧での答え合わせ＋結果画面へ戻る導線
+    const grammarDetailHtml = renderToStaticMarkup(
+      React.createElement(GrammarResultView, {
+        mode: 'practice',
+        chapter: ch20,
+        answers: grammarAnswers,
+        onBack: () => {},
+        isGuest: true,
+        questionRange: { startIndex: 0, endIndex: 0 },
+        initialStep: 'detail',
+      }),
+    );
+    expect(grammarDetailHtml).toContain('data-result-step="detail"');
+    expect(grammarDetailHtml).toContain('data-back-to-summary');
+    expect(grammarDetailHtml).toContain('gp-speaker-pill');
+    expect(grammarDetailHtml).toContain('gp-blank-compare');
+    expect(grammarDetailHtml).toContain('gp-cue');
+    expect(grammarDetailHtml).toContain('How have you been?');
+    expect(grammarDetailHtml).toContain('How do you do?');
+    expect(grammarDetailHtml).toContain('和訳');
+    expect(grammarDetailHtml).toContain('要点');
 
     const toeicChapter = toeicPart5Data.parts[0].chapters[0];
     const tp0 = toeicChapter.practiceProblems[0];
     const wrongMark = tp0.subQuestions[0].options.find(
       (m) => m !== tp0.subQuestions[0].correctAnswer,
     )!;
-    const toeicHtml = renderToStaticMarkup(
+    const toeicAnswers = {
+      [tp0.subQuestions[0].id]: wrongMark,
+      [tp0.subQuestions[1].id]: tp0.subQuestions[1].correctAnswer,
+    };
+
+    const toeicSummaryHtml = renderToStaticMarkup(
       React.createElement(ToeicResultView, {
         mode: 'practice',
         chapter: toeicChapter,
-        answers: {
-          [tp0.subQuestions[0].id]: wrongMark,
-          [tp0.subQuestions[1].id]: tp0.subQuestions[1].correctAnswer,
-        },
+        answers: toeicAnswers,
         onBack: () => {},
         isGuest: true,
         questionRange: { startIndex: 0, endIndex: 0 },
       }),
     );
-    expect(toeicHtml).toContain('data-toeic-result');
-    expect(toeicHtml).toContain('tp-blank-compare');
-    expect(toeicHtml).toContain('和訳');
-    expect(toeicHtml).toContain('要点');
+    expect(toeicSummaryHtml).toContain('data-toeic-result');
+    expect(toeicSummaryHtml).toContain('data-result-step="summary"');
+    expect(toeicSummaryHtml).toContain('data-result-insight');
+    expect(toeicSummaryHtml).toContain('data-practice-stage');
+    expect(toeicSummaryHtml).toContain('詳しい解説・答え合わせを見る');
+
+    const toeicDetailHtml = renderToStaticMarkup(
+      React.createElement(ToeicResultView, {
+        mode: 'practice',
+        chapter: toeicChapter,
+        answers: toeicAnswers,
+        onBack: () => {},
+        isGuest: true,
+        questionRange: { startIndex: 0, endIndex: 0 },
+        initialStep: 'detail',
+      }),
+    );
+    expect(toeicDetailHtml).toContain('data-result-step="detail"');
+    expect(toeicDetailHtml).toContain('tp-blank-compare');
+    expect(toeicDetailHtml).toContain('tp-cue');
+    expect(toeicDetailHtml).toContain('和訳');
+    expect(toeicDetailHtml).toContain('要点');
   });
 
-  it('アプリ内のお知らせ（UPDATE_NOTICES）の先頭にUI刷新と学習記録引き継ぎの案内があり、未読バッジに反映される', () => {
+  it('アプリ内のお知らせ（UPDATE_NOTICES）の先頭に解説強化・手がかりマーカーと学習記録引き継ぎの案内があり、未読バッジに反映される', () => {
     const latest = UPDATE_NOTICES[0];
-    expect(latest.id).toBe('2026-11-15-01');
-    expect(latest.title).toContain('カード表示');
+    expect(latest.id).toBe('2026-11-16-01');
+    expect(latest.title).toContain('手がかりマーカー');
     expect(latest.items.join(' ')).toContain('そのまま引き継がれます');
 
-    // 前回のお知らせ一覧まで既読だったユーザーには、今回の1件だけが未読バッジとして通知される
     const previousIds = UPDATE_NOTICES.slice(1).map((n) => n.id);
     store.set('update_notices_read_v1', JSON.stringify(previousIds));
     expect(unreadNoticeCount()).toBe(1);

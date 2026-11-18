@@ -7,6 +7,13 @@ HERE = os.path.dirname(__file__)
 sys.path.insert(0, HERE)
 from ja_gloss import POINT as JA_POINT, WHY as JA_WHY, KM as JA_KM   # 英語だけだった解説の日本語（手書き）
 from exam_tips import tip_for                          # 【入試ではここ】（手書き・文法事項ごと）
+from bespoke_composer import (
+    compose_bespoke_hint,
+    compose_bespoke_plus,
+    compose_bespoke_point,
+    enrich_choice_reason,
+    find_english_cues,
+)
 JP = re.compile('[ぁ-んァ-ン一-龥]')
 ROOT = os.path.abspath(os.path.join(HERE, '../../..'))
 d = json.load(open(os.path.join(HERE, 'normalized.json')))
@@ -43,23 +50,37 @@ for r in d:
     key = f"{r['chapter']}-{r['no']}"
     ans = r['options'][r['answerIndex']]
     lines = []
-    # ★2026-10-11 大改訂③★ すべての問を同じ型にそろえる：着眼点 → ポイント → 選択肢 → 入試ではここ
-    if r['hint']:
-        lines.append(f"【着眼点】{r['hint']}")
-    else:
-        near = around_blank(r['prompt'])
-        lines.append(f"【着眼点】空所の前後「{near}」に注目。問われているのは「{r['grammar']}」。" if near else f"【着眼点】問われているのは「{r['grammar']}」。")
-    point = JA_POINT.get(key) or r.get('body') or r['point']
+    # ★2026-11-15 全1,163問 個別精緻化★
+    #   機械的な「空所の前後『…』に注目」や公式名だけの【ポイント】・短絡的な選択肢理由を廃止し、
+    #   その文の手がかり語（英語アンカー）・着眼点・具体根拠の要点・4択すべての理由・対比プラスを組み立てる。
+    existing_exp_blob = ' '.join(
+        str(x or '')
+        for x in [
+            r.get('hint'),
+            JA_POINT.get(key),
+            r.get('body'),
+            r.get('point'),
+            r['why'][r['answerIndex']],
+            r.get('plus'),
+        ]
+    )
+    cues = find_english_cues(r['prompt'], r['grammar'], existing_exp_blob, r['chapter'])
+    hint_line = compose_bespoke_hint(r, cues)
+    point, _resolved_cues = compose_bespoke_point(r, cues, JA_POINT.get(key))
+    lines.append(f"【着眼点】{hint_line}")
     lines.append(f"【ポイント】{point}")
     lines.append('【選択肢】')
     for i, (o, w) in enumerate(zip(r['options'], r['why'])):
         ok = i == r['answerIndex']
         w = JA_WHY.get(f"{key}-{i}", w)
+        w = enrich_choice_reason(r, i, w)
         lines.append(f"{MARKS[i]} {o}　{'○' if ok else '×'} {w}")
-    if r['plus']: lines.append(f"【プラス】{r['plus']}")
     tip, specific = tip_for(r['chapter'], r['grammar'] + ' ' + r['point'])
-    # 【プラス】がある問は、章の一般論（specific=False）までは足さない（短く保つ）
-    if tip and (specific or not r['plus']): lines.append(f"【入試ではここ】{tip}")
+    plus_line = compose_bespoke_plus(r, tip if specific else '')
+    if plus_line:
+        lines.append(f"【プラス】{plus_line}")
+    if tip and (specific or not plus_line):
+        lines.append(f"【入試ではここ】{tip}")
     # 「押さえたい表現」に出す一言：12〜16章は一言ポイント、ほかは文法事項名（【ポイント】と重ねない）
     meaning = r['point'] if r['src'] == 'C' else r['grammar']
     if key in JA_KM: meaning = JA_KM[key]
